@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 21 — Spring Boot Interceptors — Spring Boot</title>
+<meta name="description" content="Lecture 21 — Spring Boot Interceptors">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-21">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-21.html#lecture-21">Lecture 21</a></li><li><a href="doc-theory-lecture-21.html#1-the-problem-interceptors-solve">1. The Problem Interceptors Solve</a></li><li><a href="doc-theory-lecture-21.html#2-where-an-interceptor-fits-in-spring-mvc">2. Where an Interceptor Fits in Spring MVC</a></li><li><a href="doc-theory-lecture-21.html#3-the-three-interceptor-lifecycle-methods">3. The Three Interceptor Lifecycle Methods</a></li><li><a href="doc-theory-lecture-21.html#4-creating-a-custom-interceptor-and-its-method-parameters">4. Creating a Custom Interceptor and Its Method Parameters</a></li><li><a href="doc-theory-lecture-21.html#5-prehandle-continue-or-stop-the-chain">5. preHandle(): Continue or Stop the Chain</a></li><li><a href="doc-theory-lecture-21.html#6-posthandle-the-view-rendering-hook">6. postHandle(): The View-Rendering Hook</a></li><li><a href="doc-theory-lecture-21.html#7-aftercompletion-cleanup-timing-and-exceptions">7. afterCompletion(): Cleanup, Timing, and Exceptions</a></li><li><a href="doc-theory-lecture-21.html#8-registering-an-interceptor-with-webmvcconfigurer-patterns-exclusions-and-order">8. Registering an Interceptor with WebMvcConfigurer: Patterns, Exclusions, and Order</a></li><li><a href="doc-theory-lecture-21.html#9-practical-interceptors-logging-authentication-authorization-and-timing">9. Practical Interceptors: Logging, Authentication, Authorization, and Timing</a></li><li><a href="doc-theory-lecture-21.html#10-filters-and-interceptors-together">10. Filters and Interceptors Together</a></li><li><a href="doc-theory-lecture-21.html#11-common-mistakes">11. Common Mistakes</a></li><li><a href="doc-theory-lecture-21.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-21.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-21.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-21.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-21.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 21 — Spring Boot Interceptors</h1>
+<p class="readmeta">17 sections · 4,439 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-21" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-21">Lecture 21</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Interceptors | preHandle, postHandle &amp; afterCompletion" (playlist map, verified). Repo folder is the <code>interceptorDemo</code> project: an <code>interceptor</code> package holding <code>LoggingInterceptor</code>, <code>AuthenticationInterceptor</code>, and <code>AuthorizationInterceptor</code>, plus <code>config.WebConfig</code> and <code>controller.StudentController</code>, together with the notes.</p>
+</blockquote>
+<p>Controllers should handle business use cases, not plumbing. A Spring MVC interceptor is the handler-aware checkpoint that runs common logic before a controller, after it, and once the whole MVC cycle finishes. This lecture covers where it fits in the request flow, its three lifecycle callbacks, how to register one with <code>WebMvcConfigurer</code>, and how it differs from a servlet <code>Filter</code>.</p>
+<h2 id="1-the-problem-interceptors-solve">1. The Problem Interceptors Solve</h2>
+<p>Consider a controller with several endpoints:</p>
+<div class="highlight"><pre><span></span><code>@RestController
+@RequestMapping(&quot;/api/students&quot;)
+public class StudentController {
+    @GetMapping
+    public String getAllStudents() { return &quot;All students&quot;; }
+
+    @PostMapping
+    public String createStudent() { return &quot;Student created&quot;; }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public String deleteStudent(@PathVariable Long id) { return &quot;Student deleted&quot;; }
+}
+</code></pre></div>
+
+<p>Suppose every request needs the same common operations: log the requested URL, check authentication or authorization, record execution time, identify the controller method being executed, add request attributes, and read common request information.</p>
+<p>Adding that logic directly to every controller method creates four problems:</p>
+<ol>
+<li>Controller methods become cluttered.</li>
+<li>The same code is duplicated across endpoints.</li>
+<li>A small change must be repeated in several places.</li>
+<li>Business logic becomes mixed with infrastructure logic.</li>
+</ol>
+<p>An interceptor provides one central place for such cross-cutting MVC logic.</p>
+<p>Definition: a Spring MVC interceptor is a component that executes before a handler, after a handler, and after the complete MVC request-processing cycle.</p>
+<div class="highlight"><pre><span></span><code>Request -&gt; Interceptor -&gt; Controller -&gt; Interceptor -&gt; Response
+</code></pre></div>
+
+<p>An interceptor does not normally replace the controller. It surrounds its execution.</p>
+<blockquote class="callout callout--important">
+<p>Important: Interceptors exist so infrastructure logic - logging, auth checks, timing - is written once and surrounds handler execution, instead of being copy-pasted into every endpoint.</p>
+</blockquote>
+<h2 id="2-where-an-interceptor-fits-in-spring-mvc">2. Where an Interceptor Fits in Spring MVC</h2>
+<p>The <code>DispatcherServlet</code> is the central servlet of Spring MVC. When a request reaches a Spring MVC application:</p>
+<ol>
+<li>The <code>DispatcherServlet</code> receives the request.</li>
+<li>A <code>HandlerMapping</code> identifies the matching handler.</li>
+<li>Spring creates a handler execution chain.</li>
+<li>Registered interceptors execute around the handler.</li>
+<li>A <code>HandlerAdapter</code> invokes the controller method.</li>
+<li>Spring processes the controller's return value.</li>
+<li>The response is sent to the client.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Client -&gt; Servlet Container -&gt; DispatcherServlet
+       -&gt; HandlerMapping finds the handler
+       -&gt; Interceptor
+       -&gt; HandlerAdapter invokes the controller
+       -&gt; Response processing -&gt; Client
+</code></pre></div>
+
+<p>Why is it called <code>HandlerInterceptor</code>? Spring uses the general term handler because the selected handler is not always a controller method. It may be a controller method, a static-resource handler, or another handler type supported by Spring MVC.</p>
+<p>For normal controller requests, the handler is commonly represented by a <code>HandlerMethod</code>.</p>
+<p>When Spring finds a handler, it conceptually creates a chain containing the handler and its interceptors:</p>
+<div class="highlight"><pre><span></span><code>HandlerExecutionChain
+|-- Interceptor 1
+|-- Interceptor 2
+|-- Interceptor 3
+`-- Controller handler
+</code></pre></div>
+
+<p>The <code>DispatcherServlet</code> executes this chain. An interceptor can therefore allow or stop the request before the controller runs.</p>
+<h2 id="3-the-three-interceptor-lifecycle-methods">3. The Three Interceptor Lifecycle Methods</h2>
+<p>A <code>HandlerInterceptor</code> provides three main callback methods: <code>preHandle()</code>, <code>postHandle()</code>, and <code>afterCompletion()</code>.</p>
+<div class="highlight"><pre><span></span><code>Request -&gt; preHandle() -&gt; Controller method -&gt; postHandle()
+        -&gt; Response processing or view rendering
+        -&gt; afterCompletion() -&gt; Response
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Execution point</th>
+<th>Main purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>preHandle()</code></td>
+<td>Before the selected handler executes</td>
+<td>Validation, logging, authentication checks, starting timers</td>
+</tr>
+<tr>
+<td><code>postHandle()</code></td>
+<td>After successful handler execution, before traditional view rendering</td>
+<td>Model or view-related postprocessing</td>
+</tr>
+<tr>
+<td><code>afterCompletion()</code></td>
+<td>After MVC request processing finishes</td>
+<td>Cleanup, final logging, timing, status inspection</td>
+</tr>
+</tbody>
+</table>
+<p>A fuller comparison makes the ordering rule obvious:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>preHandle()</code></th>
+<th><code>postHandle()</code></th>
+<th><code>afterCompletion()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When it runs</td>
+<td>Before the handler</td>
+<td>After the handler succeeds</td>
+<td>After the whole MVC cycle</td>
+</tr>
+<tr>
+<td>Return type</td>
+<td><code>boolean</code></td>
+<td><code>void</code></td>
+<td><code>void</code></td>
+</tr>
+<tr>
+<td>Extra parameter</td>
+<td>none</td>
+<td><code>ModelAndView</code></td>
+<td><code>Exception</code></td>
+</tr>
+<tr>
+<td>Can it stop the chain</td>
+<td>Yes, by returning <code>false</code></td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Logging, auth, timers</td>
+<td>Model/view attributes</td>
+<td>Cleanup, timing, status, errors</td>
+</tr>
+<tr>
+<td>Runs on request failure</td>
+<td>Yes (before failure)</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: the three callbacks are <strong>P-P-A</strong> - <strong>P</strong>re, <strong>P</strong>ost, <strong>A</strong>fter - framing controller execution on all three sides.</p>
+<h2 id="4-creating-a-custom-interceptor-and-its-method-parameters">4. Creating a Custom Interceptor and Its Method Parameters</h2>
+<p>Create a Spring component that implements <code>HandlerInterceptor</code> (annotate it with <code>@Component</code>). Modern versions of <code>HandlerInterceptor</code> provide default method implementations, so an interceptor only needs to override the callbacks it actually uses.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.crudDemo.interceptor</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.lang.Nullable</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.HandlerInterceptor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.ModelAndView</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingInterceptor</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">HandlerInterceptor</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">preHandle</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;preHandle executed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">postHandle</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">ModelAndView</span><span class="w"> </span><span class="n">modelAndView</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;postHandle executed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterCompletion</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@Nullable</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="n">ex</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;afterCompletion executed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>For an interceptor that only checks something before the controller, overriding only <code>preHandle()</code> is sufficient.</p>
+<h3 id="the-method-parameters">The Method Parameters</h3>
+<p><code>HttpServletRequest request</code> represents the incoming HTTP request. Commonly used methods include <code>request.getMethod()</code>, <code>request.getRequestURI()</code>, <code>request.getQueryString()</code>, <code>request.getHeader("Authorization")</code>, <code>request.getRemoteAddr()</code>, <code>request.getParameter("name")</code>, and <code>request.getSession()</code>.</p>
+<p>Request-specific values can also be stored as attributes for later retrieval:</p>
+<div class="highlight"><pre><span></span><code>request.setAttribute(&quot;requestStartTime&quot;, System.nanoTime());
+Long startTime = (Long) request.getAttribute(&quot;requestStartTime&quot;);
+</code></pre></div>
+
+<p><code>HttpServletResponse response</code> represents the outgoing HTTP response. It can set the status, headers, content type, or response content:</p>
+<div class="highlight"><pre><span></span><code>response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+response.setHeader(&quot;X-App-Name&quot;, &quot;Student Management System&quot;);
+response.setContentType(&quot;application/json&quot;);
+response.getWriter().write(&quot;&quot;&quot;
+{ &quot;message&quot;: &quot;Unauthorized&quot; }
+&quot;&quot;&quot;);
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Once a response is committed, some changes may be too late. This is especially important when working with REST response bodies.</p>
+</blockquote>
+<p><code>Object handler</code> represents the handler selected by Spring. For a normal controller request, it is commonly a <code>HandlerMethod</code>:</p>
+<div class="highlight"><pre><span></span><code>if (handler instanceof HandlerMethod handlerMethod) {
+    String controllerName = handlerMethod.getBeanType().getSimpleName();
+    String methodName = handlerMethod.getMethod().getName();
+}
+</code></pre></div>
+
+<p>Possible output: <code>StudentController</code> and <code>getAllStudents</code>.</p>
+<p>Do not cast the handler blindly with <code>(HandlerMethod) handler</code>. Some requests may be handled by something other than a controller method, such as a static-resource handler. Use pattern matching with <code>instanceof</code> instead. This ability to inspect the selected controller and method is one of the major differences between an interceptor and a servlet filter.</p>
+<h2 id="5-prehandle-continue-or-stop-the-chain">5. preHandle(): Continue or Stop the Chain</h2>
+<div class="highlight"><pre><span></span><code>boolean preHandle(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler
+) throws Exception
+</code></pre></div>
+
+<p>It executes after Spring has selected the handler but before the handler is invoked.</p>
+<p>Why does it return <code>boolean</code>? The return value tells Spring whether request processing should continue.</p>
+<ul>
+<li>Returning <code>true</code>: Spring continues to the next interceptor or the controller.</li>
+<li>Returning <code>false</code>: Spring stops the execution chain, and the controller is not called.</li>
+</ul>
+<p>When returning <code>false</code>, the interceptor should usually prepare an appropriate response. Otherwise, the client may receive an empty or confusing response:</p>
+<div class="highlight"><pre><span></span><code>response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+response.setContentType(&quot;application/json&quot;);
+response.getWriter().write(&quot;&quot;&quot;
+{ &quot;message&quot;: &quot;Authentication required&quot; }
+&quot;&quot;&quot;);
+return false;
+</code></pre></div>
+
+<p>Common uses of <code>preHandle()</code>: logging request arrival, starting an execution timer, reading a tenant or organization ID, creating a correlation ID, adding request attributes, validating custom headers, checking custom annotations, and rejecting a request before the controller.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The <code>boolean</code> return is the heart of <code>preHandle()</code>. Saying "true continues, false stops the chain, and when you stop it you must write the response yourself" marks a candidate who has actually used interceptors.</p>
+</blockquote>
+<p>For production-grade authentication and authorization, prefer Spring Security instead of building a complete security system through a custom interceptor.</p>
+<h2 id="6-posthandle-the-view-rendering-hook">6. postHandle(): The View-Rendering Hook</h2>
+<div class="highlight"><pre><span></span><code>void postHandle(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler,
+        ModelAndView modelAndView
+) throws Exception
+</code></pre></div>
+
+<p>It executes after the handler completes successfully but before traditional MVC view rendering.</p>
+<div class="highlight"><pre><span></span><code>preHandle() -&gt; Controller -&gt; postHandle() -&gt; View rendering
+</code></pre></div>
+
+<p>Why does it receive <code>ModelAndView</code>? Traditional Spring MVC controllers may return a view; Spring stores the selected view and model data inside a <code>ModelAndView</code>. An interceptor can add common model information:</p>
+<div class="highlight"><pre><span></span><code>@Override
+public void postHandle(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler,
+        ModelAndView modelAndView
+) {
+    if (modelAndView != null) {
+        modelAndView.addObject(&quot;applicationName&quot;, &quot;Student Management System&quot;);
+    }
+}
+</code></pre></div>
+
+<p>What happens with REST controllers? A <code>@RestController</code> normally returns data that Spring serializes directly into the response body. In such cases <code>modelAndView == null</code>.</p>
+<p>For methods using <code>@ResponseBody</code> or <code>ResponseEntity</code>, Spring may already have written the response before <code>postHandle()</code> executes. Therefore, <code>postHandle()</code> is not a reliable place to redesign or wrap a REST response body. Use <code>ResponseBodyAdvice</code> (for example with <code>@ControllerAdvice</code>) when a common REST response transformation is required.</p>
+<p>Good uses of <code>postHandle()</code>: updating a traditional MVC model, adding common view attributes, logging successful controller completion, inspecting the selected handler, and running logic before view rendering. For REST APIs, <code>afterCompletion()</code> is often more useful for final logging and timing.</p>
+<h2 id="7-aftercompletion-cleanup-timing-and-exceptions">7. afterCompletion(): Cleanup, Timing, and Exceptions</h2>
+<div class="highlight"><pre><span></span><code>void afterCompletion(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler,
+        Exception ex
+) throws Exception
+</code></pre></div>
+
+<p>It executes after the complete Spring MVC request-processing cycle finishes.</p>
+<div class="highlight"><pre><span></span><code>preHandle() -&gt; Controller -&gt; postHandle()
+            -&gt; Response processing or view rendering
+            -&gt; afterCompletion()
+</code></pre></div>
+
+<p>It is similar to a <code>finally</code> block and is commonly used for cleanup, final request logging, execution-time calculation, releasing request-related resources, recording the final response status, and inspecting an unhandled exception.</p>
+<div class="highlight"><pre><span></span><code>@Override
+public void afterCompletion(
+        HttpServletRequest request,
+        HttpServletResponse response,
+        Object handler,
+        Exception ex
+) {
+    if (ex != null) {
+        System.out.println(&quot;Request failed: &quot; + ex.getMessage());
+    } else {
+        System.out.println(&quot;Request completed with status: &quot;
+                + response.getStatus());
+    }
+}
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: <code>ex == null</code> does not always prove that no exception occurred. An exception may have been handled by Spring through <code>@ExceptionHandler</code>, <code>@ControllerAdvice</code>, <code>@RestControllerAdvice</code>, or another exception resolver, and already converted into a valid HTTP response. Final monitoring should also inspect <code>response.getStatus();</code>.</p>
+</blockquote>
+<h2 id="8-registering-an-interceptor-with-webmvcconfigurer-patterns-exclusions-and-order">8. Registering an Interceptor with WebMvcConfigurer: Patterns, Exclusions, and Order</h2>
+<p>Creating an interceptor bean is not enough. It must also be added to Spring MVC's interceptor registry.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.crudDemo.config</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">in.strikes.crudDemo.interceptor.LoggingInterceptor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.context.annotation.Configuration</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.config.annotation.InterceptorRegistry</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.config.annotation.WebMvcConfigurer</span><span class="p">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WebConfig</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">WebMvcConfigurer</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">LoggingInterceptor</span><span class="w"> </span><span class="n">loggingInterceptor</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">WebConfig</span><span class="p">(</span><span class="n">LoggingInterceptor</span><span class="w"> </span><span class="n">loggingInterceptor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">loggingInterceptor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loggingInterceptor</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addInterceptors</span><span class="p">(</span><span class="n">InterceptorRegistry</span><span class="w"> </span><span class="n">registry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">registry</span><span class="p">.</span><span class="na">addInterceptor</span><span class="p">(</span><span class="n">loggingInterceptor</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">addPathPatterns</span><span class="p">(</span><span class="s">&quot;/api/**&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">excludePathPatterns</span><span class="p">(</span><span class="s">&quot;/api/auth/login&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/api/public/**&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">order</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Role of each part: <code>@Configuration</code> marks the class as an application configuration class; <code>WebMvcConfigurer</code> provides callback methods for customizing Spring MVC; <code>addInterceptors()</code> registers MVC interceptors; and <code>registry.addInterceptor()</code> adds an interceptor to the MVC handler chain. Constructor injection provides the interceptor bean to the configuration class.</p>
+<p>The <code>addInterceptor()</code> method returns an <code>InterceptorRegistration</code>, which configures included URL patterns, excluded URL patterns, and execution order.</p>
+<p>Without path configuration (<code>registry.addInterceptor(loggingInterceptor);</code>) the interceptor may apply broadly to requests handled by Spring MVC's configured handler mappings. With patterns, it is scoped:</p>
+<div class="highlight"><pre><span></span><code>registry.addInterceptor(loggingInterceptor)
+        .addPathPatterns(&quot;/api/students/**&quot;)
+        .addPathPatterns(&quot;/api/students/**&quot;, &quot;/api/teachers/**&quot;, &quot;/api/courses/**&quot;);
+</code></pre></div>
+
+<p>Common patterns:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/api/students</code></td>
+<td>Exact path</td>
+</tr>
+<tr>
+<td><code>/api/students/*</code></td>
+<td>One path segment after <code>/students</code></td>
+</tr>
+<tr>
+<td><code>/api/students/**</code></td>
+<td>Any nested path under <code>/students</code></td>
+</tr>
+<tr>
+<td><code>/api/**</code></td>
+<td>All API paths</td>
+</tr>
+<tr>
+<td><code>/**</code></td>
+<td>All matching MVC paths</td>
+</tr>
+</tbody>
+</table>
+<p>Included and excluded patterns can be combined on the same interceptor registration, for example including <code>/api/**</code> while excluding <code>/api/auth/login</code> and <code>/api/auth/register</code>.</p>
+<h3 id="multiple-interceptors-and-execution-order">Multiple Interceptors and Execution Order</h3>
+<p>Suppose two interceptors, <code>A</code> and <code>B</code>, are registered in that order. Their successful execution flow is:</p>
+<div class="highlight"><pre><span></span><code>A.preHandle() -&gt; B.preHandle() -&gt; Controller
+             -&gt; B.postHandle() -&gt; A.postHandle()
+             -&gt; Response processing / view rendering
+             -&gt; B.afterCompletion() -&gt; A.afterCompletion()
+</code></pre></div>
+
+<p>The pattern is: <code>preHandle()</code> executes in forward order, while <code>postHandle()</code> and <code>afterCompletion()</code> execute in reverse order. This resembles nested method calls - A opens, B opens, the controller executes, B closes, A closes.</p>
+<p>Configuring the order:</p>
+<div class="highlight"><pre><span></span><code>registry.addInterceptor(loggingInterceptor).order(1);
+registry.addInterceptor(authInterceptor).order(2);
+registry.addInterceptor(timingInterceptor).order(3);
+</code></pre></div>
+
+<p>Lower order values have higher priority and execute earlier during <code>preHandle()</code>. Only interceptors whose <code>preHandle()</code> successfully participated in the chain are eligible for the corresponding completion callbacks.</p>
+<p>Mnemonic: <code>preHandle</code> runs like a queue (first in, first run); <code>postHandle</code> and <code>afterCompletion</code> unwind like a stack (last in, first run).</p>
+<h2 id="9-practical-interceptors-logging-authentication-authorization-and-timing">9. Practical Interceptors: Logging, Authentication, Authorization, and Timing</h2>
+<h3 id="logging-request-details">Logging Request Details</h3>
+<p>A practical logging interceptor can access both HTTP information and the selected controller method. In <code>preHandle()</code> it prints the method, URI, query string, client IP, and - using <code>handler instanceof HandlerMethod handlerMethod</code> - the controller name (<code>getBeanType().getSimpleName()</code>) and method name (<code>getMethod().getName()</code>), then returns <code>true</code>.</p>
+<p><code>System.out.println()</code> is acceptable for learning examples. In a real application, use a logging framework such as SLF4J:</p>
+<div class="highlight"><pre><span></span><code>private static final Logger log =
+        LoggerFactory.getLogger(RequestLoggingInterceptor.class);
+</code></pre></div>
+
+<h3 id="authentication-demonstration-with-an-api-key">Authentication Demonstration with an API Key</h3>
+<p>The following example demonstrates how an interceptor can stop a request. It is useful for understanding the flow but should not replace Spring Security in a production application.</p>
+<p>Requirement: the client sends <code>X-API-KEY: student-secret-key</code>; a correct key continues to the controller; a missing or incorrect key returns <code>401 Unauthorized</code>; and the controller must not execute.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.crudDemo.interceptor</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.MediaType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.HandlerInterceptor</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ApiKeyAuthenticationInterceptor</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">HandlerInterceptor</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">VALID_API_KEY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;student-secret-key&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">preHandle</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">apiKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getHeader</span><span class="p">(</span><span class="s">&quot;X-API-KEY&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">apiKey</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">writeUnauthorizedResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;API key is missing&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">VALID_API_KEY</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">apiKey</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">writeUnauthorizedResponse</span><span class="p">(</span><span class="n">response</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Invalid API key&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">writeUnauthorizedResponse</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">message</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">response</span><span class="p">.</span><span class="na">setStatus</span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">.</span><span class="na">SC_UNAUTHORIZED</span><span class="p">);</span>
+<span class="w">        </span><span class="n">response</span><span class="p">.</span><span class="na">setContentType</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON_VALUE</span><span class="p">);</span>
+<span class="w">        </span><span class="n">response</span><span class="p">.</span><span class="na">getWriter</span><span class="p">().</span><span class="na">write</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        {</span>
+<span class="s">          &quot;message&quot;: &quot;%s&quot;</span>
+<span class="s">        }</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">.</span><span class="na">formatted</span><span class="p">(</span><span class="n">message</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The response is written before returning <code>false</code> because the controller will not execute and will not create a response. Register it for selected paths with <code>addPathPatterns("/api/**")</code> and <code>excludePathPatterns("/api/auth/login", "/api/public/**")</code>.</p>
+<h3 id="authorization-demonstration">Authorization Demonstration</h3>
+<p>Suppose only users with the <code>ADMIN</code> role can access a delete operation, and the client sends <code>X-USER-ROLE: ADMIN</code>. A simplified check inside <code>preHandle()</code> reads <code>request.getMethod()</code>, and if it equals <code>DELETE</code> it reads the <code>X-USER-ROLE</code> header. If the role is not <code>ADMIN</code>, it sets <code>SC_FORBIDDEN</code>, writes a <code>"Admin access required"</code> JSON body, and returns <code>false</code>; otherwise it returns <code>true</code>. This is a learning example - real authorization rules should normally go through Spring Security.</p>
+<h3 id="401-vs-403">401 vs 403</h3>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>401 Unauthorized</td>
+<td>The client has not been successfully authenticated</td>
+<td>Missing, invalid, or expired token</td>
+</tr>
+<tr>
+<td>403 Forbidden</td>
+<td>The client is authenticated but lacks permission</td>
+<td>A normal user attempts an admin-only operation</td>
+</tr>
+</tbody>
+</table>
+<p>The constants are <code>HttpServletResponse.SC_UNAUTHORIZED</code> (401) and <code>HttpServletResponse.SC_FORBIDDEN</code> (403).</p>
+<h3 id="measuring-request-execution-time">Measuring Request Execution Time</h3>
+<p>The flow is: record start time, execute the controller, then calculate the total duration.</p>
+<p>The incorrect approach stores the start time in an instance field. This is unsafe because Spring components are singleton-scoped by default, so multiple requests may use the same interceptor instance concurrently (Request A starts at 1000, Request B starts at 1100, and Request A ends up incorrectly using 1100). Request-specific mutable data should never live in a normal interceptor instance field.</p>
+<p>The correct approach uses request attributes: each request has its own <code>HttpServletRequest</code>, so store the start time there and read it back in <code>afterCompletion()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.crudDemo.interceptor</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.servlet.HandlerInterceptor</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.TimeUnit</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RequestTimingInterceptor</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">HandlerInterceptor</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">START_TIME_ATTRIBUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;requestStartTime&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">preHandle</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">request</span><span class="p">.</span><span class="na">setAttribute</span><span class="p">(</span><span class="n">START_TIME_ATTRIBUTE</span><span class="p">,</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">afterCompletion</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Object</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
+<span class="w">            </span><span class="n">Exception</span><span class="w"> </span><span class="n">ex</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Long</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Long</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getAttribute</span><span class="p">(</span><span class="n">START_TIME_ATTRIBUTE</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">startTime</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">durationNanos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">durationMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">NANOSECONDS</span><span class="p">.</span><span class="na">toMillis</span><span class="p">(</span><span class="n">durationNanos</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Request: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getMethod</span><span class="p">()</span>
+<span class="w">                </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Status: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">getStatus</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Execution time: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">durationMillis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ms&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Why <code>afterCompletion()</code>? <code>postHandle()</code> runs after successful handler execution, but <code>afterCompletion()</code> measures closer to the end of the complete MVC lifecycle, including later processing such as exception resolution and traditional view handling.</p>
+<p>Why <code>System.nanoTime()</code>? <code>System.currentTimeMillis()</code> represents wall-clock time and the system clock can be adjusted, whereas <code>System.nanoTime()</code> is designed for measuring elapsed time.</p>
+<h2 id="10-filters-and-interceptors-together">10. Filters and Interceptors Together</h2>
+<p>A filter surrounds servlet processing. An interceptor surrounds a Spring MVC handler.</p>
+<div class="highlight"><pre><span></span><code>HTTP Request
+   -&gt; Filter 1 / Filter 2: before chain.doFilter()
+   -&gt; Servlet Container -&gt; DispatcherServlet -&gt; HandlerMapping finds controller
+   -&gt; Interceptor 1.preHandle() -&gt; Interceptor 2.preHandle()
+   -&gt; Controller
+   -&gt; Interceptor 2.postHandle() -&gt; Interceptor 1.postHandle()
+   -&gt; Response processing or view rendering
+   -&gt; Interceptor 2.afterCompletion() -&gt; Interceptor 1.afterCompletion()
+   -&gt; Filter 2 / Filter 1: after chain.doFilter()
+   -&gt; HTTP Response
+</code></pre></div>
+
+<p>Core difference: a filter works at the Servlet layer, while an interceptor works inside Spring MVC after a handler has been selected.</p>
+<h3 id="request-and-response-wrapping">Request and Response Wrapping</h3>
+<p>A filter can wrap or replace the request and response objects passed further into the chain with <code>chain.doFilter(wrappedRequest, wrappedResponse)</code>. This makes filters suitable for caching a request body, reading a request body multiple times, capturing a response body, transforming request or response data, and compression and encoding concerns. An interceptor receives the request and response after processing has already entered Spring MVC; it cannot replace the objects used by the entire servlet chain in the same way.</p>
+<h3 id="filter-vs-interceptor">Filter vs Interceptor</h3>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Filter</th>
+<th>Interceptor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Layer</td>
+<td>Servlet layer</td>
+<td>Spring MVC layer</td>
+</tr>
+<tr>
+<td>Main target</td>
+<td>Servlet request and response</td>
+<td>Selected MVC handler</td>
+</tr>
+<tr>
+<td>Knows controller method</td>
+<td>Normally no</td>
+<td>Yes, through <code>HandlerMethod</code></td>
+</tr>
+<tr>
+<td>Main before callback</td>
+<td>Code before <code>chain.doFilter()</code></td>
+<td><code>preHandle()</code></td>
+</tr>
+<tr>
+<td>Main after callback</td>
+<td>Code after <code>chain.doFilter()</code></td>
+<td><code>postHandle()</code> / <code>afterCompletion()</code></td>
+</tr>
+<tr>
+<td>Can wrap request/response</td>
+<td>Yes</td>
+<td>Not in the same chain-wide manner</td>
+</tr>
+<tr>
+<td>Can block processing</td>
+<td>Yes, by skipping <code>chain.doFilter()</code></td>
+<td>Yes, by returning <code>false</code> from <code>preHandle()</code></td>
+</tr>
+<tr>
+<td>Suitable for body wrapping</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Suitable for controller annotations</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Common security mechanism</td>
+<td>Spring Security filter chain</td>
+<td>Not a replacement for Spring Security</td>
+</tr>
+</tbody>
+</table>
+<h3 id="when-to-use-a-filter">When to Use a Filter</h3>
+<p>Use a filter when the concern applies to the complete HTTP or servlet request rather than specifically to a controller method. Common examples:</p>
+<ol>
+<li>Request or response body wrapping.</li>
+<li>Request-body caching.</li>
+<li>Response-body capture or transformation.</li>
+<li>Character encoding.</li>
+<li>Compression.</li>
+<li>CORS-related processing.</li>
+<li>Logging all servlet traffic.</li>
+<li>Security processing before Spring MVC.</li>
+</ol>
+<p>Spring Security uses servlet filters because authentication and authorization generally need to happen before a request reaches the controller layer.</p>
+<h3 id="when-to-use-an-interceptor">When to Use an Interceptor</h3>
+<p>Use an interceptor when the requirement depends on Spring MVC or the selected handler. Common examples:</p>
+<ol>
+<li>Logging controller and method names.</li>
+<li>Reading custom annotations from controller methods.</li>
+<li>Starting and completing controller-related timing.</li>
+<li>Adding common request attributes.</li>
+<li>Adding common model attributes in traditional MVC.</li>
+<li>Collecting MVC-specific metrics.</li>
+<li>Applying tenant or organization context based on handler rules.</li>
+<li>Running logic before and after a particular group of controller endpoints.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule: if the logic depends on the selected handler, use an interceptor; if it depends only on the raw HTTP request or response, use a filter.</p>
+</blockquote>
+<h2 id="11-common-mistakes">11. Common Mistakes</h2>
+<p>Mistake 1 - Creating an interceptor but not registering it. <code>@Component</code> creates the bean, but <code>addInterceptors()</code> places it in the Spring MVC chain.</p>
+<p>Mistake 2 - Returning <code>false</code> without writing a response. When <code>preHandle()</code> returns <code>false</code>, the controller does not execute. Prepare an appropriate status and body before stopping the chain.</p>
+<p>Mistake 3 - Storing request data in an interceptor field. Interceptors are normally singleton beans. Store request-specific values in request attributes instead.</p>
+<p>Mistake 4 - Blindly casting the handler. Not every handler is a <code>HandlerMethod</code>. Always check with <code>instanceof</code>.</p>
+<p>Mistake 5 - Modifying a REST body inside <code>postHandle()</code>. The response may already have been written. Use <code>ResponseBodyAdvice</code> or a filter-based wrapper, depending on the requirement.</p>
+<p>Mistake 6 - Building production security manually. A custom API-key interceptor is useful for learning request flow, but production authentication and authorization should normally use Spring Security.</p>
+<p>Mistake 7 - Assuming <code>ex == null</code> means no error occurred. A global exception handler may already have handled the exception. Also inspect the final HTTP status.</p>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"An interceptor replaces the controller"</td>
+<td>It surrounds controller execution; it does not replace it.</td>
+</tr>
+<tr>
+<td>"Creating the interceptor bean is enough"</td>
+<td>It must also be registered through <code>addInterceptors()</code>.</td>
+</tr>
+<tr>
+<td>"Returning <code>false</code> just skips to the next interceptor"</td>
+<td>Returning <code>false</code> stops the whole chain; the controller never runs.</td>
+</tr>
+<tr>
+<td>"Returning <code>false</code> is enough on its own"</td>
+<td>You should also write the response; otherwise the client gets an empty or confusing reply.</td>
+</tr>
+<tr>
+<td>"You can cast <code>handler</code> directly to <code>HandlerMethod</code>"</td>
+<td>Only controller requests are <code>HandlerMethod</code>; guard with <code>instanceof</code>.</td>
+</tr>
+<tr>
+<td>"<code>postHandle()</code> can wrap a REST response body"</td>
+<td>For <code>@ResponseBody</code>/<code>ResponseEntity</code> the response may already be written; use <code>ResponseBodyAdvice</code>.</td>
+</tr>
+<tr>
+<td>"<code>ex == null</code> proves no exception happened"</td>
+<td>A global handler may have caught it; also check <code>response.getStatus()</code>.</td>
+</tr>
+<tr>
+<td>"An instance field is fine for request timing"</td>
+<td>Interceptors are singletons; store per-request data in request attributes.</td>
+</tr>
+<tr>
+<td>"A custom API-key interceptor equals real security"</td>
+<td>It is a learning example; production auth belongs in Spring Security.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "An interceptor can run before the handler is selected."</strong>
+Verdict: False. The <code>HandlerMapping</code> selects the handler first; <code>preHandle()</code> runs after selection but before invocation, which is exactly why it can inspect the <code>HandlerMethod</code>.</p>
+<p><strong>Trap 2 - "<code>preHandle()</code> returning <code>false</code> continues to the controller."</strong>
+Verdict: False. Returning <code>false</code> stops the execution chain, so the controller is not called; write the response before returning <code>false</code>.</p>
+<p><strong>Trap 3 - "<code>postHandle()</code> runs even when the controller throws."</strong>
+Verdict: False. <code>postHandle()</code> runs only after successful handler execution. <code>afterCompletion()</code> still runs and is the place for final logging and cleanup.</p>
+<p><strong>Trap 4 - "<code>afterCompletion()</code> with <code>ex == null</code> means success."</strong>
+Verdict: False. An exception may already have been resolved by <code>@ExceptionHandler</code>, <code>@ControllerAdvice</code>, or another resolver; always inspect <code>response.getStatus()</code> too.</p>
+<p><strong>Trap 5 - "A <code>@Component</code> interceptor is automatically active."</strong>
+Verdict: False. The bean exists, but it must be added to the registry with <code>addInterceptors()</code> to join the Spring MVC chain.</p>
+<p><strong>Trap 6 - "All interceptors run in the same direction in every phase."</strong>
+Verdict: False. <code>preHandle()</code> runs in forward order; <code>postHandle()</code> and <code>afterCompletion()</code> run in reverse order.</p>
+<p><strong>Trap 7 - "Interceptors are the correct tool for body wrapping or real security."</strong>
+Verdict: Misleading. Body wrapping needs a filter, and production authentication and authorization belong in Spring Security, not a hand-written interceptor.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>An interceptor is a handler-aware MVC component that runs before a handler, after it, and after the complete MVC cycle.</li>
+<li>The flow is <code>HandlerMapping</code> -&gt; <code>HandlerExecutionChain</code> -&gt; interceptors -&gt; <code>HandlerAdapter</code> -&gt; controller -&gt; return value -&gt; response.</li>
+<li>The three callbacks are <code>preHandle()</code>, <code>postHandle()</code>, and <code>afterCompletion()</code> (mnemonic: P-P-A).</li>
+<li><code>preHandle()</code> returns <code>boolean</code>: <code>true</code> continues, <code>false</code> stops the chain and the controller does not run.</li>
+<li>When <code>preHandle()</code> returns <code>false</code>, write the response yourself, or the client sees an empty or confusing reply.</li>
+<li><code>postHandle()</code> runs after successful execution and receives a <code>ModelAndView</code>; for REST it is often <code>null</code>, and REST bodies may already be written.</li>
+<li><code>afterCompletion()</code> is <code>finally</code>-like; use it for cleanup, final logging, timing, and status inspection.</li>
+<li><code>ex == null</code> does not prove success; also check <code>response.getStatus()</code> because an exception may already have been handled.</li>
+<li>Register interceptors with <code>WebMvcConfigurer.addInterceptors()</code>; configure included patterns, excluded patterns, and <code>order()</code> on the returned registration.</li>
+<li><code>preHandle()</code> runs forward while <code>postHandle()</code> and <code>afterCompletion()</code> run in reverse; keep per-request state in request attributes, never in singleton fields.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a Spring MVC interceptor?</td>
+<td>A handler-aware component that runs logic before a handler, after it, and after the complete MVC request cycle.</td>
+</tr>
+<tr>
+<td>Why do we need interceptors?</td>
+<td>To centralize cross-cutting MVC logic (logging, auth checks, timing, request attributes) so controllers stay clean and no endpoint is forgotten.</td>
+</tr>
+<tr>
+<td>Where does an interceptor fit in Spring MVC?</td>
+<td>Inside <code>DispatcherServlet</code>'s flow, after <code>HandlerMapping</code> selects a handler and around the <code>HandlerAdapter</code> invoking the controller.</td>
+</tr>
+<tr>
+<td>What is a <code>HandlerExecutionChain</code>?</td>
+<td>The object holding the selected handler plus its registered interceptors, executed around the handler.</td>
+</tr>
+<tr>
+<td>How do you create an interceptor?</td>
+<td>Implement <code>HandlerInterceptor</code> (annotated <code>@Component</code>) and override only the callbacks you need.</td>
+</tr>
+<tr>
+<td>How do you register an interceptor?</td>
+<td>Implement <code>WebMvcConfigurer</code> and call <code>registry.addInterceptor(...)</code> inside <code>addInterceptors()</code>.</td>
+</tr>
+<tr>
+<td>What does <code>preHandle()</code> return and why?</td>
+<td>A <code>boolean</code>: <code>true</code> continues the chain, <code>false</code> stops it so the controller is not called.</td>
+</tr>
+<tr>
+<td>Difference between <code>preHandle</code> and <code>postHandle</code>?</td>
+<td><code>preHandle</code> runs before the handler and can stop the chain; <code>postHandle</code> runs after successful execution and can adjust the <code>ModelAndView</code>.</td>
+</tr>
+<tr>
+<td>What is <code>afterCompletion()</code> for?</td>
+<td><code>finally</code>-like cleanup, final logging, elapsed-time calculation, and status inspection after the whole MVC cycle.</td>
+</tr>
+<tr>
+<td>Why must timing use request attributes?</td>
+<td>Interceptors are singleton beans; an instance field is shared across concurrent requests, while each request has its own <code>HttpServletRequest</code>.</td>
+</tr>
+<tr>
+<td>What is the execution order with multiple interceptors?</td>
+<td><code>preHandle</code> in forward order, <code>postHandle</code> and <code>afterCompletion</code> in reverse order; lower <code>order()</code> values run earlier.</td>
+</tr>
+<tr>
+<td>Filter vs Interceptor?</td>
+<td>A filter is Servlet-layer and cannot see the handler; an interceptor is Spring MVC-layer and can inspect the selected <code>HandlerMethod</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>HTTP Request
+   -&gt; Servlet Container / Filter chain -&gt; DispatcherServlet
+   -&gt; HandlerMapping -&gt; HandlerExecutionChain (interceptors + handler)
+   -&gt; preHandle()  (forward order; can return false to stop)
+   -&gt; HandlerAdapter -&gt; Controller method
+   -&gt; postHandle()  (reverse order; ModelAndView)
+   -&gt; Response processing / view rendering
+   -&gt; afterCompletion()  (reverse order; cleanup, timing, status, exception)
+   -&gt; HTTP Response
+</code></pre></div>
+
+<ul>
+<li>An interceptor surrounds handler execution; it does not replace the controller.</li>
+<li><code>preHandle()</code> decides <code>true</code> = continue or <code>false</code> = stop (and write the response).</li>
+<li><code>postHandle()</code> is the view/model hook and is unreliable for REST bodies.</li>
+<li><code>afterCompletion()</code> is the <code>finally</code> hook for cleanup, timing, and status.</li>
+<li>Register via <code>WebMvcConfigurer.addInterceptors()</code> with patterns, exclusions, and <code>order()</code>.</li>
+<li>Forward before the controller, reverse after it.</li>
+<li>Keep per-request state in request attributes, not singleton fields.</li>
+<li>Use a filter for HTTP-level concerns; use an interceptor for handler-aware concerns.</li>
+<li>Real authentication and authorization belong in Spring Security.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A Spring MVC interceptor is a handler-aware wrapper - <code>preHandle</code> gates the request in forward order, <code>postHandle</code> and <code>afterCompletion</code> unwind in reverse, and the logic lives once instead of in every controller.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-20.html"><span class="dir">Previous</span><span class="ttl">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</span></a><a class="next" href="doc-theory-lecture-22.html"><span class="dir">Next</span><span class="ttl">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

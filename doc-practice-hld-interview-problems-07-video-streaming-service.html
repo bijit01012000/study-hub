@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Video Streaming Service — HLD · System Design</title>
+<meta name="description" content="Design a Video Streaming Service">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-hld-interview-problems-07-video-streaming-service">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="active" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>HLD · System Design</h4><details class="part"><summary>Theory &amp; Notes <span class="count">53</span></summary><ul class="side-list"><li class="grp">hld-merged-notes</li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-00-overview.html" title="HLD Merged Notes">HLD Merged Notes</a><button class="star" data-doc="theory-hld-merged-notes-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-01-scalability-and-system-evolution.html" title="Scalability and System Evolution">Scalability and System Evolution</a><button class="star" data-doc="theory-hld-merged-notes-01-scalability-and-system-evolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-02-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-hld-merged-notes-02-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-03-back-of-the-envelope-estimation.html" title="Back-of-the-Envelope Estimation">Back-of-the-Envelope Estimation</a><button class="star" data-doc="theory-hld-merged-notes-03-back-of-the-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-04-monolith-vs-microservices.html" title="Monolith vs Microservices">Monolith vs Microservices</a><button class="star" data-doc="theory-hld-merged-notes-04-monolith-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-05-sharding-and-consistent-hashing.html" title="Sharding and Consistent Hashing">Sharding and Consistent Hashing</a><button class="star" data-doc="theory-hld-merged-notes-05-sharding-and-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-06-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-hld-merged-notes-06-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-07-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-hld-merged-notes-07-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-08-url-shortener.html" title="Design a URL Shortener (Bit.Ly Clone)">Design a URL Shortener (Bit.Ly Clone)</a><button class="star" data-doc="theory-hld-merged-notes-08-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-09-notification-system.html" title="Notification System">Notification System</a><button class="star" data-doc="theory-hld-merged-notes-09-notification-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-10-messaging-queues-and-kafka.html" title="Messaging Queues and Kafka">Messaging Queues and Kafka</a><button class="star" data-doc="theory-hld-merged-notes-10-messaging-queues-and-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-11-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-hld-merged-notes-11-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-12-authentication-and-authorization.html" title="Authentication and Authorization">Authentication and Authorization</a><button class="star" data-doc="theory-hld-merged-notes-12-authentication-and-authorization" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-13-oauth2.html" title="OAuth 2.0">OAuth 2.0</a><button class="star" data-doc="theory-hld-merged-notes-13-oauth2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-14-autocomplete-engine.html" title="Autocomplete Engine">Autocomplete Engine</a><button class="star" data-doc="theory-hld-merged-notes-14-autocomplete-engine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-15-instagram-feed.html" title="Design an Instagram Feed">Design an Instagram Feed</a><button class="star" data-doc="theory-hld-merged-notes-15-instagram-feed" title="Bookmark">☆</button></div></li><li class="grp">system-design-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-00-overview.html" title="System Design Core Concepts">System Design Core Concepts</a><button class="star" data-doc="theory-system-design-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-01-vertical-scaling.html" title="Vertical Scaling">Vertical Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-01-vertical-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-02-horizontal-scaling.html" title="Horizontal Scaling">Horizontal Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-02-horizontal-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-03-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-system-design-core-concepts-03-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-04-sharding-partitioning.html" title="Sharding / Partitioning">Sharding / Partitioning</a><button class="star" data-doc="theory-system-design-core-concepts-04-sharding-partitioning" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-05-replication.html" title="Replication">Replication</a><button class="star" data-doc="theory-system-design-core-concepts-05-replication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-06-stateless-vs-stateful-services.html" title="Stateless vs Stateful Services">Stateless vs Stateful Services</a><button class="star" data-doc="theory-system-design-core-concepts-06-stateless-vs-stateful-services" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices.html" title="Monolith vs N-Tier vs Microservices">Monolith vs N-Tier vs Microservices</a><button class="star" data-doc="theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-08-sql-vs-nosql.html" title="SQL vs NoSQL">SQL vs NoSQL</a><button class="star" data-doc="theory-system-design-core-concepts-08-sql-vs-nosql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-09-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-system-design-core-concepts-09-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-10-indexing.html" title="Indexing">Indexing</a><button class="star" data-doc="theory-system-design-core-concepts-10-indexing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-11-consistent-hashing.html" title="Consistent Hashing">Consistent Hashing</a><button class="star" data-doc="theory-system-design-core-concepts-11-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-12-acid-transactions-and-isolation.html" title="ACID Transactions &amp; Isolation">ACID Transactions &amp; Isolation</a><button class="star" data-doc="theory-system-design-core-concepts-12-acid-transactions-and-isolation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-13-write-ahead-log.html" title="Write-Ahead Log">Write-Ahead Log</a><button class="star" data-doc="theory-system-design-core-concepts-13-write-ahead-log" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-14-object-vs-block-vs-file-storage.html" title="Object vs Block vs File Storage">Object vs Block vs File Storage</a><button class="star" data-doc="theory-system-design-core-concepts-14-object-vs-block-vs-file-storage" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-15-database-connection-pooling.html" title="Database Connection Pooling">Database Connection Pooling</a><button class="star" data-doc="theory-system-design-core-concepts-15-database-connection-pooling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-16-dns-resolution.html" title="DNS Resolution">DNS Resolution</a><button class="star" data-doc="theory-system-design-core-concepts-16-dns-resolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-17-cdn-and-edge-caching.html" title="CDN &amp; Edge Caching">CDN &amp; Edge Caching</a><button class="star" data-doc="theory-system-design-core-concepts-17-cdn-and-edge-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-18-http-versions.html" title="HTTP/1.1 vs HTTP/2 vs HTTP/3">HTTP/1.1 vs HTTP/2 vs HTTP/3</a><button class="star" data-doc="theory-system-design-core-concepts-18-http-versions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-19-service-discovery.html" title="Service Discovery">Service Discovery</a><button class="star" data-doc="theory-system-design-core-concepts-19-service-discovery" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-20-real-time-communication.html" title="Real-Time Communication">Real-Time Communication</a><button class="star" data-doc="theory-system-design-core-concepts-20-real-time-communication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-21-api-gateway-reverse-proxy.html" title="API Gateway / Reverse Proxy">API Gateway / Reverse Proxy</a><button class="star" data-doc="theory-system-design-core-concepts-21-api-gateway-reverse-proxy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-22-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-system-design-core-concepts-22-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-23-consistency-models.html" title="Consistency Models">Consistency Models</a><button class="star" data-doc="theory-system-design-core-concepts-23-consistency-models" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-24-consensus-paxos-raft.html" title="Consensus (Paxos, Raft)">Consensus (Paxos, Raft)</a><button class="star" data-doc="theory-system-design-core-concepts-24-consensus-paxos-raft" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-25-distributed-locks.html" title="Distributed Locks">Distributed Locks</a><button class="star" data-doc="theory-system-design-core-concepts-25-distributed-locks" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-26-message-queues.html" title="Message Queues">Message Queues</a><button class="star" data-doc="theory-system-design-core-concepts-26-message-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-27-idempotency.html" title="Idempotency">Idempotency</a><button class="star" data-doc="theory-system-design-core-concepts-27-idempotency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-28-event-driven-architecture.html" title="Event-Driven Architecture">Event-Driven Architecture</a><button class="star" data-doc="theory-system-design-core-concepts-28-event-driven-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-29-backpressure.html" title="Backpressure">Backpressure</a><button class="star" data-doc="theory-system-design-core-concepts-29-backpressure" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-30-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-system-design-core-concepts-30-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-31-bloom-filters.html" title="Bloom Filters">Bloom Filters</a><button class="star" data-doc="theory-system-design-core-concepts-31-bloom-filters" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-32-circuit-breaker-retry.html" title="Circuit Breaker + Retry">Circuit Breaker + Retry</a><button class="star" data-doc="theory-system-design-core-concepts-32-circuit-breaker-retry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-33-back-of-envelope-estimation.html" title="Back-of-Envelope Estimation">Back-of-Envelope Estimation</a><button class="star" data-doc="theory-system-design-core-concepts-33-back-of-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-34-monitoring-observability.html" title="Monitoring &amp; Observability">Monitoring &amp; Observability</a><button class="star" data-doc="theory-system-design-core-concepts-34-monitoring-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-35-batch-vs-stream-processing.html" title="Batch vs Stream Processing">Batch vs Stream Processing</a><button class="star" data-doc="theory-system-design-core-concepts-35-batch-vs-stream-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-36-authn-vs-authz.html" title="AuthN vs AuthZ">AuthN vs AuthZ</a><button class="star" data-doc="theory-system-design-core-concepts-36-authn-vs-authz" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li class="grp">hld-interview-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-00-overview.html" title="High-Level Design Problems">High-Level Design Problems</a><button class="star" data-doc="practice-hld-interview-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-01-url-shortener.html" title="Design a URL Shortener">Design a URL Shortener</a><button class="star" data-doc="practice-hld-interview-problems-01-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-02-news-feed.html" title="Design a News Feed">Design a News Feed</a><button class="star" data-doc="practice-hld-interview-problems-02-news-feed" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-03-chat-app.html" title="Design a Chat App">Design a Chat App</a><button class="star" data-doc="practice-hld-interview-problems-03-chat-app" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-04-ride-hailing-delivery-matching.html" title="Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy">Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy</a><button class="star" data-doc="practice-hld-interview-problems-04-ride-hailing-delivery-matching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-05-rate-limiter.html" title="Design a Rate Limiter">Design a Rate Limiter</a><button class="star" data-doc="practice-hld-interview-problems-05-rate-limiter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-06-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-hld-interview-problems-06-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-hld-interview-problems-07-video-streaming-service.html" title="Design a Video Streaming Service">Design a Video Streaming Service</a><button class="star" data-doc="practice-hld-interview-problems-07-video-streaming-service" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-hld-interview-problems-07-video-streaming-service.html#level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</a></li><li><a href="doc-practice-hld-interview-problems-07-video-streaming-service.html#level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</a></li><li><a href="doc-practice-hld-interview-problems-07-video-streaming-service.html#level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-08-ticket-booking-system.html" title="Design a Ticket Booking System">Design a Ticket Booking System</a><button class="star" data-doc="practice-hld-interview-problems-08-ticket-booking-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-09-typeahead-service.html" title="Design a Typeahead Service">Design a Typeahead Service</a><button class="star" data-doc="practice-hld-interview-problems-09-typeahead-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-10-web-crawler.html" title="Design a Web Crawler">Design a Web Crawler</a><button class="star" data-doc="practice-hld-interview-problems-10-web-crawler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-11-file-sync-service.html" title="Design a File Sync Service">Design a File Sync Service</a><button class="star" data-doc="practice-hld-interview-problems-11-file-sync-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-12-payment-system.html" title="Design a Payment System">Design a Payment System</a><button class="star" data-doc="practice-hld-interview-problems-12-payment-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-13-ad-click-aggregator.html" title="Design an Ad Click Aggregator">Design an Ad Click Aggregator</a><button class="star" data-doc="practice-hld-interview-problems-13-ad-click-aggregator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-14-job-scheduler.html" title="Design a Job Scheduler">Design a Job Scheduler</a><button class="star" data-doc="practice-hld-interview-problems-14-job-scheduler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-15-search-system.html" title="Design a Search System">Design a Search System</a><button class="star" data-doc="practice-hld-interview-problems-15-search-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-16-trading-system.html" title="Design a Trading System">Design a Trading System</a><button class="star" data-doc="practice-hld-interview-problems-16-trading-system" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-hld.html">HLD · System Design</a> › Practice &amp; Questions</p>
+<h1>Design a Video Streaming Service</h1>
+<p class="readmeta">3 sections · 3,119 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-hld-interview-problems-07-video-streaming-service" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Three levels: Level 1 — The Shape, Level 2 — The Defence, Level 3 — The Edges.</p>
+</blockquote>
+<h2 id="level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</h2>
+<p>Pacing: 3 min ask · 5 min trace flow · 7 min read why.</p>
+<h3 id="the-ask">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse catalog, request playback</li>
+<li>Get a manifest → stream, adapt quality</li>
+<li>Resume playback where left off</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>Bytes never touch app servers ← forces direct CDN delivery</li>
+<li>Playback starts fast, stays smooth ← forces a ladder + client ABR</li>
+<li>Global audience, uneven latency ← forces CDN near viewers</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>5,000,000 daily active viewers · ~15% concurrent at peak · ~5 Mbps average bitrate · a 20,000-title catalog averaging ~15 GB/title · ~2,000 new titles/day needing encoding. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client — Video player — browses, plays, and (rarely) uploads</li>
+<li>Playback Service — "What can I watch?" Issues a manifest, nothing else</li>
+<li>GET /play/{title}</li>
+<li>Manifest Store — title → renditions → CDN URLs — small, metadata only</li>
+<li>CDN Edge — Client fetches bytes directly here — never through Playback Service</li>
+<li>Origin Store — Every encoded rendition lives here · CDN pulls on a cache miss; 300 TB catalog</li>
+</ul>
+<p>Data model: <code>manifests title_id PK → renditions[]</code>.</p>
+<p>Line weight = traffic: DATA · 3.75 Tbps peak; CONTROL · modest QPS. Direct from CDN Edge, never Playback Service.</p>
+<h3 id="say-it-like-this">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Bytes never touch my servers — that's what the CDN is for. My servers only handle the control plane: catalog and a manifest telling the client where to fetch the video. Encoding into a rendition ladder happens asynchronously, ahead of time — never live per request — because one encode serves every future viewer. The client then adapts quality itself off that ladder, picking a rendition for its own bandwidth, so nobody buffers on a slow line or wastes bandwidth on a fast one."</p>
+</blockquote>
+<h3 id="defend-it">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) CDN delivery</td>
+<td>Direct from CDN Edge — bytes never enter your app tier at all</td>
+<td>Proxy through app servers → 3.75 Tbps through code built for modest QPS · tiny payload</td>
+</tr>
+<tr>
+<td>(4) Pre-encode, ahead of time</td>
+<td>Async, before viewing — one encode serves every future viewer</td>
+<td>Encode-on-request → every viewer waits minutes before frame one</td>
+</tr>
+<tr>
+<td>(7) Adaptive bitrate</td>
+<td>A ladder, client picks — each viewer adapts to their own network</td>
+<td>One fixed quality → buffers on slow lines, wastes bandwidth on fast ones</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concurrent</td>
+<td>5,000,000 DAU × 15% concurrent at peak</td>
+<td>750 000</td>
+</tr>
+<tr>
+<td>Peak egress</td>
+<td>750 000 × 5 Mbps average bitrate</td>
+<td>3.75 Tbps</td>
+</tr>
+<tr>
+<td>After CDN</td>
+<td>3.75 Tbps × 5% — the ~5% edge misses, 95% hit</td>
+<td>≈187.5 Gbps</td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>20 000 titles × ~15 GB encoded/title</td>
+<td>300 TB</td>
+</tr>
+<tr>
+<td>New/day</td>
+<td>2 000 new titles/day × ~15 GB</td>
+<td>30 TB/day</td>
+</tr>
+</tbody>
+</table>
+<p>The headline number is 3.75 Tbps. Proxying that through app servers built for API requests is physically absurd — that is the entire reason a CDN exists.</p>
+<h3 id="before-you-draw-anything-the-four-moves">Before You Draw Anything — The Four Moves</h3>
+<ol>
+<li><strong>Clarify, don't assume.</strong> Live streaming or on-demand? Scope to VOD — it's the simpler, more common interview framing, and say so. — Two minutes of questions buys the whole design.</li>
+<li><strong>Agree the scale out loud.</strong> "5 M daily viewers, ~15% concurrent at peak, ~5 Mbps average." Now every choice has a reason. — An unstated number is an undefendable design.</li>
+<li><strong>Draw the happy path only.</strong> Client → Playback Service → Manifest Store → CDN Edge → Origin Store. Get agreement before adding anything. — Boxes you add before agreement are boxes you'll defend alone.</li>
+<li><strong>Name one trade-off unprompted.</strong> "I'd never route video bytes through my own servers — that's what the CDN is for." — This is the single move that separates L1 from a junior answer.</li>
+</ol>
+<h3 id="what-l1-is-testing">What L1 Is Testing</h3>
+<ul>
+<li>Do you keep the bytes off your own servers, unprompted?</li>
+<li>Do you split control-plane (manifest) from data-plane (bytes) on sight?</li>
+<li>Did you ask VOD vs live before drawing anything?</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why doesn't the video stream through your API servers? <em>(ref 3 — tests: control-plane/data-plane split awareness)</em></li>
+<li>Why encode into six different quality levels instead of one? <em>(ref 7 — tests: adaptive-bitrate reasoning)</em></li>
+<li>Encoding a new title takes real time. When does that happen relative to when a viewer hits play? <em>(ref 6 — tests: async/ahead-of-time reasoning, not live transcoding)</em></li>
+<li>What does the client actually get back when it hits play? <em>(ref 2 — tests: do you know what a manifest actually contains)</em></li>
+<li>A brand-new viewer opens the app for the first time. Walk me through everything before a single frame plays. <em>(refs 1,3 — tests: can you walk the happy path in order)</em></li>
+</ol>
+<p>At L1 you are being judged on one thing: can you produce a coherent shape and defend three choices inside it. Depth is page 2 — do not reach for it here. Ghosted boxes are what arrives next; you should be able to guess two of them.</p>
+<h2 id="level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</h2>
+<p>Pacing: 5 min ask · 15 min trace flow · 10 min read why · 30 min cover &amp; answer.</p>
+<h3 id="the-ask_1">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse catalog, request playback</li>
+<li>Get a manifest → stream, adapt quality</li>
+<li>Resume playback where left off</li>
+<li>Upload a title (creator side, briefly)</li>
+<li>Encode into a bitrate ladder (ABR)</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>Bytes never touch app servers ← forces direct CDN delivery</li>
+<li>Playback starts fast, stays smooth ← forces a ladder + client ABR</li>
+<li>Global audience, uneven latency ← forces CDN near viewers</li>
+<li>Encoding is slow, costly per title ← forces async, ahead of time</li>
+<li>Storing every quality forever is large ← forces a bounded ladder</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Payments, subscriptions, billing</li>
+<li>Recommendation ranking</li>
+<li>DRM internals</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>5,000,000 daily active viewers · ~15% concurrent at peak · ~5 Mbps average bitrate · a 20,000-title catalog averaging ~15 GB/title · ~2,000 new titles/day needing encoding. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape_1">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client — Video player — browses, plays, and (rarely) uploads</li>
+<li>Playback Service — "What can I watch?" Issues a manifest, nothing else</li>
+<li>GET /play/{title}</li>
+<li>Manifest Store — title → renditions → CDN URLs — small, metadata only</li>
+<li>CDN Edge — Client fetches bytes directly here — never through Playback Service; (8) miss ≈5%</li>
+<li>Origin Store — Every encoded rendition lives here · CDN pulls on a cache miss; 300 TB catalog</li>
+<li>(5) Upload Ingest — Raw upload lands here — not the core flow</li>
+<li>(6) Encoding Pipeline — Async, ahead of time — one encode serves every future viewer; renditions written; ≈30 TB/day new</li>
+<li>origin pull</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>titles title_id PK · metadata · status</code></li>
+<li><code>manifests title_id PK · renditions[] · CDN paths</code></li>
+<li><code>resume_state user+title → position, device — tiny</code></li>
+</ul>
+<p>Line weight = traffic: DATA · 3.75 Tbps peak; CONTROL · modest QPS; ENCODING · async write. Direct from CDN Edge, never Playback Service.</p>
+<h3 id="say-it-like-this_1">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Bytes never touch my servers — that's what the CDN is for. My servers only handle the control plane: catalog and a manifest telling the client where to fetch the video. Encoding into a rendition ladder happens asynchronously, ahead of time — never live per request — because one encode serves every future viewer. The client then adapts quality itself off that ladder, picking a rendition for its own bandwidth, so nobody buffers on a slow line or wastes bandwidth on a fast one."</p>
+</blockquote>
+<h3 id="defend-it_1">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) CDN delivery</td>
+<td>Direct from CDN Edge — bytes never enter your app tier at all</td>
+<td>Proxy through app servers → 3.75 Tbps through code built for modest QPS · tiny payload</td>
+</tr>
+<tr>
+<td>(4) Pre-encode, ahead of time</td>
+<td>Async, before viewing — one encode serves every future viewer</td>
+<td>Encode-on-request → every viewer waits minutes before frame one</td>
+</tr>
+<tr>
+<td>(7) Adaptive bitrate</td>
+<td>A ladder, client picks — each viewer adapts to their own network</td>
+<td>One fixed quality → buffers on slow lines, wastes bandwidth on fast ones</td>
+</tr>
+<tr>
+<td>(1) Control vs data plane</td>
+<td>Kept separate — modest-QPS control plane, Tbps-scale data plane</td>
+<td>One unified service → a low-traffic control API absorbs Tbps-scale load</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_1">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concurrent</td>
+<td>5,000,000 DAU × 15% concurrent at peak</td>
+<td>750 000</td>
+</tr>
+<tr>
+<td>Peak egress</td>
+<td>750 000 × 5 Mbps average bitrate</td>
+<td>3.75 Tbps</td>
+</tr>
+<tr>
+<td>After CDN</td>
+<td>3.75 Tbps × 5% — the ~5% edge misses, 95% hit</td>
+<td>≈187.5 Gbps</td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>20 000 titles × ~15 GB encoded/title</td>
+<td>300 TB</td>
+</tr>
+<tr>
+<td>New/day</td>
+<td>2 000 new titles/day × ~15 GB</td>
+<td>30 TB/day</td>
+</tr>
+</tbody>
+</table>
+<p>After the CDN absorbs ~95% of requests at the edge, origin only sees ≈187.5 Gbps — still large, but ~20× more tractable than the full peak. That is what justifies a CDN, not more origin servers.</p>
+<h3 id="what-breaks-say-it-before-they-ask">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(8) New-release thundering herd.</strong> A hyped title drops; a huge audience watches in hour one — cold at every edge, so cache-fill can't keep pace. — Fix: pre-warm CDN edges ahead of the release — don't rely on organic cache-fill for a known spike</li>
+<li><strong>(6) Encoding backlog.</strong> 2 000 new titles/day queue for transcoding; a capacity dip grows the backlog and delays new content. — Fix: a priority queue lets a scheduled release jump ahead of routine uploads</li>
+<li><strong>(2) Stale manifest.</strong> A title re-encodes or its CDN URLs change, but a cached manifest still points at the old ones. — Fix: manifest TTL/versioning — the same staleness-window honesty as elsewhere on this sheet</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_1">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why doesn't the video stream through your API servers? <em>(ref 3 — tests: control-plane/data-plane split awareness)</em></li>
+<li>Why encode into six different quality levels instead of one? <em>(ref 7 — tests: adaptive-bitrate reasoning)</em></li>
+<li>Encoding a new title takes real time. When does that happen relative to when a viewer hits play? <em>(ref 6 — tests: async/ahead-of-time reasoning, not live transcoding)</em></li>
+<li>A hyped new release drops and a million people watch in the first hour. What's different about that traffic from a title that's been out a year? <em>(ref 8 — tests: cold-cache/thundering-herd-on-release awareness, and the pre-warming fix)</em></li>
+</ol>
+<h3 id="cover-the-sheet-answer-aloud">Cover The Sheet · Answer Aloud</h3>
+<p>Use it as revision: cover the right rail and the two panels to your left, then walk the numbered path out loud. If you cannot say why a box is there and what breaks it, that box is your gap.</p>
+<h2 id="level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</h2>
+<p>Pacing: 10 min ask · 25 min trace flow · 15 min read why · 40 min cover &amp; answer.</p>
+<h3 id="the-ask_2">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse catalog, request playback</li>
+<li>Get a manifest → stream, adapt quality</li>
+<li>Resume playback where left off</li>
+<li>Upload a title (creator side, briefly)</li>
+<li>Encode into a bitrate ladder (ABR)</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>Bytes never touch app servers ← forces direct CDN delivery</li>
+<li>Playback starts fast, stays smooth ← forces a ladder + client ABR</li>
+<li>Global audience, uneven latency ← forces CDN near viewers</li>
+<li>Encoding is slow, costly per title ← forces async, ahead of time</li>
+<li>Storing every quality forever is large ← forces a bounded ladder</li>
+<li>A whole CDN can fail ← forces multi-CDN</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Payments, subscriptions, billing</li>
+<li>Recommendation ranking</li>
+<li>DRM internals</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>5,000,000 daily active viewers · ~15% concurrent at peak · ~5 Mbps average bitrate · a 20,000-title catalog averaging ~15 GB/title · ~2,000 new titles/day needing encoding. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape_2">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client — Video player — browses, plays, and (rarely) uploads</li>
+<li>Playback Service — "What can I watch?" Issues a manifest, nothing else</li>
+<li>GET /play/{title}</li>
+<li>Manifest Store — title → renditions → CDN URLs — small, metadata only</li>
+<li>CDN Edge — Client fetches bytes directly here — never through Playback Service; (8) miss ≈5%</li>
+<li>Origin Store — Every encoded rendition lives here · CDN pulls on a cache miss; 300 TB catalog</li>
+<li>(10) 2nd CDN / Failover — Health-checked failover if the primary CDN is down</li>
+<li>(5) Upload Ingest — Raw upload lands here — not the core flow</li>
+<li>(6) Encoding Pipeline — Async, ahead of time — one encode serves every future viewer; renditions written; ≈30 TB/day new</li>
+<li>(11) Priority Encoding Queue — Priority lane — a scheduled release jumps the backlog</li>
+<li>(9) signed, TTL'd URL — no hotlinking</li>
+<li>(12) Resume State — position, device — tiny state</li>
+<li>origin pull</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>titles title_id PK · metadata · status</code></li>
+<li><code>manifests title_id PK · renditions[] · CDN paths</code></li>
+<li><code>resume_state user+title → position, device — tiny</code></li>
+</ul>
+<p>Line weight = traffic: DATA · 3.75 Tbps peak; CONTROL · modest QPS; ENCODING · async write; FAILOVER · rare. Direct from CDN Edge, never Playback Service.</p>
+<h3 id="say-it-like-this_2">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Bytes never touch my servers — that's what the CDN is for. My servers only handle the control plane: catalog and a manifest telling the client where to fetch the video. Encoding into a rendition ladder happens asynchronously, ahead of time — never live per request — because one encode serves every future viewer. The client then adapts quality itself off that ladder, picking a rendition for its own bandwidth, so nobody buffers on a slow line or wastes bandwidth on a fast one."</p>
+</blockquote>
+<h3 id="defend-it_2">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) CDN delivery</td>
+<td>Direct from CDN Edge — bytes never enter your app tier at all</td>
+<td>Proxy through app servers → 3.75 Tbps through code built for modest QPS · tiny payload</td>
+</tr>
+<tr>
+<td>(4) Pre-encode, ahead of time</td>
+<td>Async, before viewing — one encode serves every future viewer</td>
+<td>Encode-on-request → every viewer waits minutes before frame one</td>
+</tr>
+<tr>
+<td>(7) Adaptive bitrate</td>
+<td>A ladder, client picks — each viewer adapts to their own network</td>
+<td>One fixed quality → buffers on slow lines, wastes bandwidth on fast ones</td>
+</tr>
+<tr>
+<td>(1) Control vs data plane</td>
+<td>Kept separate — modest-QPS control plane, Tbps-scale data plane</td>
+<td>One unified service → a low-traffic control API absorbs Tbps-scale load</td>
+</tr>
+<tr>
+<td>(10) Multi-CDN failover</td>
+<td>A second CDN, health-checked — one outage doesn't kill playback</td>
+<td>Single CDN provider → its outage is your outage, for everyone</td>
+</tr>
+<tr>
+<td>(11) Priority encoding queue</td>
+<td>A scheduled release jumps the queue — a hyped drop isn't stuck behind routine uploads</td>
+<td>Strict FIFO → a hyped title waits behind yesterday's backlog</td>
+</tr>
+<tr>
+<td>(9) Signed CDN URLs</td>
+<td>Tokenized, TTL'd URL — can't be hotlinked or replayed forever</td>
+<td>Public, static URL → anyone with the link streams it free, forever</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_2">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concurrent</td>
+<td>5,000,000 DAU × 15% concurrent at peak</td>
+<td>750 000</td>
+</tr>
+<tr>
+<td>Peak egress</td>
+<td>750 000 × 5 Mbps average bitrate</td>
+<td>3.75 Tbps</td>
+</tr>
+<tr>
+<td>After CDN</td>
+<td>3.75 Tbps × 5% — the ~5% edge misses, 95% hit</td>
+<td>≈187.5 Gbps</td>
+</tr>
+<tr>
+<td>Catalog</td>
+<td>20 000 titles × ~15 GB encoded/title</td>
+<td>300 TB</td>
+</tr>
+<tr>
+<td>New/day</td>
+<td>2 000 new titles/day × ~15 GB</td>
+<td>30 TB/day</td>
+</tr>
+</tbody>
+</table>
+<p>Storage (300 TB) and even origin egress (≈187.5 Gbps) are tractable. The 3.75 Tbps peak — and the fact that it must never touch your application code — is the entire problem this sheet solves.</p>
+<h3 id="what-breaks-say-it-before-they-ask_1">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(8) New-release thundering herd.</strong> A hyped title drops; a huge audience watches in hour one — cold at every edge, so cache-fill can't keep pace. — Fix: pre-warm CDN edges ahead of the release — don't rely on organic cache-fill for a known spike</li>
+<li><strong>(6) Encoding backlog.</strong> 2 000 new titles/day queue for transcoding; a capacity dip grows the backlog and delays new content. — Fix: a priority queue lets a scheduled release jump ahead of routine uploads</li>
+<li><strong>(2) Stale manifest.</strong> A title re-encodes or its CDN URLs change, but a cached manifest still points at the old ones. — Fix: manifest TTL/versioning — the same staleness-window honesty as elsewhere on this sheet</li>
+<li><strong>(10) CDN provider outage.</strong> A whole CDN provider goes down — every viewer routed there loses playback. — Fix: multi-CDN with health-check-based failover</li>
+<li><strong>(12) Resume-position race.</strong> Pause on one device, resume on another — eventually-consistent sync can resume at the wrong spot. — Fix: accept a small, stated staleness window here — cheap to be wrong about, unlike the byte stream</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_2">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why doesn't the video stream through your API servers? <em>(ref 3 — tests: control-plane/data-plane split awareness)</em></li>
+<li>Why encode into six different quality levels instead of one? <em>(ref 7 — tests: adaptive-bitrate reasoning)</em></li>
+<li>Encoding a new title takes real time. When does that happen relative to when a viewer hits play? <em>(ref 6 — tests: async/ahead-of-time reasoning, not live transcoding)</em></li>
+<li>A hyped new release drops and a million people watch in the first hour. What's different about that traffic from a title that's been out a year? <em>(ref 8 — tests: cold-cache/thundering-herd-on-release awareness, and the pre-warming fix)</em></li>
+<li>Your CDN provider goes down. What happens to playback? <em>(ref 10 — tests: multi-CDN/failover awareness)</em></li>
+<li>How does "resume where you left off" work if you paused on your phone and picked it up on your TV? <em>(ref 12 — tests: cross-device sync awareness, and recognising this is small state next to a massive byte stream)</em></li>
+</ol>
+<div class="pager"><a class="prev" href="doc-practice-hld-interview-problems-06-notification-service.html"><span class="dir">Previous</span><span class="ttl">Design a Notification Service</span></a><a class="next" href="doc-practice-hld-interview-problems-08-ticket-booking-system.html"><span class="dir">Next</span><span class="ttl">Design a Ticket Booking System</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

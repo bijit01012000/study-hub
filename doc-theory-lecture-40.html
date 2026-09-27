@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 40 — Testing Spring Boot Applications — Spring Boot</title>
+<meta name="description" content="Lecture 40 — Testing Spring Boot Applications">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-40">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-40.html#lecture-40">Lecture 40</a></li><li><a href="doc-theory-lecture-40.html#1-why-testing-exists">1. Why Testing Exists</a></li><li><a href="doc-theory-lecture-40.html#2-manual-testing-vs-automated-testing">2. Manual Testing vs Automated Testing</a></li><li><a href="doc-theory-lecture-40.html#3-test-cases-arrange-act-assert">3. Test Cases: Arrange, Act, Assert</a></li><li><a href="doc-theory-lecture-40.html#4-unit-tests-vs-integration-tests-and-the-test-pyramid">4. Unit Tests vs Integration Tests and the Test Pyramid</a></li><li><a href="doc-theory-lecture-40.html#5-what-deserves-a-unit-test">5. What Deserves a Unit Test</a></li><li><a href="doc-theory-lecture-40.html#6-junit-fundamentals">6. JUnit Fundamentals</a></li><li><a href="doc-theory-lecture-40.html#7-writing-the-first-junit-test">7. Writing the First JUnit Test</a></li><li><a href="doc-theory-lecture-40.html#8-assertions-and-test-lifecycle">8. Assertions and Test Lifecycle</a></li><li><a href="doc-theory-lecture-40.html#9-unit-testing-the-service-layer-with-mockito">9. Unit Testing the Service Layer with Mockito</a></li><li><a href="doc-theory-lecture-40.html#10-stubbing-assertion-and-verification">10. Stubbing, Assertion and Verification</a></li><li><a href="doc-theory-lecture-40.html#11-testing-spring-mvc-controllers-with-mockmvc">11. Testing Spring MVC Controllers with MockMvc</a></li><li><a href="doc-theory-lecture-40.html#12-what-happens-during-a-mockmvc-call">12. What Happens During a MockMvc Call</a></li><li><a href="doc-theory-lecture-40.html#13-repository-and-integration-testing">13. Repository and Integration Testing</a></li><li><a href="doc-theory-lecture-40.html#14-choosing-the-smallest-test-environment">14. Choosing the Smallest Test Environment</a></li><li><a href="doc-theory-lecture-40.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-40.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-40.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-40.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-40.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 40 — Testing Spring Boot Applications</h1>
+<p class="readmeta">20 sections · 4,858 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-40" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-40">Lecture 40</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Testing Spring Boot Applications | JUnit 5, Mockito &amp; MockMvc" (playlist map, verified). Repo folder is the <strong>springTestingDemo</strong> project: <code>entity.Product</code>, <code>repository.ProductRepository</code>, <code>service.ProductService</code>, <code>service.PriceCalculator</code>, <code>controller.ProductController</code>, plus test classes <code>PriceCalculatorTest</code>, <code>ProductServiceTest</code>, <code>ProductControllerTest</code>, and <code>ProductRepositoryTest</code>.</p>
+</blockquote>
+<p>Writing code and proving it behaves correctly are two different activities.
+This lecture turns testing into a layered discipline: plain JUnit for pure logic,
+JUnit plus Mockito for a service with dependencies, <code>@WebMvcTest</code> plus MockMvc for
+a controller's HTTP contract, and <code>@DataJpaTest</code> plus a real database for
+repository queries. Every test answers one question: how much real application
+infrastructure must participate to prove this one behaviour?</p>
+<h2 id="1-why-testing-exists">1. Why Testing Exists</h2>
+<p>Consider this method:</p>
+<div class="highlight"><pre><span></span><code>public int calculateFinalPrice(int price, int discountPercentage) {
+    return price - (price * discountPercentage / 100);
+}
+</code></pre></div>
+
+<p>The method appears to work, but "looks correct" is not evidence.
+A manual run with price <code>1000</code>, discount <code>20</code>, and expected result <code>800</code> returns
+the right number, yet several questions remain:</p>
+<ul>
+<li>What happens when the discount is <code>0</code>?</li>
+<li>What happens when the discount is <code>100</code>?</li>
+<li>What happens when the discount is negative?</li>
+<li>What happens when the discount is greater than <code>100</code>?</li>
+<li>What happens if someone changes the formula later?</li>
+</ul>
+<p>Testing verifies that the behaviour of the code matches its requirements.
+A single happy-path run proves almost nothing; the edge cases above are exactly
+where production bugs live.</p>
+<blockquote class="callout callout--important">
+<p>Important: A test is not "proof that the code runs." It is proof that a specific input produces a specific, expected output. A suite's value comes from the number of truthful behaviours it pins down.</p>
+</blockquote>
+<h2 id="2-manual-testing-vs-automated-testing">2. Manual Testing vs Automated Testing</h2>
+<p>Manual testing means a developer performs a sequence by hand:</p>
+<ol>
+<li>Starts the application.</li>
+<li>Prepares a request.</li>
+<li>Calls the endpoint.</li>
+<li>Inspects the response.</li>
+<li>Decides whether the result is correct.</li>
+</ol>
+<p>This can work for a small application, but it becomes slow and unreliable as the
+application grows.</p>
+<p>An automated test does the same reasoning without a human in the loop:</p>
+<ol>
+<li>Provides a known input.</li>
+<li>Executes the production code.</li>
+<li>Compares the actual result with the expected result.</li>
+<li>Reports whether the test passed or failed.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Known input -&gt; execute production code -&gt; actual output
+            -&gt; compare with expected output -&gt; pass or fail
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Manual testing</th>
+<th>Automated testing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who executes</td>
+<td>A human clicks and inspects</td>
+<td>A test runner executes code</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>Slow, repeated by hand</td>
+<td>Fast, repeatable in seconds</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>Tired humans miss regressions</td>
+<td>Same check on every run</td>
+</tr>
+<tr>
+<td>Cost as app grows</td>
+<td>Grows with every feature</td>
+<td>Written once, rerun forever</td>
+</tr>
+<tr>
+<td>Feedback</td>
+<td>After a manual click-through</td>
+<td>Immediately, in the build</td>
+</tr>
+<tr>
+<td>Regression safety</td>
+<td>Almost none</td>
+<td>Strong: old behaviour stays pinned</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Exploratory checks, demos</td>
+<td>Behaviour that must never break</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why automate?" The honest answer is not "tests are good." It is that manual testing does not scale: paths grow faster than human attention, so regressions slip through unless a machine re-checks every promise on every change.</p>
+</blockquote>
+<h2 id="3-test-cases-arrange-act-assert">3. Test Cases: Arrange, Act, Assert</h2>
+<p>A test case contains three fundamental parts: the initial condition, the action,
+and the expected result.</p>
+<div class="highlight"><pre><span></span><code>Initial condition: Price is 1000 and discount is 20%
+Action:            Calculate the final price
+Expected result:   Final price should be 800
+</code></pre></div>
+
+<p>In testing terminology this is commonly called <strong>Arrange, Act and Assert</strong>:</p>
+<ul>
+<li><strong>Arrange</strong> - prepare the data and environment required by the test.</li>
+<li><strong>Act</strong> - execute the behaviour being tested.</li>
+<li><strong>Assert</strong> - compare the actual result with the expected result.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>// Arrange
+int price = 1000;
+int discount = 20;
+
+// Act
+int actualPrice = calculator.calculateFinalPrice(price, discount);
+
+// Assert
+assertEquals(800, actualPrice);
+</code></pre></div>
+
+<p>Mnemonic: <strong>AAA</strong> - "<strong>A</strong>rranger sets the stage, <strong>A</strong>ct performs, <strong>A</strong>ssert proves."
+The names are Arranger-Act-Assert because each block has one job.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: One test asserts one behaviour. If a test name needs the word "and", it is probably two tests wearing one coat.</p>
+</blockquote>
+<p>Tests are written for the behaviours a method promises, not for its lines.
+The requirement "a discount must be between <code>0</code> and <code>100</code>" hides four behaviours:
+a valid discount calculates the final price; a discount below <code>0</code> is rejected; a
+discount above <code>100</code> is rejected; a negative price is rejected.</p>
+<h2 id="4-unit-tests-vs-integration-tests-and-the-test-pyramid">4. Unit Tests vs Integration Tests and the Test Pyramid</h2>
+<p>A common Spring Boot flow is <code>Controller -&gt; Service -&gt; Repository -&gt; Database</code>.</p>
+<p>A <strong>unit test</strong> verifies a small unit of behaviour in isolation.
+A test for <code>ProductService</code> should not require the Spring <code>ApplicationContext</code>,
+Tomcat, a real database, or an HTTP request. If <code>ProductService</code> depends on
+<code>ProductRepository</code>, the real repository can be replaced with a controlled test
+double.</p>
+<p>An <strong>integration test</strong> checks whether multiple real components work together,
+for example <code>Repository + Hibernate + H2/MySQL</code>, or
+<code>Controller + Service + Repository + Database</code>.</p>
+<p>The important question is not which annotation is used. The real question is:
+<strong>how much real application infrastructure participates in the test?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Test type</th>
+<th>What is real?</th>
+<th>Relative speed</th>
+<th>Main purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit test</td>
+<td>One class or unit of behaviour</td>
+<td>Fastest</td>
+<td>Verify business logic</td>
+</tr>
+<tr>
+<td>Slice test</td>
+<td>One application layer</td>
+<td>Fast</td>
+<td>Verify a specific Spring layer</td>
+</tr>
+<tr>
+<td>Integration test</td>
+<td>Multiple components</td>
+<td>Slower</td>
+<td>Verify components work together</td>
+</tr>
+<tr>
+<td>End-to-end test</td>
+<td>Complete application flow</td>
+<td>Slowest</td>
+<td>Verify the complete user journey</td>
+</tr>
+</tbody>
+</table>
+<p>A healthy suite is a pyramid: many fast unit tests, fewer integration tests, very
+few end-to-end tests. If every test starts Spring Boot and connects to a database,
+the suite becomes slow and developers stop running it.</p>
+<h2 id="5-what-deserves-a-unit-test">5. What Deserves a Unit Test</h2>
+<p>Prioritize code that contains behaviour or decisions: business calculations,
+conditional branches, data transformations, validation rules, exception
+conditions, authorization decisions, service-layer orchestration, and important
+edge cases.</p>
+<p>Usually avoid unit-testing plain getters and setters, framework behaviour,
+built-in methods of <code>JpaRepository</code>, and code with no meaningful decision or
+transformation. There is no need to prove that Spring Data's <code>save()</code> works. The
+important part is whether the application calls <code>save()</code> under the correct
+business conditions.</p>
+<blockquote class="callout callout--important">
+<p>Important: Test your decisions, not the framework's. A test that asserts a mocked <code>save()</code> returns what the mock was told to return has tested Mockito, not your code.</p>
+</blockquote>
+<h2 id="6-junit-fundamentals">6. JUnit Fundamentals</h2>
+<p>JUnit provides annotations such as <code>@Test</code>, a programming model for declaring
+tests, test discovery and execution, integration with Maven, Gradle and IDEs, and
+assertions such as <code>assertEquals()</code>. The annotations used in modern Spring Boot
+tests belong to <strong>JUnit Jupiter</strong>: <code>org.junit.jupiter.api.Test</code>.</p>
+<p>A Spring Boot project normally includes the test starter:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>The <code>test</code> scope means these libraries are available for compiling and running
+tests but are not included as normal production dependencies.
+<code>spring-boot-starter-test</code> bundles JUnit, Mockito, AssertJ, Hamcrest, Spring Test,
+and JSON testing utilities.</p>
+<p>Production code belongs in <code>src/main/java</code>; test code belongs in <code>src/test/java</code>.
+The test package should normally mirror the production package:</p>
+<div class="highlight"><pre><span></span><code>src/main/java/com/example/demo/service/ProductService.java
+src/test/java/com/example/demo/service/ProductServiceTest.java
+</code></pre></div>
+
+<p>This keeps a production class and its corresponding test easy to locate.</p>
+<h2 id="7-writing-the-first-junit-test">7. Writing the First JUnit Test</h2>
+<p>Production class <code>PriceCalculator</code>:</p>
+<div class="highlight"><pre><span></span><code>public class PriceCalculator {
+    public int calculateFinalPrice(int price, int discountPercentage) {
+        if (price &lt; 0) {
+            throw new IllegalArgumentException(&quot;Price cannot be negative&quot;);
+        }
+        if (discountPercentage &lt; 0 || discountPercentage &gt; 100) {
+            throw new IllegalArgumentException(&quot;Discount must be between 0 and 100&quot;);
+        }
+        return price - (price * discountPercentage / 100);
+    }
+}
+</code></pre></div>
+
+<p>Test class <code>PriceCalculatorTest</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.BeforeEach</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Test</span><span class="p">;</span>
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.assertEquals</span><span class="p">;</span>
+<span class="kn">import static</span><span class="w"> </span><span class="nn">org.junit.jupiter.api.Assertions.assertThrows</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">PriceCalculatorTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PriceCalculator</span><span class="w"> </span><span class="n">calculator</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@BeforeEach</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setUp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">calculator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PriceCalculator</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldApplyDiscountToPrice</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">discount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Act</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">actualPrice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calculator</span><span class="p">.</span><span class="na">calculateFinalPrice</span><span class="p">(</span><span class="n">price</span><span class="p">,</span><span class="w"> </span><span class="n">discount</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Assert</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="n">actualPrice</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldRejectDiscountAboveHundred</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">IllegalArgumentException</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">assertThrows</span><span class="p">(</span>
+<span class="w">            </span><span class="n">IllegalArgumentException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
+<span class="w">            </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">calculator</span><span class="p">.</span><span class="na">calculateFinalPrice</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span><span class="w"> </span><span class="mi">120</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Discount must be between 0 and 100&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This test does not use <code>@SpringBootTest</code> or <code>@Autowired</code>, and it does not start the
+Spring <code>ApplicationContext</code>. <code>PriceCalculator</code> is a regular Java class, so it can
+be created with <code>new</code>. Spring Boot applications are still Java applications; the
+container should not be started when the behaviour can be tested directly.</p>
+<p><code>@Test</code> tells JUnit to discover and execute the method as a test case. Names should
+describe behaviour (<code>shouldApplyDiscountToPrice()</code>); avoid <code>test1()</code> or <code>checkMethod()</code>.</p>
+<h2 id="8-assertions-and-test-lifecycle">8. Assertions and Test Lifecycle</h2>
+<p>An assertion describes a condition that must be true for the test to pass.</p>
+<table>
+<thead>
+<tr>
+<th>Assertion</th>
+<th>Use it when</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assertEquals()</code></td>
+<td>Comparing expected with actual</td>
+<td><code>assertEquals(800, actualPrice);</code></td>
+</tr>
+<tr>
+<td><code>assertTrue()</code> / <code>assertFalse()</code></td>
+<td>Checking a boolean state</td>
+<td><code>assertTrue(result.isActive());</code></td>
+</tr>
+<tr>
+<td><code>assertNull()</code> / <code>assertNotNull()</code></td>
+<td>Checking presence or absence</td>
+<td><code>assertNotNull(savedProduct.getId());</code></td>
+</tr>
+<tr>
+<td><code>assertThrows()</code></td>
+<td>An exception is the expected behaviour</td>
+<td><code>assertThrows(IllegalArgumentException.class, () -&gt; ...);</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>assertThrows()</code> returns the thrown exception, so the message can be checked too.
+The test passes only when the specified code throws <code>IllegalArgumentException</code>; if
+no exception is thrown, the test fails.</p>
+<p><code>@BeforeEach</code> runs before every test method and is useful for preparation shared by
+multiple tests (for example, creating <code>calculator</code>). <code>@AfterEach</code> runs after every
+test method and is useful when a test manually opens a resource that must be
+closed. There is no need to add an empty <code>@AfterEach</code> merely because the annotation
+exists.</p>
+<p>Run tests from IntelliJ, or run the complete Maven suite with <code>./mvnw test</code>.
+Green means the expected behaviour was observed; red means expected and actual
+behaviour did not match. A failing test may mean the test's expectation is
+incorrect, the production code is incorrect, or the requirement has changed.</p>
+<h2 id="9-unit-testing-the-service-layer-with-mockito">9. Unit Testing the Service Layer with Mockito</h2>
+<p>Consider <code>ProductService</code>, which depends on <code>ProductRepository</code>:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+            .orElseThrow(() -&gt; new ProductNotFoundException(&quot;Product not found: &quot; + id));
+    }
+
+    public Product createProduct(Product product) {
+        if (productRepository.existsByName(product.getName())) {
+            throw new IllegalArgumentException(&quot;Product already exists&quot;);
+        }
+        return productRepository.save(product);
+    }
+}
+</code></pre></div>
+
+<p><code>ProductService</code> cannot be created without a <code>ProductRepository</code>. Using the real
+repository could require a Spring Data proxy, <code>EntityManager</code>, Hibernate,
+<code>DataSource</code>, and a database, and a failure could then come from the database
+instead of the service logic. That would no longer be an isolated unit test, so
+the dependency is replaced with a controlled test double.</p>
+<table>
+<thead>
+<tr>
+<th>Double</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dummy</td>
+<td>An object passed only because a method requires it; its behaviour is not used</td>
+</tr>
+<tr>
+<td>Stub</td>
+<td>An object that returns predefined answers (e.g. <code>findById(1)</code> returns a fixed product)</td>
+</tr>
+<tr>
+<td>Fake</td>
+<td>A simplified but working implementation, such as a <code>HashMap</code>-backed in-memory repository</td>
+</tr>
+<tr>
+<td>Mock</td>
+<td>A configurable double that returns values, throws, records calls, and can be verified</td>
+</tr>
+</tbody>
+</table>
+<p>Mockito creates mocks without manually written fake repository classes:</p>
+<div class="highlight"><pre><span></span><code>import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+@ExtendWith(MockitoExtension.class)
+class ProductServiceTest {
+
+    @Mock
+    private ProductRepository productRepository;
+
+    @InjectMocks
+    private ProductService productService;
+}
+</code></pre></div>
+
+<p><code>@ExtendWith(MockitoExtension.class)</code> connects Mockito's lifecycle with JUnit
+Jupiter and initializes the annotated fields, because JUnit does not process
+Mockito annotations by itself. <code>@Mock</code> makes Mockito create an object that
+implements <code>ProductRepository</code> - not a Spring bean, not a Spring Data proxy, not
+connected to a database. <code>@InjectMocks</code> makes Mockito create <code>ProductService</code> and
+inject the available mock into its constructor, like
+<code>new ProductService(Mockito.mock(ProductRepository.class))</code>. It is a Mockito
+convenience, not Spring dependency injection.</p>
+<blockquote class="callout callout--important">
+<p>Important: Mockito is not testing the repository. It is creating a predictable environment in which the service can be tested. A mock's return value proves nothing about the real database.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="nd">@ExtendWith</span><span class="p">(</span><span class="n">MockitoExtension</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">class</span> <span class="nc">ProductServiceTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Mock</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ProductRepository</span><span class="w"> </span><span class="n">productRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@InjectMocks</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ProductService</span><span class="w"> </span><span class="n">productService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldReturnProductWhenProductExists</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="n">Product</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Product</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Laptop&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">productRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">)).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">product</span><span class="p">));</span>
+
+<span class="w">        </span><span class="c1">// Act</span>
+<span class="w">        </span><span class="n">Product</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">productService</span><span class="p">.</span><span class="na">getProductById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Assert</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">        </span><span class="n">assertEquals</span><span class="p">(</span><span class="s">&quot;Laptop&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">verify</span><span class="p">(</span><span class="n">productRepository</span><span class="p">).</span><span class="na">findById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldRejectProductWhenNameAlreadyExists</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="n">Product</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Product</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Keyboard&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">productRepository</span><span class="p">.</span><span class="na">existsByName</span><span class="p">(</span><span class="s">&quot;Keyboard&quot;</span><span class="p">)).</span><span class="na">thenReturn</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Act and Assert</span>
+<span class="w">        </span><span class="n">assertThrows</span><span class="p">(</span>
+<span class="w">            </span><span class="n">IllegalArgumentException</span><span class="p">.</span><span class="na">class</span><span class="p">,</span>
+<span class="w">            </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">productService</span><span class="p">.</span><span class="na">createProduct</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="w">        </span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">verify</span><span class="p">(</span><span class="n">productRepository</span><span class="p">).</span><span class="na">existsByName</span><span class="p">(</span><span class="s">&quot;Keyboard&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">verify</span><span class="p">(</span><span class="n">productRepository</span><span class="p">,</span><span class="w"> </span><span class="n">never</span><span class="p">()).</span><span class="na">save</span><span class="p">(</span><span class="n">any</span><span class="p">(</span><span class="n">Product</span><span class="p">.</span><span class="na">class</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The stubbing <code>when(productRepository.findById(1L)).thenReturn(Optional.of(product));</code>
+means: if <code>findById(1L)</code> is called on this mock, return the predefined <code>Product</code>.
+The final verification matters: the rule says a duplicate must not be saved, so the
+absence of the <code>save()</code> call is part of the required behaviour. A missing product
+is tested the same way by stubbing <code>findById(99L)</code> with <code>Optional.empty()</code> and
+asserting <code>ProductNotFoundException</code>.</p>
+<h2 id="10-stubbing-assertion-and-verification">10. Stubbing, Assertion and Verification</h2>
+<p>These three concepts have different responsibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Code</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stubbing</td>
+<td><code>when(repository.findById(1L)).thenReturn(Optional.of(product));</code></td>
+<td>Defines how the dependency should behave</td>
+</tr>
+<tr>
+<td>Assertion</td>
+<td><code>assertEquals("Laptop", result.getName());</code></td>
+<td>Checks the observable result</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td><code>verify(repository).findById(1L);</code></td>
+<td>Checks whether the interaction happened</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>when()   -&gt; Control the dependency
+assert() -&gt; Check the result
+verify() -&gt; Check the interaction
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Stubbing (<code>when(...).thenReturn(...)</code>)</th>
+<th>Verification (<code>verify(...)</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>"When asked, answer this"</td>
+<td>"Did you get asked?"</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Set up a predictable return value</td>
+<td>Assert the interaction happened</td>
+</tr>
+<tr>
+<td>Runs</td>
+<td>Before the Act step</td>
+<td>After the Act step</td>
+</tr>
+<tr>
+<td>Fails when</td>
+<td>The stubbed method is never used (with strict stubs)</td>
+<td>The expected call did not occur, or occurred the wrong number of times</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>when(repo.findById(1L)).thenReturn(...)</code></td>
+<td><code>verify(repo).findById(1L)</code></td>
+</tr>
+<tr>
+<td>Optional?</td>
+<td>Required for every value the code reads</td>
+<td>Only when the interaction is the behaviour</td>
+</tr>
+</tbody>
+</table>
+<p><code>verify()</code> need not be called for every mocked method; use it when the interaction
+itself is part of the behaviour being tested. Argument matchers (<code>any()</code>,
+<code>anyLong()</code>, <code>anyString()</code>, <code>eq(value)</code>) allow flexible stubbing and verification:
+use exact values when the exact argument matters, matchers when only the type
+matters. When a matcher is used for one argument of a multi-argument method, use
+matchers for all arguments:
+<code>when(repository.search(eq("Laptop"), eq(true))).thenReturn(products);</code></p>
+<h2 id="11-testing-spring-mvc-controllers-with-mockmvc">11. Testing Spring MVC Controllers with MockMvc</h2>
+<p>The controller is responsible for the HTTP contract: which URL and method are
+accepted, how JSON converts to Java, whether path variables are read correctly,
+whether validation runs, which status code and JSON are returned, how exceptions
+become HTTP responses, and whether security permits the request. A controller test
+should not repeat all service business-logic tests; that belongs in the service
+unit tests.</p>
+<p>Calling <code>controller.getProduct(1L)</code> and checking the <code>ResponseEntity</code> tests the Java
+method, but it does not verify <code>@GetMapping("/{id}")</code>, <code>@PathVariable</code> conversion,
+<code>@RequestBody</code> deserialization, <code>@Valid</code> validation, HTTP status handling, JSON
+serialization, Spring Security filters, or global exception handlers. The
+controller must therefore be tested through Spring MVC's request-processing
+infrastructure.</p>
+<p><code>@WebMvcTest(ProductController.class)</code> creates a limited Spring <code>ApplicationContext</code>
+containing components relevant to the web layer.
+Loaded: controller, <code>DispatcherServlet</code>, Jackson JSON conversion, validation,
+controller advice, MVC configuration, and security filters.
+Not loaded: the real service, real repository, Hibernate, database, or complete
+application. This is a <strong>test slice</strong>: only the part of the application required by
+the test is loaded.</p>
+<p><code>MockMvc</code> creates an HTTP-like request without starting a real web server:</p>
+<div class="highlight"><pre><span></span><code>Mock HTTP request -&gt; Spring Security filter chain -&gt; DispatcherServlet
+                  -&gt; Controller -&gt; HTTP-like response
+</code></pre></div>
+
+<p>There is no <code>localhost</code>, no port <code>8080</code>, no running Tomcat, and no Postman, yet
+Spring MVC still processes the request using its real web infrastructure.</p>
+<p>In the service unit test, <code>@Mock</code> created a plain Mockito field because there was
+no Spring context. In a controller test, Spring creates <code>ProductController</code>, whose
+constructor requires a <code>ProductService</code> bean, so the mock must be placed inside
+Spring's test context.</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Managed by</th>
+<th>Placed in the Spring context?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Mock</code></td>
+<td>Mockito</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>@MockitoBean</code></td>
+<td>Spring Test and Mockito</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><code>@MockitoBean</code> creates or replaces the corresponding bean in the Spring test
+<code>ApplicationContext</code> with a Mockito mock. For current Spring versions use
+<code>@MockitoBean</code>; older Spring Boot projects may use the now-deprecated <code>@MockBean</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@WebMvcTest</span><span class="p">(</span><span class="n">ProductController</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">class</span> <span class="nc">ProductControllerTest</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Autowired</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">MockMvc</span><span class="w"> </span><span class="n">mockMvc</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@MockitoBean</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ProductService</span><span class="w"> </span><span class="n">productService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Test</span>
+<span class="w">    </span><span class="nd">@WithMockUser</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">shouldReturnProductWhenProductExists</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Arrange</span>
+<span class="w">        </span><span class="n">Product</span><span class="w"> </span><span class="n">product</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Product</span><span class="p">(</span><span class="mi">1L</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Laptop&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">when</span><span class="p">(</span><span class="n">productService</span><span class="p">.</span><span class="na">getProductById</span><span class="p">(</span><span class="mi">1L</span><span class="p">)).</span><span class="na">thenReturn</span><span class="p">(</span><span class="n">product</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Act and Assert</span>
+<span class="w">        </span><span class="n">mockMvc</span><span class="p">.</span><span class="na">perform</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;/api/products/1&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">accept</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">status</span><span class="p">().</span><span class="na">isOk</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">content</span><span class="p">().</span><span class="na">contentTypeCompatibleWith</span><span class="p">(</span><span class="n">MediaType</span><span class="p">.</span><span class="na">APPLICATION_JSON</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">jsonPath</span><span class="p">(</span><span class="s">&quot;$.id&quot;</span><span class="p">).</span><span class="na">value</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">jsonPath</span><span class="p">(</span><span class="s">&quot;$.name&quot;</span><span class="p">).</span><span class="na">value</span><span class="p">(</span><span class="s">&quot;Laptop&quot;</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">andExpect</span><span class="p">(</span><span class="n">jsonPath</span><span class="p">(</span><span class="s">&quot;$.stock&quot;</span><span class="p">).</span><span class="na">value</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">verify</span><span class="p">(</span><span class="n">productService</span><span class="p">).</span><span class="na">getProductById</span><span class="p">(</span><span class="mi">1L</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Key pieces: <code>mockMvc.perform(...)</code> creates and executes the mock request;
+<code>.andExpect(status().isOk())</code> verifies <code>200 OK</code>;
+<code>content().contentTypeCompatibleWith(...)</code> verifies the body represents JSON; and
+<code>jsonPath("$.name").value("Laptop")</code> verifies a field inside the response. For the
+response <code>{"id": 1, "name": "Laptop", "stock": 10}</code>, the JSON paths are <code>$.id</code>,
+<code>$.name</code>, and <code>$.stock</code>.</p>
+<p>A POST test verifies that the POST mapping works, JSON converts into a <code>Product</code>,
+the controller calls the service, the status is <code>201 Created</code>, and the saved
+product becomes response JSON. Send the body with <code>.content(requestBody)</code> and
+<code>.contentType(MediaType.APPLICATION_JSON)</code>, stub with
+<code>when(productService.createProduct(any(Product.class))).thenReturn(savedProduct)</code>,
+assert <code>status().isCreated()</code> and the <code>jsonPath</code> fields, then <code>verify</code>. For unsafe
+methods (<code>POST</code>, <code>PUT</code>, <code>DELETE</code>), include <code>.with(csrf())</code> when CSRF protection is
+enabled.</p>
+<p>If Spring Security protects the endpoint, an unauthenticated request may return
+<code>401 Unauthorized</code>; use <code>@WithMockUser</code> to run a test as an authenticated user
+(<code>@WithMockUser(username = "aditya", roles = "ADMIN")</code>). For Spring Boot 4, add the
+technology-specific <code>spring-boot-starter-security-test</code> starter with <code>test</code> scope.</p>
+<h2 id="12-what-happens-during-a-mockmvc-call">12. What Happens During a MockMvc Call</h2>
+<p>When the test sends <code>GET /api/products/1</code>, Spring MVC must:</p>
+<ol>
+<li>Match the request with <code>@GetMapping("/{id}")</code>.</li>
+<li>Extract <code>1</code> from the URL.</li>
+<li>Convert it into a <code>Long</code>.</li>
+<li>Call the controller method.</li>
+<li>Serialize the returned <code>Product</code> into JSON.</li>
+<li>Generate an HTTP response.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>GET /api/products/1
+    -&gt; 1. match mapping    -&gt; @GetMapping(&quot;/{id}&quot;)
+    -&gt; 2. extract path var -&gt; &quot;1&quot;
+    -&gt; 3. convert type     -&gt; Long 1
+    -&gt; 4. call controller  -&gt; getProduct(1L)
+    -&gt; 5. serialize JSON   -&gt; {&quot;id&quot;:1,&quot;name&quot;:&quot;Laptop&quot;,&quot;stock&quot;:10}
+    -&gt; 6. build response   -&gt; 200 OK + JSON body
+</code></pre></div>
+
+<p>Every step is real Spring MVC machinery. That is why a controller test beats
+calling <code>controller.getProduct(1L)</code> directly: steps 1, 2, 3, 5, and 6 never run
+when you call the method yourself.</p>
+<h2 id="13-repository-and-integration-testing">13. Repository and Integration Testing</h2>
+<p>Mocking a repository does not prove that the real query works:</p>
+<div class="highlight"><pre><span></span><code>ProductRepository repository = mock(ProductRepository.class);
+when(repository.findByNameIgnoreCase(&quot;laptop&quot;)).thenReturn(Optional.of(product));
+</code></pre></div>
+
+<p>This only proves that Mockito returns the value configured in the test; it does
+not execute or validate the real query.</p>
+<p><code>@DataJpaTest</code> loads the JPA-related slice of the application.
+Loaded: entities, Spring Data repositories, Hibernate, <code>EntityManager</code>, <code>DataSource</code>,
+and an embedded database.
+Not loaded: controllers, normal service beans, web server, or complete application.
+When an embedded database is present, Spring Boot configures it for the test.
+Data JPA tests are transactional and their changes are rolled back after each test.</p>
+<p>H2 is an embedded database that runs inside the test process:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>Benefits of H2 for tests: no separate installation, no database server to start,
+fast execution, and a fresh, isolated environment.</p>
+<h2 id="14-choosing-the-smallest-test-environment">14. Choosing the Smallest Test Environment</h2>
+<table>
+<thead>
+<tr>
+<th>Area under test</th>
+<th>Main tool or annotation</th>
+<th>Real components</th>
+<th>Replaced components</th>
+<th>Main confidence provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain Java logic</td>
+<td>JUnit, <code>@Test</code></td>
+<td>Class under test</td>
+<td>None</td>
+<td>Calculations, validation and edge cases behave correctly</td>
+</tr>
+<tr>
+<td>Service layer</td>
+<td>Mockito, <code>@Mock</code>, <code>@InjectMocks</code></td>
+<td>Class under test</td>
+<td>Repository or other dependencies</td>
+<td>Business logic and orchestration behave correctly</td>
+</tr>
+<tr>
+<td>MVC controller</td>
+<td>MockMvc, <code>@WebMvcTest</code>, <code>@MockitoBean</code></td>
+<td>Spring MVC web layer</td>
+<td>Service</td>
+<td>HTTP mappings, JSON, status codes, validation and security behave correctly</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td><code>@DataJpaTest</code> and H2</td>
+<td>Repository, Hibernate and database</td>
+<td>Other application layers</td>
+<td>Entity mappings and repository queries work correctly</td>
+</tr>
+<tr>
+<td>Full integration</td>
+<td><code>@SpringBootTest</code></td>
+<td>Complete application context</td>
+<td>Nothing</td>
+<td>Real components from several layers work together</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Slice loaded</th>
+<th>Speed</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@WebMvcTest</code></td>
+<td>Web layer only</td>
+<td>Fast</td>
+<td>HTTP contract of a controller</td>
+</tr>
+<tr>
+<td><code>@DataJpaTest</code></td>
+<td>JPA layer only</td>
+<td>Fast</td>
+<td>Entity mapping and real query correctness</td>
+</tr>
+<tr>
+<td><code>@SpringBootTest</code></td>
+<td>Complete application context</td>
+<td>Slowest</td>
+<td>Full integration across layers</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Use the smallest test environment that can prove the behaviour being tested.</p>
+</blockquote>
+<p>Fast unit tests and focused integration tests work together to give reliable
+feedback without making the suite unnecessarily slow.</p>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"If the method runs and returns a number, it is correct"</td>
+<td>Running and being correct are different; edge cases (<code>0</code>, <code>100</code>, negative, above <code>100</code>) are where behaviour is proven</td>
+</tr>
+<tr>
+<td>"Manual and automated testing find the same bugs"</td>
+<td>Manual checks are slow and miss regressions; automated tests rerun every promise on every build</td>
+</tr>
+<tr>
+<td>"A test case is just calling the code"</td>
+<td>A real test case is Arrange, Act, Assert - a known input, an executed action, and an asserted result</td>
+</tr>
+<tr>
+<td>"Unit tests need <code>@SpringBootTest</code>"</td>
+<td>Pure Java classes can be created with <code>new</code>; starting the whole container for them is overhead, not coverage</td>
+</tr>
+<tr>
+<td>"A <code>@Mock</code> repository behaves like the real one"</td>
+<td>A mock returns only what the test configured; it never executes the query or validates mapping</td>
+</tr>
+<tr>
+<td>"MockMvc starts Tomcat on port 8080"</td>
+<td>MockMvc builds an HTTP-like request and runs it through Spring MVC without a real server, localhost, or Postman</td>
+</tr>
+<tr>
+<td>"<code>@Mock</code> and <code>@MockitoBean</code> are interchangeable"</td>
+<td><code>@Mock</code> is a plain Mockito field; <code>@MockitoBean</code> replaces a bean inside the Spring test context that the controller needs</td>
+</tr>
+<tr>
+<td>"More tests always means a better suite"</td>
+<td>Tests that all start Spring and hit a database make the suite slow, so developers stop running it; the pyramid favors many fast unit tests</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "This calculation returned 800 for one input, so it is tested."</strong>
+Verdict: False. A single happy path ignores the real risk: discount <code>0</code>, <code>100</code>, negative, and above <code>100</code>, plus a negative price. Tests pin behaviour at the boundaries.</p>
+<p><strong>Trap 2 - "Unit and integration tests are the same thing with different names."</strong>
+Verdict: False. The deciding question is how much real infrastructure participates. A unit test isolates one class; an integration test runs multiple real components together.</p>
+<p><strong>Trap 3 - "I can test the controller by calling <code>controller.getProduct(1L)</code> directly."</strong>
+Verdict: Misleading. That checks the Java method and skips mapping matching, path-variable conversion, JSON serialization, validation, and real status handling that the HTTP contract depends on.</p>
+<p><strong>Trap 4 - "<code>@Mock</code> is enough for a controller test."</strong>
+Verdict: False. <code>@WebMvcTest</code> builds a Spring context where the controller needs a <code>ProductService</code> bean. Use <code>@MockitoBean</code> to place the mock inside that context.</p>
+<p><strong>Trap 5 - "I mocked the repository, so I proved the query works."</strong>
+Verdict: False. The mock returns what the test told it to return. Real query and mapping correctness require <code>@DataJpaTest</code> with a database.</p>
+<p><strong>Trap 6 - "<code>verify(repo).save(...)</code> and <code>verify(repo, never()).save(...)</code> mean the same."</strong>
+Verdict: False. The first asserts the save happened; the second asserts it must not happen, which is exactly how a "duplicate must not be saved" rule is tested.</p>
+<p><strong>Trap 7 - "If a test fails, the production code must be wrong."</strong>
+Verdict: False. A red test can mean the expectation is wrong, the production code is wrong, or the requirement changed. Reading the failure honestly is part of testing.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>Writing code and proving it behaves correctly are separate activities; testing verifies that behaviour matches requirements.</li>
+<li>Manual testing is a five-step human loop that degrades as the app grows; automated testing supplies a known input, executes the code, compares actual with expected, and reports pass or fail.</li>
+<li>A test case has three parts - initial condition, action, expected result - known as Arrange, Act, Assert (AAA).</li>
+<li>Tests verify the behaviours a method promises, not its lines; boundaries such as <code>0</code>, <code>100</code>, negative, and above <code>100</code> carry the real risk.</li>
+<li>The test type is decided by how much real infrastructure participates: unit (one class), slice (one layer), integration (multiple components), end-to-end (full flow), arranged as a pyramid.</li>
+<li><code>spring-boot-starter-test</code> is <code>test</code> scoped and bundles JUnit, Mockito, AssertJ, Hamcrest, Spring Test, and JSON utilities; tests live in <code>src/test/java</code> mirroring the production package.</li>
+<li><code>@Test</code> discovers and runs a test; <code>@BeforeEach</code>/<code>@AfterEach</code> prepare and clean per test; <code>assertEquals</code>, <code>assertTrue</code>/<code>assertFalse</code>, <code>assertNull</code>/<code>assertNotNull</code>, and <code>assertThrows</code> are the core assertions.</li>
+<li>Mockito test doubles replace dependencies: <code>@Mock</code> creates a controlled object that returns, throws, records, and can be verified; <code>@InjectMocks</code> constructs the class under test and injects available mocks (it is not Spring DI).</li>
+<li>Stubbing (<code>when(...).thenReturn(...)</code>) controls the dependency, assertions check the result, and verification (<code>verify(...)</code>, <code>verify(..., never())</code>, matchers like <code>any(...)</code>) checks the interaction.</li>
+<li>Each layer gets its own environment: <code>@WebMvcTest</code> + MockMvc for the HTTP contract, <code>@MockitoBean</code> for a service bean in the web slice, and <code>@DataJpaTest</code> + H2 for real repository queries; use the smallest environment that can prove the behaviour.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why is testing necessary if the code already runs?</td>
+<td>Running is not proof; tests verify that behaviour matches requirements, including edge cases a single run never exercises.</td>
+</tr>
+<tr>
+<td>Manual vs automated testing?</td>
+<td>Manual: a human starts the app, calls it, and inspects. Automated: known input, execute, compare actual with expected, report pass or fail - fast and repeatable.</td>
+</tr>
+<tr>
+<td>What is a test case made of?</td>
+<td>Initial condition, action, and expected result - commonly Arrange, Act, Assert.</td>
+</tr>
+<tr>
+<td>Unit test vs integration test?</td>
+<td>Unit tests one small behaviour in isolation; integration tests multiple real components together. The deciding factor is how much real infrastructure participates.</td>
+</tr>
+<tr>
+<td>What is <code>spring-boot-starter-test</code>?</td>
+<td>A <code>test</code>-scoped starter bundling JUnit, Mockito, AssertJ, Hamcrest, Spring Test, and JSON testing utilities; it is not a production dependency.</td>
+</tr>
+<tr>
+<td>What do <code>@Test</code>, <code>@BeforeEach</code> and <code>@AfterEach</code> do?</td>
+<td><code>@Test</code> marks a method as a test; <code>@BeforeEach</code> runs before every test to set state; <code>@AfterEach</code> runs after every test to clean resources.</td>
+</tr>
+<tr>
+<td><code>@Mock</code> vs <code>@InjectMocks</code>?</td>
+<td><code>@Mock</code> creates a controlled test double; <code>@InjectMocks</code> creates the class under test and injects available mocks into it (Mockito, not Spring DI).</td>
+</tr>
+<tr>
+<td>Stubbing vs verification?</td>
+<td>Stubbing controls what a dependency returns (<code>when(...).thenReturn(...)</code>); verification checks whether the interaction happened (<code>verify(...)</code>).</td>
+</tr>
+<tr>
+<td>Why use MockMvc instead of calling the controller method?</td>
+<td>Calling the method skips mapping matching, path-variable conversion, JSON serialization, validation, status handling, security filters, and exception handlers; MockMvc runs the real MVC machinery.</td>
+</tr>
+<tr>
+<td>What does <code>@WebMvcTest</code> load?</td>
+<td>The web slice: controller, DispatcherServlet, Jackson JSON conversion, validation, controller advice, MVC configuration, and security filters - not services, repositories, or the database.</td>
+</tr>
+<tr>
+<td>What does <code>@MockitoBean</code> do?</td>
+<td>It creates or replaces a bean in the Spring test context with a Mockito mock, so a web slice can inject a mocked service.</td>
+</tr>
+<tr>
+<td>Why use <code>@DataJpaTest</code>?</td>
+<td>A mocked repository never executes the real query; <code>@DataJpaTest</code> loads entities, repositories, Hibernate, <code>DataSource</code>, and an embedded database so mapping and queries are proven.</td>
+</tr>
+<tr>
+<td>What is <code>@SpringBootTest</code> for?</td>
+<td>Loading the complete application context when a test genuinely needs real components from several layers wired together - the heaviest option, reserved for full integration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Testing Spring Boot Applications
+        |
+        v
+Why test: prove behaviour, not just &quot;it runs&quot;
+        |
+        v
+Manual vs Automated -&gt; known input -&gt; execute -&gt; compare -&gt; pass/fail
+        |
+        v
+Test case = Arrange (data) + Act (call) + Assert (compare) = AAA
+        |
+        v
+Choose the smallest environment that proves the behaviour
+        |
+        +--&gt; Plain Java logic -&gt; JUnit @Test
+        +--&gt; Service + deps   -&gt; JUnit + Mockito (@Mock, @InjectMocks)
+        |                          when(...).thenReturn(...) / verify(...)
+        +--&gt; Web contract     -&gt; @WebMvcTest + MockMvc + @MockitoBean
+        |                          perform(get/post) -&gt; status()/jsonPath()
+        +--&gt; Repository query -&gt; @DataJpaTest + H2 (embedded database)
+        +--&gt; Full app wiring  -&gt; @SpringBootTest (complete context)
+        |
+        v
+Test pyramid: many unit + fewer integration + very few end-to-end
+</code></pre></div>
+
+<ul>
+<li>Testing verifies behaviour against requirements; boundary inputs (<code>0</code>, <code>100</code>, negative, above <code>100</code>) matter more than the happy path.</li>
+<li>Automated tests replace the slow manual loop: known input, execute, compare actual with expected, report pass or fail.</li>
+<li>Arrange, Act, Assert structures every test case; <code>@BeforeEach</code>/<code>@AfterEach</code> keep each test starting from a predictable state.</li>
+<li>Mockito isolates the service: <code>@Mock</code> builds the double, <code>@InjectMocks</code> wires it in, stubbing controls the return, and <code>verify</code> (including <code>never()</code>) checks the interaction.</li>
+<li><code>@WebMvcTest</code> + MockMvc proves the HTTP contract without a server; <code>@MockitoBean</code> puts the mocked service inside the Spring test context.</li>
+<li><code>@DataJpaTest</code> + H2 proves real entity mapping and queries; <code>@SpringBootTest</code> is reserved for tests that truly need the whole context.</li>
+<li>The principle that ties it together: use the smallest test environment that can prove the behaviour being tested.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> testing Spring Boot well means matching each behaviour to the smallest environment that can prove it - plain JUnit for logic, Mockito for service dependencies, MockMvc for the HTTP contract, and a real database only when the query itself is the behaviour.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-39.html"><span class="dir">Previous</span><span class="ttl">Lecture 39 — OAuth 2.0 Masterclass with Google Login</span></a><a class="next" href="doc-theory-project-01.html"><span class="dir">Next</span><span class="ttl">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kafka, queues and asynchronous processing — Projects</title>
+<meta name="description" content="Kafka, queues and asynchronous processing">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="active" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Projects</h4><details class="part" open><summary>Backend Playbook <span class="count">13</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-backend-playbook-00-overview.html" title="Backend Interview Playbook">Backend Interview Playbook</a><button class="star" data-doc="backend-playbook-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-01-project-and-ownership-deep-dives.html" title="Project and ownership deep dives">Project and ownership deep dives</a><button class="star" data-doc="backend-playbook-01-project-and-ownership-deep-dives" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-02-api-design-and-integration.html" title="API design and integration">API design and integration</a><button class="star" data-doc="backend-playbook-02-api-design-and-integration" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-03-databases-and-transactions.html" title="Databases and transactions">Databases and transactions</a><button class="star" data-doc="backend-playbook-03-databases-and-transactions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html" title="Kafka, queues and asynchronous processing">Kafka, queues and asynchronous processing</a><button class="star" data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q41-tell-me-about-a-system-where-you-used-kafka-why-kafka-and-not-a-simpler-queue">Q4.1 - Tell me about a system where you used Kafka. Why Kafka and not a simpler queue?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q42-what-does-exactly-once-mean-in-kafka-and-did-you-actually-achieve-it">Q4.2 - What does exactly-once mean in Kafka, and did you actually achieve it?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q43-a-consumer-is-falling-behind-lag-is-growing-how-do-you-diagnose-and-fix-it">Q4.3 - A consumer is falling behind - lag is growing. How do you diagnose and fix it?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q44-a-message-cant-be-processed-it-keeps-failing-what-happens-to-it">Q4.4 - A message can&#x27;t be processed - it keeps failing. What happens to it?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q45-how-do-you-guarantee-ordering-of-events-when-you-need-it-and-when-do-you-deliberately-give-it-up">Q4.5 - How do you guarantee ordering of events when you need it, and when do you deliberately give it up?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q46-auto-commit-or-manual-offset-commit-which-did-you-use-and-what-breaks-with-the-wrong-choice">Q4.6 - Auto-commit or manual offset commit - which did you use and what breaks with the wrong choice?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q47-compare-kafka-and-rabbitmq-when-would-you-actually-pick-rabbitmq">Q4.7 - Compare Kafka and RabbitMQ. When would you actually pick RabbitMQ?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q48-how-did-you-handle-the-case-where-an-event-must-be-published-only-if-the-database-write-succeeded">Q4.8 - How did you handle the case where an event must be published only if the database write succeeded?</a></li><li><a href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html#q49-drill-sketch-a-consumer-that-processes-payment-events-writes-to-a-db-and-must-not-double-charge-on-redelivery-list-every-safeguard">Q4.9 - [DRILL] Sketch a consumer that processes payment events, writes to a DB, and must not double-charge on redelivery. List every safeguard.</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-05-redis-and-caching.html" title="Redis and caching">Redis and caching</a><button class="star" data-doc="backend-playbook-05-redis-and-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-06-distributed-systems-and-microservices.html" title="Distributed systems and microservices">Distributed systems and microservices</a><button class="star" data-doc="backend-playbook-06-distributed-systems-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-07-reliability-and-resilience.html" title="Reliability and resilience">Reliability and resilience</a><button class="star" data-doc="backend-playbook-07-reliability-and-resilience" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-08-production-incidents-and-debugging.html" title="Production incidents and debugging">Production incidents and debugging</a><button class="star" data-doc="backend-playbook-08-production-incidents-and-debugging" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-09-observability-and-deployment.html" title="Observability and deployment">Observability and deployment</a><button class="star" data-doc="backend-playbook-09-observability-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-10-security-and-data-protection.html" title="Security and data protection">Security and data protection</a><button class="star" data-doc="backend-playbook-10-security-and-data-protection" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-11-system-design-the-blank-page-round.html" title="System design (the blank-page round)">System design (the blank-page round)</a><button class="star" data-doc="backend-playbook-11-system-design-the-blank-page-round" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-12-behavioural-and-managerial-rounds.html" title="Behavioural and managerial rounds">Behavioural and managerial rounds</a><button class="star" data-doc="backend-playbook-12-behavioural-and-managerial-rounds" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Resume <span class="count">1</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-resume-01-resume.html" title="Resume — Bijit Sahu">Resume — Bijit Sahu</a><button class="star" data-doc="resume-01-resume" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve Interview Qa <span class="count">22</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-00-overview.html" title="Tixolve Interview Q&amp;A — Complete">Tixolve Interview Q&amp;A — Complete</a><button class="star" data-doc="tixolve-interview-qa-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-01-project-elevator-pitch.html" title="Project &amp; Elevator Pitch">Project &amp; Elevator Pitch</a><button class="star" data-doc="tixolve-interview-qa-01-project-elevator-pitch" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-02-architecture-microservices.html" title="Architecture &amp; Microservices">Architecture &amp; Microservices</a><button class="star" data-doc="tixolve-interview-qa-02-architecture-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-03-api-gateway.html" title="API Gateway">API Gateway</a><button class="star" data-doc="tixolve-interview-qa-03-api-gateway" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-04-auth-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-interview-qa-04-auth-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-05-data-persistence.html" title="Data &amp; Persistence">Data &amp; Persistence</a><button class="star" data-doc="tixolve-interview-qa-05-data-persistence" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-06-outbox-pattern-dual-write.html" title="Outbox Pattern &amp; Dual-Write">Outbox Pattern &amp; Dual-Write</a><button class="star" data-doc="tixolve-interview-qa-06-outbox-pattern-dual-write" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-07-kafka-event-driven.html" title="Kafka &amp; Event-Driven">Kafka &amp; Event-Driven</a><button class="star" data-doc="tixolve-interview-qa-07-kafka-event-driven" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-08-ai-rag-ingestion.html" title="AI / RAG — Ingestion">AI / RAG — Ingestion</a><button class="star" data-doc="tixolve-interview-qa-08-ai-rag-ingestion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search.html" title="AI / RAG — Retrieval &amp; Hybrid Search">AI / RAG — Retrieval &amp; Hybrid Search</a><button class="star" data-doc="tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-10-ai-rag-generation-prompting-escalation.html" title="AI / RAG — Generation, Prompting &amp; Escalation">AI / RAG — Generation, Prompting &amp; Escalation</a><button class="star" data-doc="tixolve-interview-qa-10-ai-rag-generation-prompting-escalation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-11-chat-service-sse-streaming.html" title="Chat Service &amp; SSE Streaming">Chat Service &amp; SSE Streaming</a><button class="star" data-doc="tixolve-interview-qa-11-chat-service-sse-streaming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-12-ticket-service-state-machine.html" title="Ticket Service &amp; State Machine">Ticket Service &amp; State Machine</a><button class="star" data-doc="tixolve-interview-qa-12-ticket-service-state-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-13-notification-service-websocket.html" title="Notification Service &amp; WebSocket">Notification Service &amp; WebSocket</a><button class="star" data-doc="tixolve-interview-qa-13-notification-service-websocket" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-14-frontend.html" title="Frontend">Frontend</a><button class="star" data-doc="tixolve-interview-qa-14-frontend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-15-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-interview-qa-15-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-16-docker-infra-deployment.html" title="Docker, Infra &amp; Deployment">Docker, Infra &amp; Deployment</a><button class="star" data-doc="tixolve-interview-qa-16-docker-infra-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-17-testing-quality.html" title="Testing &amp; Quality (Honest Gaps)">Testing &amp; Quality (Honest Gaps)</a><button class="star" data-doc="tixolve-interview-qa-17-testing-quality" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-18-scaling-production-readiness.html" title="Scaling &amp; Production-Readiness">Scaling &amp; Production-Readiness</a><button class="star" data-doc="tixolve-interview-qa-18-scaling-production-readiness" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-19-trade-offs-what-would-you-do-differently.html" title="Trade-offs &amp; &quot;What Would You Do Differently&quot;">Trade-offs &amp; &quot;What Would You Do Differently&quot;</a><button class="star" data-doc="tixolve-interview-qa-19-trade-offs-what-would-you-do-differently" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-20-behavioral-project-level.html" title="Behavioral / Project-Level">Behavioral / Project-Level</a><button class="star" data-doc="tixolve-interview-qa-20-behavioral-project-level" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-21-rapid-fire-concept-check.html" title="Rapid-Fire Concept Check">Rapid-Fire Concept Check</a><button class="star" data-doc="tixolve-interview-qa-21-rapid-fire-concept-check" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve System Design <span class="count">12</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-00-overview.html" title="Tixolve — System Design &amp; Engineering Reference">Tixolve — System Design &amp; Engineering Reference</a><button class="star" data-doc="tixolve-system-design-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-01-architecture-overview.html" title="Architecture Overview">Architecture Overview</a><button class="star" data-doc="tixolve-system-design-01-architecture-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-02-application-flow.html" title="Application Flow">Application Flow</a><button class="star" data-doc="tixolve-system-design-02-application-flow" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-03-data-architecture.html" title="Data Architecture">Data Architecture</a><button class="star" data-doc="tixolve-system-design-03-data-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-04-auth-and-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-system-design-04-auth-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-05-kafka-and-events.html" title="Kafka &amp; Event-Driven Design">Kafka &amp; Event-Driven Design</a><button class="star" data-doc="tixolve-system-design-05-kafka-and-events" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-06-ai-rag-pipeline.html" title="AI / RAG Pipeline">AI / RAG Pipeline</a><button class="star" data-doc="tixolve-system-design-06-ai-rag-pipeline" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-07-frontend-architecture.html" title="Frontend Architecture">Frontend Architecture</a><button class="star" data-doc="tixolve-system-design-07-frontend-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-08-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-system-design-08-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-09-tradeoffs-and-decisions.html" title="Trade-offs &amp; Decisions">Trade-offs &amp; Decisions</a><button class="star" data-doc="tixolve-system-design-09-tradeoffs-and-decisions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-10-codebase-walkthrough.html" title="Codebase Walkthrough">Codebase Walkthrough</a><button class="star" data-doc="tixolve-system-design-10-codebase-walkthrough" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-11-build-log.html" title="Build Log">Build Log</a><button class="star" data-doc="tixolve-system-design-11-build-log" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-projects.html">Projects</a> › Backend Playbook</p>
+<h1>Kafka, queues and asynchronous processing</h1>
+<p class="readmeta">9 sections · 3,562 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 04 - 9 questions - 1 practical drill</p>
+<p>Defend async systems beyond the happy path and the buzzwords.</p>
+<p>Everyone lists Kafka on their CV. This round finds out whether you actually operated it: offsets, rebalances, ordering, poison messages, and what "exactly once" really costs. Follow-ups punish anyone who thinks a queue makes reliability free.</p>
+<p><strong>Inside this module:</strong> Delivery semantics - Offsets &amp; rebalances - Ordering - Poison messages</p>
+<blockquote class="callout callout--note">
+<p>The offset moves only after safe processing. A partition is both the ordering boundary and the unit of consumer parallelism.</p>
+</blockquote>
+<h2 id="q41-tell-me-about-a-system-where-you-used-kafka-why-kafka-and-not-a-simpler-queue">Q4.1 - Tell me about a system where you used Kafka. Why Kafka and not a simpler queue?</h2>
+<p><strong>What it really tests:</strong> Whether the choice fit the requirement (replay, ordering, high throughput, multiple consumers) or was cargo-culted.</p>
+<p><strong>Weak answer:</strong> "We used Kafka to decouple our services. Producers published messages and consumers read them. It's scalable and handles high throughput, so it fit our needs."</p>
+<p><strong>Why it fails:</strong>
+- "Decouple" and "scalable" are slogans, no requirement named.
+- No throughput number that justified Kafka over SQS/RabbitMQ.
+- Doesn't mention replay, ordering, or multiple independent consumers - Kafka's actual differentiators.
+- "We used" - no personal design decision.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TRADEOFF</strong> - What did Kafka give you that RabbitMQ or SQS wouldn't? - Knows the real differentiators.
+2. <strong>TECHNICAL</strong> - How did you choose the partition key? - Ordering and parallelism design.
+3. <strong>MEASUREMENT</strong> - Did you actually use replay, and for what? - Whether the log-retention benefit was real.
+4. <strong>FAILURE</strong> - What operational pain did Kafka add? - Honest about the cost.</p>
+<p><strong>Answer framework:</strong>
+1. Requirement (throughput/replay/multi-consumer/ordering)
+2. Why a simpler queue fell short
+3. Partition key choice
+4. Consumer group design
+5. Replay/retention use
+6. Operational cost accepted
+7. Personal decision</p>
+<p><strong>Rejection signals:</strong>
+- "Kafka because it's scalable" with no requirement.
+- Doesn't know why not SQS/RabbitMQ.
+- No partition-key reasoning.
+- Never mentions the operational burden.</p>
+<p><strong>Model answer skeleton:</strong>
+I used Kafka for our order-events pipeline, where the deciding requirement was that several independent consumers - fulfilment, analytics, and a fraud checker - all needed the same stream, and analytics occasionally needed to replay the last week after a bug.</p>
+<p>A traditional queue like SQS pops a message once, so fan-out to independent consumers with independent offsets and a week of replay is exactly Kafka's log model, not RabbitMQ's or SQS's.</p>
+<p>I keyed messages by order_id so all events for one order landed on the same partition and stayed ordered, while different orders spread across partitions for parallelism.</p>
+<p>We genuinely used replay after a fraud-rule bug - we reset that consumer group's offset and reprocessed two days of events.</p>
+<p>The cost was real: we had to run and monitor the cluster, manage consumer lag, and reason about rebalances, which a managed SQS would have spared us.</p>
+<h2 id="q42-what-does-exactly-once-mean-in-kafka-and-did-you-actually-achieve-it">Q4.2 - What does exactly-once mean in Kafka, and did you actually achieve it?</h2>
+<p><strong>What it really tests:</strong> Whether the candidate understands that "exactly-once" is at-least-once delivery plus idempotent processing, and its real cost.</p>
+<p><strong>Weak answer:</strong> "Kafka supports exactly-once, so we enabled it and didn't have to worry about duplicates. It guarantees each message is processed once."</p>
+<p><strong>Why it fails:</strong>
+- Treats exactly-once as a magic flag with no cost.
+- Doesn't distinguish exactly-once delivery from exactly-once processing.
+- Ignores that consumer-side side effects still need idempotency.
+- No mention of the transaction/idempotent-producer machinery.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Exactly-once delivery vs exactly-once processing - what's the difference? - The crucial distinction.
+2. <strong>FAILURE</strong> - Your consumer writes to an external DB - does Kafka's exactly-once cover that? - Knows the boundary of the guarantee.
+3. <strong>MEASUREMENT</strong> - What does enabling it cost in throughput? - Honest about the price.
+4. <strong>TECHNICAL</strong> - How did you make consumers idempotent anyway? - The pragmatic real answer.</p>
+<p><strong>Answer framework:</strong>
+1. Define at-least-once as the default
+2. Idempotent producer stops producer-retry dupes
+3. Transactions for atomic read-process-write within Kafka
+4. External side effects aren't covered
+5. Make the consumer idempotent
+6. Cost in latency/throughput
+7. What you actually shipped</p>
+<p><strong>Rejection signals:</strong>
+- Thinks a flag gives end-to-end exactly-once including external writes.
+- Can't distinguish delivery from processing.
+- No idempotency on the consumer side.
+- Unaware of the throughput cost.</p>
+<p><strong>Model answer skeleton:</strong>
+In practice I treated Kafka as at-least-once and made processing idempotent, because true end-to-end exactly-once is narrower than people think. Kafka's enable.idempotence stops the producer creating duplicates on retry via a producer id and sequence numbers, and transactions let you atomically commit consumer offsets and produced messages - but that atomicity only holds inside Kafka.</p>
+<p>Our consumer wrote to Postgres, and Kafka's transaction can't span Kafka and an external database, so a crash between the DB write and the offset commit means reprocessing.</p>
+<p>So I made the consumer idempotent: each message carried an event_id, and the DB write used an upsert keyed on it, so reprocessing was a no-op.</p>
+<p>I didn't turn on Kafka transactions everywhere because they add latency and reduce throughput, and idempotent consumers gave me the same practical guarantee more cheaply.</p>
+<p>The honest summary is: at-least-once delivery plus idempotent processing equals effectively-once, which is what I shipped.</p>
+<h2 id="q43-a-consumer-is-falling-behind-lag-is-growing-how-do-you-diagnose-and-fix-it">Q4.3 - A consumer is falling behind - lag is growing. How do you diagnose and fix it?</h2>
+<p><strong>What it really tests:</strong> Operational Kafka: understanding lag, partition-consumer parallelism, and slow-processing root causes.</p>
+<p><strong>Weak answer:</strong> "We'd add more consumers to the group so they could process messages faster and catch up on the lag."</p>
+<p><strong>Why it fails:</strong>
+- Adding consumers beyond partition count does nothing - a known gotcha.
+- No diagnosis of why processing is slow.
+- Doesn't consider a slow downstream dependency.
+- No mention of monitoring lag or measuring consume vs produce rate.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - You have 6 partitions and add a 7th consumer - what happens? - Partition = unit of parallelism.
+2. <strong>MEASUREMENT</strong> - How do you tell if it's slow processing or a slow downstream? - Root-cause isolation.
+3. <strong>FAILURE</strong> - The slowness is a downstream DB - do you just add consumers? - Avoids amplifying the overload.
+4. <strong>TRADEOFF</strong> - When do you repartition, and what's the risk? - Repartitioning consequences on ordering.</p>
+<p><strong>Answer framework:</strong>
+1. Confirm lag trend
+2. Compare produce rate vs consume rate
+3. Check per-partition lag skew
+4. Profile processing time per message
+5. Identify bottleneck (CPU / downstream / hot partition)
+6. Scale consumers up to partition count / repartition / batch
+7. Verify lag drains</p>
+<p><strong>Rejection signals:</strong>
+- Adds consumers past partition count.
+- No diagnosis of processing time.
+- Amplifies a downstream overload by adding consumers.
+- Doesn't know partition count caps parallelism.</p>
+<p><strong>Model answer skeleton:</strong>
+First I look at whether produce rate simply exceeds consume rate, and whether lag is even across partitions or concentrated on one - a hot partition from a skewed key needs a different fix than uniform lag.</p>
+<p>Then I measure per-message processing time, because the usual cause is a slow step inside the consumer, often a downstream call.</p>
+<p>Adding consumers only helps up to the partition count: with 6 partitions a 7th consumer just sits idle, since a partition is only ever assigned to one consumer in the group.</p>
+<p>In one case processing was slow because each message did a synchronous DB write; adding consumers would have just hammered the DB harder, so I batched writes and added a small cache, which cut per-message time and let lag drain.</p>
+<p>If the topic was genuinely under-partitioned I'd increase partitions, but I'd flag that repartitioning changes key-to-partition mapping and can disturb ordering guarantees, so it's not free.</p>
+<h2 id="q44-a-message-cant-be-processed-it-keeps-failing-what-happens-to-it">Q4.4 - A message can't be processed - it keeps failing. What happens to it?</h2>
+<p><strong>What it really tests:</strong> Poison-message handling, dead-letter queues, and not blocking the whole partition.</p>
+<p><strong>Weak answer:</strong> "We'd retry the message a few times, and if it still failed we'd log an error and move on to the next one."</p>
+<p><strong>Why it fails:</strong>
+- "Move on" can mean silently dropping data.
+- Retrying in place on an ordered partition blocks everything behind it.
+- No dead-letter queue for later inspection.
+- No distinction between transient and permanent failures.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - Retrying in place on an ordered partition - what does it block? - Head-of-line blocking awareness.
+2. <strong>TRADEOFF</strong> - Transient vs permanent failure - how do you treat them differently? - Retry classification.
+3. <strong>TECHNICAL</strong> - What goes into a dead-letter queue and who looks at it? - DLQ operational design.
+4. <strong>REFLECTION</strong> - How do you replay a fixed message from the DLQ? - Recovery loop.</p>
+<p><strong>Answer framework:</strong>
+1. Classify transient vs permanent
+2. Bounded retries with backoff for transient
+3. Route permanent failures to a DLQ
+4. Commit offset so the partition isn't blocked
+5. Alert on DLQ growth
+6. Inspect and fix
+7. Replay from DLQ</p>
+<p><strong>Rejection signals:</strong>
+- Drops failed messages silently.
+- Retries forever in place, blocking the partition.
+- No DLQ.
+- No alert on the DLQ filling up.</p>
+<p><strong>Model answer skeleton:</strong>
+I separate transient from permanent failures. Transient - a downstream timeout - gets bounded retries with backoff, because it'll likely succeed shortly.</p>
+<p>But retrying a permanently bad message in place is dangerous on an ordered partition: the whole partition is stuck behind it, so everything after that order's events stops flowing - head-of-line blocking.</p>
+<p>So after N failed attempts I route the message to a dead-letter topic with the original payload, the error, and a trace id, then commit the offset so the live partition keeps moving.</p>
+<p>I alert when the DLQ grows, because a filling DLQ is a real signal something systematic broke, not a shrug.</p>
+<p>An engineer inspects the DLQ, fixes the bug or the data, and I have a small tool to replay messages from the DLQ back into the main topic once they're fixed, so we don't lose data - we quarantine it.</p>
+<h2 id="q45-how-do-you-guarantee-ordering-of-events-when-you-need-it-and-when-do-you-deliberately-give-it-up">Q4.5 - How do you guarantee ordering of events when you need it, and when do you deliberately give it up?</h2>
+<p><strong>What it really tests:</strong> Understanding that ordering is per-partition, and its tension with parallelism.</p>
+<p><strong>Weak answer:</strong> "Kafka keeps messages in order, so we relied on that. Everything came out in the order it went in."</p>
+<p><strong>Why it fails:</strong>
+- Believes Kafka gives global ordering - it only guarantees per-partition.
+- No partition-key reasoning.
+- Doesn't acknowledge the ordering/parallelism trade-off.
+- No case where ordering was deliberately dropped for throughput.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Kafka orders within a partition - how do you get related events onto the same one? - Partition-key design.
+2. <strong>TRADEOFF</strong> - What throughput do you sacrifice for strict ordering? - Ordering vs parallelism.
+3. <strong>FAILURE</strong> - A hot key sends 80% of traffic to one partition - now what? - Key skew handling.
+4. <strong>MEASUREMENT</strong> - Where did you decide ordering didn't matter? - Pragmatic scoping.</p>
+<p><strong>Answer framework:</strong>
+1. Identify the ordering scope needed
+2. Choose partition key so ordered events co-locate
+3. Accept single-consumer-per-partition throughput
+4. Watch for key skew / hot partitions
+5. Where ordering is irrelevant, key for even spread
+6. Justify the split</p>
+<p><strong>Rejection signals:</strong>
+- Thinks Kafka orders globally.
+- No partition-key reasoning.
+- Ignores hot-partition skew.
+- Can't name a case where order didn't matter.</p>
+<p><strong>Model answer skeleton:</strong>
+Kafka only guarantees order within a partition, not across the topic, so 'ordering' really means 'get the events that must be ordered onto the same partition'.</p>
+<p>For order lifecycle events I keyed by order_id, so created -&gt; paid -&gt; shipped for one order always landed on one partition in sequence, while different orders spread across partitions.</p>
+<p>The cost is that a partition is consumed by exactly one consumer in the group, so strict ordering caps parallelism at the partition count.</p>
+<p>Where I didn't need ordering - like independent click events feeding analytics - I keyed by something high-cardinality to spread load evenly and maximise throughput.</p>
+<p>The failure mode to watch is a hot key: if one customer generated most of the traffic, their partition became a bottleneck, so for that stream I mixed in a secondary key component to shard the hot key while keeping only the ordering I actually needed.</p>
+<h2 id="q46-auto-commit-or-manual-offset-commit-which-did-you-use-and-what-breaks-with-the-wrong-choice">Q4.6 - Auto-commit or manual offset commit - which did you use and what breaks with the wrong choice?</h2>
+<p><strong>What it really tests:</strong> Deep understanding of the at-least-once vs at-most-once boundary and where crashes cause loss or duplication.</p>
+<p><strong>Weak answer:</strong> "We used auto-commit because it was simpler - Kafka committed offsets automatically so we didn't have to manage them."</p>
+<p><strong>Why it fails:</strong>
+- Auto-commit can acknowledge messages before they're processed, causing data loss on crash.
+- No awareness of the commit-before-vs-after-processing distinction.
+- "Simpler" chosen without understanding the correctness cost.
+- No link to at-least-once semantics.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - Auto-commit fires, then the consumer crashes before processing - what happened to that message? - At-most-once data loss.
+2. <strong>TECHNICAL</strong> - Commit before processing vs after - which gives at-least-once? - The core semantic.
+3. <strong>TRADEOFF</strong> - With manual commit after processing, how do duplicates arise? - Understands the other side.
+4. <strong>REFLECTION</strong> - How does this interact with idempotent consumers? - Ties it together.</p>
+<p><strong>Answer framework:</strong>
+1. Semantic requirement (can we lose vs duplicate?)
+2. Auto-commit risk of committing before processing
+3. Manual commit after successful processing
+4. Duplicates on crash-after-work-before-commit
+5. Idempotency to absorb duplicates
+6. At-least-once result
+7. Choice justified</p>
+<p><strong>Rejection signals:</strong>
+- Uses auto-commit for critical data without knowing the loss window.
+- Can't explain commit-before vs after.
+- Thinks manual commit prevents all duplicates.
+- No idempotency to pair with at-least-once.</p>
+<p><strong>Model answer skeleton:</strong>
+For anything I couldn't afford to lose I used manual commit after processing, giving at-least-once.</p>
+<p>Auto-commit periodically commits offsets on a timer, which can acknowledge a batch before you've actually processed it - so if the consumer crashes after the commit but before the work, those messages are gone, effectively at-most-once.</p>
+<p>By committing only after the DB write succeeds, the worst case flips to a crash after the work but before the commit, which means the message is re-delivered and reprocessed - a duplicate, not a loss.</p>
+<p>Duplicates are recoverable if the consumer is idempotent, so I paired manual commit with idempotent upserts keyed on the event id.</p>
+<p>The rule I follow: prefer at-least-once plus idempotency for important data, and only use auto-commit for streams where losing the occasional message genuinely doesn't matter, like best-effort metrics.</p>
+<h2 id="q47-compare-kafka-and-rabbitmq-when-would-you-actually-pick-rabbitmq">Q4.7 - Compare Kafka and RabbitMQ. When would you actually pick RabbitMQ?</h2>
+<p><strong>What it really tests:</strong> Whether the candidate knows the log vs broker distinction and doesn't treat Kafka as the answer to everything.</p>
+<p><strong>Weak answer:</strong> "Kafka is better for big data and high throughput, RabbitMQ is older. We'd generally use Kafka for most things."</p>
+<p><strong>Why it fails:</strong>
+- "RabbitMQ is older" is not a technical distinction.
+- Doesn't mention RabbitMQ's routing, per-message ack, or priority strengths.
+- No case where RabbitMQ genuinely wins.
+- Kafka-as-default bias without reasoning.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What does RabbitMQ's per-message ack and requeue give you that Kafka doesn't? - Broker semantics.
+2. <strong>TRADEOFF</strong> - Complex routing to many queues - which fits better? - Exchange/routing knowledge.
+3. <strong>MEASUREMENT</strong> - Need to replay last week's events - which one? - Retention/log model.
+4. <strong>REFLECTION</strong> - Priority queues or per-message TTL - which broker? - Feature-fit awareness.</p>
+<p><strong>Answer framework:</strong>
+1. Kafka = durable log, replay, fan-out, high throughput
+2. RabbitMQ = smart broker, routing, per-message ack, priority
+3. Map requirement to model
+4. Replay need
+5. Routing complexity
+6. Per-message control
+7. Pick by fit not fashion</p>
+<p><strong>Rejection signals:</strong>
+- Only distinction is "Kafka is newer/faster".
+- Doesn't know RabbitMQ routing/ack model.
+- Can't name a RabbitMQ-wins case.
+- Kafka for everything.</p>
+<p><strong>Model answer skeleton:</strong>
+I think of Kafka as a durable, replayable log and RabbitMQ as a smart message broker, and pick by which model the problem wants. Kafka shines when multiple independent consumers need the same stream, when you need to replay history, and at very high throughput, because messages persist in the log and each consumer tracks its own offset.</p>
+<p>RabbitMQ shines when you need rich routing - topic and header exchanges fanning one message to many queues by rules - and fine-grained per-message control: individual acks, requeue, dead-letter, priority, and per-message TTL.</p>
+<p>So for a task-distribution system where I wanted priority handling and per-message requeue on failure, RabbitMQ was the better fit, and bolting that onto Kafka would have been awkward.</p>
+<p>For an event backbone with replay and fan-out, Kafka.</p>
+<p>The distinction is log-with-offsets versus broker-with-routing, not old versus new.</p>
+<h2 id="q48-how-did-you-handle-the-case-where-an-event-must-be-published-only-if-the-database-write-succeeded">Q4.8 - How did you handle the case where an event must be published only if the database write succeeded?</h2>
+<p><strong>What it really tests:</strong> The dual-write problem and the transactional outbox pattern.</p>
+<p><strong>Weak answer:</strong> "We committed to the database and then published the event to Kafka right after. If the write worked, we sent the event."</p>
+<p><strong>Why it fails:</strong>
+- Classic dual-write bug: the publish can fail after the commit, leaving DB and Kafka divergent.
+- No atomicity between the DB write and the publish.
+- No outbox or CDC mechanism.
+- Doesn't consider the crash-in-between window.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - DB commits, then the process crashes before publishing - now what? - The core dual-write failure.
+2. <strong>TECHNICAL</strong> - Describe the transactional outbox pattern. - The standard solution.
+3. <strong>TECHNICAL</strong> - How does the outbox row actually get to Kafka? - Relay / CDC mechanism.
+4. <strong>TRADEOFF</strong> - What duplicates does the outbox introduce and how do you absorb them? - At-least-once relay reality.</p>
+<p><strong>Answer framework:</strong>
+1. Identify the dual-write hazard
+2. Write event to an outbox table in the same DB transaction
+3. Commit atomically
+4. Separate relay/CDC reads outbox and publishes
+5. At-least-once relay
+6. Idempotent consumers absorb duplicates
+7. Monitor outbox backlog</p>
+<p><strong>Rejection signals:</strong>
+- Publishes after commit and thinks it's safe.
+- Never heard of the outbox pattern.
+- No idea how the relay works.
+- Ignores the divergence window.</p>
+<p><strong>Model answer skeleton:</strong>
+Publishing to Kafka right after the DB commit is the dual-write bug: if the process dies between the commit and the publish, the order exists in the database but the event never fires, and downstream never hears about it.</p>
+<p>I fixed this with the transactional outbox: in the same database transaction that writes the order, I insert a row into an outbox table describing the event, so the business data and the intent-to-publish commit atomically - either both land or neither does.</p>
+<p>A separate relay process - either a poller or Debezium reading the Postgres WAL via CDC - reads unpublished outbox rows and publishes them to Kafka, marking them sent.</p>
+<p>That relay is at-least-once, so a crash after publishing but before marking can republish, which is why consumers are idempotent on the event id.</p>
+<p>I monitored outbox backlog as a health metric, because a growing backlog meant the relay was stuck and events were silently delayed.</p>
+<h2 id="q49-drill-sketch-a-consumer-that-processes-payment-events-writes-to-a-db-and-must-not-double-charge-on-redelivery-list-every-safeguard">Q4.9 - [DRILL] Sketch a consumer that processes payment events, writes to a DB, and must not double-charge on redelivery. List every safeguard.</h2>
+<p><strong>What it really tests:</strong> Whether the candidate can assemble idempotency, manual commit, and DLQ handling into one correct consumer.</p>
+<p><strong>Weak answer:</strong> N/A - drill. A weak attempt reads, charges, commits, with no dedupe.</p>
+<p><strong>Why it fails:</strong>
+- No idempotency key check before charging.
+- Auto-commit risks loss or the commit lands before the charge.
+- No DLQ for permanently failing messages.
+- Charges inside a path that can redeliver, so retries double-charge.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Where exactly is the dedupe check, relative to the charge? - Ordering of idempotency vs side effect.
+2. <strong>FAILURE</strong> - When do you commit the offset? - After processing, for at-least-once.
+3. <strong>MEASUREMENT</strong> - A message fails 10 times - where does it go? - DLQ discipline.</p>
+<p><strong>Answer framework:</strong>
+1. Consume message with event_id
+2. Check idempotency store for event_id
+3. Commit offset after DB commit
+4. Else charge + record event_id in one DB transaction
+5. If seen, skip and commit
+6. On transient failure retry with backoff
+7. On permanent failure route to DLQ
+8. Alert on DLQ growth</p>
+<p><strong>Rejection signals:</strong>
+- Charge happens before/without the dedupe check.
+- Auto-commit or commit-before-processing.
+- No DLQ.
+- Idempotency and charge not in one transaction.</p>
+<p><strong>Model answer skeleton:</strong>
+Drill output: the consumer reads a payment event carrying a unique event_id. Before charging, it checks a processed_events table for that id; if present, it's a redelivery, so it skips the charge and just commits the offset.</p>
+<p>Otherwise, in a single DB transaction, it performs the charge (or records the charge intent) and inserts the event_id into processed_events with a unique constraint - so even a race between two redeliveries can only insert once, and the second fails the constraint and rolls back its charge.</p>
+<p>I commit the Kafka offset only after that DB transaction commits, giving at-least-once, so a crash reprocesses rather than loses.</p>
+<p>Transient failures like a processor timeout get bounded retries with backoff; after the limit the message goes to a dead-letter topic with the error and trace id, and I alert on DLQ growth.</p>
+<p>The invariant is that the charge and the dedupe record are atomic, so redelivery can never produce a second charge.</p>
+<div class="pager"><a class="prev" href="doc-backend-playbook-03-databases-and-transactions.html"><span class="dir">Previous</span><span class="ttl">Databases and transactions</span></a><a class="next" href="doc-backend-playbook-05-redis-and-caching.html"><span class="dir">Next</span><span class="ttl">Redis and caching</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

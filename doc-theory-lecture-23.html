@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 23 — Spring AOP Advice Types — Spring Boot</title>
+<meta name="description" content="Lecture 23 — Spring AOP Advice Types">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-23">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-23.html#lecture-23">Lecture 23</a></li><li><a href="doc-theory-lecture-23.html#1-the-five-advice-types-and-cross-cutting-concerns">1. The Five Advice Types and Cross-Cutting Concerns</a></li><li><a href="doc-theory-lecture-23.html#2-adding-the-aop-dependency">2. Adding the AOP Dependency</a></li><li><a href="doc-theory-lecture-23.html#3-recommended-package-structure">3. Recommended Package Structure</a></li><li><a href="doc-theory-lecture-23.html#4-creating-the-target-bean">4. Creating the Target Bean</a></li><li><a href="doc-theory-lecture-23.html#5-creating-the-aspect-class">5. Creating the Aspect Class</a></li><li><a href="doc-theory-lecture-23.html#6-understanding-the-pointcut-expression">6. Understanding the Pointcut Expression</a></li><li><a href="doc-theory-lecture-23.html#7-how-advice-executes-automatically-target-object-vs-proxy-object">7. How Advice Executes Automatically: Target Object vs Proxy Object</a></li><li><a href="doc-theory-lecture-23.html#8-what-is-an-advice-the-try-catch-finally-mental-model">8. What Is an Advice? The try-catch-finally Mental Model</a></li><li><a href="doc-theory-lecture-23.html#9-before-advice-before-the-target">9. @Before: Advice Before the Target</a></li><li><a href="doc-theory-lecture-23.html#10-afterreturning-advice-on-normal-completion">10. @AfterReturning: Advice on Normal Completion</a></li><li><a href="doc-theory-lecture-23.html#11-afterthrowing-advice-on-exceptional-exit">11. @AfterThrowing: Advice on Exceptional Exit</a></li><li><a href="doc-theory-lecture-23.html#12-after-finally-style-advice">12. @After: Finally-style Advice</a></li><li><a href="doc-theory-lecture-23.html#13-comparing-the-three-after-advices">13. Comparing the Three After Advices</a></li><li><a href="doc-theory-lecture-23.html#14-around-the-most-powerful-advice">14. @Around: The Most Powerful Advice</a></li><li><a href="doc-theory-lecture-23.html#15-practical-uses-of-around">15. Practical Uses of @Around</a></li><li><a href="doc-theory-lecture-23.html#16-choosing-the-correct-advice-type-and-the-complete-invocation-flow">16. Choosing the Correct Advice Type and the Complete Invocation Flow</a></li><li><a href="doc-theory-lecture-23.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-23.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-23.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-23.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-23.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 23 — Spring AOP Advice Types</h1>
+<p class="readmeta">22 sections · 4,579 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-23" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-23">Lecture 23</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring AOP Advice Types Explained | @Before, @After, @Around" (playlist map, verified). Repo aopDemo project: aspect.LoggingAspect, service.StudentService, controller.StudentController, dto.Student, plus notes (source tree plus a PaymentService failure example).</p>
+</blockquote>
+<p>Spring AOP runs extra logic before, after, or around selected bean methods without mixing it into the business code. This lecture implements five advice types - <code>@Before</code>, <code>@AfterReturning</code>, <code>@AfterThrowing</code>, <code>@After</code>, and <code>@Around</code> - and shows when each fires and what each may change. A proxy wraps the target bean and intercepts matching calls. Map each advice onto try-catch-finally and the topic collapses.</p>
+<h2 id="1-the-five-advice-types-and-cross-cutting-concerns">1. The Five Advice Types and Cross-Cutting Concerns</h2>
+<p>Logic kept out of the business method is a cross-cutting concern, because it cuts across many classes. Typical examples:</p>
+<ul>
+<li>Logging</li>
+<li>Authorization</li>
+<li>Auditing</li>
+<li>Performance measurement</li>
+<li>Metrics</li>
+<li>Technical validation</li>
+<li>Context management</li>
+</ul>
+<p>The five principal advice types provided by Spring AOP:</p>
+<ol>
+<li><code>@Before</code></li>
+<li><code>@AfterReturning</code></li>
+<li><code>@AfterThrowing</code></li>
+<li><code>@After</code></li>
+<li><code>@Around</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Advice</th>
+<th>When it runs</th>
+<th>Position in try-catch-finally</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Before</code></td>
+<td>before the target method begins</td>
+<td>before the <code>try</code> block</td>
+<td>entry logging, reading args, authorization, preconditions</td>
+</tr>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>only when the target returns normally</td>
+<td>after a successful <code>return</code> inside <code>try</code></td>
+<td>log or record the returned value</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>only when the target exits by throwing</td>
+<td>inside <code>catch</code></td>
+<td>log or record the exception</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>on success and on failure</td>
+<td>inside <code>finally</code></td>
+<td>cleanup that is outcome-neutral</td>
+</tr>
+<tr>
+<td><code>@Around</code></td>
+<td>surrounds the whole invocation</td>
+<td>the entire try-catch-finally</td>
+<td>control, timing, retry, fallback, transformation</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: The advice type says where in the invocation lifecycle the extra logic belongs. Choosing the wrong type is not a performance sin but a readability sin.</p>
+</blockquote>
+<h2 id="2-adding-the-aop-dependency">2. Adding the AOP Dependency</h2>
+<p>The dependency name differs between Spring Boot 3 and Spring Boot 4. Add the one matching your Boot line.</p>
+<div class="highlight"><pre><span></span><code>Spring Boot 3.x -&gt; org.springframework.boot : spring-boot-starter-aop
+Spring Boot 4.x -&gt; org.springframework.boot : spring-boot-starter-aspectj
+</code></pre></div>
+
+<p>Once the appropriate starter is present, Spring Boot configures the required AOP infrastructure automatically. In a normal Spring Boot application we do not need to manually add <code>@EnableAspectJAutoProxy</code>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The starter turns AOP on; the annotations describe what to do. Add the dependency once, then everything afterwards is <code>@Aspect</code>, pointcuts, and advice.</p>
+</blockquote>
+<h2 id="3-recommended-package-structure">3. Recommended Package Structure</h2>
+<p>The aspect class should normally sit inside the main application package or one of its subpackages, so component scanning can discover it automatically.</p>
+<div class="highlight"><pre><span></span><code>com.coderarmy.aopdemo
+|-- AopDemoApplication
+|-- controller/StudentController
+|-- service/StudentService
+|-- repository/StudentRepository
+|-- dto/Student
+|-- aspect/LoggingAspect
+</code></pre></div>
+
+<p>Two rules of thumb:</p>
+<ol>
+<li>Keep the aspect near the code it advises, but in its own <code>aspect</code> package.</li>
+<li>Keep everything under the main application package. An aspect outside the scan base package is never registered.</li>
+</ol>
+<h2 id="4-creating-the-target-bean">4. Creating the Target Bean</h2>
+<p>A target bean is the ordinary Spring bean whose method we want to intercept. Here it is <code>StudentService</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.coderarmy.aopdemo.service</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Actual createStudent() method executed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Student created successfully&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getStudent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Actual getStudent() method executed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Student details&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Here:</p>
+<ul>
+<li><code>StudentService</code> is the target class.</li>
+<li>The Spring-managed <code>StudentService</code> instance is the target object.</li>
+<li><code>createStudent()</code> and <code>getStudent()</code> are possible target methods.</li>
+</ul>
+<p>There is no logging, timing, or security code here. That is the point: the business method says only what the business does.</p>
+<h2 id="5-creating-the-aspect-class">5. Creating the Aspect Class</h2>
+<p>This class contains three important annotations.</p>
+<ul>
+<li><code>@Aspect</code> declares that the class contains AOP configuration, such as pointcuts and advice. It tells Spring that this class describes cross-cutting behaviour to apply to selected method executions.</li>
+<li><code>@Component</code> registers the aspect as a Spring bean.</li>
+<li><code>@Before</code> declares that the advice method must execute before every method matched by its pointcut expression.</li>
+</ul>
+<p><code>@Aspect</code> describes the role of the class, but does not register it in the Spring container. <code>@Component</code> makes it discoverable through component scanning. This is the most common reason a new aspect "does nothing": it was annotated <code>@Aspect</code> but never became a bean.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.coderarmy.aopdemo.aspect</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Arrays</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.JoinPoint</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.annotation.Aspect</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.annotation.Before</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Aspect</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingAspect</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;execution(String com.coderarmy.aopdemo.service.StudentService.createStudent())&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">logBeforeMethodExecution</span><span class="p">(</span><span class="n">JoinPoint</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Entering method: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">.</span><span class="na">getSignature</span><span class="p">().</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Arguments: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">toString</span><span class="p">(</span><span class="n">joinPoint</span><span class="p">.</span><span class="na">getArgs</span><span class="p">()));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The method containing the additional behaviour is the advice. The matched business method is the target method.</p>
+<h2 id="6-understanding-the-pointcut-expression">6. Understanding the Pointcut Expression</h2>
+<p>The complete string inside <code>@Before</code> is a pointcut expression:</p>
+<div class="highlight"><pre><span></span><code>execution(String com.coderarmy.aopdemo.service.StudentService.createStudent())
+</code></pre></div>
+
+<p>Read from left to right:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>execution</code></td>
+<td>match a method execution</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td>the method must return <code>String</code></td>
+</tr>
+<tr>
+<td><code>StudentService</code></td>
+<td>the method must belong to this class</td>
+</tr>
+<tr>
+<td><code>createStudent</code></td>
+<td>the method name must be <code>createStudent</code></td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>the method must take no arguments</td>
+</tr>
+</tbody>
+</table>
+<p>A wildcard pointcut generalizes the pattern:</p>
+<div class="highlight"><pre><span></span><code>execution(* com.coderarmy.aopdemo.service.StudentService.*(..))
+</code></pre></div>
+
+<ul>
+<li><code>*</code> in the return position: any return type.</li>
+<li><code>*</code> in the name position: any method of this class.</li>
+<li><code>(..)</code>: any number of arguments of any type.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect "what does <code>(..)</code> mean versus <code>()</code>?" The answer is any arguments versus zero arguments, and it is the fastest way to show you have actually written a pointcut rather than copied one.</p>
+</blockquote>
+<h2 id="7-how-advice-executes-automatically-target-object-vs-proxy-object">7. How Advice Executes Automatically: Target Object vs Proxy Object</h2>
+<p><code>StudentService</code> never calls <code>LoggingAspect</code>, yet the advice executes before the service method. Spring makes this possible by placing a proxy object in front of the target object. Conceptually the proxy behaves like a wrapper:</p>
+<div class="highlight"><pre><span></span><code>public String createStudent() {
+    loggingAspect.logBeforeMethodExecution();
+    return target.createStudent();
+}
+</code></pre></div>
+
+<p>Spring's real proxy is more sophisticated, but this is the right model.</p>
+<ul>
+<li><strong>Target object.</strong> Contains the actual business implementation; conceptually the actual <code>StudentService</code> instance.</li>
+<li><strong>Proxy object.</strong> The Spring-generated object that stands in front of the target and intercepts matching method calls. It can run additional behaviour before or after delegating the call to the target.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Caller -&gt; Proxy -&gt; Advice chain -&gt; Target object
+</code></pre></div>
+
+<p>Are the target and the proxy two different objects? Conceptually yes: Spring may hold a proxy object and a target object behind it. But they are not two ordinary, independently injectable beans. The normal bean name exposes the proxy:</p>
+<div class="highlight"><pre><span></span><code>studentService -&gt; proxy object
+</code></pre></div>
+
+<p>The target sits behind the proxy; the container manages the advised service as one logical bean, while callers interact with the proxy.</p>
+<blockquote class="callout callout--important">
+<p>Important: The proxy is why self-invocation is a known AOP trap. A call that never passes through the proxy - for example, a method calling another method on <code>this</code> - never meets the advice.</p>
+</blockquote>
+<h2 id="8-what-is-an-advice-the-try-catch-finally-mental-model">8. What Is an Advice? The try-catch-finally Mental Model</h2>
+<p>An advice answers one question: what additional logic should run before, after, or around a matched method execution? The advice types can be understood by comparing them with ordinary Java control flow:</p>
+<div class="highlight"><pre><span></span><code>beforeLogic();
+try {
+    Object result = targetMethod();
+    afterReturningLogic(result);
+    return result;
+} catch (Throwable exception) {
+    afterThrowingLogic(exception);
+    throw exception;
+} finally {
+    afterLogic();
+}
+</code></pre></div>
+
+<p>Approximate mapping:</p>
+<table>
+<thead>
+<tr>
+<th>Java control-flow position</th>
+<th>Spring advice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before entering try</td>
+<td><code>@Before</code></td>
+</tr>
+<tr>
+<td>After a successful return</td>
+<td><code>@AfterReturning</code></td>
+</tr>
+<tr>
+<td>Inside catch</td>
+<td><code>@AfterThrowing</code></td>
+</tr>
+<tr>
+<td>Inside finally</td>
+<td><code>@After</code></td>
+</tr>
+<tr>
+<td>The entire surrounding block</td>
+<td><code>@Around</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>@Around</code> is more powerful than simply combining the other four. It controls whether, when, and how the remaining invocation chain proceeds.</p>
+<p>Mnemonic: "<strong>B</strong>efore enters, <strong>R</strong>eturning succeeds, <strong>T</strong>hrowing fails, <strong>A</strong>fter cleans up, <strong>A</strong>round controls them all." Before the try, after the return, inside the catch, inside the finally, around the whole block.</p>
+<h2 id="9-before-advice-before-the-target">9. @Before: Advice Before the Target</h2>
+<p><code>@Before</code> executes before the matched target method begins. Common uses: logging method entry, reading method arguments, checking authorization, checking preconditions, and populating context.</p>
+<p><code>JoinPoint</code> represents the current intercepted method execution and lets the advice inspect contextual information:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Information returned</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>joinPoint.getSignature()</code></td>
+<td>method signature information</td>
+</tr>
+<tr>
+<td><code>joinPoint.getSignature().getName()</code></td>
+<td>the method name</td>
+</tr>
+<tr>
+<td><code>joinPoint.getArgs()</code></td>
+<td>arguments passed to the target method</td>
+</tr>
+<tr>
+<td><code>joinPoint.getTarget()</code></td>
+<td>the underlying target object</td>
+</tr>
+<tr>
+<td><code>joinPoint.getThis()</code></td>
+<td>the proxy object currently handling the call</td>
+</tr>
+</tbody>
+</table>
+<p><code>JoinPoint</code> allows inspection, but does not allow the advice to continue, skip, or repeat the target invocation.</p>
+<p><strong>Can <code>@Before</code> prevent the target method?</strong> Not through the API: it has no <code>doNotProceed()</code> because it does not directly control the invocation. But it can throw an exception:</p>
+<div class="highlight"><pre><span></span><code>@Before(&quot;execution(* com.coderarmy.aopdemo.service.PaymentService.makePayment(..))&quot;)
+public void checkAccess() {
+    boolean allowed = false;
+    if (!allowed) {
+        throw new SecurityException(&quot;You cannot make this payment&quot;);
+    }
+}
+</code></pre></div>
+
+<p>If the advice throws, execution stops before the target is reached. So <code>@Before</code> cannot directly skip the method and return an alternative result; it can only stop execution by throwing. Use <code>@Around</code> for controlled short-circuiting.</p>
+<p><strong>Can <code>@Before</code> modify method arguments?</strong> It can read them with <code>Object[] arguments = joinPoint.getArgs();</code>, but provides no controlled mechanism to replace the arguments used for the target invocation. For replacement use <code>@Around</code>: <code>joinPoint.proceed(modifiedArguments);</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The precise answer to "can <code>@Before</code> block a method?" is "no, not by control; only by throwing." Candidates who say "yes, it can return early" have confused <code>@Before</code> with <code>@Around</code>.</p>
+</blockquote>
+<h2 id="10-afterreturning-advice-on-normal-completion">10. @AfterReturning: Advice on Normal Completion</h2>
+<p><code>@AfterReturning</code> executes only when the matched method completes normally: the target returns normally and the advice runs; the target throws and the advice does not run.</p>
+<p><strong>Accessing the returned value.</strong> Use the <code>returning</code> attribute to bind the returned value to an advice parameter:</p>
+<div class="highlight"><pre><span></span><code>@AfterReturning(
+    pointcut = &quot;execution(* com.coderarmy.aopdemo.service.StudentService.*(..))&quot;,
+    returning = &quot;result&quot;)
+public void logReturnedValue(Object result) {
+    System.out.println(&quot;Method returned: &quot; + result);
+}
+</code></pre></div>
+
+<p>The value of <code>returning</code> must match the parameter name. The parameter type also affects matching: <code>String result</code> applies only when the return is compatible with <code>String</code>; for a generic advice use <code>Object</code>. (All five advice types appear together in Section 13.)</p>
+<p><strong>Can <code>@AfterReturning</code> replace the returned value?</strong> No. If the advice declares a return value, it is ignored - it does not replace the value returned by the target. Therefore an <code>@AfterReturning</code> method should normally return <code>void</code>.</p>
+<p><strong>What about mutating the returned object?</strong> If the target returns a mutable object, the advice gets the same reference and could modify it, e.g. <code>receipt.setStatus("CHANGED BY ASPECT");</code>. Poor design: it hides transformation outside the visible business flow. Use <code>@AfterReturning</code> mainly for observation: logging, a metric, or an audit record. Use <code>@Around</code> to change, wrap, or replace the result.</p>
+<p><strong>What "normal completion" means.</strong> If a target method catches an internal exception and returns a fallback, the exception did not escape and the method returned a value, so <code>@AfterReturning</code> executes and <code>@AfterThrowing</code> does not. Advice reacts to how the method exits, not to internal events.</p>
+<h2 id="11-afterthrowing-advice-on-exceptional-exit">11. @AfterThrowing: Advice on Exceptional Exit</h2>
+<p><code>@AfterThrowing</code> runs when the matched target method exits by throwing an exception. The exception escapes the method, the advice executes, and the exception continues toward the caller.</p>
+<p><strong>Accessing the exception.</strong> Use the <code>throwing</code> attribute to bind the exception to an advice parameter:</p>
+<div class="highlight"><pre><span></span><code>@AfterThrowing(
+    pointcut = &quot;execution(* com.coderarmy.aopdemo.service.PaymentService.*(..))&quot;,
+    throwing = &quot;exception&quot;)
+public void logException(Throwable exception) {
+    System.out.println(&quot;Exception type: &quot; + exception.getClass().getSimpleName());
+    System.out.println(&quot;Exception message: &quot; + exception.getMessage());
+}
+</code></pre></div>
+
+<p>The <code>throwing</code> value must match the parameter name.</p>
+<p><strong>Restricting advice to a specific exception type.</strong> The parameter type restricts when the advice executes: <code>handleInvalidAmount(IllegalArgumentException exception)</code> runs for <code>IllegalArgumentException</code> and its subclasses, and not for unrelated types.</p>
+<p><strong>Does <code>@AfterThrowing</code> handle the exception?</strong> Not automatically. It observes the failed exit, but the original still propagates: target throws, advice logs, original continues, caller receives it. The advice may itself throw, but merely returning from <code>@AfterThrowing</code> does not consume the original failure.</p>
+<p><strong>Can <code>@AfterThrowing</code> return a fallback value?</strong> No. The target already completed exceptionally, so the advice's return value is not a recovery result. Use <code>@Around</code> to catch the invocation and convert it into a fallback, carefully: silently swallowing failures can create incorrect behaviour.</p>
+<p>Suitable uses: error logging, failure metrics, failed-operation audit records, alert creation, recording exception type and message, and technical cleanup only on failure.</p>
+<h2 id="12-after-finally-style-advice">12. @After: Finally-style Advice</h2>
+<p><code>@After</code> means after-finally. The name misleads: it does not mean "after successful completion." It behaves like a <code>finally</code> block:</p>
+<div class="highlight"><pre><span></span><code>try {
+    targetMethod();
+} finally {
+    afterAdvice();
+}
+</code></pre></div>
+
+<p>It executes whether the target returns or throws; Spring calls it after-finally advice. A typical example is <code>clearContext()</code>, printing "Clearing method context". On success <code>@After</code> executes after the return; on failure it executes after the throw and the exception continues.</p>
+<p>Use <code>@After</code> for logic that must happen regardless of outcome:</p>
+<ul>
+<li>Clearing contextual data</li>
+<li>Releasing a lock</li>
+<li>Generic method-exit logging</li>
+<li>Removing a <code>ThreadLocal</code> value</li>
+</ul>
+<p>Use <code>@AfterReturning</code> when the returned value is needed. Use <code>@AfterThrowing</code> when the thrown exception is needed. <code>@After</code> is intentionally outcome-neutral.</p>
+<h2 id="13-comparing-the-three-after-advices">13. Comparing the Three After Advices</h2>
+<table>
+<thead>
+<tr>
+<th>Advice</th>
+<th>Success</th>
+<th>Failure</th>
+<th>Direct access to result</th>
+<th>Direct access to exception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>The two contrasts that summarize the family:</p>
+<ul>
+<li><code>@After</code> -&gt; success or failure; <code>@AfterReturning</code> -&gt; success only.</li>
+<li><code>@After</code> -&gt; every outcome; <code>@AfterThrowing</code> -&gt; failure only.</li>
+</ul>
+<p>The three after advices inside one aspect:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Aspect</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingAspect</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@AfterReturning</span><span class="p">(</span>
+<span class="w">        </span><span class="n">pointcut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;execution(* com.coderarmy.aopdemo.service.StudentService.*(..))&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">returning</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;result&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">logReturnedValue</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Method returned: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@AfterThrowing</span><span class="p">(</span>
+<span class="w">        </span><span class="n">pointcut</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;execution(* com.coderarmy.aopdemo.service.StudentService.*(..))&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">throwing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;exception&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">logException</span><span class="p">(</span><span class="n">Throwable</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Exception type: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@After</span><span class="p">(</span><span class="s">&quot;execution(* com.coderarmy.aopdemo.service.StudentService.*(..))&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">clearContext</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Clearing method context&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Advice</th>
+<th>Can do</th>
+<th>Cannot do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Before</code></td>
+<td>inspect JoinPoint, read arguments, throw to stop</td>
+<td>skip the target, replace arguments, return a value</td>
+</tr>
+<tr>
+<td><code>@AfterReturning</code></td>
+<td>observe the returned value</td>
+<td>replace the returned value, run on failure</td>
+</tr>
+<tr>
+<td><code>@AfterThrowing</code></td>
+<td>observe the exception, restrict by type</td>
+<td>consume the exception, return a fallback</td>
+</tr>
+<tr>
+<td><code>@After</code></td>
+<td>run cleanup on every outcome</td>
+<td>access the result or the exception</td>
+</tr>
+<tr>
+<td><code>@Around</code></td>
+<td>modify arguments, replace result, skip, repeat, catch</td>
+<td>(nothing - but the power is easy to misuse)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-around-the-most-powerful-advice">14. @Around: The Most Powerful Advice</h2>
+<p><code>@Around</code> surrounds the complete invocation: code before the target, the target, code after. Unlike the other types it controls the target's execution. It can run logic before and after, replace arguments and the result, catch/rethrow/wrap exceptions, skip or repeat the target, and measure duration. Use it only when control is needed.</p>
+<p>Basic <code>@Around</code> syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Around</span><span class="p">(</span><span class="s">&quot;execution(* com.coderarmy.aopdemo.service.StudentService.*(..))&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">measureExecutionTime</span><span class="p">(</span><span class="n">ProceedingJoinPoint</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">();</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">.</span><span class="na">proceed</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">executionTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span><span class="p">;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">joinPoint</span><span class="p">.</span><span class="na">getSignature</span><span class="p">().</span><span class="na">getName</span><span class="p">()</span>
+<span class="w">                </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; took &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">executionTime</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; nanoseconds&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Execution flow: enter <code>@Around</code>, run code before <code>proceed()</code>, call <code>proceed()</code>, let the remaining advice and target execute, receive the result, run code after <code>proceed()</code>, return to caller.</p>
+<p><strong>What is <code>ProceedingJoinPoint</code>?</strong> Used specifically with <code>@Around</code>, it represents the current intercepted invocation and extends <code>JoinPoint</code>, adding <code>proceed();</code> and <code>proceed(Object[] arguments);</code>. The core distinction: <code>JoinPoint</code> inspects the invocation; <code>ProceedingJoinPoint</code> inspects and controls it.</p>
+<p><strong>What does <code>proceed()</code> do?</strong> <code>Object result = joinPoint.proceed();</code> continues the remaining interceptor chain and eventually invokes the actual target method. It is not always equivalent to directly calling the business method, because other interceptors or advice may remain:</p>
+<div class="highlight"><pre><span></span><code>First around advice -&gt; proceed() -&gt; Second advice
+    -&gt; Security interceptor -&gt; Transaction interceptor -&gt; Actual target method
+</code></pre></div>
+
+<p>So <code>proceed()</code> means: continue to the next step in the current invocation chain.</p>
+<p><strong>When <code>proceed()</code> is not called.</strong> The target never executes: the caller reaches the advice, no <code>proceed()</code> runs, the target is skipped, an alternative value is returned. This supports caching, feature flags, access rejection, idempotency, and circuit-breaking - and can make behaviour hard to understand, since the source calls a method the aspect blocks.</p>
+<p><strong>Why return the result of <code>proceed()</code>?</strong> If an advice calls <code>joinPoint.proceed(); return null;</code>, then even when the target returns "Payment successful" the caller receives <code>null</code>. What <code>@Around</code> returns is what the caller observes. Normal pattern: <code>Object result = joinPoint.proceed(); return result;</code>. Return something else only to deliberately replace the result.</p>
+<p><strong>Why return <code>Object</code>?</strong> A generic aspect may intercept many return types: <code>String</code>, <code>Student</code>, <code>PaymentReceipt</code>, <code>List&lt;Order&gt;</code>, <code>int</code>, <code>boolean</code>, <code>void</code>. So reusable around advice uses <code>public Object advice(...) throws Throwable</code>. Primitives box and a <code>void</code> target yields <code>null</code>. A <code>void</code> advice discards the <code>proceed()</code> value, so the caller sees <code>null</code>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Inside <code>@Around</code>, treat <code>proceed()</code> like an ordinary method call you must both invoke and relay. Forget to return its result and you have silently rewritten the target's contract to return <code>null</code>.</p>
+</blockquote>
+<h2 id="15-practical-uses-of-around">15. Practical Uses of @Around</h2>
+<p><strong>Measuring execution time.</strong> Timing needs state that exists before and after the same invocation, making <code>@Around</code> natural. Using <code>finally</code> around <code>proceed()</code> records timing on success and failure; without it, a thrown exception skips the duration calculation.</p>
+<p><strong>Exception behaviour inside <code>@Around</code>.</strong> <code>proceed()</code> behaves like an ordinary Java call. For <code>"Before"; proceed(); "After";</code>, when the target throws: "Before" prints, <code>proceed()</code> throws, "After" does not print, and the exception propagates. Code after <code>proceed()</code> runs only if the exception is caught or a <code>finally</code> block is used.</p>
+<p><strong>Observing success and failure in one advice.</strong> A single <code>@Around</code> can reproduce the lifecycle positions of <code>@Before</code>, <code>@AfterReturning</code>, <code>@AfterThrowing</code>, and <code>@After</code>:</p>
+<div class="highlight"><pre><span></span><code>try {
+    Object result = joinPoint.proceed();
+    System.out.println(&quot;Execution successful&quot;);
+    return result;
+} catch (Throwable exception) {
+    System.out.println(&quot;Execution failed: &quot; + exception.getMessage());
+    throw exception;
+} finally {
+    System.out.println(&quot;Execution completed&quot;);
+}
+</code></pre></div>
+
+<p>That does not mean <code>@Around</code> should always be used. When only one lifecycle position is required, a narrower advice communicates the intention more clearly.</p>
+<p><strong>Converting an exception into a fallback.</strong> Around advice can catch a specific exception and return substitute data, for example <code>new PaymentReceipt("PENDING", "Payment will be retried")</code> on a <code>PaymentGatewayException</code>, so the caller never sees the original exception. Dangerous: callers may think the call succeeded and monitoring may miss the failure. Prefer resilience infrastructure.</p>
+<p><strong>Modifying method arguments.</strong> For <code>greetStudent(String name)</code>, read <code>Object[] arguments = joinPoint.getArgs();</code>, cast <code>arguments[0]</code> to <code>String</code>, compute <code>originalName.trim().toUpperCase()</code>, and call <code>joinPoint.proceed(modifiedArguments);</code>. Calling <code>greetStudent("  aditya  ")</code> makes the target receive <code>ADITYA</code>. The array must stay compatible with parameter types and order.</p>
+<p><strong>Modifying the returned value.</strong> After <code>Object originalResult = joinPoint.proceed();</code>, return <code>new ApiResponse&lt;&gt;(true, "Operation completed", originalResult);</code> so the caller gets the wrapper, not the direct result. The replacement must match the target's declared return type or the caller may hit a runtime type error.</p>
+<p><strong>Calling <code>proceed()</code> more than once.</strong> Around advice may call <code>proceed()</code> once, many times, or never. Retry calls it again after a temporary exception, so the target may run twice - dangerous for <code>transferMoney()</code>, <code>sendEmail()</code>, and <code>chargeCard()</code>, where duplicates result. Do it only when the operation is safe to retry, idempotent, with a clear policy. Prefer dedicated retry infrastructure.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The strongest <code>@Around</code> candidates say when NOT to use it. "Use <code>@Around</code> everywhere because it can do everything" admits you have not debugged a hidden aspect yet.</p>
+</blockquote>
+<h2 id="16-choosing-the-correct-advice-type-and-the-complete-invocation-flow">16. Choosing the Correct Advice Type and the Complete Invocation Flow</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Best advice type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run logic before a method</td>
+<td><code>@Before</code></td>
+</tr>
+<tr>
+<td>Observe a successful result</td>
+<td><code>@AfterReturning</code></td>
+</tr>
+<tr>
+<td>Observe a failure and access the exception</td>
+<td><code>@AfterThrowing</code></td>
+</tr>
+<tr>
+<td>Run cleanup regardless of outcome</td>
+<td><code>@After</code></td>
+</tr>
+<tr>
+<td>Measure complete execution time</td>
+<td><code>@Around</code></td>
+</tr>
+<tr>
+<td>Replace method arguments</td>
+<td><code>@Around</code></td>
+</tr>
+<tr>
+<td>Replace or wrap the return value</td>
+<td><code>@Around</code></td>
+</tr>
+<tr>
+<td>Skip the method and return another value</td>
+<td><code>@Around</code></td>
+</tr>
+<tr>
+<td>Catch an exception and return a fallback</td>
+<td><code>@Around</code></td>
+</tr>
+<tr>
+<td>Retry the invocation</td>
+<td><code>@Around</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Prefer the narrowest suitable advice.</strong> The most powerful tool is not always the clearest. Use <code>@Before</code> for pre-execution only; <code>@AfterReturning</code> for success only; <code>@AfterThrowing</code> for failure only; <code>@After</code> for cleanup on every outcome; <code>@Around</code> only when the invocation itself must be controlled. A narrow advice makes the lifecycle obvious and avoids accidental changes.</p>
+<p>Complete invocation flow:</p>
+<div class="highlight"><pre><span></span><code>Caller
+  |
+  v
+Spring proxy
+  |
+  v
+@Around: code before proceed()
+  |
+  v
+@Before
+  |
+  v
+Target method
+  |-- Returns normally --&gt; @AfterReturning
+  |-- Throws exception  --&gt; @AfterThrowing
+  |
+  v
+@After executes in either case
+  |
+  v
+Control returns to @Around
+  |
+  v
+@Around returns a result or propagates an exception
+  |
+  v
+Caller
+</code></pre></div>
+
+<p>The ordering becomes more nuanced with several aspects and interceptors, but this flow is the correct conceptual foundation for each advice type.</p>
+<blockquote class="callout callout--important">
+<p>Important: Advice reacts to how the method exits, not to what happened internally. That sentence answers most "which advice runs?" questions correctly.</p>
+</blockquote>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>@After</code> runs only when the method succeeds"</td>
+<td><code>@After</code> is after-finally advice; it runs on success and failure.</td>
+</tr>
+<tr>
+<td>"<code>@AfterReturning</code> can change the returned value"</td>
+<td>The advice's return value is ignored; it should return <code>void</code>. Use <code>@Around</code> to replace or wrap.</td>
+</tr>
+<tr>
+<td>"<code>@AfterThrowing</code> handles the exception"</td>
+<td>It observes the failed exit; the original exception still propagates unless <code>@Around</code> catches it.</td>
+</tr>
+<tr>
+<td>"<code>@Before</code> can change method arguments"</td>
+<td>It can read them, but cannot replace them. Use <code>@Around</code>.</td>
+</tr>
+<tr>
+<td>"<code>proceed()</code> equals calling the target directly"</td>
+<td>It continues the remaining advice/interceptor chain and only eventually reaches the target.</td>
+</tr>
+<tr>
+<td>"<code>@Around</code> must always call <code>proceed()</code>"</td>
+<td>Skipping <code>proceed()</code> is exactly how caching, feature flags, and short-circuiting are built.</td>
+</tr>
+<tr>
+<td>"Calling <code>proceed()</code> twice is harmless"</td>
+<td>It may invoke the target twice; dangerous for side-effecting operations such as <code>transferMoney()</code>.</td>
+</tr>
+<tr>
+<td>"Normal completion means no exception occurred"</td>
+<td>It means no exception escaped; an internally caught exception still counts as normal completion.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "@AfterReturning can replace the returned value."</strong>
+Verdict: False. The advice's return value is ignored; an <code>@AfterReturning</code> method should normally return <code>void</code>. Use <code>@Around</code> when the caller must receive a changed value.</p>
+<p><strong>Trap 2 - "@AfterThrowing handles the exception."</strong>
+Verdict: False. It observes the failed exit, but the original exception keeps propagating toward the caller. Only <code>@Around</code> can catch and replace it.</p>
+<p><strong>Trap 3 - "@After runs only when the method succeeds."</strong>
+Verdict: False. <code>@After</code> behaves like a <code>finally</code> block and runs on success and failure. That is why it is called after-finally advice.</p>
+<p><strong>Trap 4 - "@Before can block the target with <code>doNotProceed()</code>."</strong>
+Verdict: False. <code>JoinPoint</code> has no such operation; <code>@Before</code> can only stop execution by throwing. Controlled skipping belongs to <code>@Around</code>.</p>
+<p><strong>Trap 5 - "<code>proceed()</code> is the same as calling the target method directly."</strong>
+Verdict: False. <code>proceed()</code> continues the remaining interceptor chain, which may still contain advice, security, or transaction interceptors before the target.</p>
+<p><strong>Trap 6 - "A method that catches its own exception is treated as failing."</strong>
+Verdict: False. Advice reacts to how the method exits. If the exception does not escape, <code>@AfterReturning</code> runs and <code>@AfterThrowing</code> does not.</p>
+<p><strong>Trap 7 - "Calling <code>proceed()</code> twice is always safe."</strong>
+Verdict: False. It may invoke the target twice. Acceptable only for safe-to-retry, idempotent operations with a clearly defined retry policy.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Advice is the additional behaviour applied to matched method executions; a pointcut expression decides which methods are matched.</li>
+<li>Add <code>spring-boot-starter-aop</code> (Boot 3.x) or <code>spring-boot-starter-aspectj</code> (Boot 4.x); Boot then configures AOP without <code>@EnableAspectJAutoProxy</code>.</li>
+<li>An aspect needs both <code>@Aspect</code> and <code>@Component</code>; <code>@Aspect</code> describes the role, <code>@Component</code> registers the bean.</li>
+<li>Spring normally exposes a proxy in place of the original target object; callers talk to the proxy, the target hides behind it.</li>
+<li>Map the five advice types to try-catch-finally: <code>@Before</code> before try, <code>@AfterReturning</code> after normal return, <code>@AfterThrowing</code> in catch, <code>@After</code> in finally, <code>@Around</code> around the whole block.</li>
+<li><code>@Before</code> can inspect a <code>JoinPoint</code> and read arguments, but cannot skip the target or replace arguments; it can only stop execution by throwing.</li>
+<li><code>@AfterReturning</code> runs only on normal completion, reads the returned value via <code>returning</code>, cannot replace it, and should return <code>void</code>.</li>
+<li><code>@AfterThrowing</code> runs only when an exception escapes the target, can restrict by exception type, and does not consume the exception or return a fallback.</li>
+<li><code>@After</code> is outcome-neutral cleanup; <code>@Around</code> uses <code>ProceedingJoinPoint.proceed()</code> to inspect and control the invocation, including skipping, repeating, and replacing arguments or results.</li>
+<li>Prefer the narrowest advice that correctly expresses the requirement; <code>@Around</code> is the most powerful and easiest to misuse.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What are the five advice types in Spring AOP?</td>
+<td><code>@Before</code>, <code>@AfterReturning</code>, <code>@AfterThrowing</code>, <code>@After</code>, and <code>@Around</code>.</td>
+</tr>
+<tr>
+<td>Which dependency enables AOP in Spring Boot?</td>
+<td><code>spring-boot-starter-aop</code> for Boot 3.x; <code>spring-boot-starter-aspectj</code> for Boot 4.x.</td>
+</tr>
+<tr>
+<td>Why does an aspect need both <code>@Aspect</code> and <code>@Component</code>?</td>
+<td><code>@Aspect</code> marks it as AOP configuration; <code>@Component</code> makes it a bean so scanning registers it.</td>
+</tr>
+<tr>
+<td>When does <code>@AfterReturning</code> run?</td>
+<td>Only when the target method completes normally without letting an exception escape.</td>
+</tr>
+<tr>
+<td>Can <code>@AfterReturning</code> change the returned value?</td>
+<td>No; its return value is ignored, so it should return <code>void</code>. Use <code>@Around</code> to replace or wrap.</td>
+</tr>
+<tr>
+<td>When does <code>@AfterThrowing</code> run?</td>
+<td>Only when the target exits by throwing an exception; the exception still propagates.</td>
+</tr>
+<tr>
+<td>How do you restrict <code>@AfterThrowing</code> to one exception type?</td>
+<td>Declare the advice parameter as that type; it then runs for it and compatible subclasses only.</td>
+</tr>
+<tr>
+<td>Difference between <code>@After</code> and <code>@AfterReturning</code>?</td>
+<td><code>@After</code> runs on success and failure (finally); <code>@AfterReturning</code> runs on success only.</td>
+</tr>
+<tr>
+<td>Why is <code>@Around</code> the most powerful advice?</td>
+<td>It controls the invocation: modify arguments, replace the result, skip, repeat, catch, and measure.</td>
+</tr>
+<tr>
+<td>What does <code>ProceedingJoinPoint.proceed()</code> do?</td>
+<td>Continues the remaining interceptor chain and eventually invokes the actual target method.</td>
+</tr>
+<tr>
+<td>What if <code>@Around</code> does not call <code>proceed()</code>?</td>
+<td>The target never executes; the advice returns an alternative value (caching, rejection, circuit-breaking).</td>
+</tr>
+<tr>
+<td>Why does a generic <code>@Around</code> return <code>Object</code>?</td>
+<td>It may intercept methods with many return types; primitives are boxed and <code>void</code> becomes <code>null</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Cross-cutting concern outside the business method
+        |
+        v
+Add AOP starter -&gt; infrastructure auto-configured
+        |
+        v
+@Aspect + @Component on the aspect bean
+        |
+        v
+Pointcut expression selects target methods
+        |
+        v
+Spring proxy wraps the target bean
+        |
+        v
+Advice types map onto try-catch-finally:
+        @Before         -&gt; before try
+        @AfterReturning -&gt; normal return
+        @AfterThrowing  -&gt; catch
+        @After          -&gt; finally
+        @Around         -&gt; the whole block (proceed controls it)
+        |
+        v
+Prefer the narrowest advice; use @Around only when control is required
+</code></pre></div>
+
+<ul>
+<li>Aspect registration needs <code>@Aspect</code> plus <code>@Component</code>; the proxy is what makes advice run without an explicit call.</li>
+<li><code>@Before</code> and the three after advices are observational; <code>@Around</code> is the control point.</li>
+<li><code>@After</code> is finally semantics, so it runs no matter how the method exits.</li>
+<li><code>proceed()</code> continues the remaining chain, its result must be relayed, and skipping it skips the target.</li>
+<li>The narrowest advice that expresses the requirement is the correct one.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> the five advice types are five labelled positions around a method call - <code>@Before</code>, <code>@AfterReturning</code>, <code>@AfterThrowing</code>, <code>@After</code>, and <code>@Around</code> - and the whole skill is picking the narrowest one that says exactly where the extra logic belongs.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-22.html"><span class="dir">Previous</span><span class="ttl">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</span></a><a class="next" href="doc-theory-lecture-24.html"><span class="dir">Next</span><span class="ttl">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

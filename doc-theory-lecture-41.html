@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Optional Explained from Scratch | All Methods + Streams Integration — Java</title>
+<meta name="description" content="Java Optional Explained from Scratch | All Methods + Streams Integration">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-41">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-41.html#lecture-41">Lecture 41</a></li><li><a href="doc-theory-lecture-41.html#1-the-null-problem-and-what-optional-is">1. The Null Problem and What Optional Is</a></li><li><a href="doc-theory-lecture-41.html#2-creating-an-optional-of-ofnullable-empty">2. Creating an Optional: of, ofNullable, empty</a></li><li><a href="doc-theory-lecture-41.html#3-retrieval-and-consumption-methods">3. Retrieval and Consumption Methods</a></li><li><a href="doc-theory-lecture-41.html#4-orelse-vs-orelseget">4. orElse vs orElseGet</a></li><li><a href="doc-theory-lecture-41.html#5-transformation-map-flatmap-filter">5. Transformation: map, flatMap, filter</a></li><li><a href="doc-theory-lecture-41.html#6-the-method-catalogue">6. The Method Catalogue</a></li><li><a href="doc-theory-lecture-41.html#7-streams-integration">7. Streams Integration</a></li><li><a href="doc-theory-lecture-41.html#8-primitive-optionals-and-bad-placements">8. Primitive Optionals and Bad Placements</a></li><li><a href="doc-theory-lecture-41.html#9-pitfalls-and-common-errors">9. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-41.html#10-myth-vs-reality">10. Myth vs Reality</a></li><li><a href="doc-theory-lecture-41.html#11-common-trap-questions">11. Common Trap Questions</a></li><li><a href="doc-theory-lecture-41.html#12-points-to-remember">12. Points to Remember</a></li><li><a href="doc-theory-lecture-41.html#13-likely-interview-questions">13. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-41.html#14-final-summary">14. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Optional Explained from Scratch | All Methods + Streams Integration</h1>
+<p class="readmeta">15 sections · 3,533 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-41" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-41">Lecture 41</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Optional Explained from Scratch | All Methods + Streams Integration" (playlist map, verified). Repo evidence: 2 Demo files.</p>
+</blockquote>
+<p><code>Optional&lt;T&gt;</code> is the standard library's answer to the null reference, the value that produces a <code>NullPointerException</code> the moment it is dereferenced. It is a small container that either holds a non-null value or holds nothing, and the type itself documents the possibility of absence to every reader. This lecture builds the full method catalogue on that idea: creation, retrieval, transformation, the Java 9 and later additions, and the integration with the streams of Lecture 40. The governing rule is that a method returning <code>Optional</code> is promising "a value may be absent", and every consumer of that method must honour the promise instead of unwrapping blindly.</p>
+<h2 id="1-the-null-problem-and-what-optional-is">1. The Null Problem and What Optional Is</h2>
+<p>A reference variable with no object attached holds <code>null</code>. Calling any method on it throws a <code>NullPointerException</code>, or NPE. Tony Hoare, who introduced the null reference in 1965, later called it his "billion-dollar mistake": null has no type information and no behaviour, so a missing value is indistinguishable from a bug until the program crashes. The compiler cannot help, because <code>null</code> is assignable to every reference type.</p>
+<p><code>Optional&lt;T&gt;</code> is a value-based container that may or may not hold a non-null value. It is a wrapper with exactly two states: present, meaning it holds one real value, or empty, meaning it holds nothing. The crucial gain is in the <strong>type signature</strong>: a method declared as <code>Optional&lt;User&gt; findUser()</code> tells the caller in advance that a user may not exist, whereas <code>User findUser()</code> tells the caller nothing and quietly returns <code>null</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — the container has exactly two states</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;value&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">present</span><span class="p">.</span><span class="na">isPresent</span><span class="p">());</span><span class="w">   </span><span class="c1">// true</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">empty</span><span class="p">.</span><span class="na">isPresent</span><span class="p">());</span><span class="w">     </span><span class="c1">// false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+<code>Optional</code> wraps the <em>absence of a return value</em>, not a field value. Its intended use is a method return type for a query that may find nothing; it is not a general-purpose null replacement.</p>
+<p>Memory aid
+Think of <code>Optional&lt;T&gt;</code> as a box that holds at most one item. The box is never null; its contents may simply be absent.</p>
+</blockquote>
+<h2 id="2-creating-an-optional-of-ofnullable-empty">2. Creating an Optional: of, ofNullable, empty</h2>
+<p>There are exactly three static factories, and they differ only in how they treat <code>null</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Factory</th>
+<th>Input</th>
+<th>If the input is <code>null</code></th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Optional.of(value)</code></td>
+<td>a value known to be non-null</td>
+<td>throws <code>NullPointerException</code> immediately</td>
+<td>wrapping a value you are certain exists</td>
+</tr>
+<tr>
+<td><code>Optional.ofNullable(value)</code></td>
+<td>a value that may be null</td>
+<td>returns <code>Optional.empty()</code></td>
+<td>wrapping the result of a possibly-null call</td>
+</tr>
+<tr>
+<td><code>Optional.empty()</code></td>
+<td>no argument</td>
+<td>returns the shared empty instance</td>
+<td>an explicit "not found" answer</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — of rejects null, ofNullable tolerates it, empty is explicit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;Ada&quot;</span><span class="p">);</span><span class="w">        </span><span class="c1">// present</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span><span class="w">          </span><span class="c1">// empty</span>
+
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">maybeNull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getenv</span><span class="p">(</span><span class="s">&quot;MISSING&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">ofNullable</span><span class="p">(</span><span class="n">maybeNull</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">isPresent</span><span class="p">());</span><span class="w">              </span><span class="c1">// false</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span><span class="w">                          </span><span class="c1">// fails fast</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">NullPointerException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;of(null) threw NPE&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The choice is a statement of intent. <code>Optional.of</code> is a guard: it fails fast when the value you believed non-null is not. <code>Optional.ofNullable</code> is the adapter for data from the outside world, where null is always possible. <code>Optional.empty()</code> is how a lookup reports "nothing found" without returning null.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why does <code>Optional.of(null)</code> throw instead of returning empty?" Because <code>of</code> promises a present value; a null input violates that contract at the earliest possible point, which is exactly where a bug should surface. <code>ofNullable</code> exists for inputs that legitimately may be null.</p>
+</blockquote>
+<h2 id="3-retrieval-and-consumption-methods">3. Retrieval and Consumption Methods</h2>
+<p>The retrieval methods fall into two families: those that unwrap the value, and those that act on it only when it is present.</p>
+<ul>
+<li><strong><code>get()</code></strong> returns the value or throws <code>NoSuchElementException</code> if empty. It is the direct unwrap and is <strong>discouraged</strong>, because it reintroduces the very failure mode <code>Optional</code> was meant to remove.</li>
+<li><strong><code>orElse(defaultValue)</code></strong> returns the value if present, otherwise the supplied default. The default expression is evaluated <strong>eagerly</strong>, whether or not it is needed.</li>
+<li><strong><code>orElseGet(Supplier)</code></strong> returns the value if present, otherwise the result of calling the supplier. The supplier is invoked <strong>lazily</strong>, only when the container is empty.</li>
+<li><strong><code>orElseThrow()</code></strong> (Java 10) throws <code>NoSuchElementException</code> when empty; <strong><code>orElseThrow(exceptionSupplier)</code></strong> throws the exception the supplier creates, which is how a domain-specific error is raised.</li>
+<li><strong><code>ifPresent(Consumer)</code></strong> runs the consumer on the value if present and does nothing otherwise.</li>
+<li><strong><code>ifPresentOrElse(Consumer, Runnable)</code></strong> (Java 9) runs the consumer when present and the runnable when empty, closing the gap that <code>ifPresent</code> leaves open.</li>
+<li><strong><code>isPresent()</code></strong> returns <code>true</code> when a value is held; <strong><code>isEmpty()</code></strong> (Java 11) returns <code>true</code> when it is not.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — orElse is eager, orElseGet is lazy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">heavyDefault</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;heavyDefault called&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;Ada&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="n">heavyDefault</span><span class="p">());</span><span class="w">      </span><span class="c1">// prints &quot;heavyDefault called&quot;</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">orElseGet</span><span class="p">(</span><span class="n">Demo</span><span class="p">::</span><span class="n">heavyDefault</span><span class="p">);</span><span class="w"> </span><span class="c1">// prints nothing</span>
+
+<span class="w">        </span><span class="n">value</span><span class="p">.</span><span class="na">ifPresent</span><span class="p">(</span><span class="n">v</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hi &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">));</span>
+<span class="w">        </span><span class="n">value</span><span class="p">.</span><span class="na">ifPresentOrElse</span><span class="p">(</span>
+<span class="w">                </span><span class="n">v</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;present: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">v</span><span class="p">),</span>
+<span class="w">                </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;absent&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Use <code>orElseThrow</code> to fail explicitly, <code>orElseGet</code> for a fallback that costs something to compute, and <code>ifPresent</code> or <code>ifPresentOrElse</code> when the value is consumed rather than returned. Avoid <code>get()</code>.</p>
+</blockquote>
+<h2 id="4-orelse-vs-orelseget">4. orElse vs orElseGet</h2>
+<p>Both methods supply a fallback. The difference is <strong>when</strong> the fallback is produced, and that difference is a performance and correctness bug waiting to happen.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>orElse(value)</code></th>
+<th><code>orElseGet(supplier)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Argument</td>
+<td>a value of type <code>T</code></td>
+<td>a <code>Supplier&lt;T&gt;</code></td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>eager — computed before the call</td>
+<td>lazy — computed only if empty</td>
+</tr>
+<tr>
+<td>Cost when present</td>
+<td>the default is built and discarded</td>
+<td>no cost</td>
+</tr>
+<tr>
+<td>Safe for side effects</td>
+<td>no, side effects run even when unused</td>
+<td>yes, side effects run only when empty</td>
+</tr>
+<tr>
+<td>When to use</td>
+<td>a cheap constant fallback such as <code>0</code> or <code>""</code></td>
+<td>an expensive fallback such as a database or network call</td>
+</tr>
+</tbody>
+</table>
+<p>The trap is real: <code>optional.orElse(createDefaultUser())</code> calls <code>createDefaultUser()</code> unconditionally, even when the <code>Optional</code> is present. <code>optional.orElseGet(() -&gt; createDefaultUser())</code> calls it only when empty.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>orElse</code> takes a <strong>value</strong>, so it must be computed first. <code>orElseGet</code> takes a <strong>recipe</strong>, so it is cooked only when needed.</p>
+</blockquote>
+<h2 id="5-transformation-map-flatmap-filter">5. Transformation: map, flatMap, filter</h2>
+<p>Transformation methods let a value inside the container be reshaped without unwrapping it first. They are the reason <code>Optional</code> composes into readable chains.</p>
+<ul>
+<li><strong><code>map(Function)</code></strong> applies the function to the contained value and re-wraps the result. If the container is empty, <code>map</code> does nothing and returns empty. The function must not return <code>null</code>; if it does, <code>map</code> returns empty rather than a present null.</li>
+<li><strong><code>flatMap(Function)</code></strong> is used when the mapping function already returns an <code>Optional</code>. It applies the function and returns that <code>Optional</code> directly, avoiding the nested <code>Optional&lt;Optional&lt;T&gt;&gt;</code> that <code>map</code> would otherwise produce.</li>
+<li><strong><code>filter(Predicate)</code></strong> keeps the value if the predicate holds and turns the container into empty if it does not.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — map changes the boxed type, flatMap removes nesting, filter gates</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">nickname</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">())</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;ADA&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">String</span><span class="p">::</span><span class="n">length</span><span class="p">);</span><span class="w">          </span><span class="c1">// Optional[3]</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">flat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">flatMap</span><span class="p">(</span><span class="n">Demo2</span><span class="p">::</span><span class="n">nickname</span><span class="p">);</span><span class="w">        </span><span class="c1">// Optional[ada]</span>
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">filtered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">startsWith</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">flat</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">filtered</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Interesting
+<code>Optional</code> is often called a <strong>monad-like</strong> type: <code>map</code> and <code>flatMap</code> chain computations that may be absent, and any empty step short-circuits the rest of the chain to empty. Keep the analogy simple; the practical point is that emptiness propagates.</p>
+<p>Important
+Use <code>map</code> when the function returns a plain value, and <code>flatMap</code> when it returns an <code>Optional</code>. Using <code>map</code> with an <code>Optional</code>-returning function yields <code>Optional&lt;Optional&lt;T&gt;&gt;</code>, which is almost always a mistake.</p>
+</blockquote>
+<h2 id="6-the-method-catalogue">6. The Method Catalogue</h2>
+<p>The table below is the full reference for the common <code>Optional</code> API, with the version in which each method appeared.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Kind</th>
+<th>What it does</th>
+<th>Since</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>of(T)</code></td>
+<td>static</td>
+<td>wrap a non-null value, throw on null</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>ofNullable(T)</code></td>
+<td>static</td>
+<td>wrap a possibly-null value as present or empty</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>empty()</code></td>
+<td>static</td>
+<td>return the shared empty instance</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>get()</code></td>
+<td>instance</td>
+<td>unwrap, throw <code>NoSuchElementException</code> if empty</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>isPresent()</code></td>
+<td>instance</td>
+<td><code>true</code> if a value is held</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>ifPresent(Consumer)</code></td>
+<td>instance</td>
+<td>act on the value when present</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>filter(Predicate)</code></td>
+<td>instance</td>
+<td>keep the value only if the predicate holds</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>map(Function)</code></td>
+<td>instance</td>
+<td>transform and re-wrap the value</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>flatMap(Function)</code></td>
+<td>instance</td>
+<td>transform when the mapper returns an <code>Optional</code></td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>orElse(T)</code></td>
+<td>instance</td>
+<td>value or an eager default</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>orElseGet(Supplier)</code></td>
+<td>instance</td>
+<td>value or a lazy default</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>orElseThrow(Supplier)</code></td>
+<td>instance</td>
+<td>value or throw the supplied exception</td>
+<td>8</td>
+</tr>
+<tr>
+<td><code>ifPresentOrElse(Consumer, Runnable)</code></td>
+<td>instance</td>
+<td>branch on present versus empty</td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>or(Supplier)</code></td>
+<td>instance</td>
+<td>value or another <code>Optional</code></td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>stream()</code></td>
+<td>instance</td>
+<td>view the value as a 0- or 1-element stream</td>
+<td>9</td>
+</tr>
+<tr>
+<td><code>orElseThrow()</code></td>
+<td>instance</td>
+<td>value or throw <code>NoSuchElementException</code></td>
+<td>10</td>
+</tr>
+<tr>
+<td><code>isEmpty()</code></td>
+<td>instance</td>
+<td><code>true</code> if no value is held</td>
+<td>11</td>
+</tr>
+</tbody>
+</table>
+<p>The pattern is worth noticing: every new version adds a method that lets the caller avoid unwrapping manually. <code>orElseThrow()</code> closes the <code>get()</code> loophole, <code>ifPresentOrElse</code> closes the branch that <code>ifPresent</code> cannot express, and <code>isEmpty</code> closes the negation of <code>isPresent</code>.</p>
+<h2 id="7-streams-integration">7. Streams Integration</h2>
+<p>The bridge between <code>Optional</code> and streams is <strong><code>Optional.stream()</code></strong>, added in Java 9. It views the container as a stream of zero elements when empty and exactly one element when present. That single method turns a <code>List&lt;Optional&lt;T&gt;&gt;</code> into a clean <code>List&lt;T&gt;</code> of only the present values, because <code>flatMap(Optional::stream)</code> drops the empties.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — Optional.stream() flattens present and empty into 0 or 1 elements</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">wrapped</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;Ada&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">(),</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">&quot;Grace&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">present</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrapped</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">flatMap</span><span class="p">(</span><span class="n">Optional</span><span class="p">::</span><span class="n">stream</span><span class="p">)</span><span class="w">     </span><span class="c1">// each Optional -&gt; 0 or 1 elements</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">present</span><span class="p">);</span><span class="w">           </span><span class="c1">// [Ada, Grace]</span>
+
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">none</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">none</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">count</span><span class="p">());</span><span class="w">   </span><span class="c1">// 0</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Two related tools complete the integration. <strong><code>or(Supplier&lt;Optional&lt;T&gt;&gt;)</code></strong> (Java 9) returns the current container when present, otherwise the alternative <code>Optional</code> the supplier produces. Reversing the direction, a stream terminal such as <code>findFirst()</code>, <code>max()</code> or <code>min()</code> already returns an <code>Optional</code>, so that result feeds directly back into the chain of Section 5. This is the same short-circuiting catalog from Lecture 40: a terminal that may find nothing reports it as an empty <code>Optional</code>, and <code>Optional.stream()</code> converts it back to a pipeline.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>Optional.stream()</code> is the adapter from the container world to the pipeline world: empty → zero elements, present → one element. <code>flatMap(Optional::stream)</code> is the idiom for "keep only the values that exist".</p>
+</blockquote>
+<h2 id="8-primitive-optionals-and-bad-placements">8. Primitive Optionals and Bad Placements</h2>
+<p>Three primitive specializations exist to avoid the cost of boxing: <strong><code>OptionalInt</code></strong>, <strong><code>OptionalLong</code></strong> and <strong><code>OptionalDouble</code></strong>. They carry an <code>int</code>, <code>long</code> or <code>double</code> directly, and they expose their own retrieval methods such as <code>getAsInt()</code> rather than <code>get()</code>. They are produced by numeric stream terminals, so <code>IntStream.max()</code> returns an <code>OptionalInt</code>. Their creation and API details belong to the numeric-stream discussion of Lecture 42.</p>
+<p>The second subject of this section is where <code>Optional</code> does <strong>not</strong> belong:</p>
+<ul>
+<li><strong>As a field.</strong> A field of type <code>Optional</code> is not serializable (see below), adds a layer of indirection, and cannot be made final-meaningful for all uses; the field should simply be nullable or provide a query method that returns <code>Optional</code>.</li>
+<li><strong>As a method parameter.</strong> <code>Optional</code> parameters force every caller to wrap arguments and push the emptiness check into the method instead of the caller; prefer overloading or explicit null-checks at the boundary.</li>
+<li><strong>As a map key or collection element.</strong> <code>equals</code> and <code>hashCode</code> are defined, but comparing empty containers is rarely meaningful; more importantly, <code>Optional</code> is a <strong>value-based</strong> class whose instances may not be reliably compared by identity and should not be used where a stable identity key is expected.</li>
+<li><strong>In serialization.</strong> <code>Optional</code> does <strong>not</strong> implement <code>Serializable</code>. Trying to serialize an object that holds an <code>Optional</code> field throws <code>NotSerializableException</code>. The fix is to keep fields plain and expose <code>Optional</code> only at the API surface.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important
+The intended contract is narrow: <code>Optional</code> is a <strong>method return type</strong> that documents a possibly-absent result. Fields, parameters, keys and serialized state should use ordinary references.</p>
+</blockquote>
+<h2 id="9-pitfalls-and-common-errors">9. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Optional.of(null)</code></td>
+<td>throws <code>NullPointerException</code> on the spot</td>
+<td>use <code>ofNullable</code> when null is possible</td>
+</tr>
+<tr>
+<td><code>get()</code> without <code>isPresent()</code></td>
+<td>throws <code>NoSuchElementException</code></td>
+<td>use <code>orElseThrow</code>, <code>ifPresent</code> or <code>map</code></td>
+</tr>
+<tr>
+<td><code>orElse(heavyCall())</code></td>
+<td>the heavy call runs even when the value is present</td>
+<td>use <code>orElseGet(() -&gt; heavyCall())</code></td>
+</tr>
+<tr>
+<td><code>Optional</code> as a field</td>
+<td>hurts serialization and design</td>
+<td>keep fields plain, return <code>Optional</code> from a getter</td>
+</tr>
+<tr>
+<td><code>Optional</code> as a parameter</td>
+<td>forces callers to wrap values</td>
+<td>overload the method or check null at the boundary</td>
+</tr>
+<tr>
+<td>Returning <code>null</code> from an <code>Optional</code> method</td>
+<td>defeats the whole contract</td>
+<td>return <code>Optional.empty()</code></td>
+</tr>
+<tr>
+<td><code>map</code> returning an <code>Optional</code></td>
+<td>yields <code>Optional&lt;Optional&lt;T&gt;&gt;</code></td>
+<td>use <code>flatMap</code> instead</td>
+</tr>
+<tr>
+<td>Treating <code>Optional</code> as a collection</td>
+<td>there is no <code>size</code> or index access</td>
+<td>use <code>stream()</code> to reach stream methods</td>
+</tr>
+<tr>
+<td>Assuming it can be serialized</td>
+<td><code>NotSerializableException</code></td>
+<td>store plain values in serializable state</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Never return <code>null</code> where the declared type is <code>Optional</code>. The empty container is the null of the <code>Optional</code> world; a null reference is a broken promise.</p>
+</blockquote>
+<h2 id="10-myth-vs-reality">10. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Optional removes every <code>NullPointerException</code>."</td>
+<td>It removes NPEs only where it is actually used; <code>get()</code> and <code>of(null)</code> still throw.</td>
+</tr>
+<tr>
+<td>"<code>orElse</code> and <code>orElseGet</code> behave the same."</td>
+<td><code>orElse</code> evaluates its argument eagerly; <code>orElseGet</code> invokes its supplier lazily.</td>
+</tr>
+<tr>
+<td>"Optional can be a field, parameter or map key."</td>
+<td>The intended contract is a method return type; other placements hurt design and serialization.</td>
+</tr>
+<tr>
+<td>"Optional implements <code>Serializable</code>."</td>
+<td>It does not; serializing an <code>Optional</code> throws <code>NotSerializableException</code>.</td>
+</tr>
+<tr>
+<td>"<code>Optional</code> is just a collection of zero or one element."</td>
+<td>It is a value-based container; only <code>stream()</code> gives it a collection-like view.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-common-trap-questions">11. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Eager default: "<code>optional.orElse(loadFromDb())</code> — when the value is present, is <code>loadFromDb()</code> called?"
+Yes. <code>orElse</code> takes a value, so the argument is evaluated before the call; use <code>orElseGet(() -&gt; loadFromDb())</code> for lazy evaluation.</p>
+<p>Trap 2 — get without a check: "What does <code>Optional.empty().get()</code> do?"
+It throws <code>NoSuchElementException</code>, not <code>NullPointerException</code>. Prefer <code>orElseThrow</code> with a meaningful exception.</p>
+<p>Trap 3 — of(null): "Does <code>Optional.of(null)</code> return an empty Optional?"
+No. It throws <code>NullPointerException</code> immediately; <code>Optional.ofNullable(null)</code> is the factory that returns empty.</p>
+<p>Trap 4 — Nested Optional: "What does <code>optional.map(x -&gt; findOther(x))</code> produce when <code>findOther</code> returns <code>Optional</code>?"
+<code>Optional&lt;Optional&lt;T&gt;&gt;</code>. Use <code>flatMap(findOther)</code> to keep a single level.</p>
+<p>Trap 5 — Return null: "A method returns <code>Optional&lt;User&gt;</code>. Is returning <code>null</code> acceptable when no user is found?"
+No. Return <code>Optional.empty()</code>. A null return breaks callers that trust the declared type.</p>
+<p>Trap 6 — Serialization: "Can an <code>Optional</code> field be serialized with the object?"
+No. <code>Optional</code> is not <code>Serializable</code>; keep the field plain and expose <code>Optional</code> from a getter.</p>
+<p>Trap 7 — Optional as a collection: "Can I call <code>.size()</code> or <code>.get(0)</code> on an <code>Optional</code>?"
+No. It is not a collection; use <code>stream()</code> to obtain a 0- or 1-element stream when stream operations are needed.</p>
+</blockquote>
+<h2 id="12-points-to-remember">12. Points to Remember</h2>
+<ol>
+<li><code>Optional&lt;T&gt;</code> is a value-based container that either holds one non-null value or nothing; its value is the type signature that documents absence.</li>
+<li>Create with <code>Optional.of</code> for guaranteed non-null input, <code>Optional.ofNullable</code> for possibly-null input, and <code>Optional.empty()</code> for an explicit not-found answer.</li>
+<li><code>get()</code> is discouraged because it throws <code>NoSuchElementException</code>; prefer <code>orElseThrow</code>, <code>map</code>, <code>ifPresent</code> or <code>ifPresentOrElse</code>.</li>
+<li><code>orElse</code> evaluates its argument eagerly; <code>orElseGet</code> invokes its supplier lazily. Choose <code>orElseGet</code> for expensive fallbacks.</li>
+<li><code>map</code> transforms and re-wraps; <code>flatMap</code> is for mappers that already return an <code>Optional</code>; <code>filter</code> gates the value.</li>
+<li><code>Optional.stream()</code> (Java 9) converts the container into zero or one stream elements; <code>flatMap(Optional::stream)</code> keeps only present values.</li>
+<li>Java 9 added <code>ifPresentOrElse</code>, <code>or</code> and <code>stream</code>; Java 10 added <code>orElseThrow()</code>; Java 11 added <code>isEmpty</code>.</li>
+<li><code>Optional</code> is not <code>Serializable</code> and belongs at the return-type boundary, not in fields, parameters or map keys.</li>
+<li><code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code> avoid boxing; numeric stream terminals such as <code>IntStream.max()</code> return them (Lecture 42).</li>
+<li>Never return <code>null</code> from a method declared to return <code>Optional</code>; the empty container is the correct "no result".</li>
+</ol>
+<h2 id="13-likely-interview-questions">13. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What problem does <code>Optional</code> solve?</td>
+<td>It models a possibly-absent value and documents that possibility in the return type, so callers must handle emptiness explicitly.</td>
+</tr>
+<tr>
+<td><code>of</code> versus <code>ofNullable</code>?</td>
+<td><code>of</code> requires a non-null value and throws <code>NullPointerException</code> otherwise; <code>ofNullable</code> returns empty for a null input.</td>
+</tr>
+<tr>
+<td>Why is <code>get()</code> discouraged?</td>
+<td>It throws <code>NoSuchElementException</code> when empty and reintroduces manual unwrapping; use <code>orElseThrow</code>, <code>map</code> or <code>ifPresent</code>.</td>
+</tr>
+<tr>
+<td><code>orElse</code> versus <code>orElseGet</code>?</td>
+<td><code>orElse</code> evaluates its fallback eagerly; <code>orElseGet</code> invokes its supplier only when empty, so it is lazy.</td>
+</tr>
+<tr>
+<td>What does <code>map</code> do when the container is empty?</td>
+<td>It returns empty without calling the function; emptiness propagates through the chain.</td>
+</tr>
+<tr>
+<td><code>map</code> versus <code>flatMap</code>?</td>
+<td>Use <code>map</code> for a plain return value; use <code>flatMap</code> when the mapping function already returns an <code>Optional</code>, to avoid nesting.</td>
+</tr>
+<tr>
+<td>What does <code>Optional.stream()</code> do?</td>
+<td>It views a present <code>Optional</code> as a one-element stream and an empty one as a zero-element stream.</td>
+</tr>
+<tr>
+<td>How do you turn a <code>List&lt;Optional&lt;T&gt;&gt;</code> into present values?</td>
+<td><code>list.stream().flatMap(Optional::stream).collect(Collectors.toList())</code>.</td>
+</tr>
+<tr>
+<td>Should <code>Optional</code> be used as a field or parameter?</td>
+<td>No; it is intended as a method return type, because it is not serializable and complicates the API.</td>
+</tr>
+<tr>
+<td>Is <code>Optional</code> serializable?</td>
+<td>No; it does not implement <code>Serializable</code>, so an <code>Optional</code> field breaks serialization.</td>
+</tr>
+<tr>
+<td>What are the primitive optional types?</td>
+<td><code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code>, which avoid boxing and are returned by numeric stream terminals.</td>
+</tr>
+<tr>
+<td>What happens if a function passed to <code>map</code> returns <code>null</code>?</td>
+<td><code>map</code> itself never returns a present null; it returns an empty <code>Optional</code>, because a null result is treated as absence.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-final-summary">14. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>null         -&gt; NullPointerException waiting to happen (&quot;the billion-dollar mistake&quot;)
+Optional&lt;T&gt;  -&gt; a container that holds at most one non-null value, or is empty
+                never null itself; emptiness is the empty-of-the-world
+create       : of (null -&gt; NPE)   ofNullable (null -&gt; empty)   empty (explicit)
+unwrap       : get (discouraged)  orElse (eager)  orElseGet (lazy)  orElseThrow
+consume      : ifPresent  ifPresentOrElse (9)  isPresent  isEmpty (11)
+transform    : map (1 -&gt; 1, re-wrap)  flatMap (mapper returns Optional)  filter
+streams      : Optional.stream() (9)  -&gt; 0 or 1 elements
+               flatMap(Optional::stream) keeps only present values (Lecture 40)
+alternate    : or(Supplier&lt;Optional&lt;T&gt;&gt;) (9)
+primitives   : OptionalInt  OptionalLong  OptionalDouble (no boxing, Lecture 42)
+placement    : method return type only, NOT field / param / key / serialized state
+</code></pre></div>
+
+<ul>
+<li>Null problem → <code>Optional</code> documents absence in the type so the caller cannot forget it.</li>
+<li>Creation → <code>of</code> fails fast, <code>ofNullable</code> tolerates null, <code>empty</code> reports not-found.</li>
+<li>Retrieval → <code>orElse</code> is eager, <code>orElseGet</code> is lazy, <code>orElseThrow</code> fails with meaning; avoid <code>get()</code>.</li>
+<li>Transformation → <code>map</code> re-wraps, <code>flatMap</code> removes nesting, <code>filter</code> gates; empty short-circuits.</li>
+<li>Streams → <code>Optional.stream()</code> bridges to Lecture 40 pipelines; numeric terminals return primitive optionals (Lecture 42).</li>
+<li>Placement and serialization → return type only; the class is value-based and not <code>Serializable</code>.</li>
+<li>Traps → <code>Optional.of(null)</code>, <code>get()</code>, eager <code>orElse</code>, returning null, nested optionals.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Reach for <code>Optional</code> at the boundary of a method that may not find an answer, chain <code>map</code>, <code>flatMap</code> and <code>filter</code> instead of unwrapping, and let emptiness propagate to a single <code>orElse</code>, <code>orElseGet</code> or <code>orElseThrow</code> at the end.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> <code>Optional&lt;T&gt;</code> turns "may be absent" into a type the compiler and the reader can see, and its methods make absence flow through a chain rather than crash on a null.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-40.html"><span class="dir">Previous</span><span class="ttl">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</span></a><a class="next" href="doc-theory-lecture-42.html"><span class="dir">Next</span><span class="ttl">Parallel Streams in Java Explained | Primitive Optional Classes</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

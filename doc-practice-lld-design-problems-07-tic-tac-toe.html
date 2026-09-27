@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Tic-Tac-Toe Game — LLD</title>
+<meta name="description" content="Design a Tic-Tac-Toe Game">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-07-tic-tac-toe">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#deciding-the-win">Deciding the Win</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-07-tic-tac-toe.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Tic-Tac-Toe Game</h1>
+<p class="readmeta">15 sections · 2,022 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-07-tic-tac-toe" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 07 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>An n x n board, default 3 x 3; win on k in a row, k = n by default.</li>
+<li>Two players alternate, each drops their mark (X / O) on an empty cell.</li>
+<li>After each move decide: this player wins, board full (draw), or play on.</li>
+<li>The win check is O(1) per move, not a board rescan.</li>
+<li>A player may be a human or a bot; a <code>Player</code> holds a <code>PlayingPiece</code>.</li>
+<li>Live board and a move log for the display.</li>
+<li><code>reset()</code> starts a fresh game on the same board.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>A minimax / unbeatable AI (the follow-up).</li>
+<li>Network or online multiplayer.</li>
+<li>Arbitrary non-square boards.</li>
+<li>A graphical UI.</li>
+<li>Persistence, accounts.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>Game to board to cells. The board carries a signed counter per row, per column and for the two diagonals, so a move updates at most four counters and the win test is O(1).</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Player</strong> — <code>name: String</code>, <code>piece: PlayingPiece</code>; <code>takeTurn(Board b): Move</code> (human reads r, c; bot calls <code>bot.pick(b)</code>).</li>
+<li><strong>Game</strong> (the context) — <code>board: Board</code>, <code>players: Player[2]</code>, <code>turn: int</code>, <code>winner: Player</code>, <code>state: GameState</code>; <code>move(int r, int c, Player p): Result</code>, <code>reset(): void</code> (place, bump counters, isWin, flip).</li>
+<li><strong>Board</strong> — <code>n: int</code>, <code>k: int</code>, <code>filled: int</code>, <code>cells: Cell[n][n]</code>, <code>rowCount: int[n]</code>, <code>colCount: int[n]</code>, <code>diag: int</code>, <code>antiDiag: int</code>, <code>win: WinStrategy</code>; <code>isWin(int r, int c, int mark): boolean</code>, <code>isFull(): boolean</code>, <code>place(r, c, mark)</code>, <code>cell(r, c): Cell</code>.</li>
+<li><strong>Cell</strong> — <code>row: int</code>, <code>col: int</code>, <code>mark: Mark = EMPTY</code>; <code>isEmpty(): boolean</code>, <code>set(PlayingPiece)</code>, <code>clear()</code>.</li>
+<li><strong>PlayingPiece</strong> — <code>mark: Mark</code> (X or O); <code>sign(): int</code> (+1 for X, -1 for O).</li>
+<li><strong>Move</strong> (value record) — <code>row: int</code>, <code>col: int</code>, <code>piece: PlayingPiece</code>, <code>by: Player</code>, <code>delta: the up-to-4 counters it moved</code>.</li>
+<li><strong>GameState</strong> (interface) — <code>advance(Game g): GameState</code>; in progress -&gt; won on <code>isWin</code>, draw on <code>isFull</code>. States: InProgress, Won, Draw.</li>
+<li><strong>WinStrategy</strong> (interface) — <code>check(Board b, Move last): boolean</code>; runs after every move, reads the counters, never the grid.</li>
+<li><strong>BoardObserver</strong> (interface) — <code>onMove(Move m): void</code>; <code>ConsoleView</code>, <code>MoveLog</code>, <code>ScoreBoard</code>.</li>
+</ul>
+<h3 id="the-three-win-policies">The three win policies</h3>
+<ul>
+<li><code>CounterCheck</code> -&gt; <code>abs(a touched counter) == n</code>, O(1).</li>
+<li><code>LineScan</code> -&gt; walk the last move's row, col, 2 diagonals, O(n).</li>
+<li><code>FullScan</code> -&gt; every line, every move, O(n*n).</li>
+</ul>
+<p>Same seam, only the cost differs.</p>
+<h3 id="the-states">The states</h3>
+<ul>
+<li>InProgress -&gt; take moves, alternate.</li>
+<li>Won -&gt; freeze, expose the winner.</li>
+<li>Draw -&gt; board full, no line of n.</li>
+</ul>
+<p><code>move()</code> is a no-op unless InProgress.</p>
+<h3 id="the-four-counters">The four counters</h3>
+<p>X adds +1, O adds -1; a full row, column or diagonal has magnitude n. A move touches at most four counters.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>move(int r, int c, Player p): Result</code> — rejects an off-board or occupied cell before touching state. Places the mark, bumps the up-to-four counters, asks <code>isWin</code>, then <code>isFull</code>. Returns WIN / DRAW / NEXT / OCCUPIED / OFF_BOARD. A no-op once the game is over.</li>
+<li><code>isWin(int r, int c, int mark): boolean</code> — the O(1) check. Looks only at the counters the last move moved: <code>abs(rowCount[r])</code>, <code>abs(colCount[c])</code>, and a diagonal when the cell is on one. True when any equals n. Never walks the grid.</li>
+<li><code>isFull(): boolean</code> — <code>filled == n * n</code>. Tested only after <code>isWin</code> returns false, so a winning last move is never miscounted as a draw.</li>
+<li><code>reset(): void</code> — clears every cell, zeroes the 2n + 2 counters and <code>filled</code>, and sets the state back to InProgress. Same Board, fresh game.</li>
+</ol>
+<p><code>win</code> when <code>abs(a touched counter) == n</code>; <code>draw</code> when <code>filled == n*n</code> and no line hit n. Place: <code>s = (mark == X) ? +1 : -1; row[r] += s; col[c] += s; if (r == c) diag += s; if (r+c == n-1) anti += s;</code>. IsWin: <code>abs(row[r]) == n || abs(col[c]) == n || (r == c &amp;&amp; abs(diag) == n) || (r+c==n-1 &amp;&amp; abs(anti) == n)</code>.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>X holds (0,0) and (0,1); O holds (1,0) and (1,1). X plays (0,2). Walk <code>move()</code>: check the cell, bump <code>rowCount[0]</code> to +3, <code>colCount[2]</code>, <code>antiDiag</code>, then test <code>abs(rowCount[0]) == 3</code>. Which objects touched the turn?</p>
+<p>After the move: <code>rowCount[0]: +2 -&gt; +3</code>, <code>colCount[2]: 0 -&gt; +1</code>, <code>r + c = 2 = n-1</code> so <code>antiDiag +1</code>, <code>r != c</code> so the main diag is untouched. 3 counters moved. The grid is never read.</p>
+<h2 id="the-change">The Change</h2>
+<p>They ask the machine to play. An <code>AiPlayer</code> supplies a Minimax <code>MoveStrategy</code> to a <code>Player</code>: list the empty cells, score each with minimax and alpha-beta, return the best Move. It only reads the board and the win rule; not one existing class changes. Strategy, a second time on this sheet.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The incremental update. The four counter arrays live on the Board. Every move mutates at most four of them in place and nothing re-derives them from the grid. <code>reset()</code> zeroes all 2n + 2. That is the whole trick.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>move and isWin:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Game</span><span class="w"> </span><span class="p">{</span><span class="w">                                     </span><span class="c1">// the context</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Board</span><span class="w"> </span><span class="n">board</span><span class="p">;</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Player</span><span class="o">[]</span><span class="w"> </span><span class="n">players</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">turn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">GameState</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IN_PROGRESS</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Player</span><span class="w"> </span><span class="n">winner</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Result</span><span class="w"> </span><span class="nf">move</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">Player</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">IN_PROGRESS</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">OVER</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">n</span><span class="w"> </span><span class="o">||</span>
+<span class="w">            </span><span class="n">c</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">n</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">OFF_BOARD</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Cell</span><span class="w"> </span><span class="n">cell</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">cell</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">cell</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">OCCUPIED</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">mark</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">piece</span><span class="p">().</span><span class="na">sign</span><span class="p">();</span><span class="w">             </span><span class="c1">// +1 X, -1 O</span>
+<span class="w">        </span><span class="n">cell</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">piece</span><span class="p">());</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">filled</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="n">board</span><span class="p">.</span><span class="na">rowCount</span><span class="o">[</span><span class="n">r</span><span class="o">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mark</span><span class="p">;</span><span class="w">               </span><span class="c1">// at most 4 counters</span>
+<span class="w">        </span><span class="n">board</span><span class="p">.</span><span class="na">colCount</span><span class="o">[</span><span class="n">c</span><span class="o">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mark</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">diag</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mark</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">antiDiag</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">mark</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="na">isWin</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">mark</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">           </span><span class="c1">// O(1), last move</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WON</span><span class="p">;</span><span class="w"> </span><span class="n">winner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">WIN</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="na">filled</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">n</span><span class="p">)</span><span class="w">   </span><span class="c1">// full</span>
+<span class="w">            </span><span class="p">{</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DRAW</span><span class="p">;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">DRAW</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">turn</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">                               </span><span class="c1">// flip the player</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Result</span><span class="p">.</span><span class="na">NEXT</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Board</span><span class="w"> </span><span class="p">{</span><span class="w">                                    </span><span class="c1">// grid + the four counters</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">diag</span><span class="p">,</span><span class="w"> </span><span class="n">antiDiag</span><span class="p">,</span><span class="w"> </span><span class="n">filled</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">rowCount</span><span class="p">,</span><span class="w"> </span><span class="n">colCount</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isWin</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">r</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">mark</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">      </span><span class="c1">// CounterCheck</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">(</span><span class="n">rowCount</span><span class="o">[</span><span class="n">r</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span>
+<span class="w">            </span><span class="o">||</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">(</span><span class="n">colCount</span><span class="o">[</span><span class="n">c</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span>
+<span class="w">            </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">(</span><span class="n">diag</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="w">            </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">(</span><span class="n">antiDiag</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Rescanning the whole board every move.</strong> After a move you only need the line the move is on. Walking all n rows, n columns and both diagonals every turn is O(n*n) work for an O(1) answer, and it gets worse as n grows.</li>
+<li><strong>Draw called before the win.</strong> Move nine fills the board and can also complete a line. Test the last move for a win first, the full board second. Reverse the order and a winning final move is scored a draw.</li>
+<li><strong>A hardcoded list of winning lines.</strong> Writing out all eight winning triples works for 3x3 and only 3x3. Ask for a 5x5 board or four in a row and the list is silently wrong.</li>
+<li><strong>A move on an occupied or off-board cell.</strong> If <code>move()</code> bumps the counters before it checks range and emptiness, one bad call corrupts the counts and a later legal move reads a phantom win. Validate range, then emptiness, then mutate; return OFF_BOARD or OCCUPIED and change nothing.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>move()</code> checks the cell is on the board and empty before it touches a counter.</li>
+<li>One move bumps <code>rowCount[r]</code>, <code>colCount[c]</code> and at most one diagonal. The grid is never scanned.</li>
+<li><code>isWin</code> tests <code>abs(counter) == n</code> on those lines only, and runs before the board-full draw test.</li>
+</ol>
+<h2 id="deciding-the-win">Deciding the Win</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Per move</th>
+<th>Extra state</th>
+<th>K in a row, k &lt; n</th>
+<th>reset() cost</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full-board scan (brute force)</td>
+<td>O(n*n), rescans all lines</td>
+<td>none</td>
+<td>re-list every window</td>
+<td>none</td>
+<td>never</td>
+</tr>
+<tr>
+<td>Last-move lines (the simple correct one)</td>
+<td>O(n), walk 4 lines</td>
+<td>none</td>
+<td>scan the last move's k-window</td>
+<td>none</td>
+<td>3x3, clarity first</td>
+</tr>
+<tr>
+<td>Incremental counters (the O(1) trick)</td>
+<td>O(1) bump + test</td>
+<td>2n + 2 ints on the Board</td>
+<td>a run-length count per line</td>
+<td>zero 2n + 2 ints</td>
+<td>large n, or many replays</td>
+</tr>
+</tbody>
+</table>
+<p>Check only the last move's lines. For a 3x3 board it is the simplest thing that is correct, and it is already O(1) since n is 3. Move to running counters when the board grows or you replay thousands of games and the constant starts to matter.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Rescanning every row, column and diagonal on each move when four counters answer in O(1).</li>
+<li>Declaring a draw on a full board without first testing the last move for a win.</li>
+<li>A hardcoded list of the eight winning lines that breaks the moment the board is n x n or the target is k &lt; n.</li>
+<li>Mutating the counters in <code>move()</code> before validating that the cell is on the board and empty.</li>
+<li>X and O as subclasses of Cell rather than a Mark enum — three behaviourless classes.</li>
+<li>The win rule written as loops inside <code>move()</code>, with no seam to swap in a scan or a bot's look-ahead.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Strategy — the win-check policy (counters vs scan) and the bot's move choice. State — InProgress / Won / Draw drive what <code>move()</code> accepts. Observer — the grid and the move log follow every move. Factory — build the board and the two players.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"An n by n board, default 3, win on k in a row with k = n. The Board carries a signed counter for each row, each column and the two diagonals. X adds one, O subtracts one. A move bumps at most four counters and the win test is <code>abs(counter) == n</code>, so it is O(1) whatever the move count. The Game is a small state machine, in progress to won or draw, and it notifies its observers after every move."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>Generalise to 10x10, five in a row.</strong> Parameterise n and k; the counters, or a scan of the last move's k-window, generalise. The list does not.</li>
+<li><strong>The ninth move fills the board and completes a line.</strong> Test <code>isWin</code> first, <code>isFull</code> second; the win takes it.</li>
+<li><strong>A player clicks a cell that is already taken.</strong> <code>move()</code> returns OCCUPIED and changes nothing.</li>
+<li><strong>Add a third player with mark Z.</strong> The signed counter breaks; go to one count per (line, mark).</li>
+<li><strong>Make the machine play.</strong> An <code>AiPlayer</code> plugs a Minimax <code>MoveStrategy</code> into Player; nothing else moves.</li>
+<li><strong>Call the draw early, before the board is full.</strong> No line can still reach magnitude n for either side.</li>
+<li><strong>Undo the last move.</strong> Pop the Move, subtract its four deltas, clear the cell, flip back.</li>
+<li><strong>Replay a saved game.</strong> Feed the Move list through <code>move()</code> in order; observers redraw each step.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>A minimax opponent</strong> — an <code>AiPlayer</code> behind <code>MoveStrategy</code> that only reads the board. Named on page 1, not built.</li>
+<li><strong>Network play</strong> — two clients, a server relays each Move. A thin seam behind <code>move()</code>.</li>
+<li><strong>Non-square boards</strong> — the diagonal counters assume n x n; a rectangle needs per-line run counts. Different problem.</li>
+<li><strong>A graphical UI</strong> — the board renders through a <code>BoardObserver</code>; console or pixels is one seam. Out of scope.</li>
+<li><strong>Undo and replay</strong> — a stack of Moves, each unapplied by subtracting its four counter deltas. Mentioned, skipped.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>Gomoku (five in a row)</li>
+<li>Connect Four</li>
+<li>Dots and Boxes</li>
+<li>A bingo card</li>
+<li>Any grid win-condition check</li>
+<li>A running aggregate over a stream</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-06-chess.html"><span class="dir">Previous</span><span class="ttl">Design a Chess Game</span></a><a class="next" href="doc-practice-lld-design-problems-08-snake-and-ladder.html"><span class="dir">Next</span><span class="ttl">Design a Snake and Ladder Game</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

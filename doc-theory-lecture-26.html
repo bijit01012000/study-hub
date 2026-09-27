@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 26 — JDBC in Java from Scratch — Spring Boot</title>
+<meta name="description" content="Lecture 26 — JDBC in Java from Scratch">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-26">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-26.html#lecture-26">Lecture 26</a></li><li><a href="doc-theory-lecture-26.html#1-how-java-communicates-with-a-database">1. How Java Communicates with a Database</a></li><li><a href="doc-theory-lecture-26.html#2-the-jdbc-api-and-the-jdbc-driver">2. The JDBC API and the JDBC Driver</a></li><li><a href="doc-theory-lecture-26.html#3-installing-mysql-server-and-dbeaver-brief">3. Installing MySQL Server and DBeaver (Brief)</a></li><li><a href="doc-theory-lecture-26.html#4-creating-the-jdbc-project">4. Creating the JDBC Project</a></li><li><a href="doc-theory-lecture-26.html#5-creating-the-database-and-table">5. Creating the Database and Table</a></li><li><a href="doc-theory-lecture-26.html#6-establishing-a-database-connection">6. Establishing a Database Connection</a></li><li><a href="doc-theory-lecture-26.html#7-executing-sql-with-jdbc">7. Executing SQL with JDBC</a></li><li><a href="doc-theory-lecture-26.html#8-understanding-resultset">8. Understanding ResultSet</a></li><li><a href="doc-theory-lecture-26.html#9-why-preparedstatement-is-preferred">9. Why PreparedStatement Is Preferred</a></li><li><a href="doc-theory-lecture-26.html#10-complete-crud-operations">10. Complete CRUD Operations</a></li><li><a href="doc-theory-lecture-26.html#11-closing-jdbc-resources">11. Closing JDBC Resources</a></li><li><a href="doc-theory-lecture-26.html#12-common-setup-problems">12. Common Setup Problems</a></li><li><a href="doc-theory-lecture-26.html#13-myth-vs-reality">13. Myth vs Reality</a></li><li><a href="doc-theory-lecture-26.html#14-common-trap-questions">14. Common Trap Questions</a></li><li><a href="doc-theory-lecture-26.html#15-points-to-remember">15. Points to Remember</a></li><li><a href="doc-theory-lecture-26.html#16-likely-interview-questions">16. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-26.html#17-final-summary">17. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 26 — JDBC in Java from Scratch</h1>
+<p class="readmeta">18 sections · 5,082 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-26" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-26">Lecture 26</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "JDBC in Java from Scratch | CRUD Operation with JDBC &amp; MySQL" (playlist map, verified). Repo folder is the jdbcDemo Maven project (in.strikes.Main, model.Student, repository.StudentRepository) plus pom.xml and notes; a plain Maven module, no Spring Boot is required to learn raw JDBC.</p>
+</blockquote>
+<p>Before any ORM, Spring Data, or JPA shortcut, every Java developer has to understand the raw conversation between a Java process and a database server. JDBC is that conversation: a standard Java API, a database-specific driver, and a fixed sequence of connect, send, wait, and convert. This lecture builds the whole CRUD layer by hand, so the abstractions that arrive in later lectures stop feeling like magic.</p>
+<h2 id="1-how-java-communicates-with-a-database">1. How Java Communicates with a Database</h2>
+<p>Java and MySQL are two separate programs. A Java application normally runs inside the JVM; MySQL runs as its own server process that stores and manages data.</p>
+<div class="highlight"><pre><span></span><code>Java Application --&gt; JVM
+MySQL Server     --&gt; stores and manages data
+</code></pre></div>
+
+<p>The two programs may run on the same computer, on different computers in the same network, or on remote servers in different locations. Calling a database is therefore different from calling a normal Java method. Consider <code>String sql = "SELECT * FROM students";</code>. This only creates a Java <code>String</code> in JVM memory. The SQL has not reached MySQL at all. The application still needs a mechanism that can:</p>
+<ol>
+<li>establish a connection with MySQL;</li>
+<li>send SQL to the server;</li>
+<li>wait for the server response;</li>
+<li>convert the response into objects Java can work with.</li>
+</ol>
+<p>JDBC provides the standard Java-side API for exactly this communication.</p>
+<h3 id="why-a-database-driver-is-required">Why a database driver is required</h3>
+<p>Every database server follows its own communication protocol: MySQL uses the MySQL client-server protocol, PostgreSQL uses the PostgreSQL protocol, and Oracle Database uses its own. These protocols define how a client opens a connection, how authentication data is transmitted, how SQL commands are packaged, how SQL data types are represented, how rows and metadata are returned, how errors are reported, and how transactions are controlled. Java does not contain the implementation of every database protocol. It uses a database-specific JDBC driver as the translator.</p>
+<div class="highlight"><pre><span></span><code>Java Application
+      |
+      v
+JDBC API
+      |
+      v
+MySQL JDBC Driver
+      |
+      v
+MySQL Server
+</code></pre></div>
+
+<p>Mnemonic for the four steps of a database call: <strong>C-S-W-C</strong> (Connect, Send, Wait, Convert).</p>
+<blockquote class="callout callout--important">
+<p>Important: A Java <code>String</code> that happens to contain SQL is not a database call. It is just text in the heap until a driver packages it and sends it over the network.</p>
+</blockquote>
+<h2 id="2-the-jdbc-api-and-the-jdbc-driver">2. The JDBC API and the JDBC Driver</h2>
+<p>JDBC stands for Java Database Connectivity: a standard Java API used to communicate with relational databases. The main JDBC types live in the <code>java.sql</code> package: <code>Connection</code>, <code>DriverManager</code>, <code>PreparedStatement</code>, <code>ResultSet</code>, <code>Statement</code>, and <code>SQLException</code>.</p>
+<p>JDBC gives Java developers a common programming model for MySQL, PostgreSQL, Oracle, and Microsoft SQL Server. The database URL and driver may change, but the JDBC interfaces remain largely the same:</p>
+<div class="highlight"><pre><span></span><code>MySQL:      DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/student_db&quot;, &quot;root&quot;, &quot;password&quot;)
+PostgreSQL: DriverManager.getConnection(&quot;jdbc:postgresql://localhost:5432/student_db&quot;, &quot;postgres&quot;, &quot;password&quot;)
+</code></pre></div>
+
+<p>This provides portability at the API level. It does not mean that every database supports identical SQL syntax or behaviour.</p>
+<h3 id="jdbc-api-versus-jdbc-driver">JDBC API versus JDBC driver</h3>
+<p>The JDBC API defines the contracts used by Java code. Important interfaces include <code>Connection</code>, <code>Statement</code>, <code>PreparedStatement</code>, and <code>ResultSet</code>. For example, <code>Connection</code> defines operations such as creating statements, managing transactions, and closing a database session. Your application normally programs against these interfaces rather than database-specific implementation classes.</p>
+<p>The JDBC driver provides the database-specific implementation of the JDBC contracts. For MySQL, the official driver is MySQL Connector/J.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>JDBC API</th>
+<th>JDBC driver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it is</td>
+<td>Standard Java contracts in <code>java.sql</code></td>
+<td>Database-specific implementation</td>
+</tr>
+<tr>
+<td>Provided by</td>
+<td>The JDK (<code>java.sql</code> package)</td>
+<td>The database vendor / community</td>
+</tr>
+<tr>
+<td>Key types</td>
+<td>Connection, Statement, PreparedStatement, ResultSet</td>
+<td>Classes implementing those interfaces</td>
+</tr>
+<tr>
+<td>Portability</td>
+<td>Same code across databases</td>
+<td>One driver per database</td>
+</tr>
+<tr>
+<td>Role</td>
+<td>Defines what Java can call</td>
+<td>Translates SQL into the DB network protocol</td>
+</tr>
+</tbody>
+</table>
+<p>Common drivers by database:</p>
+<table>
+<thead>
+<tr>
+<th>Database</th>
+<th>Common JDBC driver</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MySQL</td>
+<td>MySQL Connector/J</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>PostgreSQL JDBC Driver</td>
+</tr>
+<tr>
+<td>Oracle Database</td>
+<td>Oracle JDBC Driver</td>
+</tr>
+<tr>
+<td>Microsoft SQL Server</td>
+<td>Microsoft JDBC Driver for SQL Server</td>
+</tr>
+<tr>
+<td>H2</td>
+<td>H2 JDBC Driver</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-happens-internally">What happens internally</h3>
+<p>When Java executes a query through JDBC, the flow is approximately:</p>
+<ol>
+<li>The Java application calls a JDBC method.</li>
+<li>The JDBC driver receives the SQL command and parameter values.</li>
+<li>The driver converts them into a database-specific network request.</li>
+<li>The request is sent to the database server.</li>
+<li>The server parses and validates the SQL.</li>
+<li>The server creates an execution plan.</li>
+<li>The server executes the operation.</li>
+<li>The server returns rows, metadata, an update count, or an error.</li>
+<li>The driver decodes the database response.</li>
+<li>JDBC exposes the response through types such as <code>ResultSet</code>.</li>
+<li>The Java application reads and maps the returned data.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Program against the <code>java.sql</code> interfaces, never vendor classes. Swapping databases should mostly change the URL and the driver JAR, not your business code.</p>
+</blockquote>
+<h2 id="3-installing-mysql-server-and-dbeaver-brief">3. Installing MySQL Server and DBeaver (Brief)</h2>
+<p>MySQL Server, DBeaver, and the JDBC driver are three different components:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MySQL Server</td>
+<td>Stores data and executes SQL</td>
+</tr>
+<tr>
+<td>DBeaver</td>
+<td>Desktop client used to view databases and run SQL manually</td>
+</tr>
+<tr>
+<td>MySQL Connector/J</td>
+<td>Java library that lets the application communicate with MySQL</td>
+</tr>
+</tbody>
+</table>
+<p>Installing DBeaver does not install or start MySQL Server. The server must be installed and running separately. In short: on macOS install MySQL Community Server (official DMG or <code>brew install mysql</code>) and DBeaver (<code>brew install --cask dbeaver-community</code>); on Windows run the MSI as administrator, keep port 3306, set the root password, and configure MySQL as a Windows service. Verify the server by logging in and running:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">VERSION</span><span class="p">();</span>
+<span class="k">SHOW</span><span class="w"> </span><span class="n">DATABASES</span><span class="p">;</span>
+<span class="n">EXIT</span><span class="p">;</span>
+</code></pre></div>
+
+<p>If the command-line login works, the server is running and accepting connections. In DBeaver, create a new MySQL connection with host <code>localhost</code>, port <code>3306</code>, database <code>student_db</code>, username <code>root</code>, and your password, then use Test Connection before Finish.</p>
+<h2 id="4-creating-the-jdbc-project">4. Creating the JDBC Project</h2>
+<p>The recommended structure is a plain Maven project. Spring Boot is not required to learn raw JDBC.</p>
+<div class="highlight"><pre><span></span><code>jdbcDemo
+|
++-- pom.xml
++-- src/main/java/in/strikes/jdbc
+    +-- Main.java
+    +-- model/Student.java
+    +-- repository/StudentRepository.java
+</code></pre></div>
+
+<p>Add MySQL Connector/J to <code>pom.xml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.mysql<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>mysql-connector-j<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>9.7.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>Dependency versions change over time; use the current stable Connector/J version when creating a new project. A minimal <code>pom.xml</code> declares <code>modelVersion</code> 4.0.0, <code>groupId</code> <code>com.coderarmy</code>, <code>artifactId</code> <code>jdbc-crud-demo</code>, <code>version</code> <code>1.0-SNAPSHOT</code>, Java <code>21</code> via <code>maven.compiler.release</code>, UTF-8 source encoding, and the dependency shown above with <code>&lt;scope&gt;runtime&lt;/scope&gt;</code>. Spring Boot is not part of this project.</p>
+<h2 id="5-creating-the-database-and-table">5. Creating the Database and Table</h2>
+<p>Open an SQL editor in DBeaver or use the MySQL command-line client. Create and select the database:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">student_db</span><span class="p">;</span>
+<span class="n">USE</span><span class="w"> </span><span class="n">student_db</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Create the <code>students</code> table:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w">    </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">name</span><span class="w">  </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">150</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span><span class="p">,</span>
+<span class="w">    </span><span class="n">age</span><span class="w">   </span><span class="nb">INT</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p>Verify the table with <code>DESCRIBE students;</code>. <code>AUTO_INCREMENT</code> makes MySQL generate the <code>id</code>; <code>NOT NULL</code> forces name and email to be present; <code>UNIQUE</code> on email is what later produces a duplicate-email constraint violation.</p>
+<p>The matching <code>Student</code> model mirrors the columns: fields <code>Long id</code>, <code>String name</code>, <code>String email</code>, and <code>Integer age</code>, with a no-argument constructor, a constructor without <code>id</code>, a constructor with <code>id</code>, the usual getters and setters, and a <code>toString()</code> that prints all four fields.</p>
+<h2 id="6-establishing-a-database-connection">6. Establishing a Database Connection</h2>
+<p>A database connection represents an active communication session between the Java application and the database server. In JDBC it is represented by the <code>Connection</code> interface. A connection allows Java to send SQL commands, receive query results, create statements, start and commit transactions, roll back transactions, and read database metadata. Opening a database connection involves network communication and authentication, so it is more expensive than creating an ordinary Java object.</p>
+<p>The connection details are a URL, a username, and a password:</p>
+<div class="highlight"><pre><span></span><code>String url = &quot;jdbc:mysql://localhost:3306/student_db&quot;;
+String username = &quot;root&quot;;
+String password = &quot;your_password&quot;;
+</code></pre></div>
+
+<p>The URL breaks down into clear parts:</p>
+<div class="highlight"><pre><span></span><code>jdbc:mysql://localhost:3306/student_db
+|
++-- jdbc:                JDBC URL prefix
+    +-- mysql:           database type
+        +-- localhost    host
+            +-- 3306     port
+                +-- student_db   database name
+</code></pre></div>
+
+<p>For learning, these values may be kept as constants. In production code, credentials should not be committed to source control. Use environment variables, configuration files excluded from Git, or a secret-management system. Plain JDBC does not automatically read Spring Boot's <code>application.properties</code>; values must be passed directly unless Spring is creating and configuring a <code>DataSource</code>.</p>
+<h3 id="is-classforname-still-required">Is Class.forName() still required?</h3>
+<p>Older JDBC applications explicitly loaded the MySQL driver with <code>Class.forName("com.mysql.cj.jdbc.Driver")</code>, which forced the driver class to load and register itself with <code>DriverManager</code>. Since JDBC 4.0, compatible drivers are discovered and registered automatically when the driver JAR is present on the classpath, so modern JDBC applications generally do not need <code>Class.forName()</code>.</p>
+<h3 id="how-drivermanager-creates-a-connection">How DriverManager creates a connection</h3>
+<p>Conceptually, <code>DriverManager</code> looks at the JDBC URL, checks the registered JDBC drivers, finds the driver that supports <code>jdbc:mysql:</code>, asks that driver to connect to MySQL, sends the authentication details, and returns a MySQL-specific implementation of <code>Connection</code> through the JDBC interface. Your code depends on <code>Connection</code>, not on a MySQL implementation class. That is interface-based abstraction in practice.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;jdbc:mysql://localhost:3306/student_db&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">USERNAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">PASSWORD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;your_password&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Database connected successfully&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Database connection failed&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;SQL state: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getSQLState</span><span class="p">());</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Error code: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getErrorCode</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>An <code>SQLException</code> carries three useful pieces of information: <code>getMessage()</code>, <code>getSQLState()</code>, and <code>getErrorCode()</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect "why do we no longer call <code>Class.forName()</code>?" The strong answer is JDBC 4.0 service discovery: drivers register through the service provider mechanism when the JAR is on the classpath. Mentioning that <code>DriverManager</code> picks the driver from the URL shows you understand the indirection.</p>
+</blockquote>
+<h2 id="7-executing-sql-with-jdbc">7. Executing SQL with JDBC</h2>
+<p>A <code>Connection</code> represents the database session; it does not represent one specific SQL command. A statement object is created to execute SQL through that connection, using <code>connection.createStatement()</code>. The statement uses its parent connection to communicate with MySQL.</p>
+<h3 id="main-jdbc-execution-methods">Main JDBC execution methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Typical use</th>
+<th>Return value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>executeQuery()</code></td>
+<td>SELECT</td>
+<td><code>ResultSet</code></td>
+</tr>
+<tr>
+<td><code>executeUpdate()</code></td>
+<td>INSERT, UPDATE, DELETE, some DDL</td>
+<td>affected-row count (<code>int</code>)</td>
+</tr>
+<tr>
+<td><code>execute()</code></td>
+<td>Unknown or mixed result type</td>
+<td><code>boolean</code> indicating the first result type</td>
+</tr>
+</tbody>
+</table>
+<p><code>executeUpdate()</code> is used for more than SQL <code>UPDATE</code>: typical uses are <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code>, and the returned integer represents the number of affected rows. A successful single-row insert returns <code>1</code>, no matched row returns <code>0</code>, and multiple affected rows return more than <code>1</code>. It can also execute DDL such as <code>CREATE TABLE</code>, <code>ALTER TABLE</code>, and <code>DROP TABLE</code>; DDL commonly returns 0 because it does not modify table rows in the same way as DML.</p>
+<p><code>executeQuery()</code> is used when SQL returns tabular data, normally with <code>SELECT</code>, and returns a <code>ResultSet</code>. JDBC does not automatically convert those rows into <code>Student</code> objects; the application must map them manually.</p>
+<p><code>execute()</code> is general-purpose: <code>boolean hasResultSet = statement.execute(sql)</code>. The boolean does not mean success or failure; <code>true</code> means the first result is a <code>ResultSet</code>, and <code>false</code> means the first result is an update count or there is no result. Use <code>statement.getResultSet()</code> or <code>statement.getUpdateCount()</code> accordingly. Use <code>execute()</code> when the SQL type is not known in advance, when a stored procedure can return different result types, when multiple results may be returned, or when infrastructure code needs a generic method. For normal CRUD, prefer <code>executeQuery()</code> for SELECT and <code>executeUpdate()</code> for INSERT, UPDATE, and DELETE.</p>
+<h3 id="executequery-vs-executeupdate">executeQuery vs executeUpdate</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>executeQuery()</th>
+<th>executeUpdate()</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intended for</td>
+<td>Queries returning rows</td>
+<td>Statements that change data</td>
+</tr>
+<tr>
+<td>SQL examples</td>
+<td>SELECT</td>
+<td>INSERT, UPDATE, DELETE, DDL</td>
+</tr>
+<tr>
+<td>Returns</td>
+<td><code>ResultSet</code></td>
+<td><code>int</code> affected-row count</td>
+</tr>
+<tr>
+<td>Iteration</td>
+<td>You iterate with <code>next()</code></td>
+<td>No cursor; inspect the count</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-understanding-resultset">8. Understanding ResultSet</h2>
+<p>Suppose MySQL returns two rows, Rahul and Priya, with their email and age. JDBC exposes these rows through a <code>ResultSet</code>. It is not a <code>List&lt;Student&gt;</code>. The developer must move the cursor to a row, read each required column, create a Java object, assign the values, and add the object to a collection when reading multiple rows.</p>
+<h3 id="the-resultset-cursor">The ResultSet cursor</h3>
+<p>When a <code>ResultSet</code> is created, its cursor is positioned before the first row:</p>
+<div class="highlight"><pre><span></span><code>Cursor --&gt; before first row
+Row 1
+Row 2
+Row 3
+</code></pre></div>
+
+<p>Calling <code>resultSet.next()</code> moves the cursor to the next row and returns <code>true</code> when a row is available and <code>false</code> when no more rows remain. For one expected row use <code>if (resultSet.next()) { ... }</code>; for multiple rows use <code>while (resultSet.next()) { ... }</code>.</p>
+<h3 id="reading-values">Reading values</h3>
+<p>Values can be read by column label, such as <code>getLong("id")</code>, <code>getString("name")</code>, <code>getString("email")</code>, and <code>getInt("age")</code>, or by column position, such as <code>getLong(1)</code>, <code>getString(2)</code>, <code>getString(3)</code>, and <code>getInt(4)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Reading style</th>
+<th>Shape</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>By column label</td>
+<td><code>getString("email")</code></td>
+<td>Clearer; states which value is read</td>
+</tr>
+<tr>
+<td>By column position</td>
+<td><code>getString(3)</code></td>
+<td>Shorter but brittle if column order changes</td>
+</tr>
+</tbody>
+</table>
+<p>Column labels are usually clearer because the code states which value it is reading.</p>
+<h3 id="handling-nullable-numeric-columns">Handling nullable numeric columns</h3>
+<p>Calling <code>resultSet.getInt("age")</code> returns a primitive <code>int</code>. If the SQL value is <code>NULL</code>, JDBC returns <code>0</code>, and the code must call <code>wasNull()</code> to distinguish SQL <code>NULL</code> from a real zero. A clearer alternative for a nullable <code>Integer</code> field is <code>resultSet.getObject("age", Integer.class)</code>.</p>
+<h3 id="prefer-explicit-columns-over-select">Prefer explicit columns over SELECT *</h3>
+<p>Instead of <code>SELECT * FROM students</code>, prefer <code>SELECT id, name, email, age FROM students</code>. Benefits: the required columns are visible, unnecessary columns are not retrieved, mapping is more predictable, schema changes are less likely to surprise the application, and the repository clearly communicates the data it needs. <code>SELECT *</code> is convenient during exploration, but explicit columns are better in application code.</p>
+<h3 id="mapping-one-row-to-a-student">Mapping one row to a Student</h3>
+<p>A private <code>mapRow(ResultSet)</code> helper reads <code>id</code>, <code>name</code>, <code>email</code>, and <code>age</code>, builds a <code>Student</code>, and returns it. This method removes duplicate mapping code from repository methods. The mapping is still manual: JDBC does not know that a row from <code>students</code> should become a <code>Student</code> object.</p>
+<h2 id="9-why-preparedstatement-is-preferred">9. Why PreparedStatement Is Preferred</h2>
+<h3 id="the-problem-with-plain-statement">The problem with plain Statement</h3>
+<p>A hardcoded statement is simple, but real applications receive dynamic values and often build SQL through concatenation, for example <code>"INSERT INTO students(name, email, age) VALUES ('" + name + "', '" + email + "', " + age + ")"</code>. Formatting a text block with <code>formatted(name, email, age)</code> does not solve the underlying problem. Problems include SQL injection, broken quotation when text contains apostrophes, incorrect handling of NULL, manual type formatting, date and time conversion issues, binary-data handling issues, and poor readability and maintainability.</p>
+<h3 id="parameterized-sql">Parameterized SQL</h3>
+<p><code>PreparedStatement</code> separates the SQL structure from its values: write <code>String sql = "INSERT INTO students(name, email, age) VALUES (?, ?, ?)"</code>, call <code>connection.prepareStatement(sql)</code>, bind the values with <code>setString(1, ...)</code>, <code>setString(2, ...)</code>, and <code>setObject(3, ...)</code>, then execute with <code>preparedStatement.executeUpdate()</code>.</p>
+<p>The SQL is sent as a parameterized command, while the values are supplied separately. In <code>VALUES (?, ?, ?)</code> the first placeholder maps to name, the second to email, and the third to age. JDBC parameter indexes begin at <strong>1</strong>, not 0. Common setter methods include <code>setString()</code>, <code>setInt()</code>, <code>setLong()</code>, <code>setDouble()</code>, <code>setBoolean()</code>, <code>setBigDecimal()</code>, <code>setDate()</code>, <code>setTimestamp()</code>, <code>setObject()</code>, and <code>setNull()</code>.</p>
+<p>For a nullable value, guard with <code>setNull(3, java.sql.Types.INTEGER)</code> when the value is null, otherwise call <code>setInt(3, student.getAge())</code>. A simpler alternative is often <code>setObject(3, student.getAge())</code>.</p>
+<h3 id="does-preparedstatement-completely-prevent-sql-injection">Does PreparedStatement completely prevent SQL injection?</h3>
+<p>It safely handles values supplied through placeholders, as in <code>SELECT id, name, email, age FROM students WHERE email = ?</code>. However, placeholders cannot normally represent SQL identifiers or keywords. This remains unsafe: <code>"SELECT * FROM students ORDER BY " + requestedColumn</code>. For dynamic table names, column names, or sort directions, validate the input against a strict allow-list.</p>
+<h3 id="statement-vs-preparedstatement">Statement vs PreparedStatement</h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Statement</th>
+<th>PreparedStatement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL form</td>
+<td>Plain, usually concatenated</td>
+<td>Parameterized with <code>?</code> placeholders</td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td>Inlined into the SQL string</td>
+<td>Supplied separately via <code>setX()</code></td>
+</tr>
+<tr>
+<td>Parameter index</td>
+<td>Not applicable</td>
+<td>Begins at 1</td>
+</tr>
+<tr>
+<td>SQL injection</td>
+<td>Vulnerable when values are concatenated</td>
+<td>Safe for values passed as parameters</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>SQL parsed on each execution</td>
+<td>Can be precompiled and reused</td>
+</tr>
+<tr>
+<td>Readability</td>
+<td>Poor for many values</td>
+<td>Clear and maintainable</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>DDL, one-off static SQL</td>
+<td>Any dynamic value (normal CRUD)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: PreparedStatement protects values, not SQL identifiers. Dynamic table names, column names, and sort directions must be validated against an allow-list.</p>
+<p>Interviewer's perspective: The two-part answer they want is (1) SQL injection safety through parameter binding, and (2) precompilation on the database side, which can improve performance across repeated executions. Adding the identifier caveat shows depth.</p>
+</blockquote>
+<h2 id="10-complete-crud-operations">10. Complete CRUD Operations</h2>
+<p>All CRUD methods live in one repository class with <code>URL</code>, <code>USERNAME</code>, and <code>PASSWORD</code> constants. In a real application, move credentials outside the source code and use a connection pool; they remain inline here only to keep the first JDBC example focused.</p>
+<h3 id="101-create-insert-a-student">10.1 Create: insert a student</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">            INSERT INTO students(name, email, age)</span>
+<span class="s">            VALUES (?, ?, ?)</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setObject</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getAge</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Failed to save student&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Typical usage: build <code>new Student("Rahul", "rahul@gmail.com", 24)</code>, call <code>repository.save(student)</code>, and print success when the returned count is <code>1</code>. To retrieve an auto-generated key, create the statement with <code>Statement.RETURN_GENERATED_KEYS</code>, check that the update count is 1, then read <code>preparedStatement.getGeneratedKeys()</code> and call <code>getLong(1)</code> on the next row.</p>
+<h3 id="102-read-one-and-read-all">10.2 Read one and read all</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">            SELECT id, name, email, age</span>
+<span class="s">            FROM students</span>
+<span class="s">            WHERE id = ?</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setLong</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">mapRow</span><span class="p">(</span><span class="n">resultSet</span><span class="p">));</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Optional</span><span class="p">.</span><span class="na">empty</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Failed to fetch student with ID &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;SELECT id, name, email, age FROM students&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">);</span>
+<span class="w">         </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">students</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">mapRow</span><span class="p">(</span><span class="n">resultSet</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">students</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Failed to fetch students&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>Optional.empty()</code> represents a normal "student not found" result; a database failure is different and should not be silently converted into <code>Optional.empty()</code>. The <code>findAll()</code> flow is: move to the next row, read the columns, create a <code>Student</code>, add it to the list, and repeat until <code>next()</code> returns false.</p>
+<h3 id="103-update-and-delete">10.3 Update and delete</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">            UPDATE students</span>
+<span class="s">            SET name = ?, email = ?, age = ?</span>
+<span class="s">            WHERE id = ?</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setObject</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getAge</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setLong</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Failed to update student with ID &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">deleteById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;DELETE FROM students WHERE id = ?&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setLong</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Failed to delete student with ID &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">mapRow</span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span>
+<span class="w">            </span><span class="n">resultSet</span><span class="p">.</span><span class="na">getLong</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="n">resultSet</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="n">resultSet</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;email&quot;</span><span class="p">),</span>
+<span class="w">            </span><span class="n">resultSet</span><span class="p">.</span><span class="na">getObject</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>For a simple beginner-level example, the update count reads: <code>1</code> means one row was matched or changed; <code>0</code> means no row was matched, or the driver reported no changed row. Exact update-count semantics can vary by database and driver configuration; MySQL Connector/J settings such as <code>useAffectedRows</code> can influence whether the count reflects matched rows or changed rows. Do not treat the update count as the only source of truth for critical business rules without understanding the driver behaviour. For a delete operation, <code>1</code> means one row deleted and <code>0</code> means no matching row found.</p>
+<h3 id="should-findbyid-be-called-before-update">Should findById() be called before update()?</h3>
+<p>That approach performs two SQL operations, a SELECT and then an UPDATE, which adds an extra database round trip, additional latency, and a possible race condition: the row can be deleted or changed by another transaction after the SELECT and before the UPDATE. For basic CRUD, execute the UPDATE directly and inspect its update count. Perform an additional query only when the application genuinely needs more information, such as distinguishing between row not found, row found but values unchanged, or an optimistic-locking conflict.</p>
+<h2 id="11-closing-jdbc-resources">11. Closing JDBC Resources</h2>
+<p>JDBC resources have a parent-child relationship, and a <code>ResultSet</code> depends on the statement that produced it, which depends on the connection used to execute it:</p>
+<div class="highlight"><pre><span></span><code>Connection
+    | creates
+    v
+PreparedStatement
+    | creates
+    v
+ResultSet
+</code></pre></div>
+
+<p>Resources should therefore be closed in reverse order: <code>ResultSet</code>, then <code>PreparedStatement</code>, then <code>Connection</code>. Before try-with-resources, JDBC code commonly declared all three as <code>null</code>, opened them in a <code>try</code>, and closed each one in a <code>finally</code> block with its own null check and nested <code>try/catch</code>. This works, but it is verbose and easy to get wrong.</p>
+<p><code>Connection</code>, <code>Statement</code>, <code>PreparedStatement</code>, and <code>ResultSet</code> all implement <code>AutoCloseable</code>, so they can be declared inside try-with-resources. Java closes them automatically in reverse declaration order: <code>ResultSet</code> then <code>PreparedStatement</code> then <code>Connection</code>. Try-with-resources is the recommended approach for normal JDBC code; every method in Section 10 uses it.</p>
+<p>A database connection holds resources in both the application and the database server. Failing to close connections can cause resource leaks, too many open database sessions, application slowdown, "too many connections" errors, and uncommitted transactions remaining open. In this basic project, <code>connection.close()</code> closes the physical connection. In applications that use a connection pool, <code>close()</code> usually returns the connection to the pool instead of shutting down the underlying network connection.</p>
+<blockquote class="callout callout--important">
+<p>Important: The close order is not a style preference. A <code>ResultSet</code> cannot outlive its statement, and a statement cannot outlive its connection; try-with-resources enforces that order for you.</p>
+</blockquote>
+<h2 id="12-common-setup-problems">12. Common Setup Problems</h2>
+<p><strong>Connection refused.</strong> Typical error: <code>Communications link failure</code>, <code>Connection refused</code>. Check whether MySQL Server is running, whether the host is correct, whether port 3306 is correct, whether a firewall is blocking the connection, and whether another MySQL installation is using a different port.</p>
+<p><strong>Access denied.</strong> Typical error: <code>Access denied for user 'root'@'localhost'</code>. Check the username, the password, MySQL user permissions, and the host from which the user is allowed to connect.</p>
+<p><strong>Unknown database.</strong> Typical error: <code>Unknown database 'student_db'</code>. Create the database first with <code>CREATE DATABASE student_db;</code>.</p>
+<p><strong>MySQL command not found on macOS.</strong> For the official package installation, either use the full path <code>/usr/local/mysql/bin/mysql -u root -p</code> or add <code>export PATH="/usr/local/mysql/bin:$PATH"</code> to <code>~/.zshrc</code> and run <code>source ~/.zshrc</code>.</p>
+<p><strong>MySQL service name not found on Windows.</strong> List services containing "mysql" with <code>sc query type= service state= all | findstr /I mysql</code>, then use the exact returned service name with <code>net start &lt;service-name&gt;</code>.</p>
+<p><strong>DBeaver: "Public Key Retrieval is not allowed".</strong> This can occur with some local MySQL authentication configurations. For a local development connection in DBeaver, edit the connection, open Driver Properties, and set <code>allowPublicKeyRetrieval = true</code>. If the local server is not configured for TLS, some learners also use <code>useSSL = false</code>. Use <code>useSSL=false</code> only for a trusted local development environment; remote and production connections should use properly configured TLS.</p>
+<p><strong>Duplicate email error.</strong> The table defines <code>email VARCHAR(150) NOT NULL UNIQUE</code>, so inserting an existing email produces a constraint violation. This is expected database behaviour and should eventually be handled with application-specific exception handling.</p>
+<h2 id="13-myth-vs-reality">13. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"A Java <code>String</code> with SQL has already queried the database"</td>
+<td>It is only text in JVM memory; nothing is sent until a driver transmits it</td>
+</tr>
+<tr>
+<td>"JDBC is a driver"</td>
+<td>JDBC is the API (contracts); a driver is the database-specific implementation</td>
+</tr>
+<tr>
+<td>"You must call <code>Class.forName()</code> to load the MySQL driver"</td>
+<td>Since JDBC 4.0 drivers auto-register when the JAR is on the classpath</td>
+</tr>
+<tr>
+<td>"<code>executeUpdate()</code> is only for UPDATE"</td>
+<td>It serves INSERT, UPDATE, DELETE, and some DDL</td>
+</tr>
+<tr>
+<td>"<code>execute()</code>'s boolean means success or failure"</td>
+<td>It reports whether the first result is a <code>ResultSet</code> or an update count</td>
+</tr>
+<tr>
+<td>"<code>ResultSet</code> is a <code>List&lt;Student&gt;</code>"</td>
+<td>It is a cursor; rows must be read and mapped to objects manually</td>
+</tr>
+<tr>
+<td>"<code>getInt()</code> distinguishes NULL from zero"</td>
+<td>It returns <code>0</code> for NULL; use <code>wasNull()</code> or <code>getObject(..., Integer.class)</code></td>
+</tr>
+<tr>
+<td>"PreparedStatement prevents all SQL injection"</td>
+<td>It protects values, not dynamic identifiers such as column names</td>
+</tr>
+<tr>
+<td>"DBeaver installs and starts MySQL"</td>
+<td>DBeaver is only a client; MySQL Server runs separately</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-common-trap-questions">14. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "A JDBC call and a Java method call are the same."</strong>
+Verdict: False. A normal method call stays in the JVM; a database call crosses the network, requires authentication, and returns rows, an update count, or an error.</p>
+<p><strong>Trap 2 - "MySQL Connector/J is part of the JDK."</strong>
+Verdict: False. The JDK ships the <code>java.sql</code> API; the driver is a separate dependency added to <code>pom.xml</code>.</p>
+<p><strong>Trap 3 - "<code>executeUpdate()</code> executes only UPDATE statements."</strong>
+Verdict: False. It runs INSERT, UPDATE, DELETE, and some DDL, returning an affected-row count.</p>
+<p><strong>Trap 4 - "You can read a ResultSet before calling <code>next()</code>."</strong>
+Verdict: False. The cursor starts before the first row; you must call <code>next()</code> before reading column values.</p>
+<p><strong>Trap 5 - "PreparedStatement removes every SQL injection risk."</strong>
+Verdict: Misleading. Placeholders protect values. Dynamic table names, column names, and sort directions still require strict allow-list validation.</p>
+<p><strong>Trap 6 - "Closing the connection is optional."</strong>
+Verdict: False. Leaked connections cause exhausted sessions, slowdowns, and "too many connections" errors; use try-with-resources.</p>
+<p><strong>Trap 7 - "Calling <code>findById()</code> before <code>update()</code> is always good practice."</strong>
+Verdict: False. It adds a round trip and a race window; for basic CRUD, run the UPDATE directly and inspect the update count.</p>
+</blockquote>
+<h2 id="15-points-to-remember">15. Points to Remember</h2>
+<ol>
+<li>A Java application and a database server are separate programs that may run on different machines.</li>
+<li>JDBC is the standard Java API for relational database communication; the driver implements the database-specific protocol.</li>
+<li><code>Connection</code> represents an active database session and is far more expensive to open than an ordinary object.</li>
+<li>The JDBC URL encodes type, host, port, and database name: <code>jdbc:mysql://localhost:3306/student_db</code>.</li>
+<li>Since JDBC 4.0, the driver auto-registers when its JAR is on the classpath; <code>Class.forName()</code> is generally unnecessary.</li>
+<li>Use <code>executeQuery()</code> for rows and <code>executeUpdate()</code> for insert, update, and delete.</li>
+<li>The boolean from <code>execute()</code> identifies the first result type, not success or failure.</li>
+<li>A <code>ResultSet</code> cursor starts before the first row; call <code>next()</code> and map rows to objects manually.</li>
+<li>Prefer PreparedStatement with <code>?</code> placeholders for values, and allow-list validation for dynamic SQL identifiers.</li>
+<li>Prefer try-with-resources over manual <code>finally</code> cleanup, closing <code>ResultSet</code>, statement, then connection.</li>
+</ol>
+<h2 id="16-likely-interview-questions">16. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is JDBC?</td>
+<td>The Java Database Connectivity API in <code>java.sql</code>, a standard way for Java to talk to relational databases.</td>
+</tr>
+<tr>
+<td>What is a JDBC driver?</td>
+<td>A database-specific implementation of the JDBC contracts that translates SQL into the database's network protocol.</td>
+</tr>
+<tr>
+<td>JDBC API vs JDBC driver?</td>
+<td>The API defines the interfaces; the driver provides the implementation for one database.</td>
+</tr>
+<tr>
+<td>Why is <code>Class.forName()</code> no longer needed?</td>
+<td>Since JDBC 4.0, compatible drivers auto-register via service discovery when the JAR is on the classpath.</td>
+</tr>
+<tr>
+<td>Statement vs PreparedStatement?</td>
+<td>Statement executes plain concatenated SQL; PreparedStatement executes parameterized SQL safely and can be precompiled.</td>
+</tr>
+<tr>
+<td>What does the JDBC URL contain?</td>
+<td>Prefix, database type, host, port, and database name, for example <code>jdbc:mysql://localhost:3306/student_db</code>.</td>
+</tr>
+<tr>
+<td>When to use executeQuery() vs executeUpdate()?</td>
+<td>executeQuery() for SELECT returning a ResultSet; executeUpdate() for INSERT, UPDATE, DELETE, and some DDL.</td>
+</tr>
+<tr>
+<td>What does execute() return?</td>
+<td>A boolean: true if the first result is a ResultSet, false if it is an update count or no result.</td>
+</tr>
+<tr>
+<td>Where does a ResultSet cursor start?</td>
+<td>Before the first row; <code>next()</code> advances it and returns false when no rows remain.</td>
+</tr>
+<tr>
+<td>How do you map rows to Java objects?</td>
+<td>Read columns by label, create the object, set its fields, and collect them; JDBC does no automatic mapping.</td>
+</tr>
+<tr>
+<td>How does PreparedStatement prevent SQL injection?</td>
+<td>It binds values separately from the SQL structure, so input cannot change the query shape.</td>
+</tr>
+<tr>
+<td>Why close resources?</td>
+<td>Leaked ResultSets, statements, and connections exhaust database sessions; try-with-resources closes them in reverse order.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-final-summary">17. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Java Application
+      |
+      v
+JDBC Interfaces (java.sql)
+      |
+      v
+MySQL Connector/J driver
+      |
+      v
+Network connection --&gt; MySQL Server
+      |
+      v
+SQL execution
+      |
+      v
+Rows / Update Count / Error
+      |
+      v
+ResultSet or affected-row count
+      |
+      v
+Manual mapping to Java objects
+</code></pre></div>
+
+<ul>
+<li>Java and MySQL are separate programs; JDBC plus a driver bridges them.</li>
+<li>The API defines contracts; the driver translates SQL into the database protocol.</li>
+<li><code>Connection</code> is the session; <code>Statement</code> and <code>PreparedStatement</code> execute SQL over it.</li>
+<li><code>executeQuery()</code> returns rows; <code>executeUpdate()</code> returns an affected-row count.</li>
+<li><code>ResultSet</code> is a cursor over rows, mapped manually into Java objects.</li>
+<li>PreparedStatement separates SQL from values and protects against SQL injection.</li>
+<li>Try-with-resources closes <code>ResultSet</code>, statement, and connection in reverse order.</li>
+<li>Raw JDBC is repetitive by design, which explains the later value of connection pools, DataSource, Spring JDBC, JPA, and Hibernate.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> JDBC is the honest, manual conversation between Java and a database, and mastering it makes every higher-level data tool look like convenience rather than magic.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-25.html"><span class="dir">Previous</span><span class="ttl">Lecture 25 — Custom Annotations in Spring AOP</span></a><a class="next" href="doc-theory-lecture-27.html"><span class="dir">Next</span><span class="ttl">Lecture 27 — Spring JDBC Complete Tutorial</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

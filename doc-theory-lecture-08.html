@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 08 — Spring XML Configuration Explained — Spring Boot</title>
+<meta name="description" content="Lecture 08 — Spring XML Configuration Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-08">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-08.html#lecture-08">Lecture 08</a></li><li><a href="doc-theory-lecture-08.html#1-why-xml-configuration-exists-and-what-spring-needs">1. Why XML Configuration Exists and What Spring Needs</a></li><li><a href="doc-theory-lecture-08.html#2-configuration-styles-and-beandefinition">2. Configuration Styles and BeanDefinition</a></li><li><a href="doc-theory-lecture-08.html#3-why-learn-xml-configuration">3. Why Learn XML Configuration</a></li><li><a href="doc-theory-lecture-08.html#4-recommended-project-structure">4. Recommended Project Structure</a></li><li><a href="doc-theory-lecture-08.html#5-creating-a-simple-java-class-and-beansxml">5. Creating a Simple Java Class and beans.xml</a></li><li><a href="doc-theory-lecture-08.html#6-registering-the-first-bean-and-xml-vs-component">6. Registering the First Bean and XML vs @Component</a></li><li><a href="doc-theory-lecture-08.html#7-loading-xml-configuration-and-eager-singleton-behavior">7. Loading XML Configuration and Eager Singleton Behavior</a></li><li><a href="doc-theory-lecture-08.html#8-getting-beans-from-the-container">8. Getting Beans from the Container</a></li><li><a href="doc-theory-lecture-08.html#9-bean-naming-id-name-and-alias">9. Bean Naming: id, name, and Alias</a></li><li><a href="doc-theory-lecture-08.html#10-dependency-injection-in-xml-constructor-injection">10. Dependency Injection in XML: Constructor Injection</a></li><li><a href="doc-theory-lecture-08.html#11-setter-injection-and-value-vs-ref">11. Setter Injection and value vs ref</a></li><li><a href="doc-theory-lecture-08.html#12-multiple-beans-of-the-same-type-and-xml-autowiring">12. Multiple Beans of the Same Type and XML Autowiring</a></li><li><a href="doc-theory-lecture-08.html#13-bean-scopes-in-xml">13. Bean Scopes in XML</a></li><li><a href="doc-theory-lecture-08.html#14-bean-lifecycle-methods-in-xml">14. Bean Lifecycle Methods in XML</a></li><li><a href="doc-theory-lecture-08.html#15-collection-injection-in-xml">15. Collection Injection in XML</a></li><li><a href="doc-theory-lecture-08.html#16-splitting-xml-files-and-mixing-xml-with-annotations">16. Splitting XML Files and Mixing XML with Annotations</a></li><li><a href="doc-theory-lecture-08.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-08.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-08.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-08.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-08.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 08 — Spring XML Configuration Explained</h1>
+<p class="readmeta">22 sections · 4,178 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-08" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-08">Lecture 08</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring XML Configuration Explained | Beans, DI, Scopes &amp; Lifecycle" (playlist map, verified). The repo folder is the XMLBasedConfigDemo Maven project, holding resources/beans.xml, beans2.xml and appConfig.xml plus the in.strikes classes (AppConfig, Main, OrderService, UserService, payment.PaymentService, CardPaymentService, UPIPaymentService) and this lecture's notes.</p>
+</blockquote>
+<p>Annotations are not the only way to tell Spring what to manage. This lecture builds an XML project step by step: one bean, then dependency injection, then scopes, lifecycle, collections, and split context files. By the end, XML stops looking like legacy noise and starts looking like the plain, explicit foundation annotations hide.</p>
+<h2 id="1-why-xml-configuration-exists-and-what-spring-needs">1. Why XML Configuration Exists and What Spring Needs</h2>
+<p>In Spring, annotations are not the only way to tell the IoC container which objects to manage. Before annotation-based configuration became common, applications were mostly configured using XML. XML configuration tells Spring:</p>
+<ul>
+<li>These are my classes.</li>
+<li>These are the objects you need to create.</li>
+<li>These are their dependencies.</li>
+<li>Please manage them inside the IoC container.</li>
+</ul>
+<p>The Spring IoC container creates objects, connects their dependencies, manages their lifecycle, and destroys them when required. To do that, Spring needs configuration information:</p>
+<ol>
+<li>Which classes should become beans?</li>
+<li>What should be the bean name?</li>
+<li>Should the bean be singleton or prototype?</li>
+<li>Which dependency should be injected?</li>
+<li>Which bean should be preferred if multiple beans of the same type exist?</li>
+<li>Which method should run after bean creation?</li>
+<li>Which method should run before bean destruction?</li>
+</ol>
+<p>That information is called <strong>configuration metadata</strong>. XML, annotations, and Java config are only different ways of giving instructions to Spring.</p>
+<blockquote class="callout callout--important">
+<p>Important: XML does not change what Spring does. It only changes where you write the instructions. The container still creates, wires, and manages the same beans.</p>
+</blockquote>
+<h2 id="2-configuration-styles-and-beandefinition">2. Configuration Styles and BeanDefinition</h2>
+<p>Spring can receive configuration metadata in different ways, but the destination is always the same.</p>
+<table>
+<thead>
+<tr>
+<th>Configuration Style</th>
+<th>Where Configuration Is Written</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XML-based configuration</td>
+<td>Inside an XML file</td>
+</tr>
+<tr>
+<td>Annotation-based configuration</td>
+<td>Inside Java classes</td>
+</tr>
+<tr>
+<td>Java-based configuration</td>
+<td>Inside Java config classes using @Configuration and @Bean</td>
+</tr>
+</tbody>
+</table>
+<p>Spring converts this metadata into <strong>BeanDefinition</strong> objects: Configuration Metadata (XML / annotations / Java config) -&gt; BeanDefinition -&gt; IoC Container -&gt; Creates + Wires + Manages Beans. The container works from bean definitions, so a bean declared in XML and the same class annotated with <code>@Component</code> behave identically at runtime.</p>
+<h2 id="3-why-learn-xml-configuration">3. Why Learn XML Configuration</h2>
+<p>Even though modern Spring projects mostly use annotations and Java-based configuration, XML is still worth understanding for two reasons.</p>
+<p><strong>Reason 1: Legacy projects.</strong> Many old Spring applications still use XML. On an older enterprise project you may find files like:</p>
+<div class="highlight"><pre><span></span><code>beans.xml
+applicationContext.xml
+spring-context.xml
+</code></pre></div>
+
+<p>Understanding XML configuration helps you read and maintain such projects.</p>
+<p><strong>Reason 2: Better understanding of Spring internals.</strong> Annotations sometimes hide what Spring does internally. XML makes the wiring visible because we manually write which bean to create, its name, which dependency to inject, and which lifecycle method to call. This makes XML a good way to understand the foundation of Spring.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: every annotation you have ever trusted is just a shortcut for a bean definition that XML would have written out in full. Learn the long form once and the shortcuts stop being mysterious.</p>
+</blockquote>
+<h2 id="4-recommended-project-structure">4. Recommended Project Structure</h2>
+<p>A simple XML-based Spring project can follow this structure:</p>
+<div class="highlight"><pre><span></span><code>src
++-- main
+    +-- java
+    |   +-- in
+    |       +-- strikes
+    |           +-- Main.java
+    |           +-- PaymentService.java
+    |           +-- OrderService.java
+    +-- resources
+        +-- beans.xml
+</code></pre></div>
+
+<p>Place the XML file inside <code>src/main/resources</code>, because files there become available on the <strong>classpath</strong>. So <code>new ClassPathXmlApplicationContext("beans.xml")</code> searches for <code>beans.xml</code> from the classpath, not an absolute disk path.</p>
+<h2 id="5-creating-a-simple-java-class-and-beansxml">5. Creating a Simple Java Class and beans.xml</h2>
+<p>First we make a normal Java class. There is no annotation like <code>@Component</code> on it, so Spring will not automatically detect it; we will register it as a bean manually using XML. Inside <code>src/main/resources</code>, create <code>beans.xml</code>. The root <code>&lt;beans&gt;</code> tag holds all bean definitions. With the first bean registered:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;beans</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://www.springframework.org/schema/beans&quot;</span>
+<span class="w">       </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="w">       </span><span class="na">xsi:schemaLocation=</span><span class="s">&quot;</span>
+<span class="s">           http://www.springframework.org/schema/beans</span>
+<span class="s">           http://www.springframework.org/schema/beans/spring-beans.xsd&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;paymentService&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;in.strikes.PaymentService&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/beans&gt;</span>
+</code></pre></div>
+
+<p>The <code>PaymentService</code> class behind that bean is plain Java, with a constructor that prints a message and a <code>pay()</code> method:</p>
+<div class="highlight"><pre><span></span><code>package in.strikes;
+
+public class PaymentService {
+    public PaymentService() {
+        System.out.println(&quot;PaymentService object created&quot;);
+    }
+    public void pay() {
+        System.out.println(&quot;Payment successful&quot;);
+    }
+}
+</code></pre></div>
+
+<h2 id="6-registering-the-first-bean-and-xml-vs-component">6. Registering the First Bean and XML vs @Component</h2>
+<p>We add this line inside the <code>&lt;beans&gt;</code> tag:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>This line means: Spring, create and manage one object of <code>PaymentService</code>, and keep its bean name as <code>paymentService</code>. The two attributes carry all the meaning:</p>
+<table>
+<thead>
+<tr>
+<th>XML Attribute</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>Name of the bean inside the Spring container</td>
+</tr>
+<tr>
+<td>class</td>
+<td>Fully qualified class name whose object Spring should create</td>
+</tr>
+</tbody>
+</table>
+<p>In annotation-based configuration, <code>@Component</code> on the class makes Spring give the bean the default name <code>paymentService</code>, so the XML <code>&lt;bean id="paymentService" class="in.strikes.PaymentService"/&gt;</code> is conceptually similar to <code>@Component("paymentService")</code>. The difference is where configuration lives:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation Config</th>
+<th>XML Config</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Configuration is written inside Java class</td>
+<td>Configuration is written inside XML file</td>
+</tr>
+<tr>
+<td>Spring detects class using component scanning</td>
+<td>Spring reads bean definition from XML</td>
+</tr>
+<tr>
+<td>Bean name may be generated automatically</td>
+<td>Bean name is usually written manually</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "XML or annotations?" Both produce the same bean definitions, so it is not about power: XML is explicit and inspectable, annotations are concise and colocated.</p>
+</blockquote>
+<h2 id="7-loading-xml-configuration-and-eager-singleton-behavior">7. Loading XML Configuration and Eager Singleton Behavior</h2>
+<p>The entry point loads the XML file and hands back an <code>ApplicationContext</code>. The type actually instantiated is <code>ClassPathXmlApplicationContext</code>, which reads the file from the classpath:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.context.ApplicationContext</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.context.support.ClassPathXmlApplicationContext</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ApplicationContext</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">ClassPathXmlApplicationContext</span><span class="p">(</span><span class="s">&quot;beans.xml&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">context</span><span class="p">.</span><span class="na">getBean</span><span class="p">(</span><span class="s">&quot;paymentService&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">PaymentService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">paymentService</span><span class="p">.</span><span class="na">pay</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The output is:</p>
+<div class="highlight"><pre><span></span><code>PaymentService object created
+Payment successful
+</code></pre></div>
+
+<p>Notice that <code>PaymentService object created</code> prints before we call <code>getBean()</code>. Building the context loads the XML and creates the beans. By default Spring beans are <strong>singleton + eager</strong>, so the bean is created immediately when the container starts, which is why the constructor message appears first.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>ApplicationContext</code> is eager by default. The object exists the moment the context is built, so the constructor runs during startup, not on first request.</p>
+</blockquote>
+<h2 id="8-getting-beans-from-the-container">8. Getting Beans from the Container</h2>
+<p>There are three common ways to fetch a bean, and they trade safety for typing convenience.</p>
+<p><strong>By name (with manual cast).</strong> This works, but we need manual type casting:</p>
+<div class="highlight"><pre><span></span><code>PaymentService paymentService =
+        (PaymentService) context.getBean(&quot;paymentService&quot;);
+</code></pre></div>
+
+<p><strong>By name and type (preferred).</strong> This is safer and cleaner because it avoids manual casting:</p>
+<div class="highlight"><pre><span></span><code>PaymentService paymentService =
+        context.getBean(&quot;paymentService&quot;, PaymentService.class);
+</code></pre></div>
+
+<p><strong>By type only.</strong> This works only when Spring has exactly one matching bean of that type:</p>
+<div class="highlight"><pre><span></span><code>PaymentService paymentService =
+        context.getBean(PaymentService.class);
+</code></pre></div>
+
+<p>If we register two beans of the same type:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService1&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+&lt;bean id=&quot;paymentService2&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>and then call <code>context.getBean(PaymentService.class)</code>, Spring will not randomly choose one. It will throw <code>NoUniqueBeanDefinitionException</code>, because multiple beans match the same type.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Cast Needed</th>
+<th>Safe When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getBean(name)</td>
+<td>Yes</td>
+<td>Bean name is known and trusted</td>
+</tr>
+<tr>
+<td>getBean(name, type)</td>
+<td>No</td>
+<td>Name and type are both known</td>
+</tr>
+<tr>
+<td>getBean(type)</td>
+<td>No</td>
+<td>Exactly one bean of that type exists</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-bean-naming-id-name-and-alias">9. Bean Naming: id, name, and Alias</h2>
+<p>Bean names usually follow Java variable naming style, for example <code>paymentService</code>.</p>
+<p>The <code>id</code> attribute gives one unique name to a bean. XML also supports <code>name</code>, which also allows access by that name. Both look similar at a beginner level, but they differ in intent: <code>id</code> is one main name, while <code>name</code> can add aliases:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot;
+      name=&quot;payService, gatewayService, transactionService&quot;
+      class=&quot;in.strikes.PaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>Now the same bean can be accessed using different names:</p>
+<div class="highlight"><pre><span></span><code>context.getBean(&quot;paymentService&quot;, PaymentService.class);
+context.getBean(&quot;payService&quot;, PaymentService.class);
+context.getBean(&quot;gatewayService&quot;, PaymentService.class);
+context.getBean(&quot;transactionService&quot;, PaymentService.class);
+</code></pre></div>
+
+<p>All of these refer to the same bean. Sometimes a bean is already defined and we want to give it another name without changing the original definition. We can use the <code>&lt;alias&gt;</code> element:</p>
+<div class="highlight"><pre><span></span><code>&lt;alias name=&quot;paymentService&quot; alias=&quot;payService&quot;/&gt;
+</code></pre></div>
+
+<p>Now <code>context.getBean("payService", PaymentService.class)</code> also works.</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>What it gives</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>One main unique name</td>
+<td>id="paymentService"</td>
+</tr>
+<tr>
+<td>name</td>
+<td>One name or many comma-separated aliases</td>
+<td>name="payService, gatewayService"</td>
+</tr>
+<tr>
+<td>alias</td>
+<td>An extra name for an already-defined bean</td>
+<td>alias name="paymentService" alias="payService"</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for the naming trio: <strong>id is the identity, name is the tag list, alias is the nickname added later.</strong></p>
+<h2 id="10-dependency-injection-in-xml-constructor-injection">10. Dependency Injection in XML: Constructor Injection</h2>
+<p>In XML configuration, dependency injection is mainly done in two ways: constructor injection and setter injection. XML does not do field injection in the common style, because it works by calling constructors or setters.</p>
+<p>Suppose <code>OrderService</code> depends on <code>PaymentService</code> and takes it through the constructor. The XML registers both beans and passes the dependency with <code>constructor-arg</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;paymentService&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;in.strikes.PaymentService&quot;</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;bean</span><span class="w"> </span><span class="na">id=</span><span class="s">&quot;orderService&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;in.strikes.OrderService&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;constructor-arg</span><span class="w"> </span><span class="na">ref=</span><span class="s">&quot;paymentService&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/bean&gt;</span>
+</code></pre></div>
+
+<p>This means: create the <code>PaymentService</code> bean, create the <code>OrderService</code> bean, and while creating <code>OrderService</code>, pass <code>paymentService</code> into its constructor.</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>constructor-arg</td>
+<td>Pass value/dependency through constructor</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>Reference to another bean in the Spring container</td>
+</tr>
+</tbody>
+</table>
+<p>If the constructor takes a simple value, use <code>value</code> instead. Here <code>value="Razorpay"</code> means Spring passes <code>"Razorpay"</code> as a normal value, not as a bean reference:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;&gt;
+    &lt;constructor-arg value=&quot;Razorpay&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>With multiple arguments, Spring tries to match constructor arguments by order and type. To make the order clear, we can use <code>index</code>; <code>index="0"</code> means the first constructor parameter, <code>index="1"</code> means the second:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;&gt;
+    &lt;constructor-arg index=&quot;0&quot; value=&quot;Razorpay&quot;/&gt;
+    &lt;constructor-arg index=&quot;1&quot; value=&quot;3&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>If constructor parameter names are available, we can match by name, which is more readable:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;&gt;
+    &lt;constructor-arg name=&quot;providerName&quot; value=&quot;Razorpay&quot;/&gt;
+    &lt;constructor-arg name=&quot;retryCount&quot; value=&quot;3&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>By-name matching depends on whether Spring can discover parameter names, so <code>index</code> is usually easier to demonstrate reliably. We can also specify the type, which helps when matching becomes confusing:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;&gt;
+    &lt;constructor-arg type=&quot;java.lang.String&quot; value=&quot;Razorpay&quot;/&gt;
+    &lt;constructor-arg type=&quot;int&quot; value=&quot;3&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Example</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>By order</td>
+<td><code>&lt;constructor-arg value="Razorpay"/&gt;</code></td>
+<td>Simple cases</td>
+</tr>
+<tr>
+<td>By index</td>
+<td><code>&lt;constructor-arg index="0" value="Razorpay"/&gt;</code></td>
+<td>When order must be clear</td>
+</tr>
+<tr>
+<td>By name</td>
+<td><code>&lt;constructor-arg name="providerName" value="Razorpay"/&gt;</code></td>
+<td>When parameter names are available</td>
+</tr>
+<tr>
+<td>By type</td>
+<td><code>&lt;constructor-arg type="java.lang.String" value="Razorpay"/&gt;</code></td>
+<td>When constructor matching needs help</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for the four matching strategies: <strong>O-I-N-T - Order, Index, Name, Type.</strong></p>
+<h2 id="11-setter-injection-and-value-vs-ref">11. Setter Injection and value vs ref</h2>
+<p>For setter injection, <code>OrderService</code> exposes a setter method, and XML calls it. The setter method is important because XML setter injection works by calling it:</p>
+<div class="highlight"><pre><span></span><code>public void setPaymentService(PaymentService paymentService) {
+    System.out.println(&quot;Setter called for paymentService&quot;);
+    this.paymentService = paymentService;
+}
+</code></pre></div>
+
+<p>The XML configuration uses <code>&lt;property&gt;</code> with a <code>name</code> and a <code>ref</code>:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+
+&lt;bean id=&quot;orderService&quot; class=&quot;in.strikes.OrderService&quot;&gt;
+    &lt;property name=&quot;paymentService&quot; ref=&quot;paymentService&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>The important line is <code>&lt;property name="paymentService" ref="paymentService"/&gt;</code>. <code>name="paymentService"</code> refers to the property inside <code>OrderService</code>, so Spring looks for <code>setPaymentService(...)</code>; <code>ref="paymentService"</code> refers to another bean in the container. So the XML means: create <code>OrderService</code>, call the setter, and pass the bean named <code>paymentService</code> into it.</p>
+<p>The <code>value</code> and <code>ref</code> attributes are not interchangeable:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>Injects a simple value like String, int, boolean</td>
+</tr>
+<tr>
+<td>ref</td>
+<td>Injects another bean from the Spring container</td>
+</tr>
+</tbody>
+</table>
+<p>Example using <code>value</code>: <code>&lt;constructor-arg value="Razorpay"/&gt;</code>. Example using <code>ref</code>: <code>&lt;constructor-arg ref="paymentService"/&gt;</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: Point <code>value</code> at a bean name and Spring injects the literal text; point <code>ref</code> at a non-bean and startup fails. The two answer "is this data?" versus "is this an object in the container?"</p>
+</blockquote>
+<h2 id="12-multiple-beans-of-the-same-type-and-xml-autowiring">12. Multiple Beans of the Same Type and XML Autowiring</h2>
+<p>Suppose <code>OrderService</code> needs one <code>PaymentService</code>, but the XML has two payment service beans:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;razorpayPaymentService&quot; class=&quot;in.strikes.RazorpayPaymentService&quot;/&gt;
+&lt;bean id=&quot;stripePaymentService&quot; class=&quot;in.strikes.StripePaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>Spring should not guess randomly. It needs to know which one to inject into <code>OrderService</code>, and the cleanest solution in XML is explicit wiring:</p>
+<p><strong>Solution 1: explicit wiring using <code>ref</code>.</strong> This removes all confusion:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;orderService&quot; class=&quot;in.strikes.OrderService&quot;&gt;
+    &lt;constructor-arg ref=&quot;razorpayPaymentService&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>The line <code>&lt;constructor-arg ref="razorpayPaymentService"/&gt;</code> means: when creating <code>OrderService</code>, inject the bean named <code>razorpayPaymentService</code>, so Spring knows exactly which one to use even when several exist.</p>
+<p><strong>Solution 2: <code>primary="true"</code>.</strong> We can mark one bean as primary, and when Spring needs a bean by type while multiple options exist, it will prefer the primary bean:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;razorpayPaymentService&quot; class=&quot;in.strikes.RazorpayPaymentService&quot; primary=&quot;true&quot;/&gt;
+&lt;bean id=&quot;stripePaymentService&quot; class=&quot;in.strikes.StripePaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>However, in XML projects, explicit wiring using <code>ref</code> is usually clearer than depending on <code>primary</code>.</p>
+<p><strong>Solution 3: <code>autowire-candidate="false"</code>.</strong> This tells Spring not to consider a bean as a candidate for autowiring:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;razorpayPaymentService&quot; class=&quot;in.strikes.RazorpayPaymentService&quot;/&gt;
+&lt;bean id=&quot;stripePaymentService&quot; class=&quot;in.strikes.StripePaymentService&quot; autowire-candidate=&quot;false&quot;/&gt;
+</code></pre></div>
+
+<p>This is useful in legacy XML projects, but beginners should first understand explicit wiring with <code>ref</code>.</p>
+<p><strong>XML autowiring</strong> means that instead of writing every dependency manually using <code>ref</code>, we ask Spring to find the dependency automatically:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+&lt;bean id=&quot;orderService&quot;
+      class=&quot;in.strikes.OrderService&quot;
+      autowire=&quot;byName&quot;/&gt;
+</code></pre></div>
+
+<p>The common modes are:</p>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byName</td>
+<td>Matches dependency using property name and bean name</td>
+</tr>
+<tr>
+<td>byType</td>
+<td>Matches dependency using type</td>
+</tr>
+<tr>
+<td>constructor</td>
+<td>Matches constructor parameters using available beans</td>
+</tr>
+</tbody>
+</table>
+<p><code>byName</code> matches the setter property name against bean names. <code>byType</code> matches the property type against one clear bean, and fails when several match. <code>constructor</code> matches constructor parameter types against available beans.</p>
+<table>
+<thead>
+<tr>
+<th>XML Autowiring Mode</th>
+<th>How Spring Matches Dependency</th>
+<th>Works Best When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byName</td>
+<td>Property name matches bean name</td>
+<td>Bean names are predictable</td>
+</tr>
+<tr>
+<td>byType</td>
+<td>Property type matches bean type</td>
+<td>Only one bean of that type exists</td>
+</tr>
+<tr>
+<td>constructor</td>
+<td>Constructor parameter type matches bean type</td>
+<td>Constructor dependencies have clear matching beans</td>
+</tr>
+</tbody>
+</table>
+<p>For beginners, manual dependency injection using <code>ref</code> should come first; autowiring is a convenience feature.</p>
+<h2 id="13-bean-scopes-in-xml">13. Bean Scopes in XML</h2>
+<p>For this video, focus mainly on two scopes: <strong>singleton</strong> and <strong>prototype</strong>. By default, Spring beans are singleton.</p>
+<p><strong>Singleton scope.</strong> Spring creates only one object of this bean inside the container:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;/&gt;
+</code></pre></div>
+
+<p>If we call <code>getBean()</code> multiple times:</p>
+<div class="highlight"><pre><span></span><code>PaymentService p1 = context.getBean(&quot;paymentService&quot;, PaymentService.class);
+PaymentService p2 = context.getBean(&quot;paymentService&quot;, PaymentService.class);
+System.out.println(p1 == p2);
+</code></pre></div>
+
+<p>the output is <code>true</code>, because both references point to the same object.</p>
+<p><strong>Prototype scope.</strong> Prototype means Spring creates a new object every time we request the bean:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot;
+      class=&quot;in.strikes.PaymentService&quot;
+      scope=&quot;prototype&quot;/&gt;
+</code></pre></div>
+
+<p>Now the output shows two constructor messages and prints <code>false</code>, because each <code>getBean()</code> call creates a new object.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect in XML</th>
+<th>singleton (default)</th>
+<th>prototype</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Objects created</td>
+<td>One per container</td>
+<td>New object per request</td>
+</tr>
+<tr>
+<td>getBean() twice</td>
+<td>Same reference (p1 == p2 is true)</td>
+<td>Different references (p1 == p2 is false)</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Yes</td>
+<td>No, must set scope="prototype"</td>
+</tr>
+<tr>
+<td>destroy-method on close</td>
+<td>Called</td>
+<td>Not called automatically</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Singleton bean depending on a prototype bean.</strong> Suppose <code>OrderService</code> is singleton and <code>PaymentService</code> is prototype:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot;
+      class=&quot;in.strikes.PaymentService&quot;
+      scope=&quot;prototype&quot;/&gt;
+&lt;bean id=&quot;orderService&quot;
+      class=&quot;in.strikes.OrderService&quot;
+      scope=&quot;singleton&quot;&gt;
+    &lt;constructor-arg ref=&quot;paymentService&quot;/&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>The prototype bean is injected when the singleton is created, so a singleton <code>OrderService</code> receives one <code>PaymentService</code> object at creation time and does not get a new one on every method call. This matters when mixing scopes.</p>
+<h2 id="14-bean-lifecycle-methods-in-xml">14. Bean Lifecycle Methods in XML</h2>
+<p>In XML we can tell Spring which method runs after bean creation and which runs before destruction. These are normal Java methods: no annotations, no Spring interfaces, just XML telling Spring when to call them. A <code>PaymentService</code> with a constructor, <code>init()</code>, <code>pay()</code>, and <code>cleanup()</code>:</p>
+<div class="highlight"><pre><span></span><code>package in.strikes;
+
+public class PaymentService {
+    public PaymentService() {
+        System.out.println(&quot;1. PaymentService constructor called&quot;);
+    }
+    public void init() {
+        System.out.println(&quot;2. PaymentService init method called&quot;);
+    }
+    public void pay() {
+        System.out.println(&quot;3. Payment successful&quot;);
+    }
+    public void cleanup() {
+        System.out.println(&quot;4. PaymentService cleanup method called&quot;);
+    }
+}
+</code></pre></div>
+
+<p>The XML maps the callbacks by name: <code>init-method</code> runs after creation and dependency injection, <code>destroy-method</code> runs before destruction:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot;
+      class=&quot;in.strikes.PaymentService&quot;
+      init-method=&quot;init&quot;
+      destroy-method=&quot;cleanup&quot;/&gt;
+</code></pre></div>
+
+<p><strong>Closing the context.</strong> To see the destroy method run, the context must be closed. Use <code>ClassPathXmlApplicationContext</code> for that, because the <code>ApplicationContext</code> interface does not expose <code>close()</code>:</p>
+<div class="highlight"><pre><span></span><code>ClassPathXmlApplicationContext context =
+        new ClassPathXmlApplicationContext(&quot;beans.xml&quot;);
+PaymentService paymentService =
+        context.getBean(&quot;paymentService&quot;, PaymentService.class);
+paymentService.pay();
+context.close();
+</code></pre></div>
+
+<p>Try-with-resources is better, so the context always closes. On close, Spring calls the destroy method for singleton beans.</p>
+<p><strong>Prototype scope with init and destroy.</strong> For prototype beans, Spring creates the object, injects dependencies, calls the init method, and then hands the object to the application:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot;
+      class=&quot;in.strikes.PaymentService&quot;
+      scope=&quot;prototype&quot;
+      init-method=&quot;init&quot;
+      destroy-method=&quot;cleanup&quot;/&gt;
+</code></pre></div>
+
+<p>Spring does <strong>not</strong> call the destroy method for prototype beans when the context closes, because it does not manage their full lifecycle after creation.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why does my destroy-method not run for a prototype bean?" is a favorite. The answer is ownership: Spring stops tracking the object once it is handed over, so destruction becomes the application's responsibility.</p>
+<p>Important: <code>ApplicationContext</code> does not declare <code>close()</code>. Cast to <code>ClassPathXmlApplicationContext</code>, or use try-with-resources, to trigger singleton destruction callbacks.</p>
+</blockquote>
+<h2 id="15-collection-injection-in-xml">15. Collection Injection in XML</h2>
+<p>XML can also inject collections like <code>List</code>, <code>Set</code>, and <code>Map</code>. A <code>UserService</code> that takes a list of names is configured with <code>&lt;list&gt;</code> and <code>&lt;value&gt;</code> elements:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;userService&quot; class=&quot;in.strikes.UserService&quot;&gt;
+    &lt;constructor-arg name=&quot;userNames&quot;&gt;
+        &lt;list&gt;
+            &lt;value&gt;Aditya&lt;/value&gt;
+            &lt;value&gt;Rohit&lt;/value&gt;
+            &lt;value&gt;Rohan&lt;/value&gt;
+        &lt;/list&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>A <code>PaymentService</code> that takes a <code>Map&lt;String, Double&gt;</code> of balances is configured with <code>&lt;map&gt;</code> and <code>&lt;entry&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code>&lt;bean id=&quot;paymentService&quot; class=&quot;in.strikes.PaymentService&quot;&gt;
+    &lt;constructor-arg name=&quot;userBalances&quot;&gt;
+        &lt;map&gt;
+            &lt;entry key=&quot;Aditya&quot; value=&quot;2.0&quot;/&gt;
+            &lt;entry key=&quot;Rohit&quot; value=&quot;2.5&quot;/&gt;
+            &lt;entry key=&quot;Rohan&quot; value=&quot;3.0&quot;/&gt;
+        &lt;/map&gt;
+    &lt;/constructor-arg&gt;
+&lt;/bean&gt;
+</code></pre></div>
+
+<p>XML can handle simple beans and complex collections alike. The same <code>&lt;list&gt;</code> and <code>&lt;map&gt;</code> elements also work inside <code>&lt;property&gt;</code> for setter injection.</p>
+<h2 id="16-splitting-xml-files-and-mixing-xml-with-annotations">16. Splitting XML Files and Mixing XML with Annotations</h2>
+<p>In real legacy projects, one XML file can become very large, so we split configuration into multiple XML files instead of one <code>beans.xml</code>:</p>
+<div class="highlight"><pre><span></span><code>src/main/resources
++-- applicationContext.xml
++-- orderContext.xml
++-- userContext.xml
+</code></pre></div>
+
+<p>Each part holds the beans for one area: <code>orderContext.xml</code> has the payment and order beans, <code>userContext.xml</code> has the user bean. The main file imports both:</p>
+<div class="highlight"><pre><span></span><code>&lt;import resource=&quot;orderContext.xml&quot;/&gt;
+&lt;import resource=&quot;userContext.xml&quot;/&gt;
+</code></pre></div>
+
+<p>Now in Java, we only load the main file, and Spring loads <code>applicationContext.xml</code>, which imports the other XML files:</p>
+<div class="highlight"><pre><span></span><code>ClassPathXmlApplicationContext context =
+        new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
+</code></pre></div>
+
+<p><strong>Can XML and annotations work together?</strong> Yes. Both are just ways of giving configuration metadata to Spring. A legacy project may define some beans in XML, detect others by annotations, and create still others via Java config; Spring converts all of them into bean definitions.</p>
+<p>In XML, we can enable annotation scanning using <code>&lt;context:component-scan base-package="in.strikes"/&gt;</code>. For this, the XML file needs the context namespace <code>xmlns:context="http://www.springframework.org/schema/context"</code> along with its schema location:</p>
+<div class="highlight"><pre><span></span><code>&lt;context:component-scan base-package=&quot;in.strikes&quot;/&gt;
+</code></pre></div>
+
+<p>This tells Spring to scan the package <code>in.strikes</code> and detect annotation-based components like <code>@Component</code>, <code>@Service</code>, and <code>@Repository</code>.</p>
+<p><strong>Should beginners mix XML and annotations?</strong> No - learn each separately first. Mixing too early confuses because XML and annotation beans can depend on each other, and component scanning plus manual registration can create duplicate beans. Best order: pure annotation config, then pure XML config, then note that both work together in legacy projects.</p>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"XML configuration uses a different container"</td>
+<td>Same IoC container; XML just supplies metadata that becomes BeanDefinitions.</td>
+</tr>
+<tr>
+<td>"@Component and <code>&lt;bean&gt;</code> do different things"</td>
+<td>Both create a bean definition; the class and name are declared in different places.</td>
+</tr>
+<tr>
+<td>"id and name are exactly the same"</td>
+<td>id is one main name; name can hold several comma-separated aliases.</td>
+</tr>
+<tr>
+<td>"value and ref are interchangeable"</td>
+<td>value injects a literal; ref injects another container bean.</td>
+</tr>
+<tr>
+<td>"Spring guesses when two beans share a type"</td>
+<td>It throws NoUniqueBeanDefinitionException unless resolved.</td>
+</tr>
+<tr>
+<td>"Prototype beans get destroy-method called"</td>
+<td>Spring does not manage full prototype lifecycle; destroy is not called on close.</td>
+</tr>
+<tr>
+<td>"init-method and destroy-method need annotations"</td>
+<td>They are plain Java methods; XML tells Spring when to call them.</td>
+</tr>
+<tr>
+<td>"Closing the context is optional detail"</td>
+<td>Without close(), singleton destroy callbacks never run.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "The constructor ran before getBean(), so Spring created it lazily."</strong>
+Verdict: False. Beans are singleton + eager by default, so the object is created when the container starts.</p>
+<p><strong>Trap 2 - "context.getBean(PaymentService.class) is always the safest choice."</strong>
+Verdict: Misleading. By-type lookup throws <code>NoUniqueBeanDefinitionException</code> the moment two beans share the type; name+type avoids that.</p>
+<p><strong>Trap 3 - "id and name are the same attribute."</strong>
+Verdict: False. id is the one main unique name; name can list several aliases, and <code>&lt;alias&gt;</code> adds one more externally.</p>
+<p><strong>Trap 4 - "Two beans with the same id just overwrite each other quietly."</strong>
+Verdict: False. Bean ids should be unique in the same XML file; duplicates make <code>getBean("paymentService")</code> ambiguous.</p>
+<p><strong>Trap 5 - "If two beans of the same type exist, Spring picks the first one."</strong>
+Verdict: False. Spring does not guess; use explicit <code>ref</code>, <code>primary="true"</code>, or <code>autowire-candidate="false"</code>.</p>
+<p><strong>Trap 6 - "A singleton that depends on a prototype gets a fresh prototype each call."</strong>
+Verdict: False. The prototype is injected once when the singleton is created; later calls reuse that same object.</p>
+<p><strong>Trap 7 - "Prototype beans get destroy-method called when the context closes."</strong>
+Verdict: False. Spring stops managing prototype beans after handing them over.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>XML is one way to give Spring configuration metadata; annotations and Java config are others.</li>
+<li>All configuration styles become BeanDefinition objects that the IoC container consumes.</li>
+<li><code>id</code> names the bean; <code>class</code> tells Spring which class to instantiate.</li>
+<li><code>ClassPathXmlApplicationContext</code> loads XML from the classpath, so the file must live in <code>src/main/resources</code>.</li>
+<li>Beans are singleton and eager by default, so constructors run during container startup.</li>
+<li><code>getBean(name, type)</code> avoids casting; <code>getBean(type)</code> needs exactly one matching bean.</li>
+<li><code>id</code> is the main name, <code>name</code> can list aliases, and <code>&lt;alias&gt;</code> adds an external nickname.</li>
+<li>Constructor injection uses <code>constructor-arg</code> with <code>ref</code> or <code>value</code>, matched by order, index, name, or type.</li>
+<li>Setter injection uses <code>&lt;property&gt;</code> with <code>ref</code>; <code>value</code> is for literals and <code>ref</code> is for beans.</li>
+<li>Same-type beans resolve via explicit <code>ref</code>, <code>primary="true"</code>, or <code>autowire-candidate="false"</code>; singleton destroy runs on <code>close()</code> but prototype destroy does not.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is configuration metadata in Spring?</td>
+<td>The instructions Spring needs (classes, names, scopes, dependencies, init/destroy) to create and manage beans.</td>
+</tr>
+<tr>
+<td>What does Spring convert config metadata into?</td>
+<td>BeanDefinition objects, whether the source was XML, annotations, or Java config.</td>
+</tr>
+<tr>
+<td>Why learn XML configuration when annotations exist?</td>
+<td>Legacy enterprise projects use it, and it exposes the explicit wiring annotations hide.</td>
+</tr>
+<tr>
+<td>What does <code>&lt;bean id="x" class="..."/&gt;</code> mean?</td>
+<td>Create and manage one object of that class inside the container, registered under the name x.</td>
+</tr>
+<tr>
+<td>XML bean vs @Component?</td>
+<td>Same result (a bean definition); XML declares it in a file, @Component is found by scanning.</td>
+</tr>
+<tr>
+<td>Why does the constructor run before getBean()?</td>
+<td>Beans are singleton and eager by default, so they are created when the context starts.</td>
+</tr>
+<tr>
+<td>How do you get a bean by type?</td>
+<td><code>context.getBean(PaymentService.class)</code>; works only when exactly one bean of that type exists.</td>
+</tr>
+<tr>
+<td>What is thrown when two beans match a type lookup?</td>
+<td><code>NoUniqueBeanDefinitionException</code>.</td>
+</tr>
+<tr>
+<td>Difference between id and name?</td>
+<td>id is one main unique name; name can provide multiple comma-separated aliases.</td>
+</tr>
+<tr>
+<td>Difference between value and ref?</td>
+<td>value injects a simple value; ref injects another bean from the container.</td>
+</tr>
+<tr>
+<td>How do you resolve two beans of the same type?</td>
+<td>Explicit <code>ref</code>, <code>primary="true"</code> on one, or <code>autowire-candidate="false"</code> on the other.</td>
+</tr>
+<tr>
+<td>Why is prototype destroy-method not called?</td>
+<td>Spring does not manage the full lifecycle of prototype beans after handing them over.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>XML file (beans.xml)
+        |
+        v
+Configuration metadata -&gt; BeanDefinition
+        |
+        v
+IoC Container (ClassPathXmlApplicationContext)
+        |
+        +--&gt; creates beans (singleton + eager by default)
+        +--&gt; injects deps (constructor-arg / property, value vs ref)
+        +--&gt; resolves duplicates (ref, primary, autowire-candidate)
+        +--&gt; manages scope (singleton / prototype)
+        +--&gt; calls lifecycle (init-method / destroy-method)
+        |
+        v
+getBean(name, type) -&gt; application
+        |
+        v
+Split files via &lt;import&gt;; mix with &lt;context:component-scan&gt;
+</code></pre></div>
+
+<ul>
+<li>XML, annotations, and Java config all produce BeanDefinitions for the same IoC container.</li>
+<li><code>&lt;bean&gt;</code> registers an object; <code>id</code> names it and <code>class</code> says which class to build.</li>
+<li>Constructor injection uses <code>constructor-arg</code>; setter injection uses <code>&lt;property&gt;</code>; <code>value</code> is literal, <code>ref</code> is a bean.</li>
+<li>Same-type duplicates resolve with explicit <code>ref</code>, <code>primary="true"</code>, or <code>autowire-candidate="false"</code>.</li>
+<li>Singleton is the default scope; prototype returns a new object per request and skips destroy callbacks.</li>
+<li>Lifecycle callbacks come from <code>init-method</code> and <code>destroy-method</code>; <code>close()</code> triggers singleton destruction.</li>
+<li>Large configurations split into files linked by <code>&lt;import&gt;</code>, and XML can enable scanning with <code>&lt;context:component-scan&gt;</code>.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> XML is the verbose, honest form of the same bean definitions annotations whisper - write it once and Spring's container stops being a black box.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-07.html"><span class="dir">Previous</span><span class="ttl">Lecture 07 — Bean Lifecycle Explained</span></a><a class="next" href="doc-theory-lecture-09.html"><span class="dir">Next</span><span class="ttl">Lecture 09 — Spring Boot Core</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

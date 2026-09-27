@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Chess Game — LLD</title>
+<meta name="description" content="Design a Chess Game">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-06-chess">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-06-chess.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#generating-a-pieces-moves">Generating a Piece&#x27;s Moves</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-06-chess.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Chess Game</h1>
+<p class="readmeta">15 sections · 1,887 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-06-chess" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 06 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>An 8x8 board of squares, two players alternate turns.</li>
+<li>Standard set: king, queen, rook, bishop, knight, pawn.</li>
+<li>A move is a from-square to a to-square.</li>
+<li>Legal: the piece can make it, the path is clear, the target is empty or an enemy, and it does not leave your own king in check.</li>
+<li>Each piece type generates its own moves.</li>
+<li>Special: castling, en passant, promotion, the two-square pawn open.</li>
+<li>Detect check, checkmate, stalemate; the game ends.</li>
+<li>Undo and a move history you can replay.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>A chess engine or AI.</li>
+<li>Clocks and time control.</li>
+<li>Opening books, PGN / FEN detail.</li>
+<li>Threefold-repetition bookkeeping.</li>
+<li>Network transport, a database, login.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>An 8x8 board of squares, a <code>Game</code> that holds the board, whose turn it is, and a history stack. Each <code>Piece</code> generates its own pseudo-moves; the <code>Game</code> filters them by king safety.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Player</strong> — <code>color: Color</code>, <code>game: Game</code>; <code>move(Square from, Square to, Piece promo)</code> calls <code>game.makeMove(resolve(from, to, promo))</code>.</li>
+<li><strong>Game</strong> (the context) — <code>board: Board</code>, <code>toMove: Color</code>, <code>history: Deque&lt;Move&gt;</code>, <code>enPassant: Square</code>, <code>castling: CastlingRights</code>, <code>state: GameState</code>; <code>legalMoves(Square from): List&lt;Move&gt;</code>, <code>makeMove(Move m): void</code>, <code>inCheck(Color c): boolean</code>, <code>status(): GameState</code>, <code>undo()</code>.</li>
+<li><strong>Board</strong> — <code>squares: Square[8][8]</code>, <code>kings: Map&lt;Color, Square&gt;</code>; <code>pieceAt(Square s): Piece</code>, <code>set(Square, Piece)</code>, <code>kingSquare(Color c): Square</code>, <code>attacked(Square s, Color by): boolean</code>.</li>
+<li><strong>Square</strong> — <code>file: int 0..7</code>, <code>rank: int 0..7</code>, <code>piece: Piece</code> (nullable); <code>offset(int df, int dr): Square</code>, <code>equals</code> / <code>hashCode</code> by file and rank.</li>
+<li><strong>Piece</strong> (abstract) — <code>color: Color</code>, <code>square: Square</code>, <code>hasMoved: boolean</code>; <code>pseudoMoves(Board b, Square from, Game g): List&lt;Move&gt;</code>, <code>attacks(Square s, Board b): boolean</code>. 6 subtypes.</li>
+<li><strong>Move</strong> (Command) — <code>from</code>, <code>to: Square</code>, <code>piece: Piece</code>, <code>captured: Piece</code>, <code>flags: castle | ep | promo</code>, <code>prevCastling</code>, <code>prevEnPassant</code>, <code>rook</code>; <code>apply(Board b, Game g): void</code>, <code>undo(Board b, Game g): void</code>.</li>
+<li><strong>GameState</strong> (interface) — <code>recompute(Game g): GameState</code>. States: Active, Check, Checkmate, Stalemate, Draw.</li>
+<li><strong>BoardObserver</strong> (interface) — <code>onMove(Move m): void</code>; <code>MoveLog</code>, <code>PgnWriter</code>, <code>Clock</code>.</li>
+<li><strong>MoveHistory</strong> — <code>moves: Deque&lt;Move&gt;</code>; <code>push(Move)</code>, <code>pop(): Move</code>. Each Move unapplies itself.</li>
+</ul>
+<p>Relationships: <code>Game</code> owns 1 board and 1 history; the board owns 64 squares; a square holds 0..1 piece.</p>
+<h3 id="the-six-piece-types">The six piece types</h3>
+<ul>
+<li>King -&gt; one step any way, castles.</li>
+<li>Queen -&gt; any ray, any distance.</li>
+<li>Rook -&gt; rank / file rays, castles.</li>
+<li>Bishop -&gt; diagonal rays.</li>
+<li>Knight -&gt; the 8 L jumps, hops pieces.</li>
+<li>Pawn -&gt; push, two-open, capture, e.p., promote.</li>
+</ul>
+<h3 id="the-five-states">The five states</h3>
+<ul>
+<li>Active -&gt; normal play.</li>
+<li>Check -&gt; the mover must escape it.</li>
+<li>Checkmate -&gt; in check, no legal move; game over.</li>
+<li>Stalemate -&gt; not in check, no legal move; draw.</li>
+<li>Draw -&gt; 50-move, repetition, insufficient material, agreement.</li>
+</ul>
+<p>Pseudo-moves, then the king-safety filter: <code>pseudoMoves</code> is shape only; <code>legalMoves</code> = pseudo AND the king still safe after the move. <code>check</code> when an enemy pseudo-move hits my king.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>legalMoves(Square from): List&lt;Move&gt;</code> — every pseudo-move the piece on <code>from</code> can make, each one simulated and kept only if it does not leave this side's king in check. Empty when it is not your turn or the square is empty.</li>
+<li><code>pseudoMoves(Board b, Square from, Game g): List&lt;Move&gt;</code> — the per-piece Strategy step. Shape only: slide or step by this piece's pattern, stop at the first blocker, take an enemy. Ignores check, pins and whose turn it is.</li>
+<li><code>makeMove(Move m): void</code> — rejects anything not in <code>legalMoves(m.from)</code>. Applies it (the rook too, on a castle), pushes to history, flips the side, recomputes check / mate / stalemate.</li>
+<li><code>inCheck(Color c): boolean</code> — true when any enemy piece attacks c's king square right now. One board scan. Runs after every simulated move, so it stays cheap and side-effect free.</li>
+</ol>
+<p><code>legal</code> when a pseudo-move AND the king safe after it. Each ray / step from sq; stop at the first piece; take it only if it is an enemy. <code>for m in pseudo: apply(m); keep if !inCheck(me); undo(m)</code>.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>White rook on e4, white king on e1, black rook on e8. White tries Re4 to h4. Is it legal? Walk <code>pseudoMoves</code>, then the king-safety filter, and name every object the request touches.</p>
+<p>The black rook pins the white rook to its king; the 7 rank moves expose the king. It is rejected.</p>
+<h2 id="the-change">The Change</h2>
+<p>They ask the machine to play. An Engine calls <code>legalMoves</code>, applies each, scores the position, and searches a few plies deep with alpha-beta. It only consumes the rules; not one rule class changes. A new object on the same seam.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The full-board scan. <code>inCheck</code> asks the board whether any enemy piece attacks the king square, and it runs after every simulated move. So <code>legalMoves</code> is per-piece generation times a board scan — fine for a game, far off engine speed. Bitboards if they push.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>legalMoves, makeMove, and Move.undo:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Game</span><span class="w"> </span><span class="p">{</span><span class="w">                                     </span><span class="c1">// the context object</span>
+<span class="w">    </span><span class="n">Board</span><span class="w"> </span><span class="n">board</span><span class="p">;</span><span class="w"> </span><span class="n">Color</span><span class="w"> </span><span class="n">toMove</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WHITE</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Square</span><span class="w"> </span><span class="n">enPassant</span><span class="p">;</span><span class="w"> </span><span class="n">CastlingRights</span><span class="w"> </span><span class="n">castling</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Deque</span><span class="o">&lt;</span><span class="n">Move</span><span class="o">&gt;</span><span class="w"> </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Move</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">legalMoves</span><span class="p">(</span><span class="n">Square</span><span class="w"> </span><span class="n">from</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Piece</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">pieceAt</span><span class="p">(</span><span class="n">from</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">color</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">toMove</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">();</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Move</span><span class="o">&gt;</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Move</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">pseudoMoves</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">m</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">);</span><span class="w">                    </span><span class="c1">// simulate the move</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">inCheck</span><span class="p">(</span><span class="n">toMove</span><span class="p">))</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w">        </span><span class="c1">// my king stays safe</span>
+<span class="w">            </span><span class="n">m</span><span class="p">.</span><span class="na">undo</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">);</span><span class="w">                     </span><span class="c1">// restore, every time</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">out</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">makeMove</span><span class="p">(</span><span class="n">Move</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">legalMoves</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="na">from</span><span class="p">).</span><span class="na">contains</span><span class="p">(</span><span class="n">m</span><span class="p">))</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalMove</span><span class="p">(</span><span class="n">m</span><span class="p">);</span>
+<span class="w">        </span><span class="n">m</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="k">this</span><span class="p">);</span><span class="w">                        </span><span class="c1">// also hops the rook on castle</span>
+<span class="w">        </span><span class="n">history</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w">                             </span><span class="c1">// the undo stack</span>
+<span class="w">        </span><span class="n">toMove</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">toMove</span><span class="p">.</span><span class="na">opposite</span><span class="p">();</span><span class="w">                  </span><span class="c1">// flip the side to move</span>
+<span class="w">        </span><span class="n">refreshStatus</span><span class="p">();</span><span class="w">                             </span><span class="c1">// Active / Check / Mate / Draw</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">inCheck</span><span class="p">(</span><span class="n">Color</span><span class="w"> </span><span class="n">c</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="na">attacked</span><span class="p">(</span><span class="n">board</span><span class="p">.</span><span class="na">kingSquare</span><span class="p">(</span><span class="n">c</span><span class="p">),</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">opposite</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Move</span><span class="w"> </span><span class="p">{</span><span class="w">                                     </span><span class="c1">// Command + a little Memento</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">undo</span><span class="p">(</span><span class="n">Board</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">Game</span><span class="w"> </span><span class="n">g</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                 </span><span class="c1">// unapply, restore all of it</span>
+<span class="w">        </span><span class="n">b</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="kd">to</span><span class="p">,</span><span class="w"> </span><span class="n">captured</span><span class="p">);</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="n">piece</span><span class="p">);</span><span class="w"> </span><span class="c1">// captured may be null</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">castle</span><span class="p">)</span><span class="w"> </span><span class="n">rook</span><span class="p">.</span><span class="na">undo</span><span class="p">(</span><span class="n">b</span><span class="p">);</span><span class="w">                </span><span class="c1">// the rook slides back too</span>
+<span class="w">        </span><span class="n">g</span><span class="p">.</span><span class="na">castling</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prevCastling</span><span class="p">;</span><span class="w">               </span><span class="c1">// castling rights restored</span>
+<span class="w">        </span><span class="n">g</span><span class="p">.</span><span class="na">enPassant</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prevEnPassant</span><span class="p">;</span><span class="w">             </span><span class="c1">// en-passant target restored</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>A move that leaves your king in check.</strong> The piece's pattern says the move is fine, but it opens a line on your own king (a pin). Pattern-matching alone lets it through. Simulate: apply, <code>inCheck(me)</code>, then drop it.</li>
+<li><strong>Castling.</strong> Illegal through, out of, or into check, or if the king or that rook has moved, or a square between them is occupied. King and rook <code>!hasMoved</code>, path empty, and none of the 3 king squares attacked.</li>
+<li><strong>En passant.</strong> Legal only on the ply immediately after the enemy pawn's two-square jump. Wait one move and it is gone. <code>enPassant</code> set now, cleared next.</li>
+<li><strong>Checkmate vs stalemate.</strong> Both are "the mover has no legal move". If in check -&gt; checkmate, game over; if not in check -&gt; stalemate, a draw. The check bit alone decides.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li>apply then <code>inCheck</code> then undo — you must simulate, never pattern-match. A pin is only visible with the move on the board.</li>
+<li><code>undo</code> restores the captured piece, the castling rights and the en-passant target — not just the two squares.</li>
+<li><code>legalMoves(m.from).contains(m)</code> — <code>makeMove</code> trusts nothing; the same filter guards every entry point.</li>
+</ol>
+<h2 id="generating-a-pieces-moves">Generating a Piece's Moves</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Readability</th>
+<th>Move-gen speed</th>
+<th>King-safety</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Switch on type</td>
+<td>sinks past 3 pieces</td>
+<td>fine</td>
+<td>apply + scan</td>
+<td>never, really</td>
+</tr>
+<tr>
+<td>PseudoMoves per piece (the default)</td>
+<td>one rule per class</td>
+<td>fine for a game</td>
+<td>apply + scan</td>
+<td>every interview</td>
+</tr>
+<tr>
+<td>Attack tables / bitboards (engine-grade)</td>
+<td>bit tricks, opaque</td>
+<td>fastest by far</td>
+<td>a danger-square mask</td>
+<td>you are building an engine</td>
+</tr>
+</tbody>
+</table>
+<p>Polymorphic <code>pseudoMoves</code>, one method per piece. Adding a piece or a fairy variant is a new subclass and nothing else moves. Reach for bitboards only when you are actually building an engine and profiling says move generation is the wall.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Validating a move by the piece's pattern alone, never simulating — a pinned piece moves, or the king walks into check.</li>
+<li><code>undo</code> that only swaps the two squares — the captured piece, castling rights and en-passant target are lost.</li>
+<li>One <code>switch (pieceType)</code> for move generation, edited for every piece and every special move.</li>
+<li>Castling coded as "king moves two" with no check on the three king squares, the rook, or <code>hasMoved</code>.</li>
+<li>En passant allowed whenever the pawns line up, not only the ply after the two-square jump.</li>
+<li>No line between checkmate and stalemate — both are "no legal move"; only the check bit separates them.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Strategy — per-piece move generation, one method each. Command — a Move applies and unapplies itself over a history stack. State — Active / Check / Checkmate / Stalemate / Draw. Factory — the starting position and the promotion piece.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"An 8x8 board of squares, a Game that holds the board, whose turn it is, and a history stack. To move, the piece generates its own pseudo-moves; the Game simulates each and keeps only those that do not leave its king in check. A Move object applies and undoes itself, restoring the captured piece, castling rights and the en-passant target. After each move the Game recomputes its state: check, checkmate, stalemate or draw."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>A pinned knight is asked to move.</strong> Simulate: apply, <code>inCheck(me)</code>, then drop it.</li>
+<li><strong>King and rook unmoved, but f1 is attacked.</strong> Castling through check is illegal; test all 3 king squares.</li>
+<li><strong>Black just pushed a pawn two squares past yours.</strong> En passant, this ply only; <code>enPassant</code> set now, cleared next.</li>
+<li><strong>A pawn reaches the eighth rank.</strong> Promotion; the Move carries the choice, default queen; <code>undo</code> restores the pawn.</li>
+<li><strong>No legal move and the king is not in check.</strong> Stalemate, a draw; the State goes to Stalemate.</li>
+<li><strong>Make the machine play a move.</strong> An Engine over <code>legalMoves</code>; the rules engine is untouched.</li>
+<li><strong>Undo three moves, then branch.</strong> Pop three Moves, each unapplies itself; history is the command stack.</li>
+<li><strong>Threefold repetition claim.</strong> Hash each position into a multiset over history; third time allows the draw.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>A chess engine / AI</strong> — minimax, alpha-beta, an eval function. A separate object that only reads <code>legalMoves</code>.</li>
+<li><strong>Clocks and time control</strong> — a per-player timer, increments, flag-fall. Orthogonal to the rules.</li>
+<li><strong>PGN / FEN import-export</strong> — a parser and a writer around the move list. Named, not modelled.</li>
+<li><strong>Threefold repetition</strong> — a position-hash multiset over history. Mentioned; bookkeeping skipped.</li>
+<li><strong>Network transport</strong> — two clients, a server relays moves. A thin seam behind <code>makeMove</code>.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>Checkers / Draughts</li>
+<li>Go (capture and territory)</li>
+<li>Othello / Reversi</li>
+<li>Xiangqi / Shogi</li>
+<li>Tic-tac-toe (sheet 07)</li>
+<li>Any turn-based board game with per-piece rules</li>
+<li>An undo / redo command stack</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-05-coffee-machine.html"><span class="dir">Previous</span><span class="ttl">Design a Coffee Machine</span></a><a class="next" href="doc-practice-lld-design-problems-07-tic-tac-toe.html"><span class="dir">Next</span><span class="ttl">Design a Tic-Tac-Toe Game</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Text Editor — LLD</title>
+<meta name="description" content="Design a Text Editor">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-17-text-editor">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-lines-they-are-watching">The Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#where-the-undo-information-lives">Where the Undo Information Lives</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-17-text-editor.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Text Editor</h1>
+<p class="readmeta">15 sections · 1,969 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-17-text-editor" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 17 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>A Document: a text buffer plus a cursor / selection.</li>
+<li>Edits: <code>insert(pos, text)</code>, <code>delete(pos, len)</code>, <code>replace(pos, len, text)</code>.</li>
+<li>Every edit is a command with apply and undo.</li>
+<li>Undo and redo, unlimited within a memory cap.</li>
+<li>Typing a word is one undo step.</li>
+<li>A paste, a cursor jump or a delete starts a new step.</li>
+<li>The buffer representation is swappable.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Rendering, layout, syntax highlighting.</li>
+<li>File open / save, autosave.</li>
+<li>Search &amp; replace UI, multiple cursors.</li>
+<li>Collaborative editing, OT / CRDT.</li>
+<li>Buffer internals (gap buffer, rope).</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>Editor to Document to Cursor. An <code>Editor</code> invoker holds a <code>Document</code> and two stacks; every change is an <code>Edit</code> object with an exact inverse.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Typist</strong> — <code>editor: Editor</code>; <code>execute(new InsertEdit(pos, "a"))</code>, <code>undo()</code>, <code>redo()</code>.</li>
+<li><strong>Editor</strong> (invoker) — <code>doc: Document</code>, <code>history: History</code>; <code>execute(Edit e): void</code>, <code>undo(): void</code>, <code>redo(): void</code>.</li>
+<li><strong>Document</strong> — <code>buffer: Buffer</code>, <code>cursor: Cursor</code>; <code>insert(int pos, String s): void</code>, <code>delete(int pos, int len): void</code>, <code>replace(int pos, int len, String s)</code>, <code>text(int pos, int len): String</code>.</li>
+<li><strong>Buffer</strong> (interface) — <code>charAt(int)</code>, <code>slice(from, to): String</code>. <code>StringBuilder</code> shifts on every edit; <code>GapBuffer</code> is cheap at the cursor; <code>PieceTable</code> keeps append-only spans; <code>Rope</code> is a tree, O(log n). Strategy: the model never names one.</li>
+<li><strong>Cursor</strong> — <code>pos: int</code>, <code>anchor: int</code>; <code>moveTo(int)</code>, <code>selection(): Range</code>. Any move or click breaks the coalescing run.</li>
+<li><strong>Edit</strong> (interface) — <code>apply(Document d): void</code>, <code>undo(Document d): void</code>, <code>merge(Edit next): boolean</code>. Undo is the exact inverse of apply. Implemented by <code>InsertEdit</code>, <code>DeleteEdit</code>, <code>CompoundEdit</code>.</li>
+<li><strong>InsertEdit</strong> — <code>pos: int</code>, <code>text: String</code>; <code>apply -&gt; d.insert(pos, text)</code>, <code>undo -&gt; d.delete(pos, text.length)</code>.</li>
+<li><strong>DeleteEdit</strong> — <code>pos</code>, <code>len</code>; captures <code>removed</code> on apply. <code>apply</code> reads <code>d.text(pos, len)</code> into a field first, then deletes; <code>undo -&gt; d.insert(pos, removed)</code>.</li>
+<li><strong>CompoundEdit</strong> (composite) — <code>parts: List&lt;Edit&gt;</code>; apply -&gt; each part front to back, undo -&gt; each part back to front. One macro = one undo step. <code>replace -&gt; CompoundEdit(delete, insert)</code>.</li>
+<li><strong>History</strong> — <code>undo: Deque&lt;Edit&gt;</code>, <code>redo: Deque&lt;Edit&gt;</code>, <code>limit: int</code>; <code>push(Edit e)</code> -&gt; <code>undo.push</code>, <code>redo.clear</code>; <code>pop(): Edit</code>; <code>move(from, to)</code>. Drops the oldest when undo grows past limit.</li>
+<li><strong>SnapshotStore</strong> (memento) — <code>past: Deque&lt;String&gt;</code>; <code>snapshot()</code> copies the whole document, <code>restore(s)</code> undoes with no inverse written. Simple, O(document) per step, the fallback.</li>
+<li><strong>EditorView</strong> (interface) — <code>onEdit(Document d): void</code>. <code>StatusBar</code>, <code>Minimap</code>, <code>Gutter</code>. Observer: redraw after every change.</li>
+<li><strong>KeyMap</strong> — <code>"a".."z" -&gt; InsertEdit</code>; Backspace / Del -&gt; <code>DeleteEdit</code>; paste -&gt; <code>InsertEdit(whole payload)</code>; Ctrl+Z -&gt; <code>undo()</code>, Ctrl+Y -&gt; <code>redo()</code>.</li>
+</ul>
+<h3 id="the-invariants">The invariants</h3>
+<ul>
+<li><code>execute()</code> pushes on top; <code>undo()</code> pops from top.</li>
+<li>A fresh edit clears the redo stack.</li>
+<li><code>coalesce</code> when the last edit is an insert, adjacent, no move intervened, and under N ms.</li>
+<li>Every edit is a Command; undo is its exact inverse.</li>
+</ul>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>execute(Edit e): void</code> — runs <code>e.apply(doc)</code> now. Tries to merge <code>e</code> into the top of the undo stack, else pushes it. Always clears the redo stack. The only entry point for a change.</li>
+<li><code>undo(): void</code> — no-op on an empty stack. Pops the top edit, calls its <code>undo(doc)</code> — the exact inverse — and moves it to the redo stack. O(1) plus the edit's own work.</li>
+<li><code>redo(): void</code> — the mirror. Pops redo, re-applies, pushes back to undo. Reachable only until the next fresh edit wipes the redo stack.</li>
+<li><code>apply(Document d): void</code> — each Edit type's forward step. <code>DeleteEdit</code> captures the removed text here so undo can put it back. <code>replace</code> is a <code>CompoundEdit</code> of delete then insert.</li>
+</ol>
+<h3 id="from-memory">From memory</h3>
+<ul>
+<li><code>execute(e)</code>: <code>e.apply(doc); undo.push(e); redo.clear();</code>.</li>
+<li><code>undo()</code>: <code>e = undo.pop(); e.undo(doc); redo.push(e);</code>.</li>
+<li><code>redo()</code>: <code>e = redo.pop(); e.apply(doc); undo.push(e);</code>.</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Blank on the guarantee means that method is your gap.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>Cursor at 0 in an empty document. The user types <code>c</code>, <code>a</code>, <code>t</code>, then Backspace, then Ctrl+Z, then types <code>!</code>. What is on screen, what sits on each stack, and how many undo steps did the word "cat" cost?</p>
+<p>The three inserts coalesce into one <code>InsertEdit</code> "cat". Backspace pushes a <code>DeleteEdit</code> "t", leaving "ca". Ctrl+Z pops the DeleteEdit and moves it to redo, restoring "cat". Typing <code>!</code> clears the redo stack. The word "cat" costs one undo step.</p>
+<h2 id="the-change">The Change</h2>
+<p>Two people edit the same document at once. A <code>CollabSession</code> sits between <code>execute()</code> and the <code>History</code>: local edits apply at once, remote edits are transformed against everything not yet acknowledged (OT) or merged as a CRDT, and undo becomes per-user. The <code>Edit</code> objects stay; the pipeline in front of them changes. A new layer on the same seam.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>Undo is a write path. Every <code>Edit</code> runs apply now, then sits on a stack as its own inverse. Miss <code>merge()</code> and one Ctrl+Z is one letter. Miss <code>redo.clear()</code> and redo re-applies into text that moved on.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Execute, undo, redo and a DeleteEdit:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Editor</span><span class="w"> </span><span class="p">{</span><span class="w">                                     </span><span class="c1">// invoker, the two stacks</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Document</span><span class="w"> </span><span class="n">doc</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Deque</span><span class="o">&lt;</span><span class="n">Edit</span><span class="o">&gt;</span><span class="w"> </span><span class="n">undo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Deque</span><span class="o">&lt;</span><span class="n">Edit</span><span class="o">&gt;</span><span class="w"> </span><span class="n">redo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Edit</span><span class="w"> </span><span class="kd">open</span><span class="p">;</span><span class="w">                                     </span><span class="c1">// the run still merging</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="n">Edit</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">doc</span><span class="p">);</span><span class="w">                              </span><span class="c1">// do the change now</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="kd">open</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="kd">open</span><span class="p">.</span><span class="na">merge</span><span class="p">(</span><span class="n">e</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">redo</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">                </span><span class="c1">// same run</span>
+<span class="w">        </span><span class="n">undo</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="n">e</span><span class="p">);</span><span class="w"> </span><span class="kd">open</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">;</span><span class="w">                    </span><span class="c1">// a fresh run</span>
+<span class="w">        </span><span class="n">redo</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span><span class="w">                              </span><span class="c1">// clears the redo branch</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">undo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">undo</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Edit</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">undo</span><span class="p">.</span><span class="na">pop</span><span class="p">();</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">undo</span><span class="p">(</span><span class="n">doc</span><span class="p">);</span><span class="w"> </span><span class="n">redo</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="n">e</span><span class="p">);</span><span class="w">                 </span><span class="c1">// exact inverse</span>
+<span class="w">        </span><span class="kd">open</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">                               </span><span class="c1">// run is closed</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">redo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">redo</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Edit</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">redo</span><span class="p">.</span><span class="na">pop</span><span class="p">();</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="n">doc</span><span class="p">);</span><span class="w"> </span><span class="n">undo</span><span class="p">.</span><span class="na">push</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">DeleteEdit</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Edit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">removed</span><span class="p">;</span><span class="w">                                </span><span class="c1">// filled by apply</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="n">Document</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">removed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">text</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span><span class="w">                </span><span class="c1">// save before delete</span>
+<span class="w">        </span><span class="n">d</span><span class="p">.</span><span class="na">delete</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">len</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">undo</span><span class="p">(</span><span class="n">Document</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">insert</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="w"> </span><span class="n">removed</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">Edit</span><span class="w"> </span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Redo stack not cleared on a fresh edit.</strong> Undo a few times, then type. If <code>execute()</code> forgets <code>redo.clear()</code>, the redo stack still holds edits built against the old text. A later Ctrl+Y re-applies one at a stale position and the document quietly diverges from anything the user ever saw.</li>
+<li><strong>A delete that keeps no copy.</strong> <code>insert</code> only needs its position and text to invert. <code>delete</code> must record the exact characters it removed before it removes them, or undo has nothing to re-insert. <code>DeleteEdit</code> reads <code>d.text(pos, len)</code> into a field first, then deletes.</li>
+<li><strong>Coalescing that never stops.</strong> Merging every insert into the last one feels tidy until one Ctrl+Z deletes a paragraph. A run must break on a cursor move, a click, a paste, a selection replace, a delete, or a pause past about 500 ms.</li>
+<li><strong>History with no ceiling.</strong> Every keystroke that does not coalesce is an object pinned for the whole session. A long editing day is millions of edits. Cap the undo stack; past the limit drop from the bottom — that history is simply gone, the accepted trade.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-lines-they-are-watching">The Lines They Are Watching</h2>
+<ol>
+<li><code>redo.clear()</code> on every fresh edit — without it a later redo replays an edit into text that moved on.</li>
+<li><code>removed = d.text(pos, len)</code> before the delete — a <code>DeleteEdit</code> with no captured text cannot be undone.</li>
+<li><code>merge(e)</code> at the top of the stack — one Ctrl+Z undoes a word, and it must stop at a cursor jump or a paste.</li>
+</ol>
+<h2 id="where-the-undo-information-lives">Where the Undo Information Lives</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Per step</th>
+<th>Undo cost</th>
+<th>Redo</th>
+<th>Coalescing</th>
+<th>Cost to build</th>
+<th>Reach for it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Command + inverse (the standard answer)</td>
+<td>the delta + how to reverse</td>
+<td>call <code>edit.undo()</code></td>
+<td>re-apply the edit</td>
+<td>merge two edits into one</td>
+<td>an inverse per edit type</td>
+<td>the normal case</td>
+</tr>
+<tr>
+<td>Memento snapshots</td>
+<td>a full document copy</td>
+<td>swap in the old copy</td>
+<td>keep a forward copy too</td>
+<td>diff two snapshots (hard)</td>
+<td>trivial</td>
+<td>inverses are painful to write</td>
+</tr>
+<tr>
+<td>Persistent rope</td>
+<td>one new root, shared nodes</td>
+<td>point at the old root</td>
+<td>point at the newer root</td>
+<td>snapshot granularity only</td>
+<td>rope + structural sharing</td>
+<td>edits are huge and frequent</td>
+</tr>
+</tbody>
+</table>
+<p>Command with an inverse per edit type. O(1) memory per step, coalescing is natural, and <code>replace</code> is just a <code>CompoundEdit</code>. Fall back to Memento when an operation has no clean inverse; reach for a persistent rope only when the buffer itself is the bottleneck.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>A <code>DeleteEdit</code> that stores only position and length — undo cannot rebuild the text it threw away.</li>
+<li><code>execute()</code> that never clears the redo stack — redo later replays an edit into a document it no longer fits.</li>
+<li>One <code>undo()</code> reversing a whole sentence — a coalescing rule with no break on cursor move or paste.</li>
+<li><code>replace</code> written as a third primitive instead of delete + insert — two more code paths to keep reversible.</li>
+<li>Edits holding absolute offsets reused after later edits shifted the text — the inverse lands in the wrong place.</li>
+<li>No bound on the undo stack — a full day of typing kept live in memory.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Command — every edit is apply / undo. Memento — the snapshot fallback when an inverse is hard. Composite — a <code>CompoundEdit</code> undoes a macro as one. Strategy — the Buffer representation, StringBuilder to rope.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"Every change is an <code>Edit</code> object with apply and undo. The <code>Editor</code> runs apply, pushes the edit onto an undo stack and clears the redo stack. Undo pops it, runs its inverse, moves it to redo. Consecutive single-character inserts merge so one Ctrl+Z reverses a word. <code>replace</code> is a <code>CompoundEdit</code> of delete plus insert."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>Type "hello", one Ctrl+Z. What disappears?</strong> All five letters — the run coalesced into one <code>InsertEdit</code>.</li>
+<li><strong>What breaks a coalescing run?</strong> A cursor move, a paste, a delete, a selection replace, or a pause past N ms.</li>
+<li><strong>Undo, then type. Can you still redo?</strong> No — the fresh edit cleared the redo stack.</li>
+<li><strong>How does undo of a delete restore text?</strong> <code>DeleteEdit</code> captured the removed substring on apply.</li>
+<li><strong>Implement replace.</strong> A <code>CompoundEdit</code> of delete then insert; undo runs its children in reverse.</li>
+<li><strong>Cap memory for a long session.</strong> Bound the undo stack, drop the oldest edit; that history is gone.</li>
+<li><strong>Undo a paste of 2000 chars.</strong> One <code>InsertEdit</code> with the whole payload; O(1) units, O(n) buffer work.</li>
+<li><strong>Two users editing at once.</strong> The ghost — OT / CRDT rebases remote edits; per-user undo.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Collaborative editing</strong> — OT or CRDT rebasing remote edits against local ones. The ghost; a different interview.</li>
+<li><strong>The buffer data structure</strong> — gap buffer, piece table, rope behind the Buffer seam. Name the trade, don't whiteboard it.</li>
+<li><strong>Rendering &amp; highlighting</strong> — a view over the Document, not part of the edit model. Observer fans it out.</li>
+<li><strong>Search / replace UI, macros</strong> — all expressed as insert / delete / <code>CompoundEdit</code> underneath.</li>
+<li><strong>Persistence, crash recovery</strong> — a journal of Edits flushed to disk, replayed on open. Name it and move on.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>A form wizard with Back</li>
+<li>IDE refactor undo</li>
+<li>DB compensating transactions</li>
+<li>A command queue with replay</li>
+<li>git reflog</li>
+<li>A drawing app's undo</li>
+<li>Any reversible action log</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-16-in-memory-file-system.html"><span class="dir">Previous</span><span class="ttl">Design an In-Memory File System</span></a><a class="next" href="doc-practice-lld-design-problems-18-logging-framework.html"><span class="dir">Next</span><span class="ttl">Design a Logging Framework</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

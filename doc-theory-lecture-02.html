@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 02 — Build Your First Spring Boot Application — Spring Boot</title>
+<meta name="description" content="Lecture 02 — Build Your First Spring Boot Application">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-02">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-02.html#lecture-02">Lecture 02</a></li><li><a href="doc-theory-lecture-02.html#1-what-we-are-building">1. What We Are Building</a></li><li><a href="doc-theory-lecture-02.html#2-ports-localhost-and-how-the-browser-finds-the-server">2. Ports, Localhost, and How the Browser Finds the Server</a></li><li><a href="doc-theory-lecture-02.html#3-development-setup">3. Development Setup</a></li><li><a href="doc-theory-lecture-02.html#4-why-spring-initializr-exists-and-choosing-a-version">4. Why Spring Initializr Exists (and Choosing a Version)</a></li><li><a href="doc-theory-lecture-02.html#5-what-is-a-dependency">5. What is a Dependency</a></li><li><a href="doc-theory-lecture-02.html#6-jar-packaging-and-project-tour">6. JAR Packaging and Project Tour</a></li><li><a href="doc-theory-lecture-02.html#7-what-is-a-controller-and-restcontroller">7. What is a Controller and @RestController</a></li><li><a href="doc-theory-lecture-02.html#8-creating-our-first-endpoint">8. Creating Our First Endpoint</a></li><li><a href="doc-theory-lecture-02.html#9-what-happened-when-we-ran-the-application">9. What Happened When We Ran the Application</a></li><li><a href="doc-theory-lecture-02.html#10-changing-the-port-and-the-complete-request-flow">10. Changing the Port and the Complete Request Flow</a></li><li><a href="doc-theory-lecture-02.html#11-why-this-feels-so-fast-and-why-internals-still-matter">11. Why This Feels So Fast -- and Why Internals Still Matter</a></li><li><a href="doc-theory-lecture-02.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-02.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-02.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-02.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-02.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 02 — Build Your First Spring Boot Application</h1>
+<p class="readmeta">17 sections · 3,503 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-02" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-02">Lecture 02</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Build Your First Spring Boot Application | REST API" (playlist map, verified). The repo Lecture 02 folder contains a complete Maven Spring Boot demo project under <code>code/demo</code> (<code>mvnw</code>, <code>pom.xml</code>, <code>DemoApplication.java</code>, <code>HelloController.java</code>, <code>application.properties</code>) plus its tests (<code>DemoApplicationTests.java</code>, <code>HelloControllerTest.java</code>), alongside the lecture notes.</p>
+</blockquote>
+<p>This lecture takes the theory of Lecture 01 and turns it into a running web application. We build a tiny Spring Boot app, open it in a browser, and watch a request travel from a URL to a Java method and back. The point is not to understand every internal detail yet -- it is to feel how fast Spring Boot is, and to get curious about the machinery working behind one line in the browser.</p>
+<h2 id="1-what-we-are-building">1. What We Are Building</h2>
+<p>We are building a simple web application where the browser sends a request to our Spring Boot application, and the application sends back a response:</p>
+<div class="highlight"><pre><span></span><code>Browser
+   |
+   | Request
+   v
+Spring Boot Application
+   |
+   | Response
+   v
+Browser
+</code></pre></div>
+
+<p>We create exactly one endpoint:</p>
+<div class="highlight"><pre><span></span><code>localhost:8080/hello
+</code></pre></div>
+
+<p>Opening that URL in the browser returns:</p>
+<div class="highlight"><pre><span></span><code>Hello World
+</code></pre></div>
+
+<p>The output looks trivial, but many important questions are hidden behind it:</p>
+<ul>
+<li>How does the browser talk to Java?</li>
+<li>How does Java understand URLs?</li>
+<li>Who starts the server?</li>
+<li>Who listens on port 8080?</li>
+<li>How does <code>/hello</code> get connected to our Java method?</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: We will not answer all of these deeply today. This lecture builds the curiosity; the later lectures build the internals.</p>
+</blockquote>
+<h2 id="2-ports-localhost-and-how-the-browser-finds-the-server">2. Ports, Localhost, and How the Browser Finds the Server</h2>
+<p>Before running anything, we need the idea of a <strong>port</strong>. Suppose your laptop is connected to a network and it has an IP address, for example:</p>
+<div class="highlight"><pre><span></span><code>192.168.1.10
+</code></pre></div>
+
+<p>Now imagine many applications running on that same laptop: Chrome, WhatsApp, Zoom, Spotify, and our Spring Boot application. When data arrives at the laptop, how does the operating system know which application should receive it? That is exactly what a port number solves.</p>
+<ul>
+<li>An <strong>IP address</strong> identifies the machine.</li>
+<li>A <strong>port number</strong> identifies the application running inside that machine.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>192.168.1.10:8080
+     |         |
+   machine   application (listening on port 8080)
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Example</th>
+<th>Identifies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IP address</td>
+<td>192.168.1.10</td>
+<td>The machine on the network</td>
+</tr>
+<tr>
+<td>Port number</td>
+<td>8080</td>
+<td>The application inside that machine</td>
+</tr>
+</tbody>
+</table>
+<p>A single machine can host many applications, each on its own port:</p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chrome</td>
+<td>5000</td>
+</tr>
+<tr>
+<td>WhatsApp</td>
+<td>5222</td>
+</tr>
+<tr>
+<td>Zoom</td>
+<td>8801</td>
+</tr>
+<tr>
+<td>Spring Boot app</td>
+<td>8080</td>
+</tr>
+</tbody>
+</table>
+<p>Memory aid: <strong>IP = which building, port = which door.</strong> The IP brings the data to the correct building; the port delivers it to the correct flat inside.</p>
+<h3 id="localhost">Localhost</h3>
+<p>Students often confuse <code>localhost</code>, an IP address, and a port number. In simple words:</p>
+<div class="highlight"><pre><span></span><code>localhost = your own machine
+</code></pre></div>
+
+<p><code>localhost</code> is equivalent to:</p>
+<div class="highlight"><pre><span></span><code>127.0.0.1
+</code></pre></div>
+
+<p>So <code>localhost:8080</code> means: send the request to my own machine on port 8080. If our Spring Boot application is running on port 8080, the browser reaches it through:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8080
+</code></pre></div>
+
+<h3 id="how-the-browser-knows-which-port-to-use">How the browser knows which port to use</h3>
+<p>When we type a normal website URL such as <code>www.coderarmy.in</code>, we usually do not mention any port. Browsers use <strong>default ports</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Protocol</th>
+<th>Default port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>http</td>
+<td>80</td>
+</tr>
+<tr>
+<td>https</td>
+<td>443</td>
+</tr>
+</tbody>
+</table>
+<p>So when we write <code>https://www.coderarmy.in</code>, the browser automatically assumes port 443. When we write <code>http://www.coderarmy.in</code>, it assumes port 80. But a local Spring Boot application usually runs on port 8080, so we mention it manually: <code>http://localhost:8080</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: DNS gives the IP address of a domain. The port is either mentioned in the URL or decided by the protocol default. For <code>https://www.coderarmy.in</code>: DNS resolves the domain to an IP, and HTTPS tells the browser to use port 443 by default.</p>
+</blockquote>
+<h2 id="3-development-setup">3. Development Setup</h2>
+<p>For this series we use <strong>IntelliJ IDEA</strong>. You can use any editor, but IntelliJ is widely preferred for Java and Spring Boot development because it has strong support for:</p>
+<ul>
+<li>Java</li>
+<li>Maven</li>
+<li>Spring Boot</li>
+<li>code navigation</li>
+<li>auto-completion</li>
+<li>project structure</li>
+<li>debugging</li>
+</ul>
+<p>Before creating the project, make sure Java is installed and working. Verify it with:</p>
+<div class="highlight"><pre><span></span><code>java<span class="w"> </span>-version
+</code></pre></div>
+
+<p>If Java is not installed, install it first before moving ahead.</p>
+<h2 id="4-why-spring-initializr-exists-and-choosing-a-version">4. Why Spring Initializr Exists (and Choosing a Version)</h2>
+<p>Imagine starting a Java web project from scratch. Before writing even one line of business logic, you would have to do a lot of repetitive setup:</p>
+<ol>
+<li>Create the folder structure.</li>
+<li>Create the Maven configuration.</li>
+<li>Select the Spring Boot version.</li>
+<li>Select the Java version.</li>
+<li>Add the required dependencies.</li>
+<li>Configure the package structure.</li>
+<li>Prepare the project metadata.</li>
+</ol>
+<p>Every Spring Boot project needs a similar basic structure, and doing that setup by hand every time is wasted effort. To solve this problem, the Spring team created <strong>Spring Initializr</strong>, a project generator for Spring applications. It creates the basic project skeleton so we can quickly start writing application logic.</p>
+<p>Put simply: Spring Initializr helps us create a ready-to-use Spring Boot project. The repetitive setup it removes is exactly the list above.</p>
+<table>
+<thead>
+<tr>
+<th>Repetitive task</th>
+<th>Handled by Spring Initializr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Folder structure</td>
+<td>Generated automatically</td>
+</tr>
+<tr>
+<td>Maven configuration</td>
+<td>Generated automatically</td>
+</tr>
+<tr>
+<td>Spring Boot version</td>
+<td>Selected for us</td>
+</tr>
+<tr>
+<td>Java version</td>
+<td>Selected for us</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>Added from our choices</td>
+</tr>
+<tr>
+<td>Package structure</td>
+<td>Generated automatically</td>
+</tr>
+<tr>
+<td>Project metadata</td>
+<td>Captured from our choices</td>
+</tr>
+</tbody>
+</table>
+<p>Spring Initializr lets us choose:</p>
+<ul>
+<li>project type</li>
+<li>programming language</li>
+<li>Spring Boot version</li>
+<li>project metadata</li>
+<li>packaging type</li>
+<li>Java version</li>
+<li>dependencies</li>
+</ul>
+<h3 id="choosing-the-right-spring-boot-version">Choosing the right Spring Boot version</h3>
+<p>On Spring Initializr we may see versions tagged as a stable release, <code>SNAPSHOT</code>, or <code>RC</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Version kind</th>
+<th>Meaning</th>
+<th>Suitable for us?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stable release</td>
+<td>Tested, finished, suitable for normal development</td>
+<td>Yes -- prefer this</td>
+</tr>
+<tr>
+<td>RC (Release Candidate)</td>
+<td>Almost ready, but still not the final stable release</td>
+<td>Not for beginners</td>
+</tr>
+<tr>
+<td>SNAPSHOT</td>
+<td>Work in progress, may contain bugs, not final</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: For beginners and real projects, always prefer a stable release. It is tested and suitable for normal development.</p>
+</blockquote>
+<h2 id="5-what-is-a-dependency">5. What is a Dependency</h2>
+<p>When we build a Java project, we often need external libraries. For example, if we want our Java application to connect with MySQL, we need a MySQL connector library. That reusable external code is called a <strong>library</strong>; when our project needs that library to work, it becomes a <strong>dependency</strong>.</p>
+<p>Simple definition:</p>
+<blockquote class="callout callout--note">
+<p>A dependency is an external library required by our project.</p>
+</blockquote>
+<p>Typical examples:</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>What it gives us</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Web</td>
+<td>Web layer, controllers, embedded server</td>
+</tr>
+<tr>
+<td>MySQL Connector</td>
+<td>Database connectivity to MySQL</td>
+</tr>
+<tr>
+<td>Spring Data JPA</td>
+<td>Repository-style database access</td>
+</tr>
+<tr>
+<td>Spring Security</td>
+<td>Authentication and authorization</td>
+</tr>
+<tr>
+<td>Lombok</td>
+<td>Less boilerplate (getters, constructors)</td>
+</tr>
+<tr>
+<td>Hibernate</td>
+<td>ORM implementation</td>
+</tr>
+</tbody>
+</table>
+<p>In Maven projects, dependencies are added inside the <code>pom.xml</code> file. When we select "Spring Web" in Spring Initializr, that dependency is written into <code>pom.xml</code> for us.</p>
+<h2 id="6-jar-packaging-and-project-tour">6. JAR Packaging and Project Tour</h2>
+<p>Modern Spring Boot applications usually use <strong>JAR</strong> packaging. JAR stands for <strong>Java Archive</strong>. A Spring Boot JAR can contain our application code along with the required setup to run the application. This is one reason Spring Boot applications are easy to run: instead of manually deploying to an external server, we can run the application directly.</p>
+<p>After creating the project from Spring Initializr and opening it in IntelliJ, we see a standard structure:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/main/java</code></td>
+<td>Our Java source code (including the main application class)</td>
+</tr>
+<tr>
+<td><code>src/main/resources</code></td>
+<td>Configuration files and static resources</td>
+</tr>
+<tr>
+<td><code>pom.xml</code></td>
+<td>Maven configuration: project information and dependencies</td>
+</tr>
+<tr>
+<td><code>application.properties</code></td>
+<td>Configuration for our Spring Boot application</td>
+</tr>
+</tbody>
+</table>
+<p><code>application.properties</code> is important early on: for example, we can change the server port from here.</p>
+<p>The <strong>main application class</strong> is the class from where the Spring Boot application starts. It usually contains the <code>main()</code> method:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">DemoApplication</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">DemoApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In the repo, this class is <code>com/example/demo/DemoApplication.java</code>. For now we only need to understand that this class starts our Spring Boot application; <code>@SpringBootApplication</code> is explained deeply later.</p>
+<h2 id="7-what-is-a-controller-and-restcontroller">7. What is a Controller and @RestController</h2>
+<p>A <strong>Controller</strong> is the entry point for incoming web requests. A simple way to think about it:</p>
+<ul>
+<li>A controller is like the <strong>receptionist</strong> of our application.</li>
+<li>When a request comes to the application, the controller receives it and decides what response should be sent back.</li>
+</ul>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>Browser sends request to /hello
+Controller receives the request
+Controller returns Hello World
+</code></pre></div>
+
+<p><code>@RestController</code> is an annotation in Spring. It tells Spring:</p>
+<blockquote class="callout callout--note">
+<p>This class can handle HTTP requests and return data directly as a response.</p>
+</blockquote>
+<p>It makes the class eligible to receive web requests:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloController</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Do not memorize annotations in isolation. <code>@RestController</code> answers the question "which classes may receive web requests?" -- that is the first thing a component-scanning Spring looks for at startup. We revisit annotations and controllers in detail later.</p>
+</blockquote>
+<h2 id="8-creating-our-first-endpoint">8. Creating Our First Endpoint</h2>
+<p>Now we add a method to the controller and map a URL to it:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloController</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sayHello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Hello World&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Breaking it down:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it tells Spring</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@RestController</code></td>
+<td>This class can handle HTTP requests</td>
+</tr>
+<tr>
+<td><code>@GetMapping("/hello")</code></td>
+<td>Run this method when a GET request comes to <code>/hello</code></td>
+</tr>
+<tr>
+<td><code>sayHello()</code></td>
+<td>The Java method that gets executed</td>
+</tr>
+<tr>
+<td><code>return "Hello World";</code></td>
+<td>The response sent back to the browser</td>
+</tr>
+</tbody>
+</table>
+<p>In the repo, this class is <code>com/example/demo/HelloController.java</code>. So when we open:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8080/hello
+</code></pre></div>
+
+<p>the browser displays <code>Hello World</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: The mapping annotation is what makes the method reachable. Without <code>@GetMapping("/hello")</code>, <code>sayHello()</code> is just an ordinary Java method that nothing calls over HTTP.</p>
+</blockquote>
+<h2 id="9-what-happened-when-we-ran-the-application">9. What Happened When We Ran the Application</h2>
+<p>When we run the Spring Boot application, we may see a message like:</p>
+<div class="highlight"><pre><span></span><code>Tomcat started on port 8080
+</code></pre></div>
+
+<p>This is very important, so let us state it plainly. We did not install Tomcat separately. We did not write socket programming code. We did not manually create a server. Still, Tomcat started. Why?</p>
+<p>Because Spring Boot includes and configures an <strong>embedded Tomcat server</strong> for us when we use the web dependency. Spring Boot starts the application and also starts the embedded Tomcat server. Tomcat is the actual server listening on the port.</p>
+<p>The correct understanding of the layers:</p>
+<ul>
+<li>Spring Boot starts and configures the application.</li>
+<li>Spring MVC maps the request to the correct controller method.</li>
+<li>Embedded Tomcat listens for HTTP requests.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: Tomcat is the actual server listening on the port -- not our <code>HelloController</code>. Our job is to write the controller; Spring Boot's job is to stand up the server around it.</p>
+</blockquote>
+<h2 id="10-changing-the-port-and-the-complete-request-flow">10. Changing the Port and the Complete Request Flow</h2>
+<p>By default, Spring Boot runs on port 8080. We can change it using <code>application.properties</code>:</p>
+<div class="highlight"><pre><span></span><code>server.port=9090
+</code></pre></div>
+
+<p>After changing this and restarting the application, the app runs on <code>http://localhost:9090</code>, and our endpoint becomes:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:9090/hello
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Spring Boot reads the configuration, but the <strong>embedded Tomcat server</strong> listens on the configured port. If we set <code>server.port=9090</code>, Tomcat starts listening on port 9090.</p>
+</blockquote>
+<p>Note that the change takes effect only after a restart. Updating <code>application.properties</code> while the app is running does not move the listener; the embedded Tomcat must start again on the new port.</p>
+<p>The complete flow of our first Spring Boot application:</p>
+<div class="highlight"><pre><span></span><code>Browser sends request to localhost:8080/hello
+        |
+        v
+Request reaches embedded Tomcat
+        |
+        v
+Spring MVC checks the available mappings
+        |
+        v
+/hello is matched with sayHello()
+        |
+        v
+sayHello() returns &quot;Hello World&quot;
+        |
+        v
+Response goes back to the browser
+        |
+        v
+Browser displays Hello World
+</code></pre></div>
+
+<p>This is what happens behind one simple line in the browser: <code>localhost:8080/hello</code>.</p>
+<h2 id="11-why-this-feels-so-fast-and-why-internals-still-matter">11. Why This Feels So Fast -- and Why Internals Still Matter</h2>
+<p>In less than a few minutes we created a working web application. We wrote very little code. But behind that simple controller, Spring Boot did many things for us:</p>
+<ul>
+<li>created the application context</li>
+<li>started embedded Tomcat</li>
+<li>configured Spring MVC</li>
+<li>detected the controller class</li>
+<li>registered the <code>/hello</code> endpoint</li>
+<li>handled the HTTP request and response</li>
+<li>returned the data to the browser</li>
+</ul>
+<p>That is the power of Spring Boot: it lets developers focus on business logic instead of repeating infrastructure setup again and again.</p>
+<h3 id="then-why-learn-internals">Then why learn internals?</h3>
+<p>A common question: if Spring Boot does everything automatically, why learn Tomcat, Servlets, Maven, Spring Core, MVC, IoC, and Dependency Injection? The answer is simple: <strong>Spring Boot helps us start fast, but internals help us solve real problems.</strong> Writing basic annotations is easy -- many tools and code generators can produce <code>@RestController</code> and <code>@GetMapping</code>. Real engineering starts when something does not work.</p>
+<p>Example 1 -- the browser shows:</p>
+<div class="highlight"><pre><span></span><code>404 Not Found
+</code></pre></div>
+
+<p>Now we must ask: Did Spring detect my controller? Is the package structure correct? Did component scanning happen? Was the bean created? Did Spring MVC register the mapping? Is the URL correct? Did Tomcat receive the request? These questions cannot be answered by memorizing annotations; they require understanding the internal flow.</p>
+<p>Example 2 -- the application starts slowly (say, 10 seconds). Possible causes:</p>
+<ul>
+<li>too many beans being created</li>
+<li>database connection taking time</li>
+<li>heavy startup logic running</li>
+<li>external service call blocking startup</li>
+<li>auto-configuration doing extra work</li>
+</ul>
+<p>Example 3 -- the controller never receives the request. Possible reasons:</p>
+<ul>
+<li>wrong port</li>
+<li>wrong URL</li>
+<li>application not running</li>
+<li>controller not detected</li>
+<li>incorrect annotation</li>
+<li>context path configured</li>
+<li>request blocked by security</li>
+</ul>
+<h3 id="the-industry-reality">The industry reality</h3>
+<p>In real projects, companies do not pay engineers only for writing <code>@RestController</code> -- that part is easy, and AI tools, code generators, and IDEs can write basic code. Companies pay engineers for understanding:</p>
+<ul>
+<li>why something is not working</li>
+<li>how different layers communicate</li>
+<li>how to debug production issues</li>
+<li>how to design maintainable systems</li>
+<li>how to make the application reliable</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring Boot gives speed; Spring fundamentals give control. That is why learning the internals is worth it.</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"We must install Tomcat to run a Spring Boot app"</td>
+<td>Spring Boot includes and configures an embedded Tomcat when the web dependency is present</td>
+</tr>
+<tr>
+<td>"localhost and 127.0.0.1 are different machines"</td>
+<td><code>localhost</code> is equivalent to <code>127.0.0.1</code> -- both mean your own machine</td>
+</tr>
+<tr>
+<td>"An IP address alone delivers data to the right app"</td>
+<td>The IP identifies the machine; the port identifies the application inside it</td>
+</tr>
+<tr>
+<td>"A URL without a port has no port"</td>
+<td>The browser fills in the protocol default: 80 for http, 443 for https</td>
+</tr>
+<tr>
+<td>"SNAPSHOT is the newest, so it is the best choice"</td>
+<td>SNAPSHOT is work in progress and may contain bugs; prefer a stable release</td>
+</tr>
+<tr>
+<td>"A dependency is code we write"</td>
+<td>A dependency is an external library our project needs; it lives in <code>pom.xml</code></td>
+</tr>
+<tr>
+<td>"The controller is the server that listens on the port"</td>
+<td>Embedded Tomcat listens; the controller only handles a matched request</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 — "The IP address is enough to reach an application."</strong>
+Verdict: False. The IP gets the data to the machine; the port number tells the OS which application should receive it.</p>
+<p><strong>Trap 2 — "localhost is a special server on the internet."</strong>
+Verdict: False. <code>localhost</code> means your own machine and is equivalent to <code>127.0.0.1</code>.</p>
+<p><strong>Trap 3 — "Spring Boot requires us to install Tomcat separately."</strong>
+Verdict: False. Spring Boot includes and configures an embedded Tomcat server when the web dependency is used, which is why <code>Tomcat started on port 8080</code> appears without any manual setup.</p>
+<p><strong>Trap 4 — "We can pick any Spring Boot version; SNAPSHOT is fine."</strong>
+Verdict: False. SNAPSHOT is work in progress and RC is not final; beginners and real projects should prefer a tested stable release.</p>
+<p><strong>Trap 5 — "The controller method is invoked because it returns a String."</strong>
+Verdict: False. The method runs because <code>@GetMapping("/hello")</code> maps the <code>/hello</code> GET request to it; without the mapping it is never called over HTTP.</p>
+<p><strong>Trap 6 — "Changing server.port changes which class handles the request."</strong>
+Verdict: False. It changes the port embedded Tomcat listens on; Spring MVC still maps <code>/hello</code> to <code>sayHello()</code> the same way.</p>
+<p><strong>Trap 7 — "If Spring Boot automates everything, internals are unnecessary."</strong>
+Verdict: False. Automation handles the happy path; debugging 404s, slow startup, and missing requests requires understanding what happens behind the scenes.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>An endpoint is a URL our application answers, here <code>localhost:8080/hello</code>, which returns <code>Hello World</code>.</li>
+<li>An IP address identifies the machine; a port number identifies the application running inside that machine.</li>
+<li><code>localhost</code> means our own machine and is equivalent to <code>127.0.0.1</code>.</li>
+<li>Browsers use protocol defaults: port 80 for http and port 443 for https; DNS resolves domains to IPs.</li>
+<li>Spring Initializr is a project generator that creates a ready-to-use Spring Boot skeleton.</li>
+<li>A dependency is an external library our project requires, and in Maven it is declared in <code>pom.xml</code>.</li>
+<li>Prefer a stable Spring Boot release over <code>SNAPSHOT</code> or <code>RC</code>.</li>
+<li><code>@RestController</code> marks a class as able to handle web requests; <code>@GetMapping("/hello")</code> maps a GET request to a method.</li>
+<li>Spring Boot starts the app and an embedded Tomcat server; Tomcat is the actual server listening on the port.</li>
+<li>Spring Boot gives speed, but internals give control -- that is what lets us fix real production problems.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a port?</td>
+<td>A number that identifies an application running inside a machine, so the OS delivers data to the right program.</td>
+</tr>
+<tr>
+<td>Difference between an IP address and a port?</td>
+<td>IP identifies the machine on the network; the port identifies the application inside it.</td>
+</tr>
+<tr>
+<td>What is localhost?</td>
+<td>Your own machine; it is equivalent to <code>127.0.0.1</code>.</td>
+</tr>
+<tr>
+<td>How does the browser choose a port for <code>https://site</code>?</td>
+<td>It uses the protocol default: 443 for https (and 80 for http) unless a port is explicitly given.</td>
+</tr>
+<tr>
+<td>Why does Spring Initializr exist?</td>
+<td>To generate the repetitive Spring Boot project skeleton -- structure, Maven config, versions, and dependencies -- quickly.</td>
+</tr>
+<tr>
+<td>What is a dependency?</td>
+<td>An external library required by our project, declared in <code>pom.xml</code> in Maven projects.</td>
+</tr>
+<tr>
+<td>Stable vs SNAPSHOT vs RC?</td>
+<td>Stable is tested and final; RC is almost ready but not final; SNAPSHOT is work in progress that may contain bugs.</td>
+</tr>
+<tr>
+<td>What is a Spring Boot controller?</td>
+<td>The entry point for incoming web requests; it receives a request and decides the response.</td>
+</tr>
+<tr>
+<td>What does <code>@RestController</code> do?</td>
+<td>Marks a class as able to handle HTTP requests and return data directly as the response.</td>
+</tr>
+<tr>
+<td>What does <code>@GetMapping("/hello")</code> do?</td>
+<td>Maps a GET request for <code>/hello</code> to the annotated Java method.</td>
+</tr>
+<tr>
+<td>What is embedded Tomcat?</td>
+<td>A Tomcat server bundled and configured inside the Spring Boot app; it actually listens on the port.</td>
+</tr>
+<tr>
+<td>How do we change the server port?</td>
+<td>Set <code>server.port=9090</code> in <code>application.properties</code> and restart; the embedded Tomcat then listens on that port.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Browser -&gt; localhost:8080/hello
+        |
+        v
+Embedded Tomcat (listens on the port)
+        |
+        v
+Spring MVC (checks mappings)
+        |
+        v
+HelloController.sayHello() -&gt; &quot;Hello World&quot;
+        |
+        v
+Response back to browser
+</code></pre></div>
+
+<ul>
+<li>A port identifies the application; an IP identifies the machine; localhost is our own machine.</li>
+<li>Spring Initializr generates the project; dependencies live in <code>pom.xml</code>.</li>
+<li><code>@RestController</code> + <code>@GetMapping("/hello")</code> create our first endpoint.</li>
+<li>Spring Boot starts the app and embedded Tomcat, which does the actual listening.</li>
+<li>Changing <code>server.port</code> moves the port Tomcat listens on.</li>
+<li>Spring Boot gives speed; internals (Maven, Servlets, Tomcat, Spring Core, IoC, DI, beans, Spring MVC, auto-configuration) give control.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> one tiny controller produced a working web application because Spring Boot silently stood up embedded Tomcat and Spring MVC behind it -- and understanding that machinery is what turns "it works" into "I know why."</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-01.html"><span class="dir">Previous</span><span class="ttl">Lecture 01 — Introduction to Spring &amp; Spring Boot</span></a><a class="next" href="doc-theory-lecture-03.html"><span class="dir">Next</span><span class="ttl">Lecture 03 — Master Apache Maven in one video</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Logging Framework — LLD</title>
+<meta name="description" content="Design a Logging Framework">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-18-logging-framework">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#how-the-level-gate-works">How the Level Gate Works</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-18-logging-framework.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Logging Framework</h1>
+<p class="readmeta">15 sections · 2,008 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-18-logging-framework" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 18 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li><code>log(Level, msg)</code> plus debug / info / warn / error shortcuts.</li>
+<li>Levels ordered: TRACE &lt; DEBUG &lt; INFO &lt; WARN &lt; ERROR &lt; FATAL.</li>
+<li>A call below the logger's effective level is dropped early, before the message string is built.</li>
+<li>Loggers named by dotted path, <code>com.app.svc</code>; each may set a level, else it inherits its parent's, up to the root.</li>
+<li>A record goes to the appenders on the logger and all its ancestors (additivity), unless a logger sets <code>additive = false</code>.</li>
+<li>Appenders are pluggable sinks: console, file, rolling file, network — each with its own level.</li>
+<li>Output format is swappable: plain text, JSON, or a pattern string.</li>
+<li>One <code>LogManager</code> owns the tree and builds appenders from config.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Async logging internals (name it).</li>
+<li>Rotation-policy math.</li>
+<li>MDC / thread-local context.</li>
+<li>Distributed aggregation and search.</li>
+<li>Real file IO, buffering, fsync.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>Named nodes, levels, additivity. A <code>LogManager</code> owns a tree of <code>Logger</code>s rooted at a <code>RootLogger</code>; every call gates on the effective level, makes one <code>LogRecord</code>, and walks the same chain calling each <code>Appender</code>.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Caller</strong> — <code>log: Logger</code>; <code>log.info("started up")</code> or <code>log.debug(() -&gt; heavyDump())</code>, resolved through <code>LogManager.getLogger("com.app.svc")</code>.</li>
+<li><strong>LogManager</strong> (singleton, factory) — <code>root: RootLogger</code>, <code>loggers: Map&lt;String, Logger&gt;</code>; <code>getLogger(String name): Logger</code>, <code>configure(Config c): void</code>, <code>buildAppender(Spec s): Appender</code>. One instance; creates missing parents down the name.</li>
+<li><strong>RootLogger</strong> — <code>level = INFO</code> at construction, <code>parent = null</code>. Level can be changed, never cleared to null; <code>effectiveLevel()</code> always terminates here.</li>
+<li><strong>Logger</strong> — <code>name: String</code> (e.g. <code>"com.app.svc"</code>), <code>level: Level</code> (null means inherit), <code>parent: Logger</code>, <code>additive: boolean = true</code>, <code>appenders: List&lt;Appender&gt;</code>; <code>log(Level level, String msg): void</code>, <code>debug</code> / <code>info</code> / <code>warn</code> / <code>error(String msg)</code>, <code>effectiveLevel(): Level</code>, <code>callAppenders(LogRecord r): void</code>, <code>addAppender(Appender a)</code>, <code>setLevel(Level l)</code>. Gate: <code>level &lt; effectiveLevel()</code> -&gt; drop, build nothing.</li>
+<li><strong>Level</strong> (enum) — TRACE 10, DEBUG 20, INFO 30, WARN 40, ERROR 50, FATAL 60; <code>toInt(): int</code>. The gate is one int compare.</li>
+<li><strong>LogRecord</strong> — <code>logger: String</code>, <code>level: Level</code>, <code>message: String</code>, <code>timestamp: Instant</code>, <code>thread: String</code>, <code>throwable: Throwable</code>. Immutable; created only after the gate passes.</li>
+<li><strong>Appender</strong> (interface) — <code>level: Level</code>, <code>layout: Formatter</code>, <code>filters: List&lt;Filter&gt;</code>; <code>doAppend(LogRecord r): void</code>. Checks its own level, runs filters, then <code>layout.format(r)</code>. Four sinks: <code>ConsoleAppender</code>, <code>FileAppender</code>, <code>RollingFileAppender</code>, <code>SocketAppender</code>. <code>doAppend</code>: <code>r.level &gt;= level &amp;&amp; filters pass -&gt; write(layout.format(r))</code>. One lock or a queue per appender when many threads log.</li>
+<li><strong>Formatter</strong> (interface) — <code>format(LogRecord r): String</code>. The Layout strategy; each appender owns one. <code>PlainLayout</code>, <code>JsonLayout</code>, <code>PatternLayout("%d %-5level %logger - %msg%n")</code>.</li>
+<li><strong>Filter</strong> (interface) — <code>decide(LogRecord r): ACCEPT | DENY | NEUTRAL</code>. <code>LevelRangeFilter</code>, <code>RegexFilter</code>, <code>RateLimitFilter</code>. A per-record predicate the level gate cannot express.</li>
+</ul>
+<h3 id="relationships">Relationships</h3>
+<p><code>LogManager</code> owns 1..* loggers; each logger links to its parent up to the root. A logger owns appenders; each appender owns a formatter and filters.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>log(Level level, String msg): void</code> — compares level against <code>effectiveLevel()</code> and returns at once when it is lower, before a <code>LogRecord</code> or a format string exists. Only then builds the record and calls <code>callAppenders</code>.</li>
+<li><code>effectiveLevel(): Level</code> — walks parent links until a logger has a level set. The root always has one, so it never returns null. O(depth), and depth is tiny.</li>
+<li><code>callAppenders(LogRecord r): void</code> — climbs the same parent chain, calling <code>doAppend</code> on every appender it passes. Stops the climb at the first logger with <code>additive = false</code>.</li>
+<li><code>format(LogRecord r): String</code> — the Layout strategy — plain, JSON, or a pattern like <code>%d %-5level %logger - %msg%n</code>. Each appender owns its own, so one sink is JSON while another is plain.</li>
+</ol>
+<h3 id="the-walk">The walk</h3>
+<ul>
+<li><code>effectiveLevel(svc)</code>: svc unset -&gt; <code>com.app</code> = DEBUG -&gt; DEBUG.</li>
+<li>Gate: <code>DEBUG 20 &gt;= DEBUG 20</code> yes -&gt; pass.</li>
+<li><code>callAppenders</code>: svc, <code>com.app</code>, com, root.</li>
+<li>Additive all true -&gt; four loggers' appenders; each sink re-checks <code>r.level &gt;= sink.level</code>.</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Most people forget the gate reads <code>effectiveLevel()</code> before the message string is built.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p><code>com.app.svc</code> has no level of its own. The root is INFO, <code>com.app</code> is DEBUG. Code calls <code>svc.debug("loaded")</code>. Does the line survive the gate? Which appenders write it, and what did the call touch on the way?</p>
+<p><code>effectiveLevel(svc)</code> climbs to <code>com.app = DEBUG</code>, so <code>20 &gt;= 20</code> passes. The record goes to appenders on svc, <code>com.app</code>, com and root. Nothing is built if the gate fails.</p>
+<h2 id="the-change">The Change</h2>
+<p>A <code>SocketAppender</code> blocks the caller thread on every flush. Wrap it in an <code>AsyncAppender</code>: a bounded queue plus one worker thread that drains to the real appender. On overflow, drop the oldest record or block the caller. The <code>Logger</code> and the real appenders never change. The dispatch chain gains a buffering link.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The early gate. The level check runs inside <code>log()</code> before the <code>LogRecord</code> exists and before any Layout runs, so a dropped debug still pays for a <code>"x=" + dump()</code> argument you already built. Guard it, or hand <code>log()</code> a lambda.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Log, effectiveLevel and callAppenders:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Logger</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="n">Level</span><span class="w"> </span><span class="n">level</span><span class="p">;</span><span class="w">                </span><span class="c1">// level may be null</span>
+<span class="w">    </span><span class="n">Logger</span><span class="w"> </span><span class="n">parent</span><span class="p">;</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">additive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Appender</span><span class="o">&gt;</span><span class="w"> </span><span class="n">appenders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CopyOnWriteArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">Level</span><span class="w"> </span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">msg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">level</span><span class="p">.</span><span class="na">toInt</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">effectiveLevel</span><span class="p">().</span><span class="na">toInt</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="c1">// gate</span>
+<span class="w">        </span><span class="n">LogRecord</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LogRecord</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">level</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="n">now</span><span class="p">());</span>
+<span class="w">        </span><span class="n">callAppenders</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">info</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">Level</span><span class="p">.</span><span class="na">INFO</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">debug</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">Level</span><span class="p">.</span><span class="na">DEBUG</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">debug</span><span class="p">(</span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">               </span><span class="c1">// lazy: no eager concat</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enabled</span><span class="p">(</span><span class="n">Level</span><span class="p">.</span><span class="na">DEBUG</span><span class="p">))</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">Level</span><span class="p">.</span><span class="na">DEBUG</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">enabled</span><span class="p">(</span><span class="n">Level</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                      </span><span class="c1">// isXxxEnabled()</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">toInt</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">effectiveLevel</span><span class="p">().</span><span class="na">toInt</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Level</span><span class="w"> </span><span class="nf">effectiveLevel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">                        </span><span class="c1">// climb to a set level</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Logger</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">parent</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l</span><span class="p">.</span><span class="na">level</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">level</span><span class="p">;</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;root has no level&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">callAppenders</span><span class="p">(</span><span class="n">LogRecord</span><span class="w"> </span><span class="n">r</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Logger</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">parent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Appender</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">appenders</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">doAppend</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">l</span><span class="p">.</span><span class="na">additive</span><span class="p">)</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w">                 </span><span class="c1">// additivity stops here</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Message built before the level check.</strong> <code>log.debug("state=" + expensiveDump())</code> builds the string and the dump, then the gate drops them. Guard with <code>enabled(DEBUG)</code>, or take a <code>Supplier&lt;String&gt;</code> / a <code>"{}"</code> placeholder so the arg is lazy.</li>
+<li><strong>No level anywhere on the walk.</strong> A logger and every ancestor have <code>level == null</code>. <code>effectiveLevel()</code> runs off the end of the chain and NPEs, or you default to logging everything. The <code>RootLogger</code> is built with a non-null level and it can never be cleared.</li>
+<li><strong>Additivity double-logging.</strong> The same <code>ConsoleAppender</code> is attached to <code>com.app</code> and to the root. A record from <code>com.app.svc</code> is written twice. Attach the appender once, at the root; or set <code>additive = false</code> on the lower logger.</li>
+<li><strong>A slow appender stalls the caller.</strong> A <code>SocketAppender</code> does a blocking write on the calling thread — one slow flush freezes every request that logs. Hand off to an <code>AsyncAppender</code>: bounded queue + a worker thread, drop-oldest or block on overflow; a shutdown hook flushes and closes every sink.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>effectiveLevel().toInt()</code> is read before the <code>LogRecord</code> exists — a dropped call allocates nothing.</li>
+<li><code>if (!l.additive) break;</code> — one flag ends the climb, so a root appender never double-logs.</li>
+<li>The <code>Supplier&lt;String&gt;</code> overload — <code>"x=" + dump()</code> only runs when the level passes.</li>
+</ol>
+<h2 id="how-the-level-gate-works">How the Level Gate Works</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Cost when disabled</th>
+<th>Silence one package</th>
+<th>Per-record rules</th>
+<th>Where it runs</th>
+<th>Allocations, hot path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Int threshold + return (the default)</td>
+<td>about 1 ns int compare</td>
+<td>set that logger's level</td>
+<td>not possible</td>
+<td>in <code>log()</code>, before the record</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Chain of filter objects</td>
+<td>a call + a few allocations</td>
+<td>a Filter on that logger</td>
+<td>regex, rate, MDC match</td>
+<td>after the record is built</td>
+<td>a decision per record</td>
+</tr>
+<tr>
+<td>Per-appender level only</td>
+<td>int compare, but once per sink</td>
+<td>edit every appender</td>
+<td>not possible</td>
+<td>inside each <code>doAppend</code></td>
+<td>none</td>
+</tr>
+</tbody>
+</table>
+<p>An int threshold with an early return. Cheapest possible check on the hot path, and one number silences a whole package. Add a Filter chain only for per-record predicates — a regex, a rate limit, an MDC match. Second axis: <code>doAppend</code> runs on the caller, or hands off to an async queue with a worker that drops or blocks when full.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Building the message before the level check — a disabled debug still runs the concat and every <code>toString()</code>.</li>
+<li>A root logger with no level — <code>effectiveLevel()</code> walks off the chain and NPEs, or nothing is ever filtered.</li>
+<li>The same appender on a logger and an ancestor with <code>additive</code> still true — every line lands twice.</li>
+<li>A switch or <code>instanceof</code> on the appender type to choose a format — the Layout is not pluggable.</li>
+<li>Socket or file writes on the calling thread — one slow sink stalls every thread that logs.</li>
+<li>Filtering on the level of the logger that holds the appender, not the effective level of the logger that was called.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Chain of Responsibility — the walk logger to parent to root, for the effective level and for collecting appenders. Strategy — the <code>Formatter</code>, and a <code>Filter</code>. Factory — <code>LogManager</code> builds appenders and layouts from config. Composite — the logger tree, named nodes each with a parent.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"One <code>Logger</code> per dotted name, kept in a map by a <code>LogManager</code>, each linked to its parent up to a Root that always has a level. A call checks its effective level — the nearest set level up the chain — and returns before building anything if it is too low. Otherwise it makes one <code>LogRecord</code> and walks the same chain, handing it to every <code>Appender</code> it passes, stopping if a logger sets <code>additive</code> false. Each appender has its own level and a Formatter."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>svc unset, <code>com.app = DEBUG</code>, root = INFO. Walk <code>svc.debug</code>.</strong> <code>effectiveLevel</code> climbs to <code>com.app = DEBUG</code>, <code>20 &gt;= 20</code> passes; appenders from svc, <code>com.app</code>, com, root.</li>
+<li><strong><code>log.debug("s=" + dump())</code> when DEBUG is off.</strong> The gate reads <code>effectiveLevel().toInt()</code> first; or a <code>Supplier</code> / <code>"{}"</code> so <code>dump()</code> never runs.</li>
+<li><strong>Same appender on two loggers in one chain.</strong> <code>additive = false</code> on the lower, or attach it once at the root.</li>
+<li><strong>Silence <code>com.noisy</code> only.</strong> Set that logger's level to WARN; the int gate does the rest.</li>
+<li><strong>One sink JSON, another plain text.</strong> Two appenders, each with its own Formatter; the record is unchanged.</li>
+<li><strong>A network appender is slow.</strong> Wrap it in an <code>AsyncAppender</code>: bounded queue + worker, drop-oldest or block.</li>
+<li><strong>Logs lost when the process is killed.</strong> A shutdown hook that flushes and closes every appender in the tree.</li>
+<li><strong>Rate-limit a repeating line to 1 in 100.</strong> A <code>RateLimitFilter</code> on that logger or appender; Strategy, no core change.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Async logging internals</strong> — a ring buffer, batching, back-pressure tuning. Named as <code>AsyncAppender</code>, one worker, not built out.</li>
+<li><strong>Rotation-policy math</strong> — size and time rollover, compression, retention counts. A <code>RollingPolicy</code> seam only.</li>
+<li><strong>MDC / thread context</strong> — a per-thread map folded into every record. One more <code>LogRecord</code> field later.</li>
+<li><strong>Distributed aggregation</strong> — shipping to a log store, indexing, query. That is the HLD version.</li>
+<li><strong>Real IO</strong> — buffered writers, fsync, file handles. Appenders write to an abstract sink.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>An interceptor / middleware stack</li>
+<li>A servlet filter chain</li>
+<li>An event bus with typed handlers</li>
+<li>An exception-handler chain</li>
+<li>A Unix pipe</li>
+<li>An ETL stage pipeline</li>
+<li>A metrics / tracing exporter with sinks</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-17-text-editor.html"><span class="dir">Previous</span><span class="ttl">Design a Text Editor</span></a><a class="next" href="doc-practice-lld-design-problems-19-notification-service.html"><span class="dir">Next</span><span class="ttl">Design a Notification Service</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

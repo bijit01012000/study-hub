@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 14 — How Java Web Apps Actually Work — Spring Boot</title>
+<meta name="description" content="Lecture 14 — How Java Web Apps Actually Work">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-14">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-14.html#lecture-14">Lecture 14</a></li><li><a href="doc-theory-lecture-14.html#1-why-do-we-need-servlets">1. Why Do We Need Servlets?</a></li><li><a href="doc-theory-lecture-14.html#2-java-can-listen-on-a-port-but-the-manual-work-is-huge">2. Java Can Listen on a Port, But the Manual Work Is Huge</a></li><li><a href="doc-theory-lecture-14.html#3-normal-java-program-vs-web-application-and-static-vs-dynamic-websites">3. Normal Java Program vs Web Application, and Static vs Dynamic Websites</a></li><li><a href="doc-theory-lecture-14.html#4-the-main-problem-before-servlets-and-what-a-servlet-did-conceptually">4. The Main Problem Before Servlets, and What a Servlet Did Conceptually</a></li><li><a href="doc-theory-lecture-14.html#5-the-simplest-meaning-of-a-servlet-and-why-it-does-not-listen-on-a-port">5. The Simplest Meaning of a Servlet, and Why It Does Not Listen on a Port</a></li><li><a href="doc-theory-lecture-14.html#6-what-is-tomcat-what-is-a-servlet-container-and-inversion-of-control">6. What Is Tomcat, What Is a Servlet Container, and Inversion of Control</a></li><li><a href="doc-theory-lecture-14.html#7-tomcat-startup-per-request-flow-and-when-the-servlet-is-created">7. Tomcat Startup, Per-Request Flow, and When the Servlet Is Created</a></li><li><a href="doc-theory-lecture-14.html#8-external-tomcat-war-files-and-many-applications">8. External Tomcat, WAR Files, and Many Applications</a></li><li><a href="doc-theory-lecture-14.html#9-packaging-and-parameters-provided-scope-and-query-parameters">9. Packaging and Parameters: provided Scope and Query Parameters</a></li><li><a href="doc-theory-lecture-14.html#10-the-servlet-lifecycle-init-service-doget-destroy">10. The Servlet Lifecycle: init(), service(), doGet(), destroy()</a></li><li><a href="doc-theory-lecture-14.html#11-embedded-tomcat-vs-external-tomcat-and-traditional-servlets-vs-spring-mvc">11. Embedded Tomcat vs External Tomcat, and Traditional Servlets vs Spring MVC</a></li><li><a href="doc-theory-lecture-14.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-14.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-14.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-14.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-14.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 14 — How Java Web Apps Actually Work</h1>
+<p class="readmeta">17 sections · 4,794 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-14" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-14">Lecture 14</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "How Java Web Apps Actually Work | Servlets, Tomcat &amp; WAR Files" (playlist map, verified). The ServletCrudDemo Maven project contains the servlet package (<code>servlet.HelloServlet</code>, <code>servlet.UserServlet</code>), a <code>service.UserService</code>, a <code>model.User</code>, an entry point at <code>in.strikes.Main</code>, plus <code>pom.xml</code> and lecture notes.</p>
+</blockquote>
+<p>This lecture answers a question most Java developers cannot explain cleanly: how does text arriving on a network port end up as a method call on a Java class? We start from a raw browser request, watch Java open a socket, and then watch the servlet container (Tomcat) take that pain away by handling HTTP and calling our object. By the end, the words Servlet, Tomcat, WAR, <code>provided</code> scope, <code>init()</code>, <code>destroy()</code>, embedded Tomcat, and DispatcherServlet all sit inside one connected mental model.</p>
+<h2 id="1-why-do-we-need-servlets">1. Why Do We Need Servlets?</h2>
+<p>Start with what actually happens when a browser hits an address:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8080/hello
+</code></pre></div>
+
+<p>The browser does not say "please call HelloServlet.java". A browser has no idea what a Java class, Java method, or Java object is. It only understands HTTP. So it sends text that follows HTTP rules:</p>
+<div class="highlight"><pre><span></span><code>GET /hello HTTP/1.1
+Host: localhost:8080
+</code></pre></div>
+
+<p>This is just text. The real question is: who receives it?</p>
+<ul>
+<li>A Java class does not automatically receive browser requests.</li>
+<li>Something must be a running server process, sitting on a port, able to receive that request.</li>
+</ul>
+<p>The browser is the client. On the other side there must be a server process that is already alive and listening. Servlets exist to answer the question of how Java code plugs into that server process.</p>
+<h2 id="2-java-can-listen-on-a-port-but-the-manual-work-is-huge">2. Java Can Listen on a Port, But the Manual Work Is Huge</h2>
+<p>Java can do networking through the <code>java.net</code> package. Using <code>ServerSocket</code>, Java can open a port and wait for connections:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Java can open a port and wait for a connection</span>
+<span class="n">ServerSocket</span><span class="w"> </span><span class="n">serverSocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</code></pre></div>
+
+<p>So technically we can write a Java program that receives browser requests. The problem is that the browser sends HTTP text, and with raw networking we must handle everything ourselves. We would have to manually:</p>
+<ol>
+<li>read the raw HTTP text;</li>
+<li>parse the URL;</li>
+<li>parse headers;</li>
+<li>parse query parameters;</li>
+<li>parse the request body;</li>
+<li>identify GET, POST, PUT, DELETE;</li>
+<li>create the response text;</li>
+<li>add the status code;</li>
+<li>add response headers;</li>
+<li>send the response back to the browser;</li>
+<li>manage multiple users at the same time;</li>
+<li>manage threads;</li>
+<li>keep the server running continuously.</li>
+</ol>
+<p>Java can be a server. Building a full web application directly on low-level sockets is difficult, repetitive, and error-prone. This is the first major problem that servlets help solve.</p>
+<blockquote class="callout callout--important">
+<p>Important: The language is not the gap. The gap is that HTTP semantics (methods, headers, routing, threading) are not part of Core Java, so every developer would rewrite the same plumbing.</p>
+</blockquote>
+<h2 id="3-normal-java-program-vs-web-application-and-static-vs-dynamic-websites">3. Normal Java Program vs Web Application, and Static vs Dynamic Websites</h2>
+<p>In a normal Java program, the entry point is <code>public static void main(String[] args)</code>. The program starts, executes code, prints output, and usually finishes. A web application must not start once and stop immediately. It should keep running and wait for HTTP requests from many users.</p>
+<div class="highlight"><pre><span></span><code>Normal Java program          Web application
+Start                        Start
+Run instructions             Keep running
+Finish                       Wait for requests
+Exit                         Process every request
+                             Send every response
+</code></pre></div>
+
+<p>A normal Java class alone is not enough for that; a web application needs a long-running server environment.</p>
+<p>A second distinction explains why Java logic is needed at all.</p>
+<p>Static website: an HTML file such as <code>&lt;h1&gt;Welcome to my website&lt;/h1&gt;</code> is returned as-is for <code>GET /index.html</code>. No Java logic is required. The same request always gives the same pre-written response. Static files: HTML, CSS, JavaScript, images, videos.</p>
+<p>Dynamic website: a request such as <code>GET /user?id=101</code> produces a response that depends on the id. For <code>id=101</code> the server may return "Name: Rahul, Email: rahul@test.com"; for <code>id=102</code> it may return "Name: Priya, Email: priya@test.com". Now the server needs logic: read the id, connect to a database, fetch details, prepare the response, send it back. This is where Java becomes useful, because Java is good at business logic.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Static website</th>
+<th>Dynamic website</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Example request</td>
+<td><code>GET /index.html</code></td>
+<td><code>GET /user?id=101</code></td>
+</tr>
+<tr>
+<td>Response source</td>
+<td>Pre-written file</td>
+<td>Generated by server logic</td>
+</tr>
+<tr>
+<td>Same request, same response?</td>
+<td>Yes, always</td>
+<td>No, it depends on input/data</td>
+</tr>
+<tr>
+<td>Java logic needed?</td>
+<td>No</td>
+<td>Yes (business logic)</td>
+</tr>
+<tr>
+<td>Typical files</td>
+<td>HTML, CSS, JS, images, videos</td>
+<td>Servlets/controllers + templates + data</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-the-main-problem-before-servlets-and-what-a-servlet-did-conceptually">4. The Main Problem Before Servlets, and What a Servlet Did Conceptually</h2>
+<p>Before servlets, every developer building a Java web application had to write a large amount of low-level networking and HTTP handling code manually. The flow looked like this:</p>
+<div class="highlight"><pre><span></span><code>Browser
+   |
+   v
+Raw HTTP request
+   |
+   v
+Java socket code
+   |
+   v
+Manual HTTP parsing
+   |
+   v
+Manual routing
+   |
+   v
+Manual response creation
+</code></pre></div>
+
+<p>This is not practical for every web application. Developers should focus on business logic, not on manually parsing HTTP again and again. So Java needed a standard way where low-level HTTP work is handled by a server/container, and business logic is written by the developer. That standard idea is the Servlet. It solves one central gap: how will the HTTP request enter Java code?</p>
+<p>The servlet introduced a simple idea: instead of every developer manually handling raw HTTP, let a container handle HTTP and call our Java class. The flow became:</p>
+<div class="highlight"><pre><span></span><code>Browser
+   |
+   v
+HTTP Request
+   |
+   v
+Tomcat
+   |
+   v
+HttpServletRequest object
+HttpServletResponse object
+   |
+   v
+Our Servlet class
+</code></pre></div>
+
+<p>Tomcat handles the low-level HTTP work. Our servlet handles the application logic. Instead of reading raw HTTP text, we receive ready-made Java objects:</p>
+<ul>
+<li><code>HttpServletRequest request</code> gives us the URL, HTTP method, headers, query parameters, request body, and cookies.</li>
+<li><code>HttpServletResponse response</code> helps us send data back to the browser.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: When asked "what problem do servlets solve", do not say "they make web apps". The precise answer is: they define a standard contract so a container owns sockets and HTTP parsing while the developer writes only the Java handling logic.</p>
+</blockquote>
+<h2 id="5-the-simplest-meaning-of-a-servlet-and-why-it-does-not-listen-on-a-port">5. The Simplest Meaning of a Servlet, and Why It Does Not Listen on a Port</h2>
+<p>A Servlet is a Java class used to handle web requests and generate web responses. In practical words, it is a Java class that Tomcat can call when an HTTP request comes.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// A servlet is just a class that Tomcat calls</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">HelloServlet</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">HttpServlet</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doGet</span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">                         </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Logic for a GET request</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The browser does not directly call <code>doGet()</code>. Tomcat calls <code>doGet()</code> when a matching GET request comes.</p>
+<p>A common beginner mistake is thinking: "the servlet is listening on port 8080." That is not technically correct. The correct mental model is:</p>
+<ul>
+<li>Tomcat listens on the port.</li>
+<li>The servlet lives inside Tomcat.</li>
+<li>When a matching request comes, Tomcat calls the servlet.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Port 8080
+   |
+   v
+Tomcat is listening
+   |
+   v
+Request comes: /hello
+   |
+   v
+Tomcat checks URL mapping
+   |
+   v
+Tomcat calls HelloServlet
+</code></pre></div>
+
+<p>So the servlet is not directly connected to the network. Tomcat is the long-running server process. The servlet is a Java object managed by Tomcat.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Tomcat listens, Tomcat receives the HTTP request, Tomcat converts it into Java-friendly objects, Tomcat calls your servlet, your servlet writes the response, Tomcat sends it back.</p>
+</blockquote>
+<h2 id="6-what-is-tomcat-what-is-a-servlet-container-and-inversion-of-control">6. What Is Tomcat, What Is a Servlet Container, and Inversion of Control</h2>
+<p>Tomcat is a Java-based server that can run Java web applications. More specifically, Tomcat is a Servlet Container. This means Tomcat provides the environment where servlets can live, run, and handle HTTP requests.</p>
+<p>The word "container" is very important. A container means something that creates, manages, and controls objects. In Spring Core we say the Spring Container manages beans. In the servlet world, the Servlet Container manages servlets.</p>
+<p>Tomcat controls:</p>
+<ol>
+<li>servlet object creation;</li>
+<li>the <code>init()</code> method call;</li>
+<li>the <code>service()</code> method call;</li>
+<li><code>doGet()</code> / <code>doPost()</code> / <code>doPut()</code> / <code>doDelete()</code> method calls;</li>
+<li>the <code>destroy()</code> method call;</li>
+<li>request object creation;</li>
+<li>response object creation;</li>
+<li>thread management;</li>
+<li>URL mapping;</li>
+<li>sending the response back to the browser.</li>
+</ol>
+<p>So we do not manually create servlet objects. Tomcat creates and manages them. This is the same idea as Inversion of Control. In normal Java, we write <code>new HelloServlet()</code> and call the method ourselves, so control sits with our code. In a servlet application, Tomcat creates the object and Tomcat calls the method. The control is not with our code; the control is with the container.</p>
+<table>
+<thead>
+<tr>
+<th>World</th>
+<th>Object managed by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Servlet world</td>
+<td>Tomcat / Servlet Container</td>
+</tr>
+<tr>
+<td>Spring world</td>
+<td>Spring Container</td>
+</tr>
+</tbody>
+</table>
+<p>The framework calls us, not the other way around - the seed of Spring's entire object model.</p>
+<p>Mnemonic for Tomcat's job, <strong>L-M-C-C-S</strong>: Listen, Map, Convert, Call, Send.</p>
+<h2 id="7-tomcat-startup-per-request-flow-and-when-the-servlet-is-created">7. Tomcat Startup, Per-Request Flow, and When the Servlet Is Created</h2>
+<p>When Tomcat starts, it becomes a long-running server process. It does not start, run one method, and stop. It keeps waiting for HTTP requests.</p>
+<div class="highlight"><pre><span></span><code>Tomcat starts
+   |
+   v
+Tomcat opens port 8080
+   |
+   v
+Tomcat waits for HTTP requests
+   |
+   v
+Browser sends request
+   |
+   v
+Tomcat receives request
+   |
+   v
+Tomcat finds matching application
+   |
+   v
+Tomcat finds matching servlet
+   |
+   v
+Tomcat calls servlet method
+   |
+   v
+Servlet prepares response
+   |
+   v
+Tomcat sends response back to browser
+</code></pre></div>
+
+<p>Suppose the request is <code>GET /myapp/hello</code>. Tomcat checks: which application? -&gt; <code>myapp</code>. Which URL? -&gt; <code>/hello</code>. Which servlet? -&gt; <code>HelloServlet</code>. Which method? -&gt; <code>doGet()</code>. Then Tomcat calls something conceptually similar to <code>helloServlet.doGet(request, response);</code>. Tomcat is the bridge between the HTTP world and the Java world. The browser sends HTTP; Tomcat converts that request into Java-friendly objects; our servlet uses those objects.</p>
+<p>The URL itself decomposes neatly:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>localhost</code></td>
+<td>My own machine</td>
+</tr>
+<tr>
+<td><code>8080</code></td>
+<td>Port where Tomcat is listening</td>
+</tr>
+<tr>
+<td><code>/hello</code></td>
+<td>Path requested by the browser</td>
+</tr>
+</tbody>
+</table>
+<p>The request first reaches Tomcat. Then Tomcat decides which Java code should handle the request.</p>
+<p>By default, Tomcat creates the servlet object when the first matching request comes. For the first request to <code>/hello</code>: Tomcat creates the <code>HelloServlet</code> object, calls <code>init()</code>, then calls <code>doGet()</code>. After that, the same servlet object can handle future requests. But we can also configure Tomcat to load a servlet during application startup.</p>
+<table>
+<thead>
+<tr>
+<th>Behavior</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default behavior</td>
+<td>Servlet loads on the first request</td>
+</tr>
+<tr>
+<td>Startup loading</td>
+<td>Servlet loads when the application starts</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: The browser only cares about the HTTP response. It does not care whether the backend is Java, Python, Node.js, PHP, or Go. That is why HTTP is the real contract at the edge.</p>
+</blockquote>
+<h2 id="8-external-tomcat-war-files-and-many-applications">8. External Tomcat, WAR Files, and Many Applications</h2>
+<p>In traditional Java web development, Tomcat is installed separately. This is called using external Tomcat. The flow is:</p>
+<div class="highlight"><pre><span></span><code>1. Install Tomcat on your machine/server
+2. Build the Java web application as a WAR file
+3. Put the WAR file inside Tomcat
+4. Start Tomcat
+5. Tomcat runs the application
+</code></pre></div>
+
+<p>Mental model: the application goes inside Tomcat.</p>
+<p>A WAR file means Web Application Archive: a packaged Java web application. Just as a normal Java project packages as <code>myapp.jar</code>, a traditional Java web application packages as <code>myapp.war</code>. A WAR can contain compiled classes, servlet classes, HTML/CSS/JS, libraries, <code>web.xml</code>, and configuration files. WAR = complete web application package, and external Tomcat knows how to run it.</p>
+<p>External Tomcat can host multiple Java web applications at the same time:</p>
+<div class="highlight"><pre><span></span><code>External Tomcat
++-- app1
+|   \-- HelloServlet
++-- app2
+|   \-- LoginServlet
+\-- app3
+    \-- ProductServlet
+</code></pre></div>
+
+<p>Each application can have its own servlets. A request to <code>/app1/hello</code> goes to the servlet inside <code>app1</code>; <code>/app2/login</code> goes to <code>app2</code>. This is another reason Tomcat is called a container; it can contain and manage many web applications.</p>
+<p>To start external Tomcat on Mac/Linux, go inside the Tomcat folder (<code>cd ~/Downloads/apache-tomcat-10.1.x</code>), where you see folders like <code>bin</code>, <code>conf</code>, <code>logs</code>, and <code>webapps</code>. Check the port in <code>conf/server.xml</code>:</p>
+<div class="highlight"><pre><span></span><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+           connectionTimeout=&quot;20000&quot;
+           redirectPort=&quot;8443&quot; /&gt;
+</code></pre></div>
+
+<p>This means Tomcat will listen on port <code>8080</code>. On Mac/Linux give permission with <code>chmod +x bin/*.sh</code>. Run in the foreground with <code>./bin/catalina.sh run</code>; you should see "Server startup in ... milliseconds", and <code>http://localhost:8080</code> shows the Tomcat welcome page. For background mode use <code>./bin/startup.sh</code> and <code>./bin/shutdown.sh</code> (Windows: <code>bin\startup.bat</code>, <code>bin\shutdown.bat</code>). If port 8080 is busy, check <code>lsof -i :8080</code> and kill the process.</p>
+<p>To deploy a WAR, copy <code>target/servlet-crud.war</code> into the <code>webapps</code> folder. Tomcat extracts <code>servlet-crud.war</code> into <code>webapps/servlet-crud</code>, and <code>http://localhost:8080/servlet-crud/</code> should show "Servlet CRUD App is running".</p>
+<h2 id="9-packaging-and-parameters-provided-scope-and-query-parameters">9. Packaging and Parameters: provided Scope and Query Parameters</h2>
+<p>In a servlet project we use servlet classes such as <code>HttpServlet</code>, <code>HttpServletRequest</code>, and <code>HttpServletResponse</code>. These classes are needed to compile our code. But at runtime these servlet classes are already provided by Tomcat. External Tomcat has its own <code>lib</code> folder:</p>
+<div class="highlight"><pre><span></span><code>apache-tomcat-10
++-- bin
++-- conf
++-- lib
++-- logs
+\-- webapps
+</code></pre></div>
+
+<p>Inside Tomcat's <code>lib</code>, Tomcat already has the servlet-related classes needed to run web applications. So Maven needs the servlet dependency only during compilation. At runtime, Tomcat provides it. That is exactly what <code>provided</code> means.</p>
+<div class="highlight"><pre><span></span><code><span class="cm">&lt;!-- Servlet API: needed to compile, supplied by Tomcat at runtime --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>jakarta.servlet<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>jakarta.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>6.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>Simple meaning: I need this dependency while compiling my code, but do not package it inside my final WAR, because the runtime environment will provide it.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Who provides the Servlet API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Compile time</td>
+<td>Maven dependency (compile classpath)</td>
+</tr>
+<tr>
+<td>Runtime</td>
+<td>Tomcat (<code>lib</code> folder)</td>
+</tr>
+</tbody>
+</table>
+<p>If we remove <code>&lt;scope&gt;provided&lt;/scope&gt;</code>, Maven uses the default scope <code>compile</code>, which means Maven may package the Servlet API inside the WAR. But Tomcat already has the Servlet API, so two copies may exist: one inside Tomcat and one inside the application WAR. This can create classloading conflicts or confusing runtime issues. Container APIs like the Servlet API should be provided by the container, not packaged by the application.</p>
+<p>A related small decision: why the first demo uses query parameters instead of a POST body. In the first servlet example, query parameters are easier to use: <code>/users?name=Rahul&amp;email=rahul@test.com</code>. A JSON request body requires extra work: read the body manually, parse JSON manually, add a Jackson or Gson dependency, map JSON to a Java object, and handle invalid JSON. So query parameters keep the focus on the main concept: how Tomcat receives a request and calls our servlet. JSON body handling can come later.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>provided</code> does not mean "not needed". It means "needed to compile, supplied by the environment at runtime". Dropping it does not fail the build; it produces a subtly broken WAR. The query-parameter choice is a teaching choice, not a technical rule.</p>
+</blockquote>
+<h2 id="10-the-servlet-lifecycle-init-service-doget-destroy">10. The Servlet Lifecycle: init(), service(), doGet(), destroy()</h2>
+<p>Servlet lifecycle means the complete journey of a servlet object. The basic lifecycle is:</p>
+<div class="highlight"><pre><span></span><code>Servlet object creation
+   |
+   v
+init()
+   |
+   v
+service()
+   |
+   v
+doGet() / doPost() / doPut() / doDelete()
+   |
+   v
+destroy()
+</code></pre></div>
+
+<p>Tomcat controls this lifecycle. We do not manually create or destroy servlet objects.</p>
+<p><code>init()</code> is called when the servlet object is initialized. By default, Tomcat creates the servlet object on the first matching request, then calls <code>init()</code>:</p>
+<div class="highlight"><pre><span></span><code>First GET /lifecycle
+Constructor runs
+   |
+   v
+init() runs
+   |
+   v
+service() runs
+   |
+   v
+doGet() runs
+</code></pre></div>
+
+<p>If another request comes, only <code>service()</code> and <code>doGet()</code> run again. The constructor and <code>init()</code> do not run again for every request. <code>init()</code> is used for one-time setup work: load configuration, create expensive resources, initialize helper objects, open a connection pool, prepare a cache.</p>
+<p><code>service()</code> is called for every request (GET, POST, PUT, DELETE all reach <code>service()</code>). But when we extend <code>HttpServlet</code> we usually do not write all logic inside <code>service()</code>, because <code>HttpServlet</code> already has a <code>service()</code> method that checks the HTTP method and forwards to the correct method: GET -&gt; <code>doGet()</code>, POST -&gt; <code>doPost()</code>, PUT -&gt; <code>doPut()</code>, DELETE -&gt; <code>doDelete()</code>. So the internal flow is <code>service()</code> -&gt; checks HTTP method -&gt; calls the matching <code>doXxx()</code>. In real servlet code we usually override those <code>doXxx()</code> methods and not <code>service()</code>, unless we have a specific reason.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>When it runs</th>
+<th>Typical purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constructor</td>
+<td>Once, on object creation</td>
+<td>Plain object setup</td>
+</tr>
+<tr>
+<td><code>init()</code></td>
+<td>Once, after construction</td>
+<td>One-time setup (config, pools, caches)</td>
+</tr>
+<tr>
+<td><code>service()</code></td>
+<td>Every request</td>
+<td>Dispatches to the correct <code>doXxx()</code></td>
+</tr>
+<tr>
+<td><code>doGet()</code></td>
+<td>Every GET</td>
+<td>Read/fetch data</td>
+</tr>
+<tr>
+<td><code>doPost()</code></td>
+<td>Every POST</td>
+<td>Create new data</td>
+</tr>
+<tr>
+<td><code>doPut()</code></td>
+<td>Every PUT</td>
+<td>Update existing data</td>
+</tr>
+<tr>
+<td><code>doDelete()</code></td>
+<td>Every DELETE</td>
+<td>Delete data</td>
+</tr>
+<tr>
+<td><code>destroy()</code></td>
+<td>Once, before removal</td>
+<td>Release resources, flush, stop tasks</td>
+</tr>
+</tbody>
+</table>
+<p><code>destroy()</code> is called when the servlet is being removed from service. This can happen when Tomcat stops, the application is undeployed, the application is reloaded, or a new WAR replaces the old WAR. Uses of <code>destroy()</code>: release memory-heavy objects, close resources, stop background tasks, flush pending data. <code>destroy()</code> is called once before the servlet is removed. After <code>destroy()</code>, the servlet object becomes eligible for garbage collection.</p>
+<p>To see <code>destroy()</code> output, stop Tomcat (<code>./bin/shutdown.sh</code> on Mac/Linux, <code>shutdown.bat</code> on Windows). When Tomcat stops, it removes the servlet from service and calls <code>destroy()</code>.</p>
+<p>The most important lifecycle point: usually Tomcat creates one servlet object and reuses it for multiple requests. So the flow is not "every request -&gt; new servlet object". The better mental model is "one servlet object -&gt; many requests". That is why we must be careful with instance variables inside servlets, especially when multiple users send requests at the same time.</p>
+<p>Mnemonic for the lifecycle: <strong>C-I-S-D</strong> (Create, Init, Service, Destroy) - created once, initialized once, serviced many times, destroyed once.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: One servlet object serves many requests. Instance fields are shared state across concurrent users; keep per-request data in local variables or in the request object.</p>
+</blockquote>
+<h2 id="11-embedded-tomcat-vs-external-tomcat-and-traditional-servlets-vs-spring-mvc">11. Embedded Tomcat vs External Tomcat, and Traditional Servlets vs Spring MVC</h2>
+<p>In traditional servlet applications, the application goes inside Tomcat. But in Spring Boot, we usually do not install Tomcat separately. Spring Boot brings Tomcat inside the application through <code>spring-boot-starter-web</code>. When we run <code>SpringApplication.run(MyApp.class, args)</code> inside <code>main()</code>, Spring Boot starts the application and also starts embedded Tomcat internally. So in Spring Boot: Tomcat is inside the application.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Traditional Java web app</th>
+<th>Spring Boot web app</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tomcat</td>
+<td>Installed separately (external)</td>
+<td>Bundled inside the app (embedded)</td>
+</tr>
+<tr>
+<td>Package</td>
+<td>WAR</td>
+<td>Usually an executable JAR</td>
+</tr>
+<tr>
+<td>Start</td>
+<td>Install -&gt; build WAR -&gt; deploy -&gt; start Tomcat</td>
+<td>Run <code>main()</code></td>
+</tr>
+<tr>
+<td>Mental model</td>
+<td>Application is deployed into the server</td>
+<td>Server starts inside the application</td>
+</tr>
+<tr>
+<td>Steps to run</td>
+<td>Configure Tomcat, build WAR, deploy, start, debug</td>
+<td>Run <code>main()</code>, app starts, server starts, API ready</td>
+</tr>
+</tbody>
+</table>
+<p>Spring Boot makes Java web applications easier to run. Without embedded Tomcat: install Tomcat, configure Tomcat, build WAR, deploy WAR, start server, debug deployment issues. With embedded Tomcat: run <code>main()</code>, application starts, server starts, API is ready. Spring Boot did not remove the Servlet Container concept; it simply made it easier to use. Internally, Tomcat is still there.</p>
+<p>Now the second half of the story: how requests are routed. In a traditional servlet application, we may create different servlets for different features: <code>/users</code> -&gt; <code>UserServlet</code>, <code>/products</code> -&gt; <code>ProductServlet</code>, <code>/orders</code> -&gt; <code>OrderServlet</code>. With <code>@WebServlet("/users")</code> on <code>public class UserServlet extends HttpServlet</code>, Tomcat checks the URL and directly calls the matching servlet. This works, but as the application grows we may end up creating many servlets, and each one may handle request reading, response writing, validation, routing, error handling, and business flow. Slowly the code becomes difficult to manage.</p>
+<p>Spring MVC also uses the servlet concept, but instead of asking us to manually create many servlets, Spring MVC gives us one central servlet: <code>DispatcherServlet</code>. The idea is simple: let all incoming requests first come to one central servlet, and then that servlet decides which controller method should handle the request.</p>
+<div class="highlight"><pre><span></span><code>Browser/Postman
+   |
+   v
+Tomcat
+   |
+   v
+DispatcherServlet
+   |
+   v
+Controller
+   |
+   v
+Service
+   |
+   v
+Response
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Traditional servlet style</th>
+<th>Spring MVC style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Servlets</td>
+<td>One servlet per URL/feature</td>
+<td>One central <code>DispatcherServlet</code></td>
+</tr>
+<tr>
+<td>Routing</td>
+<td>Tomcat maps URL to each servlet</td>
+<td>DispatcherServlet maps to controller methods</td>
+</tr>
+<tr>
+<td>Controller code</td>
+<td><code>doGet</code>/<code>doPost</code> per servlet</td>
+<td><code>@GetMapping</code>/<code>@PostMapping</code> methods</td>
+</tr>
+<tr>
+<td>Data binding</td>
+<td>Manual <code>getParameter</code> and casts</td>
+<td><code>@RequestParam</code>, <code>@RequestBody</code></td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>Manual conversion needed</td>
+<td>Automatic JSON conversion</td>
+</tr>
+<tr>
+<td>Structure</td>
+<td>Boilerplate grows with app size</td>
+<td>Cleaner Controller-Service-Repository separation</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1">// Spring MVC: Tomcat calls DispatcherServlet, which calls this method</span>
+<span class="nd">@RestController</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UserController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/users&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getUsers</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;All users&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>A Spring MVC controller is not directly called by the browser. The browser does not know about <code>UserController</code>, <code>getUsers()</code>, or <code>@GetMapping</code>. The browser only sends <code>GET /users</code>. The actual flow is: browser sends HTTP request -&gt; Tomcat receives request -&gt; Tomcat calls <code>DispatcherServlet</code> -&gt; <code>DispatcherServlet</code> checks Spring MVC mappings -&gt; the correct controller method is called -&gt; the response goes back.</p>
+<p>Why Spring MVC is powerful: with traditional servlets we manually read parameters, call the service, prepare the response, convert objects to JSON, and handle errors. Spring MVC gives us <code>@Controller</code>/<code>@RestController</code>, <code>@GetMapping</code>/<code>@PostMapping</code>, <code>@RequestParam</code>, <code>@RequestBody</code>, <code>@ResponseBody</code>, automatic JSON conversion, and a cleaner Controller-Service-Repository separation. Internally the foundation is still servlet: Spring MVC built a better framework on top of servlet.</p>
+<blockquote class="callout callout--important">
+<p>Important: The browser still sends HTTP, Tomcat still receives it, and a servlet is still the Java entry point. Spring MVC only replaces "many custom servlets" with "one DispatcherServlet plus annotated methods".</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"The servlet listens on port 8080"</td>
+<td>Tomcat listens on the port; the servlet lives inside Tomcat and is called by it</td>
+</tr>
+<tr>
+<td>"A new servlet object is created for every request"</td>
+<td>One servlet object is created and reused for many requests</td>
+</tr>
+<tr>
+<td>"The browser calls doGet()"</td>
+<td>Tomcat calls doGet() when a matching GET request arrives</td>
+</tr>
+<tr>
+<td>"We should override service() for each method"</td>
+<td><code>HttpServlet.service()</code> dispatches to doGet/doPost; override those instead</td>
+</tr>
+<tr>
+<td>"WAR and JAR are the same"</td>
+<td>WAR is a complete web application package (classes, <code>web.xml</code>, web files, libs); JAR is a general archive</td>
+</tr>
+<tr>
+<td>"provided scope means the dependency is unnecessary"</td>
+<td>It is needed at compile time; the container supplies it at runtime</td>
+</tr>
+<tr>
+<td>"Spring Boot removed Tomcat"</td>
+<td>Spring Boot embeds Tomcat; the servlet container is still there</td>
+</tr>
+<tr>
+<td>"Spring MVC stopped using servlets"</td>
+<td>Spring MVC is built on servlets and uses DispatcherServlet</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "A servlet is listening on port 8080."</strong>
+Verdict: False. Tomcat owns the port and the network. The servlet is a Java object managed by Tomcat; it is not connected to the network directly.</p>
+<p><strong>Trap 2 - "Tomcat creates a new servlet object for every request."</strong>
+Verdict: False. By default Tomcat creates the object on the first matching request and reuses one object for many requests. This is why instance variables are dangerous under concurrency.</p>
+<p><strong>Trap 3 - "You should override service() to handle GET and POST."</strong>
+Verdict: False. <code>HttpServlet.service()</code> already inspects the HTTP method and forwards to <code>doGet()</code>/<code>doPost()</code>/<code>doPut()</code>/<code>doDelete()</code>. Override those, not <code>service()</code>.</p>
+<p><strong>Trap 4 - "A WAR is just a renamed JAR."</strong>
+Verdict: Misleading. A WAR is a Web Application Archive: a complete web app package that can contain servlet classes, <code>web.xml</code>, HTML/CSS/JS, and libraries, and external Tomcat knows how to deploy it.</p>
+<p><strong>Trap 5 - "provided means the servlet API is not on the compile classpath."</strong>
+Verdict: False. <code>provided</code> keeps the dependency for compilation but excludes it from the packaged WAR, because Tomcat's <code>lib</code> supplies it at runtime.</p>
+<p><strong>Trap 6 - "Spring Boot does not use Tomcat anymore."</strong>
+Verdict: False. Spring Boot embeds Tomcat via <code>spring-boot-starter-web</code>. The container concept is unchanged; only the setup changed.</p>
+<p><strong>Trap 7 - "If two copies of the Servlet API end up in the WAR and Tomcat, nothing happens."</strong>
+Verdict: False. Two copies can cause classloading conflicts and confusing runtime issues, which is exactly why <code>provided</code> scope exists.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>A browser understands only HTTP; it never calls Java classes or methods directly.</li>
+<li>Java can open a port with <code>ServerSocket</code>, but manual HTTP parsing, routing, threading, and response building are huge and repetitive.</li>
+<li>A normal program starts and exits; a web application must keep running and serve many requests.</li>
+<li>Static sites return pre-written files; dynamic sites generate a response from logic and data.</li>
+<li>A servlet is a Java class that Tomcat calls to handle a web request and generate a response.</li>
+<li>Tomcat is a servlet container: it owns ports, parsing, request/response objects, threads, URL mapping, and the servlet lifecycle.</li>
+<li>Control is inverted: the container creates the object and calls the method, not our code.</li>
+<li>External Tomcat runs deployed WAR files and can host many applications; embedded Tomcat runs inside a Spring Boot app started by <code>main()</code>.</li>
+<li>The servlet API uses <code>provided</code> scope: needed to compile, supplied by Tomcat at runtime.</li>
+<li>One servlet object handles many requests, so shared instance state is unsafe across concurrent users.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a servlet?</td>
+<td>A Java class that handles web requests and generates web responses, managed and called by a servlet container.</td>
+</tr>
+<tr>
+<td>What problem do servlets solve?</td>
+<td>They let a container handle low-level HTTP so developers write only business logic in Java.</td>
+</tr>
+<tr>
+<td>Does a servlet listen on a port?</td>
+<td>No. Tomcat listens on the port; the servlet lives inside Tomcat and is invoked by it.</td>
+</tr>
+<tr>
+<td>What is a servlet container?</td>
+<td>A component that creates, manages, and controls servlet objects, request/response objects, threads, URL mapping, and the lifecycle.</td>
+</tr>
+<tr>
+<td>What is the servlet lifecycle?</td>
+<td>Object creation -&gt; <code>init()</code> -&gt; <code>service()</code> -&gt; <code>doGet()</code>/<code>doPost()</code>/<code>doPut()</code>/<code>doDelete()</code> -&gt; <code>destroy()</code>.</td>
+</tr>
+<tr>
+<td>init() vs service()?</td>
+<td><code>init()</code> runs once for one-time setup; <code>service()</code> runs for every request and dispatches to the <code>doXxx()</code> method.</td>
+</tr>
+<tr>
+<td>When is destroy() called?</td>
+<td>Once, when the servlet is removed from service: Tomcat stops, undeploy, reload, or WAR replacement.</td>
+</tr>
+<tr>
+<td>How many servlet objects exist?</td>
+<td>Usually one object per servlet, reused for many requests. Be careful with instance variables.</td>
+</tr>
+<tr>
+<td>What is a WAR file?</td>
+<td>Web Application Archive: a packaged Java web application containing classes, <code>web.xml</code>, web files, and libraries.</td>
+</tr>
+<tr>
+<td>Why is the servlet API scope provided?</td>
+<td>It is needed at compile time but supplied by Tomcat at runtime, so it must not be packaged in the WAR.</td>
+</tr>
+<tr>
+<td>External vs embedded Tomcat?</td>
+<td>External: app deployed into Tomcat. Embedded: Tomcat runs inside the Spring Boot app started by <code>main()</code>.</td>
+</tr>
+<tr>
+<td>How does Spring MVC relate to servlets?</td>
+<td>It is built on servlets, using one central <code>DispatcherServlet</code> that routes requests to controller methods.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Browser (client)
+   |
+   v
+HTTP request text
+   |
+   v
+Tomcat (servlet container) opens port 8080 and listens
+   |
+   v
+Tomcat parses HTTP, builds HttpServletRequest / HttpServletResponse
+   |
+   v
+Tomcat maps URL and calls the servlet (doGet / doPost / ...)
+   |
+   v
+Servlet writes the response (business logic)
+   |
+   v
+Tomcat sends the HTTP response back to the browser
+</code></pre></div>
+
+<ul>
+<li>Browser speaks HTTP; Java writes business logic; Tomcat connects the two worlds.</li>
+<li>The servlet is the Java class Tomcat calls; it never listens on the port itself.</li>
+<li>A servlet is created once, initialized once, serviced many times, and destroyed once.</li>
+<li>External Tomcat runs WAR files; embedded Tomcat runs inside a Spring Boot app.</li>
+<li>The servlet API is <code>provided</code>: Maven compiles against it, Tomcat supplies it at runtime.</li>
+<li>Spring MVC keeps the servlet foundation and adds one <code>DispatcherServlet</code> plus annotated controllers.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Tomcat owns the port and the HTTP work, the servlet owns only the business logic, and Spring MVC layers a single <code>DispatcherServlet</code> and annotated controllers on top of that same servlet foundation.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-13.html"><span class="dir">Previous</span><span class="ttl">Lecture 13 — Spring Boot CRUD Project with Soft Delete</span></a><a class="next" href="doc-theory-lecture-15.html"><span class="dir">Next</span><span class="ttl">Lecture 15 — Spring MVC Architecture</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

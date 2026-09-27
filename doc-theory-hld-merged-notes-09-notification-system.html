@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notification System — HLD · System Design</title>
+<meta name="description" content="Notification System">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-hld-merged-notes-09-notification-system">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="active" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>HLD · System Design</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">53</span></summary><ul class="side-list"><li class="grp">hld-merged-notes</li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-00-overview.html" title="HLD Merged Notes">HLD Merged Notes</a><button class="star" data-doc="theory-hld-merged-notes-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-01-scalability-and-system-evolution.html" title="Scalability and System Evolution">Scalability and System Evolution</a><button class="star" data-doc="theory-hld-merged-notes-01-scalability-and-system-evolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-02-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-hld-merged-notes-02-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-03-back-of-the-envelope-estimation.html" title="Back-of-the-Envelope Estimation">Back-of-the-Envelope Estimation</a><button class="star" data-doc="theory-hld-merged-notes-03-back-of-the-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-04-monolith-vs-microservices.html" title="Monolith vs Microservices">Monolith vs Microservices</a><button class="star" data-doc="theory-hld-merged-notes-04-monolith-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-05-sharding-and-consistent-hashing.html" title="Sharding and Consistent Hashing">Sharding and Consistent Hashing</a><button class="star" data-doc="theory-hld-merged-notes-05-sharding-and-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-06-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-hld-merged-notes-06-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-07-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-hld-merged-notes-07-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-08-url-shortener.html" title="Design a URL Shortener (Bit.Ly Clone)">Design a URL Shortener (Bit.Ly Clone)</a><button class="star" data-doc="theory-hld-merged-notes-08-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-hld-merged-notes-09-notification-system.html" title="Notification System">Notification System</a><button class="star" data-doc="theory-hld-merged-notes-09-notification-system" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#1-clarifying-questions">1. Clarifying Questions</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#2-core-entities">2. Core Entities</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#3-back-of-the-envelope-calculation">3. Back-of-the-Envelope Calculation</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#4-api-interactions">4. API Interactions</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#5-basic-design">5. Basic Design</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#6-problems-with-the-initial-design">6. Problems with the Initial Design</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#7-shift-to-async">7. Shift to Async</a></li><li><a href="doc-theory-hld-merged-notes-09-notification-system.html#8-improvements">8. Improvements</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-10-messaging-queues-and-kafka.html" title="Messaging Queues and Kafka">Messaging Queues and Kafka</a><button class="star" data-doc="theory-hld-merged-notes-10-messaging-queues-and-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-11-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-hld-merged-notes-11-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-12-authentication-and-authorization.html" title="Authentication and Authorization">Authentication and Authorization</a><button class="star" data-doc="theory-hld-merged-notes-12-authentication-and-authorization" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-13-oauth2.html" title="OAuth 2.0">OAuth 2.0</a><button class="star" data-doc="theory-hld-merged-notes-13-oauth2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-14-autocomplete-engine.html" title="Autocomplete Engine">Autocomplete Engine</a><button class="star" data-doc="theory-hld-merged-notes-14-autocomplete-engine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-15-instagram-feed.html" title="Design an Instagram Feed">Design an Instagram Feed</a><button class="star" data-doc="theory-hld-merged-notes-15-instagram-feed" title="Bookmark">☆</button></div></li><li class="grp">system-design-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-00-overview.html" title="System Design Core Concepts">System Design Core Concepts</a><button class="star" data-doc="theory-system-design-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-01-vertical-scaling.html" title="Vertical Scaling">Vertical Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-01-vertical-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-02-horizontal-scaling.html" title="Horizontal Scaling">Horizontal Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-02-horizontal-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-03-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-system-design-core-concepts-03-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-04-sharding-partitioning.html" title="Sharding / Partitioning">Sharding / Partitioning</a><button class="star" data-doc="theory-system-design-core-concepts-04-sharding-partitioning" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-05-replication.html" title="Replication">Replication</a><button class="star" data-doc="theory-system-design-core-concepts-05-replication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-06-stateless-vs-stateful-services.html" title="Stateless vs Stateful Services">Stateless vs Stateful Services</a><button class="star" data-doc="theory-system-design-core-concepts-06-stateless-vs-stateful-services" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices.html" title="Monolith vs N-Tier vs Microservices">Monolith vs N-Tier vs Microservices</a><button class="star" data-doc="theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-08-sql-vs-nosql.html" title="SQL vs NoSQL">SQL vs NoSQL</a><button class="star" data-doc="theory-system-design-core-concepts-08-sql-vs-nosql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-09-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-system-design-core-concepts-09-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-10-indexing.html" title="Indexing">Indexing</a><button class="star" data-doc="theory-system-design-core-concepts-10-indexing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-11-consistent-hashing.html" title="Consistent Hashing">Consistent Hashing</a><button class="star" data-doc="theory-system-design-core-concepts-11-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-12-acid-transactions-and-isolation.html" title="ACID Transactions &amp; Isolation">ACID Transactions &amp; Isolation</a><button class="star" data-doc="theory-system-design-core-concepts-12-acid-transactions-and-isolation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-13-write-ahead-log.html" title="Write-Ahead Log">Write-Ahead Log</a><button class="star" data-doc="theory-system-design-core-concepts-13-write-ahead-log" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-14-object-vs-block-vs-file-storage.html" title="Object vs Block vs File Storage">Object vs Block vs File Storage</a><button class="star" data-doc="theory-system-design-core-concepts-14-object-vs-block-vs-file-storage" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-15-database-connection-pooling.html" title="Database Connection Pooling">Database Connection Pooling</a><button class="star" data-doc="theory-system-design-core-concepts-15-database-connection-pooling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-16-dns-resolution.html" title="DNS Resolution">DNS Resolution</a><button class="star" data-doc="theory-system-design-core-concepts-16-dns-resolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-17-cdn-and-edge-caching.html" title="CDN &amp; Edge Caching">CDN &amp; Edge Caching</a><button class="star" data-doc="theory-system-design-core-concepts-17-cdn-and-edge-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-18-http-versions.html" title="HTTP/1.1 vs HTTP/2 vs HTTP/3">HTTP/1.1 vs HTTP/2 vs HTTP/3</a><button class="star" data-doc="theory-system-design-core-concepts-18-http-versions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-19-service-discovery.html" title="Service Discovery">Service Discovery</a><button class="star" data-doc="theory-system-design-core-concepts-19-service-discovery" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-20-real-time-communication.html" title="Real-Time Communication">Real-Time Communication</a><button class="star" data-doc="theory-system-design-core-concepts-20-real-time-communication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-21-api-gateway-reverse-proxy.html" title="API Gateway / Reverse Proxy">API Gateway / Reverse Proxy</a><button class="star" data-doc="theory-system-design-core-concepts-21-api-gateway-reverse-proxy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-22-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-system-design-core-concepts-22-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-23-consistency-models.html" title="Consistency Models">Consistency Models</a><button class="star" data-doc="theory-system-design-core-concepts-23-consistency-models" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-24-consensus-paxos-raft.html" title="Consensus (Paxos, Raft)">Consensus (Paxos, Raft)</a><button class="star" data-doc="theory-system-design-core-concepts-24-consensus-paxos-raft" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-25-distributed-locks.html" title="Distributed Locks">Distributed Locks</a><button class="star" data-doc="theory-system-design-core-concepts-25-distributed-locks" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-26-message-queues.html" title="Message Queues">Message Queues</a><button class="star" data-doc="theory-system-design-core-concepts-26-message-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-27-idempotency.html" title="Idempotency">Idempotency</a><button class="star" data-doc="theory-system-design-core-concepts-27-idempotency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-28-event-driven-architecture.html" title="Event-Driven Architecture">Event-Driven Architecture</a><button class="star" data-doc="theory-system-design-core-concepts-28-event-driven-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-29-backpressure.html" title="Backpressure">Backpressure</a><button class="star" data-doc="theory-system-design-core-concepts-29-backpressure" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-30-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-system-design-core-concepts-30-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-31-bloom-filters.html" title="Bloom Filters">Bloom Filters</a><button class="star" data-doc="theory-system-design-core-concepts-31-bloom-filters" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-32-circuit-breaker-retry.html" title="Circuit Breaker + Retry">Circuit Breaker + Retry</a><button class="star" data-doc="theory-system-design-core-concepts-32-circuit-breaker-retry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-33-back-of-envelope-estimation.html" title="Back-of-Envelope Estimation">Back-of-Envelope Estimation</a><button class="star" data-doc="theory-system-design-core-concepts-33-back-of-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-34-monitoring-observability.html" title="Monitoring &amp; Observability">Monitoring &amp; Observability</a><button class="star" data-doc="theory-system-design-core-concepts-34-monitoring-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-35-batch-vs-stream-processing.html" title="Batch vs Stream Processing">Batch vs Stream Processing</a><button class="star" data-doc="theory-system-design-core-concepts-35-batch-vs-stream-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-36-authn-vs-authz.html" title="AuthN vs AuthZ">AuthN vs AuthZ</a><button class="star" data-doc="theory-system-design-core-concepts-36-authn-vs-authz" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li class="grp">hld-interview-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-00-overview.html" title="High-Level Design Problems">High-Level Design Problems</a><button class="star" data-doc="practice-hld-interview-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-01-url-shortener.html" title="Design a URL Shortener">Design a URL Shortener</a><button class="star" data-doc="practice-hld-interview-problems-01-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-02-news-feed.html" title="Design a News Feed">Design a News Feed</a><button class="star" data-doc="practice-hld-interview-problems-02-news-feed" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-03-chat-app.html" title="Design a Chat App">Design a Chat App</a><button class="star" data-doc="practice-hld-interview-problems-03-chat-app" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-04-ride-hailing-delivery-matching.html" title="Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy">Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy</a><button class="star" data-doc="practice-hld-interview-problems-04-ride-hailing-delivery-matching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-05-rate-limiter.html" title="Design a Rate Limiter">Design a Rate Limiter</a><button class="star" data-doc="practice-hld-interview-problems-05-rate-limiter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-06-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-hld-interview-problems-06-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-07-video-streaming-service.html" title="Design a Video Streaming Service">Design a Video Streaming Service</a><button class="star" data-doc="practice-hld-interview-problems-07-video-streaming-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-08-ticket-booking-system.html" title="Design a Ticket Booking System">Design a Ticket Booking System</a><button class="star" data-doc="practice-hld-interview-problems-08-ticket-booking-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-09-typeahead-service.html" title="Design a Typeahead Service">Design a Typeahead Service</a><button class="star" data-doc="practice-hld-interview-problems-09-typeahead-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-10-web-crawler.html" title="Design a Web Crawler">Design a Web Crawler</a><button class="star" data-doc="practice-hld-interview-problems-10-web-crawler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-11-file-sync-service.html" title="Design a File Sync Service">Design a File Sync Service</a><button class="star" data-doc="practice-hld-interview-problems-11-file-sync-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-12-payment-system.html" title="Design a Payment System">Design a Payment System</a><button class="star" data-doc="practice-hld-interview-problems-12-payment-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-13-ad-click-aggregator.html" title="Design an Ad Click Aggregator">Design an Ad Click Aggregator</a><button class="star" data-doc="practice-hld-interview-problems-13-ad-click-aggregator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-14-job-scheduler.html" title="Design a Job Scheduler">Design a Job Scheduler</a><button class="star" data-doc="practice-hld-interview-problems-14-job-scheduler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-15-search-system.html" title="Design a Search System">Design a Search System</a><button class="star" data-doc="practice-hld-interview-problems-15-search-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-16-trading-system.html" title="Design a Trading System">Design a Trading System</a><button class="star" data-doc="practice-hld-interview-problems-16-trading-system" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-hld.html">HLD · System Design</a> › Theory &amp; Notes</p>
+<h1>Notification System</h1>
+<p class="readmeta">8 sections · 692 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-hld-merged-notes-09-notification-system" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>Fan out push, SMS, email, and in-app notifications without blocking the caller.</em></p>
+<h2 id="1-clarifying-questions">1. Clarifying Questions</h2>
+<p><strong>What types of notifications?</strong></p>
+<ul>
+<li>Push notification (mobile push).</li>
+<li>SMS notification.</li>
+<li>Email notification.</li>
+<li>In-app notification.</li>
+</ul>
+<p><strong>Real time or soft real time?</strong></p>
+<ul>
+<li>A real-time system sends the notification to the user immediately.</li>
+<li>A <strong>soft real-time system</strong> tries to send as soon as possible, but there can be exceptions: the system is down, or the server is busy.</li>
+<li>Answer: <strong>soft real time</strong>.</li>
+</ul>
+<p><strong>Device type?</strong> iOS, Android, and web (Windows, macOS).</p>
+<h2 id="2-core-entities">2. Core Entities</h2>
+<ul>
+<li>Notification service.</li>
+<li>Executor.</li>
+<li>Create payload (API).</li>
+<li>Templates.</li>
+<li>Client.</li>
+</ul>
+<h2 id="3-back-of-the-envelope-calculation">3. Back-of-the-Envelope Calculation</h2>
+<p>QPS (read/write), storage unit, and bandwidth calculations.</p>
+<p>Assumptions:</p>
+<ul>
+<li>Daily active users: 1 million.</li>
+<li>One user receives 10 notifications, so total notifications = 1 million * 10 = 10 million/day.</li>
+</ul>
+<p>Storage:</p>
+<div class="highlight"><pre><span></span><code>1 notification = 200 bytes (content, timestamp, userId, notificationId, etc.)
+Total = 10 million * 200 bytes
+      = 10 * 2^20 * 0.2 * 10^3
+      = 10 * 2^20 * 0.2 * 2^10
+      = 2^30 * 2
+      = ~2GB/day
+
+Store for 1 month = 2GB * 30 days = ~60GB
+</code></pre></div>
+
+<p>Bandwidth:</p>
+<ul>
+<li>Bandwidth is the maximum amount of data that can be transmitted through the network in a given time; it answers "how busy will our server be?".</li>
+<li>Notification payload: 1KB (upload/download) covering headers, body, and request params.</li>
+<li>DAU = 1 million; total notifications/day = 10 million; <code>1KB * 10 million = 10GB/day</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Bandwidth = 10 million * 1KB / 86,400 seconds
+          = 10 * 2^20 * 1 * 2^10 / 86.4 * 2^10
+          = 0.115 * 2^20
+          = 115 * 10^-3 * 2^20
+          = 115 * 2^-10 * 2^20
+          = ~115KB/sec
+</code></pre></div>
+
+<p>Server: handle server scaling and increasing server RAM.</p>
+<h2 id="4-api-interactions">4. API Interactions</h2>
+<p>The notification service needs user information. The user store is SQL with fields like <code>userId</code>, <code>Name</code>, <code>mobile</code>.</p>
+<p><strong>1. Retrieve user information</strong></p>
+<div class="highlight"><pre><span></span><code>GET : /fetchuser/{{userId}}
+Response: 200 OK
+{
+  &quot;userId&quot;: 101,
+  &quot;userName&quot;: &quot;Aditya&quot;,
+  &quot;notificationPermissions&quot;: {
+    &quot;push&quot;: true,
+    &quot;email&quot;: true,
+    &quot;sms&quot;: false
+  }
+}
+</code></pre></div>
+
+<p><strong>2. Send notification</strong></p>
+<div class="highlight"><pre><span></span><code>POST : /sendNotification/{{userId}}
+Body:
+{
+  &quot;from&quot;: null,
+  &quot;to&quot;: &quot;202&quot;,
+  &quot;subject&quot;: &quot;&quot;,
+  &quot;content&quot;: &quot;&quot;,
+  &quot;type&quot;: &quot;push/email/sms&quot;
+}
+Response: 200 OK
+{
+  &quot;status&quot;: &quot;sent&quot;,
+  &quot;notificationId&quot;: &quot;301&quot;
+}
+</code></pre></div>
+
+<p><strong>3. Fetch notification history (optional)</strong></p>
+<div class="highlight"><pre><span></span><code>GET : /fetchAllNotifications
+Query params / filters:
+  date: from, to
+  type: email/sms etc.
+Response: 200 OK
+[
+  { &quot;status&quot;: &quot;sent&quot;, &quot;content&quot;: &quot;&quot; },
+  { &quot;status&quot;: &quot;sent&quot;, &quot;content&quot;: &quot;&quot; }
+]
+</code></pre></div>
+
+<h2 id="5-basic-design">5. Basic Design</h2>
+<p>The notification types map to third-party providers:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Provider</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Push - iOS (Apple)</td>
+<td>APNs (Apple Push Notifications)</td>
+</tr>
+<tr>
+<td>Push - Android</td>
+<td>FCM (Firebase Cloud Messaging)</td>
+</tr>
+<tr>
+<td>SMS</td>
+<td>Twilio, Nexmo, etc.</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>MailChimp, Sendgrid, etc.</td>
+</tr>
+</tbody>
+</table>
+<p>Components: services 1-3, cron jobs, the notification server, and the providers (APNs, FCM, Twilio, MailChimp), each reaching the client.</p>
+<p>Flow:</p>
+<ol>
+<li>Any service (microservice, cron job) triggers notifications and sends them to our notification server.</li>
+<li>The notification server has APIs that build the payload for the third-party APIs.</li>
+<li>The third-party service actually sends the notification to the client.</li>
+</ol>
+<h2 id="6-problems-with-the-initial-design">6. Problems with the Initial Design</h2>
+<ol>
+<li><strong>SPOF</strong> (single point of failure) - the notification server must be scaled.</li>
+<li>Hard to scale.</li>
+<li>Retry mechanism missing.</li>
+<li>Tight coupling (synchronous).</li>
+</ol>
+<h2 id="7-shift-to-async">7. Shift to Async</h2>
+<p>Message queues are placed in front of every provider, with workers consuming them:</p>
+<ul>
+<li>Publisher / service 1 -&gt; MQ -&gt; workers -&gt; APNs -&gt; client.</li>
+<li>Similarly for FCM, Twilio, and MailChimp.</li>
+<li>
+<p>A notification DB and cache back the services.</p>
+</li>
+<li>
+<p>Cache and DB hold <strong>user info and notification templates</strong>.</p>
+</li>
+<li>MQ removes the dependency between third-party APIs and our notification server, so the service is now <strong>async</strong>.</li>
+</ul>
+<h2 id="8-improvements">8. Improvements</h2>
+<ol>
+<li>Notification templates.</li>
+<li>Notification settings at user level: a user can turn a particular type of notification on or off.</li>
+<li>Rate limiting.</li>
+<li>API authentication.</li>
+<li>Monitoring logic.</li>
+<li>Notification log.</li>
+</ol>
+<p>The improved diagram adds rate limiting, authentication, cache, notification DB, notification log, and an <strong>analytics service</strong>.</p>
+<div class="pager"><a class="prev" href="doc-theory-hld-merged-notes-08-url-shortener.html"><span class="dir">Previous</span><span class="ttl">Design a URL Shortener (Bit.Ly Clone)</span></a><a class="next" href="doc-theory-hld-merged-notes-10-messaging-queues-and-kafka.html"><span class="dir">Next</span><span class="ttl">Messaging Queues and Kafka</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

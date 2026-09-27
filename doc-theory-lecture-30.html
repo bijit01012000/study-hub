@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 30 — JPA Relationships — Spring Boot</title>
+<meta name="description" content="Lecture 30 — JPA Relationships">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-30">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-30.html#lecture-30">Lecture 30</a></li><li><a href="doc-theory-lecture-30.html#1-the-fundamental-problem-and-entity-relationships">1. The Fundamental Problem and Entity Relationships</a></li><li><a href="doc-theory-lecture-30.html#2-relationship-cardinality">2. Relationship Cardinality</a></li><li><a href="doc-theory-lecture-30.html#3-unidirectional-vs-bidirectional-relationships">3. Unidirectional vs Bidirectional Relationships</a></li><li><a href="doc-theory-lecture-30.html#4-owning-side-vs-inverse-side-mappedby">4. Owning Side vs Inverse Side (mappedBy)</a></li><li><a href="doc-theory-lecture-30.html#5-many-to-one-mapping-manytoone">5. Many-to-One Mapping (@ManyToOne)</a></li><li><a href="doc-theory-lecture-30.html#6-one-to-many-mapping-onetomany-and-helper-methods">6. One-to-Many Mapping (@OneToMany) and Helper Methods</a></li><li><a href="doc-theory-lecture-30.html#7-one-to-one-mapping-onetoone">7. One-to-One Mapping (@OneToOne)</a></li><li><a href="doc-theory-lecture-30.html#8-many-to-many-mapping-manytomany">8. Many-to-Many Mapping (@ManyToMany)</a></li><li><a href="doc-theory-lecture-30.html#9-lombok-with-jpa-entities">9. Lombok with JPA Entities</a></li><li><a href="doc-theory-lecture-30.html#10-relationship-lifecycle-insert-update-dirty-checking-and-cascading">10. Relationship Lifecycle: Insert, Update, Dirty Checking, and Cascading</a></li><li><a href="doc-theory-lecture-30.html#11-quick-reference">11. Quick Reference</a></li><li><a href="doc-theory-lecture-30.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-30.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-30.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-30.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-30.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 30 — JPA Relationships</h1>
+<p class="readmeta">17 sections · 4,452 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-30" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-30">Lecture 30</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "JPA Relationships | @OneToMany, @ManyToOne, @OneToOne &amp; @ManyToMany" (playlist map, verified). Repo folder is the <code>jpaRelationshipDemo</code> project (package <code>com.coderarmy.jpaRelationshipDemo</code>): <code>model.Student</code>, <code>model.Department</code>, <code>model.Profile</code>, <code>model.Course</code>, <code>model.User</code>, <code>model.Student2</code> covering the four relationship types, with <code>repository.StudentRepository</code> / <code>repository.DepartmentRepository</code>, <code>service.StudentService</code> / <code>service.DepartmentService</code>, <code>controller.StudentController</code> / <code>controller.DepartmentController</code>, plus the lecture notes.</p>
+</blockquote>
+<p>Java connects objects with references; a relational database connects rows with foreign keys. JPA relationship mapping is the layer that translates one into the other, and every annotation in this lecture (<code>@ManyToOne</code>, <code>@OneToMany</code>, <code>@OneToOne</code>, <code>@ManyToMany</code>) is one rule about how that translation is performed. The lecture moves from the fundamental problem, through cardinality, navigation direction and ownership, into each concrete mapping, the helper methods that keep both sides consistent, and the Lombok traps that break otherwise correct entities.</p>
+<h2 id="1-the-fundamental-problem-and-entity-relationships">1. The Fundamental Problem and Entity Relationships</h2>
+<p>Start with a plain Java model:</p>
+<div class="highlight"><pre><span></span><code>class Student {
+    Long id;
+    String name;
+    Department department;   // an object reference
+}
+</code></pre></div>
+
+<p>Here <code>student.getDepartment()</code> returns a live reference to a <code>Department</code> object. A relational database cannot place a Java object inside a column, so it represents the same fact with a foreign key:</p>
+<div class="highlight"><pre><span></span><code>students                          departments
+------------------------------    ----------------
+id | name  | department_id        id | name
+------------------------------    ----------------
+1  | Rahul | 10                   10 | Engineering
+2  | Aman  | 10                   20 | HR
+3  | Priya | 20
+</code></pre></div>
+
+<p>So the Java relationship <code>student.department</code> must become <code>students.department_id -&gt; departments.id</code>. Relationship mapping is exactly the configuration that tells JPA how an object reference should be represented in the database.</p>
+<p>Without ORM, a class might only store the raw key:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class Student {
+    @Id private Long id;
+    private String name;
+    private Long departmentId;   // foreign key copied in by hand
+}
+</code></pre></div>
+
+<p>With JPA, the object model can hold a real entity reference instead:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class Student {
+    @Id private Long id;
+    private String name;
+
+    @ManyToOne
+    private Department department;   // Hibernate turns this into the FK value
+}
+</code></pre></div>
+
+<p>Hibernate then converts the entity reference into the required SQL and foreign-key value.</p>
+<p>The second idea is that real applications are not sets of isolated objects. They are a graph of connected objects, and those connections are called relationships or associations:</p>
+<ul>
+<li><code>Student</code> has a <code>Department</code>.</li>
+<li><code>Order</code> has a <code>List&lt;OrderItem&gt; items</code>.</li>
+<li><code>Employee</code> has an <code>Employee manager</code> (self-reference).</li>
+<li><code>User</code> has a <code>Profile</code>.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: The database never sees a graph. It only sees tables, rows, foreign keys and join tables. Relationship mapping is the complete set of instructions that compiles the Java graph down to that relational shape.</p>
+</blockquote>
+<h2 id="2-relationship-cardinality">2. Relationship Cardinality</h2>
+<p>Cardinality answers one question: how many entities on one side can be associated with how many entities on the other side? JPA supports four basic cardinalities.</p>
+<table>
+<thead>
+<tr>
+<th>Relationship</th>
+<th>Meaning</th>
+<th>Common example</th>
+<th>Annotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One-to-One</td>
+<td>One entity is associated with one other entity</td>
+<td>User and Profile</td>
+<td><code>@OneToOne</code></td>
+</tr>
+<tr>
+<td>One-to-Many</td>
+<td>One entity is associated with many entities</td>
+<td>Department and Students</td>
+<td><code>@OneToMany</code></td>
+</tr>
+<tr>
+<td>Many-to-One</td>
+<td>Many entities are associated with one entity</td>
+<td>Students and Department</td>
+<td><code>@ManyToOne</code></td>
+</tr>
+<tr>
+<td>Many-to-Many</td>
+<td>Many entities on both sides can be associated</td>
+<td>Students and Courses</td>
+<td><code>@ManyToMany</code></td>
+</tr>
+</tbody>
+</table>
+<p>The single most important sentence in this lecture:</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: One-to-many and many-to-one are two views of the same relationship. The database does not create two separate relationships; both directions normally describe the same foreign key <code>students.department_id</code>.</p>
+</blockquote>
+<p>Suppose the Engineering department contains three students:</p>
+<div class="highlight"><pre><span></span><code>Engineering
+  |- Rahul
+  |- Aman
+  `- Priya
+</code></pre></div>
+
+<p>From the department's perspective this is One Department -&gt; Many Students, which is <code>@OneToMany</code>. From a student's perspective this is Many Students -&gt; One Department, which is <code>@ManyToOne</code>. Same three rows, same foreign key, two Java viewpoints.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Candidates often treat <code>@OneToMany</code> and <code>@ManyToOne</code> as separate database relationships and worry that a bidirectional mapping "duplicates" data. It does not. There is one foreign key column; the two annotations are two navigation handles onto it.</p>
+</blockquote>
+<h2 id="3-unidirectional-vs-bidirectional-relationships">3. Unidirectional vs Bidirectional Relationships</h2>
+<p>These terms describe navigation in the Java object model. They do not describe how many directions SQL can query; SQL can always join either way.</p>
+<p>Unidirectional means only one entity contains a reference to the other:</p>
+<div class="highlight"><pre><span></span><code>class Student {
+    Department department;
+}
+
+class Department {
+}
+</code></pre></div>
+
+<p>You can navigate <code>student.getDepartment()</code>, but <code>department.getStudents()</code> does not exist because there is no such field. The direction is <code>Student -&gt; Department</code>.</p>
+<p>Bidirectional means both entities contain a reference to the other:</p>
+<div class="highlight"><pre><span></span><code>class Student {
+    Department department;
+}
+
+class Department {
+    List&lt;Student&gt; students;
+}
+</code></pre></div>
+
+<p>Now both <code>student.getDepartment()</code> and <code>department.getStudents()</code> work. The direction is <code>Student &lt;-&gt; Department</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Unidirectional</th>
+<th>Bidirectional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>References present</td>
+<td>One side only</td>
+<td>Both sides</td>
+</tr>
+<tr>
+<td>Java navigation</td>
+<td>Single direction</td>
+<td>Both directions</td>
+</tr>
+<tr>
+<td>Database relationships</td>
+<td>One (FK or join table)</td>
+<td>Still one</td>
+</tr>
+<tr>
+<td>Foreign keys in the example</td>
+<td><code>students.department_id</code></td>
+<td><code>students.department_id</code> (same one)</td>
+</tr>
+<tr>
+<td>Extra responsibility</td>
+<td>None</td>
+<td>Both sides must be synchronized in Java</td>
+</tr>
+</tbody>
+</table>
+<p>A bidirectional mapping still represents one database relationship. In the example there is still only one foreign key: <code>students.department_id</code>.</p>
+<p>Bidirectional fields do not synchronize themselves:</p>
+<div class="highlight"><pre><span></span><code>student.setDepartment(engineering);          // updates Student only
+engineering.getStudents().add(student);      // must be called separately
+</code></pre></div>
+
+<p>Calling the first statement does not automatically execute the second. It is therefore possible to create an inconsistent in-memory object graph:</p>
+<div class="highlight"><pre><span></span><code>student.department = Engineering
+engineering.students = []
+</code></pre></div>
+
+<p>The application must keep both sides synchronized.</p>
+<blockquote class="callout callout--important">
+<p>Important: A bidirectional relationship is a convenience for navigation, not a guarantee of consistency. If you only set one side, you own that bug.</p>
+</blockquote>
+<h2 id="4-owning-side-vs-inverse-side-mappedby">4. Owning Side vs Inverse Side (mappedBy)</h2>
+<p>When the same database relationship is mapped on two entities, JPA needs one authoritative side. The owning side is the side JPA uses to determine the database value of the relationship. The inverse side provides the opposite navigation path but does not independently control the same relationship.</p>
+<p>For a department-student relationship, this field makes <code>Student</code> the owning side:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne
+@JoinColumn(name = &quot;department_id&quot;)
+private Department department;
+</code></pre></div>
+
+<p>It owns the relationship because changing <code>student.setDepartment(department)</code> changes <code>students.department_id</code>. On the other side:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(mappedBy = &quot;department&quot;)
+private List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+</code></pre></div>
+
+<p>Here <code>Department.students</code> is the inverse side. <code>mappedBy = "department"</code> refers to the name of the Java field in <code>Student</code>; it does not refer to the database column <code>department_id</code>.</p>
+<p>Owning side does NOT mean:</p>
+<ul>
+<li>the parent entity;</li>
+<li>the more important entity;</li>
+<li>the entity that conceptually contains the other entity.</li>
+</ul>
+<p>It means only that this side controls the database representation of the relationship. For database relationship updates, the owning side is authoritative.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Owning Side</th>
+<th>Inverse Side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controls the DB value</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Typical marker</td>
+<td><code>@JoinColumn</code> (or <code>@JoinTable</code>)</td>
+<td><code>mappedBy = "..."</code></td>
+</tr>
+<tr>
+<td><code>mappedBy</code> target</td>
+<td>Not used</td>
+<td>A Java field name, never a column</td>
+</tr>
+<tr>
+<td>In dept-student example</td>
+<td><code>Student.department</code></td>
+<td><code>Department.students</code></td>
+</tr>
+<tr>
+<td>Changing it updates FK</td>
+<td>Yes</td>
+<td>Only after the owning side changes too</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: <strong>the side that holds the column holds the truth; the <code>mappedBy</code> side is only a mirror.</strong></p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Which side is the owner?" is almost always answered by pointing at the <code>@JoinColumn</code> or <code>@JoinTable</code>, not at the entity that seems more important. <code>mappedBy</code> on an entity is the tell that it is the inverse side.</p>
+</blockquote>
+<h2 id="5-many-to-one-mapping-manytoone">5. Many-to-One Mapping (@ManyToOne)</h2>
+<p>Many students can belong to one department: <code>Student N -&gt; 1 Department</code>.</p>
+<p>Database design: <code>students.department_id</code> is a foreign key referencing <code>departments.id</code>. Multiple student rows may contain the same department ID, and that repetition is what creates the many-to-one relationship.</p>
+<p>Mapping with <code>@ManyToOne</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// model/Student.java -- the many side owns the foreign key</span>
+<span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@ManyToOne</span><span class="p">(</span><span class="n">optional</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span><span class="w">                    </span><span class="c1">// required relationship</span>
+<span class="w">    </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;department_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">nullable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Department</span><span class="w"> </span><span class="n">department</span><span class="p">;</span><span class="w">                  </span><span class="c1">// owning side</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@ManyToOne</code> tells JPA that the field references another entity and that many <code>Student</code> entities may reference the same <code>Department</code>. <code>@JoinColumn</code> specifies the foreign-key column used to store the relationship:</p>
+<ul>
+<li><code>Student.department</code> -&gt; <code>students.department_id</code></li>
+<li>By default the join column references the primary key of the target entity.</li>
+</ul>
+<p>If <code>engineering.getId() == 5L</code> and <code>student.setDepartment(engineering)</code> runs, the database relationship becomes <code>students.department_id = 5</code>.</p>
+<p>Nullable and mandatory relationships:</p>
+<ul>
+<li>If a student may exist without a department, the foreign key may be <code>NULL</code> (the default mapping permits this).</li>
+<li>If every student must belong to a department, use both settings:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>@ManyToOne(optional = false)
+@JoinColumn(name = &quot;department_id&quot;, nullable = false)
+private Department department;
+</code></pre></div>
+
+<p>The two settings express the same rule at different layers:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Layer</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>optional = false</code></td>
+<td>JPA object/persistence model</td>
+<td>The association is required</td>
+</tr>
+<tr>
+<td><code>nullable = false</code></td>
+<td>Generated database schema</td>
+<td>The foreign-key column must be <code>NOT NULL</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: <code>optional = false</code> is a JPA-model rule; <code>nullable = false</code> is a schema rule. Declaring both keeps the in-memory contract and the generated DDL consistent instead of validating only one of them.</p>
+</blockquote>
+<h2 id="6-one-to-many-mapping-onetomany-and-helper-methods">6. One-to-Many Mapping (@OneToMany) and Helper Methods</h2>
+<p><code>@OneToMany</code> represents the same department-student relationship from the department side: <code>Department 1 -&gt; N Students</code>. No additional foreign key is required; all three students simply share <code>department_id = 10</code>, and the collection in <code>Department</code> is an object-side view of those rows.</p>
+<p>Mapping with <code>@OneToMany</code>:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class Department {
+    @Id
+    private Long id;
+    private String name;
+
+    @OneToMany(mappedBy = &quot;department&quot;)
+    private List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+}
+</code></pre></div>
+
+<p><code>mappedBy = "department"</code> refers to the Java field name in <code>Student</code>, not the column name <code>department_id</code>. The meaning is: <code>Department.students</code> is the inverse view of the relationship owned by <code>Student.department</code>.</p>
+<p>The complete bidirectional mapping pairs the two annotations:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class Student {
+    @ManyToOne
+    @JoinColumn(name = &quot;department_id&quot;)
+    private Department department;
+}
+
+@Entity
+class Department {
+    @OneToMany(mappedBy = &quot;department&quot;)
+    private List&lt;Student&gt; students = new ArrayList&lt;&gt;();
+}
+</code></pre></div>
+
+<p>This creates two Java navigation paths, <code>student.getDepartment()</code> and <code>department.getStudents()</code>, and both describe the same foreign key <code>students.department_id</code>.</p>
+<p>Maintaining both sides is the responsibility of application code. <code>student.setDepartment(engineering)</code> updates only the <code>Student</code> object; the department collection must also be updated with <code>engineering.getStudents().add(student)</code>. For removal, both <code>engineering.getStudents().remove(student)</code> and <code>student.setDepartment(null)</code> must run.</p>
+<p>Relationship helper methods place that synchronization inside the entity instead of repeating it everywhere:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// model/Department.java -- inverse side plus synchronization helpers</span>
+<span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Department</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;department&quot;</span><span class="p">)</span><span class="w">             </span><span class="c1">// &quot;department&quot; is Student&#39;s field</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">students</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setDepartment</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="w">                </span><span class="c1">// keep the owning side in sync</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">removeStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">students</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setDepartment</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The application can now call <code>engineering.addStudent(rahul)</code> and <code>engineering.removeStudent(rahul)</code>, and both sides stay consistent.</p>
+<p>Collection dirty checking: Hibernate can detect changes made to a managed relationship collection, for example <code>department.getStudents().remove(student)</code> on a managed <code>Department</code>. However, detecting a collection change is not the same as deciding which side controls the foreign key. Because <code>Department.students</code> uses <code>mappedBy</code>, it is the inverse side, and the owning side must also be changed with <code>student.setDepartment(null)</code>. That is precisely why helper methods matter.</p>
+<blockquote class="callout callout--important">
+<p>Important: Mutating the inverse collection alone is dangerous. Hibernate may notice the collection changed but the owning side still points at the old value, so the foreign key does not move. Always change the owning side and let the helper update the inverse.</p>
+</blockquote>
+<h2 id="7-one-to-one-mapping-onetoone">7. One-to-One Mapping (@OneToOne)</h2>
+<p>A one-to-one relationship means each entity can be associated with at most one entity on the other side: <code>User 1 &lt;-&gt; 1 Profile</code>.</p>
+<p>A foreign key alone does not guarantee one-to-one. Without a uniqueness constraint, the database could allow several profile rows pointing at user 1, which would mean one user has many profiles. The usual relational representation is:</p>
+<div class="highlight"><pre><span></span><code>Foreign key + unique constraint
+</code></pre></div>
+
+<p>Mapping with <code>@OneToOne</code>:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class Profile {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String bio;
+
+    @OneToOne
+    @JoinColumn(name = &quot;user_id&quot;, unique = true)
+    private User user;
+}
+</code></pre></div>
+
+<p>The essential database difference between many-to-one and one-to-one is uniqueness:</p>
+<table>
+<thead>
+<tr>
+<th>Mapping</th>
+<th>Foreign key</th>
+<th>Uniqueness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Many-to-one</td>
+<td>Present</td>
+<td>Repeated values allowed</td>
+</tr>
+<tr>
+<td>One-to-one</td>
+<td>Present</td>
+<td>Foreign-key value must be unique</td>
+</tr>
+</tbody>
+</table>
+<p>Owning and inverse sides: <code>Profile</code> is the owning side because it contains the join column. The inverse side in <code>User</code> is:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+class User {
+    @OneToOne(mappedBy = &quot;user&quot;)
+    private Profile profile;
+}
+</code></pre></div>
+
+<p>Here <code>"user"</code> refers to <code>Profile.user</code>, so <code>Profile.user</code> is the owning side and <code>User.profile</code> is the inverse side.</p>
+<p>If a profile must always belong to a user:</p>
+<div class="highlight"><pre><span></span><code>@OneToOne(optional = false)
+@JoinColumn(name = &quot;user_id&quot;, nullable = false, unique = true)
+private User user;
+</code></pre></div>
+
+<p>Shared primary-key mapping: some one-to-one entities cannot exist independently, and a profile can use the same identifier as its user. Then the <code>profiles.id</code> column acts as both the primary key of <code>Profile</code> and a foreign key referencing <code>users.id</code>. JPA models this with <code>@MapsId</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// model/Profile.java -- shared primary key with User</span>
+<span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Profile</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">bio</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@OneToOne</span><span class="p">(</span><span class="n">optional</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@MapsId</span><span class="w">                                         </span><span class="c1">// Profile.id = User.id</span>
+<span class="w">    </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;id&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@MapsId</code> means the associated user's ID is also used as the profile's ID. This mapping is useful when the dependent entity has no meaningful identity or lifecycle without its parent.</p>
+<h2 id="8-many-to-many-mapping-manytomany">8. Many-to-Many Mapping (@ManyToMany)</h2>
+<p>A many-to-many relationship allows multiple entities on each side to be connected: <code>Student N &lt;-&gt; N Course</code>. A student can enroll in many courses, and a course can contain many students.</p>
+<p>Neither table can represent the relationship with one foreign-key column, so a third table is required:</p>
+<div class="highlight"><pre><span></span><code>student_course
+----------------------
+student_id | course_id
+----------------------
+1          | 101
+1          | 102
+2          | 101
+2          | 103
+</code></pre></div>
+
+<p>Each row represents one association between one student and one course. This middle table is called a join table, association table, or junction table. It contains two foreign keys, <code>student_id -&gt; students.id</code> and <code>course_id -&gt; courses.id</code>, and the pair <code>(student_id, course_id)</code> should normally be unique so the same enrollment cannot be inserted twice.</p>
+<p>Owning side with <code>@JoinTable</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// model/Student.java -- owning side of the many-to-many</span>
+<span class="nd">@ManyToMany</span>
+<span class="nd">@JoinTable</span><span class="p">(</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;student_course&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">joinColumns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;student_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">inverseJoinColumns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nd">@JoinColumn</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;course_id&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="n">uniqueConstraints</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nd">@UniqueConstraint</span><span class="p">(</span><span class="n">columnNames</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;student_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;course_id&quot;</span><span class="p">})</span>
+<span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Course</span><span class="o">&gt;</span><span class="w"> </span><span class="n">courses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="c1">// model/Course.java -- inverse side</span>
+<span class="nd">@ManyToMany</span><span class="p">(</span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;courses&quot;</span><span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</code></pre></div>
+
+<p><code>@JoinTable</code> describes the middle table:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Name of the join table</td>
+</tr>
+<tr>
+<td><code>joinColumns</code></td>
+<td>Foreign key pointing to the owning entity</td>
+</tr>
+<tr>
+<td><code>inverseJoinColumns</code></td>
+<td>Foreign key pointing to the other entity</td>
+</tr>
+</tbody>
+</table>
+<p><code>Student.courses</code> is the owning side. Changes to this collection control rows in <code>student_course</code>, so <code>student.getCourses().add(javaCourse)</code> can make Hibernate insert <code>INSERT INTO student_course (student_id, course_id) VALUES (1, 101)</code>. On the inverse side, <code>mappedBy = "courses"</code> points to the <code>courses</code> field in <code>Student</code>, giving <code>Student.courses -&gt; Owning side</code> and <code>Course.students -&gt; Inverse side</code>.</p>
+<p>The mapping creates two Java navigation paths, <code>student.getCourses()</code> and <code>course.getStudents()</code>, and both represent rows in the same <code>student_course</code> table.</p>
+<p>Maintaining both sides: adding a course to only one collection leaves the in-memory model inconsistent. Use helper methods:</p>
+<div class="highlight"><pre><span></span><code>public void addCourse(Course course) {
+    courses.add(course);
+    course.getStudents().add(this);
+}
+
+public void removeCourse(Course course) {
+    courses.remove(course);
+    course.getStudents().remove(this);
+}
+</code></pre></div>
+
+<p>Now <code>student.addCourse(course)</code> and <code>student.removeCourse(course)</code> keep both sides synchronized.</p>
+<blockquote class="callout callout--important">
+<p>Important: Unlike <code>@OneToMany</code>, the inverse <code>@ManyToMany</code> side has no foreign key to fix up, but it still has a collection to keep consistent. Helper methods are the only reliable way to do that.</p>
+</blockquote>
+<h2 id="9-lombok-with-jpa-entities">9. Lombok with JPA Entities</h2>
+<p>Lombok removes boilerplate from entities, but it also generates methods you may not want on them.</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Generated code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Getter</code></td>
+<td>Getter methods</td>
+</tr>
+<tr>
+<td><code>@Setter</code></td>
+<td>Setter methods</td>
+</tr>
+<tr>
+<td><code>@NoArgsConstructor</code></td>
+<td>Constructor without parameters</td>
+</tr>
+<tr>
+<td><code>@AllArgsConstructor</code></td>
+<td>Constructor containing all fields</td>
+</tr>
+<tr>
+<td><code>@RequiredArgsConstructor</code></td>
+<td>Constructor for final and <code>@NonNull</code> fields</td>
+</tr>
+<tr>
+<td><code>@Builder</code></td>
+<td>Builder-pattern API</td>
+</tr>
+</tbody>
+</table>
+<p>Be careful with <code>@Data</code> on JPA entities. In addition to getters and setters, it generates <code>toString()</code>, <code>equals()</code> and <code>hashCode()</code>. When relationships are bidirectional, generated methods may:</p>
+<ul>
+<li>recursively move from one entity to the other;</li>
+<li>trigger lazy relationship loading unexpectedly;</li>
+<li>cause a <code>StackOverflowError</code>;</li>
+<li>produce unstable equality or hash-code behaviour for entities;</li>
+<li>compare large relationship collections.</li>
+</ul>
+<p>For JPA entities, explicit Lombok annotations are usually safer:</p>
+<div class="highlight"><pre><span></span><code>@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+public class Student {
+    // fields
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>@Data</code> on an entity</th>
+<th>Explicit <code>@Getter</code> / <code>@Setter</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Getters and setters</td>
+<td>Generated</td>
+<td>Generated</td>
+</tr>
+<tr>
+<td><code>toString()</code></td>
+<td>Generated, walks relationships</td>
+<td>Not generated</td>
+</tr>
+<tr>
+<td><code>equals()</code> / <code>hashCode()</code></td>
+<td>Generated, id and relationship risk</td>
+<td>Not generated</td>
+</tr>
+<tr>
+<td>Bidirectional recursion</td>
+<td>Possible, can <code>StackOverflowError</code></td>
+<td>Avoided</td>
+</tr>
+<tr>
+<td>Lazy loading side effects</td>
+<td>Can trigger on access</td>
+<td>Controlled</td>
+</tr>
+<tr>
+<td>Recommended for entities</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>If <code>toString()</code>, <code>equals()</code> or <code>hashCode()</code> is generated, relationship fields should generally be excluded and entity identity should be designed deliberately.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why not <code>@Data</code> on an entity?" The expected answer names the bidirectional recursion, the lazy-loading side effect, and the unstable <code>equals()</code> / <code>hashCode()</code> for entities. "Because Lombok is bad" is not the answer; the problem is specifically which methods <code>@Data</code> adds to relationship-bearing classes.</p>
+</blockquote>
+<h2 id="10-relationship-lifecycle-insert-update-dirty-checking-and-cascading">10. Relationship Lifecycle: Insert, Update, Dirty Checking, and Cascading</h2>
+<p>Setting an entity reference and managing the lifecycle of the referenced entity are separate concerns.</p>
+<p>If the department already exists, Hibernate stores its identifier as the foreign key instead of inserting the department again:</p>
+<div class="highlight"><pre><span></span><code>Department department = entityManager.find(Department.class, 1L);
+
+Student student = new Student();
+student.setName(&quot;Rahul&quot;);
+student.setDepartment(department);
+entityManager.persist(student);
+</code></pre></div>
+
+<p>Hibernate logically executes <code>INSERT INTO students (name, department_id) VALUES ('Rahul', 1)</code>.</p>
+<p>If both entities are new, then without cascading they must be persisted explicitly in the correct lifecycle order:</p>
+<div class="highlight"><pre><span></span><code>Department department = new Department();
+department.setName(&quot;Engineering&quot;);
+
+Student student = new Student();
+student.setName(&quot;Rahul&quot;);
+student.setDepartment(department);
+
+entityManager.persist(department);
+entityManager.persist(student);
+</code></pre></div>
+
+<p>With cascade persist, persisting the student can also persist the new department:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(cascade = CascadeType.PERSIST)
+private Department department;
+</code></pre></div>
+
+<p>Update behaviour and dirty checking: suppose Rahul currently has <code>department_id = 10</code>. Changing the department of a managed student,</p>
+<div class="highlight"><pre><span></span><code>Department hr = entityManager.find(Department.class, 20L);
+student.setDepartment(hr);
+</code></pre></div>
+
+<p>changes the relationship from department 10 to 20. During flush, Hibernate can issue:</p>
+<div class="highlight"><pre><span></span><code>UPDATE students
+SET department_id = 20
+WHERE id = 1;
+</code></pre></div>
+
+<p>This is relationship dirty checking.</p>
+<blockquote class="callout callout--important">
+<p>Important: Setting an entity reference does not automatically persist the referenced entity. Cascading controls lifecycle propagation; it does not define relationship ownership. Two different concerns, two different settings.</p>
+</blockquote>
+<h2 id="11-quick-reference">11. Quick Reference</h2>
+<p>Relationship annotations and their typical database representation:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Typical database representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@ManyToOne</code></td>
+<td>Foreign key on the many side</td>
+</tr>
+<tr>
+<td><code>@OneToMany(mappedBy = "...")</code></td>
+<td>Inverse collection over an existing foreign key</td>
+</tr>
+<tr>
+<td><code>@OneToOne</code></td>
+<td>Foreign key with a uniqueness constraint</td>
+</tr>
+<tr>
+<td><code>@ManyToMany</code></td>
+<td>Join table containing two foreign keys</td>
+</tr>
+</tbody>
+</table>
+<p>Ownership rules:</p>
+<table>
+<thead>
+<tr>
+<th>Mapping</th>
+<th>Typical owning side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bidirectional one-to-many / many-to-one</td>
+<td>The <code>@ManyToOne</code> side containing <code>@JoinColumn</code></td>
+</tr>
+<tr>
+<td>Bidirectional one-to-one</td>
+<td>The side containing <code>@JoinColumn</code></td>
+</tr>
+<tr>
+<td>Bidirectional many-to-many</td>
+<td>The side containing <code>@JoinTable</code></td>
+</tr>
+</tbody>
+</table>
+<p>Core principles:</p>
+<ol>
+<li>Java stores entity references; relational databases store foreign keys.</li>
+<li>Cardinality describes how many entities can be associated on each side.</li>
+<li>Unidirectional and bidirectional describe Java navigation.</li>
+<li>A bidirectional mapping still represents one database relationship.</li>
+<li>The owning side determines what relationship value JPA writes.</li>
+<li><code>mappedBy</code> points to a Java field on the owning entity, not a database column.</li>
+<li>Both sides of a bidirectional relationship must be synchronized in Java.</li>
+<li>Helper methods are the safest way to preserve relationship consistency.</li>
+<li>Setting an entity reference does not automatically persist the referenced entity.</li>
+<li>Cascading controls lifecycle propagation; it does not define relationship ownership.</li>
+</ol>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"They are separate relationships."</td>
+<td><code>@OneToMany</code> and <code>@ManyToOne</code> are two views of one foreign key.</td>
+</tr>
+<tr>
+<td>"A bidirectional mapping stores the data twice."</td>
+<td>It still maps one database relationship and one foreign key.</td>
+</tr>
+<tr>
+<td>"Setting one side is enough."</td>
+<td>Both sides of a bidirectional relationship must be synchronized in Java.</td>
+</tr>
+<tr>
+<td>"Owning side means the parent or more important entity."</td>
+<td>Owning side means only which side controls the database value.</td>
+</tr>
+<tr>
+<td>"<code>mappedBy</code> points to a column."</td>
+<td>It points to a Java field name on the owning entity, such as <code>"department"</code>.</td>
+</tr>
+<tr>
+<td>"A foreign key alone gives one-to-one."</td>
+<td>One-to-one also needs a uniqueness constraint on that foreign key.</td>
+</tr>
+<tr>
+<td>"Many-to-many can use one foreign-key column."</td>
+<td>It needs a join table with two foreign keys.</td>
+</tr>
+<tr>
+<td>"Setting a reference persists the target."</td>
+<td>Persisting the referenced entity is a separate lifecycle decision, often via cascade.</td>
+</tr>
+<tr>
+<td>"<code>@Data</code> is always fine on an entity."</td>
+<td>It generates <code>toString</code>/<code>equals</code>/<code>hashCode</code> that can recurse, lazy-load, or misbehave.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - Identify the owning side.</strong>
+Verdict: The side with <code>@JoinColumn</code> (one-to-many/many-to-one, one-to-one) or <code>@JoinTable</code> (many-to-many) owns it. In dept-student, <code>Student.department</code> owns because it holds <code>@JoinColumn(name = "department_id")</code>.</p>
+<p><strong>Trap 2 - <code>mappedBy = "department_id"</code>.</strong>
+Verdict: Wrong. <code>mappedBy</code> refers to the Java field name on the owning entity, <code>"department"</code>, never the database column <code>department_id</code>.</p>
+<p><strong>Trap 3 - One-to-many and many-to-one are different DB relationships.</strong>
+Verdict: False. They are two views of the same relationship and typically share one foreign key, <code>students.department_id</code>.</p>
+<p><strong>Trap 4 - Setting <code>student.setDepartment(engineering)</code> updates the department's list.</strong>
+Verdict: False. The two Java fields are independent; <code>engineering.getStudents().add(student)</code> must also run. Helper methods exist to do both.</p>
+<p><strong>Trap 5 - One-to-one needs only a foreign key.</strong>
+Verdict: False. It needs a foreign key plus a unique constraint; otherwise the schema allows one user to have many profiles.</p>
+<p><strong>Trap 6 - Setting a reference also persists the target.</strong>
+Verdict: False. Association and lifecycle are separate concerns; use <code>entityManager.persist(...)</code> or cascading such as <code>@ManyToOne(cascade = CascadeType.PERSIST)</code>.</p>
+<p><strong>Trap 7 - <code>@Data</code> on a bidirectional entity is fine.</strong>
+Verdict: Risky. <code>@Data</code> generates <code>toString</code>/<code>equals</code>/<code>hashCode</code> that can recurse across relationships, trigger lazy loading, throw <code>StackOverflowError</code>, or produce unstable equality. Use <code>@Getter</code> and <code>@Setter</code>.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>Java stores entity references; relational databases store foreign keys, and relationship mapping translates one into the other.</li>
+<li>Cardinality describes how many entities can be associated on each side: one-to-one, one-to-many, many-to-one, many-to-many.</li>
+<li>Unidirectional and bidirectional describe Java navigation, not SQL query directions.</li>
+<li>A bidirectional mapping still represents one database relationship, normally one foreign key.</li>
+<li>The owning side determines what relationship value JPA writes; <code>mappedBy</code> marks the inverse side.</li>
+<li><code>mappedBy</code> points to a Java field on the owning entity, never to a database column name.</li>
+<li>Both sides of a bidirectional relationship must be synchronized in Java, because the fields do not synchronize themselves.</li>
+<li>Helper methods such as <code>addStudent</code> / <code>removeStudent</code> and <code>addCourse</code> / <code>removeCourse</code> are the safest way to keep both sides consistent.</li>
+<li>Setting an entity reference does not automatically persist the referenced entity; <code>optional</code> / <code>nullable</code> describe requirements, not lifecycles.</li>
+<li>Cascading controls lifecycle propagation and does not define relationship ownership.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why is relationship mapping needed?</td>
+<td>Java stores object references; the database stores foreign keys, so JPA must translate one into the other.</td>
+</tr>
+<tr>
+<td>What is cardinality?</td>
+<td>How many entities on one side can be associated with how many on the other: one-to-one, one-to-many, many-to-one, many-to-many.</td>
+</tr>
+<tr>
+<td>Difference between unidirectional and bidirectional?</td>
+<td>Unidirectional has a reference on one side only; bidirectional has references on both, still mapping one DB relationship.</td>
+</tr>
+<tr>
+<td>What is the owning side?</td>
+<td>The side JPA uses to determine the database value of the relationship, typically the one with <code>@JoinColumn</code> or <code>@JoinTable</code>.</td>
+</tr>
+<tr>
+<td>What does <code>mappedBy</code> point to?</td>
+<td>A Java field name on the owning entity, not a database column name.</td>
+</tr>
+<tr>
+<td>Difference between <code>@ManyToOne</code> and <code>@OneToMany</code>?</td>
+<td>Two views of one relationship: <code>@ManyToOne</code> holds the <code>@JoinColumn</code> (owning), <code>@OneToMany(mappedBy=...)</code> is the inverse collection.</td>
+</tr>
+<tr>
+<td>How do you keep a bidirectional relationship consistent?</td>
+<td>Synchronize both sides in Java, best via helper methods like <code>addStudent</code> / <code>removeStudent</code>.</td>
+</tr>
+<tr>
+<td>Why does one-to-one need a unique constraint?</td>
+<td>A foreign key alone allows repeated values, so uniqueness is what enforces at most one profile per user.</td>
+</tr>
+<tr>
+<td>What is <code>@MapsId</code> used for?</td>
+<td>Sharing the parent's identifier as the dependent entity's primary key in a one-to-one relationship.</td>
+</tr>
+<tr>
+<td>How is many-to-many represented in the database?</td>
+<td>A join table with two foreign keys, managed in JPA by <code>@JoinTable</code> with <code>joinColumns</code> and <code>inverseJoinColumns</code>.</td>
+</tr>
+<tr>
+<td>Does setting a reference persist the target?</td>
+<td>No; persistence is a separate lifecycle concern, handled by explicit <code>persist</code> or cascading.</td>
+</tr>
+<tr>
+<td>Why avoid <code>@Data</code> on JPA entities?</td>
+<td>Generated <code>toString</code>/<code>equals</code>/<code>hashCode</code> can recurse across bidirectional relationships, trigger lazy loading, or go unstable.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Java object graph
+        |
+        v
+references on one side (unidirectional) or both sides (bidirectional)
+        |
+        v
+cardinality decides the annotation:
+   @OneToOne    -&gt; FK + unique constraint        (User &lt;-&gt; Profile)
+   @ManyToOne   -&gt; FK on the many side           (Student -&gt; Department)  OWNING
+   @OneToMany   -&gt; inverse collection, mappedBy  (Department -&gt; Students) INVERSE
+   @ManyToMany  -&gt; join table, @JoinTable        (Student &lt;-&gt; Course)     OWNING
+        |
+        v
+owning side holds @JoinColumn / @JoinTable  -&gt;  controls the DB value
+inverse side carries mappedBy               -&gt;  navigation only
+        |
+        v
+bidirectional fields do not sync themselves  -&gt;  helper methods keep both sides consistent
+        |
+        v
+setting a reference != persisting the target  -&gt;  cascade controls lifecycle, not ownership
+        |
+        v
+Lombok: prefer @Getter/@Setter; @Data risks recursion, lazy loading, unstable equals/hashCode
+</code></pre></div>
+
+<ul>
+<li>Cardinality names the shape; the annotation names the mapping; the owning side names who writes the foreign key.</li>
+<li><code>@ManyToOne</code> owns via <code>@JoinColumn</code>; <code>@OneToMany(mappedBy=...)</code> is the inverse view of that same key.</li>
+<li>One-to-one adds a unique constraint; many-to-many needs a join table with <code>joinColumns</code> and <code>inverseJoinColumns</code>.</li>
+<li>Both sides of a bidirectional relationship must be synchronized, which is what helper methods are for.</li>
+<li>Association and lifecycle are separate: setting a reference never persists the referenced entity by itself.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Every JPA relationship is one database fact (a foreign key or a join table) with two possible Java views, so figure out the owning side first and keep both sides synchronized in code.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-29.html"><span class="dir">Previous</span><span class="ttl">Lecture 29 — Hibernate Internals</span></a><a class="next" href="doc-theory-lecture-31.html"><span class="dir">Next</span><span class="ttl">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 39 — OAuth 2.0 Masterclass with Google Login — Spring Boot</title>
+<meta name="description" content="Lecture 39 — OAuth 2.0 Masterclass with Google Login">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-39">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-39.html#lecture-39">Lecture 39</a></li><li><a href="doc-theory-lecture-39.html#1-moving-beyond-our-own-authentication-system">1. Moving Beyond Our Own Authentication System</a></li><li><a href="doc-theory-lecture-39.html#2-the-delegated-access-problem">2. The Delegated Access Problem</a></li><li><a href="doc-theory-lecture-39.html#3-the-four-oauth-roles">3. The Four OAuth Roles</a></li><li><a href="doc-theory-lecture-39.html#4-scope-and-consent">4. Scope and Consent</a></li><li><a href="doc-theory-lecture-39.html#5-oauth-vs-oidc-tokens">5. OAuth vs OIDC Tokens</a></li><li><a href="doc-theory-lecture-39.html#6-authorization-code-flow">6. Authorization Code Flow</a></li><li><a href="doc-theory-lecture-39.html#7-pkce-from-first-principles">7. PKCE from First Principles</a></li><li><a href="doc-theory-lecture-39.html#8-registering-the-application-with-google">8. Registering the Application with Google</a></li><li><a href="doc-theory-lecture-39.html#9-spring-boot-application-flow-project-structure-and-dependencies">9. Spring Boot Application Flow, Project Structure, and Dependencies</a></li><li><a href="doc-theory-lecture-39.html#10-user-entity-repository-and-application-user-service">10. User Entity, Repository, and Application User Service</a></li><li><a href="doc-theory-lecture-39.html#11-customoidcuserservice-and-securityconfig">11. CustomOidcUserService and SecurityConfig</a></li><li><a href="doc-theory-lecture-39.html#12-controller-and-client-registration-properties">12. Controller and Client Registration Properties</a></li><li><a href="doc-theory-lecture-39.html#13-google-cloud-console-setup-and-runningtesting">13. Google Cloud Console Setup and Running/Testing</a></li><li><a href="doc-theory-lecture-39.html#14-what-authenticates-later-profile-requests-and-the-complete-flow-recap">14. What Authenticates Later /profile Requests, and the Complete Flow Recap</a></li><li><a href="doc-theory-lecture-39.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-39.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-39.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-39.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-39.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 39 — OAuth 2.0 Masterclass with Google Login</h1>
+<p class="readmeta">20 sections · 4,878 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-39" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-39">Lecture 39</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "OAuth 2.0 Masterclass | Google Login with Spring Boot, OIDC &amp; PKCE" (playlist map, verified). The repo folder is an <code>oauthDemo</code> project: <code>SecurityConfig</code> with <code>oauth2Login</code>, <code>CustomOidcUserService</code>, a <code>User</code> entity/repository, and <code>application.properties</code> client registration; the cached lecture text is the ground truth for every step below.</p>
+</blockquote>
+<p>This lecture moves security beyond our own username/password system: instead of issuing our own JWTs, the app delegates authentication and limited authorization to Google using OAuth 2.0 and OpenID Connect. We cover the delegated access problem, the four roles, scopes, access vs ID tokens, the authorization code flow, PKCE, and the full Spring Boot Google-login implementation.</p>
+<h2 id="1-moving-beyond-our-own-authentication-system">1. Moving Beyond Our Own Authentication System</h2>
+<p>Until now our application controlled the complete flow: the user sends a username and password, Spring Boot authenticates, the app generates a JWT, and the client sends that JWT with future requests; the API validates the signature and trusts the claims only when it is valid. JWT solved one problem: how can an API verify the information inside a token without trusting the client?</p>
+<p>Now consider a new requirement, "Continue with Google." We cannot ask the user to send their Google password to our application:</p>
+<div class="highlight"><pre><span></span><code>POST /login-with-google
+email=student@gmail.com
+googlePassword=???
+</code></pre></div>
+
+<p>Our application should never receive, process, or store the user's Google password. That constraint forces us to leave self-managed login behind and adopt a delegated model.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Our own login (username/password + JWT)</th>
+<th>Delegated OAuth login (Continue with Google)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who verifies the password</td>
+<td>Our application</td>
+<td>Google (the authorization server)</td>
+</tr>
+<tr>
+<td>Does our app see the password</td>
+<td>Yes, it receives and hashes it</td>
+<td>No, it never receives it</td>
+</tr>
+<tr>
+<td>Credential our app stores</td>
+<td>A password hash</td>
+<td>No password at all</td>
+</tr>
+<tr>
+<td>Identity source</td>
+<td>Email created in our database</td>
+<td><code>provider</code> + provider <code>subject</code></td>
+</tr>
+<tr>
+<td>Main purpose</td>
+<td>Authenticate our own users</td>
+<td>Delegate authentication and limited access</td>
+</tr>
+<tr>
+<td>Token the client holds</td>
+<td>Our JWT</td>
+<td>Provider access token (and OIDC ID token)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Once "Continue with Google" appears, our application stops being the identity provider. Google becomes the authority for the external identity, and our app only keeps an internal record linked to it.</p>
+</blockquote>
+<h2 id="2-the-delegated-access-problem">2. The Delegated Access Problem</h2>
+<p>A productivity app adds the feature "Connect your Google Calendar." The app needs permission to read the user's calendar. A dangerous design would be: the user gives Google credentials to the app, the app logs in to Google as the user, and then accesses Google Calendar. This creates two problems:</p>
+<ol>
+<li>The user must share their Google password with another application.</li>
+<li>The application receives far more access than it needs.</li>
+</ol>
+<p>The same Google credentials could expose Gmail, Drive, Photos, Calendar, YouTube, and more, even though only calendar access is needed. OAuth 2.0 replaces shared credentials with delegated, limited access: the user signs in directly with Google, allows the application to read the calendar, Google gives the application an access token, and the application uses that token with Google Calendar API (never the password).</p>
+<p>OAuth 2.0 is primarily a framework for delegated authorization. Authorization answers: "What are you allowed to do?"</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Never let a third-party application hold the user's real password. Replace "here is my password" with "here is a limited, revocable token for exactly what you asked". That is the whole idea of delegated access.</p>
+</blockquote>
+<h2 id="3-the-four-oauth-roles">3. The Four OAuth Roles</h2>
+<p>Every OAuth conversation has four participants. Interviewers test the vocabulary, not just the flow.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Example</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resource Owner</td>
+<td>User</td>
+<td>Owns or controls access to the protected resource</td>
+</tr>
+<tr>
+<td>Client</td>
+<td>CoderArmy application</td>
+<td>Requests delegated access on behalf of the user</td>
+</tr>
+<tr>
+<td>Authorization Server</td>
+<td>Google's authorization system</td>
+<td>Authenticates the user, obtains consent, and issues tokens</td>
+</tr>
+<tr>
+<td>Resource Server</td>
+<td>Google Calendar API</td>
+<td>Hosts the protected resource and validates access tokens</td>
+</tr>
+</tbody>
+</table>
+<p>Resource Owner: the user controlling the protected data. Client: the application requesting access (Spring Boot, mobile, desktop, or browser-based), not necessarily the browser. Authorization Server: authenticates the user, asks for consent, and issues tokens. Resource Server: hosts the resource; Google Calendar API receives <code>Authorization: Bearer &lt;access-token&gt;</code>, validates it, and decides if the operation is allowed.</p>
+<p>Mnemonic: <strong>R-C-A-R</strong> - <strong>R</strong>esource owner, <strong>C</strong>lient, <strong>A</strong>uthorization server, <strong>R</strong>esource server ("Real Clients Ask Resources"). Our Spring Boot app is the Client; Google is the Authorization Server and, for APIs like Calendar, the Resource Server.</p>
+<h2 id="4-scope-and-consent">4. Scope and Consent</h2>
+<p>The authorization server must know exactly what the client wants. OAuth represents this requested access through scopes. A calendar app could request <code>calendar.read</code> instead of unrestricted access to the whole Google account. A scope represents the access being requested or granted. Google then displays a consent screen:</p>
+<div class="highlight"><pre><span></span><code>CoderArmy App wants permission to:
+  View your basic profile
+  Read your calendar
+</code></pre></div>
+
+<p>The client requests specific scopes, the authorization server displays consent, and the user approves or rejects. For a basic OIDC login, the application requests <code>openid</code>, <code>profile</code>, and <code>email</code>; the same three scopes are configured under data access in the Google Cloud Console.</p>
+<blockquote class="callout callout--important">
+<p>Important: The scope <code>openid</code> is special: it tells the provider that this is an OpenID Connect request, not a plain OAuth 2.0 request. Without it, the provider will not return an ID token.</p>
+</blockquote>
+<p>Follow the principle of least privilege: request only what the application genuinely needs. <code>calendar.read</code> is safer than full account access, and <code>openid profile email</code> is enough for login.</p>
+<h2 id="5-oauth-vs-oidc-tokens">5. OAuth vs OIDC Tokens</h2>
+<p>After authorization, the client needs a credential it can present to the resource server: the access token.</p>
+<div class="highlight"><pre><span></span><code>Authorization Server -- access token --&gt; Client -- bearer token --&gt; Resource Server
+</code></pre></div>
+
+<p>An access token is a credential used by a client to access a protected resource. It may be a JWT, but OAuth 2.0 does not require it; it can also be an opaque, random-looking value. Treat it as opaque unless the authorization server explicitly documents its format.</p>
+<p>OAuth solves delegated authorization ("What can this client access?"), but login requires an identity answer ("Who signed in?"). OAuth 2.0 alone is not an identity protocol; OpenID Connect (OIDC) adds authentication and identity on top of it.</p>
+<table>
+<thead>
+<tr>
+<th>Protocol</th>
+<th>Primary purpose</th>
+<th>Main question</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OAuth 2.0</td>
+<td>Delegated authorization</td>
+<td>What can this application access?</td>
+</tr>
+<tr>
+<td>OpenID Connect</td>
+<td>Authentication and identity</td>
+<td>Who signed in?</td>
+</tr>
+</tbody>
+</table>
+<p>The ID token is intended for the client and describes the authentication event and the user's identity. It is normally a signed JWT:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;sub&quot;: &quot;123456789&quot;,
+  &quot;iss&quot;: &quot;https://accounts.google.com&quot;,
+  &quot;aud&quot;: &quot;our-google-client-id&quot;,
+  &quot;name&quot;: &quot;Aditya&quot;,
+  &quot;email&quot;: &quot;adi@gmail.com&quot;
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sub</td>
+<td>Stable subject identifier for the user at that provider</td>
+</tr>
+<tr>
+<td>iss</td>
+<td>Issuer that created the token</td>
+</tr>
+<tr>
+<td>aud</td>
+<td>Client for which the token was issued</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>Expiration time</td>
+</tr>
+</tbody>
+</table>
+<p>Access tokens should expire. A refresh token lets the client obtain a new access token without repeating the whole login and consent flow; it is sent to the authorization server's token endpoint, not to a resource API.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Used by</th>
+<th>Sent to</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Access token</td>
+<td>Client</td>
+<td>Resource server</td>
+<td>Access a protected API</td>
+</tr>
+<tr>
+<td>ID token</td>
+<td>Client</td>
+<td>Client application</td>
+<td>Verify authentication and obtain identity information</td>
+</tr>
+<tr>
+<td>Refresh token</td>
+<td>Client</td>
+<td>Authorization server</td>
+<td>Obtain a new access token</td>
+</tr>
+</tbody>
+</table>
+<p>An ID token is not a replacement for an access token; do not use it to call a protected API unless that API explicitly supports it.</p>
+<h2 id="6-authorization-code-flow">6. Authorization Code Flow</h2>
+<p>The client must obtain tokens without exposing them through browser redirects. The Authorization Code Flow has two stages: the browser receives a short-lived authorization code, and the backend exchanges that code for tokens through a direct server-to-server request.</p>
+<h3 id="step-1-start-the-authorization-request">Step 1: Start the Authorization Request</h3>
+<p>The user clicks "Continue with Google," and the app redirects the browser to Google's authorization endpoint with:</p>
+<ul>
+<li><code>client_id</code>: the ID Google gives the registered app (for example <code>coderarmy-app-123</code>); an identifier, not a secret.</li>
+<li><code>redirect_uri</code>: where Google returns the browser, here <code>http://localhost:8080/login/oauth2/code/google</code>; it must exactly match a registered URI.</li>
+<li><code>scope</code>: <code>openid</code>, <code>profile</code>, <code>email</code>; <code>openid</code> marks the request as OpenID Connect.</li>
+<li><code>response_type=code</code>: asks for a code rather than placing final tokens in the browser redirect.</li>
+<li><code>state</code>: a random value verified by the client; it correlates the callback with the request and guards against login CSRF.</li>
+</ul>
+<h3 id="step-2-google-authenticates-the-user">Step 2: Google Authenticates the User</h3>
+<p>The browser is on Google's domain. Google may use a password, passkey, or two-factor authentication. The security boundary is: Google credentials go from the browser to Google and never to our Spring Boot application.</p>
+<h3 id="step-3-the-user-gives-consent">Step 3: The User Gives Consent</h3>
+<p>Google shows the requested permissions (profile and email for basic login; calendar access for a Calendar integration). After approval, Google knows the user authenticated and approved the access.</p>
+<h3 id="step-4-google-returns-an-authorization-code">Step 4: Google Returns an Authorization Code</h3>
+<p>Google redirects the browser to the registered callback:</p>
+<div class="highlight"><pre><span></span><code>http://localhost:8080/login/oauth2/code/google
+?code=A7D91XYZ
+&amp;state=abc123
+</code></pre></div>
+
+<p>The code is a short-lived temporary credential representing the successful authorization step. <code>Authorization code != Access token</code>: it is not normally used to call a resource API; its purpose is to be exchanged.</p>
+<h3 id="step-5-the-backend-exchanges-the-code-for-tokens">Step 5: The Backend Exchanges the Code for Tokens</h3>
+<p>The Spring Boot backend contacts Google's token endpoint with the authorization code, the redirect URI, and client authentication and/or PKCE proof. Google responds with an access token, an ID token, and optionally a refresh token.</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Communication path</th>
+<th>Typical data</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Front channel</td>
+<td>Through the user's browser</td>
+<td>Authorization request, code and state</td>
+</tr>
+<tr>
+<td>Back channel</td>
+<td>Directly between backend and token endpoint</td>
+<td>Code exchange and tokens</td>
+</tr>
+</tbody>
+</table>
+<p>The code passes through the browser, but the final tokens arrive through the back channel.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: If asked "why not return the tokens directly to the browser?", the answer is that tokens in a redirect URL can leak through browser history, logs, or the referrer header. The code flow keeps tokens on the back channel; only the short-lived code travels through the browser.</p>
+</blockquote>
+<h2 id="7-pkce-from-first-principles">7. PKCE from First Principles</h2>
+<p>An attacker who steals an authorization code may try to exchange it before the legitimate client. PKCE binds the authorization request to the client instance that later performs the token exchange. PKCE stands for "Proof Key for Code Exchange," pronounced "pixy."</p>
+<p>Before starting authorization, the client generates a long, random <code>code_verifier</code>, then hashes it (normally SHA-256) to produce the <code>code_challenge</code>:</p>
+<div class="highlight"><pre><span></span><code>SHA-256(code_verifier) -&gt; code_challenge
+</code></pre></div>
+
+<p>During the authorization request the client sends the <code>code_challenge</code> but keeps the <code>code_verifier</code> locally; the server remembers the challenge. During the token exchange the client sends the <code>authorization_code</code> plus the <code>code_verifier</code>, and the server compares <code>SHA-256(received code_verifier)</code> with the original <code>code_challenge</code>. If they match, tokens are issued; if not, the request is rejected. An attacker may steal the code, but without the verifier it cannot be exchanged.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Authorization code flow without PKCE</th>
+<th>Authorization code flow with PKCE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Client type it suits</td>
+<td>Confidential clients that can hold a secret</td>
+<td>Public clients (SPA, mobile, desktop) and confidential ones</td>
+</tr>
+<tr>
+<td>Secret needed to exchange code</td>
+<td>Client secret</td>
+<td>None; the code_verifier acts as the proof</td>
+</tr>
+<tr>
+<td>What travels in the auth request</td>
+<td>No challenge</td>
+<td>code_challenge (hash of the verifier)</td>
+</tr>
+<tr>
+<td>What is kept locally</td>
+<td>Nothing extra</td>
+<td>code_verifier, kept private by the client</td>
+</tr>
+<tr>
+<td>Protection against stolen code</td>
+<td>Weak for public clients</td>
+<td>Strong; stolen code is useless without the verifier</td>
+</tr>
+<tr>
+<td>Idea</td>
+<td>Prove identity with a shared secret</td>
+<td>Bind the request to the instance that started it</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: PKCE is not a replacement for a client secret. The secret proves what the application is; PKCE proves the same client instance that started the flow is finishing it. For a Spring Boot server-side app, Spring Security handles PKCE automatically.</p>
+</blockquote>
+<h2 id="8-registering-the-application-with-google">8. Registering the Application with Google</h2>
+<p>Google must know which application is requesting login and which callbacks it can trust: register the app, receive the Client ID and Client Secret, and register the allowed redirect URI. For this local demo the authorized redirect URI is <code>http://localhost:8080/login/oauth2/code/google</code>. Spring Security uses this default redirect URI template:</p>
+<div class="highlight"><pre><span></span><code>{baseUrl}/login/oauth2/code/{registrationId}
+</code></pre></div>
+
+<p>Here <code>baseUrl = http://localhost:8080</code> and <code>registrationId = google</code>. The registration ID is the name given in <code>application.properties</code>, so the callback becomes <code>/login/oauth2/code/google</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: The scheme, host, port, and path of the configured redirect URI must exactly match what Google has on record. Even a small mismatch causes a <code>redirect_uri_mismatch</code> error before any code is issued.</p>
+</blockquote>
+<h2 id="9-spring-boot-application-flow-project-structure-and-dependencies">9. Spring Boot Application Flow, Project Structure, and Dependencies</h2>
+<p>The app uses Google for authentication but keeps its own internal user record:</p>
+<div class="highlight"><pre><span></span><code>Google authenticates the user
+        |
+        v
+Spring receives an OidcUser
+        |
+        v
+Look up provider + provider subject
+        |
+        +-- not found --&gt; insert a new AppUser
+        |
+        +-- found ------&gt; update and load the AppUser
+        |
+        v
+Internal AppUser
+        |
+        v
+Spring Security session
+</code></pre></div>
+
+<p>Google owns the external identity; our database owns app-specific data such as internal user ID, application role, account status, preferences, and subscription or membership data.</p>
+<div class="highlight"><pre><span></span><code>oauth2-demo
+  src/main/java/in.coderarmy.oauth2demo
+    OAuth2DemoApplication.java
+    config/SecurityConfig.java
+    controller/UserController.java
+    entity/AppUser.java
+    repository/AppUserRepository.java
+    service/AppUserService.java
+    service/CustomOidcUserService.java
+  src/main/resources/application.properties
+</code></pre></div>
+
+<p>The repo folder names the same pieces under <code>oauthDemo</code>: <code>OauthDemoApplication</code>, <code>config.SecurityConfig</code>, <code>controller.UserController</code>, <code>entity.User</code>, <code>repository.UserRepository</code>, <code>service.UserService</code>, and <code>service.CustomOidcUserService</code>; the lecture calls the persisted class <code>AppUser</code> (table <code>app_user</code>).</p>
+<p>The OAuth/OIDC client starter is <code>spring-boot-starter-oauth2-client</code>. The demo also needs <code>spring-boot-starter-web</code>, <code>spring-boot-starter-data-jpa</code>, and a driver such as <code>com.h2database:h2</code> (runtime scope). The OAuth2 client starter already brings the Spring Security support for OAuth2 Login, so <code>spring-boot-starter-security</code> is optional. Our app is called an OAuth client because it requests authentication and delegated access from Google.</p>
+<h2 id="10-user-entity-repository-and-application-user-service">10. User Entity, Repository, and Application User Service</h2>
+<div class="highlight"><pre><span></span><code>@Entity
+public class AppUser {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String email;
+    private String provider;
+    @Column(name = &quot;provider_subject&quot;)
+    private String providerSubject;
+    private String role;
+    // No password field; constructors plus getters and setters omitted.
+}
+</code></pre></div>
+
+<p>There is deliberately no password field: Google owns and verifies the password, and our app never receives it.</p>
+<p>Why store <code>providerSubject</code>? Google puts a <code>sub</code> claim in the ID token:</p>
+<div class="highlight"><pre><span></span><code>{ &quot;sub&quot;: &quot;109324823948234&quot;, &quot;email&quot;: &quot;student@gmail.com&quot;, &quot;name&quot;: &quot;Rohit&quot; }
+</code></pre></div>
+
+<p><code>sub</code> means subject, the provider's stable identifier for the user. We store <code>provider = google</code> and <code>providerSubject = value of sub</code>, and this pair should normally be unique. It is a better external identity key than email because an email may be changed, missing, or unverified depending on the provider and scopes.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Link external identities by <code>provider</code> + <code>subject</code>, never by email. Emails change; the provider's subject does not, which is why the unique constraint belongs on the pair.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>public interface AppUserRepository extends JpaRepository&lt;AppUser, Long&gt; {
+    Optional&lt;AppUser&gt; findByProviderAndProviderSubject(
+        String provider, String providerSubject);
+}
+</code></pre></div>
+
+<p>The signup happens inside our app after Google authenticates the user:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class AppUserService {
+    private final AppUserRepository appUserRepository;
+    public AppUserService(AppUserRepository appUserRepository) {
+        this.appUserRepository = appUserRepository;
+    }
+    @Transactional
+    public AppUser registerOrUpdate(String provider, OidcUser oidcUser) {
+        String providerSubject = oidcUser.getSubject();
+        String name = oidcUser.getClaimAsString(&quot;name&quot;);
+        String email = oidcUser.getClaimAsString(&quot;email&quot;);
+        Optional&lt;AppUser&gt; existingUser = appUserRepository
+            .findByProviderAndProviderSubject(provider, providerSubject);
+        if (existingUser.isPresent()) {
+            AppUser user = existingUser.get();
+            user.setName(name);
+            user.setEmail(email);
+            return user; // updated via JPA dirty checking
+        }
+        return appUserRepository.save(
+            new AppUser(name, email, provider, providerSubject, &quot;USER&quot;));
+    }
+    public Optional&lt;AppUser&gt; findByProviderAndSubject(String provider, String subject) {
+        return appUserRepository.findByProviderAndProviderSubject(provider, subject);
+    }
+}
+</code></pre></div>
+
+<p>The query is <code>SELECT * FROM app_user WHERE provider = 'google' AND provider_subject = '123';</code>. If the user exists, update the profile and load the account; otherwise insert a new <code>AppUser</code> with the default <code>USER</code> role. This is the OAuth/OIDC signup process.</p>
+<h2 id="11-customoidcuserservice-and-securityconfig">11. CustomOidcUserService and SecurityConfig</h2>
+<p>Spring Security already talks to OIDC providers. Preserve that processing and add only our database logic: Spring returns an <code>OidcUser</code>, our code saves or updates the internal user, and we return the <code>OidcUser</code> to Spring Security.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CustomOidcUserService</span>
+<span class="w">        </span><span class="kd">implements</span><span class="w"> </span><span class="n">OAuth2UserService</span><span class="o">&lt;</span><span class="n">OidcUserRequest</span><span class="p">,</span><span class="w"> </span><span class="n">OidcUser</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OidcUserService</span><span class="w"> </span><span class="n">delegate</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AppUserService</span><span class="w"> </span><span class="n">appUserService</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CustomOidcUserService</span><span class="p">(</span><span class="n">AppUserService</span><span class="w"> </span><span class="n">appUserService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">appUserService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">appUserService</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">delegate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OidcUserService</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">OidcUser</span><span class="w"> </span><span class="nf">loadUser</span><span class="p">(</span><span class="n">OidcUserRequest</span><span class="w"> </span><span class="n">userRequest</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">OAuth2AuthenticationException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Let Spring perform the provider interaction and OIDC processing.</span>
+<span class="w">        </span><span class="n">OidcUser</span><span class="w"> </span><span class="n">oidcUser</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delegate</span><span class="p">.</span><span class="na">loadUser</span><span class="p">(</span><span class="n">userRequest</span><span class="p">);</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRequest</span>
+<span class="w">                </span><span class="p">.</span><span class="na">getClientRegistration</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">getRegistrationId</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Run our application-specific signup/update logic.</span>
+<span class="w">        </span><span class="n">appUserService</span><span class="p">.</span><span class="na">registerOrUpdate</span><span class="p">(</span><span class="n">provider</span><span class="p">,</span><span class="w"> </span><span class="n">oidcUser</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">oidcUser</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The line <code>delegate.loadUser(userRequest)</code> hides a lot: by then the code has been exchanged, the tokens are available, Spring has validated the OIDC response (possibly calling the UserInfo endpoint), and Spring has built the <code>OidcUser</code>. The pattern is "delegate then decorate."</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SecurityConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">,</span>
+<span class="w">            </span><span class="n">CustomOidcUserService</span><span class="w"> </span><span class="n">customOidcUserService</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">http</span>
+<span class="w">            </span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">auth</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">auth</span>
+<span class="w">                </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">oauth2Login</span><span class="p">(</span><span class="n">oauth</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">oauth</span>
+<span class="w">                </span><span class="p">.</span><span class="na">userInfoEndpoint</span><span class="p">(</span><span class="n">userInfo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">userInfo</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">oidcUserService</span><span class="p">(</span><span class="n">customOidcUserService</span><span class="p">)</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">defaultSuccessUrl</span><span class="p">(</span><span class="s">&quot;/profile&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">            </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>oauth2Login()</code> enables the OAuth 2.0 Login and OIDC flow and manages the endpoints: authorization (redirect to Google), token (exchange code for tokens), redirection (<code>/login/oauth2/code/google</code>), and UserInfo (extra profile claims). <code>requestMatchers("/").permitAll()</code> keeps the home page public, <code>anyRequest().authenticated()</code> protects the rest, and <code>defaultSuccessUrl("/profile", true)</code> lands the user on <code>/profile</code> after login.</p>
+<blockquote class="callout callout--important">
+<p>Important: Register <code>CustomOidcUserService</code> through <code>userInfoEndpoint().oidcUserService(...)</code> rather than replacing the whole OAuth2 login machinery. Spring keeps doing the protocol work; we only add the <code>AppUser</code> upsert.</p>
+</blockquote>
+<h2 id="12-controller-and-client-registration-properties">12. Controller and Client Registration Properties</h2>
+<div class="highlight"><pre><span></span><code>@RestController
+public class UserController {
+    private final AppUserService appUserService;
+    public UserController(AppUserService appUserService) {
+        this.appUserService = appUserService;
+    }
+    @GetMapping(&quot;/&quot;)
+    public String home() {
+        return &quot;Public Home. Login using: &quot;
+            + &quot;http://localhost:8080/oauth2/authorization/google&quot;;
+    }
+    @GetMapping(&quot;/profile&quot;)
+    public Map&lt;String, Object&gt; profile(
+            @AuthenticationPrincipal OidcUser oidcUser) {
+        AppUser appUser = appUserService
+            .findByProviderAndSubject(&quot;google&quot;, oidcUser.getSubject())
+            .orElseThrow();
+        Map&lt;String, Object&gt; response = new LinkedHashMap&lt;&gt;();
+        response.put(&quot;internalUserId&quot;, appUser.getId());
+        response.put(&quot;provider&quot;, appUser.getProvider());
+        response.put(&quot;subject&quot;, oidcUser.getSubject());
+        response.put(&quot;name&quot;, oidcUser.getClaimAsString(&quot;name&quot;));
+        response.put(&quot;email&quot;, oidcUser.getClaimAsString(&quot;email&quot;));
+        response.put(&quot;role&quot;, appUser.getRole());
+        return response;
+    }
+}
+</code></pre></div>
+
+<p>After login the response may look like:</p>
+<div class="highlight"><pre><span></span><code>{ &quot;internalUserId&quot;: 1, &quot;provider&quot;: &quot;google&quot;,
+  &quot;subject&quot;: &quot;108293472983749823749&quot;, &quot;name&quot;: &quot;Rohit Negi&quot;,
+  &quot;email&quot;: &quot;example@gmail.com&quot;, &quot;role&quot;: &quot;USER&quot; }
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>subject, name, email</td>
+<td>Google/OIDC claims</td>
+</tr>
+<tr>
+<td>internalUserId, role</td>
+<td>Our application database</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="na">spring.application.name</span><span class="o">=</span><span class="s">oauth2-demo</span>
+
+<span class="c1"># Google OAuth 2.0 / OIDC</span>
+<span class="na">spring.security.oauth2.client.registration.google.client-id</span><span class="o">=</span><span class="s">${GOOGLE_CLIENT_ID}</span>
+<span class="na">spring.security.oauth2.client.registration.google.client-secret</span><span class="o">=</span><span class="s">${GOOGLE_CLIENT_SECRET}</span>
+<span class="na">spring.security.oauth2.client.registration.google.scope</span><span class="o">=</span><span class="s">openid,profile,email</span>
+
+<span class="c1"># JPA demo configuration</span>
+<span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">create-drop</span>
+<span class="na">spring.jpa.show-sql</span><span class="o">=</span><span class="s">true</span>
+</code></pre></div>
+
+<p>Google is a recognized provider, so the authorization, token, and UserInfo endpoint URLs need no manual configuration. Do not hardcode the client secret: keep the placeholders and supply <code>GOOGLE_CLIENT_ID</code> and <code>GOOGLE_CLIENT_SECRET</code> through environment variables (IntelliJ: Run -&gt; Edit Configurations -&gt; Environment variables). Never commit a real secret to Git.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Putting the client secret directly in <code>application.properties</code> and committing it fails the security-judgment test. The expected answer is externalized configuration: placeholders in the properties file, real values in environment variables or a secrets manager.</p>
+</blockquote>
+<h2 id="13-google-cloud-console-setup-and-runningtesting">13. Google Cloud Console Setup and Running/Testing</h2>
+<p>Setup steps:</p>
+<ol>
+<li>Create a Google Cloud project and open Google Auth Platform (select Get Started if new).</li>
+<li>Configure branding: app name <code>CoderArmy OAuth Demo</code> plus support email and developer contact.</li>
+<li>Select audience <code>External</code> for normal Gmail accounts; in testing mode add tester accounts.</li>
+<li>Configure data access: request only <code>openid</code>, <code>profile</code>, <code>email</code> (least privilege).</li>
+<li>Create an OAuth client (Clients -&gt; Create Client), type <code>Web application</code>; JavaScript origins stay empty for this server-side demo.</li>
+<li>Add the authorized redirect URI <code>http://localhost:8080/login/oauth2/code/google</code>; scheme, host, port, and path must match, or you get <code>redirect_uri_mismatch</code>.</li>
+<li>Create the client; Google generates a Client ID and Client Secret, stored as environment variables.</li>
+</ol>
+<p>Running: start the app and open <code>http://localhost:8080/</code>, or start login at <code>http://localhost:8080/oauth2/authorization/google</code> (the endpoint name is the registration ID <code>google</code>). Spring finds the <code>ClientRegistration</code> "google", builds the authorization request (<code>client_id</code>, <code>redirect_uri</code>, <code>scope</code>, <code>state</code>, <code>response_type=code</code>), and sends a 302 redirect. The user enters credentials on Google's domain, never at <code>localhost:8080</code>. Google redirects to <code>http://localhost:8080/login/oauth2/code/google?code=ABC...&amp;state=XYZ...</code>; Spring validates it, performs the back-channel code exchange, processes the OIDC result into an <code>OidcUser</code>, <code>CustomOidcUserService</code> saves or updates the <code>AppUser</code>, and the success handler redirects to <code>/profile</code>.</p>
+<h2 id="14-what-authenticates-later-profile-requests-and-the-complete-flow-recap">14. What Authenticates Later /profile Requests, and the Complete Flow Recap</h2>
+<p>In this server-side OAuth2 Login flow the browser does not send Google's ID token with every <code>/profile</code> request. After login:</p>
+<div class="highlight"><pre><span></span><code>Spring authenticates the user
+        |
+        v
+Authentication is stored in the SecurityContext
+        |
+        v
+The SecurityContext is tied to the HTTP session
+        |
+        v
+The browser sends the session cookie on later requests
+</code></pre></div>
+
+<p>The app is therefore session-based after login.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>oauth2Login()</code></td>
+<td>Log a browser user in and usually maintain a session</td>
+</tr>
+<tr>
+<td><code>oauth2ResourceServer().jwt()</code></td>
+<td>Protect an API that receives bearer access tokens</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Here the ID token is consumed at login time to build the <code>OidcUser</code>; it is not replayed on each <code>/profile</code> call. The session cookie keeps the browser authenticated with our Spring application.</p>
+</blockquote>
+<p>Complete flow recap (11 steps):</p>
+<div class="highlight"><pre><span></span><code>1.  User opens /oauth2/authorization/google
+2.  Spring redirects the browser to Google
+3.  Google authenticates the user
+4.  User approves the requested scopes
+5.  Google redirects back with an authorization code
+6.  Spring exchanges the code through the back channel
+7.  Spring validates and processes the OIDC response
+8.  Spring creates an OidcUser
+9.  CustomOidcUserService saves or updates AppUser
+10. Spring stores the authenticated state in the session
+11. The user accesses /profile as an authenticated user
+</code></pre></div>
+
+<p>Google proves the external identity; our application still owns its internal user record, roles, and business rules.</p>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"OAuth 2.0 is a login protocol"</td>
+<td>OAuth 2.0 is delegated authorization; OpenID Connect adds authentication and identity on top of it.</td>
+</tr>
+<tr>
+<td>"The client is always the browser"</td>
+<td>The client is the application requesting access: Spring Boot, mobile, desktop, or browser-based.</td>
+</tr>
+<tr>
+<td>"An access token must be a JWT"</td>
+<td>It may be a JWT, but OAuth 2.0 does not require it; it can be an opaque value.</td>
+</tr>
+<tr>
+<td>"The ID token is used to call APIs"</td>
+<td>The ID token is for the client to verify authentication; calling an API needs the access token.</td>
+</tr>
+<tr>
+<td>"OAuth scopes grant full account access"</td>
+<td>Scopes slice access; a calendar app can request <code>calendar.read</code> and nothing more.</td>
+</tr>
+<tr>
+<td>"PKCE and client secrets are the same thing"</td>
+<td>A client secret authenticates a confidential client; PKCE binds the code exchange to the client instance.</td>
+</tr>
+<tr>
+<td>"The browser sends Google's ID token to /profile on every request"</td>
+<td>After login the app is session-based; the browser sends the session cookie.</td>
+</tr>
+<tr>
+<td>"oauth2Login and oauth2ResourceServer are interchangeable"</td>
+<td>oauth2Login logs a browser user in (session); oauth2ResourceServer protects an API using bearer tokens.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "The app gets the user's Google password."</strong>
+Verdict: False. The password goes from the browser to Google and never to our Spring Boot application; we receive an authorization code and then tokens.</p>
+<p><strong>Trap 2 - "OAuth 2.0 can also tell us who the user is."</strong>
+Verdict: False. OAuth 2.0 answers "what can this application access?". Identity ("who signed in?") comes from OpenID Connect's ID token.</p>
+<p><strong>Trap 3 - "The authorization code is the access token."</strong>
+Verdict: False. The code is a short-lived temporary credential; its purpose is to be exchanged on the back channel for access and ID tokens.</p>
+<p><strong>Trap 4 - "The tokens come back through the browser redirect."</strong>
+Verdict: False. Only the code and state travel through the browser (front channel); the code exchange and tokens happen directly between the backend and Google's token endpoint (back channel).</p>
+<p><strong>Trap 5 - "PKCE is pointless when we already have a client secret."</strong>
+Verdict: False. A client secret proves what the application is; PKCE binds the code exchange to the client instance that started the flow, protecting against stolen codes, especially for public clients.</p>
+<p><strong>Trap 6 - "After Google login, every /profile request carries the ID token."</strong>
+Verdict: False. In this server-side flow the ID token is processed at login time; later requests are authenticated by the session cookie tied to the SecurityContext.</p>
+<p><strong>Trap 7 - "Storing the email is enough to identify the user."</strong>
+Verdict: False. Email can change, be missing, or be unverified; store <code>provider</code> + <code>providerSubject</code> (the <code>sub</code> claim) as the stable external identity key.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>OAuth 2.0 is delegated authorization ("what can this app access?"); OpenID Connect adds authentication and identity ("who signed in?") on top of it.</li>
+<li>The four roles are Resource Owner, Client, Authorization Server, and Resource Server (remember R-C-A-R).</li>
+<li>The user's Google password never reaches our application; credentials stay between the browser and Google.</li>
+<li>Scopes (<code>openid</code>, <code>profile</code>, <code>email</code>, or <code>calendar.read</code>) define limited access; <code>openid</code> marks an OIDC request and enables the ID token.</li>
+<li>An access token may be a JWT or opaque and goes to the resource server; an ID token is normally a signed JWT meant for the client.</li>
+<li>The authorization code is short-lived and exchanged on the back channel; the code and state travel through the browser (front channel).</li>
+<li>PKCE sends a <code>code_challenge</code> in the authorization request and the <code>code_verifier</code> at token exchange, so a stolen code is useless without the verifier.</li>
+<li>Spring Security's default redirect URI is <code>{baseUrl}/login/oauth2/code/{registrationId}</code>, which for Google is <code>/login/oauth2/code/google</code>, and it must match Google exactly.</li>
+<li><code>CustomOidcUserService</code> delegates OIDC processing to Spring and then upserts the internal <code>AppUser</code> via <code>provider</code> + <code>providerSubject</code>, storing no password.</li>
+<li>The app is session-based after login: <code>oauth2Login()</code> stores authentication in the session, while <code>oauth2ResourceServer().jwt()</code> is the separate choice for bearer-token APIs.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is OAuth 2.0 primarily for?</td>
+<td>Delegated authorization: letting an app access a user's resource without sharing the password.</td>
+</tr>
+<tr>
+<td>What does OIDC add on top of OAuth 2.0?</td>
+<td>Authentication and identity through the ID token, answering "who signed in?".</td>
+</tr>
+<tr>
+<td>Name the four OAuth roles.</td>
+<td>Resource Owner, Client, Authorization Server, Resource Server.</td>
+</tr>
+<tr>
+<td>What is the client in OAuth?</td>
+<td>The application requesting delegated access (Spring Boot, mobile, desktop, or browser app), not necessarily the browser.</td>
+</tr>
+<tr>
+<td>Access token vs ID token?</td>
+<td>Access token calls protected APIs; ID token tells the client who authenticated. Neither replaces the other.</td>
+</tr>
+<tr>
+<td>Why the authorization code flow?</td>
+<td>To keep tokens off the browser redirect: only a short-lived code travels the front channel; tokens are fetched on the back channel.</td>
+</tr>
+<tr>
+<td>What is PKCE and why is it needed?</td>
+<td>Proof Key for Code Exchange: a verifier/challenge pair that binds the code exchange to the client instance, defeating stolen-code attacks.</td>
+</tr>
+<tr>
+<td>Why store provider and subject?</td>
+<td>They form a stable external identity key; email can change or be unverified.</td>
+</tr>
+<tr>
+<td>What does <code>oauth2Login()</code> do?</td>
+<td>Enables OAuth2/OIDC login, delegates OIDC processing, and typically maintains a session.</td>
+</tr>
+<tr>
+<td>How does <code>CustomOidcUserService</code> fit in?</td>
+<td>It calls Spring's <code>OidcUserService</code>, upserts the internal <code>AppUser</code>, and returns the <code>OidcUser</code>.</td>
+</tr>
+<tr>
+<td>What authenticates later <code>/profile</code> requests?</td>
+<td>The Spring Security session (session cookie), not the Google ID token replayed per request.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Own auth (username/password + JWT)
+        |
+        v
+Continue with Google: never share the Google password
+        |
+        v
+delegated access problem: limited, revocable access
+        |
+        v
+four roles: Resource Owner, Client, Authorization Server, Resource Server
+        |
+        v
+scopes + consent: ask only for what is needed (openid, profile, email)
+        |
+        v
+OAuth 2.0 for access, OIDC for identity (access token vs ID token)
+        |
+        v
+Authorization Code Flow: code front channel, tokens back channel
+        |
+        v
+PKCE: code_verifier + code_challenge bind the exchange to the client
+        |
+        v
+register with Google: client id/secret + exact redirect URI
+        |
+        v
+Spring Boot: oauth2Login + CustomOidcUserService -&gt; AppUser (provider + subject)
+        |
+        v
+session cookie authenticates later /profile requests
+</code></pre></div>
+
+<ul>
+<li>Our own login ends where delegation begins: Google verifies the identity, our app keeps its own user.</li>
+<li>OAuth 2.0 = delegated authorization; OIDC = authentication and identity on top of it.</li>
+<li>The four roles, scopes, and the consent screen define who asks, what is granted, and who approves.</li>
+<li>The authorization code flow separates the browser-visible code from the back-channel token exchange.</li>
+<li>PKCE protects the code exchange; client id/secret and the exact redirect URI complete the registration.</li>
+<li><code>CustomOidcUserService</code> upserts <code>AppUser</code> by <code>provider</code> + <code>subject</code>; the session authenticates later requests.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Google proves the external identity and grants limited access, our Spring Boot app turns that into an internal <code>AppUser</code> linked by <code>provider</code> + <code>subject</code>, and a session cookie - not a replayed ID token - keeps the user authenticated afterward.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-38.html"><span class="dir">Previous</span><span class="ttl">Lecture 38 - Spring JWT Authentication</span></a><a class="next" href="doc-theory-lecture-40.html"><span class="dir">Next</span><span class="ttl">Lecture 40 — Testing Spring Boot Applications</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

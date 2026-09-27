@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 07 — Bean Lifecycle Explained — Spring Boot</title>
+<meta name="description" content="Lecture 07 — Bean Lifecycle Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-07">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-07.html#lecture-07">Lecture 07</a></li><li><a href="doc-theory-lecture-07.html#1-what-is-bean-lifecycle">1. What is Bean Lifecycle?</a></li><li><a href="doc-theory-lecture-07.html#2-simple-definition">2. Simple Definition</a></li><li><a href="doc-theory-lecture-07.html#3-complete-bean-lifecycle-flow-overview">3. Complete Bean Lifecycle Flow (Overview)</a></li><li><a href="doc-theory-lecture-07.html#4-step-0-and-step-1-container-starts-and-bean-definition-is-read">4. Step 0 and Step 1: Container Starts and Bean Definition is Read</a></li><li><a href="doc-theory-lecture-07.html#5-step-2-and-step-3-instantiation-and-dependency-injection">5. Step 2 and Step 3: Instantiation and Dependency Injection</a></li><li><a href="doc-theory-lecture-07.html#6-step-4-aware-interfaces-are-called">6. Step 4: Aware Interfaces are Called</a></li><li><a href="doc-theory-lecture-07.html#7-step-5-initialization-callbacks">7. Step 5: Initialization Callbacks</a></li><li><a href="doc-theory-lecture-07.html#8-step-6-and-step-7-ready-to-use-and-destruction-callbacks">8. Step 6 and Step 7: Ready to Use and Destruction Callbacks</a></li><li><a href="doc-theory-lecture-07.html#9-full-lifecycle-summary">9. Full Lifecycle Summary</a></li><li><a href="doc-theory-lecture-07.html#10-singleton-bean-lifecycle">10. Singleton Bean Lifecycle</a></li><li><a href="doc-theory-lecture-07.html#11-prototype-bean-lifecycle">11. Prototype Bean Lifecycle</a></li><li><a href="doc-theory-lecture-07.html#12-prototype-destruction-is-not-called-by-spring">12. Prototype Destruction is Not Called by Spring</a></li><li><a href="doc-theory-lecture-07.html#13-important-case-singleton-depends-on-prototype">13. Important Case: Singleton Depends on Prototype</a></li><li><a href="doc-theory-lecture-07.html#14-lazy-and-bean-lifecycle">14. @Lazy and Bean Lifecycle</a></li><li><a href="doc-theory-lecture-07.html#15-postconstruct-and-circular-dependency">15. @PostConstruct and Circular Dependency</a></li><li><a href="doc-theory-lecture-07.html#16-myth-vs-reality">16. Myth vs Reality</a></li><li><a href="doc-theory-lecture-07.html#17-common-trap-questions">17. Common Trap Questions</a></li><li><a href="doc-theory-lecture-07.html#18-points-to-remember">18. Points to Remember</a></li><li><a href="doc-theory-lecture-07.html#19-likely-interview-questions">19. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-07.html#20-final-summary">20. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 07 — Bean Lifecycle Explained</h1>
+<p class="readmeta">21 sections · 3,733 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-07" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-07">Lecture 07</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Bean Lifecycle Explained | @PostConstruct, @PreDestroy, Scopes &amp; @Lazy" (playlist map, verified). The repo folder is a Maven project <code>BeanLifeCycleDemo</code> under package <code>in.strikes</code> (classes such as <code>AppConfig</code>, <code>PaymentService</code>, <code>OrderService</code>, <code>CartService</code>, <code>UserService</code>, <code>A</code>, <code>B</code>, <code>Main</code>) plus the matching lecture notes.</p>
+</blockquote>
+<p>A Spring bean is not created and forgotten; it is born, wired, prepared, used, and destroyed under the container's supervision. This lecture walks that journey: creation versus initialization, singleton versus prototype, and how <code>@Lazy</code> and <code>@PostConstruct</code> bend the order.</p>
+<h2 id="1-what-is-bean-lifecycle">1. What is Bean Lifecycle?</h2>
+<p>In normal Java, when we create an object manually, we are responsible for everything:</p>
+<div class="highlight"><pre><span></span><code>PaymentService paymentService = new PaymentService();
+</code></pre></div>
+
+<p>We handle the complete object journey ourselves:</p>
+<div class="highlight"><pre><span></span><code>create object
+-&gt; set required values
+-&gt; call required methods
+-&gt; clean up resources if needed
+</code></pre></div>
+
+<p>In Spring, we usually do not create important application objects manually. We tell Spring which classes or methods to manage, using <code>@Component</code> or an <code>@Bean</code> method. The object becomes Spring's responsibility, and Spring will:</p>
+<ul>
+<li>discover the bean;</li>
+<li>create the object;</li>
+<li>inject dependencies;</li>
+<li>call lifecycle methods;</li>
+<li>keep the bean ready;</li>
+<li>destroy it when required.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: Once a class is annotated with <code>@Component</code> or returned from an <code>@Bean</code> method, control of its construction and cleanup shifts from your code to the container.</p>
+</blockquote>
+<h2 id="2-simple-definition">2. Simple Definition</h2>
+<p>Bean lifecycle means the complete journey of a Spring-managed object from definition discovery until destruction. A Spring-managed object is called a bean, so "bean lifecycle" means how Spring creates, prepares, manages, and destroys a bean.</p>
+<table>
+<thead>
+<tr>
+<th>Lifecycle concern</th>
+<th>Question Spring answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Discovery</td>
+<td>Which classes or methods should I manage?</td>
+</tr>
+<tr>
+<td>Creation</td>
+<td>When and how do I build the object?</td>
+</tr>
+<tr>
+<td>Preparation</td>
+<td>Who supplies dependencies, and when?</td>
+</tr>
+<tr>
+<td>Initialization</td>
+<td>Which startup logic should run before use?</td>
+</tr>
+<tr>
+<td>Usage</td>
+<td>How long should the same instance live?</td>
+</tr>
+<tr>
+<td>Destruction</td>
+<td>Who cleans up resources when the container closes?</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Lifecycle is a sequence of phases, not a single event, and each phase exists so that beans are valid and safe before the application touches them.</p>
+</blockquote>
+<h2 id="3-complete-bean-lifecycle-flow-overview">3. Complete Bean Lifecycle Flow (Overview)</h2>
+<div class="highlight"><pre><span></span><code>container starts
+-&gt; reads configuration/annotations
+-&gt; creates BeanDefinition
+-&gt; instantiates bean
+-&gt; injects dependencies
+-&gt; calls Aware interfaces
+-&gt; runs initialization callbacks
+-&gt; bean ready
+-&gt; application uses bean
+-&gt; runs destruction callbacks
+-&gt; bean removed
+</code></pre></div>
+
+<p>The early phases (container start, configuration read, <code>BeanDefinition</code>) run before any object exists. The middle phases (instantiation, injection, Aware, initialization) produce a usable bean. The final phases (destruction, removal) run at shutdown and differ by scope.</p>
+<h2 id="4-step-0-and-step-1-container-starts-and-bean-definition-is-read">4. Step 0 and Step 1: Container Starts and Bean Definition is Read</h2>
+<h3 id="step-0-spring-container-starts">Step 0: Spring container starts</h3>
+<p>When we write <code>new AnnotationConfigApplicationContext(AppConfig.class)</code>, we pass class metadata, not an object. Spring uses reflection to inspect that class and checks:</p>
+<ul>
+<li>Does this class have <code>@Configuration</code>?</li>
+<li>Does it have <code>@ComponentScan</code>?</li>
+<li>Does it have <code>@Bean</code> methods?</li>
+<li>Which package should be scanned?</li>
+<li>Which bean definitions should be registered?</li>
+</ul>
+<h3 id="step-1-bean-definition-is-read">Step 1: Bean definition is read</h3>
+<p>Before creating objects, Spring collects metadata about beans. This metadata is called a <code>BeanDefinition</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Example value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bean class</td>
+<td><code>PaymentService</code></td>
+</tr>
+<tr>
+<td>Bean name</td>
+<td><code>paymentService</code></td>
+</tr>
+<tr>
+<td>Scope</td>
+<td><code>singleton</code></td>
+</tr>
+<tr>
+<td>Lazy</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>check later</td>
+</tr>
+<tr>
+<td>Init method</td>
+<td>check later</td>
+</tr>
+<tr>
+<td>Destroy method</td>
+<td>check later</td>
+</tr>
+</tbody>
+</table>
+<p>At this stage the object is not necessarily created; Spring is only registering information. It needs <code>BeanDefinition</code> first because it builds a whole network (<code>OrderService</code> -&gt; <code>PaymentService</code> -&gt; <code>PaymentGateway</code> -&gt; <code>ApiClient</code>), recording names, scopes, dependencies, laziness, and init or destroy methods.</p>
+<p>Spring can read bean definitions from three sources:</p>
+<ol>
+<li>Annotation-based configuration (<code>@Configuration</code>, <code>@ComponentScan</code>, <code>@Component</code>).</li>
+<li>Java-based <code>@Bean</code> configuration.</li>
+<li>XML-based configuration, for example <code>&lt;bean id="paymentService" class="in.strikes.PaymentService"/&gt;</code>.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important: <code>BeanDefinition</code> is metadata, not the bean. A definition can be registered yet never produce an object, for example a lazy or unrequested prototype.</p>
+</blockquote>
+<h2 id="5-step-2-and-step-3-instantiation-and-dependency-injection">5. Step 2 and Step 3: Instantiation and Dependency Injection</h2>
+<h3 id="step-2-bean-object-is-instantiated">Step 2: Bean object is instantiated</h3>
+<p>After reading the bean definition, Spring creates the actual object. This step is called instantiation, and the constructor is called.</p>
+<div class="highlight"><pre><span></span><code>Instantiation  = object is created
+Initialization = object is prepared after creation
+</code></pre></div>
+
+<p>These are not the same. A common beginner mistake is thinking that object creation and initialization are the same thing.</p>
+<h3 id="step-3-dependencies-are-injected">Step 3: Dependencies are injected</h3>
+<p>After or during object creation, Spring supplies the required dependencies. This is dependency injection, and the exact timing depends on the type of injection.</p>
+<table>
+<thead>
+<tr>
+<th>Injection type</th>
+<th>When the dependency arrives</th>
+<th>Timing relative to construction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constructor</td>
+<td>While creating the object</td>
+<td>Before the object is fully built</td>
+</tr>
+<tr>
+<td>Setter</td>
+<td>After creation, via a setter call</td>
+<td>After the object exists</td>
+</tr>
+<tr>
+<td>Field</td>
+<td>After creation, via reflection</td>
+<td>After the object exists</td>
+</tr>
+</tbody>
+</table>
+<p>Constructor injection flow for <code>OrderService(PaymentService)</code>:</p>
+<div class="highlight"><pre><span></span><code>Spring needs OrderService
+-&gt; OrderService needs PaymentService
+-&gt; Spring creates or finds PaymentService
+-&gt; passes it into the constructor
+</code></pre></div>
+
+<p>Setter injection assigns the dependency after creation via a setter; field injection assigns it after creation via reflection.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Field injection is common in examples, but constructor injection is preferred for clean, testable code: dependencies are mandatory and the object is valid from birth.</p>
+</blockquote>
+<h2 id="6-step-4-aware-interfaces-are-called">6. Step 4: Aware Interfaces are Called</h2>
+<p>Sometimes a bean wants to know about the container: its bean name, which <code>BeanFactory</code> created it, and which <code>ApplicationContext</code> it runs in. Spring provides this using Aware interfaces, which are callback interfaces Spring calls automatically at the right time.</p>
+<p>Common Aware interfaces are <code>BeanNameAware</code> and <code>ApplicationContextAware</code>. If <code>MyBean</code> is annotated <code>@Component("myCustomBeanName")</code> and implements both, the output idea is:</p>
+<div class="highlight"><pre><span></span><code>1. Constructor called
+2. BeanNameAware called
+3. ApplicationContextAware called
+</code></pre></div>
+
+<p>Two questions this step always raises:</p>
+<ol>
+<li>Why is the method called <code>setBeanName()</code> and not <code>getBeanName()</code>? Because Spring is giving the bean information; the direction is <code>Spring container -&gt; bean</code>.</li>
+<li>If we call <code>setBeanName()</code> manually, it behaves like a normal Java method and does not change the name registered inside the container.</li>
+</ol>
+<p>Do we use Aware interfaces in normal business logic? Usually, no; they suit framework and infrastructure code. At this point the bean is created, dependencies injected, and Aware callbacks complete.</p>
+<blockquote class="callout callout--important">
+<p>Important: Aware callbacks are a read-only conversation from container to bean. They exist for infrastructure-style beans, not for ordinary service logic.</p>
+</blockquote>
+<h2 id="7-step-5-initialization-callbacks">7. Step 5: Initialization Callbacks</h2>
+<p>Now Spring lets the bean run startup logic before use: the initialization phase. It can validate configuration, initialize a cache, check setup, prepare resources, fill a <code>HashMap</code>, or log startup state.</p>
+<p>There are three common ways to write initialization logic:</p>
+<ol>
+<li><code>@PostConstruct</code> - a Jakarta annotation on a method; Spring calls the method once, after dependencies are injected. In Spring 6/7 use <code>import jakarta.annotation.PostConstruct;</code>. Without Spring Boot you may need the <code>jakarta.annotation-api:3.0.0</code> dependency.</li>
+<li><code>InitializingBean</code> - the bean implements a Spring interface and Spring calls <code>afterPropertiesSet()</code>. This works, but tightly couples the class with Spring.</li>
+<li>Custom <code>initMethod</code> - <code>@Bean(initMethod = "start")</code> names a method Spring calls after injection. This keeps the class free from Spring-specific interfaces.</li>
+</ol>
+<p>Initialization callback order, if all three are used together:</p>
+<div class="highlight"><pre><span></span><code>@PostConstruct
+-&gt; InitializingBean.afterPropertiesSet()
+-&gt; custom initMethod
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>@PostConstruct</code></th>
+<th><code>InitializingBean.afterPropertiesSet()</code></th>
+<th>Custom <code>initMethod</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where it lives</td>
+<td>Annotation on a method</td>
+<td>Interface implemented by the class</td>
+<td>Method named in <code>@Bean(initMethod = ...)</code></td>
+</tr>
+<tr>
+<td>Coupling to Spring</td>
+<td>None (Jakarta annotation)</td>
+<td>Tight - class implements a Spring type</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Runs</td>
+<td>After dependency injection</td>
+<td>After <code>@PostConstruct</code></td>
+<td>Last of the three</td>
+</tr>
+<tr>
+<td>Typical choice</td>
+<td>Modern default</td>
+<td>Framework/legacy code</td>
+<td>Third-party classes you cannot annotate</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-step-6-and-step-7-ready-to-use-and-destruction-callbacks">8. Step 6 and Step 7: Ready to Use and Destruction Callbacks</h2>
+<h3 id="step-6-bean-is-ready-to-use">Step 6: Bean is ready to use</h3>
+<p>After initialization is complete the bean is fully ready and other beans can use it. For singleton beans, Spring stores the object and reuses the same instance again and again:</p>
+<div class="highlight"><pre><span></span><code>Bean created
+-&gt; dependencies injected
+-&gt; initialization completed
+-&gt; bean ready
+</code></pre></div>
+
+<h3 id="step-7-destruction-callbacks">Step 7: Destruction callbacks</h3>
+<p>When the container shuts down, Spring lets beans clean up: the destruction phase. Cleanup can close a connection, stop a thread, release a file handle, flush data, or clear a resource.</p>
+<p>There are three common ways to write destruction logic:</p>
+<ol>
+<li><code>@PreDestroy</code> - a Jakarta annotation; Spring calls the method before destroying the bean.</li>
+<li><code>DisposableBean</code> - the bean implements the Spring interface and Spring calls <code>destroy()</code>; this couples the class with Spring.</li>
+<li>Custom <code>destroyMethod</code> - <code>@Bean(destroyMethod = "stop")</code> names a method Spring calls at shutdown.</li>
+</ol>
+<p>Destruction callback order, if all three are used together:</p>
+<div class="highlight"><pre><span></span><code>@PreDestroy
+-&gt; DisposableBean.destroy()
+-&gt; custom destroyMethod
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Initialization callbacks</th>
+<th>Destruction callbacks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When they run</td>
+<td>After dependency injection, before use</td>
+<td>When the container shuts down</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Prepare resources, validate, warm caches</td>
+<td>Release resources, flush, stop threads</td>
+</tr>
+<tr>
+<td>Methods</td>
+<td><code>@PostConstruct</code>, <code>afterPropertiesSet()</code>, <code>initMethod</code></td>
+<td><code>@PreDestroy</code>, <code>destroy()</code>, <code>destroyMethod</code></td>
+</tr>
+<tr>
+<td>Order</td>
+<td><code>@PostConstruct</code> -&gt; <code>afterPropertiesSet()</code> -&gt; <code>initMethod</code></td>
+<td><code>@PreDestroy</code> -&gt; <code>destroy()</code> -&gt; <code>destroyMethod</code></td>
+</tr>
+<tr>
+<td>Jakarta annotation</td>
+<td><code>jakarta.annotation.PostConstruct</code></td>
+<td><code>jakarta.annotation.PreDestroy</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Initialization is about becoming usable; destruction is about leaving cleanly. A bean that opens a resource in initialization should close it in destruction.</p>
+</blockquote>
+<h2 id="9-full-lifecycle-summary">9. Full Lifecycle Summary</h2>
+<p>Putting every phase in order, the complete lifecycle is:</p>
+<ol>
+<li>Spring container starts.</li>
+<li>Spring reads configuration and annotations.</li>
+<li>Spring creates <code>BeanDefinition</code>.</li>
+<li>Spring instantiates the bean object.</li>
+<li>Spring injects dependencies.</li>
+<li>Spring calls Aware interfaces.</li>
+<li>Spring runs initialization callbacks (<code>@PostConstruct</code>, <code>InitializingBean</code>, custom <code>initMethod</code>).</li>
+<li>Bean is ready to use.</li>
+<li>Application uses the bean.</li>
+<li>Spring runs destruction callbacks (<code>@PreDestroy</code>, <code>DisposableBean</code>, custom <code>destroyMethod</code>).</li>
+<li>Bean is removed.</li>
+</ol>
+<p>Between Aware callbacks and initialization, the framework invokes <code>BeanPostProcessor</code> hooks (a "before initialization" pass), and another "after initialization" pass runs afterwards.</p>
+<p>Memory aid for the order, <code>R-C-I-A-I-U-D</code>:</p>
+<div class="highlight"><pre><span></span><code>Read (BeanDefinition)
+-&gt; Create (instantiate)
+-&gt; Inject (dependencies)
+-&gt; Aware (callbacks)
+-&gt; Init (initialization callbacks)
+-&gt; Use (ready/used)
+-&gt; Destroy (destruction callbacks)
+</code></pre></div>
+
+<p>Sentence mnemonic: "Real Coders Inject Aware, Init, Use, Destroy." The first letters trace the lifecycle from metadata to cleanup.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Recite <code>R-C-I-A-I-U-D</code>, then name the three initialization and three destruction mechanisms, and you have answered most lifecycle questions.</p>
+</blockquote>
+<h2 id="10-singleton-bean-lifecycle">10. Singleton Bean Lifecycle</h2>
+<p>By default, Spring beans are singleton scoped: Spring creates only one object for that bean and manages the complete lifecycle from creation to destruction.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">PaymentService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Constructor called&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@PostConstruct</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;@PostConstruct called&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@PreDestroy</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">destroy</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;@PreDestroy called&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>When the context starts:</p>
+<div class="highlight"><pre><span></span><code>Constructor called
+@PostConstruct called
+</code></pre></div>
+
+<p>When the context closes:</p>
+<div class="highlight"><pre><span></span><code>@PreDestroy called
+</code></pre></div>
+
+<h2 id="11-prototype-bean-lifecycle">11. Prototype Bean Lifecycle</h2>
+<p>Prototype means a new object is created every time the bean is requested.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="nd">@Scope</span><span class="p">(</span><span class="s">&quot;prototype&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">PaymentService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Constructor called&quot;</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Requesting it twice with <code>context.getBean(...)</code> creates two different objects; <code>p1</code> and <code>p2</code> differ. The prototype flow is:</p>
+<div class="highlight"><pre><span></span><code>container starts
+-&gt; BeanDefinition is read
+-&gt; no object usually created at startup
+-&gt; client requests prototype bean
+-&gt; Spring creates a new object
+-&gt; dependencies injected
+-&gt; Aware callbacks
+-&gt; initialization callbacks
+-&gt; Spring hands object to the client
+-&gt; Spring does not track it for normal destruction
+</code></pre></div>
+
+<p>Singleton versus prototype lifecycle:</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Singleton</th>
+<th>Prototype</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Object per</td>
+<td>One per bean</td>
+<td>One per request</td>
+</tr>
+<tr>
+<td>Created at startup</td>
+<td>Yes, by default (eager)</td>
+<td>Usually no</td>
+</tr>
+<tr>
+<td>Dependencies injected</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Aware callbacks</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Initialization callbacks</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Stored and reused by Spring</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Destruction callbacks by Spring</td>
+<td>Yes, on shutdown</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Who owns the object afterwards</td>
+<td>Spring</td>
+<td>The caller</td>
+</tr>
+</tbody>
+</table>
+<p>Compact way to remember the difference:</p>
+<div class="highlight"><pre><span></span><code>Singleton: Spring creates it, stores it, reuses it, destroys it.
+Prototype: Spring creates it, prepares it, gives it to the caller;
+           after that the caller is responsible for it.
+</code></pre></div>
+
+<h2 id="12-prototype-destruction-is-not-called-by-spring">12. Prototype Destruction is Not Called by Spring</h2>
+<p>A <code>@Scope("prototype")</code> <code>PaymentService</code> logs in its constructor, <code>@PostConstruct init()</code>, and <code>@PreDestroy destroy()</code>. Main gets one bean, then calls <code>context.close()</code>. Expected output:</p>
+<div class="highlight"><pre><span></span><code>Constructor called
+@PostConstruct called
+</code></pre></div>
+
+<p>Usually, we will not see:</p>
+<div class="highlight"><pre><span></span><code>@PreDestroy called
+</code></pre></div>
+
+<p>Why does <code>@PreDestroy</code> not run for prototype beans? Once Spring hands a prototype to the caller it stops tracking it. Singletons are cached and destroyed on close; prototypes the caller may use, store, discard, or copy many times.</p>
+<p>Why not keep a list of every prototype? Storing them all forever would prevent garbage collection and cause memory leaks.</p>
+<p>Does <code>context.close()</code> destroy prototype beans? Usually no. It destroys tracked singletons, but prototypes already handed out are not automatically destroyed. Clean them manually:</p>
+<ul>
+<li>close the resource manually;</li>
+<li>use try-with-resources where possible;</li>
+<li>avoid putting heavy resource cleanup responsibility inside prototype beans.</li>
+</ul>
+<p>Java can still garbage collect the prototype when unreferenced, but GC and Spring destruction callbacks are not the same thing.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@PreDestroy</code> on a prototype bean is not a cleanup guarantee. GC and Spring destruction are different mechanisms; never rely on one to stand in for the other.</p>
+</blockquote>
+<h2 id="13-important-case-singleton-depends-on-prototype">13. Important Case: Singleton Depends on Prototype</h2>
+<p>Consider <code>OrderService</code> (singleton) depending through its constructor on <code>PaymentSession</code> (prototype). <code>OrderService</code> is created once, so Spring creates one <code>PaymentSession</code> and injects it, and that same instance stays inside. A new object is not used for every method call.</p>
+<p>When the context closes, will Spring call <code>@PreDestroy</code> on <code>PaymentSession</code>? No, usually not. It is prototype scoped; Spring created and handed it over, and does not manage its destruction.</p>
+<p>Key learning:</p>
+<div class="highlight"><pre><span></span><code>Prototype scope means: new object per request from Spring.
+It does not mean: new object every time a singleton method runs.
+</code></pre></div>
+
+<p>If a singleton needs a fresh prototype instance every time, use other approaches such as <code>ObjectProvider</code>, <code>Provider</code>, lookup method injection, or <code>applicationContext.getBean()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObjectProvider</span><span class="o">&lt;</span><span class="n">PaymentSession</span><span class="o">&gt;</span><span class="w"> </span><span class="n">paymentSessionProvider</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderService</span><span class="p">(</span><span class="n">ObjectProvider</span><span class="o">&lt;</span><span class="n">PaymentSession</span><span class="o">&gt;</span><span class="w"> </span><span class="n">paymentSessionProvider</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">paymentSessionProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentSessionProvider</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">createOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">PaymentSession</span><span class="w"> </span><span class="n">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentSessionProvider</span><span class="p">.</span><span class="na">getObject</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">session</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The classic "prototype injected into singleton" question - the prototype is resolved once at injection, and for fresh instances you inject <code>ObjectProvider</code> or use lookup method injection.</p>
+</blockquote>
+<h2 id="14-lazy-and-bean-lifecycle">14. @Lazy and Bean Lifecycle</h2>
+<p>By default, singleton beans are eager: they are created when the container starts. If we mark a singleton <code>@Lazy</code>, Spring reads its bean definition but does not create the object immediately. Flow for a lazy singleton:</p>
+<div class="highlight"><pre><span></span><code>container starts
+-&gt; BeanDefinition is registered
+-&gt; object is not created yet
+-&gt; bean is created only when someone asks for it
+</code></pre></div>
+
+<p>So for a lazy singleton the <code>BeanDefinition</code> is read at startup, while object creation, dependency injection, and initialization happen later.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Eager singleton (default)</th>
+<th><code>@Lazy</code> singleton</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BeanDefinition</code> read at startup</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Object created at startup</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Dependency injection timing</td>
+<td>At startup</td>
+<td>When first requested</td>
+</tr>
+<tr>
+<td>Initialization timing</td>
+<td>At startup</td>
+<td>When first requested</td>
+</tr>
+<tr>
+<td>Still a single instance</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Lazy</code> changes when the bean is created, not how often. A lazy singleton is still a singleton; only its birth is postponed.</p>
+</blockquote>
+<h2 id="15-postconstruct-and-circular-dependency">15. @PostConstruct and Circular Dependency</h2>
+<p>Consider a constructor cycle: <code>A</code> needs <code>B</code>, and <code>B</code> needs <code>A</code>. Spring cannot create either without the other, so constructor circular dependency fails.</p>
+<p>Where can <code>@PostConstruct</code> help? By letting each bean finish construction, then wire the back-reference. <code>A</code> is built with <code>B</code>; then <code>@PostConstruct</code> on <code>A</code> calls <code>b.setA(this)</code>, while <code>B</code> holds <code>A</code> via an ordinary setter, not its constructor.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@PostConstruct</code> runs after dependency injection, which is why it can complete a relationship that would deadlock in constructors. Prefer redesigning to avoid cycles.</p>
+</blockquote>
+<h2 id="16-myth-vs-reality">16. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Instantiation and initialization are the same"</td>
+<td>Instantiation creates the object; initialization prepares it afterwards. They are distinct phases.</td>
+</tr>
+<tr>
+<td>"Spring creates all beans immediately"</td>
+<td>Singletons are eager by default, but prototypes and <code>@Lazy</code> singletons are created later.</td>
+</tr>
+<tr>
+<td>"<code>@PreDestroy</code> always runs"</td>
+<td>It runs for managed singletons; handed-out prototypes are not tracked and are not destroyed by Spring.</td>
+</tr>
+<tr>
+<td>"Prototype means a new object per method call in a singleton"</td>
+<td>Prototype means a new object per request from Spring; an injected prototype in a singleton is resolved once.</td>
+</tr>
+<tr>
+<td>"Aware interfaces are needed in normal services"</td>
+<td>They are for framework and infrastructure code; ordinary business services rarely need them.</td>
+</tr>
+<tr>
+<td>"Calling <code>setBeanName()</code> manually renames the bean"</td>
+<td>It behaves like a plain Java method and does not change the name registered in the container.</td>
+</tr>
+<tr>
+<td>"Garbage collection equals Spring destruction"</td>
+<td>GC reclaims memory; Spring destruction callbacks release resources. They differ.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-common-trap-questions">17. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Object creation is the same as initialization."</strong>
+Verdict: False. Creation is instantiation (constructor runs); initialization is the separate phase where <code>@PostConstruct</code>, <code>afterPropertiesSet()</code>, or the custom init method runs.</p>
+<p><strong>Trap 2 - "Spring calls <code>@PreDestroy</code> for prototype beans automatically."</strong>
+Verdict: False, usually. Spring stops tracking a prototype once it hands it to the caller, so its destruction callbacks are not invoked on context close.</p>
+<p><strong>Trap 3 - "A prototype injected into a singleton gives a new instance per method call."</strong>
+Verdict: False. The prototype is resolved once at injection; for fresh instances per call, inject <code>ObjectProvider</code> or use lookup method injection.</p>
+<p><strong>Trap 4 - "<code>context.close()</code> destroys every bean, including prototypes already handed out."</strong>
+Verdict: False. It destroys tracked singletons; handed-out prototypes are not automatically destroyed.</p>
+<p><strong>Trap 5 - "<code>BeanDefinition</code> means the bean object exists."</strong>
+Verdict: False. <code>BeanDefinition</code> is only metadata; for lazy beans and prototypes, object creation is deferred or may never happen.</p>
+<p><strong>Trap 6 - "<code>@Lazy</code> makes the bean a prototype."</strong>
+Verdict: False. <code>@Lazy</code> changes when the bean is created, not its scope. The lazy bean is still a singleton unless declared otherwise.</p>
+<p><strong>Trap 7 - "Calling <code>setBeanName()</code> yourself changes the registered bean name."</strong>
+Verdict: False. It is a normal method call; only Spring's own callback sets the actual container name.</p>
+</blockquote>
+<h2 id="18-points-to-remember">18. Points to Remember</h2>
+<ol>
+<li>Bean lifecycle is the complete journey of a Spring-managed object from definition discovery to destruction.</li>
+<li>Step 0/1 run before objects exist: the container starts, inspects metadata via reflection, and registers <code>BeanDefinition</code>s.</li>
+<li>Instantiation (constructor) and initialization (<code>@PostConstruct</code> and friends) are different phases.</li>
+<li>Injection timing depends on type: constructor injection runs during creation; setter and field injection run after.</li>
+<li>Aware interfaces (<code>BeanNameAware</code>, <code>ApplicationContextAware</code>) are callbacks used mostly by framework and infrastructure code.</li>
+<li>Initialization order: <code>@PostConstruct</code> then <code>afterPropertiesSet()</code> then custom <code>initMethod</code>.</li>
+<li>Destruction order: <code>@PreDestroy</code> then <code>destroy()</code> then custom <code>destroyMethod</code>.</li>
+<li>Singletons are eager by default and fully managed: Spring creates, stores, reuses, and destroys them.</li>
+<li>Prototypes are created per request and not tracked for automatic destruction; clean them up manually.</li>
+<li><code>@Lazy</code> delays creation of a singleton, and <code>@PostConstruct</code> can break a constructor circular dependency.</li>
+</ol>
+<h2 id="19-likely-interview-questions">19. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the Spring bean lifecycle?</td>
+<td>The journey of a managed object: definition read, instantiation, injection, Aware callbacks, initialization, use, destruction, removal.</td>
+</tr>
+<tr>
+<td>What is a <code>BeanDefinition</code>?</td>
+<td>Metadata (class, name, scope, lazy flag, dependencies, init/destroy methods) registered before any object is created.</td>
+</tr>
+<tr>
+<td>Instantiation vs initialization?</td>
+<td>Instantiation creates the object (constructor); initialization prepares it afterwards (<code>@PostConstruct</code>, <code>afterPropertiesSet()</code>, init method).</td>
+</tr>
+<tr>
+<td>Name the three initialization callbacks and their order.</td>
+<td><code>@PostConstruct</code>, then <code>InitializingBean.afterPropertiesSet()</code>, then a custom <code>initMethod</code>.</td>
+</tr>
+<tr>
+<td>Name the three destruction callbacks and their order.</td>
+<td><code>@PreDestroy</code>, then <code>DisposableBean.destroy()</code>, then a custom <code>destroyMethod</code>.</td>
+</tr>
+<tr>
+<td>What are Aware interfaces for?</td>
+<td>Callbacks giving a bean container information such as its bean name or the <code>ApplicationContext</code> it runs in.</td>
+</tr>
+<tr>
+<td>Singleton vs prototype lifecycle?</td>
+<td>Singleton: one instance, stored, reused, destroyed by Spring. Prototype: new instance per request, not auto-destroyed.</td>
+</tr>
+<tr>
+<td>Why is <code>@PreDestroy</code> not called on prototype beans?</td>
+<td>After handing over the prototype, Spring stops tracking it; tracking all instances would prevent GC and cause leaks.</td>
+</tr>
+<tr>
+<td>Singleton depends on prototype - what happens?</td>
+<td>The prototype is resolved once at injection; for fresh instances per call use <code>ObjectProvider</code> or lookup method injection.</td>
+</tr>
+<tr>
+<td>What does <code>@Lazy</code> change in the lifecycle?</td>
+<td>It defers object creation, dependency injection, and initialization of a singleton until first requested.</td>
+</tr>
+<tr>
+<td>How does <code>@PostConstruct</code> help with circular dependency?</td>
+<td>It runs after injection, letting a bean complete a back-reference that would deadlock in constructors.</td>
+</tr>
+<tr>
+<td>Why does the bean name setter start with <code>set</code>?</td>
+<td>The container pushes information into the bean (<code>Spring -&gt; bean</code>), so it sets rather than gets.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-final-summary">20. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>container starts -&gt; read configuration/annotations -&gt; create BeanDefinition
+-&gt; instantiate bean -&gt; inject dependencies -&gt; call Aware interfaces
+-&gt; run initialization callbacks -&gt; bean ready -&gt; application uses bean
+-&gt; run destruction callbacks -&gt; bean removed
+</code></pre></div>
+
+<ul>
+<li><code>R-C-I-A-I-U-D</code>: Read, Create, Inject, Aware, Init, Use, Destroy.</li>
+<li>Singleton: one instance, eager by default, fully managed from creation to destruction.</li>
+<li>Prototype: new instance per request, handed to the caller, not tracked for destruction.</li>
+<li><code>@Lazy</code> defers creation, injection, and initialization of a singleton until first use.</li>
+<li>Aware interfaces and <code>BeanPostProcessor</code> hooks are extension points around initialization.</li>
+<li>The singleton-depends-on-prototype case resolves the prototype once; use <code>ObjectProvider</code> for fresh instances.</li>
+<li><code>@PostConstruct</code> runs after injection and can break constructor circular dependencies.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Bean Lifecycle is not just object creation; it is the complete process through which Spring discovers, creates, prepares, manages, and destroys a bean, with singletons managed end to end and prototypes handed over with only their beginning managed.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-06.html"><span class="dir">Previous</span><span class="ttl">Lecture 06 — Circular Dependency in Spring</span></a><a class="next" href="doc-theory-lecture-08.html"><span class="dir">Next</span><span class="ttl">Lecture 08 — Spring XML Configuration Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

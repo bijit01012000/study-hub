@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Ticket Booking System — HLD · System Design</title>
+<meta name="description" content="Design a Ticket Booking System">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-hld-interview-problems-08-ticket-booking-system">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="active" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>HLD · System Design</h4><details class="part"><summary>Theory &amp; Notes <span class="count">53</span></summary><ul class="side-list"><li class="grp">hld-merged-notes</li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-00-overview.html" title="HLD Merged Notes">HLD Merged Notes</a><button class="star" data-doc="theory-hld-merged-notes-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-01-scalability-and-system-evolution.html" title="Scalability and System Evolution">Scalability and System Evolution</a><button class="star" data-doc="theory-hld-merged-notes-01-scalability-and-system-evolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-02-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-hld-merged-notes-02-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-03-back-of-the-envelope-estimation.html" title="Back-of-the-Envelope Estimation">Back-of-the-Envelope Estimation</a><button class="star" data-doc="theory-hld-merged-notes-03-back-of-the-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-04-monolith-vs-microservices.html" title="Monolith vs Microservices">Monolith vs Microservices</a><button class="star" data-doc="theory-hld-merged-notes-04-monolith-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-05-sharding-and-consistent-hashing.html" title="Sharding and Consistent Hashing">Sharding and Consistent Hashing</a><button class="star" data-doc="theory-hld-merged-notes-05-sharding-and-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-06-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-hld-merged-notes-06-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-07-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-hld-merged-notes-07-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-08-url-shortener.html" title="Design a URL Shortener (Bit.Ly Clone)">Design a URL Shortener (Bit.Ly Clone)</a><button class="star" data-doc="theory-hld-merged-notes-08-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-09-notification-system.html" title="Notification System">Notification System</a><button class="star" data-doc="theory-hld-merged-notes-09-notification-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-10-messaging-queues-and-kafka.html" title="Messaging Queues and Kafka">Messaging Queues and Kafka</a><button class="star" data-doc="theory-hld-merged-notes-10-messaging-queues-and-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-11-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-hld-merged-notes-11-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-12-authentication-and-authorization.html" title="Authentication and Authorization">Authentication and Authorization</a><button class="star" data-doc="theory-hld-merged-notes-12-authentication-and-authorization" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-13-oauth2.html" title="OAuth 2.0">OAuth 2.0</a><button class="star" data-doc="theory-hld-merged-notes-13-oauth2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-14-autocomplete-engine.html" title="Autocomplete Engine">Autocomplete Engine</a><button class="star" data-doc="theory-hld-merged-notes-14-autocomplete-engine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-15-instagram-feed.html" title="Design an Instagram Feed">Design an Instagram Feed</a><button class="star" data-doc="theory-hld-merged-notes-15-instagram-feed" title="Bookmark">☆</button></div></li><li class="grp">system-design-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-00-overview.html" title="System Design Core Concepts">System Design Core Concepts</a><button class="star" data-doc="theory-system-design-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-01-vertical-scaling.html" title="Vertical Scaling">Vertical Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-01-vertical-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-02-horizontal-scaling.html" title="Horizontal Scaling">Horizontal Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-02-horizontal-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-03-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-system-design-core-concepts-03-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-04-sharding-partitioning.html" title="Sharding / Partitioning">Sharding / Partitioning</a><button class="star" data-doc="theory-system-design-core-concepts-04-sharding-partitioning" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-05-replication.html" title="Replication">Replication</a><button class="star" data-doc="theory-system-design-core-concepts-05-replication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-06-stateless-vs-stateful-services.html" title="Stateless vs Stateful Services">Stateless vs Stateful Services</a><button class="star" data-doc="theory-system-design-core-concepts-06-stateless-vs-stateful-services" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices.html" title="Monolith vs N-Tier vs Microservices">Monolith vs N-Tier vs Microservices</a><button class="star" data-doc="theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-08-sql-vs-nosql.html" title="SQL vs NoSQL">SQL vs NoSQL</a><button class="star" data-doc="theory-system-design-core-concepts-08-sql-vs-nosql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-09-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-system-design-core-concepts-09-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-10-indexing.html" title="Indexing">Indexing</a><button class="star" data-doc="theory-system-design-core-concepts-10-indexing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-11-consistent-hashing.html" title="Consistent Hashing">Consistent Hashing</a><button class="star" data-doc="theory-system-design-core-concepts-11-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-12-acid-transactions-and-isolation.html" title="ACID Transactions &amp; Isolation">ACID Transactions &amp; Isolation</a><button class="star" data-doc="theory-system-design-core-concepts-12-acid-transactions-and-isolation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-13-write-ahead-log.html" title="Write-Ahead Log">Write-Ahead Log</a><button class="star" data-doc="theory-system-design-core-concepts-13-write-ahead-log" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-14-object-vs-block-vs-file-storage.html" title="Object vs Block vs File Storage">Object vs Block vs File Storage</a><button class="star" data-doc="theory-system-design-core-concepts-14-object-vs-block-vs-file-storage" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-15-database-connection-pooling.html" title="Database Connection Pooling">Database Connection Pooling</a><button class="star" data-doc="theory-system-design-core-concepts-15-database-connection-pooling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-16-dns-resolution.html" title="DNS Resolution">DNS Resolution</a><button class="star" data-doc="theory-system-design-core-concepts-16-dns-resolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-17-cdn-and-edge-caching.html" title="CDN &amp; Edge Caching">CDN &amp; Edge Caching</a><button class="star" data-doc="theory-system-design-core-concepts-17-cdn-and-edge-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-18-http-versions.html" title="HTTP/1.1 vs HTTP/2 vs HTTP/3">HTTP/1.1 vs HTTP/2 vs HTTP/3</a><button class="star" data-doc="theory-system-design-core-concepts-18-http-versions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-19-service-discovery.html" title="Service Discovery">Service Discovery</a><button class="star" data-doc="theory-system-design-core-concepts-19-service-discovery" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-20-real-time-communication.html" title="Real-Time Communication">Real-Time Communication</a><button class="star" data-doc="theory-system-design-core-concepts-20-real-time-communication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-21-api-gateway-reverse-proxy.html" title="API Gateway / Reverse Proxy">API Gateway / Reverse Proxy</a><button class="star" data-doc="theory-system-design-core-concepts-21-api-gateway-reverse-proxy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-22-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-system-design-core-concepts-22-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-23-consistency-models.html" title="Consistency Models">Consistency Models</a><button class="star" data-doc="theory-system-design-core-concepts-23-consistency-models" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-24-consensus-paxos-raft.html" title="Consensus (Paxos, Raft)">Consensus (Paxos, Raft)</a><button class="star" data-doc="theory-system-design-core-concepts-24-consensus-paxos-raft" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-25-distributed-locks.html" title="Distributed Locks">Distributed Locks</a><button class="star" data-doc="theory-system-design-core-concepts-25-distributed-locks" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-26-message-queues.html" title="Message Queues">Message Queues</a><button class="star" data-doc="theory-system-design-core-concepts-26-message-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-27-idempotency.html" title="Idempotency">Idempotency</a><button class="star" data-doc="theory-system-design-core-concepts-27-idempotency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-28-event-driven-architecture.html" title="Event-Driven Architecture">Event-Driven Architecture</a><button class="star" data-doc="theory-system-design-core-concepts-28-event-driven-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-29-backpressure.html" title="Backpressure">Backpressure</a><button class="star" data-doc="theory-system-design-core-concepts-29-backpressure" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-30-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-system-design-core-concepts-30-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-31-bloom-filters.html" title="Bloom Filters">Bloom Filters</a><button class="star" data-doc="theory-system-design-core-concepts-31-bloom-filters" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-32-circuit-breaker-retry.html" title="Circuit Breaker + Retry">Circuit Breaker + Retry</a><button class="star" data-doc="theory-system-design-core-concepts-32-circuit-breaker-retry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-33-back-of-envelope-estimation.html" title="Back-of-Envelope Estimation">Back-of-Envelope Estimation</a><button class="star" data-doc="theory-system-design-core-concepts-33-back-of-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-34-monitoring-observability.html" title="Monitoring &amp; Observability">Monitoring &amp; Observability</a><button class="star" data-doc="theory-system-design-core-concepts-34-monitoring-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-35-batch-vs-stream-processing.html" title="Batch vs Stream Processing">Batch vs Stream Processing</a><button class="star" data-doc="theory-system-design-core-concepts-35-batch-vs-stream-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-36-authn-vs-authz.html" title="AuthN vs AuthZ">AuthN vs AuthZ</a><button class="star" data-doc="theory-system-design-core-concepts-36-authn-vs-authz" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li class="grp">hld-interview-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-00-overview.html" title="High-Level Design Problems">High-Level Design Problems</a><button class="star" data-doc="practice-hld-interview-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-01-url-shortener.html" title="Design a URL Shortener">Design a URL Shortener</a><button class="star" data-doc="practice-hld-interview-problems-01-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-02-news-feed.html" title="Design a News Feed">Design a News Feed</a><button class="star" data-doc="practice-hld-interview-problems-02-news-feed" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-03-chat-app.html" title="Design a Chat App">Design a Chat App</a><button class="star" data-doc="practice-hld-interview-problems-03-chat-app" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-04-ride-hailing-delivery-matching.html" title="Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy">Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy</a><button class="star" data-doc="practice-hld-interview-problems-04-ride-hailing-delivery-matching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-05-rate-limiter.html" title="Design a Rate Limiter">Design a Rate Limiter</a><button class="star" data-doc="practice-hld-interview-problems-05-rate-limiter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-06-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-hld-interview-problems-06-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-07-video-streaming-service.html" title="Design a Video Streaming Service">Design a Video Streaming Service</a><button class="star" data-doc="practice-hld-interview-problems-07-video-streaming-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-hld-interview-problems-08-ticket-booking-system.html" title="Design a Ticket Booking System">Design a Ticket Booking System</a><button class="star" data-doc="practice-hld-interview-problems-08-ticket-booking-system" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-hld-interview-problems-08-ticket-booking-system.html#level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</a></li><li><a href="doc-practice-hld-interview-problems-08-ticket-booking-system.html#level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</a></li><li><a href="doc-practice-hld-interview-problems-08-ticket-booking-system.html#level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-09-typeahead-service.html" title="Design a Typeahead Service">Design a Typeahead Service</a><button class="star" data-doc="practice-hld-interview-problems-09-typeahead-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-10-web-crawler.html" title="Design a Web Crawler">Design a Web Crawler</a><button class="star" data-doc="practice-hld-interview-problems-10-web-crawler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-11-file-sync-service.html" title="Design a File Sync Service">Design a File Sync Service</a><button class="star" data-doc="practice-hld-interview-problems-11-file-sync-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-12-payment-system.html" title="Design a Payment System">Design a Payment System</a><button class="star" data-doc="practice-hld-interview-problems-12-payment-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-13-ad-click-aggregator.html" title="Design an Ad Click Aggregator">Design an Ad Click Aggregator</a><button class="star" data-doc="practice-hld-interview-problems-13-ad-click-aggregator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-14-job-scheduler.html" title="Design a Job Scheduler">Design a Job Scheduler</a><button class="star" data-doc="practice-hld-interview-problems-14-job-scheduler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-15-search-system.html" title="Design a Search System">Design a Search System</a><button class="star" data-doc="practice-hld-interview-problems-15-search-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-16-trading-system.html" title="Design a Trading System">Design a Trading System</a><button class="star" data-doc="practice-hld-interview-problems-16-trading-system" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-hld.html">HLD · System Design</a> › Practice &amp; Questions</p>
+<h1>Design a Ticket Booking System</h1>
+<p class="readmeta">3 sections · 3,395 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-hld-interview-problems-08-ticket-booking-system" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Three levels: Level 1 — The Shape, Level 2 — The Defence, Level 3 — The Edges.</p>
+</blockquote>
+<h2 id="level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</h2>
+<p>Pacing: 3 min ask · 5 min trace flow · 7 min read why.</p>
+<h3 id="the-ask">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse shows/events and seat maps — the BookMyShow problem</li>
+<li>Select seat(s), place a temporary hold during payment</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>A seat must never sell twice ← forces an atomic claim</li>
+<li>A hold must not block forever ← forces a TTL'd lease</li>
+<li>A hot show bursts claims on 500 keys ← forces per-seat locking</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>500 000 bookings/day baseline · a hot show: 10 000 concurrent attempts on one 500-seat show in the first 60 s · a 5-min hold window. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client(s) — Thousands, same hot show, same 60 seconds</li>
+<li>(1) claim attempt — 166.7 /s, one hot show</li>
+<li>API Gateway — Routes browse traffic apart from claim traffic</li>
+<li>Booking Service — Checks availability · creates a hold on claim</li>
+<li>Seat Store — Source of truth · per-seat status: available / held / booked</li>
+<li>Payment Service — Out of scope — a boundary you don't own transactionally</li>
+<li>(5) Rejected — 409 · fails fast, never queues behind the winner</li>
+<li>(9) 200 OK · booking confirmed — never a second claim</li>
+<li>(6) TTL 5 min</li>
+</ul>
+<p>Data model: <code>seats seat_id PK → show_id, status</code>.</p>
+<p>95% of attempts — by design.</p>
+<p>Line = claim vs traffic: CLAIM · Seat Store write; READ · view or confirm.</p>
+<h3 id="say-it-like-this">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Unlike a typical read-heavy service, I'd choose consistency over availability here — a double-sold seat is a real failure, not a stale read. So every claim is a per-seat conditional write against the Seat Store, not one lock for the whole show — that lock would be held across a human's checkout. A hold gets a short TTL so an abandoned checkout doesn't block the seat forever. And anyone just looking at the seat map reads from a separate, cache-backed view — they never touch the strict path."</p>
+</blockquote>
+<h3 id="defend-it">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) Per-seat claim</td>
+<td>Conditional write per seat — 500 keys, each sees ~0.33/s</td>
+<td>One show-level lock → held across a 5-min checkout, it freezes all 500 seats</td>
+</tr>
+<tr>
+<td>(6) Hold + TTL</td>
+<td>Short lease, auto-expires — abandoned checkout frees the seat</td>
+<td>No hold → grabbed mid-checkout. Unbounded → blocks it forever</td>
+</tr>
+<tr>
+<td>(5) Fail fast</td>
+<td>Explicit 409, immediately — 95% can't win no matter what</td>
+<td>Queue/retry silently → 10 000 requests serialize, time out slowly</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>500 000 ÷ 86 400 s — platform-wide, unremarkable</td>
+<td>5.8 /s</td>
+</tr>
+<tr>
+<td>Hot show</td>
+<td>10 000 ÷ 60 s — one show, ~29× the platform's average</td>
+<td>166.7 /s</td>
+</tr>
+<tr>
+<td>Contention</td>
+<td>10 000 attempts ÷ 500 seats</td>
+<td>20 : 1</td>
+</tr>
+<tr>
+<td>Guaranteed-fail</td>
+<td>(10 000 − 500) ÷ 10 000 — true regardless of build quality</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>Per-seat load</td>
+<td>10 000 attempts spread over 500 seats, 60 s</td>
+<td>≈0.33 /s/seat</td>
+</tr>
+<tr>
+<td>Max holds</td>
+<td>bounded by seat count — one hold per seat, ever</td>
+<td>≤500</td>
+</tr>
+</tbody>
+</table>
+<p>Average load tells you nothing about surviving a hot show. 5.8/s platform-wide vs 166.7/s on 500 keys — and 95% of those attempts cannot possibly succeed, no matter how well the system is built.</p>
+<h3 id="before-you-draw-anything-the-four-moves">Before You Draw Anything — The Four Moves</h3>
+<ol>
+<li><strong>Clarify, don't assume.</strong> Single seat or multiple? General-admission or assigned-seat — say assigned-seat, it's the harder, more interesting case. — Two minutes of questions buys the whole design.</li>
+<li><strong>Agree the scale out loud.</strong> "500 K bookings/day baseline, but a hot show is 10 000 attempts on 500 seats in 60 s." Now every choice has a reason. — An unstated number is an undefendable design.</li>
+<li><strong>Draw the happy path only.</strong> Client → gateway → booking service → seat store → payment. Get agreement before adding anything. — Boxes you add before agreement are boxes you'll defend alone.</li>
+<li><strong>Name one trade-off unprompted.</strong> "I'd choose consistency over availability here — a double-sold seat is a real failure, not a stale read." — This is the single move that separates L1 from a junior answer.</li>
+</ol>
+<h3 id="what-l1-is-testing">What L1 Is Testing</h3>
+<ul>
+<li>Do you name the atomic claim mechanism unprompted?</li>
+<li>Do you choose consistency over availability, and say why?</li>
+<li>Did you ask assigned-seat vs general-admission before drawing?</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Two people click "book" on the same seat in the same millisecond. What actually decides who gets it? <em>(refs 3,12 — tests: an atomic-claim mechanism, not a hand-wave)</em></li>
+<li>10 000 people try to buy 500 seats in the first minute. What's your plan for the 9 500 who can't get one? <em>(refs 5,10 — tests: fail-fast awareness, not "the database handles it")</em></li>
+<li>A user holds a seat, then closes their browser without paying. What happens to that seat, and when? <em>(refs 6,7 — tests: TTL / hold-expiry awareness)</em></li>
+</ol>
+<p>At L1 you are being judged on one thing: can you produce a coherent shape and defend three choices inside it. Depth is page 2 — do not reach for it here. Ghosted boxes are what arrives next; you should be able to guess two of them.</p>
+<h2 id="level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</h2>
+<p>Pacing: 5 min ask · 15 min trace flow · 10 min read why · 30 min cover &amp; answer.</p>
+<h3 id="the-ask_1">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse shows/events and seat maps — the BookMyShow problem</li>
+<li>Select seat(s), place a temporary hold during payment</li>
+<li>Confirm on success; auto-release the hold on failure or timeout</li>
+<li>Near-real-time taken / held / free view for everyone watching</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>A seat must never sell twice ← forces an atomic claim</li>
+<li>A hold must not block forever ← forces a TTL'd lease</li>
+<li>A hot show bursts claims on 500 keys ← forces per-seat locking</li>
+<li>Viewing shouldn't hammer the source of truth ← forces a cached view</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Payment internals — card networks, PSP integration</li>
+<li>Seating chart / venue design tooling</li>
+<li>Pricing, discounts, dynamic pricing</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>500 000 bookings/day baseline · a hot show: 10 000 concurrent attempts on one 500-seat show in the first 60 s · a 5-min hold window. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape_1">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client(s) — Thousands, same hot show, same 60 seconds</li>
+<li>(1) claim attempt — 166.7 /s, one hot show</li>
+<li>API Gateway — Routes browse traffic apart from claim traffic</li>
+<li>Booking Service — Checks availability · creates a hold on claim</li>
+<li>(8) Seat-Map View — Cache / pub-sub — what viewers actually poll; browse traffic — most viewers, not buyers; publish update; free</li>
+<li>Seat Store — Source of truth · per-seat status: available / held / booked; 500 seats · at most 500 outstanding holds, ever</li>
+<li>Hold Sweeper — Expires holds past TTL · returns the seat to available; sweep + release, async</li>
+<li>Payment Service — Out of scope — a boundary you don't own transactionally</li>
+<li>(5) Rejected — 409 · fails fast, never queues behind the winner</li>
+<li>(9) 200 OK · booking confirmed — never a second claim</li>
+<li>(6) TTL 5 min</li>
+<li>(10) Admission Queue — A bounded trickle into Booking Service</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>seats seat_id PK · show_id · status · held_by · hold_expires_at</code></li>
+<li><code>bookings booking_id PK · seat_id · user_id · payment_status</code></li>
+</ul>
+<p>95% of attempts — by design.</p>
+<p>Line = claim vs traffic: CLAIM · Seat Store write; READ · view or confirm; ASYNC · off critical path.</p>
+<h3 id="say-it-like-this_1">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Unlike a typical read-heavy service, I'd choose consistency over availability here — a double-sold seat is a real failure, not a stale read. So every claim is a per-seat conditional write against the Seat Store, not one lock for the whole show — that lock would be held across a human's checkout. A hold gets a short TTL so an abandoned checkout doesn't block the seat forever. And anyone just looking at the seat map reads from a separate, cache-backed view — they never touch the strict path."</p>
+</blockquote>
+<h3 id="defend-it_1">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) Per-seat claim</td>
+<td>Conditional write per seat — 500 keys, each sees ~0.33/s</td>
+<td>One show-level lock → held across a 5-min checkout, it freezes all 500 seats</td>
+</tr>
+<tr>
+<td>(6) Hold + TTL</td>
+<td>Short lease, auto-expires — abandoned checkout frees the seat</td>
+<td>No hold → grabbed mid-checkout. Unbounded → blocks it forever</td>
+</tr>
+<tr>
+<td>(5) Fail fast</td>
+<td>Explicit 409, immediately — 95% can't win no matter what</td>
+<td>Queue/retry silently → 10 000 requests serialize, time out slowly</td>
+</tr>
+<tr>
+<td>(8) Seat-map view</td>
+<td>Cache / pub-sub — most traffic is looking, not claiming</td>
+<td>Read the Seat Store on every view → load unrelated to real contention</td>
+</tr>
+<tr>
+<td>(10) Admission queue</td>
+<td>A bounded trickle into Booking Service — controlled, not a stampede</td>
+<td>Let all 10 000 hit Booking Service directly → most time out anyway</td>
+</tr>
+<tr>
+<td>(7) Hold expiry</td>
+<td>Active sweeper — freed the instant the TTL lapses</td>
+<td>Lazy check-on-read only → a seat looks held long after it's free</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_1">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>500 000 ÷ 86 400 s — platform-wide, unremarkable</td>
+<td>5.8 /s</td>
+</tr>
+<tr>
+<td>Hot show</td>
+<td>10 000 ÷ 60 s — one show, ~29× the platform's average</td>
+<td>166.7 /s</td>
+</tr>
+<tr>
+<td>Contention</td>
+<td>10 000 attempts ÷ 500 seats</td>
+<td>20 : 1</td>
+</tr>
+<tr>
+<td>Guaranteed-fail</td>
+<td>(10 000 − 500) ÷ 10 000 — true regardless of build quality</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>Per-seat load</td>
+<td>10 000 attempts spread over 500 seats, 60 s</td>
+<td>≈0.33 /s/seat</td>
+</tr>
+<tr>
+<td>Max holds</td>
+<td>bounded by seat count — one hold per seat, ever</td>
+<td>≤500</td>
+</tr>
+</tbody>
+</table>
+<p>The system's job for that 95% is to fail them fast and cleanly — not let 10 000 requests serialize through a lock and time out slowly. That is what the admission queue and the 409 path exist for.</p>
+<h3 id="what-breaks-say-it-before-they-ask">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(3) Hot-key contention.</strong> One show's seat map sees 166.7/s against 500 keys — one show-level lock serialises seats that never conflict, and is held across checkout. — Fix: per-seat conditional writes, spreading contention across independent keys</li>
+<li><strong>(7) Held-forever seat.</strong> A user abandons checkout mid-payment; without a TTL that seat is never released. — Fix: lease-based hold with auto-expiry</li>
+<li><strong>(8) Seat-map view lag.</strong> The read-optimized view is briefly behind the source of truth. — Fix: accept a small, stated staleness window on the VIEW only — the claim is always checked fresh, so this never causes a double-sale</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_1">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Two people click "book" on the same seat in the same millisecond. What actually decides who gets it? <em>(refs 3,12 — tests: an atomic-claim mechanism, not a hand-wave)</em></li>
+<li>10 000 people try to buy 500 seats in the first minute. What's your plan for the 9 500 who can't get one? <em>(refs 5,10 — tests: fail-fast awareness, not "the database handles it")</em></li>
+<li>A user holds a seat, then closes their browser without paying. What happens to that seat, and when? <em>(refs 6,7 — tests: TTL / hold-expiry awareness)</em></li>
+<li>Why not just lock the whole show while someone checks out? <em>(ref 3 — tests: coarse vs fine locking — the lock spans a human's checkout and blocks 499 seats nobody wants)</em></li>
+<li>The seat-map view says a seat is available. The user clicks it. It's gone. Is that a bug? <em>(ref 8 — tests: staleness-on-read vs correctness-on-write)</em></li>
+</ol>
+<h3 id="cover-the-sheet-answer-aloud">Cover The Sheet · Answer Aloud</h3>
+<p>Use it as revision: cover the right rail and the two panels to your left, then walk the numbered path out loud. If you cannot say why a box is there and what breaks it, that box is your gap.</p>
+<h2 id="level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</h2>
+<p>Pacing: 10 min ask · 25 min trace flow · 15 min read why · 40 min cover &amp; answer.</p>
+<h3 id="the-ask_2">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Browse shows/events and seat maps — the BookMyShow problem</li>
+<li>Select seat(s), place a temporary hold during payment</li>
+<li>Confirm on success; auto-release the hold on failure or timeout</li>
+<li>Near-real-time taken / held / free view for everyone watching</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>A seat must never sell twice ← forces an atomic claim</li>
+<li>A hold must not block forever ← forces a TTL'd lease</li>
+<li>A hot show bursts claims on 500 keys ← forces per-seat locking</li>
+<li>Viewing shouldn't hammer the source of truth ← forces a cached view</li>
+<li>Booking and payment must agree across a boundary you don't own ← forces a saga</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Payment internals — card networks, PSP integration</li>
+<li>Seating chart / venue design tooling</li>
+<li>Pricing, discounts, dynamic pricing</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>500 000 bookings/day baseline · a hot show: 10 000 concurrent attempts on one 500-seat show in the first 60 s · a 5-min hold window. Round, illustrative numbers, not any named company's.</p>
+<h3 id="the-shape_2">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>Client(s) — Thousands, same hot show, same 60 seconds</li>
+<li>(1) claim attempt — 166.7 /s, one hot show</li>
+<li>API Gateway — Routes browse traffic apart from claim traffic</li>
+<li>(10) Admission Queue — Bounds concurrent buyers into Booking Service</li>
+<li>Booking Service — Checks availability · creates a hold on claim</li>
+<li>(8) Seat-Map View — Cache / pub-sub — what viewers actually poll; browse traffic — most viewers, not buyers; publish update; free</li>
+<li>Seat Store — Source of truth · per-seat status: available / held / booked; 500 seats · at most 500 outstanding holds, ever</li>
+<li>(12) Conditional Write — CAS · not read-then-write</li>
+<li>Hold Sweeper — Expires holds past TTL · returns the seat to available; sweep + release, async</li>
+<li>(11) Compensator — On payment failure, releases the hold — saga, not 2PC</li>
+<li>Payment Service — Out of scope — a boundary you don't own transactionally</li>
+<li>(5) Rejected — 409 · fails fast, never queues behind the winner</li>
+<li>(9) 200 OK · booking confirmed — never a second claim</li>
+<li>(6) TTL 5 min</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>seats seat_id PK · show_id · status · held_by · hold_expires_at</code></li>
+<li><code>bookings booking_id PK · seat_id · user_id · payment_status</code></li>
+</ul>
+<p>95% of attempts — by design.</p>
+<p>Line = claim vs traffic: CLAIM · Seat Store write; READ · view or confirm; ASYNC · off critical path.</p>
+<h3 id="say-it-like-this_2">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Unlike a typical read-heavy service, I'd choose consistency over availability here — a double-sold seat is a real failure, not a stale read. So every claim is a per-seat conditional write against the Seat Store, not one lock for the whole show — that lock would be held across a human's checkout. A hold gets a short TTL so an abandoned checkout doesn't block the seat forever. And anyone just looking at the seat map reads from a separate, cache-backed view — they never touch the strict path."</p>
+</blockquote>
+<h3 id="defend-it_2">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(3) Per-seat claim</td>
+<td>Conditional write per seat — 500 keys, each sees ~0.33/s</td>
+<td>One show-level lock → held across a 5-min checkout, it freezes all 500 seats</td>
+</tr>
+<tr>
+<td>(6) Hold + TTL</td>
+<td>Short lease, auto-expires — abandoned checkout frees the seat</td>
+<td>No hold → grabbed mid-checkout. Unbounded → blocks it forever</td>
+</tr>
+<tr>
+<td>(5) Fail fast</td>
+<td>Explicit 409, immediately — 95% can't win no matter what</td>
+<td>Queue/retry silently → 10 000 requests serialize, time out slowly</td>
+</tr>
+<tr>
+<td>(8) Seat-map view</td>
+<td>Cache / pub-sub — most traffic is looking, not claiming</td>
+<td>Read the Seat Store on every view → load unrelated to real contention</td>
+</tr>
+<tr>
+<td>(10) Admission queue</td>
+<td>A bounded trickle into Booking Service — controlled, not a stampede</td>
+<td>Let all 10 000 hit Booking Service directly → most time out anyway</td>
+</tr>
+<tr>
+<td>(7) Hold expiry</td>
+<td>Active sweeper — freed the instant the TTL lapses</td>
+<td>Lazy check-on-read only → a seat looks held long after it's free</td>
+</tr>
+<tr>
+<td>(12) CAS vs read-then-write</td>
+<td>One atomic compare-and-swap — claim WHERE status=available</td>
+<td>Read, check, then write → two clients can both read "available" first</td>
+</tr>
+<tr>
+<td>(11) Saga, not 2PC</td>
+<td>Local hold + explicit compensating release — Payment isn't yours</td>
+<td>A distributed transaction spanning a boundary you don't own</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_2">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>500 000 ÷ 86 400 s — platform-wide, unremarkable</td>
+<td>5.8 /s</td>
+</tr>
+<tr>
+<td>Hot show</td>
+<td>10 000 ÷ 60 s — one show, ~29× the platform's average</td>
+<td>166.7 /s</td>
+</tr>
+<tr>
+<td>Contention</td>
+<td>10 000 attempts ÷ 500 seats</td>
+<td>20 : 1</td>
+</tr>
+<tr>
+<td>Guaranteed-fail</td>
+<td>(10 000 − 500) ÷ 10 000 — true regardless of build quality</td>
+<td>95%</td>
+</tr>
+<tr>
+<td>Per-seat load</td>
+<td>10 000 attempts spread over 500 seats, 60 s</td>
+<td>≈0.33 /s/seat</td>
+</tr>
+<tr>
+<td>Max holds</td>
+<td>bounded by seat count — one hold per seat, ever</td>
+<td>≤500</td>
+</tr>
+</tbody>
+</table>
+<p>Unlike sheet 01, storage and average throughput are both trivial here. The entire problem is 60 seconds of concentrated contention on 500 keys — a correctness problem, not a scale problem.</p>
+<h3 id="what-breaks-say-it-before-they-ask_1">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(3) Hot-key contention.</strong> One show's seat map sees 166.7/s against 500 keys — one show-level lock serialises seats that never conflict, and is held across checkout. — Fix: per-seat conditional writes, spreading contention across independent keys</li>
+<li><strong>(7) Held-forever seat.</strong> A user abandons checkout mid-payment; without a TTL that seat is never released. — Fix: lease-based hold with auto-expiry</li>
+<li><strong>(8) Seat-map view lag.</strong> The read-optimized view is briefly behind the source of truth. — Fix: accept a small, stated staleness window on the VIEW only — the claim is always checked fresh, so this never causes a double-sale</li>
+<li><strong>(10) Sale-open stampede.</strong> Everyone hits "buy" the instant tickets go live. — Fix: admission-control queue, a bounded trickle instead of all 10 000 at once</li>
+<li><strong>(11) Hold-expiry vs payment-success race.</strong> A hold expires at nearly the same instant payment succeeds. — Fix: the claim is checked atomically again at payment-confirmation time, not only at hold-creation</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_2">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Two people click "book" on the same seat in the same millisecond. What actually decides who gets it? <em>(refs 3,12 — tests: an atomic-claim mechanism, not a hand-wave)</em></li>
+<li>10 000 people try to buy 500 seats in the first minute. What's your plan for the 9 500 who can't get one? <em>(refs 5,10 — tests: fail-fast awareness, not "the database handles it")</em></li>
+<li>A user holds a seat, then closes their browser without paying. What happens to that seat, and when? <em>(refs 6,7 — tests: TTL / hold-expiry awareness)</em></li>
+<li>Why not just lock the whole show while someone checks out? <em>(ref 3 — tests: coarse vs fine locking — the lock spans a human's checkout and blocks 499 seats nobody wants)</em></li>
+<li>The seat-map view says a seat is available. The user clicks it. It's gone. Is that a bug? <em>(ref 8 — tests: staleness-on-read vs correctness-on-write)</em></li>
+<li>Payment succeeds half a second after the hold already expired. What do you do? <em>(ref 11 — tests: the boundary race between two systems, saga thinking)</em></li>
+</ol>
+<div class="pager"><a class="prev" href="doc-practice-hld-interview-problems-07-video-streaming-service.html"><span class="dir">Previous</span><span class="ttl">Design a Video Streaming Service</span></a><a class="next" href="doc-practice-hld-interview-problems-09-typeahead-service.html"><span class="dir">Next</span><span class="ttl">Design a Typeahead Service</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

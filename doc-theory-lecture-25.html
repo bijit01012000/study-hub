@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 25 — Custom Annotations in Spring AOP — Spring Boot</title>
+<meta name="description" content="Lecture 25 — Custom Annotations in Spring AOP">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-25">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-25.html#lecture-25">Lecture 25</a></li><li><a href="doc-theory-lecture-25.html#1-separating-what-from-how">1. Separating &quot;What&quot; from &quot;How&quot;</a></li><li><a href="doc-theory-lecture-25.html#2-a-custom-annotation-does-nothing-by-itself">2. A Custom Annotation Does Nothing by Itself</a></li><li><a href="doc-theory-lecture-25.html#3-creating-a-custom-annotation">3. Creating a Custom Annotation</a></li><li><a href="doc-theory-lecture-25.html#4-understanding-target-and-retention-and-documented">4. Understanding @Target and @Retention (and @Documented)</a></li><li><a href="doc-theory-lecture-25.html#5-marker-annotations-and-configured-annotations">5. Marker Annotations and Configured Annotations</a></li><li><a href="doc-theory-lecture-25.html#6-the-annotation-pointcut-designator">6. The @annotation() Pointcut Designator</a></li><li><a href="doc-theory-lecture-25.html#7-complete-example-measuring-execution-time">7. Complete Example: Measuring Execution Time</a></li><li><a href="doc-theory-lecture-25.html#8-where-spring-aop-enters-the-bean-lifecycle">8. Where Spring AOP Enters the Bean Lifecycle</a></li><li><a href="doc-theory-lecture-25.html#9-beanpostprocessor-from-first-principles">9. BeanPostProcessor from First Principles</a></li><li><a href="doc-theory-lecture-25.html#10-how-spring-decides-which-beans-need-proxies">10. How Spring Decides Which Beans Need Proxies</a></li><li><a href="doc-theory-lecture-25.html#11-the-container-stores-the-final-proxied-bean">11. The Container Stores the Final (Proxied) Bean</a></li><li><a href="doc-theory-lecture-25.html#12-the-method-interceptor-chain-and-what-proceed-means">12. The Method Interceptor Chain and What proceed() Means</a></li><li><a href="doc-theory-lecture-25.html#13-controlling-aspect-order-with-order">13. Controlling Aspect Order with @Order</a></li><li><a href="doc-theory-lecture-25.html#14-important-proxy-based-aop-boundaries">14. Important Proxy-Based AOP Boundaries</a></li><li><a href="doc-theory-lecture-25.html#15-complete-mental-model">15. Complete Mental Model</a></li><li><a href="doc-theory-lecture-25.html#16-myth-vs-reality">16. Myth vs Reality</a></li><li><a href="doc-theory-lecture-25.html#17-common-trap-questions">17. Common Trap Questions</a></li><li><a href="doc-theory-lecture-25.html#18-points-to-remember">18. Points to Remember</a></li><li><a href="doc-theory-lecture-25.html#19-likely-interview-questions">19. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-25.html#20-final-summary">20. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 25 — Custom Annotations in Spring AOP</h1>
+<p class="readmeta">21 sections · 4,561 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-25" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-25">Lecture 25</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Custom Annotations in Spring AOP | @annotation Binding &amp; Proxies" (playlist map, verified). Repo folder is the <code>aopDemo</code> project: <code>AopDemoApplication</code>, an <code>annotation</code> package holding <code>TrackExecutionTime</code>, an <code>aspect</code> package holding the timing aspect (<code>SimpleAspect</code> in the repo, shown as <code>PerformanceAspect</code> in the notes), plus <code>controller.StudentController</code>, <code>dto.Student</code>, and <code>service.StudentService</code>, together with the lecture notes.</p>
+</blockquote>
+<p>Custom annotations are how a method declares the behaviour it needs without implementing that behaviour. Spring AOP reads the annotation through the <code>@annotation()</code> pointcut designator and supplies the behaviour from an aspect. This lecture joins the "what" (annotation) to the "how" (aspect), then follows that connection down into the bean lifecycle, proxies, the interceptor chain, and <code>proceed()</code>. The goal is a complete mental model of annotation-driven, proxy-based AOP.</p>
+<h2 id="1-separating-what-from-how">1. Separating "What" from "How"</h2>
+<p>Consider a service method that measures its own execution time:</p>
+<div class="highlight"><pre><span></span><code>public Report generateAnnualReport() {
+    long startTime = System.nanoTime();
+    try {
+        return reportGenerator.generate();
+    } finally {
+        long duration = System.nanoTime() - startTime;
+        System.out.println(&quot;Duration: &quot; + duration);
+    }
+}
+</code></pre></div>
+
+<p>This method now has two responsibilities: generating the report, and measuring execution time. Execution-time measurement is not part of the core business logic. It is a cross-cutting concern that may be required by many methods: execution-time tracking, logging, auditing, authorization, rate limiting, retry handling, validation.</p>
+<p>We can move that behaviour into an aspect (<code>@Around("@annotation(TrackExecutionTime)")</code>), and the business method only declares its intention:</p>
+<div class="highlight"><pre><span></span><code>@TrackExecutionTime
+public Report generateAnnualReport() {
+    return reportGenerator.generate();
+}
+</code></pre></div>
+
+<p>The responsibilities are now separated:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Annotation</td>
+<td>Declares what behaviour is required</td>
+</tr>
+<tr>
+<td>Aspect</td>
+<td>Defines how that behaviour is implemented</td>
+</tr>
+<tr>
+<td>Business method</td>
+<td>Contains the actual business logic</td>
+</tr>
+</tbody>
+</table>
+<p>This is declarative programming: the method declares the behaviour without implementing it.</p>
+<blockquote class="callout callout--important">
+<p>Important: A cross-cutting concern is any behaviour that several unrelated methods need. Moving it out of the business method keeps the method focused on one responsibility.</p>
+</blockquote>
+<h2 id="2-a-custom-annotation-does-nothing-by-itself">2. A Custom Annotation Does Nothing by Itself</h2>
+<p>Suppose we create an annotation <code>public @interface TrackExecutionTime {}</code> and apply it to a method <code>@TrackExecutionTime public void generateReport() {}</code>. Nothing happens automatically. An annotation is only metadata attached to a program element:</p>
+<div class="highlight"><pre><span></span><code>Method + Metadata: &quot;Track the execution time of this method&quot;
+</code></pre></div>
+
+<p>Some other component must (1) detect the annotation, (2) read its information, and (3) perform the required behaviour. In this case the Spring AOP aspect performs the work:</p>
+<div class="highlight"><pre><span></span><code>@Around(&quot;@annotation(TrackExecutionTime)&quot;)
+public Object trackTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    // Timing implementation
+}
+</code></pre></div>
+
+<p>The annotation declares the intention. The aspect gives that annotation its behaviour.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does the annotation run any code?</td>
+<td>No; it is metadata only</td>
+</tr>
+<tr>
+<td>What detects it?</td>
+<td>A component such as a Spring AOP aspect</td>
+</tr>
+<tr>
+<td>What reads its properties?</td>
+<td>The advice method, via binding</td>
+</tr>
+<tr>
+<td>What performs the behaviour?</td>
+<td>The aspect's advice</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: An annotation is passive. It becomes behaviour only when another component detects it, reads it, and acts on it.</p>
+</blockquote>
+<h2 id="3-creating-a-custom-annotation">3. Creating a Custom Annotation</h2>
+<p>A custom annotation is declared using <code>@interface</code>, not the normal <code>interface</code> keyword. For Spring AOP, the basic declaration is usually not enough. Java must also know:</p>
+<ul>
+<li>where the annotation can be used;</li>
+<li>how long the annotation remains available.</li>
+</ul>
+<p>These rules are defined through meta-annotations - an annotation applied to another annotation declaration. The important ones are <code>@Target</code>, <code>@Retention</code>, and <code>@Documented</code> (commonly added).</p>
+<p>An annotation can also carry elements (configuration options):</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.annotation.Documented</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.annotation.ElementType</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.annotation.Retention</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.annotation.RetentionPolicy</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.annotation.Target</span><span class="p">;</span>
+
+<span class="nd">@Target</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">METHOD</span><span class="p">)</span>
+<span class="nd">@Retention</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">.</span><span class="na">RUNTIME</span><span class="p">)</span>
+<span class="nd">@Documented</span>
+<span class="kd">public</span><span class="w"> </span><span class="nd">@interface</span><span class="w"> </span><span class="n">TrackExecutionTime</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">operation</span><span class="p">()</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="nf">warnAfterMillis</span><span class="p">()</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Elements are declared like methods but with no parameters; a <code>default</code> makes them optional at the usage site. The aspect can later read <code>trackExecutionTime.operation()</code> and <code>trackExecutionTime.warnAfterMillis()</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The moment a candidate says "an annotation itself does something," the answer is already weak. The correct framing is metadata plus a detector plus an actor.</p>
+</blockquote>
+<h2 id="4-understanding-target-and-retention-and-documented">4. Understanding @Target and @Retention (and @Documented)</h2>
+<p><code>@Target</code> defines where an annotation is legally allowed to appear. For an annotation that should be placed on methods we write <code>@Target(ElementType.METHOD)</code>. The compiler then permits the annotation on a method but rejects it on a class (<code>@TrackExecutionTime</code> on <code>ReportService</code> is a compilation error with a METHOD-only target).</p>
+<p>Common <code>ElementType</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>ElementType</th>
+<th>Where the annotation may be applied</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>METHOD</code></td>
+<td>Methods (most common for method-level AOP)</td>
+</tr>
+<tr>
+<td><code>TYPE</code></td>
+<td>Classes, interfaces, enums, records, annotation interfaces</td>
+</tr>
+<tr>
+<td><code>FIELD</code></td>
+<td>Fields</td>
+</tr>
+<tr>
+<td><code>PARAMETER</code></td>
+<td>Method or constructor parameters</td>
+</tr>
+<tr>
+<td><code>CONSTRUCTOR</code></td>
+<td>Constructors</td>
+</tr>
+<tr>
+<td><code>ANNOTATION_TYPE</code></td>
+<td>Another annotation declaration</td>
+</tr>
+</tbody>
+</table>
+<p>An annotation may support more than one target via <code>@Target({ ElementType.TYPE, ElementType.METHOD })</code>, allowing it on a class or an individual method. For method-level Spring AOP the usual choice is <code>@Target(ElementType.METHOD)</code>, because Spring AOP is proxy-based and primarily intercepts method executions on Spring-managed beans.</p>
+<p><code>@Retention</code> defines how long annotation information is preserved. Java provides three retention policies:</p>
+<table>
+<thead>
+<tr>
+<th>Retention policy</th>
+<th>When the annotation is available</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SOURCE</code></td>
+<td>Only in source code; discarded during compilation</td>
+</tr>
+<tr>
+<td><code>CLASS</code></td>
+<td>Stored in the <code>.class</code> file, but not normally available through runtime reflection</td>
+</tr>
+<tr>
+<td><code>RUNTIME</code></td>
+<td>Retained and inspectable at runtime by Spring and Java reflection</td>
+</tr>
+</tbody>
+</table>
+<p><code>RetentionPolicy.CLASS</code> is Java's default retention policy when <code>@Retention</code> is not specified. Custom annotations used for Spring AOP should normally use <code>@Retention(RetentionPolicy.RUNTIME)</code>; without runtime retention, Spring cannot reliably detect and bind the annotation while the application runs.</p>
+<p><code>@Documented</code> tells Java documentation tools to include the annotation in generated Javadoc. A typical method-level AOP annotation therefore carries <code>@Target(ElementType.METHOD)</code>, <code>@Retention(RetentionPolicy.RUNTIME)</code>, and <code>@Documented</code> together.</p>
+<p>Mnemonic: <strong>T-R-D</strong> - Target says <em>where</em>, Retention says <em>how long</em>, Documented says <em>show it in the docs</em>.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Target</code> controls legality at compile time; <code>@Retention(RUNTIME)</code> controls availability at run time. Both are needed for annotation-driven Spring AOP.</p>
+</blockquote>
+<h2 id="5-marker-annotations-and-configured-annotations">5. Marker Annotations and Configured Annotations</h2>
+<p>A custom annotation can either act as a simple marker or carry additional configuration. A marker annotation has no properties and communicates only one thing: apply execution-time tracking to this method:</p>
+<div class="highlight"><pre><span></span><code>@TrackExecutionTime
+public Report generateReport() {
+    return reportGenerator.generate();
+}
+</code></pre></div>
+
+<p>An annotation with properties can also carry values. With <code>String operation() default "";</code> and <code>long warnAfterMillis() default 1000;</code>, a usage site can be:</p>
+<div class="highlight"><pre><span></span><code>@TrackExecutionTime(
+    operation = &quot;Generate annual report&quot;,
+    warnAfterMillis = 500
+)
+public Report generateAnnualReport() {
+    return reportGenerator.generate();
+}
+</code></pre></div>
+
+<p>The method now declares that execution time should be measured, the name of the operation, and the threshold after which the operation should be treated as slow. The aspect can read these values with <code>trackExecutionTime.operation()</code> and <code>trackExecutionTime.warnAfterMillis()</code>.</p>
+<p>Comparison:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Marker annotation</th>
+<th>Configured annotation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Properties</td>
+<td>None</td>
+<td>One or more elements with values</td>
+</tr>
+<tr>
+<td>What it tells the aspect</td>
+<td>"Apply this behaviour here"</td>
+<td>"Apply this behaviour, and here is how"</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>@TrackExecutionTime</code></td>
+<td><code>@TrackExecutionTime(operation = "...", warnAfterMillis = 500)</code></td>
+</tr>
+<tr>
+<td>What the aspect reads</td>
+<td>Only presence</td>
+<td>Property values such as <code>operation()</code></td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Pure opt-in flags</td>
+<td>Tuning behaviour per method</td>
+</tr>
+</tbody>
+</table>
+<p>This makes the annotation both a marker and a small configuration object.</p>
+<blockquote class="callout callout--important">
+<p>Important: A marker annotation answers "should this happen?" A configured annotation also answers "with what settings?"</p>
+</blockquote>
+<h2 id="6-the-annotation-pointcut-designator">6. The @annotation() Pointcut Designator</h2>
+<p>The <code>@annotation()</code> pointcut designator matches methods based on an annotation present on the method being executed. It has two important uses: type matching and annotation binding.</p>
+<p>Type matching writes the fully qualified annotation name directly inside the pointcut expression:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;@annotation(com.coderarmy.student.aop.annotation.TrackExecutionTime)&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeTrackedMethod</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Tracked method called&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This asks: is the executed method annotated with <code>TrackExecutionTime</code>? Use it when the advice only needs to know whether the annotation exists.</p>
+<p>The binding form performs two jobs at once: it matches methods containing the annotation, and it passes the actual annotation instance to the advice method.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;@annotation(trackExecutionTime)&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">beforeTrackedMethod</span><span class="p">(</span><span class="n">TrackExecutionTime</span><span class="w"> </span><span class="n">trackExecutionTime</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">trackExecutionTime</span><span class="p">.</span><span class="na">operation</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The name used in the pointcut expression corresponds to the advice parameter: the pointcut <code>@annotation(trackExecutionTime)</code> maps to the parameter <code>TrackExecutionTime trackExecutionTime</code>. Binding is required when the aspect needs to read annotation properties such as <code>operation()</code> or <code>warnAfterMillis()</code>.</p>
+<p>Comparison:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Type matching <code>@annotation(TypeName)</code></th>
+<th>Annotation binding <code>@annotation(varName)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Job</td>
+<td>Matches methods that carry the annotation</td>
+<td>Matches methods and injects the annotation instance</td>
+</tr>
+<tr>
+<td>Pointcut example</td>
+<td><code>@annotation(com...TrackExecutionTime)</code></td>
+<td><code>@annotation(trackExecutionTime)</code></td>
+</tr>
+<tr>
+<td>Advice parameter</td>
+<td>None needed</td>
+<td><code>TrackExecutionTime trackExecutionTime</code></td>
+</tr>
+<tr>
+<td>Access to properties</td>
+<td>No</td>
+<td>Yes, for example <code>.operation()</code></td>
+</tr>
+<tr>
+<td>When to use</td>
+<td>Only presence matters</td>
+<td>The aspect must read annotation values</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The high-value distinction is that <code>@annotation</code> does two jobs at once in its binding form - it selects the join point and it injects the annotation. Candidates who only know the matching half cannot write a configurable aspect.</p>
+</blockquote>
+<h2 id="7-complete-example-measuring-execution-time">7. Complete Example: Measuring Execution Time</h2>
+<p>Step 1 defines the annotation (the <code>TrackExecutionTime</code> declaration shown in Section 3, carrying <code>operation</code> and <code>warnAfterMillis</code>). Step 2 applies it to a service method; the service contains only business logic, no timing, logging, or threshold handling:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class ReportService {
+    @TrackExecutionTime(operation = &quot;Generate annual student report&quot;, warnAfterMillis = 500)
+    public StudentReport generateAnnualReport() {
+        return createReport();
+    }
+
+    private StudentReport createReport() {
+        return new StudentReport();
+    }
+}
+</code></pre></div>
+
+<p>Step 3 creates the aspect:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.coderarmy.student.aop.aspect</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.coderarmy.student.aop.annotation.TrackExecutionTime</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.TimeUnit</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.ProceedingJoinPoint</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.annotation.Around</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.annotation.Aspect</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Aspect</span>
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PerformanceAspect</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Around</span><span class="p">(</span><span class="s">&quot;@annotation(trackExecutionTime)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">measureExecutionTime</span><span class="p">(</span>
+<span class="w">        </span><span class="n">ProceedingJoinPoint</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">,</span>
+<span class="w">        </span><span class="n">TrackExecutionTime</span><span class="w"> </span><span class="n">trackExecutionTime</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">.</span><span class="na">proceed</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">long</span><span class="w"> </span><span class="n">durationMillis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">NANOSECONDS</span><span class="p">.</span><span class="na">toMillis</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span><span class="p">);</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">trackExecutionTime</span><span class="p">.</span><span class="na">operation</span><span class="p">();</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">operation</span><span class="p">.</span><span class="na">isBlank</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">.</span><span class="na">getSignature</span><span class="p">().</span><span class="na">toShortString</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">durationMillis</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">trackExecutionTime</span><span class="p">.</span><span class="na">warnAfterMillis</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;SLOW OPERATION: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">operation</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; took &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">durationMillis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ms&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">operation</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; took &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">durationMillis</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ms&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Execution flow when another bean calls the method:</p>
+<div class="highlight"><pre><span></span><code>Caller -&gt; AOP proxy -&gt; PerformanceAspect.measureExecutionTime()
+       -&gt; joinPoint.proceed() -&gt; ReportService.generateAnnualReport()
+       -&gt; result returns to the aspect -&gt; aspect logs duration -&gt; result to caller
+</code></pre></div>
+
+<p>The <code>finally</code> block ensures duration is calculated whether the target returns successfully or throws. The original exception is not swallowed because the advice does not catch and replace it.</p>
+<blockquote class="callout callout--important">
+<p>Important: Put the timing calculation in <code>finally</code> so both normal returns and exceptions are measured, and never swallow the original exception.</p>
+</blockquote>
+<h2 id="8-where-spring-aop-enters-the-bean-lifecycle">8. Where Spring AOP Enters the Bean Lifecycle</h2>
+<p>At a simplified level, Spring creates a bean through eight stages:</p>
+<ol>
+<li>Read the bean definition.</li>
+<li>Instantiate the bean.</li>
+<li>Inject dependencies.</li>
+<li>Run Aware callbacks.</li>
+<li>Run BeanPostProcessors before initialization.</li>
+<li>Run initialization callbacks.</li>
+<li>Run BeanPostProcessors after initialization.</li>
+<li>Store and expose the final bean reference.</li>
+</ol>
+<p>Spring AOP's automatic proxy creation is built on Spring's bean post-processing infrastructure. An AOP auto-proxy creator examines beans during their creation and determines whether any configured advice applies to them:</p>
+<div class="highlight"><pre><span></span><code>target created -&gt; dependencies injected -&gt; init callbacks run
+   -&gt; AOP infrastructure examines the bean
+   -&gt; advisor matches? no -&gt; return original bean
+                       yes -&gt; create AOP proxy -&gt; return the proxy
+</code></pre></div>
+
+<p>For an eligible bean, the final reference exposed by the container is normally <code>Proxy -&gt; Target</code> rather than only <code>Target</code>. Advice does not run during creation; it runs when a method is invoked through the proxy.</p>
+<blockquote class="callout callout--important">
+<p>Important: Proxy creation is a lifecycle event; advice execution is a method-call event. Confusing the two is the most common mental-model error in AOP.</p>
+</blockquote>
+<h2 id="9-beanpostprocessor-from-first-principles">9. BeanPostProcessor from First Principles</h2>
+<p><code>BeanPostProcessor</code> is a Spring extension point that allows infrastructure code to inspect or modify beans created by the container. Its basic idea is: whenever Spring creates a bean, infrastructure components get an opportunity to process it before the bean is finally exposed. A simplified form of the interface is:</p>
+<div class="highlight"><pre><span></span><code>Object postProcessBeforeInitialization(Object bean, String beanName);
+Object postProcessAfterInitialization(Object bean, String beanName);
+</code></pre></div>
+
+<p>A post-processor may return the original bean (<code>return bean;</code>) or return a wrapped object (<code>return proxy;</code>). <code>postProcessBeforeInitialization()</code> runs before initialization callbacks such as <code>@PostConstruct</code> or <code>InitializingBean.afterPropertiesSet()</code>, and may inspect the bean, process certain annotations, perform additional configuration, or validate and prepare the bean. <code>postProcessAfterInitialization()</code> runs after initialization callbacks complete; Spring's AOP auto-proxy creation normally wraps eligible beans around this stage and returns the proxy as the final bean reference.</p>
+<div class="highlight"><pre><span></span><code>original bean created -&gt; initialization completed -&gt; AOP post-processing
+   -&gt; original bean or proxy returned
+</code></pre></div>
+
+<p>The key point is that Spring AOP uses bean post-processing to replace an eligible bean reference with a proxy reference.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: If a bean is eligible for advice, the object other beans receive is the proxy, not the raw target. Everything downstream follows from that substitution.</p>
+</blockquote>
+<h2 id="10-how-spring-decides-which-beans-need-proxies">10. How Spring Decides Which Beans Need Proxies</h2>
+<p>Consider a <code>LoggingAspect</code> with <code>@Before("within(com.coderarmy.student.service..*)")</code>. Spring processes the aspect and creates an internal representation of two things: the advice (<code>Run log()</code>) and the pointcut (<code>Match classes inside the service package</code>). The combination of a pointcut and advice is commonly represented internally as an advisor.</p>
+<p>As Spring creates beans, the AOP infrastructure checks whether the advisors can apply to each bean:</p>
+<ul>
+<li>For <code>StudentController</code>: is it inside the service package? No, so no proxy is required for this aspect.</li>
+<li>For <code>StudentService</code>: is it inside the service package? Yes, so Spring creates an AOP proxy for the service bean.</li>
+</ul>
+<p>The same idea applies to an annotation-based pointcut such as <code>@Around("@annotation(trackExecutionTime)")</code>: Spring checks whether the bean contains methods that can match the annotation-based advisor, and eligible calls are intercepted by the proxy at runtime.</p>
+<table>
+<thead>
+<tr>
+<th>Bean</th>
+<th>Advisor pointcut</th>
+<th>Match?</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>StudentController</code></td>
+<td><code>within(...service..*)</code></td>
+<td>No</td>
+<td>Original bean exposed</td>
+</tr>
+<tr>
+<td><code>StudentService</code></td>
+<td><code>within(...service..*)</code></td>
+<td>Yes</td>
+<td>AOP proxy exposed</td>
+</tr>
+<tr>
+<td><code>StudentService</code></td>
+<td><code>@annotation(trackExecutionTime)</code></td>
+<td>Yes if a method carries it</td>
+<td>Eligible calls intercepted</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: An advisor is simply a pointcut plus its advice. Spring asks, per bean, "does any advisor match this bean?" and only then builds a proxy.</p>
+</blockquote>
+<h2 id="11-the-container-stores-the-final-proxied-bean">11. The Container Stores the Final (Proxied) Bean</h2>
+<p>Suppose Spring first creates the target object T100 and then creates a proxy P200. The relationship is <code>P200: Proxy -&gt; T100: Target</code>. When another bean asks Spring for <code>StudentService</code>, the container supplies P200, not the raw target reference T100:</p>
+<div class="highlight"><pre><span></span><code>public StudentController(StudentService studentService) {
+    this.studentService = studentService;
+}
+</code></pre></div>
+
+<p>Conceptually the field stores the proxy:</p>
+<div class="highlight"><pre><span></span><code>StudentController -&gt; studentService field -&gt; AOP proxy -&gt; StudentService target
+</code></pre></div>
+
+<p>This is why dependency injection and AOP work together. Spring controls object creation, dependency injection, bean post-processing, and the final reference supplied to other beans, so Spring can inject the proxy instead of the raw object.</p>
+<blockquote class="callout callout--important">
+<p>Important: You rarely see the raw target. When you inject a bean, you are normally injecting its proxy.</p>
+</blockquote>
+<h2 id="12-the-method-interceptor-chain-and-what-proceed-means">12. The Method Interceptor Chain and What proceed() Means</h2>
+<p>A single method may match multiple cross-cutting concerns - logging, security, performance measurement. The runtime chain may look like this:</p>
+<div class="highlight"><pre><span></span><code>Caller -&gt; Proxy -&gt; Logging interceptor -&gt; Security interceptor
+       -&gt; Performance interceptor -&gt; Target method
+</code></pre></div>
+
+<p>When the target method completes, execution unwinds in reverse order, and the proxy returns the result to the caller. This behaves like nested method calls: <code>Logging(Security(Performance(Target method)))</code>. Each interceptor gets an opportunity to run code before continuing the chain and after the chain returns.</p>
+<p>A common beginner interpretation is that <code>proceed()</code> directly calls the target method. That is not always precise. <code>proceed()</code> means: continue to the next interceptor in the current chain. If another interceptor still remains, that interceptor runs next. Only the final <code>proceed()</code> in the chain reaches the target method:</p>
+<div class="highlight"><pre><span></span><code>First around advice -&gt; proceed() -&gt; Second around advice
+   -&gt; proceed() -&gt; Third around advice -&gt; proceed() -&gt; Target method
+</code></pre></div>
+
+<p>An <code>@Around</code> advice controls whether the chain continues. If it does not call <code>proceed()</code>:</p>
+<div class="highlight"><pre><span></span><code>@Around(&quot;execution(* com.coderarmy..*(..))&quot;)
+public Object intercept(ProceedingJoinPoint joinPoint) {
+    return &quot;Blocked&quot;;
+}
+</code></pre></div>
+
+<p>then the target method is not executed, remaining interceptors are not invoked, and the advice directly returns its own value. Therefore <code>@Around</code> is the most powerful advice type.</p>
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>Precise meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>proceed()</code></td>
+<td>Continue to the next interceptor in the current chain</td>
+</tr>
+<tr>
+<td>Last <code>proceed()</code></td>
+<td>Reaches the target method</td>
+</tr>
+<tr>
+<td>Skipping <code>proceed()</code></td>
+<td>Short-circuits the rest of the chain, including the target</td>
+</tr>
+<tr>
+<td><code>@Around</code> power</td>
+<td>Runs before and after, and can choose not to proceed</td>
+</tr>
+<tr>
+<td>Return value</td>
+<td>Flows back out through the chain to the caller</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Does <code>proceed()</code> call the target?" The precise answer is no - it advances the chain, and only the final advance reaches the target. That wording is what separates a real AOP mental model from a summary.</p>
+</blockquote>
+<h2 id="13-controlling-aspect-order-with-order">13. Controlling Aspect Order with @Order</h2>
+<p>When multiple aspects match the same method, <code>@Order</code> controls their precedence. Given <code>SecurityAspect</code> with <code>@Order(1)</code>, <code>LoggingAspect</code> with <code>@Order(2)</code>, and <code>PerformanceAspect</code> with <code>@Order(3)</code>:</p>
+<p>The fundamental rule is: a lower order value has higher precedence. Execution enters the aspects in ascending order and returns in reverse:</p>
+<div class="highlight"><pre><span></span><code>SecurityAspect(1) -&gt; LoggingAspect(2) -&gt; PerformanceAspect(3) -&gt; Target method
+Target method -&gt; PerformanceAspect completes -&gt; LoggingAspect completes -&gt; SecurityAspect completes
+</code></pre></div>
+
+<p>Another way to visualize it is <code>Security(Logging(Performance(Target method)))</code>. The lower order value forms the outer layer of the interceptor chain.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>@Order</code> value</th>
+<th>Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Security</td>
+<td>1</td>
+<td>Outermost (enters first, exits last)</td>
+</tr>
+<tr>
+<td>Logging</td>
+<td>2</td>
+<td>Middle</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>3</td>
+<td>Innermost (closest to the target)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Lower number equals higher precedence. The lowest-order aspect wraps everything else and unwinds last.</p>
+</blockquote>
+<h2 id="14-important-proxy-based-aop-boundaries">14. Important Proxy-Based AOP Boundaries</h2>
+<p>Custom annotation-based AOP works only when the method call passes through the Spring AOP proxy.</p>
+<ul>
+<li><strong>The object must be managed by Spring.</strong> A manually created object is not automatically proxied:</li>
+<li><code>ReportService service = new ReportService();</code></li>
+<li>calling an annotated method on it bypasses Spring AOP; obtain the bean through dependency injection instead.</li>
+<li><strong>Self-invocation bypasses the proxy.</strong> If <code>generateAllReports()</code> calls <code>generateAnnualReport()</code> using <code>this</code>:</li>
+<li>the call stays inside the target object;</li>
+<li>it does not return to the proxy, so the advice is not applied to that internal call.</li>
+<li><strong>Private methods are not suitable join points.</strong> Spring AOP intercepts calls through proxies:</li>
+<li>private methods cannot be overridden or exposed through a proxy in the required way.</li>
+</ul>
+<p>Custom AOP annotations should therefore normally be applied to externally invoked, non-private methods on Spring-managed beans.</p>
+<table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Does the advice run?</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>External call, Spring-managed bean</td>
+<td>Yes</td>
+<td>The call passes through the proxy</td>
+</tr>
+<tr>
+<td><code>new ReportService()</code> then call</td>
+<td>No</td>
+<td>The object was never proxied by Spring</td>
+</tr>
+<tr>
+<td>Self-invocation via <code>this</code></td>
+<td>No</td>
+<td>The internal call does not re-enter the proxy</td>
+</tr>
+<tr>
+<td>Private method</td>
+<td>No</td>
+<td>Proxies cannot intercept private methods</td>
+</tr>
+<tr>
+<td>Final method</td>
+<td>No</td>
+<td>A proxy cannot override a final method</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: No proxy, no advice. If the call does not pass through the proxy, annotation-based AOP silently does nothing.</p>
+</blockquote>
+<h2 id="15-complete-mental-model">15. Complete Mental Model</h2>
+<p>During application startup:</p>
+<ul>
+<li>Spring reads bean definitions;</li>
+<li>creates target objects;</li>
+<li>injects dependencies;</li>
+<li>runs initialization callbacks;</li>
+<li>lets the AOP infrastructure check available advisors;</li>
+<li>creates proxies for eligible beans;</li>
+<li>stores and injects the final proxy references.</li>
+</ul>
+<p>During method execution:</p>
+<ul>
+<li>the caller invokes a method;</li>
+<li>the call reaches the proxy;</li>
+<li>the proxy finds matching interceptors;</li>
+<li>the interceptor chain begins;</li>
+<li>around advice calls <code>proceed()</code>;</li>
+<li>the target executes;</li>
+<li>the chain unwinds in reverse order;</li>
+<li>the result or exception returns to the caller.</li>
+</ul>
+<p>Responsibility of each part:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Custom annotation</td>
+<td>Declares the required behaviour</td>
+</tr>
+<tr>
+<td>Pointcut expression</td>
+<td>Selects methods carrying that annotation</td>
+</tr>
+<tr>
+<td>Advice</td>
+<td>Implements the cross-cutting behaviour</td>
+</tr>
+<tr>
+<td>AOP proxy</td>
+<td>Intercepts method calls</td>
+</tr>
+<tr>
+<td>BeanPostProcessor infrastructure</td>
+<td>Creates and exposes the proxy during bean creation</td>
+</tr>
+<tr>
+<td><code>ProceedingJoinPoint.proceed()</code></td>
+<td>Continues the interceptor chain</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The complete answer to "how does annotation-based AOP work?" walks both timelines: startup (target to proxy) and execution (proxy to interceptor chain to target and back).</p>
+</blockquote>
+<h2 id="16-myth-vs-reality">16. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"An annotation executes code by itself"</td>
+<td>An annotation is metadata; a detector and an actor are required</td>
+</tr>
+<tr>
+<td>"A custom annotation works without <code>@Retention(RUNTIME)</code>"</td>
+<td>Only <code>RUNTIME</code> retention is reliably visible to Spring at run time</td>
+</tr>
+<tr>
+<td>"<code>@Documented</code> affects AOP matching"</td>
+<td>It only affects generated Javadoc, not proxies or matching</td>
+</tr>
+<tr>
+<td>"<code>@annotation(TypeName)</code> also passes the annotation instance"</td>
+<td>Type matching only tests presence; binding <code>@annotation(varName)</code> injects the instance</td>
+</tr>
+<tr>
+<td>"Advice runs while the bean is being created"</td>
+<td>The proxy is created during bean creation; advice runs later, on method invocation</td>
+</tr>
+<tr>
+<td>"<code>proceed()</code> always calls the target method"</td>
+<td>It advances the chain; only the final <code>proceed()</code> reaches the target</td>
+</tr>
+<tr>
+<td>"Self-invocation still triggers the advice"</td>
+<td>A call through <code>this</code> never re-enters the proxy, so the advice is skipped</td>
+</tr>
+<tr>
+<td>"Private methods can be advised by Spring AOP"</td>
+<td>Proxy-based AOP cannot intercept private methods</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-common-trap-questions">17. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Does the annotation do the timing by itself?"</strong>
+Verdict: False. The annotation is metadata; the aspect detects, reads, and implements the behaviour.</p>
+<p><strong>Trap 2 - "Is <code>@Target(ElementType.METHOD)</code> enough for Spring AOP?"</strong>
+Verdict: No. <code>@Target</code> controls where it may appear; <code>@Retention(RetentionPolicy.RUNTIME)</code> is also required so Spring can read it at run time.</p>
+<p><strong>Trap 3 - "Does <code>@annotation(com...TrackExecutionTime)</code> give the advice the annotation object?"</strong>
+Verdict: False. That is type matching. To read properties you need binding, <code>@annotation(trackExecutionTime)</code>, with a matching advice parameter.</p>
+<p><strong>Trap 4 - "Does <code>proceed()</code> call the target method directly?"</strong>
+Verdict: Not always. It continues to the next interceptor; the target runs only after the final <code>proceed()</code> in the chain.</p>
+<p><strong>Trap 5 - "Will an internal <code>this.generateAnnualReport()</code> call trigger the advice?"</strong>
+Verdict: False. Self-invocation stays inside the target object and never passes through the proxy.</p>
+<p><strong>Trap 6 - "Does <code>@Order(3)</code> run before <code>@Order(1)</code>?"</strong>
+Verdict: False. Lower values have higher precedence, so <code>@Order(1)</code> is the outer layer and runs first.</p>
+<p><strong>Trap 7 - "Is a manually created <code>new ReportService()</code> proxied?"</strong>
+Verdict: False. Only Spring-managed beans receive proxies; obtain the bean through dependency injection.</p>
+</blockquote>
+<h2 id="18-points-to-remember">18. Points to Remember</h2>
+<ol>
+<li>A custom annotation is metadata; it has no behaviour by itself and needs a detector plus an actor.</li>
+<li>Declare a custom annotation with <code>public @interface</code>, never the normal <code>interface</code> keyword.</li>
+<li>Elements are declared like parameterless methods; <code>default</code> values make them optional.</li>
+<li><code>@Target</code> controls where an annotation may be used; <code>@Retention(RUNTIME)</code> keeps it available for Spring at runtime.</li>
+<li><code>@Documented</code> affects generated documentation, not AOP behaviour.</li>
+<li>A marker annotation only declares that behaviour is required; annotation properties can pass configuration to an aspect.</li>
+<li><code>@annotation(TypeName)</code> matches an annotation by type; <code>@annotation(variableName)</code> also binds the annotation instance to an advice parameter.</li>
+<li>Spring AOP uses bean post-processing infrastructure to create proxies for eligible beans, and the container stores and injects the final proxy reference.</li>
+<li>A method call must pass through the proxy for advice to execute; self-invocation and private methods are important limitations of proxy-based Spring AOP.</li>
+<li>Multiple interceptors execute as a nested chain and unwind in reverse order; <code>proceed()</code> continues the chain rather than always calling the target, and a lower <code>@Order</code> value gives an aspect higher precedence.</li>
+</ol>
+<h2 id="19-likely-interview-questions">19. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does a custom annotation actually do?</td>
+<td>Nothing by itself; it is metadata. A component such as an aspect must detect it, read it, and act on it.</td>
+</tr>
+<tr>
+<td>Why is <code>@Retention(RUNTIME)</code> needed for AOP?</td>
+<td>Spring reads annotations at run time through reflection; without runtime retention the annotation is unavailable.</td>
+</tr>
+<tr>
+<td>What is the default retention policy?</td>
+<td><code>RetentionPolicy.CLASS</code> is the default when <code>@Retention</code> is not specified.</td>
+</tr>
+<tr>
+<td>What does <code>@Target(ElementType.METHOD)</code> do?</td>
+<td>Restricts the annotation to methods; placing it on a class becomes a compile error.</td>
+</tr>
+<tr>
+<td>Marker annotation vs configured annotation?</td>
+<td>A marker has no properties; a configured annotation carries elements the aspect can read.</td>
+</tr>
+<tr>
+<td>What does the <code>@annotation()</code> designator match?</td>
+<td>Methods that carry the specified annotation on the method being executed.</td>
+</tr>
+<tr>
+<td>Type matching vs annotation binding?</td>
+<td>Type matching only tests presence; binding injects the annotation instance so advice can read its properties.</td>
+</tr>
+<tr>
+<td>Where does Spring AOP create proxies?</td>
+<td>During bean creation, in the post-processing stage after initialization callbacks, via the AOP auto-proxy creator.</td>
+</tr>
+<tr>
+<td>What is a BeanPostProcessor?</td>
+<td>A Spring extension point that can inspect or modify beans before they are exposed, including returning a proxy instead of the bean.</td>
+</tr>
+<tr>
+<td>What does <code>proceed()</code> mean?</td>
+<td>Continue to the next interceptor in the chain; only the final <code>proceed()</code> reaches the target method.</td>
+</tr>
+<tr>
+<td>How do you order multiple aspects?</td>
+<td>Use <code>@Order(n)</code>; a lower value has higher precedence and forms the outer layer of the chain.</td>
+</tr>
+<tr>
+<td>Why does self-invocation bypass advice?</td>
+<td>The call through <code>this</code> stays inside the target object and never passes through the proxy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-final-summary">20. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Business method declares intent:  @TrackExecutionTime (metadata only)
+        |
+        v
+Aspect implements behaviour:     @Around(&quot;@annotation(trackExecutionTime)&quot;)
+        |
+        v
+Pointcut designator:             type matching (presence) vs binding (instance)
+        |
+        v
+Bean lifecycle:                  read definition -&gt; instantiate -&gt; inject -&gt; Aware
+                                 -&gt; postProcessBeforeInit -&gt; init callbacks
+                                 -&gt; postProcessAfterInit (AOP wraps here) -&gt; store
+        |
+        v
+Proxy decision:                  does any advisor match this bean?
+                                 no  -&gt; original bean
+                                 yes -&gt; proxy wrapping the target
+        |
+        v
+Container stores and injects:    the proxy, not the raw target
+        |
+        v
+Runtime call:                    caller -&gt; proxy -&gt; interceptor chain -&gt; proceed()
+                                 -&gt; target -&gt; unwind in reverse -&gt; result/exception
+        |
+        v
+Aspect order:                    lower @Order value = outer layer = higher precedence
+        |
+        v
+Boundaries:                      self-invocation, private/final methods, new objects
+                                 all bypass the proxy -&gt; advice does not run
+</code></pre></div>
+
+<ul>
+<li>Custom annotation -&gt; declares the "what"; the aspect supplies the "how".</li>
+<li>An annotation is inert metadata: detect it, read it, act on it.</li>
+<li><code>@interface</code> plus <code>@Target</code> plus <code>@Retention(RUNTIME)</code> (and <code>@Documented</code>) makes it usable.</li>
+<li>Marker annotation answers "whether"; configured annotation answers "with what settings".</li>
+<li><code>@annotation(TypeName)</code> matches by type; <code>@annotation(varName)</code> binds the instance to advice.</li>
+<li>Spring AOP proxies eligible beans during bean post-processing; the container injects the proxy.</li>
+<li><code>proceed()</code> advances the interceptor chain; only the final call reaches the target.</li>
+<li>Lower <code>@Order</code> value wins; the chain unwinds in reverse order.</li>
+<li>No proxy, no advice: self-invocation and private methods silently skip the aspect.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A custom annotation is just a declarative label, and the whole trick of annotation-driven Spring AOP is that the container quietly wraps an eligible bean in a proxy during post-processing, so a method call - not the annotation itself - is what makes the aspect run.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-24.html"><span class="dir">Previous</span><span class="ttl">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</span></a><a class="next" href="doc-theory-lecture-26.html"><span class="dir">Next</span><span class="ttl">Lecture 26 — JDBC in Java from Scratch</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

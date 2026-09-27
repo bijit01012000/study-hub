@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SQL Interview Q&amp;A — Spring Boot</title>
+<meta name="description" content="SQL Interview Q&amp;A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-09-sql">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part"><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div><ul class="sections"></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Practice &amp; Questions</p>
+<h1>SQL Interview Q&amp;A</h1>
+<p class="readmeta">0 sections · 5,781 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-09-sql" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>This note collects the SQL questions most commonly asked in backend and Spring Boot interviews, from language fundamentals and joins to indexes, transactions, triggers and ready-to-use company queries. Each question is answered in full with the original SQL examples, so it works both as a revision sheet and as a practice bank for the database knowledge that backs a Spring Boot data layer. Unless stated otherwise, the examples target MySQL.</p>
+<h3 id="1-what-is-sql">1. What is SQL?</h3>
+<ol>
+<li>Structured Query Language.</li>
+<li>SQL is a language used to interact with the database.</li>
+</ol>
+<h3 id="2-where-do-we-use-sql">2. Where do we use SQL?</h3>
+<p>BI, Data Science, Database Administration, Web Development, and other areas.</p>
+<h3 id="3-sql-statements">3. SQL Statements</h3>
+<p>SQL statements are grouped into four categories.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Full form</th>
+<th>Commands</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DML</td>
+<td>Data Manipulation Language</td>
+<td>SELECT, INSERT, UPDATE, DELETE, MERGE (Oracle)</td>
+<td>Modifies data records but is not allowed to modify the structure of tables; also used to access data from the database.</td>
+</tr>
+<tr>
+<td>DDL</td>
+<td>Data Definition Language</td>
+<td>CREATE, ALTER, DROP, RENAME, TRUNCATE</td>
+<td>Defines the structure of the database and manages integrity constraints such as primary key, alternate key and foreign key; used when you want to create or drop a table.</td>
+</tr>
+<tr>
+<td>DCL</td>
+<td>Data Control Language</td>
+<td>GRANT, REVOKE</td>
+<td>Used for transactions, locks (shared lock, exclusive lock), commit, rollback and data control for security. DCL is used for consistency and for security.</td>
+</tr>
+<tr>
+<td>TCL</td>
+<td>Transaction Control Language</td>
+<td>COMMIT, ROLLBACK, SAVEPOINT</td>
+<td>Controls transaction boundaries.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-what-is-a-join">4. What is a join?</h3>
+<ol>
+<li>A join is a concept that allows us to retrieve data from two or more tables in a single query.</li>
+<li>In SQL, we often need to write queries to get data from two or more tables. Anything but the simplest of queries will usually need data from two or more tables, and to get data from multiple tables, we need to use joins.</li>
+</ol>
+<h3 id="5-what-is-the-purpose-of-the-select-statement-in-mysql">5. What is the purpose of the SELECT statement in MySQL?</h3>
+<p>The SELECT statement in MySQL is used to retrieve data from one or more tables in a database. It allows you to specify which columns of data you want to see.</p>
+<p>Specific purposes:</p>
+<ul>
+<li><strong>Retrieve data:</strong> the primary function of SELECT is to extract information from database tables.</li>
+<li><strong>Filter data:</strong> you can use WHERE clauses to specify conditions that must be met for rows to be included in the result set.</li>
+<li><strong>Transform data:</strong> functions like SUM, AVG, COUNT, MIN and MAX can be used to perform calculations on the retrieved data.</li>
+<li><strong>Join tables:</strong> the JOIN keyword allows you to combine data from multiple tables based on related columns.</li>
+<li><strong>Order results:</strong> the ORDER BY clause can be used to sort the results based on specific columns.</li>
+<li><strong>Limit results:</strong> the LIMIT clause specifies the maximum number of rows to return.</li>
+</ul>
+<p>Real-time example: imagine you have a table called employees with columns like name, position and salary. If you want to see the names and positions of all employees, you would use:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">position</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="6-what-is-normalization">6. What is Normalization?</h3>
+<p>Normalization in a database is the process of organizing data to minimize redundancy and ensure data integrity. It involves dividing large tables into smaller ones and defining relationships between them, making the database more efficient and easier to maintain.</p>
+<p>Real-time scenario: imagine you run a training institute and have a table storing student data that includes:</p>
+<table>
+<thead>
+<tr>
+<th>Student_ID</th>
+<th>Student_Name</th>
+<th>Course</th>
+<th>Instructor</th>
+<th>Instructor_Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Alice</td>
+<td>Java</td>
+<td>John</td>
+<td>john@example.com</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>Java</td>
+<td>John</td>
+<td>john@example.com</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>Python</td>
+<td>Sara</td>
+<td>sara@example.com</td>
+</tr>
+</tbody>
+</table>
+<p>Here, the instructor's information is repeated for every student taking the same course. If John's email changes, you will need to update it in multiple places.</p>
+<p>To normalize this data (for example, using 2nd Normal Form), you would split it into two tables, storing the student details separately from the course and instructor details:</p>
+<table>
+<thead>
+<tr>
+<th>Student_ID</th>
+<th>Student_Name</th>
+<th>Course_ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Alice</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>1</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Course_ID</th>
+<th>Course</th>
+<th>Instructor</th>
+<th>Instructor_Email</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Java</td>
+<td>John</td>
+<td>john@example.com</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Python</td>
+<td>Sara</td>
+<td>sara@example.com</td>
+</tr>
+</tbody>
+</table>
+<p>Now, instructor information is stored only once, and any updates are made in one place, improving consistency and efficiency.</p>
+<h3 id="7-what-is-the-different-datatype-in-mysql">7. What is the different datatype in MySQL?</h3>
+<p>In MySQL, data types are categorized into the following main types.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Numeric</td>
+<td>INT</td>
+<td>Integer values (for example, 10, 200).</td>
+</tr>
+<tr>
+<td>Numeric</td>
+<td>FLOAT, DOUBLE</td>
+<td>Floating-point numbers (for example, 1.23, 45.67).</td>
+</tr>
+<tr>
+<td>Numeric</td>
+<td>DECIMAL</td>
+<td>Fixed-point numbers (for example, 123.45 for precise calculations like currency).</td>
+</tr>
+<tr>
+<td>String</td>
+<td>VARCHAR</td>
+<td>Variable-length strings (for example, names, addresses).</td>
+</tr>
+<tr>
+<td>String</td>
+<td>CHAR</td>
+<td>Fixed-length strings.</td>
+</tr>
+<tr>
+<td>String</td>
+<td>TEXT</td>
+<td>Large text data.</td>
+</tr>
+<tr>
+<td>Date and Time</td>
+<td>DATE</td>
+<td>Stores a date (for example, '2024-09-27').</td>
+</tr>
+<tr>
+<td>Date and Time</td>
+<td>DATETIME</td>
+<td>Stores both date and time (for example, '2024-09-27 10:30:00').</td>
+</tr>
+</tbody>
+</table>
+<p>These are the common data types used based on the kind of data you need to store.</p>
+<h3 id="8-what-is-the-difference-between-a-primary-key-and-a-unique-key">8. What is the difference between a primary key and a unique key?</h3>
+<p>The primary key and unique key in MySQL both ensure uniqueness, but they have key differences.</p>
+<ol>
+<li>
+<p><strong>Primary Key:</strong>
+   - Uniquely identifies each record in a table.
+   - Cannot contain NULL values.
+   - A table can have only one primary key.</p>
+</li>
+<li>
+<p><strong>Unique Key:</strong>
+   - Ensures all values in a column are unique.
+   - Can contain NULL values.
+   - A table can have multiple unique keys.</p>
+</li>
+</ol>
+<p>Note:</p>
+<ul>
+<li>Primary Key: one per table, no NULLs.</li>
+<li>Unique Key: multiple allowed, can have NULLs.</li>
+</ul>
+<h3 id="9-foreign-key-constraint">9. Foreign key constraint?</h3>
+<p>A foreign key constraint in MySQL ensures that a value in one table corresponds to a value in another table, maintaining referential integrity between them.</p>
+<p>Real-time scenario: in a school database, you have two tables.</p>
+<p>Students table:</p>
+<table>
+<thead>
+<tr>
+<th>Student_ID</th>
+<th>Name</th>
+<th>Course_ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Alice</td>
+<td>101</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>102</td>
+</tr>
+</tbody>
+</table>
+<p>Courses table:</p>
+<table>
+<thead>
+<tr>
+<th>Course_ID</th>
+<th>Course_Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>Maths</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Science</td>
+</tr>
+</tbody>
+</table>
+<p>The Course_ID in the Students table is a foreign key referencing the Course_ID in the Courses table. This ensures that students are only assigned to valid courses existing in the Courses table.</p>
+<h3 id="10-the-difference-between-null-and-zero-in-mysql">10. The difference between NULL and zero in MySQL</h3>
+<ol>
+<li><strong>NULL:</strong> represents the absence of a value, or an unknown/missing value.</li>
+<li><strong>Zero (0):</strong> represents a definite value of zero, a numeric value.</li>
+</ol>
+<p>Real-time scenario in a Spring Boot project: imagine you have a payment table in your Spring Boot application to store payment amounts.</p>
+<table>
+<thead>
+<tr>
+<th>Payment_ID</th>
+<th>Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1000</td>
+<td>Paid</td>
+</tr>
+<tr>
+<td>2</td>
+<td>NULL</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0</td>
+<td>Failed</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>NULL (Amount: NULL): this means no payment has been made yet (missing value). For example: NULL + 1 = NULL.</li>
+<li>Zero (Amount: 0): this means the payment was attempted but failed, or no amount was charged. For example: 0 + 1 = 1.</li>
+</ul>
+<p>In your code, checking for NULL and 0 values would have different meanings when deciding the status of the payment.</p>
+<h3 id="11-what-is-a-database-transaction">11. What is a Database transaction?</h3>
+<p>A database transaction is a sequence of operations performed as a single logical unit of work, where either all operations succeed or none do. It ensures ACID properties (Atomicity, Consistency, Isolation, Durability).</p>
+<p>Real-time scenario: in a banking application built with Spring Boot, when a user transfers money:</p>
+<ol>
+<li>Debit the amount from the sender's account.</li>
+<li>Credit the amount to the receiver's account.</li>
+</ol>
+<p>Both operations must succeed together. If one fails (for example, the debit succeeds but the credit fails), the transaction rolls back, ensuring no partial updates occur. This prevents issues like money being deducted from one account without being added to the other.</p>
+<h3 id="12-difference-between-inner-join-and-natural-join">12. Difference between INNER JOIN and NATURAL JOIN</h3>
+<ol>
+<li><strong>INNER JOIN:</strong> returns records that have matching values in both tables based on a specified condition. You explicitly define the columns to join on.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department_id</span><span class="p">;</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>NATURAL JOIN:</strong> automatically joins tables based on columns with the same name and data type in both tables, without needing to specify the condition.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">NATURAL</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Note:</p>
+<ul>
+<li>INNER JOIN: you specify the joining condition.</li>
+<li>NATURAL JOIN: automatically matches columns with the same name in both tables.</li>
+</ul>
+<h3 id="13-how-do-you-perform-a-self-join-in-mysql">13. How do you perform a self-join in MySQL?</h3>
+<p>A self-join is a technique for combining rows from the same table based on a related column, typically with the help of an alias. In MySQL you can perform a self-join using the following syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">column1</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">column2</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">column1</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">column2</span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">A</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">B</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">A</span><span class="p">.</span><span class="n">related_column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">.</span><span class="n">related_column</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="14-what-is-a-trigger-and-how-do-you-create-one-in-mysql">14. What is a trigger, and how do you create one in MySQL?</h3>
+<p>A trigger is a special piece of code in a MySQL database that runs automatically in response to certain actions, such as adding, updating or deleting data. Triggers help ensure that data remains accurate and consistent, enforcing rules without needing to manually write code every time.</p>
+<p>Why use triggers?</p>
+<ul>
+<li><strong>Maintain data integrity:</strong> they help keep your data consistent.</li>
+<li><strong>Enforce business rules:</strong> automatically perform actions based on specific conditions.</li>
+<li><strong>Automate processes:</strong> save time by automating routine tasks.</li>
+</ul>
+<p>Real-time scenario: imagine you are running an e-commerce store with a table called orders. Whenever a new order is placed, you want to automatically log this action in an order_logs table for tracking purposes.</p>
+<p>Steps to create a trigger:</p>
+<ol>
+<li>Choose the event: you want the trigger to activate on an INSERT event when a new order is added.</li>
+<li>Specify timing: the trigger should execute AFTER the order is inserted.</li>
+<li>Define the table: the trigger will be associated with the orders table.</li>
+<li>Write the action: you will log the new order details in the order_logs table.</li>
+</ol>
+<p>Example of creating a trigger:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TRIGGER</span><span class="w"> </span><span class="n">log_order_insert</span>
+<span class="k">AFTER</span><span class="w"> </span><span class="k">INSERT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">orders</span>
+<span class="k">FOR</span><span class="w"> </span><span class="k">EACH</span><span class="w"> </span><span class="k">ROW</span>
+<span class="k">BEGIN</span>
+<span class="w">    </span><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">order_logs</span><span class="w"> </span><span class="p">(</span><span class="n">Order_ID</span><span class="p">,</span><span class="w"> </span><span class="n">Action</span><span class="p">,</span><span class="w"> </span><span class="k">Timestamp</span><span class="p">)</span>
+<span class="w">    </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="k">NEW</span><span class="p">.</span><span class="n">Order_ID</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Order Placed&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">NOW</span><span class="p">());</span>
+<span class="k">END</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Terms used in the above example:</p>
+<ul>
+<li><code>CREATE TRIGGER log_order_insert</code>: this names the trigger.</li>
+<li><code>AFTER INSERT ON orders</code>: this sets the trigger to run after a new order is added.</li>
+<li><code>FOR EACH ROW</code>: this means the trigger will execute for every row affected by the insert.</li>
+<li><code>BEGIN ... END</code>: this section contains the code to execute, which logs the order details into the order_logs table.</li>
+</ul>
+<p>Note: with this trigger in place, every time a new order is added to the orders table, the system automatically records this action in the order_logs table, making it easier to track orders without manual intervention. This ensures you have a complete and accurate log of all transactions.</p>
+<h3 id="15-what-is-the-stored-procedure-and-how-do-you-create-one-in-mysql">15. What is the stored procedure, and how do you create one in MySQL?</h3>
+<p>A stored procedure is a set of pre-defined SQL commands stored in the database. It can be executed multiple times by different applications, helping to improve performance and ensure consistency in operations. Stored procedures can accept input parameters, return results and perform various data manipulation tasks.</p>
+<p>Why use stored procedures?</p>
+<ul>
+<li><strong>Reusability:</strong> write the code once and use it many times.</li>
+<li><strong>Performance:</strong> reduces the amount of code sent over the network and optimizes execution.</li>
+<li><strong>Consistency:</strong> ensures that the same logic is applied whenever the procedure is called.</li>
+</ul>
+<p>Real-time scenario: imagine you are working on an e-commerce application. You need to calculate and apply a discount to a customer's order frequently. Instead of writing the discount logic each time you process an order, you can create a stored procedure.</p>
+<p>Example of creating a stored procedure: you want to create a procedure that takes the order amount and discount rate as inputs.</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELIMITER</span><span class="w"> </span><span class="o">//</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">ApplyDiscount</span><span class="p">(</span><span class="k">IN</span><span class="w"> </span><span class="n">orderAmount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">discountRate</span>
+<span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span>
+<span class="k">BEGIN</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">finalAmount</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="k">SET</span><span class="w"> </span><span class="n">finalAmount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderAmount</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="n">orderAmount</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">discountRate</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">100</span><span class="p">);</span>
+<span class="w">    </span><span class="k">SELECT</span><span class="w"> </span><span class="n">finalAmount</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Final_Amount</span><span class="p">;</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="p">;</span>
+</code></pre></div>
+
+<p>Terms used in the above example:</p>
+<ul>
+<li><code>DELIMITER //</code>: changes the statement delimiter so that MySQL knows where the procedure ends.</li>
+<li><code>CREATE PROCEDURE ApplyDiscount</code>: this names the procedure ApplyDiscount.</li>
+<li><code>(IN orderAmount DECIMAL(10, 2), IN discountRate DECIMAL(5, 2))</code>: these are the input parameters for the procedure.</li>
+<li><code>BEGIN ... END</code>: this section contains the code that will execute when the procedure is called.</li>
+<li><code>SET finalAmount</code>: this calculates the final amount after applying the discount.</li>
+<li><code>SELECT finalAmount AS Final_Amount</code>: this returns the final amount to the caller.</li>
+</ul>
+<p>Note: with this stored procedure, anytime you need to apply a discount to an order, you just call ApplyDiscount with the order amount and discount rate. This ensures that the discount logic is consistent and efficient throughout your application.</p>
+<h3 id="16-what-is-a-cursor-and-how-do-you-use-one-in-mysql">16. What is a cursor, and how do you use one in MySQL?</h3>
+<p>A cursor is a database object that allows you to retrieve and manipulate rows from a result set one at a time. Cursors are useful when you need to process complex data or handle large amounts of data in a controlled manner.</p>
+<p>Why use cursors?</p>
+<ul>
+<li><strong>Row-by-row processing:</strong> useful for operations that need to be performed on each row individually.</li>
+<li><strong>Complex calculations:</strong> ideal for calculations or actions that depend on the results of previous rows.</li>
+</ul>
+<p>Real-time scenario: imagine you are developing a banking application where you need to calculate the interest for each customer's account balance on a monthly basis. Instead of processing all accounts at once, you can use a cursor to handle each account one at a time.</p>
+<p>Create a sample table: assume you have a table named accounts that stores customer account details.</p>
+<p>Table: accounts</p>
+<table>
+<thead>
+<tr>
+<th>Account_ID</th>
+<th>Customer_Name</th>
+<th>Balance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Alice</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bob</td>
+<td>2000</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Charlie</td>
+<td>1500</td>
+</tr>
+</tbody>
+</table>
+<p>Create a cursor: here is how you would define and use a cursor to calculate interest for each account.</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELIMITER</span><span class="w"> </span><span class="o">//</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">PROCEDURE</span><span class="w"> </span><span class="n">CalculateInterest</span><span class="p">()</span>
+<span class="k">BEGIN</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">FALSE</span><span class="p">;</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">account_id</span><span class="w"> </span><span class="nb">INT</span><span class="p">;</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">interest</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">    </span><span class="c1">-- Declare a cursor for selecting accounts</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">account_cursor</span><span class="w"> </span><span class="k">CURSOR</span><span class="w"> </span><span class="k">FOR</span>
+<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">Account_ID</span><span class="p">,</span><span class="w"> </span><span class="n">Balance</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">accounts</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">-- Declare a CONTINUE HANDLER for the end of the cursor</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w"> </span><span class="k">HANDLER</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">FOUND</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">TRUE</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">-- Open the cursor</span>
+<span class="w">    </span><span class="k">OPEN</span><span class="w"> </span><span class="n">account_cursor</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">-- Loop through each row in the cursor</span>
+<span class="w">    </span><span class="n">read_loop</span><span class="p">:</span><span class="w"> </span><span class="n">LOOP</span>
+<span class="w">        </span><span class="k">FETCH</span><span class="w"> </span><span class="n">account_cursor</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">account_id</span><span class="p">,</span><span class="w"> </span><span class="n">balance</span><span class="p">;</span>
+<span class="w">        </span><span class="k">IF</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="k">THEN</span>
+<span class="w">            </span><span class="n">LEAVE</span><span class="w"> </span><span class="n">read_loop</span><span class="p">;</span>
+<span class="w">        </span><span class="k">END</span><span class="w"> </span><span class="k">IF</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">-- Calculate interest (for example, 5% interest)</span>
+<span class="w">        </span><span class="k">SET</span><span class="w"> </span><span class="n">interest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">05</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">-- Output the result (you could also update a table or take other actions)</span>
+<span class="w">        </span><span class="k">SELECT</span><span class="w"> </span><span class="n">account_id</span><span class="p">,</span><span class="w"> </span><span class="n">interest</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Calculated_Interest</span><span class="p">;</span>
+<span class="w">    </span><span class="k">END</span><span class="w"> </span><span class="n">LOOP</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">-- Close the cursor</span>
+<span class="w">    </span><span class="k">CLOSE</span><span class="w"> </span><span class="n">account_cursor</span><span class="p">;</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="p">;</span>
+</code></pre></div>
+
+<p>Terms used in the above example:</p>
+<ul>
+<li><code>DECLARE</code>: variables are declared to hold the values from the cursor.</li>
+<li><code>DECLARE account_cursor</code>: a cursor is defined to select Account_ID and Balance from the accounts table.</li>
+<li><code>OPEN account_cursor</code>: the cursor is opened to start fetching rows.</li>
+<li><code>FETCH account_cursor INTO</code>: retrieves the next row from the cursor into the declared variables.</li>
+<li><code>LOOP</code>: iterates through the rows until all are processed.</li>
+<li><code>CLOSE account_cursor</code>: closes the cursor once processing is complete.</li>
+</ul>
+<p>Note: in this example, the cursor allows you to calculate the interest for each customer's account one by one, making it easy to handle any specific logic needed for each account while ensuring that you do not overwhelm your application with too much data at once.</p>
+<h3 id="17-what-is-a-user-defined-function-and-how-do-you-create-one-in-mysql">17. What is a user-defined function, and how do you create one in MySQL?</h3>
+<p>A user-defined function (UDF) in MySQL is a reusable piece of code that you can call within SQL queries. It allows you to perform specific calculations or data manipulations that may be too complex or repetitive to handle with standard SQL commands.</p>
+<p>Why use user-defined functions?</p>
+<ul>
+<li><strong>Modularity:</strong> encapsulate complex logic that can be reused in multiple queries.</li>
+<li><strong>Simplicity:</strong> break down complex operations into simpler, manageable components.</li>
+<li><strong>Improved readability:</strong> makes queries easier to read and understand.</li>
+</ul>
+<p>Real-time scenario: imagine you are working on a sales application where you need to calculate the total sales tax for different products based on their price and a fixed tax rate. Instead of recalculating this logic every time in your queries, you can create a user-defined function.</p>
+<p>Let's create a function that calculates sales tax based on a given price.</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELIMITER</span><span class="w"> </span><span class="o">//</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">CalculateSalesTax</span><span class="p">(</span><span class="n">price</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">))</span>
+<span class="k">RETURNS</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span>
+<span class="k">DETERMINISTIC</span>
+<span class="k">BEGIN</span>
+<span class="w">    </span><span class="k">DECLARE</span><span class="w"> </span><span class="n">tax_rate</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="mi">0</span><span class="p">.</span><span class="mi">07</span><span class="p">;</span><span class="w"> </span><span class="c1">-- 7% sales tax</span>
+<span class="w">    </span><span class="k">RETURN</span><span class="w"> </span><span class="n">price</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">tax_rate</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Calculate and return the sales tax</span>
+<span class="k">END</span><span class="w"> </span><span class="o">//</span>
+<span class="k">DELIMITER</span><span class="w"> </span><span class="p">;</span>
+</code></pre></div>
+
+<p>Terms used in the above example:</p>
+<ul>
+<li><code>DELIMITER //</code>: changes the statement delimiter so that MySQL recognizes where the function ends.</li>
+<li><code>CREATE FUNCTION CalculateSalesTax(price DECIMAL(10, 2))</code>: this defines a new function called CalculateSalesTax that takes one input parameter, the price.</li>
+<li><code>RETURNS DECIMAL(10, 2)</code>: specifies the data type of the value that the function will return.</li>
+<li><code>DETERMINISTIC</code>: indicates that the function will always produce the same result for the same input.</li>
+<li><code>BEGIN ... END</code>: this section contains the logic of the function, where we declare the tax rate and calculate the sales tax.</li>
+<li><code>RETURN price * tax_rate</code>: this returns the calculated sales tax.</li>
+</ul>
+<p>How to use the user-defined function: once the function is created, you can use it in your queries.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">Product_Name</span><span class="p">,</span><span class="w"> </span><span class="n">Price</span><span class="p">,</span><span class="w"> </span><span class="n">CalculateSalesTax</span><span class="p">(</span><span class="n">Price</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">Sales_Tax</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Note: in this example, the CalculateSalesTax function allows you to easily compute sales tax for any product price without rewriting the logic each time. This not only saves time but also makes your SQL queries cleaner and easier to understand.</p>
+<h3 id="18-what-are-aggregate-functions-in-sql">18. What are aggregate functions in SQL?</h3>
+<p>In SQL, aggregate functions are used to perform calculations on multiple rows of data, returning a single result. They are commonly used with the GROUP BY clause to group rows that share a common value into summary rows, but they can also be used without grouping to perform calculations across an entire dataset.</p>
+<p>Here are some common aggregate functions in SQL.</p>
+<ul>
+<li><code>COUNT()</code>: returns the number of rows that match a specified condition. It can count all rows or only rows with a non-NULL value.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w">     </span><span class="c1">-- Counts all rows</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">email</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Counts only rows where &#39;email&#39; is not NULL</span>
+</code></pre></div>
+
+<ul>
+<li><code>SUM()</code>: returns the total sum of a numeric column.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Adds up all salaries</span>
+</code></pre></div>
+
+<ul>
+<li><code>AVG()</code>: returns the average value of a numeric column.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Calculates the average age</span>
+</code></pre></div>
+
+<ul>
+<li><code>MIN()</code>: returns the smallest value in a column.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">MIN</span><span class="p">(</span><span class="n">price</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">products</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Finds the lowest price</span>
+</code></pre></div>
+
+<ul>
+<li><code>MAX()</code>: returns the largest value in a column.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Finds the highest salary</span>
+</code></pre></div>
+
+<ul>
+<li><code>GROUP_CONCAT()</code> (MySQL-specific): returns a concatenated string of non-NULL values from a group.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">GROUP_CONCAT</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">users</span><span class="p">;</span><span class="w"> </span><span class="c1">-- Concatenates names into a single string</span>
+</code></pre></div>
+
+<h3 id="19-what-is-the-difference-between-where-and-having-clause">19. What is the difference between WHERE and HAVING clause?</h3>
+<p>The WHERE and HAVING clauses in SQL differ based on when they apply and what they filter.</p>
+<ul>
+<li><strong>WHERE</strong> is used to filter rows before any grouping or aggregation. It works on individual rows and can only be applied to non-aggregated columns.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">50000</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This query retrieves employees with a salary greater than 50,000, filtering individual rows.</p>
+<ul>
+<li><strong>HAVING</strong> is used to filter after the GROUP BY clause, meaning it works on groups of rows. It can filter based on the result of aggregate functions.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">department</span><span class="p">,</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">avg_salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">AVG</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">50000</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This query groups employees by department, calculates the average salary for each department, and then filters out departments where the average salary is less than or equal to 50,000.</p>
+<p>Combining WHERE and HAVING: they can be used together in queries where you need to filter both rows and groups.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">department</span><span class="p">,</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total_salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Engineer&#39;</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">department</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">SUM</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span>
+</code></pre></div>
+
+<p>WHERE filters rows to include only engineers. HAVING filters the result to show only departments where the total salary of engineers exceeds 100,000.</p>
+<h3 id="20-what-are-indexes-in-sql">20. What are indexes in SQL?</h3>
+<p>Indexes in SQL are special data structures that improve the speed of data retrieval operations on a database table. They work similarly to the index of a book, which helps you locate information quickly without scanning the entire content.</p>
+<p>Indexes are used to make searching and retrieving data faster, particularly for large datasets. Instead of scanning the entire table row by row, the index allows the database to jump to the relevant rows directly.</p>
+<p>Types of indexes:</p>
+<ul>
+<li><strong>Single-column index:</strong> created on a single column of a table.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Composite (multi-column) index:</strong> created on more than one column.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_name_salary</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">employees</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span><span class="p">);</span>
+</code></pre></div>
+
+<ul>
+<li><strong>Unique index:</strong> ensures that all the values in the indexed column are unique (same as a UNIQUE constraint).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_unique_email</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">email</span><span class="p">);</span>
+</code></pre></div>
+
+<p>Internally, indexes often use data structures like B-trees or hash tables to efficiently locate the rows matching a query. This reduces the need for a full table scan.</p>
+<h3 id="21-how-can-you-identify-which-indexes-are-being-used-in-a-query">21. How can you identify which indexes are being used in a query?</h3>
+<p>To identify which indexes are being used in a query, you can use query execution plans provided by most relational databases. These plans show how the database processes a query and whether indexes are being used.</p>
+<ol>
+<li>Using EXPLAIN or EXPLAIN PLAN: most SQL databases provide an EXPLAIN or EXPLAIN PLAN command that displays the query execution plan, detailing the steps the database takes to execute the query, including whether an index is being used. In MySQL, you can use the EXPLAIN statement to see if an index is being used.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<ol start="2">
+<li>Using ANALYZE with EXPLAIN: in some databases like PostgreSQL, you can use EXPLAIN ANALYZE to not only see the execution plan but also get runtime statistics for the query.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">EXPLAIN</span><span class="w"> </span><span class="k">ANALYZE</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;John&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This will display the actual runtime of the query along with the plan, helping you confirm whether an index is being used and how effectively.</p>
+<h3 id="22-can-you-have-an-index-on-a-view-if-yes-how">22. Can you have an index on a view? If yes, how?</h3>
+<p>Yes, you can create an index on a view in SQL, but the view must meet certain conditions and be a materialized view or an indexed view (depending on the database system). Here is how this works for some popular databases.</p>
+<ol>
+<li><strong>SQL Server (Indexed Views):</strong> in SQL Server, you can create an indexed view (which SQL Server calls a "materialized view" under the hood). This means the view's result is physically stored on disk, and you can create indexes on it to improve performance.</li>
+</ol>
+<p>Steps to create an indexed view in SQL Server. Create the view; the view must meet certain requirements, such as:</p>
+<ul>
+<li>It must be SCHEMABINDING (that is, the view is bound to the schema of the base tables, preventing changes to the underlying tables that would invalidate the view).</li>
+<li>All functions used must be deterministic (that is, they return the same result for the same input).</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">VIEW</span><span class="w"> </span><span class="n">SalesView</span>
+<span class="k">WITH</span><span class="w"> </span><span class="n">SCHEMABINDING</span>
+<span class="k">AS</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">StoreID</span><span class="p">,</span><span class="w"> </span><span class="n">COUNT_BIG</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">SalesCount</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">dbo</span><span class="p">.</span><span class="n">Sales</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">StoreID</span><span class="p">;</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>Create the index on the view:</strong> after creating the view, you can create a clustered index on it. This materializes the view and allows further indexing.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="n">CLUSTERED</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">idx_SalesView</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">SalesView</span><span class="p">(</span><span class="n">StoreID</span><span class="p">);</span>
+</code></pre></div>
+
+<p>After this, SQL Server physically stores the view's data and updates the index as the underlying tables are modified.</p>
+<h3 id="23-you-have-two-tables-shop_1-and-shop_2-both-having-the-same-structure-with-customer_id-and-customer_name-write-a-query-that-retrieves-the-names-of-customers-who-appear-in-both-tables">23. You have two tables, shop_1 and shop_2, both having the same structure with customer_id and customer_name. Write a query that retrieves the names of customers who appear in both tables.</h3>
+<p>To retrieve the names of customers who appear in both shop_1 and shop_2 tables, you can use an INNER JOIN or an INTERSECT (if supported by your database). Here is how you can do it using both methods.</p>
+<ol>
+<li><strong>Using INNER JOIN:</strong> this approach joins the two tables based on the customer_id (or customer_name if you prefer) and retrieves customers who are present in both tables.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">customer_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">shop_1</span><span class="w"> </span><span class="n">s1</span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">shop_2</span><span class="w"> </span><span class="n">s2</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">s1</span><span class="p">.</span><span class="n">customer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s2</span><span class="p">.</span><span class="n">customer_id</span><span class="p">;</span>
+</code></pre></div>
+
+<ul>
+<li>This query joins the shop_1 table with shop_2 based on the customer_id.</li>
+<li>It returns only those rows where there is a match in both tables.</li>
+</ul>
+<ol start="2">
+<li><strong>Using INTERSECT:</strong> some databases like PostgreSQL, Oracle and SQL Server support the INTERSECT operator, which returns only the rows that are common to both queries.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">customer_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">shop_1</span>
+<span class="k">INTERSECT</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">customer_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">shop_2</span><span class="p">;</span>
+</code></pre></div>
+
+<ul>
+<li>This query retrieves the customer_name that exists in both shop_1 and shop_2.</li>
+<li>Note that INTERSECT only returns distinct results by default, so you do not need to use DISTINCT.</li>
+</ul>
+<p>In conclusion: INNER JOIN works in all SQL databases. INTERSECT is a simpler and more concise option but might not be available in all databases like MySQL.</p>
+<h3 id="24-difference-between-inner-join-and-outer-join">24. Difference between INNER JOIN and OUTER JOIN?</h3>
+<ul>
+<li><strong>INNER JOIN:</strong> returns only the rows where there is a match in both tables.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">INNER</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">table2</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">table1</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table2</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Example: only retrieves rows that exist in both table1 and table2.</p>
+<ul>
+<li><strong>OUTER JOIN:</strong> returns matched rows, plus unmatched rows from either or both tables (depending on type: LEFT, RIGHT or FULL).</li>
+<li>LEFT JOIN: returns all rows from the left table and matched rows from the right table. Unmatched rows from the right table are null.</li>
+<li>RIGHT JOIN: returns all rows from the right table and matched rows from the left table.</li>
+<li>FULL OUTER JOIN: returns rows when there is a match in either table and unmatched rows from both tables.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">LEFT</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">table2</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">table1</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">table2</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="25-difference-between-where-and-having">25. Difference Between WHERE and HAVING</h3>
+<p><strong>WHERE:</strong> filters rows before aggregation. It is applied to individual rows and cannot work with aggregate functions.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>HAVING:</strong> filters groups after aggregation. It is used with aggregate functions like SUM(), COUNT(), etc., and is applied after the GROUP BY clause.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">column</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">column</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="26-difference-between-union-and-union-all">26. Difference Between UNION and UNION ALL?</h3>
+<ul>
+<li><strong>UNION:</strong> combines results from two or more SELECT queries and removes duplicate rows from the result.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">column1</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">column1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table2</span><span class="p">;</span>
+</code></pre></div>
+
+<ul>
+<li><strong>UNION ALL:</strong> combines results from two or more SELECT queries but does not remove duplicates.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">column1</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="n">column1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table2</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="27-difference-between-delete-and-truncate">27. Difference Between DELETE and TRUNCATE</h3>
+<p><strong>DELETE:</strong> removes rows from a table based on a condition. It can be rolled back, and each row is deleted one by one. It does not reset auto-increment values.</p>
+<div class="highlight"><pre><span></span><code><span class="k">DELETE</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">condition</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>TRUNCATE:</strong> removes all rows from a table without logging individual row deletions. It is faster than DELETE and resets any auto-increment counters. In most databases, it cannot be rolled back.</p>
+<div class="highlight"><pre><span></span><code><span class="k">TRUNCATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">table_name</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="28-difference-between-primary-key-and-unique">28. Difference Between PRIMARY KEY and UNIQUE</h3>
+<p><strong>PRIMARY KEY:</strong> uniquely identifies each row in a table. There can only be one primary key in a table, and it cannot have NULL values.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>UNIQUE:</strong> ensures all values in a column or group of columns are unique. Unlike the primary key, a table can have multiple UNIQUE constraints, and it allows one NULL value per column.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">UNIQUE</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="29-difference-between-drop-and-truncate">29. Difference Between DROP and TRUNCATE?</h3>
+<p><strong>DROP:</strong> completely removes a table (or other database objects like views or indexes) from the database. All data, structure and dependencies are removed.</p>
+<div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">table_name</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>TRUNCATE:</strong> removes all rows from a table but keeps the table structure intact for future use.</p>
+<div class="highlight"><pre><span></span><code><span class="k">TRUNCATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">table_name</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="30-difference-between-varchar-and-char">30. Difference Between VARCHAR and CHAR?</h3>
+<p><strong>VARCHAR:</strong> stores variable-length strings. It uses only the required space based on the string length (plus 1-2 bytes for storing length).</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<p><strong>CHAR:</strong> stores fixed-length strings. It always uses the defined length, padding the string with spaces if necessary.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">code</span><span class="w"> </span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div>
+
+<h3 id="31-difference-between-in-and-exists">31. Difference Between IN and EXISTS</h3>
+<p><strong>IN:</strong> checks whether a value exists in a list of values or a subquery. It is generally used when you are dealing with a small list.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">managers</span><span class="p">);</span>
+</code></pre></div>
+
+<p><strong>EXISTS:</strong> checks if a subquery returns any rows. It is generally more efficient with large datasets because it stops scanning once a match is found.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">managers</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">employees</span><span class="p">.</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">managers</span><span class="p">.</span><span class="n">id</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="32-difference-between-join-and-subquery">32. Difference Between JOIN and SUBQUERY?</h3>
+<p><strong>JOIN:</strong> combines rows from two or more tables based on a related column. It is more efficient when you need data from multiple tables in the same result set.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">department</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</code></pre></div>
+
+<p><strong>SUBQUERY:</strong> a query inside another query. It can be used in SELECT, WHERE or FROM clauses. It is useful when a query depends on the result of another query.</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">departments</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;HR&#39;</span><span class="p">);</span>
+</code></pre></div>
+
+<h3 id="33-sql-query-to-find-the-nth-highest-salary">33. SQL query to find the Nth highest salary.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">OFFSET</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Commonly</p>
+</blockquote>
+<h3 id="34-sql-query-to-find-the-2nd-highest-salary-in-mysql">34. SQL query to find the 2nd highest salary in MySQL.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">Employee</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">Salary</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">Salary</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Employee</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Commonly</p>
+</blockquote>
+<h3 id="35-find-all-employees-with-duplicate-names">35. Find all employees with duplicate names.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: TCS</p>
+</blockquote>
+<h3 id="36-find-the-second-highest-salary-from-the-table">36. Find the second highest salary from the table.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">MAX</span><span class="p">(</span><span class="n">salary</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Commonly</p>
+</blockquote>
+<h3 id="37-how-to-create-an-empty-table-with-the-same-structure-as-another-table">37. How to create an empty table with the same structure as another table.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">student_copy</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">students</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="38-increase-the-income-of-all-employees-by-5-in-a-table">38. Increase the income of all employees by 5% in a table.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">UPDATE</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">SET</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">income</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">income</span><span class="o">*</span><span class="mi">5</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">100</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: i-exceed</p>
+</blockquote>
+<h3 id="39-find-names-of-employees-starting-with-a">39. Find names of employees starting with "A".</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">first_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">first_name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;A%&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="40-find-the-number-of-employees-working-in-department-abc">40. Find the number of employees working in department 'ABC'.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">deparment_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ABC&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="41-print-details-of-employees-whose-first-name-ends-with-a-and-contains-6-alphabets">41. Print details of employees whose first name ends with 'A' and contains 6 alphabets.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">first</span><span class="o">-</span><span class="n">name</span><span class="w"> </span><span class="k">LIKE</span><span class="w"> </span><span class="s1">&#39;_ _ _ _ _ A&#39;</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: EY</p>
+</blockquote>
+<h3 id="42-print-details-of-employees-whose-salary-lies-between-10000-and-50000">42. Print details of employees whose salary lies between 10000 and 50000.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="k">BETWEEN</span><span class="w"> </span><span class="mi">10000</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="mi">50000</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="43-fetch-duplicate-records-from-the-table">43. Fetch duplicate records from the table.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">column_name</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">count</span>
+<span class="k">FROM</span><span class="w"> </span><span class="k">table_name</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">column_name</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Capgemini, Fresher's interview question</p>
+</blockquote>
+<h3 id="44-fetch-top-n-records-by-salary">44. Fetch top N records by salary.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="n">N</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="45-find-all-employees-working-under-a-particular-manager">45. Find all employees working under a particular manager.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">manager_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;ManagerName&#39;</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: TCS</p>
+</blockquote>
+<h3 id="46-fetch-only-the-first-name-from-the-full-name-column">46. Fetch only the first name from the full-name column.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">substring</span><span class="p">(</span><span class="n">fullname</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">locate</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="n">fullname</span><span class="p">))</span>
+<span class="k">AS</span><span class="w"> </span><span class="n">FirstName</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employee</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Newgen</p>
+</blockquote>
+<h3 id="47-get-employees-hired-in-the-last-8-months">47. Get employees hired in the last 8 months.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">hire_date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">CURDATE</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="k">MONTH</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="48-retrieve-the-name-of-the-employee-with-the-maximum-salary">48. Retrieve the name of the employee with the maximum salary.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="k">DESC</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Commonly</p>
+</blockquote>
+<h3 id="49-find-employees-who-have-worked-for-more-than-one-department">49. Find employees who have worked for more than one department.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">employee_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees_history</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">employee_id</span><span class="w"> </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">department_id</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Cognizant</p>
+</blockquote>
+<h3 id="50-find-employees-who-have-worked-for-more-than-one-department">50. Find employees who have worked for more than one department.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">employee_id</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees_history</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">employee_id</span><span class="w"> </span><span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="k">DISTINCT</span><span class="w"> </span><span class="n">department_id</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Cognizant</p>
+</blockquote>
+<h3 id="51-write-a-query-using-union-to-display-employees-who-have-either-worked-on-project-a-or-project-b-but-without-duplicates">51. Write a query using UNION to display employees who have either worked on 'Project A' or 'Project B' but without duplicates.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">employee_name</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">project_a</span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="n">employee_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">project_b</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Capgemini</p>
+</blockquote>
+<h3 id="52-fetch-common-records-between-two-tables">52. Fetch common records between two tables.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">table1</span>
+<span class="k">INTERSECT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">table2</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="53-create-an-empty-table-with-the-same-structure-as-the-other-table">53. Create an empty table with the same structure as the other table.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">newtable</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">oldtable</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="mi">1</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+
+<h3 id="54-to-display-users-who-have-placed-fewer-than-3-orders-assume-you-have-two-tables-accounts-and-orders">54. To display users who have placed fewer than 3 orders, assume you have two tables Accounts and Orders.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_id</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">order_count</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">Accounts</span><span class="w"> </span><span class="n">a</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">Orders</span><span class="w"> </span><span class="n">o</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="n">user_id</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">user_id</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">name</span>
+<span class="k">HAVING</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="n">o</span><span class="p">.</span><span class="n">order_id</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: EPAM</p>
+</blockquote>
+<h3 id="55-database-query-i-want-the-employee-salary-15000-and-i-have-two-different-tables-so-write-a-sql-query-for-that">55. Database query: I want the employee salary &gt; 15000, and I have two different tables, so write a SQL query for that.</h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">salary</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="n">e</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">salaries</span><span class="w"> </span><span class="n">s</span>
+<span class="k">ON</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="n">employee_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">employee_id</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">15000</span><span class="p">;</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Asked by: Innova Solutions</p>
+</blockquote>
+<div class="pager"><a class="prev" href="doc-practice-08-spring-mvc-level-1.html"><span class="dir">Previous</span><span class="ttl">Spring MVC Interview Q&amp;A — Level I</span></a><a class="next" href="doc-practice-10-spring-data-jpa-databases.html"><span class="dir">Next</span><span class="ttl">Spring Data JPA &amp; Databases — Interview Q&amp;A</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

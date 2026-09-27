@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 02 — GateKeeper: API Management &amp; Control Plane — Spring Boot</title>
+<meta name="description" content="Project 02 — GateKeeper: API Management &amp; Control Plane">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-project-02">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-project-02.html#project-02">Project 02</a></li><li><a href="doc-theory-project-02.html#1-the-gatekeeper-monorepo-three-services-in-one-repo">1. The GateKeeper Monorepo: Three Services in One Repo</a></li><li><a href="doc-theory-project-02.html#2-gatekeeper-architecture-control-plane-vs-data-plane">2. GateKeeper Architecture: Control Plane vs Data Plane</a></li><li><a href="doc-theory-project-02.html#3-the-three-services-and-their-responsibilities">3. The Three Services and Their Responsibilities</a></li><li><a href="doc-theory-project-02.html#4-important-terminology-a-shared-vocabulary">4. Important Terminology: A Shared Vocabulary</a></li><li><a href="doc-theory-project-02.html#5-multi-tenancy-and-tenant-identity-in-the-public-path">5. Multi-Tenancy and Tenant Identity in the Public Path</a></li><li><a href="doc-theory-project-02.html#6-actors-in-the-gatekeeper-system">6. Actors in the GateKeeper System</a></li><li><a href="doc-theory-project-02.html#7-platform-administrator-and-tenant-administrator">7. Platform Administrator and Tenant Administrator</a></li><li><a href="doc-theory-project-02.html#8-gateway-service-account-tenant-customers-and-the-security-boundary">8. Gateway Service Account, Tenant Customers, and the Security Boundary</a></li><li><a href="doc-theory-project-02.html#9-who-validates-what-gateway-policy-vs-tenant-authentication">9. Who Validates What: Gateway Policy vs Tenant Authentication</a></li><li><a href="doc-theory-project-02.html#10-designing-the-database-from-first-principles">10. Designing the Database From First Principles</a></li><li><a href="doc-theory-project-02.html#11-organizations-users-routes-versioning-and-auditing">11. Organizations, Users, Routes, Versioning, and Auditing</a></li><li><a href="doc-theory-project-02.html#12-designing-apis-before-writing-controllers">12. Designing APIs Before Writing Controllers</a></li><li><a href="doc-theory-project-02.html#13-key-design-principles">13. Key Design Principles</a></li><li><a href="doc-theory-project-02.html#14-myth-vs-reality">14. Myth vs Reality</a></li><li><a href="doc-theory-project-02.html#15-common-trap-questions">15. Common Trap Questions</a></li><li><a href="doc-theory-project-02.html#16-points-to-remember">16. Points to Remember</a></li><li><a href="doc-theory-project-02.html#17-likely-interview-questions">17. Likely Interview Questions</a></li><li><a href="doc-theory-project-02.html#18-final-summary">18. Final Summary</a></li></ul></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Project 02 — GateKeeper: API Management &amp; Control Plane</h1>
+<p class="readmeta">19 sections · 5,780 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-project-02" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="project-02">Project 02</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Building a Production-Style API Gateway in Spring Boot | GateKeeper Project | #2" (playlist map, verified). Repo folder is the <code>SpringBoot Project 2/code/gatekeeper</code> monorepo: three Maven modules (api-management-service, smart-gateway-service, analytics-service), each with a Spring Boot application class, a <code>config.SecurityConfig</code>, a <code>controller.HealthController</code> and a <code>dto.responseDto.HealthResponse</code>, plus <code>pom.xml</code> and <code>application.properties</code>; in this part api-management-service also gains a <code>service.HealthService</code>.</p>
+</blockquote>
+<p>GateKeeper is a production-style API gateway built as three separate Spring Boot microservices, and the whole design turns on one question: which problem does each service own? This part starts the project by building the API Management Service, which is the control plane, and by fixing the vocabulary, ownership model, database shape and API contract before any controller is written. The goal is not three random Spring Boot apps; it is a clean split between deciding what the gateway should do and actually doing it to live traffic. Every later part of the project rests on the boundaries established here.</p>
+<h2 id="1-the-gatekeeper-monorepo-three-services-in-one-repo">1. The GateKeeper Monorepo: Three Services in One Repo</h2>
+<p>GateKeeper consists of three Spring Boot microservices that live together in a single Maven monorepo under <code>SpringBoot Project 2/code/gatekeeper</code>:</p>
+<ol>
+<li><strong>api-management-service</strong> -- stores the configuration that tells the gateway what to do. This is the Control Plane, and it is the service we start building in this part.</li>
+<li><strong>smart-gateway-service</strong> -- handles the actual application traffic and applies configuration to incoming requests. This is the Data Plane.</li>
+<li><strong>analytics-service</strong> -- records and summarizes what happened while traffic passed through GateKeeper. Its job is primarily observation and reporting.</li>
+</ol>
+<p>The three services are deliberately different in responsibility, not just in name. Creating three Spring Boot applications does not automatically create a good architecture; the important part is deciding which problem each service owns.</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Package root</th>
+<th>Key classes (this part)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api-management-service</td>
+<td>in.coderarmy.gatekeeper.management</td>
+<td><code>ApiManagementServiceApplication</code>, <code>config.SecurityConfig</code>, <code>controller.HealthController</code>, <code>dto.responseDto.HealthResponse</code>, <code>service.HealthService</code></td>
+</tr>
+<tr>
+<td>smart-gateway-service</td>
+<td>in.coderarmy.gatekeeper.gateway</td>
+<td><code>SmartGatewayServiceApplication</code>, <code>config.SecurityConfig</code>, <code>controller.HealthController</code>, <code>dto.responseDto.HealthResponse</code></td>
+</tr>
+<tr>
+<td>analytics-service</td>
+<td>in.coderarmy.gatekeeper.analytics</td>
+<td><code>AnalyticsServiceApplication</code>, <code>config.SecurityConfig</code>, <code>controller.HealthController</code>, <code>dto.responseDto.HealthResponse</code></td>
+</tr>
+</tbody>
+</table>
+<p>Each module also carries its own <code>pom.xml</code> and <code>application.properties</code>, so each can be built, run and deployed independently. In this part the api-management-service is the one that grows beyond the health skeleton: it gains a <code>HealthService</code>, keeping the controller thin and pushing the health logic into a dedicated service class.</p>
+<blockquote class="callout callout--important">
+<p>Important: The repo is a monorepo (one repository, three Maven modules), but that does not make it a monolith. Each module is an independently runnable Spring Boot application with its own dependencies and configuration.</p>
+</blockquote>
+<h2 id="2-gatekeeper-architecture-control-plane-vs-data-plane">2. GateKeeper Architecture: Control Plane vs Data Plane</h2>
+<p>The clearest way to understand GateKeeper is to split it into a control plane and a data plane.</p>
+<ul>
+<li>The <strong>Control Plane</strong> is the part of the system where gateway configuration is created and managed.</li>
+<li>The <strong>Data Plane</strong> is the part of the system through which real application requests travel.</li>
+</ul>
+<p>In GateKeeper the mapping is exact:</p>
+<ul>
+<li>API Management Service = Control Plane</li>
+<li>Smart Gateway Service = Data Plane</li>
+</ul>
+<div class="highlight"><pre><span></span><code>            +---------------------------+
+            |  API Management Service   |
+            |       Control Plane       |
+            +-------------+-------------+
+                          | route configuration
+                          v
+                     +---------+
+                     |  MySQL  |
+                     +----+----+
+                          ^ read configuration
+                          |
+            +-------------+-------------+
+            |   Smart Gateway Service   |
+            |         Data Plane        |
+            +-------------+-------------+
+                          | request events
+                          v
+            +---------------------------+
+            |     Analytics Service     |
+            |   Reporting / Observation |
+            +---------------------------+
+</code></pre></div>
+
+<p>The one-line mnemonic is the anchor for the whole project: <strong>Control Plane decides, Data Plane does.</strong> The control plane holds the decisions (which organizations exist, where a route forwards, what the rate limit is), while the data plane carries out those decisions on the request path.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Control Plane</th>
+<th>Data Plane</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question it answers</td>
+<td>What should happen?</td>
+<td>Make it happen.</td>
+</tr>
+<tr>
+<td>GateKeeper service</td>
+<td>API Management Service</td>
+<td>Smart Gateway Service</td>
+</tr>
+<tr>
+<td>Nature of work</td>
+<td>Configuration management</td>
+<td>Live request processing</td>
+</tr>
+<tr>
+<td>Typical operations</td>
+<td>Create, update, version, audit routes</td>
+<td>Match, forward, rate limit, timeout</td>
+</tr>
+<tr>
+<td>Stores data?</td>
+<td>Yes, in MySQL</td>
+<td>No, reads active config</td>
+</tr>
+<tr>
+<td>Who calls it</td>
+<td>Management users</td>
+<td>Customers / end users</td>
+</tr>
+<tr>
+<td>Failure impact</td>
+<td>Config changes blocked</td>
+<td>Traffic path affected</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Configuration management and live request processing solve different problems. Keeping them separate is what makes the architecture easier to evolve, test and reason about.</p>
+</blockquote>
+<h2 id="3-the-three-services-and-their-responsibilities">3. The Three Services and Their Responsibilities</h2>
+<p>The API Management Service stores the configuration that tells the gateway what it should do. The questions it answers include:</p>
+<ul>
+<li>Which organizations exist?</li>
+<li>Where should a route forward traffic?</li>
+<li>Which routes belong to an organization?</li>
+<li>What is the rate limit?</li>
+<li>What is the response timeout?</li>
+<li>Which HTTP methods are allowed?</li>
+<li>Is a route active?</li>
+<li>Which headers should be added or removed?</li>
+</ul>
+<p>The Smart Gateway Service reads configuration created through API Management and applies it to incoming requests. Its future responsibilities include route matching, request forwarding, rate limiting, header manipulation, timeout enforcement and idempotency checks.</p>
+<p>The Analytics Service records and summarizes what happened while traffic passed through GateKeeper: number of requests, failed requests, response times, route usage and rate-limit violations.</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Plane / role</th>
+<th>Owns</th>
+<th>Example outputs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Management Service</td>
+<td>Control Plane</td>
+<td>Configuration of organizations and routes</td>
+<td>Organization list, route config, policies</td>
+</tr>
+<tr>
+<td>Smart Gateway Service</td>
+<td>Data Plane</td>
+<td>Live traffic handling</td>
+<td>Forwarded requests, rate-limit decisions</td>
+</tr>
+<tr>
+<td>Analytics Service</td>
+<td>Reporting</td>
+<td>Observation and reporting</td>
+<td>Counts, failures, latency, violations</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A weak candidate says "GateKeeper has three microservices." A strong candidate says "configuration, request processing and observation are three different problems, so they are three different services," and can justify why each boundary exists.</p>
+</blockquote>
+<h2 id="4-important-terminology-a-shared-vocabulary">4. Important Terminology: A Shared Vocabulary</h2>
+<p>Before designing the database or the APIs, GateKeeper fixes a common vocabulary.</p>
+<p><strong>Organization.</strong> A company that uses GateKeeper, for example FoodFast or QuickShop. In this project an organization is also our tenant; there is no separate Tenant entity. The words are used in slightly different senses:</p>
+<ul>
+<li>we say <strong>organization</strong> when talking about the database or business model;</li>
+<li>we say <strong>tenant</strong> when talking about ownership and isolation.</li>
+</ul>
+<p><strong>Management User.</strong> A human or machine identity allowed to configure or read GateKeeper. Examples: <code>platform-admin</code>, <code>foodfast-admin</code>, <code>gateway-service</code>. These identities belong to GateKeeper itself.</p>
+<p><strong>Tenant Customer.</strong> A customer of an application that uses GateKeeper, for example a FoodFast customer or a QuickShop customer. A FoodFast customer is not a GateKeeper management user. This distinction becomes extremely important when implementing authentication.</p>
+<p><strong>Route.</strong> A rule describing how a public API path maps to a backend service, for example <code>/foodfast/orders/**</code> forwards to the FoodFast Order Service. A route can also carry policies such as allowed methods, rate limits, timeouts, header rules and idempotency configuration.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Example</th>
+<th>Belongs to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Organization (tenant)</td>
+<td>Company using GateKeeper</td>
+<td>FoodFast, QuickShop</td>
+<td>GateKeeper business model</td>
+</tr>
+<tr>
+<td>Management User</td>
+<td>Identity allowed to configure/read GateKeeper</td>
+<td>platform-admin, foodfast-admin, gateway-service</td>
+<td>GateKeeper</td>
+</tr>
+<tr>
+<td>Tenant Customer</td>
+<td>End user of an app using GateKeeper</td>
+<td>FoodFast customer, QuickShop customer</td>
+<td>The tenant application</td>
+</tr>
+<tr>
+<td>Route</td>
+<td>Mapping of a public path to a backend service, plus policies</td>
+<td>/foodfast/orders/** -&gt; FoodFast Order Service</td>
+<td>An organization</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: An organization and a tenant are the same thing in this project. There is no separate Tenant entity; the difference is only the sense in which we use the word (database/business model vs ownership/isolation).</p>
+</blockquote>
+<h2 id="5-multi-tenancy-and-tenant-identity-in-the-public-path">5. Multi-Tenancy and Tenant Identity in the Public Path</h2>
+<p>Suppose two companies use the same GateKeeper installation. FoodFast exposes an authentication service on <code>:8091</code>, a restaurant service on <code>:8092</code> and an order service on <code>:8093</code>. QuickShop exposes an authentication service on <code>:8101</code>, a catalog service on <code>:8102</code> and an order service on <code>:8103</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Tenant</th>
+<th>Service</th>
+<th>Port</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FoodFast</td>
+<td>Authentication Service</td>
+<td>8091</td>
+</tr>
+<tr>
+<td>FoodFast</td>
+<td>Restaurant Service</td>
+<td>8092</td>
+</tr>
+<tr>
+<td>FoodFast</td>
+<td>Order Service</td>
+<td>8093</td>
+</tr>
+<tr>
+<td>QuickShop</td>
+<td>Authentication Service</td>
+<td>8101</td>
+</tr>
+<tr>
+<td>QuickShop</td>
+<td>Catalog Service</td>
+<td>8102</td>
+</tr>
+<tr>
+<td>QuickShop</td>
+<td>Order Service</td>
+<td>8103</td>
+</tr>
+</tbody>
+</table>
+<p>Both companies may expose an <code>/orders</code> API. That immediately creates a problem: how can one shared gateway distinguish FoodFast <code>/orders</code> from QuickShop <code>/orders</code>?</p>
+<p>One approach is to make the tenant part of the public path:</p>
+<div class="highlight"><pre><span></span><code>FoodFast  -&gt; /foodfast/orders/**  -&gt; FoodFast Order Service
+QuickShop -&gt; /quickshop/orders/** -&gt; QuickShop Order Service
+
+First path segment identifies the tenant:
+  /foodfast/...  -&gt; FoodFast
+  /quickshop/... -&gt; QuickShop
+</code></pre></div>
+
+<p>The first path segment now identifies the tenant. This also makes tenant ownership explicit while resolving routes, which prevents one tenant's configuration from accidentally matching another tenant's traffic.</p>
+<p>Explicit tenant identity is a design principle, not just a convenience. Because routes belong to organizations, the identity of a route is <code>organization_id + route_id</code>, and it is that pair -- not the route id alone -- that must be unique.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Tenant identity must be explicit. If the tenant is not part of how a route is identified, two companies with the same path will collide, and isolation becomes guesswork.</p>
+</blockquote>
+<h2 id="6-actors-in-the-gatekeeper-system">6. Actors in the GateKeeper System</h2>
+<p>GateKeeper has four important types of actors:</p>
+<ol>
+<li><strong>PLATFORM_ADMIN</strong> -- owns and operates GateKeeper.</li>
+<li><strong>TENANT_ADMIN</strong> -- manages one organization's gateway configuration.</li>
+<li><strong>GATEWAY_SERVICE</strong> -- a machine account used by the Smart Gateway.</li>
+<li><strong>TENANT CUSTOMER</strong> -- uses FoodFast or QuickShop, not GateKeeper Management.</li>
+</ol>
+<p>In one line each: PLATFORM_ADMIN owns and operates GateKeeper; TENANT_ADMIN manages one organization's gateway configuration; GATEWAY_SERVICE is the machine account used by Smart Gateway; TENANT CUSTOMER uses FoodFast or QuickShop, not GateKeeper Management.</p>
+<p>Understanding these actors before designing authentication prevents multiple security problems later. The first three are management-side identities that exist inside GateKeeper; the fourth is a customer identity that exists inside a tenant application.</p>
+<table>
+<thead>
+<tr>
+<th>Actor</th>
+<th>Type</th>
+<th>Scope</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PLATFORM_ADMIN</td>
+<td>Human</td>
+<td>Whole GateKeeper platform</td>
+<td>Platform Admin</td>
+</tr>
+<tr>
+<td>TENANT_ADMIN</td>
+<td>Human</td>
+<td>One organization</td>
+<td>foodfast-admin</td>
+</tr>
+<tr>
+<td>GATEWAY_SERVICE</td>
+<td>Machine</td>
+<td>Read configuration</td>
+<td>gateway-service</td>
+</tr>
+<tr>
+<td>TENANT CUSTOMER</td>
+<td>Human</td>
+<td>One tenant application</td>
+<td>FoodFast customer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-platform-administrator-and-tenant-administrator">7. Platform Administrator and Tenant Administrator</h2>
+<p><strong>The Platform Administrator</strong> operates GateKeeper itself. It can perform operations such as:</p>
+<ul>
+<li>create organizations;</li>
+<li>create the first administrator for an organization;</li>
+<li>activate organizations;</li>
+<li>suspend organizations;</li>
+<li>soft-delete organizations;</li>
+<li>view organizations;</li>
+<li>view infrastructure health.</li>
+</ul>
+<p>Conceptually: Platform Admin -&gt; Create FoodFast, and Platform Admin -&gt; Create QuickShop.</p>
+<p>However, the platform administrator is not responsible for FoodFast's business operations. It should not:</p>
+<ul>
+<li>place FoodFast orders;</li>
+<li>access customer accounts;</li>
+<li>authenticate FoodFast customers;</li>
+<li>manage FoodFast's restaurant data.</li>
+</ul>
+<p>GateKeeper manages API infrastructure, not the tenant application's business domain.</p>
+<p><strong>The Tenant Administrator</strong> is per organization. Each organization has a <code>TENANT_ADMIN</code>: FoodFast -&gt; foodfast-admin, and QuickShop -&gt; quickshop-admin.</p>
+<p>A tenant administrator logs into GateKeeper Management and manages gateway configuration belonging to only its own organization. It can configure:</p>
+<ul>
+<li>routes;</li>
+<li>allowed HTTP methods;</li>
+<li>timeouts;</li>
+<li>rate limits;</li>
+<li>idempotency;</li>
+<li>header rules;</li>
+<li>route activation.</li>
+</ul>
+<p>It should never be able to modify QuickShop routes. Concretely, <code>foodfast-admin</code> manages FoodFast routes only.</p>
+<p>For this project, the model is intentionally simplified to <strong>1 Organization -&gt; 1 Tenant Administrator</strong>. This is the core idea behind tenant isolation. Features such as multiple developers, viewer roles, invitations, billing users and subscription plans are outside the current scope.</p>
+<blockquote class="callout callout--important">
+<p>Important: A tenant administrator's power ends at its own organization's boundary. The platform administrator's power is broad over the platform but deliberately silent on tenant business data.</p>
+</blockquote>
+<h2 id="8-gateway-service-account-tenant-customers-and-the-security-boundary">8. Gateway Service Account, Tenant Customers, and the Security Boundary</h2>
+<p>The Smart Gateway also needs to communicate with API Management. Instead of giving it a human account, GateKeeper creates a machine identity: <code>GATEWAY_SERVICE</code>. Its job is simple: Smart Gateway asks for active configuration from API Management.</p>
+<p>The Gateway Service account can read configuration; it cannot modify it. For example:</p>
+<ul>
+<li>allowed: <code>GET active routes</code>;</li>
+<li>not allowed: <code>POST route</code>, <code>PUT route</code>, <code>DELETE route</code>.</li>
+</ul>
+<p>This follows the principle of least privilege.</p>
+<p>Tenant customers are different from management users. Suppose a FoodFast customer places an order. That user might have a token issued by FoodFast: FoodFast Customer -&gt; (FoodFast JWT) -&gt; Smart Gateway -&gt; token passed forward -&gt; FoodFast Backend.</p>
+<p>GateKeeper does not turn that customer into a GateKeeper management user. The customer does not log into GateKeeper Management; the customer's credential belongs to FoodFast. Administrative configuration and customer authentication are completely separate concerns.</p>
+<table>
+<thead>
+<tr>
+<th>Identity</th>
+<th>Credential owner</th>
+<th>Can configure GateKeeper?</th>
+<th>Appears on customer requests?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>foodfast-admin</td>
+<td>GateKeeper</td>
+<td>Yes, for FoodFast only</td>
+<td>No</td>
+</tr>
+<tr>
+<td>gateway-service</td>
+<td>GateKeeper</td>
+<td>No, read-only</td>
+<td>No</td>
+</tr>
+<tr>
+<td>FoodFast customer</td>
+<td>FoodFast</td>
+<td>No</td>
+<td>Yes (FoodFast token)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Management credentials are never customer credentials. The <code>foodfast-admin</code> account exists only to configure FoodFast inside GateKeeper and is never sent when a customer places an order.</p>
+</blockquote>
+<h2 id="9-who-validates-what-gateway-policy-vs-tenant-authentication">9. Who Validates What: Gateway Policy vs Tenant Authentication</h2>
+<p>There are two different types of validation happening in GateKeeper.</p>
+<p><strong>GateKeeper validation.</strong> The gateway asks questions such as:</p>
+<ul>
+<li>Does a route match this request?</li>
+<li>Is the route active?</li>
+<li>Has the rate limit been exceeded?</li>
+<li>Is this HTTP method allowed?</li>
+<li>Does an idempotent POST contain an <code>Idempotency-Key</code>?</li>
+<li>Which headers should be added?</li>
+<li>Which headers should be removed?</li>
+<li>What timeout should be used?</li>
+</ul>
+<p>These are gateway concerns.</p>
+<p><strong>Tenant authentication.</strong> FoodFast is responsible for questions such as:</p>
+<ul>
+<li>Is this customer logged in?</li>
+<li>Is the JWT valid?</li>
+<li>Can this user access order 123?</li>
+<li>Does this customer own the payment method?</li>
+<li>Can this user cancel this order?</li>
+</ul>
+<p>These are application concerns.</p>
+<p>Therefore the trust boundary is clean: GateKeeper validates gateway policy, while FoodFast validates FoodFast user identity and authorization.</p>
+<p>This creates a clean trust boundary and allows GateKeeper to manage infrastructure policies without taking ownership of every tenant's customer identity system.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Owner</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does a route match this request?</td>
+<td>GateKeeper</td>
+<td>Gateway policy</td>
+</tr>
+<tr>
+<td>Is the route active?</td>
+<td>GateKeeper</td>
+<td>Gateway policy</td>
+</tr>
+<tr>
+<td>Has the rate limit been exceeded?</td>
+<td>GateKeeper</td>
+<td>Gateway policy</td>
+</tr>
+<tr>
+<td>Is this HTTP method allowed?</td>
+<td>GateKeeper</td>
+<td>Gateway policy</td>
+</tr>
+<tr>
+<td>Is the JWT valid?</td>
+<td>Tenant (FoodFast)</td>
+<td>Application</td>
+</tr>
+<tr>
+<td>Can this user cancel this order?</td>
+<td>Tenant (FoodFast)</td>
+<td>Application</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The trap answer is "the gateway validates the JWT." The correct answer is that the gateway validates gateway policy, while the tenant backend validates the tenant's user identity and authorization. Confusing the two collapses the trust boundary.</p>
+</blockquote>
+<h2 id="10-designing-the-database-from-first-principles">10. Designing the Database From First Principles</h2>
+<p>Instead of starting by creating JPA entities, GateKeeper starts with the questions the system needs to answer. This helps the database structure emerge naturally from the business requirements. The questions include:</p>
+<ul>
+<li>Which companies use the system?</li>
+<li>Who can operate it?</li>
+<li>What configuration does the gateway need?</li>
+<li>What values can repeat?</li>
+<li>How do we retain configuration history?</li>
+<li>Who changed the configuration?</li>
+</ul>
+<p>Answering these questions leads to the tables: <code>organizations</code>, <code>management_users</code>, <code>api_routes</code>, <code>route_allowed_methods</code>, <code>route_header_rules</code>, <code>route_configuration_versions</code> and <code>control_plane_audit_records</code>.</p>
+<div class="highlight"><pre><span></span><code>organizations
+  |
+  +---- 0..1 management_users
+  |
+  +---- many api_routes
+  |        |
+  |        +---- many route_allowed_methods
+  |        +---- many route_header_rules
+  |
+  +---- many route_configuration_versions
+  |
+  +---- many control_plane_audit_records
+</code></pre></div>
+
+<p>At this point the database structure reflects the major business concepts instead of being a collection of arbitrary tables.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Design the database from business questions, not from entities. When the questions are clear, the tables fall out; when entities come first, the schema is usually wrong.</p>
+</blockquote>
+<h2 id="11-organizations-users-routes-versioning-and-auditing">11. Organizations, Users, Routes, Versioning, and Auditing</h2>
+<p><strong>Organizations.</strong> The question "which companies are using GateKeeper?" yields an <code>organizations</code> table with these columns:</p>
+<ul>
+<li><code>id</code> -- primary key;</li>
+<li><code>name</code> -- human-readable company name;</li>
+<li><code>slug</code> -- URL-safe identity;</li>
+<li><code>status</code> -- lifecycle state;</li>
+<li><code>created_at</code>, <code>updated_at</code>, <code>deleted_at</code> -- audit timestamps.</li>
+</ul>
+<p>The <code>name</code> is meant for humans (<code>name = FoodFast</code>), while the <code>slug</code> is a URL-safe identity (<code>slug = foodfast</code>). Having both is what makes routes like <code>/foodfast/orders/**</code> possible.</p>
+<p>Organization status is a state, not a boolean. A simple <code>active = true/false</code> does not describe enough states, so an organization has a <code>status</code> with values:</p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PENDING</td>
+<td>Provisioned but not ready to use the system</td>
+</tr>
+<tr>
+<td>ACTIVE</td>
+<td>Can use GateKeeper Management and its gateway configuration</td>
+</tr>
+<tr>
+<td>SUSPENDED</td>
+<td>Temporarily cannot use the system; data still exists and can be reactivated</td>
+</tr>
+<tr>
+<td>DELETED</td>
+<td>Soft-deleted but information retained for historical purposes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Management users and roles.</strong> The question "who is allowed to operate the GateKeeper control plane?" yields roles <code>PLATFORM_ADMIN</code>, <code>TENANT_ADMIN</code> and <code>GATEWAY_SERVICE</code>, plus a <code>management_users</code> table with these columns:</p>
+<ul>
+<li><code>id</code> -- primary key;</li>
+<li><code>organization_id</code> -- nullable tenant link;</li>
+<li><code>role_id</code> -- one of the three roles;</li>
+<li><code>username</code> -- login identity;</li>
+<li><code>password_hash</code> -- stored credential hash;</li>
+<li><code>enabled</code> -- whether the account may log in.</li>
+</ul>
+<p>Not every management user belongs to an organization:</p>
+<ul>
+<li><code>platform-admin</code> -&gt; <code>organization_id = NULL</code></li>
+<li><code>gateway-service</code> -&gt; <code>organization_id = NULL</code></li>
+<li><code>foodfast-admin</code> -&gt; <code>organization_id = FoodFast</code></li>
+<li><code>quickshop-admin</code> -&gt; <code>organization_id = QuickShop</code></li>
+</ul>
+<p>Platform-level identities belong to GateKeeper itself; tenant administrators belong to a particular organization. For this version each organization has only one tenant administrator, so a uniqueness constraint can be applied to <code>management_users.organization_id</code>. Platform-level users still have <code>organization_id = NULL</code>, and MySQL allows multiple NULL values in this type of unique constraint, so multiple platform-level accounts can coexist while still enforcing one organization-bound administrator.</p>
+<p><strong>API routes.</strong> The question "what information does the Smart Gateway need to process a request?" yields the <code>api_routes</code> table with these columns:</p>
+<ul>
+<li><code>organization_id</code> -- the owning tenant;</li>
+<li><code>route_id</code> -- the tenant-scoped route id;</li>
+<li><code>name</code> -- human-readable label;</li>
+<li><code>path_pattern</code> -- public path that matches;</li>
+<li><code>target_base_url</code> -- where traffic forwards;</li>
+<li><code>target_path_prefix</code> -- rewrite/prefix on the way out;</li>
+<li><code>requests_per_minute</code> -- rate limit;</li>
+<li><code>response_timeout_ms</code> -- timeout enforcement;</li>
+<li><code>idempotency_enabled</code> -- idempotency handling on/off;</li>
+<li><code>active</code> -- whether the route is live;</li>
+<li><code>configuration_version</code> -- current config version pointer.</li>
+</ul>
+<p>A route contains both routing information and gateway policy.</p>
+<p>Route identity is tenant-scoped, so the important uniqueness rule is <code>UNIQUE (organization_id, route_id)</code>. This means <code>route_id</code> does not have to be globally unique: <code>FoodFast + orders</code> and <code>QuickShop + orders</code> is perfectly valid, because the organization is part of the identity. Conceptually: <strong>Route Identity = Organization + Route ID.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Route field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organization_id</td>
+<td>Tenant ownership</td>
+</tr>
+<tr>
+<td>route_id</td>
+<td>Tenant-scoped route identity</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Human-readable label</td>
+</tr>
+<tr>
+<td>path_pattern</td>
+<td>Public path that matches, e.g. /foodfast/orders/**</td>
+</tr>
+<tr>
+<td>target_base_url</td>
+<td>Where traffic forwards</td>
+</tr>
+<tr>
+<td>target_path_prefix</td>
+<td>Rewrite/prefix applied on the way out</td>
+</tr>
+<tr>
+<td>requests_per_minute</td>
+<td>Rate limit</td>
+</tr>
+<tr>
+<td>response_timeout_ms</td>
+<td>Timeout enforcement</td>
+</tr>
+<tr>
+<td>idempotency_enabled</td>
+<td>Idempotency handling on/off</td>
+</tr>
+<tr>
+<td>active</td>
+<td>Whether the route is live</td>
+</tr>
+<tr>
+<td>configuration_version</td>
+<td>Current config version pointer</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Allowed methods and header rules.</strong> A route may allow multiple HTTP methods (GET, POST, PUT, DELETE). Storing them all in one route column would make the model harder to manage, so they are represented separately:</p>
+<ul>
+<li><code>route_allowed_methods</code> -- one row per allowed method, a one-to-many relationship;</li>
+<li><code>route_header_rules</code> -- one row per header rule, for example add <code>X-Tenant-ID</code>, remove <code>X-Internal-Header</code>, add <code>X-Gateway-Version</code>.</li>
+</ul>
+<p>Both allowed methods and header rules are children of the live route; if the live route is deleted, these live child records can also be deleted.</p>
+<p><strong>Route configuration versioning.</strong> Routes change over time. If we only update <code>api_routes</code>, the previous configuration disappears, but configuration history can be extremely useful, so GateKeeper creates <code>route_configuration_versions</code> with these columns:</p>
+<ul>
+<li><code>organization_id</code> -- owning tenant;</li>
+<li><code>route_id</code> -- the route the version belongs to;</li>
+<li><code>version_number</code> -- monotonic version;</li>
+<li><code>change_type</code> -- what kind of change happened;</li>
+<li><code>configuration_snapshot</code> -- the full config at that point;</li>
+<li><code>created_at</code> -- when the version was written.</li>
+</ul>
+<p>Every route mutation creates a version:</p>
+<table>
+<thead>
+<tr>
+<th>Mutation</th>
+<th>Version</th>
+<th>change_type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CREATE</td>
+<td>Version 1</td>
+<td>CREATED</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Version 2</td>
+<td>UPDATED</td>
+</tr>
+<tr>
+<td>Deactivate</td>
+<td>Version 3</td>
+<td>DEACTIVATED</td>
+</tr>
+<tr>
+<td>Activate</td>
+<td>Version 4</td>
+<td>ACTIVATED</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Version 5</td>
+<td>DELETED</td>
+</tr>
+</tbody>
+</table>
+<p>Configuration history should survive route deletion. A configuration version should not depend on the live route continuing to exist: if <code>/orders</code> is deleted, we may still need to know what configuration existed before deletion. Therefore <code>route_configuration_versions</code> deliberately does not depend on the live route through a foreign key that would cause its history to disappear. Live state and historical state have different lifecycles: the live route may be deleted, the route history should remain.</p>
+<p><strong>Control plane auditing.</strong> Versioning answers "what did the route configuration look like?" but it does not completely answer "who performed the operation?" For that, GateKeeper needs auditing, and creates <code>control_plane_audit_records</code> with these columns:</p>
+<ul>
+<li><code>organization_id</code> -- tenant context;</li>
+<li><code>actor</code> -- who performed the operation;</li>
+<li><code>action</code> -- what was attempted;</li>
+<li><code>resource_type</code> and <code>resource_id</code> -- what was touched;</li>
+<li><code>correlation_id</code> -- trace link across services;</li>
+<li><code>duration_ms</code> -- how long it took;</li>
+<li><code>result</code> -- success or failure;</li>
+<li><code>details</code> -- extra context;</li>
+<li><code>created_at</code> -- when it happened.</li>
+</ul>
+<p>An audit record can tell us, for example: actor <code>foodfast-admin</code>, action <code>UPDATE_ROUTE</code>, resource <code>orders</code>, result <code>SUCCESS</code>, duration <code>31 ms</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Question it answers</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Versioning</td>
+<td>What did the configuration look like?</td>
+<td>Version 3 of the FoodFast orders route</td>
+</tr>
+<tr>
+<td>Auditing</td>
+<td>Who attempted which operation, and what happened?</td>
+<td>foodfast-admin attempted UPDATE_ROUTE, result SUCCESS</td>
+</tr>
+</tbody>
+</table>
+<p>A useful mental model: version history is state history, audit history is operator/action history. Both are valuable, but they should not be confused.</p>
+<blockquote class="callout callout--important">
+<p>Important: Live state and historical state have different lifecycles. Deleting a route should not automatically destroy its configuration history, so version records deliberately avoid a foreign key that would cascade-delete them.</p>
+</blockquote>
+<h2 id="12-designing-apis-before-writing-controllers">12. Designing APIs Before Writing Controllers</h2>
+<p>Once the actors, ownership model and database relationships are clear, we can design the API contract. A good API should make two things obvious: who is making the request, and what operation they are allowed to perform. Controllers should come after these boundaries are understood.</p>
+<p>The publicly accessible management APIs begin with:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/health</td>
+<td>Check whether API Management is running</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/auth/login</td>
+<td>Authenticate GateKeeper management users</td>
+</tr>
+</tbody>
+</table>
+<p>The health endpoint lets us check whether API Management is running. The login endpoint lets GateKeeper management users authenticate; these users include identities such as <code>PLATFORM_ADMIN</code>, <code>TENANT_ADMIN</code> and <code>GATEWAY_SERVICE</code>, depending on how authentication is configured.</p>
+<p><strong>Why there is no public registration API.</strong> GateKeeper does not provide an endpoint such as <code>POST /api/auth/register</code>. The reason is architectural: GateKeeper manages management accounts, not customer accounts. Organizations and their administrators are provisioned through GateKeeper's controlled management flow, and a random user should not be able to register themselves as <code>TENANT_ADMIN</code> or <code>PLATFORM_ADMIN</code>. Similarly, FoodFast customers do not register with GateKeeper; their accounts belong to FoodFast. FoodFast customer registration -&gt; FoodFast, whereas GateKeeper management account creation -&gt; GateKeeper.</p>
+<p>These are two completely different identity systems.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why no register endpoint?" is a design question, not a REST question. The answer is that registration would let an anonymous user grant themselves a management role, which breaks the control-plane trust model.</p>
+</blockquote>
+<h2 id="13-key-design-principles">13. Key Design Principles</h2>
+<p>The control-plane flow currently looks like this:</p>
+<ol>
+<li>Platform Administrator provisions FoodFast.</li>
+<li>FoodFast gets a FoodFast Tenant Admin.</li>
+<li>The Tenant Admin configures routes.</li>
+<li>API Management Service stores the configuration in MySQL.</li>
+</ol>
+<p>Later, Smart Gateway can consume that configuration:</p>
+<ol>
+<li>Smart Gateway connects as the GATEWAY_SERVICE identity.</li>
+<li>It requests active route configuration from API Management.</li>
+<li>API Management returns the active configuration to Smart Gateway.</li>
+</ol>
+<p>Actual customer traffic follows a different path:</p>
+<ol>
+<li>FoodFast Customer sends a FoodFast credential.</li>
+<li>Smart Gateway applies gateway policies.</li>
+<li>FoodFast Backend validates the FoodFast customer.</li>
+<li>Tenant business logic runs.</li>
+</ol>
+<p>It is important not to mix these two flows. In the management flow, authentication belongs to GateKeeper. In the customer flow, authentication of the end user ultimately belongs to the tenant application.</p>
+<p>The design principles that fall out:</p>
+<ol>
+<li><strong>A microservice must own a clear problem.</strong> API Management -&gt; configuration, Smart Gateway -&gt; request processing, Analytics -&gt; observations.</li>
+<li><strong>Separate control plane from data plane.</strong> Configuration management and live request processing solve different problems, and keeping them separate makes the architecture easier to evolve.</li>
+<li><strong>Tenant identity must be explicit.</strong> Routes belong to organizations; <code>organization_id + route_id</code> together identify a route, preventing one tenant's configuration from becoming another tenant's.</li>
+<li><strong>Management users are not application customers.</strong> <code>foodfast-admin</code> and a FoodFast customer are completely different identities; mixing them creates architectural and security problems.</li>
+<li><strong>The gateway enforces gateway policy.</strong> GateKeeper deals with routing, rate limiting, timeouts, headers, idempotency and route activation; the tenant backend continues to own application-level authorization.</li>
+<li><strong>Design the database from business questions.</strong> Ask which companies use the system, who can operate it, what configuration the gateway needs, what values can repeat, how history is retained and who changed the configuration; the tables emerge naturally.</li>
+<li><strong>Live state and historical state have different lifecycles.</strong> Deleting a route should not destroy its configuration history.</li>
+<li><strong>Versioning and auditing are different.</strong> Versioning answers what the configuration looked like; auditing answers who performed the operation and what happened. A mature control plane usually needs both.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Do</th>
+<th>Do not</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Give each service one clear problem</td>
+<td>Assume three apps equal good architecture</td>
+</tr>
+<tr>
+<td>Keep control plane and data plane separate</td>
+<td>Mix configuration with live traffic</td>
+</tr>
+<tr>
+<td>Make the tenant explicit in route identity</td>
+<td>Let <code>/orders</code> collide across tenants</td>
+</tr>
+<tr>
+<td>Keep management and customer identities apart</td>
+<td>Send <code>foodfast-admin</code> on customer requests</td>
+</tr>
+<tr>
+<td>Own gateway policy in the gateway</td>
+<td>Own the tenant's business authorization</td>
+</tr>
+<tr>
+<td>Design tables from business questions</td>
+<td>Start from entities and guess the tables</td>
+</tr>
+<tr>
+<td>Preserve configuration history</td>
+<td>Cascade-delete history with the live route</td>
+</tr>
+<tr>
+<td>Keep versioning and auditing distinct</td>
+<td>Conflate state history with action history</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-myth-vs-reality">14. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"GateKeeper is one gateway app."</td>
+<td>It is three Spring Boot microservices: API Management (control plane), Smart Gateway (data plane) and Analytics (reporting).</td>
+</tr>
+<tr>
+<td>"The organization and the tenant are different entities."</td>
+<td>They are the same concept; there is no separate Tenant entity, only two senses of the word.</td>
+</tr>
+<tr>
+<td>"A tenant customer is a GateKeeper user."</td>
+<td>A tenant customer is an end user of FoodFast/QuickShop and never logs into GateKeeper Management.</td>
+</tr>
+<tr>
+<td>"The gateway is a boolean active flag."</td>
+<td>Organization status has PENDING, ACTIVE, SUSPENDED and DELETED states, which a boolean cannot express.</td>
+</tr>
+<tr>
+<td>"route_id must be globally unique."</td>
+<td>Route identity is <code>organization_id + route_id</code>; <code>FoodFast + orders</code> and <code>QuickShop + orders</code> can coexist.</td>
+</tr>
+<tr>
+<td>"The gateway validates the customer's JWT and authorization."</td>
+<td>GateKeeper validates gateway policy; the tenant backend validates its own user identity and authorization.</td>
+</tr>
+<tr>
+<td>"gateway-service can create and update routes."</td>
+<td>It is a read-only machine identity: it may GET active routes but not POST, PUT or DELETE.</td>
+</tr>
+<tr>
+<td>"Versioning and auditing are the same thing."</td>
+<td>Versioning = what the config looked like; auditing = who did what and what happened.</td>
+</tr>
+<tr>
+<td>"Deleting a route should delete its history."</td>
+<td>Configuration history is deliberately kept alive after the live route is deleted.</td>
+</tr>
+<tr>
+<td>"GateKeeper needs a public register endpoint."</td>
+<td>It must not: account creation is a controlled management flow, not open registration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-common-trap-questions">15. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "The API Management Service is the data plane."</strong>
+Verdict: False. API Management is the Control Plane; the Smart Gateway Service is the Data Plane. Remember the mnemonic: Control Plane decides, Data Plane does.</p>
+<p><strong>Trap 2 - "Organization and tenant are two separate tables."</strong>
+Verdict: False. An organization is the tenant in this project; there is no separate Tenant entity. The word choice only signals the sense being used (business model vs isolation).</p>
+<p><strong>Trap 3 - "The Smart Gateway should validate the customer's JWT and authorization."</strong>
+Verdict: False. The gateway validates gateway policy (route match, active flag, rate limit, allowed methods, idempotency key, header rules, timeout). The tenant backend validates its own customer's identity and authorization.</p>
+<p><strong>Trap 4 - "A FoodFast customer is a GateKeeper management user."</strong>
+Verdict: False. The customer's credential belongs to FoodFast. <code>foodfast-admin</code> is a GateKeeper management identity used only to configure FoodFast inside GateKeeper.</p>
+<p><strong>Trap 5 - "route_id should be globally unique."</strong>
+Verdict: False. Route identity is <code>organization_id + route_id</code>; the unique rule is <code>UNIQUE (organization_id, route_id)</code>, which is what lets two tenants both have an <code>orders</code> route.</p>
+<p><strong>Trap 6 - "gateway-service can create routes because it is a service account."</strong>
+Verdict: False. It is least-privilege and read-only. It can request active configuration (<code>GET active routes</code>) but cannot POST, PUT or DELETE routes.</p>
+<p><strong>Trap 7 - "Configuration version history can be a foreign key on api_routes."</strong>
+Verdict: False. <code>route_configuration_versions</code> deliberately does not depend on the live route through a cascading foreign key, because history must survive route deletion.</p>
+</blockquote>
+<h2 id="16-points-to-remember">16. Points to Remember</h2>
+<ol>
+<li>GateKeeper is three Spring Boot microservices in one monorepo: api-management-service, smart-gateway-service and analytics-service.</li>
+<li>API Management = Control Plane (decides); Smart Gateway = Data Plane (does); Analytics = observation and reporting.</li>
+<li>An organization is the tenant; there is no separate Tenant entity, only two senses of the word.</li>
+<li>Management users (platform-admin, foodfast-admin, gateway-service) belong to GateKeeper; tenant customers belong to the tenant app.</li>
+<li>A route maps a public path to a backend service and carries policies: allowed methods, rate limits, timeouts, header rules, idempotency.</li>
+<li>Tenant identity is explicit in the public path (<code>/foodfast/orders/**</code>, <code>/quickshop/orders/**</code>), and route identity is <code>organization_id + route_id</code>.</li>
+<li>Four actors: PLATFORM_ADMIN, TENANT_ADMIN, GATEWAY_SERVICE, TENANT CUSTOMER; each has a distinct scope.</li>
+<li>gateway-service follows least privilege: it reads active configuration and cannot modify it.</li>
+<li>The gateway validates gateway policy; the tenant backend validates customer identity and authorization.</li>
+<li>The schema (organizations, management_users, api_routes, route_allowed_methods, route_header_rules, route_configuration_versions, control_plane_audit_records) emerges from business questions, with versioning and auditing kept distinct.</li>
+</ol>
+<h2 id="17-likely-interview-questions">17. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is GateKeeper?</td>
+<td>A production-style API gateway built as three Spring Boot microservices: API Management (control plane), Smart Gateway (data plane) and Analytics (reporting).</td>
+</tr>
+<tr>
+<td>What is the control plane vs the data plane?</td>
+<td>The control plane decides what should happen (configuration); the data plane makes it happen (live traffic). API Management vs Smart Gateway.</td>
+</tr>
+<tr>
+<td>What does the API Management Service store?</td>
+<td>Configuration: organizations, route targets, routes per organization, rate limits, timeouts, allowed methods, active flag and header rules.</td>
+</tr>
+<tr>
+<td>What will the Smart Gateway Service do?</td>
+<td>Route matching, request forwarding, rate limiting, header manipulation, timeout enforcement and idempotency checks, using configuration it reads.</td>
+</tr>
+<tr>
+<td>What does the Analytics Service record?</td>
+<td>Request counts, failed requests, response times, route usage and rate-limit violations -- observation and reporting.</td>
+</tr>
+<tr>
+<td>What is an organization?</td>
+<td>A company using GateKeeper (FoodFast, QuickShop); in this project it is also the tenant, with no separate Tenant entity.</td>
+</tr>
+<tr>
+<td>Organization vs management user vs tenant customer?</td>
+<td>Organization = company/tenant; management user = GateKeeper identity that configures/reads it; tenant customer = end user of the tenant's app.</td>
+</tr>
+<tr>
+<td>What is a route?</td>
+<td>A rule mapping a public API path to a backend service, plus policies like allowed methods, rate limits, timeouts, header rules and idempotency.</td>
+</tr>
+<tr>
+<td>Why does <code>/orders</code> not collide across tenants?</td>
+<td>Tenant is the first path segment (<code>/foodfast/...</code>, <code>/quickshop/...</code>) and route identity is <code>organization_id + route_id</code>.</td>
+</tr>
+<tr>
+<td>Who validates what?</td>
+<td>GateKeeper validates gateway policy (route match, active, rate limit, method, idempotency key, headers, timeout); the tenant validates its own user identity and authorization.</td>
+</tr>
+<tr>
+<td>Why is there no public registration API?</td>
+<td>GateKeeper manages management accounts, not customer accounts; open registration would let users self-assign TENANT_ADMIN or PLATFORM_ADMIN.</td>
+</tr>
+<tr>
+<td>Why is gateway-service read-only?</td>
+<td>It is a machine identity for the Smart Gateway, and least privilege means it can read active configuration but not modify it.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-final-summary">18. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>GateKeeper
+   |
+   v
+API Management Service  (Control Plane -- decides)
+   | stores configuration
+   v
+MySQL
+   ^ reads active configuration
+   |
+Smart Gateway Service   (Data Plane -- does)
+   | applies gateway policy to live traffic
+   v
+Tenant Backend  (validates tenant customer)
+   |
+   +--&gt; Analytics Service (Reporting / Observation)
+</code></pre></div>
+
+<ul>
+<li>Three Spring Boot modules in one monorepo: api-management-service, smart-gateway-service, analytics-service; api-management gains a <code>HealthService</code> here.</li>
+<li>Control Plane decides (configuration); Data Plane does (live traffic); Analytics observes and reports.</li>
+<li>Organization = tenant; management users configure GateKeeper; tenant customers use the tenant app and are a separate identity system.</li>
+<li>A route maps a public path to a backend service and carries policy; route identity is <code>organization_id + route_id</code>.</li>
+<li>Multi-tenancy is solved by putting the tenant first in the public path and keeping ownership explicit while resolving routes.</li>
+<li>Versioning answers what the configuration looked like; auditing answers who did what, and both must survive route deletion.</li>
+<li>Design the database from business questions, and design the APIs before writing controllers; there is no public registration API.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> GateKeeper works because every concern has exactly one owner -- the control plane decides, the data plane does, analytics observes, the tenant owns its customers, and the boundaries between them are explicit in the schema, the routes and the actors.</p>
+<div class="pager"><a class="prev" href="doc-theory-project-01.html"><span class="dir">Previous</span><span class="ttl">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</span></a><a class="next" href="doc-practice-01-spring-framework-level-1.html"><span class="dir">Next</span><span class="ttl">Spring Framework Interview Q&amp;A — Level I</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

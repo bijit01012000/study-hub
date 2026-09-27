@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 18 — Spring Boot Profiles &amp; YAML Explained — Spring Boot</title>
+<meta name="description" content="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-18">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-18.html#lecture-18">Lecture 18</a></li><li><a href="doc-theory-lecture-18.html#1-why-configuration-is-needed">1. Why Configuration Is Needed</a></li><li><a href="doc-theory-lecture-18.html#2-the-problem-with-hardcoding-values">2. The Problem With Hardcoding Values</a></li><li><a href="doc-theory-lecture-18.html#3-applicationproperties-what-it-is-and-why-that-name">3. application.properties: What It Is and Why That Name</a></li><li><a href="doc-theory-lecture-18.html#4-basic-key-value-format-and-reading-values-with-value">4. Basic Key-Value Format and Reading Values With @Value</a></li><li><a href="doc-theory-lecture-18.html#5-limitations-of-applicationproperties">5. Limitations of application.properties</a></li><li><a href="doc-theory-lecture-18.html#6-introduction-to-yaml">6. Introduction to YAML</a></li><li><a href="doc-theory-lecture-18.html#7-how-spring-boot-understands-yaml">7. How Spring Boot Understands YAML</a></li><li><a href="doc-theory-lecture-18.html#8-applicationproperties-vs-applicationyml">8. application.properties vs application.yml</a></li><li><a href="doc-theory-lecture-18.html#9-yaml-syntax-and-indentation-rules">9. YAML Syntax and Indentation Rules</a></li><li><a href="doc-theory-lecture-18.html#10-converting-applicationproperties-to-applicationyml">10. Converting application.properties to application.yml</a></li><li><a href="doc-theory-lecture-18.html#11-real-world-configuration-database-and-jpa">11. Real-World Configuration: Database and JPA</a></li><li><a href="doc-theory-lecture-18.html#12-lists-and-lists-of-objects-in-yaml">12. Lists and Lists of Objects in YAML</a></li><li><a href="doc-theory-lecture-18.html#13-reading-yaml-values-dot-notation-and-lists">13. Reading YAML Values: Dot Notation and Lists</a></li><li><a href="doc-theory-lecture-18.html#14-why-profiles-are-needed">14. Why Profiles Are Needed</a></li><li><a href="doc-theory-lecture-18.html#15-spring-profiles-creating-profile-specific-files">15. Spring Profiles: Creating Profile-Specific Files</a></li><li><a href="doc-theory-lecture-18.html#16-common-file-plus-profile-specific-file-precedence">16. Common File Plus Profile-Specific File: Precedence</a></li><li><a href="doc-theory-lecture-18.html#17-activating-a-profile">17. Activating a Profile</a></li><li><a href="doc-theory-lecture-18.html#18-profile-annotation-and-conditional-beans">18. @Profile Annotation and Conditional Beans</a></li><li><a href="doc-theory-lecture-18.html#19-profile-specific-files-vs-profile-quick-comparison">19. Profile-Specific Files vs @Profile (Quick Comparison)</a></li><li><a href="doc-theory-lecture-18.html#20-myth-vs-reality">20. Myth vs Reality</a></li><li><a href="doc-theory-lecture-18.html#21-common-trap-questions">21. Common Trap Questions</a></li><li><a href="doc-theory-lecture-18.html#22-points-to-remember">22. Points to Remember</a></li><li><a href="doc-theory-lecture-18.html#23-likely-interview-questions">23. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-18.html#24-final-summary">24. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 18 — Spring Boot Profiles &amp; YAML Explained</h1>
+<p class="readmeta">25 sections · 4,035 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-18" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-18">Lecture 18</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Profiles &amp; YAML Explained | Dev vs Prod Configuration" (playlist map, verified). Repo lecture folder is the <code>profileDemo</code> project (entry point <code>ProfileDemoApplication</code>): <code>application.properties</code> plus <code>application-dev.properties</code>, <code>application-prod.properties</code> and <code>application-staging.properties</code>, a profile-aware <code>NotificationService</code> with <code>NotificationServiceImpl</code> and <code>DummyNotificationServiceImpl</code>, and controllers used to show profile-driven values.</p>
+</blockquote>
+<p>An application is never only code; it is code plus configuration. This lecture moves
+changeable values (port, database URL, credentials, messages) out of Java classes into
+configuration files, then shows how YAML makes them readable and how profiles let one
+build behave differently across dev, test, staging and prod. The rule: same code, same
+build, different environment, different configuration.</p>
+<h2 id="1-why-configuration-is-needed">1. Why Configuration Is Needed</h2>
+<p>A real-world application is a combination of two things:</p>
+<div class="highlight"><pre><span></span><code>Application = Code + Configuration
+</code></pre></div>
+
+<p>Code contains the actual business logic. Examples from the lecture: create student, fetch
+student, update student, delete student, connect to database, send email, run server.</p>
+<p>But to run that code properly, the application also needs values that are not business
+logic:</p>
+<table>
+<thead>
+<tr>
+<th>Question the app must answer</th>
+<th>Kind of value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Which port should the application run on?</td>
+<td>server port</td>
+</tr>
+<tr>
+<td>Which database should it connect to?</td>
+<td>datasource URL</td>
+</tr>
+<tr>
+<td>What is the database username?</td>
+<td>credential</td>
+</tr>
+<tr>
+<td>What is the database password?</td>
+<td>secret</td>
+</tr>
+<tr>
+<td>What should the application name be?</td>
+<td>identity</td>
+</tr>
+<tr>
+<td>Which environment is currently active?</td>
+<td>profile</td>
+</tr>
+<tr>
+<td>What message should be shown to the user?</td>
+<td>message</td>
+</tr>
+</tbody>
+</table>
+<p>These values are called configuration values. The Java code stays the same while these
+values change per environment.</p>
+<p>In real projects, the same Spring Boot application may run in several places:</p>
+<ul>
+<li>Local machine</li>
+<li>Testing server</li>
+<li>Staging server</li>
+<li>Production server</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: Configuration is any value that can change without changing Java code. If
+changing it forces you to edit a <code>.java</code> file, it was probably placed in the wrong layer.</p>
+</blockquote>
+<h2 id="2-the-problem-with-hardcoding-values">2. The Problem With Hardcoding Values</h2>
+<p>Hardcoding means writing fixed values directly inside Java classes:</p>
+<p><code>String dbUrl = "jdbc:mysql://localhost:3306/student_db";</code>
+<code>String username = "root";</code>
+<code>String password = "root";</code></p>
+<p>This looks simple but creates three serious problems.</p>
+<p><strong>Problem 1: Code becomes difficult to change.</strong> If the database URL changes, hardcoded
+code forces you to open the Java file, update it, rebuild, and redeploy. A database URL is
+not business logic; it is environment-specific configuration.</p>
+<p><strong>Problem 2: Same code cannot easily run in multiple environments.</strong> Local may use
+<code>root/root</code>, production <code>prod_user/strong_secure_password</code>. Hardcoding locks the code to
+one environment; a professional application follows: same code, different configuration.</p>
+<p><strong>Problem 3: Sensitive information can leak.</strong> A password written into Java and pushed to
+GitHub can be exposed. Passwords, API keys and tokens must never be hardcoded.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: If a value differs between environments, or is a secret, it does not belong
+in a <code>.java</code> file. It belongs in configuration.</p>
+</blockquote>
+<h2 id="3-applicationproperties-what-it-is-and-why-that-name">3. application.properties: What It Is and Why That Name</h2>
+<p>Spring Boot provides a special config file: <code>application.properties</code>, which holds
+application configuration in one central place. Instead of writing values inside Java
+code, we write them here, for example:</p>
+<ul>
+<li><code>spring.application.name=student-management-app</code></li>
+<li><code>server.port=8081</code></li>
+<li><code>app.welcome.message=Welcome to Student Management App</code></li>
+</ul>
+<p>Why is it named <code>application.properties</code>? Because Spring Boot automatically looks for that
+exact file name at startup. If the file exists, Spring Boot loads its values. <code>application</code>
+is the fixed default name; <code>.properties</code> is the format.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The file is auto-detected by name, not registered anywhere;
+this is Boot's convention-over-configuration in action.</p>
+</blockquote>
+<h2 id="4-basic-key-value-format-and-reading-values-with-value">4. Basic Key-Value Format and Reading Values With @Value</h2>
+<p>The format of a properties file is simple: <code>key=value</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>server.port=8081</code></td>
+<td>server.port</td>
+<td>8081</td>
+</tr>
+<tr>
+<td><code>spring.application.name=student-management-app</code></td>
+<td>spring.application.name</td>
+<td>student-management-app</td>
+</tr>
+<tr>
+<td><code>app.owner=Coder Army</code></td>
+<td>app.owner</td>
+<td>Coder Army</td>
+</tr>
+</tbody>
+</table>
+<p>Spring's <code>@Value</code> annotation injects configuration values into Java variables. Given
+<code>app.welcome.message=Welcome to Student Management App</code>, a <code>WelcomeController</code> uses
+<code>@Value("${app.welcome.message}") private String welcomeMessage;</code> and returns it from a
+<code>@GetMapping("/welcome")</code> method. This is called property injection.</p>
+<h2 id="5-limitations-of-applicationproperties">5. Limitations of application.properties</h2>
+<p>For small projects <code>application.properties</code> is readable, but as the project grows it
+becomes large and repetitive. The lecture lists three limitations.</p>
+<p><strong>5.1 Flat structure.</strong> <code>application.properties</code> stores values in a flat key-value format.
+Example keys: <code>app.name</code>, <code>app.version</code>, <code>app.owner</code>, <code>app.support.email</code>,
+<code>app.support.phone</code>. The values are related, but the file shows no hierarchy.</p>
+<p><strong>5.2 Repeated prefixes.</strong> For grouped configuration, prefixes repeat again and again:</p>
+<ul>
+<li><code>notification.email.enabled=true</code></li>
+<li><code>notification.email.subject=Welcome</code></li>
+<li><code>notification.email.from=no-reply@studentapp.com</code></li>
+<li><code>notification.email.retry.count=3</code></li>
+<li><code>notification.sms.enabled=false</code></li>
+<li><code>notification.sms.provider=twilio</code></li>
+<li><code>notification.sms.retry.count=2</code></li>
+</ul>
+<p><strong>5.3 Lists are not very clean.</strong> A list becomes one comma-joined string, for example
+<code>app.supported-cities=Delhi,Mumbai,Bangalore,Pune</code>. Fine for a small list, but bigger
+lists or nested objects become difficult to read.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>application.properties</code> is not wrong. The problem is that a flat format
+stops expressing hierarchy once configuration grows.</p>
+</blockquote>
+<h2 id="6-introduction-to-yaml">6. Introduction to YAML</h2>
+<p>YAML solves the readability problem of large configuration files. The same data has a
+natural hierarchy:</p>
+<ul>
+<li>app</li>
+<li>name</li>
+<li>version</li>
+<li>owner</li>
+<li>support<ul>
+<li>email</li>
+<li>phone</li>
+</ul>
+</li>
+</ul>
+<p>YAML writes this in a structured way: <code>.properties</code> is flat key-value, <code>.yml</code> is
+structured and nested. YAML converts flat configuration into structured configuration
+without changing the values.</p>
+<h2 id="7-how-spring-boot-understands-yaml">7. How Spring Boot Understands YAML</h2>
+<p>YAML looks nested, but internally Spring Boot understands it as normal property keys.
+Given <code>server:</code> then <code>port: 8081</code>, Spring Boot sees <code>server.port=8081</code>. Given <code>spring:</code>,
+<code>application:</code>, <code>name: student-management-app</code>, it sees
+<code>spring.application.name=student-management-app</code>.</p>
+<p>So YAML is not a different configuration system; it is a cleaner way to write the same
+configuration. Under the hood Spring Boot reads YAML using the snakeyaml library and
+flattens it to the same key-value model that properties files use.</p>
+<p>Spring Boot supports <code>application.properties</code>, <code>application.yml</code> and <code>application.yaml</code>.
+For a project, stick to one format: keeping both <code>.properties</code> and <code>.yml</code> for the same
+purpose can create confusion about which value is used.</p>
+<h2 id="8-applicationproperties-vs-applicationyml">8. application.properties vs application.yml</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>application.properties</th>
+<th>application.yml</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Format</td>
+<td>Flat key-value</td>
+<td>Structured, nested</td>
+</tr>
+<tr>
+<td>Hierarchy</td>
+<td>Hidden in dotted keys</td>
+<td>Visually obvious via indentation</td>
+</tr>
+<tr>
+<td>Repeated prefixes</td>
+<td>Repeated on every line</td>
+<td>Written once as a parent key</td>
+</tr>
+<tr>
+<td>Lists</td>
+<td>Comma-joined string</td>
+<td>Proper list with <code>-</code> items</td>
+</tr>
+<tr>
+<td>Nested objects</td>
+<td>Hard to read</td>
+<td>Readable blocks</td>
+</tr>
+<tr>
+<td>Strictness</td>
+<td>Forgiving spacing</td>
+<td>Indentation-sensitive</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Small, simple configuration</td>
+<td>Large, grouped, nested configuration</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: both formats produce the same property keys; YAML just shows the shape
+of the data. Use one format per project to avoid ambiguity.</p>
+<h2 id="9-yaml-syntax-and-indentation-rules">9. YAML Syntax and Indentation Rules</h2>
+<p>YAML is strict about indentation. In <code>.properties</code>: <code>server.port=8081</code>. In YAML:
+<code>server:</code> then <code>port: 8081</code> indented underneath: <code>server</code> is the parent, <code>port</code> the child,
+and the spaces show <code>port</code> belongs inside <code>server</code>.</p>
+<p>The lecture gives seven rules.</p>
+<table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Statement</th>
+<th>Good</th>
+<th>Bad</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Every key is followed by a colon</td>
+<td><code>app:</code>, <code>name: Student Management App</code></td>
+<td><code>name Student Management App</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Put a space after the colon</td>
+<td><code>key: value</code></td>
+<td><code>key:value</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td>Indentation defines relationship</td>
+<td><code>app:</code>, indented <code>support:</code>, deeper <code>email: ...</code></td>
+<td>flattened, unindented keys</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Use spaces, not tabs</td>
+<td>two spaces per level</td>
+<td>tab characters</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Same-level keys share indentation</td>
+<td><code>name</code>, <code>version</code>, <code>owner</code> aligned</td>
+<td>mixed indentation</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Comments use <code>#</code></td>
+<td><code># Server configuration</code></td>
+<td>other comment markers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Strings may be quoted or not</td>
+<td><code>name: Student Management App</code></td>
+<td>no restriction</td>
+</tr>
+</tbody>
+</table>
+<p>Rule 3 in words: nested <code>app</code> then <code>support</code> then <code>email: support@studentapp.com</code> means
+<code>app.support.email=support@studentapp.com</code>. Flatten the indentation and the hierarchy is
+destroyed. YAML uses spaces, not dots, to show structure. Rule 7 adds that quotes help
+when a value contains special characters, placeholders or symbols.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: In YAML, indentation is structure. Two spaces are conventional, tabs are
+forbidden, and sibling keys must line up exactly.</p>
+</blockquote>
+<h2 id="10-converting-applicationproperties-to-applicationyml">10. Converting application.properties to application.yml</h2>
+<p>The conversion is mechanical. Every dot becomes a level of nesting. Consider these
+properties:</p>
+<ul>
+<li><code>server.port=8081</code></li>
+<li><code>spring.application.name=student-management-app</code></li>
+<li><code>app.name=Student Management App</code></li>
+<li><code>app.version=1.0</code></li>
+<li><code>app.owner=Coder Army</code></li>
+<li><code>app.welcome.message=Welcome to Student Management App</code></li>
+<li><code>app.support.email=support@studentapp.com</code></li>
+<li><code>app.support.phone=9999999999</code></li>
+</ul>
+<p>The equivalent <code>application.yml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8081</span>
+<span class="nt">spring</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">application</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">student-management-app</span>
+<span class="nt">app</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Student Management App</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">  </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Coder Army</span>
+<span class="w">  </span><span class="nt">welcome</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Welcome to Student Management App</span>
+<span class="w">  </span><span class="nt">support</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">email</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">support@studentapp.com</span>
+<span class="w">    </span><span class="nt">phone</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9999999999</span>
+</code></pre></div>
+
+<p>Notice <code>app</code> is written once instead of five times and <code>support</code> groups its children; that
+reduction is why YAML is preferred for larger configuration.</p>
+<h2 id="11-real-world-configuration-database-and-jpa">11. Real-World Configuration: Database and JPA</h2>
+<p>Database configuration is the classic grouped example. In <code>application.properties</code>:</p>
+<ul>
+<li><code>spring.datasource.url=jdbc:mysql://localhost:3306/student_db</code></li>
+<li><code>spring.datasource.username=root</code></li>
+<li><code>spring.datasource.password=root</code></li>
+</ul>
+<p>In <code>application.yml</code> the same values become <code>spring:</code> then <code>datasource:</code> then <code>url</code>,
+<code>username</code> and <code>password</code> underneath, so all database configuration groups under
+<code>spring.datasource</code>.</p>
+<p>JPA follows the same pattern. In <code>application.properties</code>:</p>
+<ul>
+<li><code>spring.jpa.hibernate.ddl-auto=update</code></li>
+<li><code>spring.jpa.show-sql=true</code></li>
+</ul>
+<p>In <code>application.yml</code> this becomes <code>spring:</code> then <code>jpa:</code> then <code>hibernate:</code> then
+<code>ddl-auto: update</code>, with <code>show-sql: true</code> under <code>jpa</code>, grouping related values together.</p>
+<blockquote class="callout callout--important">
+<p>Important: Grouping is the whole benefit. <code>spring.datasource</code> and <code>spring.jpa</code> show at a
+glance which values belong to which subsystem.</p>
+</blockquote>
+<h2 id="12-lists-and-lists-of-objects-in-yaml">12. Lists and Lists of Objects in YAML</h2>
+<p>Suppose one key has multiple values: supported cities Delhi, Mumbai, Bangalore and Pune.
+In <code>.properties</code> this is one long string,
+<code>app.supported-cities=Delhi,Mumbai,Bangalore,Pune</code>. In YAML we write a proper list using
+the <code>-</code> symbol, where each <code>-</code> represents one item.</p>
+<p>The <code>-</code> marker means the parent holds an ordered collection, so YAML can also represent a
+list of objects: <code>app:</code> then <code>team-members:</code>, with <code>- name: Rohit</code> plus
+<code>role: Backend Mentor</code>, <code>- name: Mohit</code> with <code>role: DSA Mentor</code>, and <code>- name: Aditya</code> with
+<code>role: Spring Mentor</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Shape</th>
+<th>.properties</th>
+<th>YAML</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List of scalars</td>
+<td><code>app.supported-cities=Delhi,Mumbai,Bangalore,Pune</code></td>
+<td><code>supported-cities:</code> with <code>- Delhi</code>, <code>- Mumbai</code> lines</td>
+</tr>
+<tr>
+<td>List of objects</td>
+<td>painful and repetitive</td>
+<td><code>- name: Rohit</code> with an indented <code>role:</code> line</td>
+</tr>
+</tbody>
+</table>
+<p>For complex nested configuration, Spring Boot also provides <code>@ConfigurationProperties</code>,
+which is better when binding multiple related values, lists, or nested objects into a Java
+class.</p>
+<h2 id="13-reading-yaml-values-dot-notation-and-lists">13. Reading YAML Values: Dot Notation and Lists</h2>
+<p>Even though YAML is nested, we read values using dot notation. Given <code>app:</code> then
+<code>name: Student Management App</code>, Spring treats it like <code>app.name=Student Management App</code>, so
+Java reads it with <code>@Value("${app.name}") private String appName;</code>.</p>
+<p><strong>Way 1: individual list items.</strong> <code>@Value("${app.supported-cities[0]}") private String
+firstCity;</code> reads Delhi, showing YAML lists are index-based.</p>
+<p><strong>Way 2: comma-separated value as a list.</strong> Given
+<code>app.supported-cities=Delhi,Mumbai,Bangalore,Pune</code>,
+<code>@Value("#{'${app.supported-cities}'.split(',')}") private List&lt;String&gt; supportedCities;</code>
+converts the string into a Java <code>List&lt;String&gt;</code>.</p>
+<h2 id="14-why-profiles-are-needed">14. Why Profiles Are Needed</h2>
+<p>We already moved values into <code>application.properties</code> or <code>application.yml</code>. The next
+real-world problem is: the same application needs different values in different
+environments.</p>
+<p>Spring Boot lets the same code read from properties files, YAML files, environment
+variables and command-line arguments. In real projects the app runs in development,
+testing, staging and production. The Java logic (create, fetch, update, delete student,
+validate request, handle exception, connect to database) stays the same, but values
+change. Example: local uses <code>jdbc:mysql://localhost:3306/student_db</code>, production uses
+<code>jdbc:mysql://prod-db-server:3306/student_db</code>. Same logic; different database location.</p>
+<p><strong>Example without profiles.</strong> Local config might be <code>server.port: 8080</code> with a
+<code>spring.datasource</code> at localhost <code>root/root</code>; production needs
+<code>url: jdbc:mysql://prod-server:3306/student_db</code> with <code>prod_user/prod_password</code>. The bad
+approach is to comment local config, uncomment production, run, then reverse it. This is
+risky: one wrong uncommented line can connect your local application to the production
+database. So we need a clean way to separate environment-specific configuration.</p>
+<h2 id="15-spring-profiles-creating-profile-specific-files">15. Spring Profiles: Creating Profile-Specific Files</h2>
+<p>A profile is a named environment or mode (<code>dev</code>, <code>test</code>, <code>staging</code>, <code>prod</code>). It answers:
+which environment configuration should Spring Boot use right now? If <code>dev</code> is active, use
+development config; if <code>prod</code> is active, use production config. We just tell Spring Boot
+"run with the prod profile" and it loads the matching configuration.</p>
+<p>Spring Boot supports profile-specific configuration files using this naming pattern:
+<code>application-{profile}.properties</code>. Examples:</p>
+<ul>
+<li><code>application-dev.properties</code></li>
+<li><code>application-test.properties</code></li>
+<li><code>application-prod.properties</code></li>
+</ul>
+<p>Project structure:</p>
+<ul>
+<li>src/main/resources</li>
+<li>application.properties</li>
+<li>application-dev.properties</li>
+<li>application-test.properties</li>
+<li>application-prod.properties</li>
+</ul>
+<p>Meaning of each file:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>application.properties</code></td>
+<td>Common/default file; values common to all environments</td>
+</tr>
+<tr>
+<td><code>application-dev.properties</code></td>
+<td>Development; e.g. <code>server.port=8081</code>, DEV message</td>
+</tr>
+<tr>
+<td><code>application-test.properties</code></td>
+<td>Testing; e.g. <code>server.port=8082</code>, TEST message</td>
+</tr>
+<tr>
+<td><code>application-prod.properties</code></td>
+<td>Production; e.g. <code>server.port=8080</code>, PROD message</td>
+</tr>
+</tbody>
+</table>
+<p>The same concept works with YAML: use <code>application-dev.yml</code> / <code>application-prod.yml</code> (or
+the <code>.yaml</code> extension). A YAML project has <code>application.yml</code>, <code>application-dev.yml</code>,
+<code>application-test.yml</code> and <code>application-prod.yml</code>. The common <code>application.yml</code> sets
+<code>spring.application.name: student-management-app</code> for all profiles. Each profile file sets
+its own <code>server.port</code>, <code>app.message</code> and datasource: dev uses <code>student_dev</code>, test uses
+<code>student_test</code> with <code>test_user/test_password</code>, prod uses
+<code>jdbc:mysql://prod-server:3306/student_prod</code> with <code>prod_user/prod_password</code>. A
+<code>DemoController</code> reads <code>app.message</code> with <code>@Value</code>, so the same endpoint prints the DEV or
+PROD text depending on the active profile.</p>
+<h2 id="16-common-file-plus-profile-specific-file-precedence">16. Common File Plus Profile-Specific File: Precedence</h2>
+<p>Spring Boot does not ignore the common file. With the <code>dev</code> profile active it loads
+<code>application.properties</code> plus <code>application-dev.properties</code>. The common file gives shared
+values (<code>spring.application.name</code>, <code>server.port</code>); the profile file gives
+environment-specific values (<code>app.message</code>).</p>
+<p>When the same key exists in both, the profile file wins. Given <code>server.port=8080</code> and
+<code>app.message=Common message</code> in the common file, and <code>server.port=8081</code> plus
+<code>app.message=DEV message</code> in <code>application-dev.properties</code>, the final values under dev are
+<code>server.port=8081</code> and <code>app.message=DEV message</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key only in common file</td>
+<td>Common value is used</td>
+</tr>
+<tr>
+<td>Key only in profile file</td>
+<td>Profile value is used</td>
+</tr>
+<tr>
+<td>Key in both files</td>
+<td>Profile-specific value overrides the common value</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Profile-specific configuration overrides common configuration: the common
+file gives defaults, the profile file overrides them.</p>
+</blockquote>
+<h2 id="17-activating-a-profile">17. Activating a Profile</h2>
+<p>Creating profile-specific files is not enough; you must tell Spring Boot which profile is
+active. There are several ways.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inside properties/YAML</td>
+<td>set the active profile key</td>
+<td><code>spring.profiles.active=dev</code></td>
+</tr>
+<tr>
+<td>Command line</td>
+<td>pass an argument to the JAR</td>
+<td><code>java -jar app.jar --spring.profiles.active=prod</code></td>
+</tr>
+<tr>
+<td>Maven</td>
+<td>pass a run property</td>
+<td><code>mvn spring-boot:run -Dspring-boot.run.profiles=dev</code></td>
+</tr>
+<tr>
+<td>Environment variable</td>
+<td>set an OS variable</td>
+<td><code>SPRING_PROFILES_ACTIVE=dev</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Using application.properties.</strong> Write <code>spring.profiles.active=dev</code>; on startup Spring
+Boot sees it and loads the dev-specific configuration.</p>
+<p><strong>From the command line.</strong> Run the built JAR with
+<code>java -jar student-management-app.jar --spring.profiles.active=dev</code> (or <code>=prod</code>). The same
+JAR behaves as dev or prod purely by argument: code is same, build is same, environment
+decides.</p>
+<p><strong>While running with Maven.</strong> During development,
+<code>mvn spring-boot:run -Dspring-boot.run.profiles=dev</code> starts with the dev profile active.</p>
+<p><strong>Using environment variables.</strong> The variable name is <code>SPRING_PROFILES_ACTIVE</code>. On
+macOS/Linux: <code>export SPRING_PROFILES_ACTIVE=dev</code> then <code>java -jar app.jar</code>; on Windows
+PowerShell: <code>$env:SPRING_PROFILES_ACTIVE="dev"</code>.</p>
+<p>Why env vars? In production, values come from the platform (Docker, Kubernetes, cloud,
+CI/CD, server config). Instead of shipping <code>spring.profiles.active: prod</code> inside the
+project, production sets <code>SPRING_PROFILES_ACTIVE=prod</code>, which is cleaner and safer.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Avoid hardcoding the prod profile inside the packaged
+application. The same JAR should run in any environment, so pass the active profile from
+outside: command line, environment variable, Docker, Kubernetes, or CI/CD.</p>
+</blockquote>
+<p>A mnemonic for the four activation routes is <strong>C-P-M-E</strong>: Config file, Parameters (command
+line), Maven, Environment variable.</p>
+<h2 id="18-profile-annotation-and-conditional-beans">18. @Profile Annotation and Conditional Beans</h2>
+<p>Till now profiles changed values: each environment had its own port, message and database.
+Sometimes we want more: different Spring beans or classes created based on the active
+profile.</p>
+<p>Suppose we have a notification feature. In development we do not send real emails; in
+production we do. So we create two implementations of the same interface:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">NotificationService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendNotification</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="nd">@Profile</span><span class="p">(</span><span class="s">&quot;dev&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">DevNotificationService</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">NotificationService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendNotification</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;DEV MODE: Notification not actually sent. Message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="nd">@Profile</span><span class="p">(</span><span class="s">&quot;prod&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ProdNotificationService</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">NotificationService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendNotification</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;PROD MODE: Real notification sent. Message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The problem <code>@Profile</code> solves: if both classes are only marked <code>@Service</code>, Spring creates
+both beans, and injecting <code>@Autowired private NotificationService notificationService;</code>
+becomes ambiguous (which bean should be injected?). That can cause an error because
+multiple beans of the same type are available. We need to create <code>DevNotificationService</code>
+only when dev is active and <code>ProdNotificationService</code> only when prod is active. That is
+exactly what <code>@Profile</code> does.</p>
+<p>The syntax is <code>@Profile("dev")</code>: create this bean only when dev is active. Under dev only
+<code>DevNotificationService</code> is created; under prod only <code>ProdNotificationService</code>. In short:
+<code>@Service</code> creates the object, <code>@Profile</code> gates it on the active environment.</p>
+<p>A complete demo has the interface <code>NotificationService</code>, a <code>DevNotificationService</code>
+(<code>@Service @Profile("dev")</code>), a <code>ProdNotificationService</code> (<code>@Service @Profile("prod")</code>),
+and a <code>NotificationController</code> mapped to <code>/api/notification</code> that injects
+<code>NotificationService</code> and calls <code>sendNotification("Welcome to the application")</code>. The
+controller never changes; only the injected implementation changes.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Profile</code> changes which beans exist, not which values they read. <code>@Service</code>
+creates the object; <code>@Profile</code> gates the creation on the active environment.</p>
+</blockquote>
+<h2 id="19-profile-specific-files-vs-profile-quick-comparison">19. Profile-Specific Files vs @Profile (Quick Comparison)</h2>
+<p>This distinction is very important and is a common source of confusion.</p>
+<p>Use profile-specific files when the class or logic stays the same but configuration values
+change. Examples: server port, database URL, username, password, logging level, custom
+messages, feature flags, JPA <code>show-sql</code>, third-party API URLs. Here <code>application-dev.yml</code>
+might set <code>server.port: 8081</code>, while <code>application-prod.yml</code> sets <code>server.port: 8080</code>; the
+Java class does not change. Use files when you need different configuration values.</p>
+<p>Use <code>@Profile</code> when environments need different implementations. Examples:
+<code>DevEmailService</code> vs <code>ProdEmailService</code>, <code>DummyPaymentService</code> vs <code>RealPaymentService</code>,
+<code>LocalStorageService</code> vs <code>CloudStorageService</code>, <code>FakeNotificationService</code> vs
+<code>RealNotificationService</code>. The implementation itself differs. Use <code>@Profile</code> when you need
+different beans/classes.</p>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Use case</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>application.properties</code></td>
+<td>Simple key-value configuration</td>
+<td><code>server.port=8081</code></td>
+</tr>
+<tr>
+<td><code>application.yml</code></td>
+<td>Structured and nested configuration</td>
+<td><code>spring.datasource.url</code> grouped under <code>spring.datasource</code></td>
+</tr>
+<tr>
+<td>Profile-specific files</td>
+<td>Different values for different environments</td>
+<td><code>application-dev.yml</code>, <code>application-prod.yml</code></td>
+</tr>
+<tr>
+<td><code>spring.profiles.active</code></td>
+<td>Tells Spring Boot which profile to use</td>
+<td><code>dev</code>, <code>test</code>, <code>prod</code></td>
+</tr>
+<tr>
+<td>Command-line profile</td>
+<td>Run same JAR with different profiles</td>
+<td><code>--spring.profiles.active=prod</code></td>
+</tr>
+<tr>
+<td>Environment variable profile</td>
+<td>Activate from OS/server/deployment platform</td>
+<td><code>SPRING_PROFILES_ACTIVE=prod</code></td>
+</tr>
+<tr>
+<td><code>@Value</code></td>
+<td>Read a single configuration value</td>
+<td><code>@Value("${app.message}")</code></td>
+</tr>
+<tr>
+<td><code>@Profile</code></td>
+<td>Create bean only for a specific profile</td>
+<td><code>@Profile("dev")</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: profile files change values, <code>@Profile</code> changes beans. If only a number or
+string moves, use a file; if the whole class changes, use <code>@Profile</code>.</p>
+</blockquote>
+<h2 id="20-myth-vs-reality">20. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Hardcoding is fine for small apps"</td>
+<td>It breaks when the URL changes or a secret leaks; move values to configuration</td>
+</tr>
+<tr>
+<td>"application.properties and application.yml are different systems"</td>
+<td>YAML is flattened to the same property keys; same system, cleaner syntax</td>
+</tr>
+<tr>
+<td>"Keeping both .properties and .yml is harmless"</td>
+<td>It creates confusion about which value is used; pick one format</td>
+</tr>
+<tr>
+<td>"Tabs and spaces are interchangeable in YAML"</td>
+<td>Tabs are forbidden; indentation defines structure and must use spaces</td>
+</tr>
+<tr>
+<td>"Spring Boot ignores the common file when a profile is active"</td>
+<td>It loads common plus profile-specific; the profile value wins on conflicts</td>
+</tr>
+<tr>
+<td>"Creating profile files is enough"</td>
+<td>You must also activate a profile; files alone do nothing</td>
+</tr>
+<tr>
+<td>"You should hardcode prod in the JAR"</td>
+<td>Pass the active profile from outside so the same JAR runs anywhere</td>
+</tr>
+<tr>
+<td>"Profiles and @Profile do the same thing"</td>
+<td>Profiles change values; <code>@Profile</code> changes which beans are created</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-common-trap-questions">21. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Profiles and @Profile are the same concept."</strong>
+Verdict: False. Profile-specific files change configuration values for an environment;
+<code>@Profile</code> conditions bean creation. Values vs beans.</p>
+<p><strong>Trap 2 - "The common file is overridden and ignored."</strong>
+Verdict: False. Spring Boot loads the common file plus the active profile's file together.
+Only the same keys are overridden, and the profile-specific value wins.</p>
+<p><strong>Trap 3 - "YAML is a completely different configuration system."</strong>
+Verdict: Misleading. Spring Boot flattens YAML to the same property keys via snakeyaml, so
+<code>@Value("${app.name}")</code> works the same.</p>
+<p><strong>Trap 4 - "Tabs are acceptable in YAML if the file looks aligned."</strong>
+Verdict: False. YAML is indentation-sensitive; use spaces (usually two) and never tabs.</p>
+<p><strong>Trap 5 - "Creating application-dev.properties activates dev automatically."</strong>
+Verdict: False. Files do not activate anything; you must set <code>spring.profiles.active</code>, use
+<code>--spring.profiles.active</code>, a Maven property, or <code>SPRING_PROFILES_ACTIVE</code>.</p>
+<p><strong>Trap 6 - "Hardcoding the prod profile in application.yml is production-ready."</strong>
+Verdict: False. The same JAR should run in any environment, so pass the active profile from
+outside the packaged application.</p>
+<p><strong>Trap 7 - "More @Value annotations are always better."</strong>
+Verdict: False. For complex nested configuration, lists, or grouped values, prefer
+<code>@ConfigurationProperties</code>.</p>
+</blockquote>
+<h2 id="22-points-to-remember">22. Points to Remember</h2>
+<ol>
+<li>Application = Code + Configuration; configuration values change without changing Java code.</li>
+<li>Hardcoding causes difficult changes, environment lock-in, and leaked secrets.</li>
+<li>Spring Boot auto-detects <code>application.properties</code> by name at startup.</li>
+<li>Format is <code>key=value</code>; <code>@Value("${key}")</code> injects a single value.</li>
+<li><code>.properties</code> is flat and repetitive; <code>.yml</code> is nested and readable.</li>
+<li>YAML indentation defines hierarchy: spaces only, two-space convention, no tabs.</li>
+<li><code>@ConfigurationProperties</code> is preferred over many <code>@Value</code> calls for nested or list config.</li>
+<li>A profile is a named environment (<code>dev</code>, <code>test</code>, <code>staging</code>, <code>prod</code>); files follow <code>application-{profile}.properties</code>.</li>
+<li>Spring Boot loads the common file plus the active profile file; the profile value overrides on conflicts.</li>
+<li><code>@Profile</code> creates beans only for a matching profile; profile files change values, <code>@Profile</code> changes beans.</li>
+</ol>
+<h2 id="23-likely-interview-questions">23. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why do we need configuration at all?</td>
+<td>Code holds business logic; configuration holds changeable values (port, DB URL, credentials, messages) so code stays stable.</td>
+</tr>
+<tr>
+<td>What is application.properties and why that name?</td>
+<td>The central config file Spring Boot auto-loads at startup by its fixed name; <code>.properties</code> is the format.</td>
+</tr>
+<tr>
+<td>How do you read a config value in Spring Boot?</td>
+<td>With <code>@Value("${key}")</code> for single values, or <code>@ConfigurationProperties</code> for grouped/nested values.</td>
+</tr>
+<tr>
+<td>What are the limitations of .properties?</td>
+<td>Flat structure, repeated prefixes, and awkward lists/nested objects as configuration grows.</td>
+</tr>
+<tr>
+<td>What is YAML and how does Spring Boot understand it?</td>
+<td>A structured config format; Spring Boot reads it (snakeyaml) and flattens it to the same property keys.</td>
+</tr>
+<tr>
+<td>Name key YAML indentation rules.</td>
+<td>Colon after each key, space after colon, indentation defines hierarchy, spaces not tabs, sibling keys aligned, <code>#</code> comments.</td>
+</tr>
+<tr>
+<td>Why do we need profiles?</td>
+<td>One application must run with different values across dev, test, staging, and prod without code changes.</td>
+</tr>
+<tr>
+<td>What is the naming pattern for profile files?</td>
+<td><code>application-{profile}.properties</code> or <code>application-{profile}.yml</code>, e.g. <code>application-dev.yml</code>.</td>
+</tr>
+<tr>
+<td>What happens when the same key exists in common and profile files?</td>
+<td>The profile-specific value overrides the common value; other common keys remain.</td>
+</tr>
+<tr>
+<td>How do you activate a profile?</td>
+<td>Set <code>spring.profiles.active</code>, use <code>--spring.profiles.active</code>, <code>-Dspring-boot.run.profiles</code> with Maven, or <code>SPRING_PROFILES_ACTIVE</code>.</td>
+</tr>
+<tr>
+<td>What does @Profile do?</td>
+<td>Creates a bean only when the named profile is active, avoiding multiple-bean ambiguity for the same interface.</td>
+</tr>
+<tr>
+<td>Profile files vs @Profile?</td>
+<td>Profile files change values; <code>@Profile</code> selects different bean implementations per environment.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="24-final-summary">24. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>application.properties (flat key=value)
+        |
+        v
+application.yml (same keys, nested structure)
+        |
+        v
+Read with @Value (single) or @ConfigurationProperties (nested/lists)
+        |
+        v
+Same code must run in dev / test / staging / prod
+        |
+        v
+Profiles: application-{profile}.properties / .yml
+        |
+        v
+Common file + profile file -&gt; profile value wins on the same key
+        |
+        v
+Activate: properties key, command line, Maven, environment variable
+        |
+        v
+@Profile: create different beans per environment
+</code></pre></div>
+
+<ul>
+<li>Code stays the same; configuration changes per environment.</li>
+<li><code>application.properties</code> is flat; <code>application.yml</code> shows the same data as a hierarchy.</li>
+<li>YAML is strict: spaces, not tabs; indentation is structure.</li>
+<li>Profiles choose the environment; profile-specific values override common values.</li>
+<li><code>@Profile</code> selects beans/classes; profile files select values.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> put changeable values in configuration, express them readably in
+YAML, and use profiles plus <code>@Profile</code> so one build and one JAR behave correctly in dev,
+test, staging, and prod.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-17.html"><span class="dir">Previous</span><span class="ttl">Lecture 17 - Spring Boot Exception Handling</span></a><a class="next" href="doc-theory-lecture-19.html"><span class="dir">Next</span><span class="ttl">Lecture 19 — Spring Boot Filters</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

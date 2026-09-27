@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 32 — Master Spring Data JPA — Spring Boot</title>
+<meta name="description" content="Lecture 32 — Master Spring Data JPA">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-32">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-32.html#lecture-32">Lecture 32</a></li><li><a href="doc-theory-lecture-32.html#1-the-persistence-layer-after-hibernate-and-jpa">1. The Persistence Layer after Hibernate and JPA</a></li><li><a href="doc-theory-lecture-32.html#2-the-repository-boilerplate-problem">2. The Repository Boilerplate Problem</a></li><li><a href="doc-theory-lecture-32.html#3-spring-data-and-spring-data-jpa">3. Spring Data and Spring Data JPA</a></li><li><a href="doc-theory-lecture-32.html#4-jpa-vs-spring-data-jpa">4. JPA vs Spring Data JPA</a></li><li><a href="doc-theory-lecture-32.html#5-repository-interface-hierarchy">5. Repository Interface Hierarchy</a></li><li><a href="doc-theory-lecture-32.html#6-declaring-a-repository-interface">6. Declaring a Repository Interface</a></li><li><a href="doc-theory-lecture-32.html#7-repository-proxy-internals">7. Repository Proxy Internals</a></li><li><a href="doc-theory-lecture-32.html#8-important-jparepository-methods">8. Important JpaRepository Methods</a></li><li><a href="doc-theory-lecture-32.html#9-save-vs-dirty-checking">9. save() vs Dirty Checking</a></li><li><a href="doc-theory-lecture-32.html#10-derived-query-methods">10. Derived Query Methods</a></li><li><a href="doc-theory-lecture-32.html#11-custom-jpql-queries-with-query">11. Custom JPQL Queries with @Query</a></li><li><a href="doc-theory-lecture-32.html#12-native-queries">12. Native Queries</a></li><li><a href="doc-theory-lecture-32.html#13-sorting-with-sort">13. Sorting with Sort</a></li><li><a href="doc-theory-lecture-32.html#14-pagination-with-pageable-and-pagerequest">14. Pagination with Pageable and PageRequest</a></li><li><a href="doc-theory-lecture-32.html#15-page-vs-slice-and-count-queries">15. Page vs Slice and Count Queries</a></li><li><a href="doc-theory-lecture-32.html#16-complete-mental-model">16. Complete Mental Model</a></li><li><a href="doc-theory-lecture-32.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-32.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-32.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-32.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-32.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 32 — Master Spring Data JPA</h1>
+<p class="readmeta">22 sections · 5,427 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-32" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-32">Lecture 32</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Master Spring Data JPA in one video | JpaRepository, JPQL, Pagination" (playlist map, verified). Repo folder for this lecture is the <code>springDataJPADemo</code> project: <code>repository.StudentRepository</code> extending <code>JpaRepository</code>, <code>service.StudentService</code>, <code>entity.Student</code>, and <code>application.properties</code>, plus this lecture's notes.</p>
+</blockquote>
+<p>JPA and Hibernate removed most hand-written SQL, but every application still wrote the same repository class again and again.</p>
+<p>Spring Data JPA answers that remaining repetition: declare an interface, and Spring builds the implementation at runtime.</p>
+<p>This lecture covers the persistence layer, repository boilerplate, derived query methods, JPQL, native SQL, sorting, and pagination, and explains what happens under a <code>studentRepository.findById(1L)</code> call.</p>
+<p>The goal is a mental model where the repository is not magic but a proxy over the same <code>EntityManager</code> and Hibernate machinery.</p>
+<h2 id="1-the-persistence-layer-after-hibernate-and-jpa">1. The Persistence Layer after Hibernate and JPA</h2>
+<p>Before JPA and Hibernate, persistence code used JDBC or Spring JDBC.</p>
+<p>A lookup needed the SQL text, a row mapper, and parameter binding, roughly <code>jdbcTemplate.queryForObject(sql, studentRowMapper, id)</code>.</p>
+<p>The developer had to handle SQL statements, parameter binding, result-set mapping, object creation, and database-specific details.</p>
+<p>JPA and Hibernate remove much of this work: the same lookup collapses to <code>entityManager.find(Student.class, id)</code>.</p>
+<p>They provide:</p>
+<ul>
+<li>object-relational mapping;</li>
+<li>entity state management;</li>
+<li>the persistence context;</li>
+<li>dirty checking;</li>
+<li>relationship mapping;</li>
+<li>SQL generation;</li>
+<li>first-level caching;</li>
+<li>transaction synchronization.</li>
+</ul>
+<p>An application still needs a dedicated persistence layer: business services focus on use cases, while repositories hold data-access logic.</p>
+<p>Without Spring Data JPA, a hand-written repository still used <code>EntityManager</code> directly through <code>persist()</code>, <code>find()</code>, and <code>remove()</code>, inside a <code>@Repository</code> class with a <code>@PersistenceContext</code> field.</p>
+<p>The key idea: JPA and Hibernate do not eliminate the repository layer; they simplify the persistence logic written inside it. The full stack, top to bottom:</p>
+<div class="highlight"><pre><span></span><code>Application service -&gt; Spring Data JPA repository -&gt; JPA EntityManager
+    -&gt; Hibernate -&gt; JDBC driver -&gt; relational database
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Spring Data JPA sits above JPA and Hibernate. It does not replace either; it removes repository boilerplate while the same EntityManager and Hibernate machinery still execute the work.</p>
+</blockquote>
+<h2 id="2-the-repository-boilerplate-problem">2. The Repository Boilerplate Problem</h2>
+<p>Suppose an application contains three entities: <code>Student</code>, <code>Department</code>, and <code>Course</code>.</p>
+<p>Without Spring Data JPA, each entity tends to need its own repository implementation, and each repeatedly implements the same basic operations:</p>
+<ul>
+<li>save an entity;</li>
+<li>find an entity by ID;</li>
+<li>find all entities;</li>
+<li>check whether an entity exists;</li>
+<li>count entities;</li>
+<li>delete an entity.</li>
+</ul>
+<p>Only two pieces of information usually change between them: the entity type and the identifier type.</p>
+<p>That common structure can be represented generically as <code>Repository&lt;EntityType, IdentifierType&gt;</code>, for example:</p>
+<div class="highlight"><pre><span></span><code>Repository&lt;Student, Long&gt;
+Repository&lt;Department, Long&gt;
+Repository&lt;Course, Integer&gt;
+</code></pre></div>
+
+<p>This generic repository idea is the foundation of Spring Data: instead of copying a class per entity, one parameterized contract captures every entity and key combination.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The two generic parameters are the whole trick. <code>JpaRepository&lt;Student, Long&gt;</code> means "repository for <code>Student</code> keyed by <code>Long</code>." Candidates who cannot name the second parameter are usually guessing at the abstraction.</p>
+</blockquote>
+<h2 id="3-spring-data-and-spring-data-jpa">3. Spring Data and Spring Data JPA</h2>
+<p>These two names are related but not interchangeable. Spring Data is an umbrella project that provides a consistent, repository-based programming model for different persistence technologies.</p>
+<p>Its modules include Spring Data JPA, Spring Data MongoDB, Spring Data Redis, Spring Data JDBC, Spring Data Elasticsearch, Spring Data Cassandra, and Spring Data Neo4j.</p>
+<p>The central idea is simple: define a repository interface for a domain type, and let the appropriate Spring Data module provide the supporting implementation and infrastructure.</p>
+<p>The implementation underneath depends on the selected module:</p>
+<div class="highlight"><pre><span></span><code>Spring Data JPA repository -&gt; EntityManager -&gt; JPA provider (Hibernate) -&gt; relational database
+Spring Data MongoDB repository -&gt; MongoDB infrastructure -&gt; MongoDB
+</code></pre></div>
+
+<p>Spring Data JPA is the Spring Data module designed for applications that use the Jakarta Persistence API.</p>
+<p>Instead of manually implementing a repository class, the developer declares an interface, for example <code>public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {}</code>.</p>
+<p>The repository can then be injected and used like a normal Spring bean:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentService</span><span class="p">(</span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Common operations become immediately available: <code>save()</code>, <code>findById()</code>, <code>deleteById()</code>, and <code>findAll()</code>.</p>
+<p>At startup, Spring Data detects the interface and creates a repository bean for it; no implementation class is written by the developer.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Define the interface, not the implementation. If you are hand-writing a <code>...RepositoryImpl</code> class for standard CRUD, you have not yet understood what Spring Data is for.</p>
+</blockquote>
+<h2 id="4-jpa-vs-spring-data-jpa">4. JPA vs Spring Data JPA</h2>
+<p>This is the single most common comparison on this topic.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>JPA</th>
+<th>Spring Data JPA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nature</td>
+<td>Jakarta specification</td>
+<td>Spring framework module</td>
+</tr>
+<tr>
+<td>What it defines</td>
+<td>Persistence concepts and APIs</td>
+<td>A repository abstraction on top of JPA</td>
+</tr>
+<tr>
+<td>Core surface</td>
+<td><code>EntityManager</code>, JPQL</td>
+<td>Repository interfaces, query-method support</td>
+</tr>
+<tr>
+<td>Provider need</td>
+<td>Requires a persistence provider</td>
+<td>Uses the configured JPA provider underneath</td>
+</tr>
+<tr>
+<td><code>JpaRepository</code></td>
+<td>Not present in the specification</td>
+<td>Provided by Spring Data JPA</td>
+</tr>
+<tr>
+<td>Typical operations</td>
+<td><code>persist()</code>, <code>find()</code>, <code>remove()</code></td>
+<td><code>save()</code>, <code>findById()</code>, <code>deleteById()</code></td>
+</tr>
+</tbody>
+</table>
+<p>What JPA itself provides includes <code>@Entity</code>, <code>@Id</code>, <code>@OneToMany</code>, <code>@ManyToOne</code>, <code>EntityManager</code>, <code>EntityManagerFactory</code>, and <code>TypedQuery</code>.</p>
+<p>Typical JPA operations are <code>entityManager.persist(student)</code>, <code>entityManager.find(Student.class, 1L)</code>, and <code>entityManager.remove(student)</code>.</p>
+<p>Spring Data JPA provides <code>Repository</code>, <code>CrudRepository</code>, <code>ListCrudRepository</code>, <code>PagingAndSortingRepository</code>, <code>JpaRepository</code>, <code>@Query</code>, <code>@NativeQuery</code>, <code>@Modifying</code>, <code>@EntityGraph</code>, and <code>JpaSpecificationExecutor</code>. Its main responsibilities are common CRUD operations, a runtime repository implementation, query derivation from method names, custom JPQL and native SQL via <code>@Query</code>, and sorting and pagination.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>JpaRepository</code> is part of Spring Data JPA, not part of the JPA specification. The specification has no concept of a repository interface at all.</p>
+</blockquote>
+<p>What Spring Data JPA does not do: it does not remove the need to understand entity mapping, transactions, managed versus detached entity states, lazy loading and fetching, SQL performance, indexes and constraints, or the N+1 query problem. It reduces repository boilerplate; it does not replace sound persistence design.</p>
+<h2 id="5-repository-interface-hierarchy">5. Repository Interface Hierarchy</h2>
+<p>The important repository abstractions form a hierarchy:</p>
+<div class="highlight"><pre><span></span><code>Repository&lt;T, ID&gt;
+ +-- CrudRepository&lt;T, ID&gt;
+ |    +-- ListCrudRepository&lt;T, ID&gt;
+ |         +-- PagingAndSortingRepository&lt;T, ID&gt;
+ |              +-- ListPagingAndSortingRepository&lt;T, ID&gt;
+ +-- JpaRepository&lt;T, ID&gt;
+      +-- ListCrudRepository&lt;T, ID&gt;
+      +-- ListPagingAndSortingRepository&lt;T, ID&gt;
+      +-- QueryByExampleExecutor&lt;T&gt;
+</code></pre></div>
+
+<p><code>Repository&lt;T, ID&gt;</code> is primarily a marker interface. It identifies the domain type <code>T</code>, the identifier type <code>ID</code>, and the interface as a Spring Data repository.</p>
+<p>Extending it does not automatically expose the full CRUD API, which allows a restricted repository contract: a repository extending <code>Repository</code> that declares only <code>save()</code>, <code>findById()</code>, and <code>findAll()</code> cannot delete, because no delete method is declared.</p>
+<p><code>CrudRepository&lt;T, ID&gt;</code> extends <code>Repository</code> and provides generic CRUD operations: <code>&lt;S extends T&gt; S save(S entity)</code>, <code>Optional&lt;T&gt; findById(ID id)</code>, <code>Iterable&lt;T&gt; findAll()</code>, <code>boolean existsById(ID id)</code>, <code>long count()</code>, <code>void deleteById(ID id)</code>, and <code>void delete(T entity)</code>.</p>
+<p><code>ListCrudRepository&lt;T, ID&gt;</code> offers CRUD functionality similar to <code>CrudRepository</code>, but methods returning multiple entities return a <code>List</code> instead of an <code>Iterable</code>.</p>
+<p><code>PagingAndSortingRepository&lt;T, ID&gt;</code> adds sorted and paginated retrieval through <code>Iterable&lt;T&gt; findAll(Sort sort)</code> and <code>Page&lt;T&gt; findAll(Pageable pageable)</code>.</p>
+<p>Since Spring Data 3, the sorting repository hierarchy is separate from the CRUD hierarchy. Extending only <code>PagingAndSortingRepository</code> does not guarantee methods such as <code>save()</code> and <code>deleteById()</code>. To combine the lower-level contracts explicitly:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span>
+<span class="w">        </span><span class="kd">extends</span><span class="w"> </span><span class="n">ListCrudRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">ListPagingAndSortingRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>In a JPA application, extending <code>JpaRepository</code> is normally more convenient because it already combines these capabilities.</p>
+<p>Mnemonic for the main chain: <strong>"Really Clever Pandas Jump"</strong> - <strong>R</strong>epository, <strong>C</strong>rudRepository, <strong>P</strong>agingAndSortingRepository, <strong>J</strong>paRepository (each with <code>&lt;T, ID&gt;</code>).</p>
+<blockquote class="callout callout--important">
+<p>Important: The hierarchy is not "more methods means better." A restricted contract built on <code>Repository</code> is a legitimate design when you want to expose only reads or only specific writes.</p>
+</blockquote>
+<h2 id="6-declaring-a-repository-interface">6. Declaring a Repository Interface</h2>
+<p>A typical declaration needs no implementation class and no <code>@Repository</code>, and is picked up by Spring Boot scanning under the application's base package.</p>
+<p>The interface can combine inherited CRUD with derived methods, <code>@Query</code>, and paging/sorting parameters:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span>
+<span class="w">        </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByAgeGreaterThan</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findTop5ByActiveTrueOrderByAgeDesc</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">existsByEmail</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="nf">countByActiveTrue</span><span class="p">();</span>
+
+<span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        SELECT s</span>
+<span class="s">        FROM Student s</span>
+<span class="s">        WHERE s.email = :email</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findStudentByEmail</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;email&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">Page</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByActiveTrue</span><span class="p">(</span><span class="n">Pageable</span><span class="w"> </span><span class="n">pageable</span><span class="p">);</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByActiveTrue</span><span class="p">(</span><span class="n">Sort</span><span class="w"> </span><span class="n">sort</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@EnableJpaRepositories</code> is generally unnecessary in a standard Spring Boot project, but it can be used for explicit or custom repository scanning. Repository methods fall into two main categories:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Examples</th>
+<th>How they are handled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inherited methods</td>
+<td><code>save()</code>, <code>findById()</code>, <code>findAll()</code></td>
+<td>Implemented by the repository base class</td>
+</tr>
+<tr>
+<td>Declared query methods</td>
+<td><code>findByEmail()</code>, <code>findByAgeGreaterThan()</code></td>
+<td>Converted into or associated with queries</td>
+</tr>
+</tbody>
+</table>
+<p>The interface cannot be instantiated directly: <code>new StudentRepository();</code> is a compilation error.</p>
+<h2 id="7-repository-proxy-internals">7. Repository Proxy Internals</h2>
+<p>Why can an interface be injected at all? Because Spring Data creates a runtime object that implements the repository interface. This runtime-generated object is called a repository proxy.</p>
+<div class="highlight"><pre><span></span><code>StudentService -&gt; StudentRepository proxy
+    -&gt; classifies the invoked method -&gt; chooses the correct execution path
+</code></pre></div>
+
+<p>For an inherited method, <code>studentRepository.findById(1L)</code> goes to the proxy, then to <code>SimpleJpaRepository.findById(1L)</code>, then to <code>EntityManager.find(...)</code>.</p>
+<p>For a derived method, <code>studentRepository.findByEmail(email)</code> goes to the proxy, then to prepared query-method execution, then the parameter is bound, and finally <code>EntityManager</code> executes the query.</p>
+<p><code>SimpleJpaRepository&lt;T, ID&gt;</code> is the standard base implementation behind most <code>JpaRepository</code> operations. Conceptually it holds an <code>EntityManager</code> and a <code>JpaEntityInformation&lt;T, ?&gt;</code> and implements methods such as <code>save()</code>, <code>findById()</code>, <code>findAll()</code>, <code>existsById()</code>, <code>count()</code>, <code>delete()</code>, <code>flush()</code>, <code>saveAndFlush()</code>, and <code>getReferenceById()</code>.</p>
+<p>Why the proxy is still necessary: <code>SimpleJpaRepository</code> knows how to execute standard repository operations, but it cannot contain every application-specific method such as <code>findByEmail()</code> or <code>findByDepartmentName()</code>. The proxy combines multiple sources of behavior:</p>
+<table>
+<thead>
+<tr>
+<th>Method type</th>
+<th>Execution source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard CRUD method</td>
+<td><code>SimpleJpaRepository</code></td>
+</tr>
+<tr>
+<td>Derived query method</td>
+<td>Query created from the method name</td>
+</tr>
+<tr>
+<td>Declared JPQL or SQL query</td>
+<td><code>@Query</code></td>
+</tr>
+<tr>
+<td>Default interface method</td>
+<td>Java interface default method</td>
+</tr>
+<tr>
+<td>Custom repository fragment</td>
+<td>Developer-provided implementation</td>
+</tr>
+</tbody>
+</table>
+<p>Spring Data JPA remains a layer above JPA. Its base implementation ultimately delegates persistence work to <code>EntityManager</code>, whose implementation is commonly provided by Hibernate.</p>
+<h2 id="8-important-jparepository-methods">8. Important JpaRepository Methods</h2>
+<p><code>JpaRepository</code> provides three broad groups of operations:</p>
+<ul>
+<li>CRUD: <code>save()</code>, <code>saveAll()</code>, <code>findById()</code>, <code>findAll()</code>, <code>existsById()</code>, <code>count()</code>, <code>delete()</code>, <code>deleteById()</code>, <code>deleteAll()</code>;</li>
+<li>sorting and pagination: <code>findAll(Sort sort)</code>, <code>findAll(Pageable pageable)</code>;</li>
+<li>JPA-specific: <code>flush()</code>, <code>saveAndFlush()</code>, <code>saveAllAndFlush()</code>, <code>getReferenceById()</code>, <code>deleteAllInBatch()</code>, <code>deleteAllByIdInBatch()</code>.</li>
+</ul>
+<p>Batch delete methods can behave differently from deleting managed entities one by one; use them deliberately when cascades, lifecycle callbacks, or the current persistence context matter.</p>
+<p>A few methods deserve individual attention:</p>
+<ul>
+<li><code>save()</code> does not simply mean "execute an INSERT." It means the entity state should become persistent.</li>
+<li>Spring Data decides whether the entity is new: yes routes to <code>EntityManager.persist(entity)</code>, no routes to <code>EntityManager.merge(entity)</code>.</li>
+<li><code>saveAll()</code> conceptually calls <code>save()</code> for each entity; it does not itself guarantee one multi-row SQL statement, since batching is a separate optimization with its own configuration and identifier-strategy requirements.</li>
+<li><code>findById()</code> checks the persistence context first; a managed entity is returned directly, otherwise the database is queried if necessary. It returns <code>Optional</code> because a row with the requested ID may not exist.</li>
+<li><code>findAll()</code> loads every matched entity; it is suitable for small datasets but dangerous for large tables, since Spring Data cannot infer that pagination was intended.</li>
+<li><code>existsById()</code> expresses an existence question rather than a full load, commonly using a count or equivalent mechanism.</li>
+<li><code>count()</code> conceptually runs <code>SELECT COUNT(*) FROM students</code>.</li>
+<li><code>delete()</code> must ultimately operate on a managed entity; a detached entity may be obtained or merged into managed state before removal.</li>
+<li><code>deleteAll()</code> is broad and potentially expensive; it may process entities individually.</li>
+<li><code>flush()</code> synchronizes pending changes in the persistence context with the database but does not commit the transaction.</li>
+<li><code>saveAndFlush()</code> conceptually is <code>save(student); flush(); return result;</code>; use it to force immediate synchronization, for example to detect a constraint violation before the normal commit point, not automatically on every save.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: <code>flush()</code> is not <code>commit()</code>. Flushing only pushes pending SQL to the database while the transaction remains open and can still roll back.</p>
+</blockquote>
+<h2 id="9-save-vs-dirty-checking">9. save() vs Dirty Checking</h2>
+<p>Consider a managed entity loaded inside a transaction: a service method annotated <code>@Transactional</code> calls <code>studentRepository.findById(id).orElseThrow()</code> and then <code>student.setName(newName)</code>.</p>
+<p>No call to <code>save()</code> is required for JPA to update the row. The process is:</p>
+<div class="highlight"><pre><span></span><code>Repository loads Student -&gt; Student becomes managed
+    -&gt; application changes the managed object -&gt; dirty checking detects the change
+    -&gt; UPDATE is generated during flush/commit
+</code></pre></div>
+
+<p>Calling <code>save()</code> for an already-managed entity is usually redundant from a pure JPA perspective. It may still be used when a team deliberately follows the repository abstraction consistently, but it is not what causes dirty checking.</p>
+<p><code>save()</code> is important when:</p>
+<ol>
+<li>persisting a new entity;</li>
+<li>reattaching state from a detached entity through <code>merge()</code>;</li>
+<li>returning the managed instance produced by <code>merge()</code>.</li>
+</ol>
+<p>The return value matters when <code>merge()</code> is used: <code>Student managedStudent = studentRepository.save(detachedStudent);</code>. <code>merge()</code> returns a managed instance; the detached object passed as the argument does not automatically become managed.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Do you always need <code>save()</code> to update an entity?" The strong answer is no: for a managed entity dirty checking flushes the change automatically; <code>save()</code> matters for new or detached entities, and <code>merge()</code> returns a managed copy rather than mutating the argument.</p>
+</blockquote>
+<h2 id="10-derived-query-methods">10. Derived Query Methods</h2>
+<p>Query derivation lets a method name become a query. Without derivation you write the query explicitly with <code>@Query</code>; with derivation you write only <code>Optional&lt;Student&gt; findByEmail(String email);</code>.</p>
+<p>Spring Data parses the name: <code>find</code> -&gt; selection operation; <code>By</code> -&gt; beginning of the predicate; <code>Email</code> -&gt; the <code>Student.email</code> property. Conceptual JPQL:</p>
+<div class="highlight"><pre><span></span><code>SELECT s
+FROM Student s
+WHERE s.email = ?1
+</code></pre></div>
+
+<p>The default lookup strategy first checks for a declared query and derives a query from the method name if none is found.</p>
+<p>Subject and predicate: <code>findByEmail</code> contains two logical sections. <code>findBy</code> is the subject; <code>Email</code> is the predicate.</p>
+<p>The subject describes the operation, for example <code>findByEmail(...)</code>, <code>existsByEmail(...)</code>, <code>countByActiveTrue()</code>, <code>deleteByActiveFalse()</code>, or <code>findTop5ByActiveTrueOrderByAgeDesc()</code>.</p>
+<p>The predicate describes the matching condition, for example <code>findByAgeGreaterThanAndActiveTrue(Integer age)</code>.</p>
+<p>Common query keywords:</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Repository method</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Equality</td>
+<td><code>findByEmail(String email)</code></td>
+<td><code>email = ?</code></td>
+</tr>
+<tr>
+<td>And</td>
+<td><code>findByNameAndAge(String name, Integer age)</code></td>
+<td>Both conditions must match</td>
+</tr>
+<tr>
+<td>Or</td>
+<td><code>findByNameOrEmail(String name, String email)</code></td>
+<td>Either condition may match</td>
+</tr>
+<tr>
+<td>GreaterThan</td>
+<td><code>findByAgeGreaterThan(Integer age)</code></td>
+<td><code>age &gt; ?</code></td>
+</tr>
+<tr>
+<td>LessThan</td>
+<td><code>findByAgeLessThan(Integer age)</code></td>
+<td><code>age &lt; ?</code></td>
+</tr>
+<tr>
+<td>Between</td>
+<td><code>findByAgeBetween(Integer min, Integer max)</code></td>
+<td>Inclusive range</td>
+</tr>
+<tr>
+<td>Like</td>
+<td><code>findByNameLike(String pattern)</code></td>
+<td>Caller supplies the pattern</td>
+</tr>
+<tr>
+<td>Containing</td>
+<td><code>findByNameContaining(String value)</code></td>
+<td>Value is contained</td>
+</tr>
+<tr>
+<td>In</td>
+<td><code>findByAgeIn(Collection&lt;Integer&gt; ages)</code></td>
+<td>Belongs to the collection</td>
+</tr>
+<tr>
+<td>IsNull</td>
+<td><code>findByDepartmentIsNull()</code></td>
+<td>Property is null</td>
+</tr>
+<tr>
+<td>True</td>
+<td><code>findByActiveTrue()</code></td>
+<td>Boolean property is true</td>
+</tr>
+<tr>
+<td>IgnoreCase</td>
+<td><code>findByNameIgnoreCase(String name)</code></td>
+<td>Case-insensitive comparison</td>
+</tr>
+<tr>
+<td>OrderBy</td>
+<td><code>findByActiveTrueOrderByNameAsc()</code></td>
+<td>Static ordering</td>
+</tr>
+<tr>
+<td>Top / First</td>
+<td><code>findTop5ByOrderByAgeDesc()</code></td>
+<td>Limit the result</td>
+</tr>
+</tbody>
+</table>
+<p>Like versus Containing matters. With <code>Like</code>, the caller supplies the wildcard characters (<code>studentRepository.findByNameLike("%har%")</code>). With <code>Containing</code>, Spring Data adds the contains pattern itself (<code>studentRepository.findByNameContaining("har")</code> binds a pattern such as <code>%har%</code>).</p>
+<p>Limiting results: <code>List&lt;Student&gt; findTop5ByActiveTrueOrderByAgeDesc();</code> means select active students, sort them by age descending, and return at most five. An explicit order is important; without it, "top five" has no reliable business meaning because a relational database does not guarantee a natural row order. Similarly, <code>Optional&lt;Student&gt; findFirstByDepartmentNameOrderByAgeDesc(String departmentName)</code> returns one result with a defined order.</p>
+<p>Limitations: derived queries are ideal while the name stays short and readable, but they become difficult to maintain when they grow into long query-language sentences such as <code>findTop10ByNameContainingIgnoreCaseAndAgeGreaterThanAndActiveTrueAndDepartmentNameOrderByAdmissionDateDesc(...)</code>.</p>
+<p>Main limitations:</p>
+<ul>
+<li>long names are difficult to read;</li>
+<li>complex <code>And</code>/<code>Or</code> grouping is hard to express clearly;</li>
+<li>the method name cannot show complicated joins and projections well;</li>
+<li>database-specific behavior may require native SQL.</li>
+</ul>
+<p>For such cases, use <code>@Query</code>, specifications, Query by Example, Querydsl, or a custom repository implementation depending on the problem.</p>
+<h2 id="11-custom-jpql-queries-with-query">11. Custom JPQL Queries with @Query</h2>
+<p><code>@Query</code> keeps a custom query close to the repository method that executes it. JPQL queries operate on entity names, entity fields, and entity relationships; JPQL does not directly use table names and database column names.</p>
+<p>In <code>SELECT s FROM Student s</code>, <code>Student</code> is the entity name and <code>s</code> is its query alias.</p>
+<p>Named parameters are usually easier to read and maintain, as in <code>WHERE s.age &gt;= :minimumAge AND s.age &lt;= :maximumAge</code> with <code>@Param("minimumAge")</code> and <code>@Param("maximumAge")</code>.</p>
+<p>Positional parameters exist too, and their indexes are one-based (<code>?1</code>, <code>?2</code>, ...).</p>
+<p>Relationship joins follow the entity relationship. If <code>Student</code> contains <code>@ManyToOne private Department department;</code>, an explicit join is <code>SELECT s FROM Student s JOIN s.department d WHERE d.active = true</code>.</p>
+<p>JPQL uses <code>s.department</code>, not a database expression such as <code>s.department_id = d.id</code>; Hibernate already knows the join-column mapping from the entity relationship.</p>
+<p>Implicit versus explicit joins can express the same filtering. An explicit join is useful when the joined entity needs an alias; several conditions refer to the joined entity; the join type must be controlled; or the query selects data from both entities. An inner join (<code>JOIN s.department d</code>) includes a student only when a matching department exists, so a student whose department is null is excluded. A left join preserves students without a department:</p>
+<div class="highlight"><pre><span></span><code>SELECT s.name, d.name
+FROM Student s
+LEFT JOIN s.department d
+</code></pre></div>
+
+<p>For production code, a DTO or interface projection is usually clearer than exposing <code>Object[]</code> to higher layers.</p>
+<p>Static ordering in JPQL is appropriate when the business operation always requires the same order, for example <code>... WHERE s.active = true ORDER BY s.name ASC</code>; multiple sort fields use <code>ORDER BY d.name ASC, s.name ASC</code>. Dynamic ordering with <code>Sort</code> keeps the predicate fixed while the caller controls the order, as in <code>List&lt;Student&gt; findActiveStudents(Sort sort);</code> used with <code>Sort.by("name").ascending()</code>.</p>
+<h2 id="12-native-queries">12. Native Queries</h2>
+<p>JPQL operates on the entity model. Native SQL is useful when a query needs database-specific functions, vendor-specific syntax, precise control over the SQL statement, existing SQL that cannot be expressed cleanly in JPQL, or common table expressions and advanced SQL features. Use <code>@Query(nativeQuery = true)</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Query</span><span class="p">(</span>
+<span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        SELECT *</span>
+<span class="s">        FROM students</span>
+<span class="s">        WHERE email = :email</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nativeQuery</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">)</span>
+<span class="n">Optional</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByEmailUsingNativeQuery</span><span class="p">(</span><span class="nd">@Param</span><span class="p">(</span><span class="s">&quot;email&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+</code></pre></div>
+
+<p><code>nativeQuery = true</code> tells Spring Data to interpret the string as database SQL instead of JPQL. Recent Spring Data JPA versions also provide <code>@NativeQuery</code>, a composed form designed specifically for native queries, for example <code>@NativeQuery("SELECT * FROM students WHERE email = :email")</code>. Native named and positional parameters behave like their JPQL counterparts, but the value is real SQL.</p>
+<p>A native query is coupled to the database schema and possibly to the selected database vendor. Use it when the benefit outweighs the loss of portability.</p>
+<blockquote class="callout callout--important">
+<p>Important: JPQL speaks entity names and entity fields; native SQL speaks table names and column names. Mixing the two mentally is the fastest way to a query that fails at startup or runtime.</p>
+</blockquote>
+<h2 id="13-sorting-with-sort">13. Sorting with Sort</h2>
+<p>Without <code>ORDER BY</code>, a relational database does not guarantee a meaningful result order. Sorting is therefore part of query design, not just presentation.</p>
+<p>A sort is created with <code>Sort.by("name")</code>; ascending order is the default, and an explicit form is <code>Sort.by(Sort.Direction.ASC, "name")</code>, used as <code>studentRepository.findAll(sort)</code>. The <code>Sort</code> argument must not be null; use <code>Sort.unsorted()</code> when no ordering is required.</p>
+<p>Ascending and descending use <code>Sort.by("name").ascending()</code> and <code>Sort.by("admissionDate").descending()</code>.</p>
+<p>Multiple properties chain with <code>and</code>, for example <code>Sort.by("department.name").ascending().and(Sort.by("name").ascending())</code>, which conceptually becomes <code>ORDER BY department.name ASC, student.name ASC</code>.</p>
+<p>Sort properties refer to entity properties, not database column names, so <code>Sort.by("admissionDate")</code> uses the property name even if the column is named differently.</p>
+<p>Dynamic sorting with a query method keeps the predicate fixed while the caller controls the order, for example <code>List&lt;Student&gt; findByActiveTrue(Sort sort);</code> used with <code>Sort.by(Sort.Order.desc("age"), Sort.Order.asc("name"))</code>.</p>
+<p>Validating user-controlled sorting matters. If an API accepts <code>GET /students?sortBy=name&amp;direction=asc</code>, do not pass arbitrary client input directly into <code>Sort</code>; validate it against an allowlist of entity properties. A helper can check <code>Set.of("name", "age", "admissionDate")</code>, reject unsupported properties with <code>IllegalArgumentException</code>, then build the sort with <code>Sort.Direction.fromString(direction)</code>.</p>
+<p>Validation prevents invalid property paths and keeps the API contract intentional.</p>
+<blockquote class="callout callout--important">
+<p>Important: An unvalidated <code>sortBy</code> parameter is both an injection-style risk and a stability risk. Only entity properties from a fixed allowlist should reach <code>Sort</code>.</p>
+</blockquote>
+<h2 id="14-pagination-with-pageable-and-pagerequest">14. Pagination with Pageable and PageRequest</h2>
+<p>Suppose a table contains two million students. Calling <code>studentRepository.findAll();</code> can cause problems throughout the stack:</p>
+<ul>
+<li>the database reads too many rows;</li>
+<li>the network transfers too much data;</li>
+<li>Hibernate creates too many entity objects;</li>
+<li>the persistence context consumes excessive memory;</li>
+<li>the JSON response becomes enormous;</li>
+<li>the client cannot use the entire result effectively.</li>
+</ul>
+<p>Pagination changes the request from "Give me every student" to "Give me a controlled window of students." With zero-based page indexing and a page size of 10, page 0 holds records 1-10, page 1 holds 11-20, and page 2 holds 21-30.</p>
+<p>The conceptual offset is <code>offset = page number x page size</code>; for page 2 with size 10, <code>offset = 2 x 10 = 20</code>. Conceptual SQL is <code>SELECT * FROM students ORDER BY id LIMIT 10 OFFSET 20;</code>, but the actual pagination syntax is database-dependent and generated by Hibernate.</p>
+<p><code>Pageable</code> describes the requested page number, the requested page size, sort information, and whether the request is paged or unpaged. <code>Pageable</code> is an interface; <code>PageRequest</code> is its commonly used implementation.</p>
+<p>An unsorted request is <code>PageRequest.of(0, 10)</code>, a sorted request is <code>PageRequest.of(0, 10, Sort.by("name").ascending())</code>, and the convenience form is <code>PageRequest.of(0, 10, Sort.Direction.ASC, "name")</code>. <code>PageRequest.of()</code> requires a non-negative page number and a page size greater than zero.</p>
+<p>The last page may contain fewer elements:</p>
+<div class="highlight"><pre><span></span><code>Total elements = 45, page size = 20
+Page 0 -&gt; 20 elements
+Page 1 -&gt; 20 elements
+Page 2 -&gt; 5 elements
+</code></pre></div>
+
+<p>Sorting and pagination must work together: a stable and deterministic order is important because page boundaries depend on the ordering. If the primary sort field is not unique, add a unique tie-breaker such as <code>id</code> with <code>Sort.by("name").ascending().and(Sort.by("id").ascending())</code>.</p>
+<p>At the API boundary, validate the page size and enforce a maximum value to prevent clients from requesting an unreasonably large page.</p>
+<blockquote class="callout callout--important">
+<p>Important: Page indexes are zero-based in Spring Data. "Page 2" is the third window of results, and the offset is page number times page size.</p>
+</blockquote>
+<h2 id="15-page-vs-slice-and-count-queries">15. Page<T> vs Slice<T> and Count Queries</h2>
+<p>A <code>Page&lt;Student&gt;</code> contains both the current content and pagination metadata, obtained as <code>page = studentRepository.findAll(PageRequest.of(0, 10))</code>. Its common methods are:</p>
+<ul>
+<li><code>page.getContent()</code> - the <code>List&lt;Student&gt;</code> for the current page;</li>
+<li><code>page.getNumber()</code>, <code>page.getSize()</code>, <code>page.getNumberOfElements()</code>;</li>
+<li><code>page.getTotalElements()</code>, <code>page.getTotalPages()</code>;</li>
+<li><code>page.isFirst()</code>, <code>page.isLast()</code>, <code>page.hasNext()</code>, <code>page.hasPrevious()</code>;</li>
+<li><code>page.getSort()</code>.</li>
+</ul>
+<p>The content contains only the entities in the current page; for a page size of 10, its size can be between 0 and 10. <code>Page</code> extends <code>Slice</code> and adds the total number of matching elements and the total number of pages.</p>
+<p>A <code>Slice</code> represents the current chunk of data and whether another chunk is available, declared as <code>Slice&lt;Student&gt; findByActiveTrue(Pageable pageable);</code>. Its methods mirror <code>Page</code> for content, number, size, first/last, and next/previous, but a <code>Slice</code> does not provide <code>getTotalElements()</code> or <code>getTotalPages()</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Page<T></th>
+<th>Slice<T></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current content</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Page number and size</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Has next/previous</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Total elements</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Total pages</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Count query commonly required</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><code>Slice</code> can be more efficient when the client only needs to know whether more data is available:</p>
+<div class="highlight"><pre><span></span><code>Page  -&gt; limited content query -&gt; often an additional count query
+Slice -&gt; limited query -&gt; commonly fetches one extra row to determine hasNext
+</code></pre></div>
+
+<p>Use <code>Page</code> when the UI needs information such as "page 3 of 25." Use <code>Slice</code> for experiences such as "load more" or infinite scrolling, where the exact total is unnecessary.</p>
+<p>Count queries: suppose the content query returns ten rows. Those ten rows alone cannot reveal whether the complete result contains 10, 11, 1,000, or 10 million rows.</p>
+<p>To calculate <code>totalElements</code> and <code>totalPages</code>, a paged operation commonly needs two queries: a content query and a count query.</p>
+<p>For a simple derived method such as <code>Page&lt;Student&gt; findByActiveTrue(Pageable pageable);</code>, Spring Data can derive both queries. Complex JPQL can provide an explicit <code>countQuery</code> alongside the <code>value</code> in <code>@Query</code>, reproducing the filtering logic while omitting unnecessary ordering and fetching; this is particularly useful when the content query contains complex joins, grouping, projections, fetch joins, or native SQL.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>Page</code> trades an extra count query for total metadata; <code>Slice</code> skips that cost and only reports whether another chunk exists. Choosing wrongly is a performance decision, not a cosmetic one.</p>
+</blockquote>
+<h2 id="16-complete-mental-model">16. Complete Mental Model</h2>
+<p>When the application calls an inherited method:</p>
+<div class="highlight"><pre><span></span><code>studentRepository.findById(1L) -&gt; repository proxy receives the call
+    -&gt; SimpleJpaRepository handles the method -&gt; EntityManager performs the JPA operation
+    -&gt; Hibernate checks the persistence context -&gt; Hibernate executes SQL if required
+    -&gt; database returns the result
+</code></pre></div>
+
+<p>When the application calls a derived query method:</p>
+<div class="highlight"><pre><span></span><code>studentRepository.findByEmail(email) -&gt; repository proxy receives the call
+    -&gt; prepared repository query is selected -&gt; method arguments are bound
+    -&gt; EntityManager executes the query -&gt; Hibernate generates and executes SQL
+    -&gt; results are mapped to entities
+</code></pre></div>
+
+<p>Spring Data JPA therefore removes repetitive repository implementation code while continuing to use the same JPA and Hibernate machinery underneath.</p>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring Data JPA replaces JPA and Hibernate"</td>
+<td>It is a repository abstraction built on top of them; they still execute the work</td>
+</tr>
+<tr>
+<td>"Naming a repository is enough for CRUD, no matter the parent"</td>
+<td><code>Repository</code> is a marker; CRUD arrives only from <code>CrudRepository</code> or <code>JpaRepository</code></td>
+</tr>
+<tr>
+<td>"<code>JpaRepository</code> is part of the JPA specification"</td>
+<td>It belongs to Spring Data JPA, not the spec</td>
+</tr>
+<tr>
+<td>"You must write an implementation class for a repository interface"</td>
+<td>Spring creates a repository proxy at runtime; no class is written</td>
+</tr>
+<tr>
+<td>"<code>save()</code> always issues an INSERT"</td>
+<td>It maps to <code>persist()</code> for new entities and <code>merge()</code> for existing ones</td>
+</tr>
+<tr>
+<td>"<code>save()</code> is always required to update a managed entity"</td>
+<td>Dirty checking updates managed entities during flush/commit without an explicit <code>save()</code></td>
+</tr>
+<tr>
+<td>"<code>flush()</code> commits the transaction"</td>
+<td>Flush only sends pending SQL; the transaction can still roll back</td>
+</tr>
+<tr>
+<td>"Derived method names scale forever"</td>
+<td>Long names become unreadable; use <code>@Query</code> or other options for complex logic</td>
+</tr>
+<tr>
+<td>"JPQL and native SQL use the same names"</td>
+<td>JPQL uses entity names; native SQL uses table and column names</td>
+</tr>
+<tr>
+<td>"<code>Page</code> and <code>Slice</code> are interchangeable"</td>
+<td><code>Page</code> gives totals and often a count query; <code>Slice</code> does not</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - Is JpaRepository part of JPA?</strong>
+Verdict: False. <code>JpaRepository</code> is provided by Spring Data JPA. The JPA specification itself has no repository interfaces.</p>
+<p><strong>Trap 2 - "Spring Data JPA replaces Hibernate."</strong>
+Verdict: False. Spring Data JPA sits above JPA and delegates to an <code>EntityManager</code> whose provider is commonly Hibernate. It removes boilerplate, not the persistence engine.</p>
+<p><strong>Trap 3 - "You must call save() to update a loaded entity."</strong>
+Verdict: False, for a managed entity inside a transaction. Changing the managed object triggers dirty checking and an <code>UPDATE</code> during flush/commit. <code>save()</code> matters for new or detached entities.</p>
+<p><strong>Trap 4 - "flush() and commit() are the same."</strong>
+Verdict: False. <code>flush()</code> pushes pending SQL to the database; <code>commit()</code> permanently completes the transaction. A transaction can still roll back after a flush.</p>
+<p><strong>Trap 5 - "findByEmail is implemented by SimpleJpaRepository."</strong>
+Verdict: False. Standard CRUD comes from <code>SimpleJpaRepository</code>; a derived method is turned into a query from the method name by the repository proxy.</p>
+<p><strong>Trap 6 - "A repository interface can be instantiated with new."</strong>
+Verdict: False. <code>new StudentRepository()</code> is a compile error; Spring supplies a runtime proxy that implements the interface.</p>
+<p><strong>Trap 7 - "findAll() is safe on a two-million-row table."</strong>
+Verdict: False. <code>findAll()</code> loads every row and entity and can exhaust memory; use <code>Pageable</code>/<code>Page</code> to request a controlled window, and enforce a maximum page size.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>JPA is the specification, Hibernate is a common provider, and Spring Data JPA is the repository abstraction built on top of both.</li>
+<li>The repository generics capture the two changing pieces: <code>JpaRepository&lt;EntityType, IdentifierType&gt;</code>.</li>
+<li>The hierarchy is <code>Repository</code> -&gt; <code>CrudRepository</code> -&gt; <code>ListCrudRepository</code> -&gt; <code>PagingAndSortingRepository</code>, with <code>JpaRepository</code> combining capabilities.</li>
+<li><code>Repository</code> is a marker; extending it does not expose CRUD, which enables restricted contracts.</li>
+<li>Spring creates a repository proxy at runtime; standard methods are primarily handled by <code>SimpleJpaRepository</code>.</li>
+<li><code>save()</code> chooses between <code>persist()</code> and <code>merge()</code> by deciding whether the entity is new, and <code>merge()</code> returns the managed instance.</li>
+<li>Managed entities are updated through dirty checking, even without an explicit <code>save()</code> call; <code>flush()</code> sends pending SQL but does not commit.</li>
+<li>Derived query methods parse the method name into a query but should stay short; otherwise use <code>@Query</code>, specifications, or a custom implementation.</li>
+<li>JPQL works with entity names and relationships; native SQL works with table and column names and couples the query to the schema or vendor.</li>
+<li>Sorting must be explicit when order matters, and pagination needs a stable order plus a validated page size; <code>Page</code> provides totals and commonly a count query, while <code>Slice</code> omits totals and can be more efficient.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is Spring Data JPA?</td>
+<td>The Spring Data module that adds a repository abstraction over JPA, removing boilerplate while delegating to an <code>EntityManager</code>.</td>
+</tr>
+<tr>
+<td>JPA vs Spring Data JPA?</td>
+<td>JPA is a specification defining persistence APIs; Spring Data JPA is a Spring module providing repository interfaces and query methods on top of it.</td>
+</tr>
+<tr>
+<td>What do the two generics in <code>JpaRepository&lt;Student, Long&gt;</code> mean?</td>
+<td>The entity/domain type (<code>Student</code>) and the identifier type (<code>Long</code>).</td>
+</tr>
+<tr>
+<td>How can an interface be injected without an implementation class?</td>
+<td>Spring Data creates a runtime proxy that implements the interface and dispatches each method to the correct execution path.</td>
+</tr>
+<tr>
+<td>What is <code>SimpleJpaRepository</code>?</td>
+<td>The standard base implementation behind most <code>JpaRepository</code> operations, delegating to <code>EntityManager</code>.</td>
+</tr>
+<tr>
+<td>Does <code>save()</code> always INSERT?</td>
+<td>No; it maps to <code>persist()</code> for new entities and <code>merge()</code> for existing/detached ones, returning a managed instance on merge.</td>
+</tr>
+<tr>
+<td>Do you always need <code>save()</code> to update an entity?</td>
+<td>No; a managed entity is updated by dirty checking during flush/commit, so an explicit save is usually redundant for it.</td>
+</tr>
+<tr>
+<td>Difference between <code>flush()</code> and <code>commit()</code>?</td>
+<td>Flush sends pending SQL to the database; commit permanently completes the transaction. A flush does not commit.</td>
+</tr>
+<tr>
+<td>What are derived query methods?</td>
+<td>Query methods whose query is generated by parsing the method name, such as <code>findByEmail</code> or <code>findByAgeGreaterThan</code>.</td>
+</tr>
+<tr>
+<td>JPQL vs native SQL?</td>
+<td>JPQL queries the entity model (entity names, fields, relationships); native SQL queries the database (tables and columns).</td>
+</tr>
+<tr>
+<td>What does <code>nativeQuery = true</code> do?</td>
+<td>Tells Spring Data to interpret the <code>@Query</code> string as database SQL instead of JPQL.</td>
+</tr>
+<tr>
+<td>Difference between <code>Page</code> and <code>Slice</code>?</td>
+<td><code>Page</code> adds total elements and total pages and commonly needs a count query; <code>Slice</code> omits totals and can be more efficient.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Persistence after Hibernate + JPA
+        |
+        v
+Repository boilerplate repeats per entity
+        |
+        v
+Two changing pieces: entity type + identifier type
+        |
+        v
+Repository&lt;EntityType, IdentifierType&gt;
+        |
+        v
+Spring Data (umbrella) -&gt; Spring Data JPA (JPA module)
+        |
+        v
+Repository -&gt; CrudRepository -&gt; PagingAndSortingRepository -&gt; JpaRepository
+        |
+        v
+Declare an interface, no implementation class
+        |
+        v
+Runtime repository proxy -&gt; SimpleJpaRepository -&gt; EntityManager -&gt; Hibernate -&gt; SQL
+        |
+        v
+Derived query methods | @Query JPQL | native SQL
+        |
+        v
+Sort + Pageable/PageRequest -&gt; Page&lt;T&gt; or Slice&lt;T&gt;
+        |
+        v
+Same JPA and Hibernate machinery underneath, less boilerplate on top
+</code></pre></div>
+
+<ul>
+<li><code>JpaRepository&lt;Student, Long&gt;</code> captures the entity type and the identifier type.</li>
+<li>Spring creates a repository proxy at runtime; standard CRUD is handled by <code>SimpleJpaRepository</code>.</li>
+<li><code>save()</code> chooses <code>persist()</code> or <code>merge()</code>; managed entities update via dirty checking without an explicit save.</li>
+<li>Derived methods generate queries from names, while <code>@Query</code> supports JPQL and native SQL.</li>
+<li>Sorting is explicit when order matters; <code>Page</code> gives totals while <code>Slice</code> omits them.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Data JPA does not replace JPA or Hibernate; it removes repository boilerplate by generating a proxy that still delegates every call to <code>EntityManager</code>, so correctness still depends on your mappings, transactions, fetching, and query design.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-31.html"><span class="dir">Previous</span><span class="ttl">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</span></a><a class="next" href="doc-theory-lecture-33.html"><span class="dir">Next</span><span class="ttl">Lecture 33 — Spring Transactions</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

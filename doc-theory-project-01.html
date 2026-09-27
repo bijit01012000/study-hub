@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project 01 — GateKeeper: Custom API Gateway with Spring Boot — Spring Boot</title>
+<meta name="description" content="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-project-01">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-project-01.html#project-01">Project 01</a></li><li><a href="doc-theory-project-01.html#1-why-an-api-gateway-is-needed">1. Why an API Gateway Is Needed</a></li><li><a href="doc-theory-project-01.html#2-what-an-api-gateway-is-and-its-three-main-jobs">2. What an API Gateway Is and Its Three Main Jobs</a></li><li><a href="doc-theory-project-01.html#3-forward-proxy-vs-reverse-proxy">3. Forward Proxy vs Reverse Proxy</a></li><li><a href="doc-theory-project-01.html#4-what-belongs-in-the-gateway-vs-the-backend">4. What Belongs in the Gateway vs the Backend</a></li><li><a href="doc-theory-project-01.html#5-related-components-in-scope-vs-excluded">5. Related Components: In Scope vs Excluded</a></li><li><a href="doc-theory-project-01.html#6-what-gatekeeper-is-and-is-not">6. What GateKeeper Is (and Is Not)</a></li><li><a href="doc-theory-project-01.html#7-main-applications-demo-targets-and-planned-capabilities">7. Main Applications, Demo Targets and Planned Capabilities</a></li><li><a href="doc-theory-project-01.html#8-dynamic-routing-routes-as-configuration">8. Dynamic Routing: Routes as Configuration</a></li><li><a href="doc-theory-project-01.html#9-data-plane-and-control-plane">9. Data Plane and Control Plane</a></li><li><a href="doc-theory-project-01.html#10-how-the-design-controls-latency">10. How the Design Controls Latency</a></li><li><a href="doc-theory-project-01.html#11-redis-immediate-shared-state">11. Redis: Immediate Shared State</a></li><li><a href="doc-theory-project-01.html#12-kafka-asynchronous-events">12. Kafka: Asynchronous Events</a></li><li><a href="doc-theory-project-01.html#13-service-responsibilities-and-infrastructure-ownership">13. Service Responsibilities and Infrastructure Ownership</a></li><li><a href="doc-theory-project-01.html#14-failure-behavior-and-architectural-boundaries">14. Failure Behavior and Architectural Boundaries</a></li><li><a href="doc-theory-project-01.html#15-initial-setup-and-project-structure">15. Initial Setup and Project Structure</a></li><li><a href="doc-theory-project-01.html#16-myth-vs-reality">16. Myth vs Reality</a></li><li><a href="doc-theory-project-01.html#17-common-trap-questions">17. Common Trap Questions</a></li><li><a href="doc-theory-project-01.html#18-points-to-remember">18. Points to Remember</a></li><li><a href="doc-theory-project-01.html#19-likely-interview-questions">19. Likely Interview Questions</a></li><li><a href="doc-theory-project-01.html#20-final-summary">20. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Project 01 — GateKeeper: Custom API Gateway with Spring Boot</h1>
+<p class="readmeta">21 sections · 5,289 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-project-01" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="project-01">Project 01</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Build a Production-Grade Full Stack Project with Spring Boot | Microservices, Kafka &amp; Redis | #1" (playlist map, verified). The repository folder is the <code>SpringBoot Project/code/gatekeeper</code> monorepo with three Maven modules - smart-gateway-service, api-management-service and analytics-service - each carrying its own pom.xml, application.properties, a config.SecurityConfig, a controller.HealthController and a dto.responseDto.HealthResponse, alongside the notes that describe them. This is the architecture and overview note for the GateKeeper project (part 1).</p>
+</blockquote>
+<p>GateKeeper is a backend-focused API gateway and API management platform built with Spring Boot, direct HTTP communication, Redis and Kafka. This note explains why a gateway is needed at all, what belongs inside it versus what must stay in the backend services, how the three applications divide their responsibilities, and where the project deliberately draws its scope line. Nothing here is deep implementation yet: the first milestone is simply three Spring Boot applications that start independently and answer a health check. Everything below is the design the upcoming lectures will build against.</p>
+<h2 id="1-why-an-api-gateway-is-needed">1. Why an API Gateway Is Needed</h2>
+<p>An application may start with one backend. The frontend communicates with one server, and that server handles authentication, requests and business logic. Life is simple because there is exactly one address and one place where every concern lives.</p>
+<p>When the backend is split into services, direct access becomes harder to manage. The client may need to know:</p>
+<ul>
+<li>where each service runs;</li>
+<li>which service handles each operation;</li>
+<li>what changes when a service moves.</li>
+</ul>
+<p>Every client would otherwise have to track the topology of the backend, and that topology changes as the system grows. The moment a service is renamed, relocated or split, every client is affected.</p>
+<p>There is a second, quieter problem. Several services may also repeat the same technical work:</p>
+<ul>
+<li>validating authentication tokens;</li>
+<li>checking broad access permissions;</li>
+<li>applying request limits;</li>
+<li>creating request IDs;</li>
+<li>recording access information;</li>
+<li>handling technical errors.</li>
+</ul>
+<p>That list is not business logic. It is identical plumbing copied into service after service, and it drifts out of sync the moment one service is updated and another is not.</p>
+<p>An API gateway provides one controlled entry point in front of these backend services. The client sends requests to the gateway, which applies the relevant rules and forwards each request to its destination.</p>
+<blockquote class="callout callout--important">
+<p>Important: The gateway exists to centralise technical entry rules and hide backend topology. It is a single, controlled front door, not a place to grow business logic.</p>
+</blockquote>
+<h2 id="2-what-an-api-gateway-is-and-its-three-main-jobs">2. What an API Gateway Is and Its Three Main Jobs</h2>
+<p>An API gateway is a server between API clients and backend services. It receives a request, applies entry-point policies, forwards it to the appropriate service and returns the response.</p>
+<p>There are two viewpoints to hold at once:</p>
+<ul>
+<li>For the client, the gateway acts as the API server.</li>
+<li>For the backend service, it acts as the caller.</li>
+</ul>
+<p>That double identity is the whole trick. The client never learns where the real service lives, and the real service never learns how many distinct clients exist.</p>
+<p>The three main jobs:</p>
+<table>
+<thead>
+<tr>
+<th>Job</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Routing</td>
+<td>Select the target service using the request and route configuration.</td>
+</tr>
+<tr>
+<td>Policy enforcement</td>
+<td>Check authentication, permissions, request limits and other configured rules.</td>
+</tr>
+<tr>
+<td>Reverse proxying</td>
+<td>Send the HTTP request to the target and return its response.</td>
+</tr>
+</tbody>
+</table>
+<p>The one-line relationship to memorise:</p>
+<div class="highlight"><pre><span></span><code>Routing chooses the destination. Proxying performs the exchange.
+</code></pre></div>
+
+<p>Mnemonic: <strong>R-P-P</strong> - Routing picks the target, Policy decides whether the request may proceed, Proxy performs the round trip.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A weak answer says "a gateway just forwards requests." A strong answer separates the three jobs and notes that policy enforcement is what distinguishes a gateway from a plain proxy.</p>
+</blockquote>
+<h2 id="3-forward-proxy-vs-reverse-proxy">3. Forward Proxy vs Reverse Proxy</h2>
+<p>Proxy direction is defined by whose behalf the proxy is acting on:</p>
+<ul>
+<li>A forward proxy acts on behalf of clients when they contact servers.</li>
+<li>A reverse proxy acts on behalf of servers when clients contact them.</li>
+</ul>
+<p>A forward proxy hides clients from servers. A reverse proxy hides servers from clients.</p>
+<p>An API gateway performs reverse proxying and adds API-specific policies around it. So the gateway sits on the server side of the conversation, presenting one face to the outside world while quietly choosing among many internal services.</p>
+<table>
+<thead>
+<tr>
+<th>Setup</th>
+<th>Path</th>
+<th>What it hides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Forward proxy</td>
+<td>Client -&gt; proxy -&gt; Server</td>
+<td>The client, from the server</td>
+</tr>
+<tr>
+<td>Reverse proxy</td>
+<td>Client -&gt; proxy -&gt; Server(s)</td>
+<td>The servers, from the client</td>
+</tr>
+<tr>
+<td>API gateway</td>
+<td>Client -&gt; gateway -&gt; target + policies</td>
+<td>The servers, and it adds entry rules</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-what-belongs-in-the-gateway-vs-the-backend">4. What Belongs in the Gateway vs the Backend</h2>
+<p>The gateway handles technical entry rules. Backend services remain responsible for business rules.</p>
+<p>The source gives one sharp example. The gateway can require an administrator role for a protected operation. The target service must still check whether that administrator is allowed to modify a particular resource.</p>
+<p>That split matters because the two questions are different:</p>
+<ul>
+<li>"Is this caller an administrator?" is an entry rule the gateway can answer.</li>
+<li>"May this administrator modify this specific resource?" is a domain rule only the service that owns the resource can answer.</li>
+</ul>
+<p>Moving resource ownership checks and domain logic into the gateway would couple it to every backend service. Over time, it would become another large application that must change whenever business rules change. The gateway would then need to be redeployed every time a single service adjusted a permission rule - exactly the coupling the architecture was meant to remove.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Lives in the gateway</th>
+<th>Lives in the backend service</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Token validation</td>
+<td>Yes (technical entry rule)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Broad role requirement</td>
+<td>Yes (coarse policy)</td>
+<td>Sometimes, as a second gate</td>
+</tr>
+<tr>
+<td>Request limits</td>
+<td>Yes (traffic policy)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Request IDs / correlation</td>
+<td>Yes (entry bookkeeping)</td>
+<td>Consumes the propagated value</td>
+</tr>
+<tr>
+<td>Access logging</td>
+<td>Yes (entry recording)</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Resource ownership check</td>
+<td>No</td>
+<td>Yes (domain rule)</td>
+</tr>
+<tr>
+<td>Business validation</td>
+<td>No</td>
+<td>Yes (domain rule)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The gateway controls entry. The target service validates the business operation. Moving domain logic into the gateway couples it to every service behind it.</p>
+</blockquote>
+<h2 id="5-related-components-in-scope-vs-excluded">5. Related Components: In Scope vs Excluded</h2>
+<p>API gateways live in a neighbourhood of related components. Several sound similar but solve different problems, so the project states plainly which are in scope and which are excluded.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Main responsibility</th>
+<th>GateKeeper scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API gateway</td>
+<td>Route API traffic and apply entry policies.</td>
+<td>Smart Gateway Service</td>
+</tr>
+<tr>
+<td>Reverse proxy</td>
+<td>Forward requests and return backend responses.</td>
+<td>Part of the Smart Gateway</td>
+</tr>
+<tr>
+<td>API management</td>
+<td>Define, store and update routes and policies.</td>
+<td>API Management Service</td>
+</tr>
+<tr>
+<td>Load balancer</td>
+<td>Select an instance of a service.</td>
+<td>Excluded</td>
+</tr>
+<tr>
+<td>Service discovery</td>
+<td>Locate running service instances.</td>
+<td>Excluded; target addresses are configured</td>
+</tr>
+<tr>
+<td>Service mesh</td>
+<td>Manage internal service-to-service traffic.</td>
+<td>Excluded</td>
+</tr>
+</tbody>
+</table>
+<p>The excluded entries are not mistakes. Load balancing and service discovery are real production needs, but this project configures target addresses directly so that the routing and policy story stays readable.</p>
+<h2 id="6-what-gatekeeper-is-and-is-not">6. What GateKeeper Is (and Is Not)</h2>
+<p>GateKeeper is a backend-focused API gateway and API management platform built with Spring Boot, direct HTTP communication, Redis and Kafka.</p>
+<p>The project demonstrates how gateway responsibilities work internally. It is an educational implementation with a defined scope, rather than a replacement for a mature production gateway.</p>
+<p>It is worth being honest about the trade. A production gateway may need high concurrency, connection pooling, streaming, multiple protocols, certificate management, service discovery, load balancing, resilience mechanisms, monitoring and ongoing security maintenance. Building all of that from scratch is a much larger commitment.</p>
+<p>GateKeeper focuses on a smaller set of responsibilities so that the underlying design is easier to understand. In doing so it brings together Spring Security, filters, interceptors, HTTP communication, Redis, Kafka, database ownership, exception handling and AOP in one project.</p>
+<blockquote class="callout callout--important">
+<p>Important: Educational scope is a deliberate choice, not a limitation to apologise for. The value is a clear, readable implementation of the responsibilities a real gateway must own.</p>
+</blockquote>
+<h2 id="7-main-applications-demo-targets-and-planned-capabilities">7. Main Applications, Demo Targets and Planned Capabilities</h2>
+<p>GateKeeper is built from three main applications, plus two small demo targets.</p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Smart Gateway Service</td>
+<td>Handle and forward live client requests.</td>
+</tr>
+<tr>
+<td>API Management Service</td>
+<td>Manage users, routes and gateway policies.</td>
+</tr>
+<tr>
+<td>Analytics Service</td>
+<td>Process access events and provide request statistics.</td>
+</tr>
+</tbody>
+</table>
+<p>Small Catalog and Order demo services act as targets behind the gateway. Their purpose is to demonstrate forwarding and policies; they are not separate, full-sized business projects.</p>
+<p>The planned capabilities span the whole request lifecycle:</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Request identification</td>
+<td>Generate or propagate a correlation ID.</td>
+</tr>
+<tr>
+<td>Routing</td>
+<td>Match active routes using configuration held in memory.</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Validate JWTs locally and enforce route-level role requirements.</td>
+</tr>
+<tr>
+<td>Traffic control</td>
+<td>Use Redis for rate limiting.</td>
+</tr>
+<tr>
+<td>Duplicate request handling</td>
+<td>Use Redis for configured POST idempotency.</td>
+</tr>
+<tr>
+<td>Forwarding</td>
+<td>Proxy HTTP requests with route-specific timeouts.</td>
+</tr>
+<tr>
+<td>Transformation</td>
+<td>Rewrite paths and add or remove selected headers.</td>
+</tr>
+<tr>
+<td>Error handling</td>
+<td>Return consistent gateway errors.</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>Publish access events to Kafka for later processing.</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>Store and version route settings; notify the gateway about changes.</td>
+</tr>
+<tr>
+<td>Auditing</td>
+<td>Record administrative actions using focused AOP auditing.</td>
+</tr>
+</tbody>
+</table>
+<p>Note the recurring shape: each capability is a narrow, named job. That is what keeps the gateway from turning into the "large application" that Section 4 warned about.</p>
+<h2 id="8-dynamic-routing-routes-as-configuration">8. Dynamic Routing: Routes as Configuration</h2>
+<p>Dynamic routing means that routes are stored as configuration instead of being hard-coded into a large conditional block. This is the difference between a gateway that can be reconfigured and a gateway that must be recompiled.</p>
+<p>A route describes information such as:</p>
+<ul>
+<li>its destination;</li>
+<li>allowed methods;</li>
+<li>authentication requirements;</li>
+<li>permitted roles;</li>
+<li>request limit;</li>
+<li>timeout;</li>
+<li>active status.</li>
+</ul>
+<p>The flow of route ownership is:</p>
+<div class="highlight"><pre><span></span><code>Management Service stores routes in MySQL
+        |
+        v
+Gateway loads ACTIVE routes into memory
+        |
+        v
+Gateway uses in-memory routes for matching
+        |
+        v
+Updating a route does NOT require rebuilding the Gateway source code
+</code></pre></div>
+
+<p>The Management Service stores these settings in MySQL. The Gateway loads active routes into memory and uses them for route matching. Updating a route does not require changing and rebuilding the Gateway's source code.</p>
+<p>That last sentence is the entire point of dynamic routing. Routing decisions stop being code and become data.</p>
+<h2 id="9-data-plane-and-control-plane">9. Data Plane and Control Plane</h2>
+<p>Separating live traffic from configuration management is a central design decision.</p>
+<table>
+<thead>
+<tr>
+<th>Plane</th>
+<th>Service</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data plane</td>
+<td>Smart Gateway</td>
+<td>Apply existing rules to live requests.</td>
+</tr>
+<tr>
+<td>Control plane</td>
+<td>API Management</td>
+<td>Define and change those rules.</td>
+</tr>
+</tbody>
+</table>
+<p>The two planes have different performance goals:</p>
+<ul>
+<li>The data plane needs a short, predictable request path.</li>
+<li>The control plane handles administration and durable configuration storage.</li>
+</ul>
+<p>Because the planes are separate, the Gateway can keep serving after it has loaded its routes even during a temporary Management Service outage. The catch is symmetric: new configuration loads and updates depend on the Management Service becoming available again.</p>
+<p>This separation is what allows a configuration change to be a rare, deliberate event rather than something that touches the hot path of every request.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "What happens to live traffic if the control plane goes down?" The correct answer is that already-loaded routes keep working; only administration and refreshes pause. Candidates who conflate the planes say the gateway stops, which is exactly the failure the design avoids.</p>
+</blockquote>
+<h2 id="10-how-the-design-controls-latency">10. How the Design Controls Latency</h2>
+<p>A gateway adds an extra network hop and processing work. It cannot provide zero additional latency. What it can do is refuse to add unnecessary latency.</p>
+<p>GateKeeper keeps that extra work limited by avoiding unnecessary synchronous dependencies. If the Gateway contacted separate authentication, routing, logging and analytics services for every request, each call would add time and another possible point of failure.</p>
+<p>Instead, GateKeeper:</p>
+<ul>
+<li>keeps routing and token validation local;</li>
+<li>consults Redis for policies that require shared state;</li>
+<li>contacts the target service over HTTP.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Where it happens</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Route matching</td>
+<td>Gateway memory</td>
+<td>Avoid a Management or database call for every request.</td>
+</tr>
+<tr>
+<td>JWT validation</td>
+<td>Gateway process</td>
+<td>Verify the token using configured key material.</td>
+</tr>
+<tr>
+<td>Role checks</td>
+<td>Gateway process</td>
+<td>Compare the authenticated roles with the loaded route policy.</td>
+</tr>
+<tr>
+<td>Rate limiting</td>
+<td>Redis</td>
+<td>Maintain shared counters with atomic operations.</td>
+</tr>
+<tr>
+<td>Idempotency checks</td>
+<td>Redis</td>
+<td>Coordinate duplicate requests using shared temporary state.</td>
+</tr>
+<tr>
+<td>Path and header changes</td>
+<td>Gateway process</td>
+<td>Apply the loaded transformation rules locally.</td>
+</tr>
+<tr>
+<td>Analytics storage</td>
+<td>Analytics Service</td>
+<td>Process events outside the live response path.</td>
+</tr>
+</tbody>
+</table>
+<p>Two design notes sit underneath this table.</p>
+<p>Local JWT validation: the Management Service will authenticate users and issue signed JWTs. The Gateway will validate those tokens locally rather than calling the Management Service for every protected request. This removes a recurring network call. It also means the Gateway is not fetching current user information on every request. Token expiry, key rotation and revocation are separate concerns; full revocation is outside this project's scope.</p>
+<p>Routes in memory: MySQL remains the durable source of route configuration. The Gateway's in-memory registry is the copy used for fast request processing. Routes are loaded at startup and refreshed when configuration changes. The Gateway does not read MySQL directly.</p>
+<h2 id="11-redis-immediate-shared-state">11. Redis: Immediate Shared State</h2>
+<p>Redis is a fast key-value data store. GateKeeper uses it for short-lived state needed while deciding whether a request can continue.</p>
+<p>Why not use only Java memory? Memory belongs to one running process. If multiple Gateway instances maintained separate counters, each instance would see only the requests it received. Redis provides shared state that those instances can consult. Even with one Gateway running locally, this demonstrates the reason for separating shared runtime state from process memory.</p>
+<p>Key concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key</td>
+<td>Identifies a stored value.</td>
+</tr>
+<tr>
+<td>Value</td>
+<td>The counter, status or response information stored under a key.</td>
+</tr>
+<tr>
+<td>TTL</td>
+<td>A time limit after which the key expires automatically.</td>
+</tr>
+<tr>
+<td>Atomic operation</td>
+<td>A change performed as one indivisible operation.</td>
+</tr>
+</tbody>
+</table>
+<p>Atomicity matters when requests arrive together. Separate reads and writes can allow two requests to act on the same old value. A Redis Lua script can group related counter and expiry operations into one atomic operation.</p>
+<p>Rate limiting: rate limiting restricts how many requests a user or client may make to a route within a time window. Redis holds the counter. The Gateway updates it atomically, checks the configured limit and rejects requests that exceed it. Expiration removes counters after their useful window.</p>
+<p>POST idempotency: idempotency handling helps avoid repeating an operation when a client resends the same request. For configured routes, Redis will hold temporary processing state and a saved successful response associated with an idempotency key. A matching completed request can receive the saved response without forwarding the operation again. This is different from general response caching. It is tied to identifying a repeated operation. The detailed implementation and failure cases are reserved for later lectures.</p>
+<p>Redis boundaries: Redis does not hold the authoritative route configuration or analytics history. MySQL and MongoDB have those responsibilities.</p>
+<blockquote class="callout callout--important">
+<p>Important: Redis in GateKeeper is short-lived coordination state (rate-limit counters and idempotency records), not a general response cache and not a source of truth.</p>
+</blockquote>
+<h2 id="12-kafka-asynchronous-events">12. Kafka: Asynchronous Events</h2>
+<p>Kafka is a durable event-streaming platform. A producer writes an event to a topic, and a consumer reads it independently. The consumer does not need to process the event immediately. Kafka retains records according to its configured retention, allowing consumers to process them later.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>GateKeeper example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Producer</td>
+<td>Publishes events.</td>
+<td>Gateway or Management Service</td>
+</tr>
+<tr>
+<td>Topic</td>
+<td>A named stream of events.</td>
+<td>Access events or configuration events</td>
+</tr>
+<tr>
+<td>Consumer</td>
+<td>Reads and processes events.</td>
+<td>Analytics Service or Gateway</td>
+</tr>
+<tr>
+<td>Partition</td>
+<td>An ordered subdivision of a topic.</td>
+<td>Allows work to be distributed.</td>
+</tr>
+<tr>
+<td>Offset</td>
+<td>A record's position within a partition.</td>
+<td>Tracks reading progress.</td>
+</tr>
+<tr>
+<td>Consumer group</td>
+<td>Consumers sharing the work of a topic.</td>
+<td>Analytics consumers working together.</td>
+</tr>
+</tbody>
+</table>
+<p>Access events: the Gateway publishes request outcome metadata to <code>gateway-access-events</code>. The Analytics Service consumes these events and stores them in MongoDB. Useful metadata includes the event ID, correlation ID, route, request method, outcome, duration and whether a rate-limit rejection or idempotency replay occurred. Passwords, JWTs, cookies and authorization headers must not be included in access events.</p>
+<p>Configuration events: the Management Service publishes route-change notifications to <code>gateway-configuration-events</code>. A notification identifies what changed. The Gateway then fetches the latest configuration from the Management Service and refreshes its in-memory registry. The event is a notification; MySQL remains the source of truth through the Management Service.</p>
+<p>Duplicate events: a consumer may receive an event again during failure recovery. The Analytics Service will use a unique eventId to avoid storing the same access event twice. A correlationId serves a different purpose: it links work associated with one incoming request. An eventId identifies one event for deduplication.</p>
+<p>Redis and Kafka serve different needs:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Redis</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does it provide here?</td>
+<td>Immediate shared state</td>
+<td>Asynchronous event delivery</td>
+</tr>
+<tr>
+<td>Typical data</td>
+<td>Counters and idempotency state</td>
+<td>Access and configuration events</td>
+</tr>
+<tr>
+<td>Why does the Gateway use it?</td>
+<td>Obtain a result needed for a policy decision</td>
+<td>Notify another component about an outcome or change</td>
+</tr>
+<tr>
+<td>How long is data retained?</td>
+<td>Usually a short period controlled by TTL</td>
+<td>According to topic retention</td>
+</tr>
+</tbody>
+</table>
+<p>The Gateway does not wait for Analytics or MongoDB to finish processing an event. Publishing still has a cost, and producer failures need handling; an asynchronous send alone does not guarantee that events can never be lost.</p>
+<h2 id="13-service-responsibilities-and-infrastructure-ownership">13. Service Responsibilities and Infrastructure Ownership</h2>
+<p>Smart Gateway Service: the public entry point and data plane. Its planned responsibilities are route matching, correlation IDs, JWT validation, role checks, rate limiting, idempotency, path and header rules, forwarding, timeouts, gateway errors and access-event publication. It holds active routes in memory and uses Redis for temporary policy state. It loads configuration through the Management Service and contacts target services over HTTP. It has no MySQL or MongoDB database and owns no business-domain tables.</p>
+<p>API Management Service: the control plane for users, routes and policies. It will manage credentials and roles, issue JWTs, store route configuration, maintain configuration versions and publish change notifications. AOP will support auditing of administrative actions. It owns MySQL data for users, roles, routes, policy settings, versions and audit records. Other services must not directly modify its tables.</p>
+<p>Analytics Service: processes Gateway access events into operational information. It will consume events, deduplicate them, store event documents and support statistics such as request counts, outcomes, average duration, slow routes, rate-limit rejections and idempotency replays. It owns MongoDB data for access events and processed-event records. It does not change route configuration or participate in forwarding live requests.</p>
+<p>Catalog and Order demo services: small downstream services used to demonstrate routing, authorization, path rewriting, header propagation, timeouts and duplicate request handling. Their business logic stays deliberately small. They remain responsible for their own business-level validation and authorization.</p>
+<p>Infrastructure ownership:</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Used or owned by</th>
+<th>Data or purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MySQL</td>
+<td>Owned by API Management</td>
+<td>Durable users, roles, routes, versions and audits</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>Owned by Analytics</td>
+<td>Access-event documents and processing records</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>Used by the Gateway's policy layer</td>
+<td>Rate-limit counters and idempotency state</td>
+</tr>
+<tr>
+<td>Kafka</td>
+<td>Shared event infrastructure</td>
+<td>Access events and route-change notifications</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Each service controls its own persistent data. No service reaches into another service's database.</p>
+</blockquote>
+<h2 id="14-failure-behavior-and-architectural-boundaries">14. Failure Behavior and Architectural Boundaries</h2>
+<p>Separation reduces unnecessary dependencies. It does not make the system immune to failures: a component required for the current request can still affect that request. The design states the intended behaviour for each failure.</p>
+<table>
+<thead>
+<tr>
+<th>Component unavailable</th>
+<th>Intended effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API Management</td>
+<td>Already-loaded routes remain usable; administration and refreshes pause.</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>Forwarding continues; retained Kafka events can be processed later.</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>Forwarding continues; analytics storage is affected.</td>
+</tr>
+<tr>
+<td>Target service</td>
+<td>Requests to that target fail through the Gateway.</td>
+</tr>
+<tr>
+<td>Slow target</td>
+<td>The configured route timeout limits waiting.</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>Routes requiring Redis-backed policy decisions fail closed in this project.</td>
+</tr>
+<tr>
+<td>Kafka</td>
+<td>Event publication or delivery is affected; producer failures need explicit handling.</td>
+</tr>
+</tbody>
+</table>
+<p>Fail closed means refusing a request when a required policy cannot be checked, rather than silently bypassing the policy. For a rate-limited route, failing closed is safer than letting unlimited traffic through because the counter store is down.</p>
+<p>Architectural boundaries worth remembering:</p>
+<ul>
+<li>Only the Smart Gateway forwards live target API traffic.</li>
+<li>The Gateway accesses route configuration through Management, not through MySQL.</li>
+<li>The Gateway does not call Analytics or MongoDB during forwarding.</li>
+<li>Analytics does not administer routes.</li>
+<li>Each service controls its own persistent data.</li>
+<li>Target services retain business-specific security checks.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why fail closed on a Redis outage?" Because a policy that cannot be enforced should not be silently skipped. Fail-open would trade availability for a security hole; this project chooses refusal.</p>
+</blockquote>
+<h2 id="15-initial-setup-and-project-structure">15. Initial Setup and Project Structure</h2>
+<p>The first implementation milestone uses three Spring Boot applications:</p>
+<ul>
+<li>smart-gateway-service</li>
+<li>api-management-service</li>
+<li>analytics-service</li>
+</ul>
+<p>Each application should start independently, use a distinct port and answer a simple health-check request. The health check confirms that the application can start and respond over HTTP. It does not, by itself, prove that Redis, Kafka, MySQL, MongoDB or the complete gateway workflow is ready.</p>
+<p>The repository is a monorepo under <code>SpringBoot Project/code/gatekeeper</code>, with one Maven module per application. Each module has its own pom.xml, its own application.properties, a health controller and a health response DTO, and a security configuration.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// SpringBoot Project/code/gatekeeper  (monorepo, one Maven module per service)</span>
+
+<span class="c1">// smart-gateway-service</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">gateway</span><span class="p">.</span><span class="na">SmartGatewayServiceApplication</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">gateway</span><span class="p">.</span><span class="na">config</span><span class="p">.</span><span class="na">SecurityConfig</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">gateway</span><span class="p">.</span><span class="na">controller</span><span class="p">.</span><span class="na">HealthController</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">gateway</span><span class="p">.</span><span class="na">dto</span><span class="p">.</span><span class="na">responseDto</span><span class="p">.</span><span class="na">HealthResponse</span>
+
+<span class="c1">// api-management-service</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">management</span><span class="p">.</span><span class="na">ApiManagementServiceApplication</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">management</span><span class="p">.</span><span class="na">config</span><span class="p">.</span><span class="na">SecurityConfig</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">management</span><span class="p">.</span><span class="na">controller</span><span class="p">.</span><span class="na">HealthController</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">management</span><span class="p">.</span><span class="na">dto</span><span class="p">.</span><span class="na">responseDto</span><span class="p">.</span><span class="na">HealthResponse</span>
+
+<span class="c1">// analytics-service</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">analytics</span><span class="p">.</span><span class="na">AnalyticsServiceApplication</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">analytics</span><span class="p">.</span><span class="na">config</span><span class="p">.</span><span class="na">SecurityConfig</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">analytics</span><span class="p">.</span><span class="na">controller</span><span class="p">.</span><span class="na">HealthController</span>
+<span class="n">in</span><span class="p">.</span><span class="na">coderarmy</span><span class="p">.</span><span class="na">gatekeeper</span><span class="p">.</span><span class="na">analytics</span><span class="p">.</span><span class="na">dto</span><span class="p">.</span><span class="na">responseDto</span><span class="p">.</span><span class="na">HealthResponse</span>
+</code></pre></div>
+
+<p>The supplied script does not include the health-check implementation, so no controller code, endpoint path or port values are reproduced here. What the milestone proves is narrow and honest: three independent applications that boot and answer over HTTP.</p>
+<h2 id="16-myth-vs-reality">16. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"An API gateway is just a reverse proxy."</td>
+<td>It is a reverse proxy plus API-specific policies: routing, policy enforcement and proxying.</td>
+</tr>
+<tr>
+<td>"The gateway should own business and resource-access rules."</td>
+<td>It owns technical entry rules; business and ownership checks stay in the target service.</td>
+</tr>
+<tr>
+<td>"The gateway looks up routes from the database on every request."</td>
+<td>Routes are loaded into memory; MySQL is durable storage behind the Management Service.</td>
+</tr>
+<tr>
+<td>"The gateway calls the auth service for every protected request."</td>
+<td>JWTs are validated locally; the Management Service is not contacted per request.</td>
+</tr>
+<tr>
+<td>"Redis is the general response cache for the gateway."</td>
+<td>Redis holds short-lived rate-limit counters and idempotency state, not general cached responses.</td>
+</tr>
+<tr>
+<td>"Kafka delivery is synchronous and loss-proof."</td>
+<td>It is asynchronous; publishing has a cost and producer failures need explicit handling.</td>
+</tr>
+<tr>
+<td>"A passing health check means the whole system is ready."</td>
+<td>It only proves the application starts and responds over HTTP.</td>
+</tr>
+<tr>
+<td>"GateKeeper is a production-grade gateway replacement."</td>
+<td>It is an educational implementation with a deliberately defined scope.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-common-trap-questions">17. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "The gateway should contain the business logic."</strong>
+Verdict: False. The gateway controls entry; the target service validates the business operation. Putting domain logic in the gateway couples it to every service and forces redeployment whenever a business rule changes.</p>
+<p><strong>Trap 2 - "The gateway must query the Management Service or MySQL for routes on every request."</strong>
+Verdict: False. Active routes are stored in memory and matched locally. MySQL is the durable source behind the Management Service, and the Gateway does not read MySQL directly.</p>
+<p><strong>Trap 3 - "Local JWT validation means the gateway knows everything about the user."</strong>
+Verdict: Misleading. The Gateway verifies the token locally using configured key material, but it is not fetching current user information per request. Expiry, key rotation and revocation are separate concerns, and full revocation is out of scope.</p>
+<p><strong>Trap 4 - "An API gateway is a load balancer or service discovery layer."</strong>
+Verdict: False. A load balancer selects an instance and service discovery locates instances; both are excluded here. The gateway routes, enforces policy and reverse-proxies, with target addresses configured directly.</p>
+<p><strong>Trap 5 - "Redis is the gateway's response cache."</strong>
+Verdict: False. Redis is used for rate-limit counters and POST idempotency state. It is short-lived coordination state, not general response caching, and it does not hold authoritative route configuration.</p>
+<p><strong>Trap 6 - "The gateway waits for analytics before returning the response."</strong>
+Verdict: False. Access events are published to Kafka and the client does not wait for Analytics or MongoDB. The trade-off is that producer failures still need explicit handling.</p>
+<p><strong>Trap 7 - "A passing health check proves the gateway is production-ready."</strong>
+Verdict: False. The health check only proves the application starts and responds over HTTP; it says nothing about Redis, Kafka, MySQL, MongoDB or the full request workflow.</p>
+</blockquote>
+<h2 id="18-points-to-remember">18. Points to Remember</h2>
+<ol>
+<li>An API gateway is one controlled entry point in front of backend services; the client sees the gateway as the API server and the backend sees the gateway as the caller.</li>
+<li>Its three jobs are routing, policy enforcement and reverse proxying: routing chooses the destination, proxying performs the exchange.</li>
+<li>A forward proxy acts for clients; a reverse proxy acts for servers. An API gateway is a reverse proxy with API-specific policies around it.</li>
+<li>The gateway handles technical entry rules (tokens, broad roles, limits, IDs, logging, errors); the target service handles business and resource-ownership rules.</li>
+<li>Dynamic routing stores routes as configuration - destination, methods, auth, roles, limit, timeout, active status - so route changes do not require rebuilding the Gateway.</li>
+<li>The data plane (Smart Gateway) applies existing rules to live requests; the control plane (API Management) defines and stores those rules in MySQL.</li>
+<li>Latency is controlled by keeping routing and JWT validation local and consulting Redis only for shared-state policies such as rate limiting and idempotency.</li>
+<li>Redis provides short-lived shared state (counters, idempotency) with atomic operations; it is not the source of truth for routes or analytics.</li>
+<li>Kafka delivers events asynchronously: the Gateway publishes access events and the Management Service publishes configuration notifications; MySQL stays the source of truth.</li>
+<li>The first milestone is three independently starting Spring Boot applications - smart-gateway-service, api-management-service, analytics-service - each answering a health check over HTTP.</li>
+</ol>
+<h2 id="19-likely-interview-questions">19. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why do we need an API gateway?</td>
+<td>To give clients one controlled entry point and to centralise repeated technical work such as token validation, permissions, rate limits, request IDs, access logging and technical errors.</td>
+</tr>
+<tr>
+<td>What are the three main jobs of a gateway?</td>
+<td>Routing (choose the target), policy enforcement (check configured rules), reverse proxying (perform the HTTP exchange).</td>
+</tr>
+<tr>
+<td>Forward proxy vs reverse proxy?</td>
+<td>A forward proxy acts on behalf of clients; a reverse proxy acts on behalf of servers. An API gateway does reverse proxying plus API policies.</td>
+</tr>
+<tr>
+<td>What belongs in the gateway vs the backend?</td>
+<td>The gateway owns entry rules; the backend owns business and resource-ownership rules. Moving domain logic into the gateway couples it to every service.</td>
+</tr>
+<tr>
+<td>What is dynamic routing?</td>
+<td>Storing routes as configuration and matching them from memory, instead of hard-coding routing into conditional code, so route changes do not require rebuilding the Gateway.</td>
+</tr>
+<tr>
+<td>Data plane vs control plane?</td>
+<td>The data plane (Smart Gateway) applies existing rules to live requests; the control plane (API Management) defines and stores those rules.</td>
+</tr>
+<tr>
+<td>Why keep JWT validation local?</td>
+<td>It removes a network call to the Management Service on every protected request. Expiry, key rotation and full revocation are treated as separate concerns.</td>
+</tr>
+<tr>
+<td>Why does the gateway need Redis?</td>
+<td>For shared, short-lived runtime state: rate-limit counters and POST idempotency. Process memory cannot be shared across multiple Gateway instances.</td>
+</tr>
+<tr>
+<td>Why use Kafka here?</td>
+<td>To publish access events and configuration-change notifications asynchronously, so analytics processing happens outside the live response path.</td>
+</tr>
+<tr>
+<td>What is fail closed?</td>
+<td>Refusing a request when a required policy cannot be checked, rather than silently bypassing the policy.</td>
+</tr>
+<tr>
+<td>What does the health-check milestone prove?</td>
+<td>Only that each application starts independently and responds over HTTP - not that Redis, Kafka, MySQL or MongoDB are ready.</td>
+</tr>
+<tr>
+<td>Is GateKeeper a production gateway?</td>
+<td>No. It is a backend-focused, educational API gateway and management platform built with Spring Boot, direct HTTP, Redis and Kafka.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-final-summary">20. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>                     API Client
+                         |
+                         v
+              Smart Gateway Service  (data plane)
+              route- match -&gt; enforce policy -&gt; proxy
+                    |              |
+                    |              +--&gt; Redis   (rate-limit counters, idempotency)
+                    v
+        Catalog / Order target services  (business rules stay here)
+
+   API Management Service  (control plane: users, routes, policies) --&gt; MySQL
+                    |  publishes configuration-change notifications
+                    v
+                  Kafka  (gateway-access-events, gateway-configuration-events)
+                    |  consumed asynchronously
+                    v
+        Analytics Service  (dedupe by eventId, store documents) --&gt; MongoDB
+</code></pre></div>
+
+<ul>
+<li>One entry point: clients talk to the gateway; the gateway routes, enforces policy and proxies to the target.</li>
+<li>Entry rules in the gateway; business and ownership rules in the target services.</li>
+<li>Routes live as configuration in memory, loaded from MySQL through the Management Service - never hard-coded.</li>
+<li>Routing and JWT validation stay local; Redis holds only shared, short-lived policy state.</li>
+<li>Kafka carries access events and configuration notifications asynchronously; MySQL and MongoDB remain the systems of record.</li>
+<li>Current milestone: architecture, independent startup of three Spring Boot applications and a basic health check.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> GateKeeper is an API gateway done as a system of responsibilities - the Smart Gateway owns the live request path, the Management Service owns the rules, Analytics owns the events, and each boundary exists so that technical entry work never turns into business logic.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-40.html"><span class="dir">Previous</span><span class="ttl">Lecture 40 — Testing Spring Boot Applications</span></a><a class="next" href="doc-theory-project-02.html"><span class="dir">Next</span><span class="ttl">Project 02 — GateKeeper: API Management &amp; Control Plane</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

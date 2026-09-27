@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies — Spring Boot</title>
+<meta name="description" content="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-24">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-24.html#lecture-24">Lecture 24</a></li><li><a href="doc-theory-lecture-24.html#1-what-is-a-pointcut-expression">1. What Is a Pointcut Expression?</a></li><li><a href="doc-theory-lecture-24.html#2-the-execution-designator-and-its-full-signature">2. The execution() Designator and Its Full Signature</a></li><li><a href="doc-theory-lecture-24.html#3-wildcards-and">3. Wildcards: * and ..</a></li><li><a href="doc-theory-lecture-24.html#4-common-execution-patterns">4. Common execution() Patterns</a></li><li><a href="doc-theory-lecture-24.html#5-the-within-designator-and-the-four-core-designators">5. The within() Designator and the Four Core Designators</a></li><li><a href="doc-theory-lecture-24.html#6-the-annotation-designator">6. The @annotation() Designator</a></li><li><a href="doc-theory-lecture-24.html#7-the-bean-designator">7. The bean() Designator</a></li><li><a href="doc-theory-lecture-24.html#8-combining-pointcut-expressions">8. Combining Pointcut Expressions (&amp;amp;&amp;amp;, ||, !)</a></li><li><a href="doc-theory-lecture-24.html#9-named-pointcuts-with-pointcut-and-centralized-classes">9. Named Pointcuts with @Pointcut and Centralized Classes</a></li><li><a href="doc-theory-lecture-24.html#10-advanced-designators-args-and-args">10. Advanced Designators: args() and @args()</a></li><li><a href="doc-theory-lecture-24.html#11-this-target-within-and-target">11. this(), target(), @within(), and @target()</a></li><li><a href="doc-theory-lecture-24.html#12-jdk-proxy-vs-cglib-proxy-and-configuring-the-proxy-type">12. JDK Proxy vs CGLIB Proxy and Configuring the Proxy Type</a></li><li><a href="doc-theory-lecture-24.html#13-quick-reference-and-practical-guidelines">13. Quick Reference and Practical Guidelines</a></li><li><a href="doc-theory-lecture-24.html#14-myth-vs-reality">14. Myth vs Reality</a></li><li><a href="doc-theory-lecture-24.html#15-common-trap-questions">15. Common Trap Questions</a></li><li><a href="doc-theory-lecture-24.html#16-points-to-remember">16. Points to Remember</a></li><li><a href="doc-theory-lecture-24.html#17-likely-interview-questions">17. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-24.html#18-final-summary">18. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</h1>
+<p class="readmeta">19 sections · 4,307 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-24" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-24">Lecture 24</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring AOP Pointcuts &amp; Types of Proxies" (playlist map, verified). Repo folder is the aopDemo project, extended with <code>aspect.ApplicationPointcuts</code> and <code>service.StudentServiceInterface</code> so the JDK-proxy versus CGLIB-proxy behaviour can actually be demonstrated, and it ships a <code>PracticeQuestions.pdf</code> alongside <code>Notes.pdf</code> for extra drilling.</p>
+</blockquote>
+<p>A pointcut is the address label on an aspect: the advice says <em>what</em> extra behaviour runs, and the pointcut expression says exactly <em>which</em> method executions receive it. This lecture covers the full pointcut vocabulary - <code>execution()</code>, <code>within()</code>, <code>@annotation()</code> and <code>bean()</code>, wildcards, boolean composition, named <code>@Pointcut</code> declarations, and the advanced <code>args()</code>/<code>@args()</code>/<code>this()</code>/<code>target()</code> designators. Then it descends one level into the proxy machinery, where JDK interface proxies and CGLIB subclass proxies decide what those designators can actually see. Getting pointcuts wrong produces silent no-ops or noisy over-logging; getting proxy types wrong produces advice that never fires on self-calls. Master both and Spring AOP stops feeling like magic.</p>
+<h2 id="1-what-is-a-pointcut-expression">1. What Is a Pointcut Expression?</h2>
+<p>Two ideas sit at the centre of Spring AOP:</p>
+<ol>
+<li><strong>Advice</strong> - defines <em>what</em> additional behaviour should run: logging, security, auditing, or performance tracking.</li>
+<li><strong>Pointcut expression</strong> - defines <em>where</em> that advice should run.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="nd">@Before</span><span class="p">(</span><span class="s">&quot;execution(* getStudent(..))&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">logBeforeMethod</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Method is about to execute&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Reading the three parts:</p>
+<ul>
+<li><code>@Before</code> defines <em>when</em> the advice runs.</li>
+<li><code>execution(* getStudent(..))</code> selects the target methods.</li>
+<li><code>logBeforeMethod()</code> contains the additional behaviour.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: A pointcut expression does <strong>not</strong> execute a method. It only decides whether a method execution should be intercepted, so a wrong expression is the usual reason an aspect appears to do nothing.</p>
+</blockquote>
+<p>The single sentence to carry forward is: a pointcut answers <em>"Which method executions should receive the aspect behaviour?"</em> Everything else in this lecture is a way of answering that question precisely.</p>
+<h2 id="2-the-execution-designator-and-its-full-signature">2. The execution() Designator and Its Full Signature</h2>
+<p><code>execution()</code> is the most commonly used pointcut designator in Spring AOP. It selects methods from their <strong>signatures</strong>, and it can match on:</p>
+<ul>
+<li>access modifier</li>
+<li>return type</li>
+<li>declaring class</li>
+<li>method name</li>
+<li>parameters</li>
+<li>declared exceptions</li>
+</ul>
+<p>The complete syntax is:</p>
+<div class="highlight"><pre><span></span><code>execution(
+    modifiers-pattern?          // optional
+    return-type-pattern         // required
+    declaring-type-pattern?     // optional
+    method-name-pattern(parameter-pattern)
+    throws-pattern?             // optional
+)
+</code></pre></div>
+
+<p>The parts marked with <code>?</code> are optional. The essential parts are <strong>return type + method name + parameters</strong>. So the broadest commonly used expression is:</p>
+<div class="highlight"><pre><span></span><code>execution(* *(..))
+</code></pre></div>
+
+<p>where <code>*</code> means any return type, <code>*</code> means any method name, and <code>(..)</code> means zero or more parameters.</p>
+<p>An exact match is painfully specific. Given this service:</p>
+<div class="highlight"><pre><span></span><code>package com.coderarmy.student.service;
+
+public class StudentService {
+    public Student getStudent(Long id) {
+        return null;
+    }
+}
+</code></pre></div>
+
+<p>the exact pointcut is:</p>
+<div class="highlight"><pre><span></span><code>execution(public com.coderarmy.student.model.Student com.coderarmy.student.service.StudentService.getStudent(java.lang.Long))
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>The method must be public</td>
+</tr>
+<tr>
+<td><code>com.coderarmy.student.model.Student</code></td>
+<td>The return type must be <code>Student</code></td>
+</tr>
+<tr>
+<td><code>com.coderarmy.student.service.StudentService</code></td>
+<td>The method must belong to <code>StudentService</code></td>
+</tr>
+<tr>
+<td><code>getStudent</code></td>
+<td>The method name must be <code>getStudent</code></td>
+</tr>
+<tr>
+<td><code>java.lang.Long</code></td>
+<td>It must accept exactly one <code>Long</code> argument</td>
+</tr>
+</tbody>
+</table>
+<p>This matches only that exact signature. Real applications use broader expressions so that one pointcut can cover multiple related methods.</p>
+<h2 id="3-wildcards-and">3. Wildcards: * and ..</h2>
+<p>The meaning of a wildcard depends on where it appears.</p>
+<p><strong>The <code>*</code> wildcard</strong> matches anything in one position or one naming segment:</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any return type</td>
+<td><code>execution(* StudentService.getStudent(..))</code></td>
+</tr>
+<tr>
+<td>Any method name</td>
+<td><code>execution(* *(..))</code></td>
+</tr>
+<tr>
+<td>Method names beginning with <code>get</code></td>
+<td><code>execution(* get*(..))</code></td>
+</tr>
+<tr>
+<td>Method names ending with <code>Student</code></td>
+<td><code>execution(* *Student(..))</code></td>
+</tr>
+<tr>
+<td>Method names containing <code>Student</code></td>
+<td><code>execution(* *Student*(..))</code></td>
+</tr>
+<tr>
+<td>Exactly one parameter of any type</td>
+<td><code>execution(* *(*))</code></td>
+</tr>
+</tbody>
+</table>
+<p>Concrete matches: <code>get*</code> -&gt; <code>getStudent()</code>/<code>getAllStudents()</code>/<code>getStudentById()</code>/<code>getStudentCount()</code>; <code>*Student</code> -&gt; <code>getStudent()</code>/<code>createStudent()</code>/<code>deleteStudent()</code>; <code>*Student*</code> -&gt; <code>getStudent()</code>/<code>getStudentById()</code>/<code>createStudentAccount()</code>/<code>updateStudentDetails()</code>; <code>(*)</code> -&gt; exactly one parameter of any type, and it does <strong>not</strong> match zero or multiple; <code>(..)</code> -&gt; zero or more parameters of any type.</p>
+<p><strong>The <code>..</code> wildcard</strong> represents zero or more elements, and again it depends on context:</p>
+<div class="highlight"><pre><span></span><code>execution(* *(..))                 // inside a parameter list: zero or more parameters
+com.coderarmy.student.service..*   // inside a package pattern: the package and all subpackages
+</code></pre></div>
+
+<p>Inside a parameter list, <code>(..)</code> matches <code>getAllStudents()</code>, <code>getStudent(Long id)</code>, <code>search(String name, Integer age, String city)</code>, and <code>updateStudent(Long id, Student student)</code> alike.</p>
+<p>Inside a package pattern, <code>com.coderarmy.student.service..*</code> matches:</p>
+<ul>
+<li><code>com.coderarmy.student.service.StudentService</code></li>
+<li><code>com.coderarmy.student.service.impl.StudentServiceImpl</code></li>
+<li><code>com.coderarmy.student.service.internal.StudentValidator</code></li>
+</ul>
+<p>By comparison, <code>com.coderarmy.student.service.*</code> matches only classes placed directly inside <code>service</code>; it does <strong>not</strong> include <code>service.impl</code> or other subpackages.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>*</code> is <strong>one</strong> package or type-name segment; <code>..</code> is <strong>zero or more</strong> package segments. Swapping <code>.*</code> for <code>..*</code> is the classic reason a pointcut silently under-matches.</p>
+</blockquote>
+<h2 id="4-common-execution-patterns">4. Common execution() Patterns</h2>
+<p>Consider a normal service:</p>
+<div class="highlight"><pre><span></span><code>public class StudentService {
+    public Student getStudent(Long id) { return null; }
+    public List&lt;Student&gt; getAllStudents() { return null; }
+    public Student createStudent(Student student) { return null; }
+    public Student updateStudent(Long id, Student student) { return null; }
+    public void deleteStudent(Long id) { }
+}
+</code></pre></div>
+
+<p>Match a method name everywhere:</p>
+<div class="highlight"><pre><span></span><code>execution(* getStudent(..))
+</code></pre></div>
+
+<p>This can match any interceptable method named <code>getStudent</code>, including methods in controllers, services, or other classes. A safer expression pins the declaring class:</p>
+<div class="highlight"><pre><span></span><code>execution(* com.coderarmy.student.service.StudentService.getStudent(..))
+</code></pre></div>
+
+<p>Match every method:</p>
+<div class="highlight"><pre><span></span><code>execution(* *(..))
+</code></pre></div>
+
+<p>This is extremely broad and should normally be restricted by package, class, bean name, or annotation.</p>
+<p>Match public methods:</p>
+<div class="highlight"><pre><span></span><code>execution(public * *(..))
+</code></pre></div>
+
+<p>The modifier is optional. Public methods are the safest and most common targets in proxy-based Spring AOP; private methods cannot be intercepted through normal proxy overriding.</p>
+<p>Match all public methods in the service layer:</p>
+<div class="highlight"><pre><span></span><code>execution(public * com.coderarmy.student.service..*.*(..))
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>Public methods only</td>
+</tr>
+<tr>
+<td>first <code>*</code></td>
+<td>Any return type</td>
+</tr>
+<tr>
+<td><code>com.coderarmy.student.service..*</code></td>
+<td>Any class in the package or its subpackages</td>
+</tr>
+<tr>
+<td>second <code>*</code></td>
+<td>Any method name</td>
+</tr>
+<tr>
+<td><code>(..)</code></td>
+<td>Any number and type of arguments</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: These parameter forms are the sharpest filter in interviews. <code>()</code> is exactly zero, <code>(*)</code> is exactly one, <code>(*, *)</code> is exactly two, <code>(..)</code> is zero-or-more, <code>(Long, ..)</code> fixes only the first parameter, and <code>(.., Student)</code> fixes only the last. Bland answers like "<code>(..)</code> means all parameters" miss the point that the count itself is being matched.</p>
+</blockquote>
+<h2 id="5-the-within-designator-and-the-four-core-designators">5. The within() Designator and the Four Core Designators</h2>
+<p><code>execution()</code> focuses on a method signature. <code>within()</code> focuses on the <strong>class or package where the method is declared</strong>:</p>
+<ul>
+<li><code>execution()</code> -&gt; <em>Which method signature should match?</em></li>
+<li><code>within()</code> -&gt; <em>Inside which class or package should methods match?</em></li>
+</ul>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student.service.StudentService)   // exact class
+within(com.coderarmy.student.service.*)                // classes directly inside the package
+within(com.coderarmy.student.service..*)               // package and all subpackages
+</code></pre></div>
+
+<p>Practical use:</p>
+<div class="highlight"><pre><span></span><code>@Before(&quot;within(com.coderarmy.student.service..*)&quot;)
+public void logServiceMethod() {
+    System.out.println(&quot;Service method called&quot;);
+}
+</code></pre></div>
+
+<p>The two designators may produce similar results for a basic service-layer requirement:</p>
+<div class="highlight"><pre><span></span><code>execution(* com.coderarmy.student.service..*.*(..))
+within(com.coderarmy.student.service..*)
+</code></pre></div>
+
+<p>The difference is <strong>expressive power</strong>. <code>execution()</code> can filter by modifier, return type, method name, and parameters. <code>within()</code> only restricts the declaring class or package. They can also be combined:</p>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student.service..*)
+&amp;&amp; execution(public * get*(..))
+</code></pre></div>
+
+<p>That means: match public methods beginning with <code>get</code>, but only inside the service layer.</p>
+<p>The four designators you will use most often, side by side:</p>
+<table>
+<thead>
+<tr>
+<th>Designator</th>
+<th>Matches on</th>
+<th>Example</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>execution()</code></td>
+<td>Method signature (modifier, return type, name, params)</td>
+<td><code>execution(public * get*(..))</code></td>
+<td>Any matching method execution</td>
+</tr>
+<tr>
+<td><code>within()</code></td>
+<td>Declaring class or package</td>
+<td><code>within(com.coderarmy.student.service..*)</code></td>
+<td>Every method declared in that region</td>
+</tr>
+<tr>
+<td><code>@annotation()</code></td>
+<td>Annotation on the executing method</td>
+<td><code>@annotation(Transactional)</code></td>
+<td>Only methods that opt in</td>
+</tr>
+<tr>
+<td><code>bean()</code></td>
+<td>Spring bean name</td>
+<td><code>bean(*Service)</code></td>
+<td>Every method on matching beans</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: <strong>E-W-A-B</strong> - Execution (signature), Within (location), Annotation (method opt-in), Bean (name). And remember the one-liner: <em>execution asks WHAT the method looks like; within asks WHERE it lives.</em></p>
+<h2 id="6-the-annotation-designator">6. The @annotation() Designator</h2>
+<p><code>@annotation()</code> matches methods that carry a specified annotation. Given:</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void transferMoney() {
+}
+</code></pre></div>
+
+<p>the pointcut is:</p>
+<div class="highlight"><pre><span></span><code>@annotation(org.springframework.transaction.annotation.Transactional)
+</code></pre></div>
+
+<p>It means: match a method execution when the method has the specified annotation. <code>@annotation()</code> is used for <strong>method-level</strong> annotations; class-level annotation matching is handled by <code>@within()</code> and <code>@target()</code>.</p>
+<p>Why annotation-based matching is useful: a package-based pointcut applies behaviour throughout an architectural region, while an annotation-based pointcut applies behaviour only to methods that explicitly opt in. Common use cases include auditing selected operations, measuring execution time, recording sensitive actions, custom authorization, and idempotency protection.</p>
+<p>A custom annotation plus an around advice:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Target</span><span class="p">(</span><span class="n">ElementType</span><span class="p">.</span><span class="na">METHOD</span><span class="p">)</span>
+<span class="nd">@Retention</span><span class="p">(</span><span class="n">RetentionPolicy</span><span class="p">.</span><span class="na">RUNTIME</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="nd">@interface</span><span class="w"> </span><span class="n">TrackExecutionTime</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="nd">@Around</span><span class="p">(</span><span class="s">&quot;@annotation(com.coderarmy.aop.TrackExecutionTime)&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">measureExecutionTime</span><span class="p">(</span><span class="n">ProceedingJoinPoint</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Object</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">joinPoint</span><span class="p">.</span><span class="na">proceed</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Execution time: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ms&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: Package and layer pointcuts buy <strong>coverage</strong>; annotation pointcuts buy <strong>consent</strong>. Reach for <code>@annotation()</code> whenever a behaviour should apply only to methods that ask for it, and reserve <code>within()</code> for behaviour that truly belongs to a whole region.</p>
+</blockquote>
+<h2 id="7-the-bean-designator">7. The bean() Designator</h2>
+<p><code>bean()</code> matches methods using the <strong>Spring bean name</strong> rather than the Java class name. For:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class StudentService {
+}
+</code></pre></div>
+
+<p>the default bean name is normally <code>studentService</code>, so the pointcut is:</p>
+<div class="highlight"><pre><span></span><code>bean(studentService)
+</code></pre></div>
+
+<p>In an advice:</p>
+<div class="highlight"><pre><span></span><code>@Before(&quot;bean(studentService)&quot;)
+public void beforeStudentService() {
+    System.out.println(&quot;Student service method called&quot;);
+}
+</code></pre></div>
+
+<p>Wildcard matching is supported too:</p>
+<div class="highlight"><pre><span></span><code>bean(*Service)
+</code></pre></div>
+
+<p>which can match <code>studentService</code>, <code>teacherService</code>, <code>paymentService</code>, <code>emailService</code>, and (in the practice set) <code>notificationService</code>. <code>bean()</code> is specific to Spring AOP and works with Spring-managed bean names.</p>
+<blockquote class="callout callout--important">
+<p>Important: Bean names are <strong>case-sensitive</strong>. <code>bean(*Service)</code> matches <code>studentService</code> but the exact-name form <code>bean(studentService)</code> will not match <code>StudentService</code>; check the actual bean name before blaming the advice.</p>
+</blockquote>
+<h2 id="8-combining-pointcut-expressions">8. Combining Pointcut Expressions (&amp;&amp;, ||, !)</h2>
+<p>Pointcut expressions can be combined with boolean operators:</p>
+<div class="highlight"><pre><span></span><code>&amp;&amp;   // AND
+||   // OR
+!    // NOT
+</code></pre></div>
+
+<p><strong>AND - <code>&amp;&amp;</code></strong>: both expressions must match.</p>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student.service..*)
+&amp;&amp; execution(public * *(..))
+</code></pre></div>
+
+<p>Matches public methods inside the service layer.</p>
+<p><strong>OR - <code>||</code></strong>: at least one expression must match.</p>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student.service..*)
+|| within(com.coderarmy.student.controller..*)
+</code></pre></div>
+
+<p>Matches methods in either the service layer or the controller layer.</p>
+<p><strong>NOT - <code>!</code></strong>: the negated expression must not match.</p>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student.service..*)
+&amp;&amp; !execution(* getHealth(..))
+</code></pre></div>
+
+<p>Matches service methods except methods named <code>getHealth</code>. Another example:</p>
+<div class="highlight"><pre><span></span><code>within(com.coderarmy.student..*)
+&amp;&amp; !within(com.coderarmy.student.repository..*)
+</code></pre></div>
+
+<p>Matches application methods except repository methods.</p>
+<p>Use parentheses to keep complex expressions readable:</p>
+<div class="highlight"><pre><span></span><code>(
+    within(com.coderarmy.student.service..*)
+    || within(com.coderarmy.student.controller..*)
+)
+&amp;&amp; execution(public * *(..))
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A realistic "exclude one thing" answer is <code>within(service..*) &amp;&amp; !execution(* clearCache())</code>. The follow-up is almost always: "and if <code>clearCache</code> were overloaded?" The correct upgrade is <code>!execution(* clearCache(..))</code>, because <code>()</code> binds to the zero-argument overload only, while <code>(..)</code> excludes every overload.</p>
+</blockquote>
+<h2 id="9-named-pointcuts-with-pointcut-and-centralized-classes">9. Named Pointcuts with @Pointcut and Centralized Classes</h2>
+<p>Long expressions are often reused across multiple advice methods. Repeating them creates duplication and makes maintenance harder. A named pointcut assigns a reusable name to an expression:</p>
+<div class="highlight"><pre><span></span><code>@Pointcut(&quot;within(com.coderarmy.student.service..*)&quot;)
+public void serviceLayer() {
+}
+</code></pre></div>
+
+<p>The method body remains <strong>empty</strong>; its name represents the pointcut expression. Reuse it in an advice:</p>
+<div class="highlight"><pre><span></span><code>@Before(&quot;serviceLayer()&quot;)
+public void beforeServiceMethod() {
+    System.out.println(&quot;Before service method&quot;);
+}
+</code></pre></div>
+
+<p>Note that <code>serviceLayer()</code> is not called as a normal Java method. Spring resolves it as a pointcut declaration.</p>
+<p>When several aspects share the same layer definitions, keep them in one class. Here is the aopDemo <code>ApplicationPointcuts</code> shape:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.coderarmy.student.aop</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.aspectj.lang.annotation.Pointcut</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ApplicationPointcuts</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;within(com.coderarmy.student.controller..*)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">controllerLayer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;within(com.coderarmy.student.service..*)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">serviceLayer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;within(com.coderarmy.student.repository..*)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">repositoryLayer</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;execution(public * *(..))&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">publicMethod</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Pointcut</span><span class="p">(</span><span class="s">&quot;serviceLayer() &amp;&amp; publicMethod()&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">publicServiceMethod</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Reference it from another aspect using its fully qualified name:</p>
+<div class="highlight"><pre><span></span><code>@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before(&quot;com.coderarmy.student.aop.ApplicationPointcuts.serviceLayer()&quot;)
+    public void logBeforeServiceMethod() {
+        System.out.println(&quot;Service method called&quot;);
+    }
+}
+</code></pre></div>
+
+<p>This creates one architectural definition of each layer. If a package changes, the expression needs to be updated in only one place. That is exactly why the aopDemo project grew a standalone <code>ApplicationPointcuts</code> class instead of scattering the packages across every aspect.</p>
+<h2 id="10-advanced-designators-args-and-args">10. Advanced Designators: args() and @args()</h2>
+<p><code>args()</code> checks <strong>runtime argument types</strong>:</p>
+<div class="highlight"><pre><span></span><code>@Before(&quot;args(com.coderarmy.student.model.Student)&quot;)
+public void beforeStudentArgument() {
+    System.out.println(&quot;Student argument received&quot;);
+}
+</code></pre></div>
+
+<p>It matches when the runtime argument is compatible with <code>Student</code>.</p>
+<p><code>@args()</code> checks <strong>annotations on the runtime classes of the arguments</strong>:</p>
+<div class="highlight"><pre><span></span><code>@TrackData
+public class Student {
+    private String name;
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>@Before(&quot;@args(com.coderarmy.annotation.TrackData)&quot;)
+public void beforeMethod() {
+    System.out.println(&quot;Annotated argument received&quot;);
+}
+</code></pre></div>
+
+<p>When <code>new Student()</code> is passed, Spring checks the runtime class of that object. Because <code>Student</code> carries <code>@TrackData</code>, the pointcut matches.</p>
+<ul>
+<li><code>args(Type)</code> -&gt; runtime argument type.</li>
+<li><code>@args(AnnotationType)</code> -&gt; annotation on the runtime argument type.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: <code>@args()</code> does <strong>not</strong> check whether the method parameter itself is annotated. It inspects the runtime class of the object that is passed in. That distinction is the whole point of the designator, and it is a favourite exam edge.</p>
+</blockquote>
+<p>Consistent parameter forms carry over here: <code>args(Student)</code> matches exactly one runtime argument compatible with <code>Student</code>, while <code>args(Student, ..)</code> matches a call whose first argument is <code>Student</code> and which may carry additional arguments.</p>
+<h2 id="11-this-target-within-and-target">11. this(), target(), @within(), and @target()</h2>
+<p>Spring AOP normally places a proxy in front of the actual Spring bean:</p>
+<div class="highlight"><pre><span></span><code>Caller -&gt; Spring proxy -&gt; Actual target bean
+</code></pre></div>
+
+<p>In pointcut terminology:</p>
+<ul>
+<li><strong>Proxy object</strong> -&gt; <code>this</code></li>
+<li><strong>Actual bean object</strong> -&gt; <code>target</code></li>
+</ul>
+<p>Therefore:</p>
+<ul>
+<li><code>this(Type)</code> -&gt; checks the <strong>Spring proxy</strong> type.</li>
+<li><code>target(Type)</code> -&gt; checks the <strong>actual target bean</strong> type.</li>
+<li><code>@within(Annotation)</code> -&gt; checks the annotation on the <strong>type where the method is declared</strong>.</li>
+<li><code>@target(Annotation)</code> -&gt; checks the annotation on the <strong>runtime target object's class</strong>.</li>
+</ul>
+<p>Consider an interface plus its implementation:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentOperations</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentService</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">StudentOperations</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Student added&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>target(com.coderarmy.student.service.StudentService)</code> matches because the actual bean is a <code>StudentService</code>.</li>
+<li><code>this(com.coderarmy.student.service.StudentOperations)</code> matches under a JDK dynamic proxy because the proxy implements <code>StudentOperations</code>.</li>
+</ul>
+<p><code>@within()</code> and <code>@target()</code> look identical in ordinary classes but diverge under inheritance. With:</p>
+<div class="highlight"><pre><span></span><code>public class BaseService {
+    public void save() {
+        System.out.println(&quot;Saving&quot;);
+    }
+}
+
+@TrackExecution
+@Service
+public class StudentService extends BaseService {
+}
+</code></pre></div>
+
+<p>when <code>studentService.save()</code> executes:</p>
+<ul>
+<li><code>@target(TrackExecution)</code> matches, because the runtime target object is a <code>StudentService</code>.</li>
+<li><code>@within(TrackExecution)</code> does <strong>not</strong> match, because <code>save()</code> was declared inside the unannotated <code>BaseService</code>.</li>
+</ul>
+<p>Comparison table:</p>
+<table>
+<thead>
+<tr>
+<th>Designator</th>
+<th>Checks</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>this(Type)</code></td>
+<td>Spring proxy type</td>
+<td><code>this(StudentOperations)</code></td>
+</tr>
+<tr>
+<td><code>target(Type)</code></td>
+<td>Actual target bean type</td>
+<td><code>target(StudentService)</code></td>
+</tr>
+<tr>
+<td><code>@within(Annotation)</code></td>
+<td>Annotation on the declaring type</td>
+<td><code>@within(Audited)</code></td>
+</tr>
+<tr>
+<td><code>@target(Annotation)</code></td>
+<td>Annotation on the runtime target object's class</td>
+<td><code>@target(TrackExecution)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Keep the four separate: <code>this</code>/<code>target</code> compare <strong>types</strong>, while <code>@within</code>/<code>@target</code> compare <strong>annotations</strong>, and only <code>target</code>/<code>@target</code> look at the real bean behind the proxy.</p>
+<h2 id="12-jdk-proxy-vs-cglib-proxy-and-configuring-the-proxy-type">12. JDK Proxy vs CGLIB Proxy and Configuring the Proxy Type</h2>
+<p>The difference between <code>this()</code> and <code>target()</code> becomes most visible with JDK interface-based proxies.</p>
+<p><strong>JDK proxy</strong> - exposes the implemented interfaces:</p>
+<div class="highlight"><pre><span></span><code>Proxy type  -&gt; StudentOperations
+Target type -&gt; StudentService
+</code></pre></div>
+
+<p>It follows that, under a JDK proxy:</p>
+<ul>
+<li><code>this(StudentOperations)</code> -&gt; matches</li>
+<li><code>target(StudentService)</code> -&gt; matches</li>
+<li><code>this(StudentService)</code> -&gt; normally does <strong>not</strong> match</li>
+</ul>
+<p>because the proxy implements <code>StudentOperations</code>, but it is not a subclass of the concrete <code>StudentService</code> class.</p>
+<p><strong>CGLIB proxy</strong> - subclasses the target class:</p>
+<div class="highlight"><pre><span></span><code>StudentService
+      ^
+StudentService$$SpringCGLIB$$...
+</code></pre></div>
+
+<p>Therefore both can match under CGLIB:</p>
+<div class="highlight"><pre><span></span><code>this(com.coderarmy.student.service.StudentService)
+target(com.coderarmy.student.service.StudentService)
+</code></pre></div>
+
+<p>Summary:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>JDK dynamic proxy</th>
+<th>CGLIB proxy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Based on</td>
+<td>Implemented interfaces</td>
+<td>Subclassing the target class</td>
+</tr>
+<tr>
+<td>Exposes</td>
+<td>The interfaces only</td>
+<td>The concrete class (and its methods)</td>
+</tr>
+<tr>
+<td><code>this(InterfaceType)</code></td>
+<td>Matches</td>
+<td>Matches only if that type is in the hierarchy</td>
+</tr>
+<tr>
+<td><code>this(ConcreteClass)</code></td>
+<td>Normally does not match</td>
+<td>Matches</td>
+</tr>
+<tr>
+<td><code>target(ConcreteClass)</code></td>
+<td>Matches</td>
+<td>Matches</td>
+</tr>
+<tr>
+<td>Requires interfaces</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Chosen when</td>
+<td>Interface(s) implemented</td>
+<td>Class-based proxying / no interface</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: <strong>JDK joins Interfaces, CGLIB clones Classes.</strong></p>
+<p><strong>Configuring the proxy type.</strong> Spring Boot normally uses class-based proxying for AOP auto-configuration:</p>
+<div class="highlight"><pre><span></span><code>spring.aop.proxy-target-class=true
+</code></pre></div>
+
+<p>To prefer JDK interface-based proxies:</p>
+<div class="highlight"><pre><span></span><code>spring.aop.proxy-target-class=false
+</code></pre></div>
+
+<p>JDK proxies require interfaces. If a class does not implement an interface, Spring uses a class-based proxy instead.</p>
+<p>In plain Spring Framework, the choice is made on the annotation:</p>
+<div class="highlight"><pre><span></span><code>@Configuration
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+public class AopConfig {
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>@Configuration
+@EnableAspectJAutoProxy(proxyTargetClass = false)
+public class AopConfig {
+}
+</code></pre></div>
+
+<p>The default value of <code>proxyTargetClass</code> in <code>@EnableAspectJAutoProxy</code> is <code>false</code>. In a normal Spring Boot application, the application property is generally preferred, because Boot already provides AOP auto-configuration.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why does <code>this(StudentService)</code> fail even though the bean <em>is</em> a <code>StudentService</code>?" Because under a JDK proxy the caller-facing object is a proxy implementing <code>StudentOperations</code>, not a subclass of <code>StudentService</code>. The precise answer separates <code>this</code> (proxy surface) from <code>target</code> (real bean) and then names the proxy type that caused it.</p>
+</blockquote>
+<h2 id="13-quick-reference-and-practical-guidelines">13. Quick Reference and Practical Guidelines</h2>
+<p>Full designator reference:</p>
+<table>
+<thead>
+<tr>
+<th>Designator</th>
+<th>What it checks</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>execution()</code></td>
+<td>Method signature</td>
+<td><code>execution(* service..*.*(..))</code></td>
+</tr>
+<tr>
+<td><code>within()</code></td>
+<td>Declaring class or package</td>
+<td><code>within(service..*)</code></td>
+</tr>
+<tr>
+<td><code>@annotation()</code></td>
+<td>Annotation on the method</td>
+<td><code>@annotation(TrackExecutionTime)</code></td>
+</tr>
+<tr>
+<td><code>bean()</code></td>
+<td>Spring bean name</td>
+<td><code>bean(*Service)</code></td>
+</tr>
+<tr>
+<td><code>@within()</code></td>
+<td>Annotation on the declaring type</td>
+<td><code>@within(Audited)</code></td>
+</tr>
+<tr>
+<td><code>@target()</code></td>
+<td>Annotation on the runtime target class</td>
+<td><code>@target(Audited)</code></td>
+</tr>
+<tr>
+<td><code>args()</code></td>
+<td>Runtime argument types</td>
+<td><code>args(Student)</code></td>
+</tr>
+<tr>
+<td><code>@args()</code></td>
+<td>Annotations on runtime argument types</td>
+<td><code>@args(TrackData)</code></td>
+</tr>
+<tr>
+<td><code>this()</code></td>
+<td>Spring proxy type</td>
+<td><code>this(StudentOperations)</code></td>
+</tr>
+<tr>
+<td><code>target()</code></td>
+<td>Actual target bean type</td>
+<td><code>target(StudentService)</code></td>
+</tr>
+</tbody>
+</table>
+<p>Practical guidelines:</p>
+<ol>
+<li>Prefer pointcuts that represent clear architectural boundaries. <code>within(com.coderarmy.student.service..*)</code> is safer than <code>execution(* *(..))</code>.</li>
+<li>Use <code>execution()</code> when matching depends on method name, return type, modifier, or parameters.</li>
+<li>Use <code>within()</code> when the requirement applies to a complete class, package, or application layer.</li>
+<li>Use <code>@annotation()</code> when selected methods should explicitly opt into the aspect behaviour.</li>
+<li>Use named pointcuts instead of repeating long expressions.</li>
+<li>Keep pointcuts narrow enough to understand and test. Overly broad expressions can produce excessive logs, unnecessary overhead, and unexpected behaviour.</li>
+<li>Remember that Spring AOP works through Spring-managed proxies: <code>External caller -&gt; Spring proxy -&gt; target method</code>. A direct internal call from one method to another method in the same object normally bypasses the proxy and does not trigger the advice.</li>
+<li>Only Spring-managed beans are proxied, so a <code>new StudentService()</code> constructed by hand is never advised.</li>
+</ol>
+<p>The four designators worth mastering first are <code>execution()</code>, <code>within()</code>, <code>@annotation()</code>, and <code>bean()</code>. The advanced designators - <code>args()</code>, <code>@args()</code>, <code>this()</code>, <code>target()</code>, <code>@within()</code>, <code>@target()</code> - become useful when inheritance, runtime argument types, or proxy implementation details matter.</p>
+<h2 id="14-myth-vs-reality">14. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>within()</code> and <code>execution()</code> are interchangeable"</td>
+<td><code>within()</code> restricts the declaring class/package only; <code>execution()</code> can filter modifier, return type, name, and parameters.</td>
+</tr>
+<tr>
+<td>"<code>service.*</code> also catches subpackages"</td>
+<td><code>.*</code> is one segment (direct types only); <code>..*</code> is zero or more segments (package plus subpackages).</td>
+</tr>
+<tr>
+<td>"<code>(..)</code> means exactly all parameters"</td>
+<td><code>(..)</code> is zero or more; <code>(*)</code> is exactly one; <code>()</code> is exactly zero; <code>(*, *)</code> is exactly two.</td>
+</tr>
+<tr>
+<td>"<code>this()</code> and <code>target()</code> mean the same thing"</td>
+<td><code>this()</code> checks the proxy type; <code>target()</code> checks the real bean. They diverge sharply under JDK proxies.</td>
+</tr>
+<tr>
+<td>"<code>@annotation()</code> also matches class-level annotations"</td>
+<td><code>@annotation()</code> is for method-level annotations; class-level matching belongs to <code>@within()</code> and <code>@target()</code>.</td>
+</tr>
+<tr>
+<td>"<code>@args()</code> checks the annotation on the parameter"</td>
+<td><code>@args()</code> checks the annotation on the <strong>runtime class of the argument object</strong>, not on the parameter declaration.</td>
+</tr>
+<tr>
+<td>"Spring AOP advises private methods and self-calls"</td>
+<td>The proxy overrides/intercepts calls from outside; private methods and internal same-object calls are not intercepted normally.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-common-trap-questions">15. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - within() and execution() do the same job.</strong>
+Verdict: False. <code>within()</code> only selects by declaring class or package. <code>execution()</code> selects by signature details - modifier, return type, method name, and parameters. They overlap on simple layer matching and diverge the moment you need signature filtering.</p>
+<p><strong>Trap 2 - the wildcard * in a package pattern includes subpackages.</strong>
+Verdict: False. <code>com.coderarmy.student.service.*</code> matches only classes directly inside <code>service</code>. Use <code>com.coderarmy.student.service..*</code> for the package and all subpackages.</p>
+<p><strong>Trap 3 - (*) and (..) are both "any parameters".</strong>
+Verdict: False. <code>(*)</code> is exactly one parameter of any type and ignores methods with zero or multiple parameters; <code>(..)</code> is zero or more. <code>()</code> is exactly zero and <code>(*, *)</code> is exactly two.</p>
+<p><strong>Trap 4 - this() and target() are interchangeable.</strong>
+Verdict: False. <code>this(StudentOperations)</code> matches the proxy surface; <code>target(StudentService)</code> matches the real bean. Under a JDK proxy <code>this(StudentService)</code> normally fails because the proxy is not a subclass of the concrete class.</p>
+<p><strong>Trap 5 - @annotation() also matches a class-level annotation.</strong>
+Verdict: False. <code>@annotation()</code> matches a method that carries the annotation. Class-level annotation matching is done by <code>@within()</code> (declaring type) and <code>@target()</code> (runtime target class), which also differ under inheritance.</p>
+<p><strong>Trap 6 - bean(*Service) matches bean names regardless of case.</strong>
+Verdict: False. <code>bean()</code> matches Spring bean names, and bean names are case-sensitive; <code>bean(studentService)</code> is not the same as a <code>StudentService</code>-derived name.</p>
+<p><strong>Trap 7 - Spring AOP intercepts private methods and internal self-calls.</strong>
+Verdict: False. Proxy-based Spring AOP cannot intercept private methods through normal proxy overriding, and a direct internal call from one method to another in the same object bypasses the proxy, so the advice does not run.</p>
+</blockquote>
+<h2 id="16-points-to-remember">16. Points to Remember</h2>
+<ol>
+<li>Advice defines <em>what</em> behaviour runs; a pointcut expression defines <em>where</em> it runs, and it only decides interception, never execution.</li>
+<li><code>execution()</code> selects by signature - modifier, return type, declaring class, method name, parameters - and its essential parts are return type + method name + parameters.</li>
+<li><code>*</code> matches one position or one naming segment; <code>..</code> matches zero or more elements, whether in a parameter list or across package segments.</li>
+<li><code>()</code> is exactly zero parameters, <code>(*)</code> exactly one, <code>(*, *)</code> exactly two, <code>(..)</code> zero or more, <code>(Long, ..)</code> fixes the first, <code>(.., Student)</code> fixes the last.</li>
+<li><code>within()</code> selects by declaring class or package (<code>service.*</code> direct, <code>service..*</code> plus subpackages) and cannot filter by signature.</li>
+<li><code>@annotation()</code> matches a method-level annotation; <code>@within()</code> and <code>@target()</code> handle class-level annotations (declaring type versus runtime target).</li>
+<li><code>bean()</code> matches Spring bean names (case-sensitive) and supports wildcards such as <code>bean(*Service)</code>.</li>
+<li>Combine pointcuts with <code>&amp;&amp;</code>, <code>||</code>, and <code>!</code>, and use parentheses to keep complex expressions readable.</li>
+<li>Named <code>@Pointcut</code> methods have empty bodies, are referenced by name or fully qualified name, and can be centralized in a class such as <code>ApplicationPointcuts</code>.</li>
+<li><code>args()</code>/<code>@args()</code> inspect runtime arguments; <code>this()</code> is the proxy, <code>target()</code> is the real bean; JDK proxies expose interfaces, CGLIB proxies subclass the class, and <code>proxyTargetClass</code> (or <code>spring.aop.proxy-target-class</code>) chooses between them.</li>
+</ol>
+<h2 id="17-likely-interview-questions">17. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a pointcut expression?</td>
+<td>The rule that selects which method executions receive an aspect's advice; it decides interception, not execution.</td>
+</tr>
+<tr>
+<td>What does <code>execution()</code> match on?</td>
+<td>The method signature: access modifier, return type, declaring class, method name, parameters, and declared exceptions.</td>
+</tr>
+<tr>
+<td>What is the broadest common pointcut?</td>
+<td><code>execution(* *(..))</code> - any return type, any method name, zero or more parameters.</td>
+</tr>
+<tr>
+<td>Difference between <code>*</code> and <code>..</code>?</td>
+<td><code>*</code> matches one position/naming segment; <code>..</code> matches zero or more elements (parameters or package levels).</td>
+</tr>
+<tr>
+<td>Difference between <code>within()</code> and <code>execution()</code>?</td>
+<td><code>within()</code> selects by declaring class/package only; <code>execution()</code> filters the signature (modifier, return type, name, params).</td>
+</tr>
+<tr>
+<td>Difference between <code>@annotation()</code> and <code>@within()</code>?</td>
+<td><code>@annotation()</code> tests a method-level annotation; <code>@within()</code> tests an annotation on the declaring type.</td>
+</tr>
+<tr>
+<td>What does <code>bean()</code> match?</td>
+<td>Methods on Spring beans by bean name, with wildcards like <code>bean(*Service)</code>; names are case-sensitive.</td>
+</tr>
+<tr>
+<td>How do you combine pointcuts?</td>
+<td>With <code>&amp;&amp;</code> (both match), <code>||</code> (either matches), and <code>!</code> (must not match), plus parentheses for clarity.</td>
+</tr>
+<tr>
+<td>What is a named pointcut?</td>
+<td>A <code>@Pointcut</code>-annotated method with an empty body whose name represents an expression, reusable across advice methods.</td>
+</tr>
+<tr>
+<td>Difference between <code>this()</code> and <code>target()</code>?</td>
+<td><code>this()</code> checks the Spring proxy type; <code>target()</code> checks the actual target bean type; they differ under JDK proxies.</td>
+</tr>
+<tr>
+<td>JDK proxy versus CGLIB proxy?</td>
+<td>JDK proxies are interface-based and expose interfaces; CGLIB proxies subclass the target class; <code>proxyTargetClass</code> selects.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-final-summary">18. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>advice   -&gt; WHAT behaviour runs
+pointcut -&gt; WHERE it runs (which executions get intercepted)
+             |
+             v
+execution()   -&gt; signature (WHAT it looks like)     within() -&gt; class/package (WHERE it lives)
+@annotation() -&gt; method annotation (WHO opted in)   bean()   -&gt; Spring bean name (WHICH bean)
+             |
+             v
+combine with &amp;&amp;  ||  !  (+ parentheses) -&gt; name it with @Pointcut (empty body)
+             |
+             v
+centralize in ApplicationPointcuts (one architectural definition per layer)
+             |
+             v
+advanced: args()/@args() -&gt; runtime args      this()/target() -&gt; proxy vs real bean
+          @within()/@target() -&gt; declaring type vs runtime target
+             |
+             v
+proxies: JDK = interface-based   CGLIB = subclass-based   proxyTargetClass true/false
+             |
+             v
+external caller -&gt; Spring proxy -&gt; target method
+(internal self-calls and private methods bypass the proxy)
+</code></pre></div>
+
+<ul>
+<li><code>execution()</code> and <code>within()</code> answer "what signature" versus "what location"; narrow layer pointcuts beat <code>execution(* *(..))</code>.</li>
+<li><code>@annotation()</code> and <code>bean()</code> add opt-in and name-based selection.</li>
+<li>Boolean composition plus named <code>@Pointcut</code> declarations keep expressions reusable and centralized.</li>
+<li>Advanced designators (<code>args()</code>, <code>@args()</code>, <code>this()</code>, <code>target()</code>, <code>@within()</code>, <code>@target()</code>) matter for runtime types, annotations, and proxy details.</li>
+<li>Proxy type decides what <code>this()</code> can see: JDK exposes interfaces, CGLIB subclasses the class.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A pointcut is a precise selector for method executions, and the proxy underneath decides what that selector can even see - so write narrow, named pointcuts and always reason about whether the caller is hitting the proxy or bypassing it.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-23.html"><span class="dir">Previous</span><span class="ttl">Lecture 23 — Spring AOP Advice Types</span></a><a class="next" href="doc-theory-lecture-25.html"><span class="dir">Next</span><span class="ttl">Lecture 25 — Custom Annotations in Spring AOP</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

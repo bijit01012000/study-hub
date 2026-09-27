@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more — Java</title>
+<meta name="description" content="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-49">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-49.html#lecture-49">Lecture 49</a></li><li><a href="doc-theory-lecture-49.html#1-the-method-map-what-this-lecture-covers">1. The Method Map — What This Lecture Covers</a></li><li><a href="doc-theory-lecture-49.html#2-threadsleep-pausing-the-current-thread">2. Thread.sleep() — Pausing the Current Thread</a></li><li><a href="doc-theory-lecture-49.html#3-the-sleep-trap-which-thread-actually-sleeps">3. The sleep() Trap — Which Thread Actually Sleeps?</a></li><li><a href="doc-theory-lecture-49.html#4-sleep-state-locks-and-interruption">4. sleep(), State, Locks and Interruption</a></li><li><a href="doc-theory-lecture-49.html#5-threadjoin-waiting-for-another-thread-to-finish">5. Thread.join() — Waiting for Another Thread to Finish</a></li><li><a href="doc-theory-lecture-49.html#6-timed-join-and-controlling-execution-order">6. Timed join() and Controlling Execution Order</a></li><li><a href="doc-theory-lecture-49.html#7-threadyield-a-scheduler-hint-never-a-guarantee">7. Thread.yield() — A Scheduler Hint, Never a Guarantee</a></li><li><a href="doc-theory-lecture-49.html#8-threadinterrupt-cooperative-cancellation">8. Thread.interrupt() — Cooperative Cancellation</a></li><li><a href="doc-theory-lecture-49.html#9-interrupting-sleep-wait-and-join">9. Interrupting sleep(), wait() and join()</a></li><li><a href="doc-theory-lecture-49.html#10-handling-interruptedexception-correctly">10. Handling InterruptedException Correctly</a></li><li><a href="doc-theory-lecture-49.html#11-isinterrupted-vs-threadinterrupted">11. isInterrupted() vs Thread.interrupted()</a></li><li><a href="doc-theory-lecture-49.html#12-why-java-uses-cooperative-cancellation">12. Why Java Uses Cooperative Cancellation</a></li><li><a href="doc-theory-lecture-49.html#13-isalive-has-the-thread-started-and-not-terminated">13. isAlive() — Has the Thread Started and Not Terminated?</a></li><li><a href="doc-theory-lecture-49.html#14-threadcurrentthread-the-executing-thread">14. Thread.currentThread() — The Executing Thread</a></li><li><a href="doc-theory-lecture-49.html#15-thread-naming-setname-and-getname">15. Thread Naming — setName() and getName()</a></li><li><a href="doc-theory-lecture-49.html#16-thread-priority-setpriority">16. Thread Priority — setPriority()</a></li><li><a href="doc-theory-lecture-49.html#17-daemon-threads-setdaemon">17. Daemon Threads — setDaemon()</a></li><li><a href="doc-theory-lecture-49.html#18-the-master-method-table">18. The Master Method Table</a></li><li><a href="doc-theory-lecture-49.html#19-comparison-tables">19. Comparison Tables</a></li><li><a href="doc-theory-lecture-49.html#20-important-rules">20. Important Rules</a></li><li><a href="doc-theory-lecture-49.html#21-myth-vs-reality">21. Myth vs Reality</a></li><li><a href="doc-theory-lecture-49.html#22-common-trap-questions">22. Common Trap Questions</a></li><li><a href="doc-theory-lecture-49.html#23-points-to-remember">23. Points to Remember</a></li><li><a href="doc-theory-lecture-49.html#24-likely-interview-questions">24. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-49.html#25-final-summary">25. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</h1>
+<p class="readmeta">26 sections · 4,769 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-49" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-49">Lecture 49</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more" plus the lecture's own repo notes (sleep/join/yield/interrupt/isInterrupted/currentThread), playlist map, verified. Repo evidence: 8 Demo files.</p>
+</blockquote>
+<p>Lecture 48 established how a thread is created and how its lifecycle is modelled. This lecture catalogues the methods that control, coordinate, inspect and configure a running thread: <code>sleep()</code>, <code>join()</code>, <code>yield()</code>, <code>interrupt()</code>, <code>isInterrupted()</code>, <code>interrupted()</code>, <code>isAlive()</code>, <code>currentThread()</code>, <code>setName()</code>/<code>getName()</code>, <code>setPriority()</code> and <code>setDaemon()</code>. Each method is examined through five questions: which thread is affected, whether it blocks, whether a lock is released, which thread state is entered, and whether the behaviour is guaranteed or merely suggested. The recurring lesson is that most cross-thread control in Java is cooperative and hint-based, so correctness must never rest on scheduling.</p>
+<h2 id="1-the-method-map-what-this-lecture-covers">1. The Method Map — What This Lecture Covers</h2>
+<p>Java provides several methods for controlling, coordinating, inspecting and configuring threads. The methods covered here are:</p>
+<div class="highlight"><pre><span></span><code>sleep()      join()       yield()     interrupt()   isInterrupted()
+interrupted()  isAlive()  currentThread()  setName()  getName()
+setPriority()  setDaemon()
+</code></pre></div>
+
+<p>Each method affects a thread differently, so it is important to understand five axes for every one of them:</p>
+<ol>
+<li>Which thread is affected.</li>
+<li>Whether the thread blocks.</li>
+<li>Whether a lock is released.</li>
+<li>Which thread state is entered.</li>
+<li>Whether the behaviour is guaranteed or only suggested.</li>
+</ol>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Group the methods by role: <strong>pause</strong> (<code>sleep</code>), <strong>wait for another</strong> (<code>join</code>), <strong>suggest</strong> (<code>yield</code>), <strong>request</strong> (<code>interrupt</code>), <strong>inspect</strong> (<code>isInterrupted</code>, <code>interrupted</code>, <code>isAlive</code>, <code>currentThread</code>), and <strong>configure</strong> (<code>setName</code>, <code>getPriority</code>, <code>setDaemon</code>). The role tells you the guarantee.</p>
+</blockquote>
+<h2 id="2-threadsleep-pausing-the-current-thread">2. Thread.sleep() — Pausing the Current Thread</h2>
+<p><code>Thread.sleep()</code> pauses the currently executing thread for a specified duration. The basic call is <code>Thread.sleep(milliseconds);</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — sleep pauses the currently executing thread</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Start&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;End&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The main thread pauses for approximately two seconds before printing <code>End</code>.</p>
+<h2 id="3-the-sleep-trap-which-thread-actually-sleeps">3. The sleep() Trap — Which Thread Actually Sleeps?</h2>
+<p><code>sleep()</code> is a <strong>static method</strong> of the <code>Thread</code> class. The thread that executes the statement is the thread that sleeps, and no other. In a lambda body such as <code>Thread t1 = new Thread(() -&gt; { Thread.sleep(2000); });</code>, <code>t1</code> sleeps because <code>t1</code> executes the method call.</p>
+<p>But consider calling it through a reference:</p>
+<div class="highlight"><pre><span></span><code>t1.sleep(2000);   // compiles, but still pauses the CURRENT thread, not t1
+</code></pre></div>
+
+<p>Although this compiles, it still pauses the current thread, not necessarily <code>t1</code>. Therefore always write it as the static call it is: <code>Thread.sleep(2000);</code>. Calling <code>sleep()</code> through a thread reference does not make that referenced thread sleep.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+<code>sleep()</code> ignores the receiver. It always sleeps the thread that is running the line of code, so prefer the static form <code>Thread.sleep(ms)</code> and never believe <code>t1.sleep()</code> naps on <code>t1</code>.</p>
+</blockquote>
+<h2 id="4-sleep-state-locks-and-interruption">4. sleep(), State, Locks and Interruption</h2>
+<p><strong>State during sleep.</strong> While sleeping, the thread enters <code>TIMED_WAITING</code>. Conceptually: executing → <code>TIMED_WAITING</code> → eligible to run again. After the duration ends, the thread becomes runnable, but it does not necessarily resume immediately because the scheduler must select it.</p>
+<p><strong>Does sleep() release a lock?</strong> No. If a thread calls <code>sleep()</code> while holding a monitor, it continues holding that monitor. Inside <code>synchronized (lock) { Thread.sleep(2000); }</code>, the current thread is sleeping and still owns the lock for those two seconds, so other threads that require the same monitor remain blocked. This is the important difference between <code>Thread.sleep()</code> and <code>wait()</code>: <code>wait()</code> releases the monitor on which it is called, while <code>sleep()</code> does not.</p>
+<p><strong>InterruptedException.</strong> <code>sleep()</code> throws <code>InterruptedException</code>. If another thread interrupts a sleeping thread (<code>thread.interrupt();</code>), the sleeping thread wakes early and <code>sleep()</code> throws <code>InterruptedException</code>. When the exception is thrown, the interrupted status is cleared; if the method cannot fully handle the interruption, it commonly restores the status with <code>Thread.currentThread().interrupt();</code>.</p>
+<p><strong>Important points about sleep():</strong></p>
+<ol>
+<li>It pauses the currently executing thread.</li>
+<li>It normally places the thread in <code>TIMED_WAITING</code>.</li>
+<li>It does not release monitors held by the thread.</li>
+<li>It does not guarantee an exact wake-up time.</li>
+<li>It may return later than requested because of scheduling.</li>
+<li>It throws <code>InterruptedException</code> if the sleeping thread is interrupted.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important
+<code>sleep()</code> is a request to the OS/JVM, not a promise. The thread returns no earlier than the requested time and possibly later, never earlier.</p>
+</blockquote>
+<h2 id="5-threadjoin-waiting-for-another-thread-to-finish">5. Thread.join() — Waiting for Another Thread to Finish</h2>
+<p><code>join()</code> makes the current thread wait for another thread to finish. In <code>targetThread.join();</code>, the calling thread waits and the target thread continues running.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — join makes the calling thread wait for the target</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;t1 finished&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Main finished&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>t1 finished
+Main finished
+</code></pre></div>
+
+<p>The main thread waits at <code>t1.join();</code> until <code>t1</code> terminates.</p>
+<p><strong>Which thread waits?</strong> Given <code>t1.join();</code>, the current thread waits until <code>t1</code> terminates. If the main thread executes that statement, the main thread waits and <code>t1</code> keeps running. A common misunderstanding is that <code>join()</code> pauses the thread on which it is called. It does not; it pauses the thread that calls <code>join()</code>.</p>
+<p><strong>State during join().</strong> For an untimed <code>t1.join();</code> the calling thread generally enters <code>WAITING</code>. Conceptually: main thread waits → <code>t1</code> finishes → main thread becomes runnable again. The target thread eventually enters <code>TERMINATED</code>.</p>
+<p><strong>Timed join.</strong> Java provides <code>t1.join(2000);</code>, meaning: wait until <code>t1</code> finishes, but for no longer than approximately two seconds. The calling thread enters <code>TIMED_WAITING</code>. It may continue because the target finished, the timeout expired, or the calling thread was interrupted. A timed join does <strong>not</strong> terminate the target thread when the timeout expires.</p>
+<p><strong>Important points about join():</strong></p>
+<ol>
+<li>The calling thread waits.</li>
+<li>The target thread continues running.</li>
+<li>Untimed <code>join()</code> normally places the caller in <code>WAITING</code>.</li>
+<li>Timed <code>join()</code> normally places the caller in <code>TIMED_WAITING</code>.</li>
+<li><code>join()</code> throws <code>InterruptedException</code>.</li>
+<li>A timed join does not stop the target thread.</li>
+<li><code>join()</code> creates a happens-before relationship: actions in the completed thread become visible to the thread that successfully returns from <code>join()</code>.</li>
+</ol>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+The happens-before point is the subtle one. Once <code>t1.join()</code> returns, every write <code>t1</code> made before terminating is guaranteed visible to the joining thread. That makes <code>join()</code> both an ordering tool and a memory-visibility tool, not merely a delay.</p>
+</blockquote>
+<h2 id="6-timed-join-and-controlling-execution-order">6. Timed join() and Controlling Execution Order</h2>
+<p><code>join()</code> can enforce partial ordering. The sequence <code>t1.start(); t1.join(); t2.start();</code> guarantees that <code>t1</code> completes <strong>before</strong> <code>t2</code> is started. However, excessive use of <code>join()</code> can remove concurrency by forcing threads to run sequentially. Use it where a genuine dependency exists, not as a default.</p>
+<blockquote class="callout callout--note">
+<p>Common misconception
+<code>t1.join(2000)</code> is often read as "cancel <code>t1</code> after two seconds". It is not. It stops <strong>waiting</strong> after roughly two seconds; the target thread keeps running to completion in the background.</p>
+</blockquote>
+<h2 id="7-threadyield-a-scheduler-hint-never-a-guarantee">7. Thread.yield() — A Scheduler Hint, Never a Guarantee</h2>
+<p><code>yield()</code> is a hint to the scheduler that the current thread is willing to give other runnable threads an opportunity to execute. The call is simply <code>Thread.yield();</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — yield only suggests that the scheduler look elsewhere</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;T1: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">yield</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;T2: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The exact output order is unpredictable.</p>
+<p><strong>yield() is only a hint.</strong> The scheduler may run another thread, continue running the same thread, or ignore the hint completely. <code>yield()</code> does not guarantee a context switch and should never be used to enforce program correctness or thread ordering.</p>
+<p><strong>State during yield().</strong> <code>yield()</code> does not place the thread in <code>WAITING</code> or <code>TIMED_WAITING</code>. The thread remains runnable and eligible for execution. Conceptually: running thread → gives the scheduler another scheduling opportunity → may continue or may be replaced.</p>
+<p><strong>When is yield() used?</strong> It is rarely needed in production application code. It may be useful for learning thread scheduling, experiments, testing unusual scheduling behaviour, and very specialized low-level code. It should not be used as a replacement for locks, synchronization, <code>wait()</code>/<code>notifyAll()</code>, <code>join()</code>, executors, or coordination utilities.</p>
+<h2 id="8-threadinterrupt-cooperative-cancellation">8. Thread.interrupt() — Cooperative Cancellation</h2>
+<p><code>interrupt()</code> requests that a thread stop or change what it is currently doing. The call is <code>thread.interrupt();</code>. It does not forcibly kill the target thread. Interruption is a cooperative cancellation mechanism: one thread requests interruption → the target thread detects the request → the target thread decides how to respond.</p>
+<p><strong>Interrupting a running thread.</strong> Consider a thread whose body is <code>while (true) { System.out.println("Running..."); }</code>. Calling <code>t.interrupt();</code> does not automatically terminate the loop; the thread may continue running forever because its code never checks the interrupted status.</p>
+<p><strong>Interrupted status.</strong> Each thread has an interrupted status: not interrupted → <code>false</code>, interrupted → <code>true</code>. When another thread calls <code>t.interrupt();</code> and <code>t</code> is actively running, its interrupted status is normally set to <code>true</code>. The target thread must inspect that status.</p>
+<p><strong>Cooperative cancellation pattern.</strong> The worker checks the flag on every iteration:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo4.java — interruption is cooperative: the task checks the flag</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo4</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">isInterrupted</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Working...&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Stopped gracefully&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">worker</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">worker</span><span class="p">.</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The worker notices the interrupt request and exits its loop cleanly.</p>
+<blockquote class="callout callout--important">
+<p>Important
+<code>interrupt()</code> sets a flag; it does not pull the plug. If the target never checks <code>isInterrupted()</code> and never calls an interruptible blocking method, the interrupt has no visible effect.</p>
+</blockquote>
+<h2 id="9-interrupting-sleep-wait-and-join">9. Interrupting sleep(), wait() and join()</h2>
+<p>If a thread is blocked in an interruptible method such as <code>Thread.sleep()</code>, <code>Object.wait()</code> or <code>Thread.join()</code>, and another thread interrupts it (<code>thread.interrupt();</code>), the blocking method throws <code>InterruptedException</code>. A worker that calls <code>Thread.sleep(10_000)</code> and is interrupted needs no wait at all; it wakes at once, catches the exception, prints a message such as <code>"Sleep interrupted"</code>, and restores the flag with <code>Thread.currentThread().interrupt();</code>.</p>
+<p><strong>Interrupt status after InterruptedException.</strong> When <code>sleep()</code>, <code>wait()</code> or <code>join()</code> throws <code>InterruptedException</code>, the interrupted status is <strong>cleared</strong>. Therefore a catch block that prints <code>Thread.currentThread().isInterrupted()</code> normally prints <code>false</code>. If higher-level code must know that interruption occurred, restore the status:</p>
+<div class="highlight"><pre><span></span><code>catch (InterruptedException e) {
+    Thread.currentThread().interrupt();
+}
+</code></pre></div>
+
+<h2 id="10-handling-interruptedexception-correctly">10. Handling InterruptedException Correctly</h2>
+<p>There are three correct responses, and one common mistake.</p>
+<ol>
+<li><strong>Propagate the exception.</strong> Declare <code>void performTask() throws InterruptedException { Thread.sleep(1000); }</code> and let callers decide.</li>
+<li><strong>Restore the interrupt status and stop.</strong> In the catch block call <code>Thread.currentThread().interrupt();</code> then <code>return;</code>.</li>
+<li><strong>Perform cleanup and stop.</strong> Catch the exception, run <code>cleanup();</code>, then <code>Thread.currentThread().interrupt();</code>.</li>
+</ol>
+<p>Silently ignoring interruption is usually a mistake: an empty <code>catch (InterruptedException e) { }</code> swallows the request so callers can no longer see it.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Never swallow <code>InterruptedException</code>. Either rethrow it, or restore the flag with <code>Thread.currentThread().interrupt()</code> before returning. Swallowing it destroys the only signal the rest of the call chain has.</p>
+</blockquote>
+<h2 id="11-isinterrupted-vs-threadinterrupted">11. isInterrupted() vs Thread.interrupted()</h2>
+<p>Both methods inspect interrupted status, but they behave differently.</p>
+<p><code>isInterrupted()</code> is an instance method, <code>thread.isInterrupted();</code>. It checks the interrupted status of a particular thread, returns <code>true</code> or <code>false</code>, and does <strong>not</strong> clear the status. For example, <code>boolean interrupted = worker.isInterrupted();</code>.</p>
+<p><code>Thread.interrupted()</code> is a static method, <code>Thread.interrupted();</code>. It checks the interrupted status of the <strong>current</strong> thread and clears that status after reading it. Thus <code>boolean first = Thread.interrupted(); boolean second = Thread.interrupted();</code> yields <code>first</code> → <code>true</code> and <code>second</code> → <code>false</code> if the status was initially <code>true</code>; the first call cleared it.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Checks which thread?</th>
+<th>Clears status?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>thread.isInterrupted()</code></td>
+<td>The referenced thread</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>Thread.interrupted()</code></td>
+<td>The current thread</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>Thread.interrupted()</code> has no receiver, so it can only mean "me" — and it clears the flag as it reads. <code>isInterrupted()</code> names a target, so it changes nothing; it is a pure peek.</p>
+</blockquote>
+<h2 id="12-why-java-uses-cooperative-cancellation">12. Why Java Uses Cooperative Cancellation</h2>
+<p>Forcibly stopping a thread can leave shared state inconsistent. The thread may be terminated while holding a lock, updating a collection, modifying several related fields, transferring money, or writing a file.</p>
+<p>Cooperative interruption allows the thread to release resources, restore invariants, finish or abandon work safely, and exit at a controlled point. Deprecated methods such as <code>Thread.stop()</code> should not be used.</p>
+<p>Interruption is used for cancelling long-running tasks, stopping worker threads, shutting down thread pools, ending blocking operations, responding to application shutdown, and cancelling futures and executor tasks.</p>
+<h2 id="13-isalive-has-the-thread-started-and-not-terminated">13. isAlive() — Has the Thread Started and Not Terminated?</h2>
+<p><code>isAlive()</code> checks whether a thread has been started and has not yet terminated. The call is <code>thread.isAlive();</code>. The three moments to remember:</p>
+<div class="highlight"><pre><span></span><code>before start()                        -&gt; false
+after start(), before termination     -&gt; true
+after the thread terminates           -&gt; false
+</code></pre></div>
+
+<p><code>isAlive()</code> does <strong>not</strong> tell whether the thread is currently using the CPU. A thread may be sleeping, waiting, blocked, or runnable and still be alive.</p>
+<blockquote class="callout callout--important">
+<p>Important
+<code>isAlive()</code> answers one question only: "started and not yet finished?" Do not read it as "running on a processor right now" — the JVM exposes no such public query.</p>
+</blockquote>
+<h2 id="14-threadcurrentthread-the-executing-thread">14. Thread.currentThread() — The Executing Thread</h2>
+<p><code>Thread.currentThread()</code> returns a reference to the thread currently executing the code. <code>Thread current = Thread.currentThread(); System.out.println(current.getName());</code> usually prints <code>main</code>.</p>
+<p>Inside a task, the code may not have direct access to the original thread variable, so the running task calls <code>Thread.currentThread()</code> to obtain its own Thread object. Common uses include logging, debugging, reading the current thread name, checking interrupted status, restoring interrupted status, inspecting thread priority, and identifying which worker executed a task.</p>
+<h2 id="15-thread-naming-setname-and-getname">15. Thread Naming — setName() and getName()</h2>
+<p>A thread name can be assigned using <code>setName()</code>: create the worker, call <code>worker.setName("Worker-1")</code>, then <code>worker.start()</code>. A cleaner approach is to pass the name to the constructor, <code>new Thread(task, "Worker-1")</code>, so the name is set before the thread ever runs. Read a name with <code>thread.getName();</code>, or inside the running task with <code>Thread.currentThread().getName();</code>.</p>
+<p>Meaningful thread names improve log readability, debugging, stack-trace analysis, thread-dump analysis, production monitoring, and identification of worker responsibilities. Compare <code>Thread-7 failed</code> with <code>payment-worker-3 failed</code>; the second message provides far more context.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+A thread name is not decoration; it is the cheapest diagnostic you will ever add. Name threads like functions: after what they do, not when they were created.</p>
+</blockquote>
+<h2 id="16-thread-priority-setpriority">16. Thread Priority — setPriority()</h2>
+<p>Thread priority is a scheduling hint that indicates the relative importance of a thread. Java defines priorities from 1 to 10:</p>
+<div class="highlight"><pre><span></span><code>Thread.MIN_PRIORITY    // 1
+Thread.NORM_PRIORITY   // 5
+Thread.MAX_PRIORITY    // 10
+</code></pre></div>
+
+<p>The default priority is normally <code>Thread.NORM_PRIORITY</code>, and a new thread generally inherits the priority of the thread that creates it. Calling <code>worker.setPriority(Thread.MAX_PRIORITY);</code> offers the scheduler a hint.</p>
+<p><strong>Priority does not guarantee execution order.</strong> The operating system and JVM ultimately influence scheduling. Different platforms may respect priorities differently, map several Java priorities to the same native priority, partially ignore priority differences, and produce different execution orders. Therefore: higher priority ≠ guaranteed first execution, and higher priority ≠ guaranteed more CPU time. Never use thread priority to guarantee program correctness.</p>
+<p>Priority is rarely needed in normal application code. Possible specialized uses include low-level performance tuning, background maintenance work, platform-specific systems, and carefully measured real-time-like workloads. In most applications, use executors, queue policies, separate thread pools, task prioritization and proper concurrency utilities, which provide more predictable control than raw thread priorities.</p>
+<h2 id="17-daemon-threads-setdaemon">17. Daemon Threads — setDaemon()</h2>
+<p>A daemon thread is a background-support thread that does not keep the JVM alive by itself. The call is <code>thread.setDaemon(true);</code>.</p>
+<p>A normal thread is a non-daemon (user) thread; the JVM remains alive while a user thread is running. Examples of user-thread work are main application logic, business operations, request processing, and important file or database work. A daemon thread performs background-support work such as runtime maintenance, monitoring helpers, cache cleanup and background housekeeping; the JVM does not remain alive solely for daemon threads.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo5.java — a daemon thread cannot keep the JVM alive</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">daemon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Daemon running...&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">daemon</span><span class="p">.</span><span class="na">setDaemon</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">        </span><span class="n">daemon</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Main finished&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Once the main thread finishes, the JVM may exit because only the daemon thread remains. The daemon thread is not allowed to keep the process alive.</p>
+<p><strong>The daemon rule.</strong> A thread must be marked as daemon <strong>before</strong> it is started:</p>
+<div class="highlight"><pre><span></span><code>Thread worker = new Thread(task);
+worker.setDaemon(true);   // correct: before start
+worker.start();
+
+worker.start();
+worker.setDaemon(true);   // incorrect: throws IllegalThreadStateException
+</code></pre></div>
+
+<p><strong>Daemon threads can stop abruptly.</strong> When the JVM exits because only daemon threads remain, daemon threads may be terminated without completing their work. They are not guaranteed to execute remaining statements, cleanup code, <code>finally</code> blocks, file flushes, database commits, or network operations. Therefore daemon threads should not perform work that must complete reliably: saving critical data, completing financial transactions, writing essential files, sending guaranteed messages, or releasing important external resources.</p>
+<p><strong>JVM exit rule.</strong> The JVM continues running while at least one live non-daemon thread exists. When the last non-daemon thread finishes, only daemon threads remain and the JVM may terminate. The main thread itself is normally a non-daemon thread.</p>
+<blockquote class="callout callout--important">
+<p>Important
+Daemon status is a lifecycle contract, not an optimization. If losing the work at JVM shutdown would be unacceptable, the thread must be a non-daemon thread.</p>
+</blockquote>
+<h2 id="18-the-master-method-table">18. The Master Method Table</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Affects which thread?</th>
+<th>Blocks?</th>
+<th>Releases lock?</th>
+<th>State entered</th>
+<th>Guaranteed or hint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Thread.sleep(ms)</code></td>
+<td>Current thread</td>
+<td>Yes</td>
+<td>No</td>
+<td><code>TIMED_WAITING</code></td>
+<td>Guaranteed wait, unless interrupted; duration approximate</td>
+</tr>
+<tr>
+<td><code>thread.join()</code></td>
+<td>Calling thread</td>
+<td>Yes</td>
+<td>Not a general lock-release mechanism</td>
+<td><code>WAITING</code></td>
+<td>Guaranteed until target terminates, unless interrupted</td>
+</tr>
+<tr>
+<td><code>thread.join(ms)</code></td>
+<td>Calling thread</td>
+<td>Yes, bounded</td>
+<td>Not a general lock-release mechanism</td>
+<td><code>TIMED_WAITING</code></td>
+<td>Guaranteed up to timeout, unless interrupted</td>
+</tr>
+<tr>
+<td><code>Thread.yield()</code></td>
+<td>Current thread</td>
+<td>No</td>
+<td>No</td>
+<td>Stays <code>RUNNABLE</code></td>
+<td>Hint only; may be ignored</td>
+</tr>
+<tr>
+<td><code>thread.interrupt()</code></td>
+<td>Target thread</td>
+<td>No</td>
+<td>No direct guarantee</td>
+<td>Depends on target state</td>
+<td>Request only; cooperative</td>
+</tr>
+<tr>
+<td><code>thread.isInterrupted()</code></td>
+<td>Inspects referenced thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed read; does not clear</td>
+</tr>
+<tr>
+<td><code>Thread.interrupted()</code></td>
+<td>Current thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed read; clears status</td>
+</tr>
+<tr>
+<td><code>thread.isAlive()</code></td>
+<td>Inspects target thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed boolean</td>
+</tr>
+<tr>
+<td><code>Thread.currentThread()</code></td>
+<td>Returns current thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed reference</td>
+</tr>
+<tr>
+<td><code>thread.setName()</code> / <code>getName()</code></td>
+<td>Target or current thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed</td>
+</tr>
+<tr>
+<td><code>thread.setPriority(int)</code></td>
+<td>Target thread</td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Hint; 1-10, default 5</td>
+</tr>
+<tr>
+<td><code>thread.setDaemon(true)</code></td>
+<td>Target thread, before <code>start()</code></td>
+<td>No</td>
+<td>No</td>
+<td>No state change</td>
+<td>Guaranteed config; <code>IllegalThreadStateException</code> after <code>start()</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-comparison-tables">19. Comparison Tables</h2>
+<p><strong>sleep() vs join() vs yield()</strong></p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><code>sleep()</code></th>
+<th><code>join()</code></th>
+<th><code>yield()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main purpose</td>
+<td>Pause for time</td>
+<td>Wait for target thread</td>
+<td>Suggest rescheduling</td>
+</tr>
+<tr>
+<td>Thread affected</td>
+<td>Current thread</td>
+<td>Calling thread</td>
+<td>Current thread</td>
+</tr>
+<tr>
+<td>Guaranteed waiting</td>
+<td>Yes, unless interrupted</td>
+<td>Yes, until completion | timeout | interruption</td>
+<td>No</td>
+</tr>
+<tr>
+<td>State</td>
+<td><code>TIMED_WAITING</code></td>
+<td><code>WAITING</code> or <code>TIMED_WAITING</code></td>
+<td><code>RUNNABLE</code></td>
+</tr>
+<tr>
+<td>Releases held monitors</td>
+<td>No</td>
+<td>No general release of monitors held by caller</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Throws <code>InterruptedException</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p><strong>User thread vs daemon thread</strong></p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>User (non-daemon) thread</th>
+<th>Daemon thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JVM lifetime</td>
+<td>Keeps the JVM alive while running</td>
+<td>Does not keep the JVM alive</td>
+</tr>
+<tr>
+<td>Typical work</td>
+<td>Business logic, request processing, critical I/O</td>
+<td>Maintenance, monitoring, cache cleanup</td>
+</tr>
+<tr>
+<td>Shutdown behaviour</td>
+<td>Allowed to complete</td>
+<td>May be stopped abruptly</td>
+</tr>
+<tr>
+<td><code>finally</code> guaranteed</td>
+<td>Normally</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Marked by</td>
+<td>Default</td>
+<td><code>setDaemon(true)</code> before <code>start()</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-important-rules">20. Important Rules</h2>
+<ol>
+<li><code>Thread.sleep()</code> always pauses the currently executing thread.</li>
+<li><code>sleep()</code> does not release a monitor held by the sleeping thread.</li>
+<li><code>join()</code> pauses the calling thread, not the target thread.</li>
+<li><code>yield()</code> is only a scheduling hint and may be ignored.</li>
+<li><code>interrupt()</code> does not forcibly terminate a thread.</li>
+<li>Interruption requires cooperation from the target task.</li>
+<li>Interrupting <code>sleep()</code>, <code>wait()</code> or <code>join()</code> causes <code>InterruptedException</code>.</li>
+<li><code>InterruptedException</code> clears the interrupted status.</li>
+<li>Restore the status when interruption cannot be fully handled.</li>
+<li><code>isInterrupted()</code> does not clear the status.</li>
+<li><code>Thread.interrupted()</code> checks and clears the current thread's status.</li>
+<li><code>isAlive()</code> is true after <code>start()</code> and before termination.</li>
+<li>Thread names are important for logs and debugging.</li>
+<li>Thread priority does not guarantee execution order.</li>
+<li>Set daemon status before calling <code>start()</code>.</li>
+<li>Daemon threads should not be used for work that must finish reliably.</li>
+<li>The JVM can exit when only daemon threads remain.</li>
+</ol>
+<h2 id="21-myth-vs-reality">21. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>t1.sleep(2000)</code> makes <code>t1</code> sleep."</td>
+<td><code>sleep()</code> is static and pauses the currently executing thread; the receiver is ignored.</td>
+</tr>
+<tr>
+<td>"<code>join()</code> pauses the target thread."</td>
+<td><code>join()</code> pauses the calling thread until the target terminates; the target keeps running.</td>
+</tr>
+<tr>
+<td>"<code>yield()</code> guarantees another thread runs."</td>
+<td><code>yield()</code> is only a hint; the scheduler may ignore it completely.</td>
+</tr>
+<tr>
+<td>"<code>interrupt()</code> forcibly stops a thread."</td>
+<td>It sets a request; the target must check the flag or hit an interruptible blocking call.</td>
+</tr>
+<tr>
+<td>"Higher priority always runs first."</td>
+<td>Priority (1-10) is a hint the OS may map or ignore; order is never guaranteed.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-common-trap-questions">22. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Static sneak: "I wrote <code>t1.sleep(2000)</code>, so <code>t1</code> sleeps, right?"
+No. <code>sleep()</code> is static; it pauses the thread that executes the statement, which is the caller, not necessarily <code>t1</code>.</p>
+<p>Trap 2 — Lock release: "Does <code>sleep()</code> release the monitor so other threads can enter?"
+No. <code>sleep()</code> holds every monitor it owns; <code>wait()</code> is the method that releases the monitor.</p>
+<p>Trap 3 — join target: "<code>t1.join()</code> pauses <code>t1</code> until the caller is ready."
+Backwards. <code>join()</code> pauses the caller until <code>t1</code> terminates; <code>t1</code> is unaffected and keeps running.</p>
+<p>Trap 4 — Timed join: "<code>t1.join(2000)</code> cancels <code>t1</code> after two seconds."
+No. It stops waiting after roughly two seconds; the target thread continues running.</p>
+<p>Trap 5 — Interrupt a busy loop: "<code>interrupt()</code> will break a <code>while (true)</code> loop."
+Only if that loop checks <code>isInterrupted()</code> or calls an interruptible method. Otherwise the flag is set but never observed and the loop runs forever.</p>
+<p>Trap 6 — Wrong inspector: "<code>Thread.interrupted()</code> reports whether another thread was interrupted."
+No. It inspects and clears the <strong>current</strong> thread's status. To inspect another thread, use <code>thread.isInterrupted()</code>, which does not clear.</p>
+<p>Trap 7 — Daemon timing: "I can mark a running thread as a daemon."
+No. <code>setDaemon()</code> must be called before <code>start()</code>; calling it later throws <code>IllegalThreadStateException</code>.</p>
+<p>Trap 8 — Alive means on CPU: "<code>isAlive()</code> returning true means the thread is currently running on the CPU."
+No. A sleeping, waiting, blocked or runnable thread is all alive; <code>isAlive()</code> only means started and not yet terminated.</p>
+</blockquote>
+<h2 id="23-points-to-remember">23. Points to Remember</h2>
+<ol>
+<li><code>sleep()</code> is static and always pauses the currently executing thread, regardless of the reference used.</li>
+<li><code>sleep()</code> places the thread in <code>TIMED_WAITING</code> and does not release a monitor; <code>wait()</code> does release it.</li>
+<li><code>join()</code> pauses the calling thread, not the target; untimed join enters <code>WAITING</code>, timed join enters <code>TIMED_WAITING</code>.</li>
+<li>A timed join does not terminate the target thread, and <code>join()</code> establishes a happens-before relationship.</li>
+<li><code>yield()</code> is only a hint and never places the thread in <code>WAITING</code> or <code>TIMED_WAITING</code>.</li>
+<li><code>interrupt()</code> requests cooperative cancellation; it never forcibly kills a thread.</li>
+<li>Interrupting <code>sleep()</code>, <code>wait()</code> or <code>join()</code> throws <code>InterruptedException</code> and clears the interrupted status.</li>
+<li><code>isInterrupted()</code> reads without clearing; <code>Thread.interrupted()</code> reads and clears the current thread's status.</li>
+<li>Restore the interrupt flag with <code>Thread.currentThread().interrupt()</code> when interruption cannot be fully handled.</li>
+<li><code>isAlive()</code> is true after <code>start()</code> and before termination; it does not mean "currently on the CPU".</li>
+<li><code>currentThread()</code> supplies the executing thread's object, which is why it powers <code>getName()</code> and interrupt status checks.</li>
+<li>Priority is a 1-10 hint (default 5) and never guarantees order; names greatly aid logs and thread dumps.</li>
+<li>Set daemon before <code>start()</code>; the JVM exits when only daemon threads remain, and daemon work may be abandoned.</li>
+<li>These methods are low-level; production lifecycle management usually moves to executors, futures and concurrent collections.</li>
+</ol>
+<h2 id="24-likely-interview-questions">24. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Which thread does <code>sleep()</code> pause?</td>
+<td>The currently executing thread. <code>sleep()</code> is static, so a reference like <code>t1.sleep()</code> still pauses the caller.</td>
+</tr>
+<tr>
+<td>Does <code>sleep()</code> release a lock?</td>
+<td>No. The sleeping thread keeps its monitors. <code>wait()</code> releases the monitor; <code>sleep()</code> does not.</td>
+</tr>
+<tr>
+<td>What state does <code>sleep()</code> enter?</td>
+<td><code>TIMED_WAITING</code>, returning to runnable after the duration (possibly later, never earlier).</td>
+</tr>
+<tr>
+<td>Which thread does <code>join()</code> pause?</td>
+<td>The calling thread. The target thread continues running until it terminates.</td>
+</tr>
+<tr>
+<td>Untimed vs timed <code>join()</code> state?</td>
+<td>Untimed <code>join()</code> puts the caller in <code>WAITING</code>; <code>join(ms)</code> puts it in <code>TIMED_WAITING</code>.</td>
+</tr>
+<tr>
+<td>Does timed <code>join()</code> stop the target?</td>
+<td>No. It only bounds how long the caller waits.</td>
+</tr>
+<tr>
+<td>What does <code>yield()</code> do?</td>
+<td>Offers a scheduling hint. It may be ignored and never guarantees a context switch.</td>
+</tr>
+<tr>
+<td>Does <code>yield()</code> change state?</td>
+<td>No. The thread stays <code>RUNNABLE</code>; it never enters <code>WAITING</code> or <code>TIMED_WAITING</code>.</td>
+</tr>
+<tr>
+<td>Does <code>interrupt()</code> stop a thread?</td>
+<td>No. It sets the interrupted flag and relies on the target to cooperate.</td>
+</tr>
+<tr>
+<td><code>isInterrupted()</code> vs <code>Thread.interrupted()</code>?</td>
+<td>The former inspects a referenced thread and does not clear; the latter inspects and clears the current thread's status.</td>
+</tr>
+<tr>
+<td>What happens when you interrupt <code>sleep()</code>/<code>wait()</code>/<code>join()</code>?</td>
+<td>The blocking call throws <code>InterruptedException</code>, and the interrupted status is cleared.</td>
+</tr>
+<tr>
+<td>What does <code>isAlive()</code> mean?</td>
+<td>Started and not yet terminated. It does not mean currently executing on the CPU.</td>
+</tr>
+<tr>
+<td>Does priority guarantee execution order?</td>
+<td>No. Priorities are 1-10 hints; the OS/JVM may map or ignore them.</td>
+</tr>
+<tr>
+<td>When can <code>setDaemon()</code> be called?</td>
+<td>Only before <code>start()</code>; afterwards it throws <code>IllegalThreadStateException</code>.</td>
+</tr>
+<tr>
+<td>When does the JVM exit?</td>
+<td>When no live non-daemon threads remain; daemon threads do not keep it alive and may be stopped abruptly.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="25-final-summary">25. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>sleep()              → pause the current thread for a duration
+join()               → make the current thread wait for another thread
+yield()              → suggest that the scheduler consider another runnable thread
+interrupt()          → request cooperative cancellation
+isInterrupted()      → inspect status without clearing it
+Thread.interrupted() → inspect and clear the current thread&#39;s status
+isAlive()            → check whether a thread has started and not terminated
+currentThread()      → obtain the currently executing thread
+setName()/getName()  → assign and read a meaningful thread name
+setPriority()        → provide a non-guaranteed scheduling hint (1-10)
+setDaemon()          → mark a thread as background support work (before start)
+</code></pre></div>
+
+<ul>
+<li>Pause → <code>sleep()</code> sends the current thread to <code>TIMED_WAITING</code> and holds its locks.</li>
+<li>Wait → <code>join()</code> parks the caller (<code>WAITING</code>) or bounded-waits (<code>TIMED_WAITING</code>) for the target.</li>
+<li>Hint → <code>yield()</code> and priority only suggest; neither guarantees scheduling or order.</li>
+<li>Cancel → <code>interrupt()</code> is cooperative; <code>sleep</code>/<code>wait</code>/<code>join</code> react with <code>InterruptedException</code>.</li>
+<li>Inspect → <code>isInterrupted</code>, <code>interrupted</code>, <code>isAlive</code>, <code>currentThread</code> observe without necessarily changing state.</li>
+<li>Configure → names aid diagnostics; daemon threads must be set before <code>start()</code> and cannot keep the JVM alive.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Every one of these methods is a low-level control lever, not a correctness guarantee. Guarantee ordering with coordination and visibility, request cancellation cooperatively, and reach for executors and concurrency utilities in production code.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> <code>sleep</code> pauses the current thread without releasing locks, <code>join</code> waits for another thread, <code>yield</code> and priority only hint, <code>interrupt</code> requests cooperative cancellation, and <code>isAlive</code>, <code>currentThread</code>, naming and daemon status let you inspect and configure threads without ever assuming the scheduler obeys.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-48.html"><span class="dir">Previous</span><span class="ttl">Java Thread Creation &amp; Lifecycle Explained from Scratch</span></a><a class="next" href="doc-theory-lecture-50.html"><span class="dir">Next</span><span class="ttl">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

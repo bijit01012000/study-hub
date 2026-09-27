@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies) — Spring Boot</title>
+<meta name="description" content="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-22">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-22.html#lecture-22">Lecture 22</a></li><li><a href="doc-theory-lecture-22.html#1-a-simple-business-method">1. A Simple Business Method</a></li><li><a href="doc-theory-lecture-22.html#2-real-applications-need-more-than-business-logic">2. Real Applications Need More Than Business Logic</a></li><li><a href="doc-theory-lecture-22.html#3-business-logic-vs-supporting-logic">3. Business Logic vs Supporting Logic</a></li><li><a href="doc-theory-lecture-22.html#4-what-is-a-concern-core-vs-cross-cutting">4. What Is a Concern? Core vs Cross-Cutting</a></li><li><a href="doc-theory-lecture-22.html#5-common-cross-cutting-concerns">5. Common Cross-Cutting Concerns</a></li><li><a href="doc-theory-lecture-22.html#6-the-two-major-problems-scattering-and-tangling">6. The Two Major Problems: Scattering and Tangling</a></li><li><a href="doc-theory-lecture-22.html#7-consequences-of-scattering-and-tangling">7. Consequences of Scattering and Tangling</a></li><li><a href="doc-theory-lecture-22.html#8-first-attempt-utility-methods">8. First Attempt: Utility Methods</a></li><li><a href="doc-theory-lecture-22.html#9-second-attempt-inheritance">9. Second Attempt: Inheritance</a></li><li><a href="doc-theory-lecture-22.html#10-third-attempt-manual-wrappers">10. Third Attempt: Manual Wrappers</a></li><li><a href="doc-theory-lecture-22.html#11-limitations-of-manual-wrappers-and-what-a-better-solution-must-provide">11. Limitations of Manual Wrappers and What a Better Solution Must Provide</a></li><li><a href="doc-theory-lecture-22.html#12-aspect-oriented-programming-and-oop-vs-aop">12. Aspect-Oriented Programming and OOP vs AOP</a></li><li><a href="doc-theory-lecture-22.html#13-the-three-fundamental-aop-questions-and-what-is-an-aspect">13. The Three Fundamental AOP Questions and What Is an Aspect</a></li><li><a href="doc-theory-lecture-22.html#14-how-spring-aop-applies-an-aspect-the-proxy">14. How Spring AOP Applies an Aspect: The Proxy</a></li><li><a href="doc-theory-lecture-22.html#15-manual-wrapper-vs-spring-aop-proxy">15. Manual Wrapper vs Spring AOP Proxy</a></li><li><a href="doc-theory-lecture-22.html#16-important-aop-terms-at-a-glance-and-the-final-mental-model">16. Important AOP Terms at a Glance and the Final Mental Model</a></li><li><a href="doc-theory-lecture-22.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-22.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-22.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-22.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-22.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</h1>
+<p class="readmeta">22 sections · 5,394 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-22" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-22">Lecture 22</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring AOP | Cross-Cutting Concerns &amp; Proxies" (playlist map, verified). The repo folder is the aopIntroductionDemo project: its service package holds <code>StudentService</code>, <code>StudentServiceImpl</code>, <code>ExecutionTimeService</code>, <code>LoggingServiceUtil</code> and <code>LoggingDecorator</code>, alongside <code>controller.StudentController</code>, <code>repository.StudentRepository</code>, <code>dto.Student</code> and the <code>AopIntroductionDemoApplication</code> entry point, plus these lecture notes.</p>
+</blockquote>
+<p>Every real application begins as pure business logic: create a student, place an order, process a payment. Then production reality arrives - logging, security, transactions, auditing, caching, timing - and none of it belongs to the domain rule it surrounds. This lecture follows the three naive attempts to separate those concerns (utility methods, inheritance, manual wrappers), shows exactly why each falls short at scale, and then introduces the mechanism Spring AOP uses to solve the problem: the proxy. The end state is a mental model in which business intent stays visible and cross-cutting policy lives in one module, applied automatically.</p>
+<h2 id="1-a-simple-business-method">1. A Simple Business Method</h2>
+<p>Consider a student-management application. A service class manages students, and one method creates them:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// service/StudentServiceImpl.java - business logic only</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentServiceImpl</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentServiceImpl</span><span class="p">(</span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The responsibility of <code>createStudent()</code> is easy to understand:</p>
+<div class="highlight"><pre><span></span><code>Receive student
+      |
+      v
+Save student
+      |
+      v
+Return saved student
+</code></pre></div>
+
+<p>This is the business logic of the method. A business method answers a domain-related question, such as:</p>
+<ul>
+<li>How is a student created?</li>
+<li>How is an order placed?</li>
+<li>How is a payment processed?</li>
+<li>How is money transferred?</li>
+<li>How is inventory updated?</li>
+</ul>
+<p>The method is currently focused on one responsibility, so its intent is immediately visible. Reading the method tells you exactly what the application does; nothing else competes for attention.</p>
+<blockquote class="callout callout--important">
+<p>Important: A business method should primarily express business intent. Everything that is not the domain rule itself is a candidate to be moved out of the method and applied around it.</p>
+</blockquote>
+<h2 id="2-real-applications-need-more-than-business-logic">2. Real Applications Need More Than Business Logic</h2>
+<p>A production application may also need to:</p>
+<ul>
+<li>Log when a method begins</li>
+<li>Log whether it succeeds or fails</li>
+<li>Measure execution time</li>
+<li>Check whether the caller has permission</li>
+<li>Record an audit event</li>
+<li>Start, commit, or roll back a transaction</li>
+<li>Collect application metrics</li>
+<li>Retry temporary failures</li>
+<li>Cache a result</li>
+<li>Mask sensitive information</li>
+</ul>
+<p>These requirements are important, but they are not part of the core process of creating a student. None of them answers "how is a student created?" - they answer "how does the application behave while creating one?"</p>
+<p>If all of them are added directly to <code>createStudent()</code>, the method becomes difficult to read because most of its code no longer represents student-related business logic. The method still works, but the reason it exists is buried under ten other reasons it was modified.</p>
+<div class="highlight"><pre><span></span><code>Same method, two different jobs:
+  &quot;create a student&quot;          -&gt; business logic
+  &quot;log, secure, time, audit&quot;  -&gt; everything else
+</code></pre></div>
+
+<p>A typical application therefore contains two broad categories of responsibility, and the next section names them.</p>
+<h2 id="3-business-logic-vs-supporting-logic">3. Business Logic vs Supporting Logic</h2>
+<p><strong>Business logic</strong> represents the rules and operations of the application's domain. Examples:</p>
+<ul>
+<li>Creating a student</li>
+<li>Placing an order</li>
+<li>Processing a payment</li>
+<li>Updating inventory</li>
+<li>Approving a loan</li>
+</ul>
+<p>Business logic differs from one feature or domain to another. The rule for approving a loan has nothing to do with the rule for updating inventory.</p>
+<p><strong>Supporting or infrastructure logic</strong> helps the application operate safely, reliably, securely, and observably. Examples:</p>
+<ul>
+<li>Logging</li>
+<li>Security checks</li>
+<li>Transaction management</li>
+<li>Auditing</li>
+<li>Performance monitoring</li>
+<li>Caching</li>
+</ul>
+<p>This logic is usually not specific to students, orders, payments, or inventory. The same supporting behaviour may be required across many unrelated features.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Business logic</th>
+<th>Supporting logic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it expresses</td>
+<td>The rules and operations of the domain</td>
+<td>Infrastructure that keeps the app safe, reliable, secure, observable</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td>Create student, place order, process payment, update inventory, approve loan</td>
+<td>Logging, security, transactions, auditing, monitoring, caching</td>
+</tr>
+<tr>
+<td>Variability</td>
+<td>Differs from feature to feature and domain to domain</td>
+<td>Same behaviour is needed across many unrelated features</td>
+</tr>
+<tr>
+<td>Where it belongs</td>
+<td>In the business class</td>
+<td>In a separate, dedicated module</td>
+</tr>
+<tr>
+<td>Test focus</td>
+<td>Correct domain outcome</td>
+<td>Correct operational behaviour around the method</td>
+</tr>
+</tbody>
+</table>
+<p>The distinction is the seed of the whole lecture: one category belongs inside the method, the other does not, and mixing them is what hurts.</p>
+<h2 id="4-what-is-a-concern-core-vs-cross-cutting">4. What Is a Concern? Core vs Cross-Cutting</h2>
+<p>A concern is a responsibility or area of interest within an application. Examples:</p>
+<ul>
+<li>Student management is one concern.</li>
+<li>Logging is another concern.</li>
+<li>Security is another concern.</li>
+<li>Payment processing is another concern.</li>
+<li>Transaction management is another concern.</li>
+</ul>
+<p><strong>Core business concerns</strong> normally belong to a particular feature or module:</p>
+<div class="highlight"><pre><span></span><code>Student concern  -&gt; StudentService
+Order concern    -&gt; OrderService
+Payment concern  -&gt; PaymentService
+</code></pre></div>
+
+<p>These concerns are organized vertically. Each feature has its own classes and methods, and each class groups behaviour related to that one capability.</p>
+<p><strong>Cross-cutting concerns</strong> are required across many business modules:</p>
+<div class="highlight"><pre><span></span><code>      Logging
+         |
+         v
+StudentService &lt;- Security -&gt; OrderService
+         |
+         v
+      PaymentService
+         |
+         v
+      Auditing
+</code></pre></div>
+
+<p>These concerns cut horizontally across otherwise unrelated features. They are therefore called cross-cutting concerns.</p>
+<p>A concern becomes cross-cutting when the same kind of behaviour must be applied in many different parts of the application. The moment you find yourself writing the same non-business step in a second service, the concern has become cross-cutting.</p>
+<h2 id="5-common-cross-cutting-concerns">5. Common Cross-Cutting Concerns</h2>
+<p>The source names five recurring examples, each with a reason why it cannot stay inside one business class.</p>
+<p><strong>Logging.</strong> The application may need to record which method was called, when it started, whether it completed successfully, whether it failed, which arguments were supplied, and how long it took. The same logging requirement may apply to student, order, payment, inventory, and user services.</p>
+<p><strong>Security.</strong> Suppose only administrators are allowed to delete students. A permission check must run before the delete operation. Similar checks may also be needed before refunding payments, changing user roles, or approving requests.</p>
+<p><strong>Performance measurement.</strong> Suppose we want to identify slow methods. A timer must run before the method, and the elapsed time must be calculated after the method finishes. Without a reusable mechanism, this timer would have to be added manually to every method that needs monitoring.</p>
+<p><strong>Auditing.</strong> Certain business operations may need a permanent record, including who performed the operation, what operation was performed, when it happened, and whether it succeeded or failed.</p>
+<p><strong>Transaction management.</strong> Database operations may require a transaction to begin before the business method and then commit or roll back after the method completes.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Typical timing</th>
+<th>What a business method would otherwise embed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logging</td>
+<td>Before, after, and on failure</td>
+<td>start/finish/failure messages and argument data</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Before</td>
+<td>permission checks and role validation</td>
+</tr>
+<tr>
+<td>Performance</td>
+<td>Before and after</td>
+<td>a start timestamp plus elapsed-time calculation</td>
+</tr>
+<tr>
+<td>Auditing</td>
+<td>After success or failure</td>
+<td>who/what/when and outcome records</td>
+</tr>
+<tr>
+<td>Transactions</td>
+<td>Around</td>
+<td>begin, commit, and rollback calls</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A strong candidate names the category before the example. "Logging is a cross-cutting concern because every service needs it and no service owns it" beats a memorized list, because it explains why AOP exists at all.</p>
+</blockquote>
+<h2 id="6-the-two-major-problems-scattering-and-tangling">6. The Two Major Problems: Scattering and Tangling</h2>
+<p>Cross-cutting concerns create two major architectural problems when they are implemented directly inside business classes.</p>
+<h3 id="61-scattering">6.1 Scattering</h3>
+<p>Scattering means that the implementation of one concern is spread across many locations. For example, logging code may appear in:</p>
+<div class="highlight"><pre><span></span><code>StudentService
+OrderService
+PaymentService
+InventoryService
+UserService
+ReportService
+</code></pre></div>
+
+<p>The logging concern is now scattered throughout the application.</p>
+<p>Imagine an application containing 20 service classes with five methods each. Logging, auditing, or performance code may have to be added and maintained in approximately 100 different methods. If the logging format or auditing policy changes, many classes may need to be modified.</p>
+<p>Problems caused by scattering:</p>
+<ul>
+<li>The same concern is repeated in many places.</li>
+<li>Developers may implement it differently.</li>
+<li>A required method may be missed.</li>
+<li>A small policy change may require edits across the entire codebase.</li>
+<li>Maintenance becomes expensive.</li>
+</ul>
+<h3 id="62-tangling">6.2 Tangling</h3>
+<p>Tangling means that a single method contains code belonging to multiple unrelated concerns. Consider this payment method:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Tangled: one method owns five unrelated concerns</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">Payment</span><span class="w"> </span><span class="nf">processPayment</span><span class="p">(</span><span class="n">PaymentRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Logging concern</span>
+<span class="w">    </span><span class="n">log</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;Processing payment&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Security concern</span>
+<span class="w">    </span><span class="n">securityService</span><span class="p">.</span><span class="na">checkPermission</span><span class="p">(</span><span class="s">&quot;PROCESS_PAYMENT&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// Performance concern</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Business concern</span>
+<span class="w">        </span><span class="n">Payment</span><span class="w"> </span><span class="n">payment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gateway</span><span class="p">.</span><span class="na">charge</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Auditing concern</span>
+<span class="w">        </span><span class="n">auditService</span><span class="p">.</span><span class="na">record</span><span class="p">(</span><span class="s">&quot;PAYMENT_COMPLETED&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">payment</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Logging concern</span>
+<span class="w">        </span><span class="n">log</span><span class="p">.</span><span class="na">error</span><span class="p">(</span><span class="s">&quot;Payment failed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// Auditing concern</span>
+<span class="w">        </span><span class="n">auditService</span><span class="p">.</span><span class="na">record</span><span class="p">(</span><span class="s">&quot;PAYMENT_FAILED&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="n">exception</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Performance concern</span>
+<span class="w">        </span><span class="n">metrics</span><span class="p">.</span><span class="na">record</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This one method is responsible for business logic, logging, security, auditing, performance measurement, and exception-related behaviour. The problem is not that these responsibilities are unnecessary. The problem is that they are implemented together in the same method.</p>
+<div class="highlight"><pre><span></span><code>Scattering = one concern, many methods.
+Tangling   = one method, many concerns.
+</code></pre></div>
+
+<p>They are two views of the same bad habit: the concern and the method are not separated.</p>
+<h2 id="7-consequences-of-scattering-and-tangling">7. Consequences of Scattering and Tangling</h2>
+<p>Tangling and scattering are not aesthetic complaints; they produce concrete engineering damage. The source lists six consequences:</p>
+<ol>
+<li>The business intent becomes difficult to see.</li>
+<li>Supporting behaviour may be applied inconsistently.</li>
+<li>Changes become more expensive.</li>
+<li>Developers can forget mandatory behaviour.</li>
+<li>Testing becomes more complicated.</li>
+<li>The method becomes harder to maintain.</li>
+</ol>
+<p>Compare the two versions below. The tangled version is the same shape we saw in Section 6, now for the student operation: a start timestamp, a log call, a permission check, a <code>try/catch/finally</code>, an audit record on success, and a metrics record on exit. The focused version is the business operation and nothing else: <code>public Student createStudent(Student student) { return studentRepository.save(student); }</code>.</p>
+<p>The second version communicates the business operation immediately. The challenge is to keep the method this clean while still applying the required supporting behaviour. Every attempt in Sections 8 to 10 is an answer to that challenge.</p>
+<table>
+<thead>
+<tr>
+<th>Tangled method</th>
+<th>Focused method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reader must scan past logging, security, audit, timing</td>
+<td>Reader sees the domain rule on line one</td>
+</tr>
+<tr>
+<td>Changing a policy edits many methods</td>
+<td>Changing a policy edits one place</td>
+</tr>
+<tr>
+<td>A missing step is easy to overlook</td>
+<td>Applying the step is systematic</td>
+</tr>
+<tr>
+<td>Unit tests must arrange every support service</td>
+<td>Tests focus on the business outcome</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: If a business method is hard to read because of code that has nothing to do with its name, the problem is not the developer - the problem is the missing separation mechanism.</p>
+</blockquote>
+<h2 id="8-first-attempt-utility-methods">8. First Attempt: Utility Methods</h2>
+<p>A common first solution is to centralize repeated code inside a utility class. <code>LoggingServiceUtil</code> exposes static helpers such as <code>logStart(methodName)</code>, <code>logEnd(methodName)</code>, and later <code>logSuccess(...)</code> and <code>logFailure(...)</code>, all implemented once so nobody repeats the message-formatting logic.</p>
+<p>The service can then call the utility methods:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// First attempt: the utility hides the implementation, not the invocation</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">LoggingServiceUtil</span><span class="p">.</span><span class="na">logStart</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Student</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="n">LoggingServiceUtil</span><span class="p">.</span><span class="na">logEnd</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is better than duplicating the complete logging implementation, but it does not solve the fundamental problem.</p>
+<p><strong>The invocation is still scattered.</strong> Every business method must still contain calls such as <code>LoggingServiceUtil.logStart(...)</code> and <code>LoggingServiceUtil.logEnd(...)</code>. The logging implementation is centralized, but the decision about where and when to invoke it remains scattered across business methods.</p>
+<p><strong>Developers must remember to call it.</strong> Nothing automatically guarantees that every required method invokes the utility. A developer may:</p>
+<ul>
+<li>forget to call <code>logStart()</code>;</li>
+<li>call <code>logStart()</code> but forget <code>logEnd()</code>;</li>
+<li>use inconsistent method names or messages;</li>
+<li>handle failure differently in different methods.</li>
+</ul>
+<p><strong>Success and failure paths still require boilerplate.</strong> The utility avoids repeating the internal logging implementation, but every business method still contains control-flow boilerplate: the method calls <code>logStart</code>, opens a <code>try</code>, saves, calls <code>logSuccess</code> on the happy path, and catches the exception to call <code>logFailure</code> before rethrowing. That control flow is repeated in every method that needs it.</p>
+<p>Utility methods centralize what the concern does, but not where and when the concern is applied. That "where and when" gap is exactly what the next two attempts also fail to close by hand.</p>
+<h2 id="9-second-attempt-inheritance">9. Second Attempt: Inheritance</h2>
+<p>Another possibility is to place common behaviour inside a base class. An abstract <code>BaseService</code> defines protected <code>logStart(methodName)</code> and <code>logEnd(methodName)</code> methods once, and a service such as <code>StudentService</code> extends it. Inside <code>createStudent</code>, the service still calls <code>logStart("createStudent")</code>, saves, calls <code>logEnd("createStudent")</code>, and returns the result.</p>
+<p>Inheritance shares the implementation of <code>logStart()</code> and <code>logEnd()</code>, but every method must still invoke them manually. It provides access to shared behaviour; it does not automatically execute that behaviour around selected methods.</p>
+<p>Why inheritance does not solve the problem - it creates additional design problems:</p>
+<ul>
+<li>Java supports only single class inheritance.</li>
+<li>A service may already need to extend another class.</li>
+<li>Unrelated classes are forced into an artificial inheritance hierarchy.</li>
+<li>Logging, security, auditing, and other unrelated concerns may get mixed into one large base class.</li>
+<li>The parent-child relationship does not naturally represent these concerns.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Inheritance gives the method the tools.
+It still makes the method use the tools by hand.
+</code></pre></div>
+
+<h2 id="10-third-attempt-manual-wrappers">10. Third Attempt: Manual Wrappers</h2>
+<p>A stronger solution is the wrapper or decorator approach. It leans on the interface we already met in Section 1: the <code>StudentService</code> interface declares <code>Student createStudent(Student student);</code>, and the real <code>StudentServiceImpl</code> implements it with nothing but the repository call.</p>
+<p>Now create a wrapper that implements the same interface. <code>LoggingDecorator</code> holds a <code>StudentService target</code>, and its own <code>createStudent</code> runs the support code around the target call:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// service/LoggingDecorator.java - the right idea, built by hand</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingDecorator</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="n">target</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">LoggingDecorator</span><span class="p">(</span><span class="n">StudentService</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">target</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">        </span><span class="n">LoggingServiceUtil</span><span class="p">.</span><span class="na">logStart</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Student</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target</span><span class="p">.</span><span class="na">createStudent</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">            </span><span class="n">LoggingServiceUtil</span><span class="p">.</span><span class="na">logSuccess</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">LoggingServiceUtil</span><span class="p">.</span><span class="na">logFailure</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">exception</span><span class="p">);</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">exception</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ExecutionTimeService</span><span class="p">.</span><span class="na">record</span><span class="p">(</span><span class="s">&quot;createStudent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The caller receives the wrapper instead of directly receiving the real service:</p>
+<div class="highlight"><pre><span></span><code>Controller
+    |
+    v
+LoggingDecorator
+    |
+    v
+StudentService
+</code></pre></div>
+
+<p>The original business class remains clean because the wrapper surrounds the real method invocation. The wrapper performs three fundamental actions:</p>
+<div class="highlight"><pre><span></span><code>Run supporting behaviour before
+    |
+    v
+Call the real business object
+    |
+    v
+Run supporting behaviour after
+</code></pre></div>
+
+<p>This is close to the basic execution model used by Spring AOP. AOP did not invent the idea of wrapping behaviour. It provides infrastructure for creating and applying such wrappers systematically.</p>
+<blockquote class="callout callout--important">
+<p>Important: The manual wrapper is the conceptual breakthrough of this lecture. Everything Spring AOP does later is automation of this exact pattern, not a new idea.</p>
+</blockquote>
+<h2 id="11-limitations-of-manual-wrappers-and-what-a-better-solution-must-provide">11. Limitations of Manual Wrappers and What a Better Solution Must Provide</h2>
+<p>Manual wrappers can work in a small application, but they become expensive at scale.</p>
+<p><strong>A wrapper is needed for every service type.</strong> A wrapper written for <code>StudentOperations</code> cannot automatically wrap unrelated service interfaces such as <code>OrderOperations</code> or <code>PaymentOperations</code>. Separate wrappers may be required for student services, order services, payment services, inventory services, and user services.</p>
+<p><strong>Multiple concerns require multiple layers.</strong> Suppose a service needs security, logging, performance measurement, and auditing. The object chain may become:</p>
+<div class="highlight"><pre><span></span><code>Controller
+    |
+    v
+SecurityStudentService
+    |
+    v
+LoggingStudentService
+    |
+    v
+PerformanceStudentService
+    |
+    v
+AuditingStudentService
+    |
+    v
+StudentService
+</code></pre></div>
+
+<p><strong>Manual object construction becomes complicated.</strong> Someone must create all wrappers in the correct order and inject the final outer wrapper wherever the service is needed.</p>
+<p><strong>The same boilerplate appears again.</strong> Each wrapper contains similar delegation and exception-handling code. The concern has moved out of the business class, but wrapper creation and maintenance remain manual.</p>
+<p>A scalable solution should satisfy four requirements.</p>
+<ul>
+<li><strong>Requirement 1 - keep common behaviour in one place.</strong> Logging, security, auditing, or performance logic should have a dedicated module rather than being repeated in business classes.</li>
+<li><strong>Requirement 2 - select where the behaviour should apply.</strong> We need a way to express rules such as "apply to all service methods", "apply only to methods annotated with <code>@TrackExecutionTime</code>", or "apply to every method whose name starts with save".</li>
+<li><strong>Requirement 3 - control when the behaviour should run.</strong> Supporting logic may need to run before the method, after the method, only after successful completion, only after an exception is thrown, or around the complete method execution.</li>
+<li><strong>Requirement 4 - avoid modifying every business method.</strong> We do not want every method to contain infrastructure calls before the business logic. The application should apply cross-cutting behaviour without requiring the caller or business method to manage it manually. The mechanism should remain largely transparent to the business code and its caller.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Reuses implementation?</th>
+<th>Applies behaviour automatically?</th>
+<th>Where it breaks down</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Utility method</td>
+<td>Yes, centralized in one class</td>
+<td>No - every method must call it</td>
+<td>The invocation is still scattered; easy to forget</td>
+</tr>
+<tr>
+<td>Inheritance</td>
+<td>Yes, shared in a base class</td>
+<td>No - still invoked manually</td>
+<td>Single inheritance, artificial hierarchy, mixed concerns</td>
+</tr>
+<tr>
+<td>Manual wrapper</td>
+<td>Yes, one decorator class</td>
+<td>Yes, but assembled by hand</td>
+<td>One wrapper per service type, nested layers, manual wiring</td>
+</tr>
+<tr>
+<td>AOP proxy</td>
+<td>Yes, one aspect module</td>
+<td>Yes - Spring builds and manages the proxy</td>
+<td>Needs pointcuts and container integration, not hand wiring</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-aspect-oriented-programming-and-oop-vs-aop">12. Aspect-Oriented Programming and OOP vs AOP</h2>
+<p>This is the problem that Aspect-Oriented Programming, or AOP, is designed to solve. AOP provides a way to modularize cross-cutting concerns instead of mixing them into business classes.</p>
+<p>The essential idea is:</p>
+<div class="highlight"><pre><span></span><code>Keep business logic in business classes
+           +
+Keep cross-cutting logic in a separate module
+           +
+Define where and when that logic should apply
+           =
+Combined behaviour at runtime
+</code></pre></div>
+
+<p>With AOP, the business method can remain focused: <code>createStudent</code> is once again just <code>return studentRepository.save(student);</code>. Logging, security, performance measurement, or auditing can be applied around it through separate AOP configuration.</p>
+<p>Object-Oriented Programming and Aspect-Oriented Programming are not competitors. They organize different dimensions of an application.</p>
+<p><strong>OOP organizes business capabilities vertically:</strong></p>
+<div class="highlight"><pre><span></span><code>StudentService
+    |- createStudent
+    |- updateStudent
+    |- deleteStudent
+OrderService
+    |- placeOrder
+    |- cancelOrder
+    |- getOrder
+PaymentService
+    |- makePayment
+    |- refundPayment
+    |- getPayment
+</code></pre></div>
+
+<p>Each class groups behaviour related to a particular business capability.</p>
+<p><strong>AOP organizes behaviour horizontally:</strong></p>
+<div class="highlight"><pre><span></span><code>          Logging
+             |
+             v
+StudentService &lt;- Performance -&gt; OrderService
+             |
+             v
+        PaymentService
+             |
+             v
+          Auditing
+</code></pre></div>
+
+<p>AOP captures behaviour that spans several business capabilities.</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>OOP</th>
+<th>AOP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Organizes</td>
+<td>Core business capabilities</td>
+<td>Shared behaviour across capabilities</td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>Vertical - one class per capability</td>
+<td>Horizontal - one concern across classes</td>
+</tr>
+<tr>
+<td>Basic unit</td>
+<td>Class</td>
+<td>Aspect</td>
+</tr>
+<tr>
+<td>Solves</td>
+<td>Domain modelling and reuse of domain code</td>
+<td>Separation of cross-cutting concerns</td>
+</tr>
+<tr>
+<td>Relationship</td>
+<td>The base organization</td>
+<td>A complement, not a competitor</td>
+</tr>
+</tbody>
+</table>
+<p>OOP organizes the core business capabilities. AOP organizes behaviour that cuts across those capabilities. AOP complements OOP by modularizing concerns that do not fit neatly inside one business class.</p>
+<h2 id="13-the-three-fundamental-aop-questions-and-what-is-an-aspect">13. The Three Fundamental AOP Questions and What Is an Aspect</h2>
+<p>AOP can be understood through three questions.</p>
+<p><strong>Question 1: What should happen?</strong> Examples: log method execution, measure execution time, check permission, create an audit record. The code that performs this additional action is called <strong>advice</strong>.</p>
+<p><strong>Question 2: Where should it happen?</strong> Examples: all methods in <code>StudentService</code>, all service-layer methods, methods whose names begin with save, methods annotated with <code>@TrackExecutionTime</code>. The rule that selects the relevant method executions is called a <strong>pointcut</strong>.</p>
+<p><strong>Question 3: When should it happen?</strong> Examples: before the method, after the method, after successful completion, after an exception, around the complete method execution. The timing determines the <strong>type of advice</strong>.</p>
+<p>A simple mental model:</p>
+<div class="highlight"><pre><span></span><code>What should happen?         -&gt; Advice
+Where should it apply?      -&gt; Pointcut
+When should it run?         -&gt; Advice type
+</code></pre></div>
+
+<p>An <strong>aspect</strong> is a module that contains a cross-cutting policy. It normally brings together:</p>
+<ul>
+<li>the cross-cutting action that must run;</li>
+<li>the rule that decides where it should run;</li>
+<li>the timing of that action.</li>
+</ul>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>PerformanceAspect
+    |- Which methods should be measured?
+    |- How should their execution time be measured?
+
+AuditAspect
+    |- Which operations require auditing?
+    |- What information should be recorded?
+    |- Should both success and failure be recorded?
+</code></pre></div>
+
+<p>An aspect therefore represents a complete cross-cutting concern as a separate module.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The three questions (what, where, when) map one-to-one onto advice, pointcut, and advice type. If a candidate can answer "what is a pointcut?" with "the where of the three questions", they clearly understand AOP rather than reciting vocabulary.</p>
+</blockquote>
+<h2 id="14-how-spring-aop-applies-an-aspect-the-proxy">14. How Spring AOP Applies an Aspect: The Proxy</h2>
+<p>Spring AOP normally creates a <strong>proxy</strong> around a Spring-managed target object. The <strong>target</strong> is the real object containing the business logic.</p>
+<div class="highlight"><pre><span></span><code>Target Object: StudentService target object
+Proxy Object:  StudentService proxy
+</code></pre></div>
+
+<p>When AOP is applied, the caller normally receives a proxy instead of directly receiving the target. The proxy looks compatible with the target from the caller's perspective, but it can intercept method calls and apply additional behaviour.</p>
+<p>Runtime flow:</p>
+<div class="highlight"><pre><span></span><code>Controller
+    |
+    v
+AOP proxy
+    |
+    v
+Cross-cutting logic before the method
+    |
+    v
+Actual StudentService method
+    |
+    v
+Cross-cutting logic after the method
+    |
+    v
+Controller receives the result
+</code></pre></div>
+
+<p>Conceptually, the proxy's <code>createStudent</code> calls <code>logBefore()</code>, then <code>target.createStudent(student)</code> inside a <code>try</code>, then <code>logSuccess(result)</code> and returns; on an exception it calls <code>logFailure(exception)</code> and rethrows. The <code>target</code> here is the real <code>StudentServiceImpl</code> bean.</p>
+<p>The actual business method remains unchanged. Spring creates and manages the interception layer instead of requiring us to write a separate wrapper for every service.</p>
+<p>The key difference from the manual wrapper is ownership: with AOP, the caller still asks for <code>StudentService</code>, and Spring hands back a proxy that satisfies the same contract. The wiring is done by the IoC container, not by hand.</p>
+<h2 id="15-manual-wrapper-vs-spring-aop-proxy">15. Manual Wrapper vs Spring AOP Proxy</h2>
+<table>
+<thead>
+<tr>
+<th>Manual Wrapper</th>
+<th>Spring AOP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Written manually for a specific service type</td>
+<td>Proxy infrastructure is created and managed by Spring</td>
+</tr>
+<tr>
+<td>Delegation code must be repeated</td>
+<td>Interception logic is reusable</td>
+</tr>
+<tr>
+<td>Wrappers must be assembled manually</td>
+<td>Spring integrates proxies with the IoC container</td>
+</tr>
+<tr>
+<td>Selection logic is hard-coded into wrapper creation</td>
+<td>Pointcuts define where advice applies</td>
+</tr>
+<tr>
+<td>Multiple concerns create nested wrapper classes</td>
+<td>Multiple advices can be applied through AOP configuration</td>
+</tr>
+<tr>
+<td>Becomes difficult to scale</td>
+<td>Designed for systematic cross-cutting behaviour</td>
+</tr>
+</tbody>
+</table>
+<p>The comparison makes the whole lecture click: the wrapper pattern is correct but manual; Spring AOP is the same pattern, automated and container-aware.</p>
+<h2 id="16-important-aop-terms-at-a-glance-and-the-final-mental-model">16. Important AOP Terms at a Glance and the Final Mental Model</h2>
+<p>The vocabulary of this lecture, collected in one place:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Concern</td>
+<td>A responsibility or area of interest in the application</td>
+</tr>
+<tr>
+<td>Cross-cutting concern</td>
+<td>A concern needed across multiple unrelated modules</td>
+</tr>
+<tr>
+<td>Aspect</td>
+<td>A module that represents a cross-cutting concern</td>
+</tr>
+<tr>
+<td>Advice</td>
+<td>The action that runs, such as logging or timing</td>
+</tr>
+<tr>
+<td>Pointcut</td>
+<td>The rule that selects where advice should run</td>
+</tr>
+<tr>
+<td>Join point</td>
+<td>An execution point, such as a method call, where advice can be applied</td>
+</tr>
+<tr>
+<td>Target</td>
+<td>The real Spring bean containing the business logic</td>
+</tr>
+<tr>
+<td>Proxy</td>
+<td>The wrapper object created by Spring to intercept calls to the target</td>
+</tr>
+<tr>
+<td>Weaving</td>
+<td>Linking the aspect with the target to build the advised proxy; in Spring AOP this happens at runtime via the proxy</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for the seven core terms - Aspect, Advice, Pointcut, Join point, Target, Proxy, Weaving - read <strong>A-A-P-J-T-P-W</strong> as: "<strong>A</strong>ll <strong>A</strong>spects <strong>P</strong>oint to <strong>J</strong>oin points, <strong>T</strong>argets, <strong>P</strong>roxies and <strong>W</strong>eaving."</p>
+<p>Without AOP:</p>
+<div class="highlight"><pre><span></span><code>Business method
+    |- Logging
+    |- Security
+    |- Performance measurement
+    |- Auditing
+    |- Actual business logic
+</code></pre></div>
+
+<p>With AOP:</p>
+<div class="highlight"><pre><span></span><code>Business class
+    |- Actual business logic
+Separate aspect
+    |- Logging/security/auditing logic
+    |- Rule defining where it applies
+    |- Rule defining when it runs
+Spring proxy
+    |- Combines both behaviours at runtime
+</code></pre></div>
+
+<p>The complete idea can be summarized as:</p>
+<div class="highlight"><pre><span></span><code>Caller
+    |
+    v
+Spring AOP proxy
+    |
+    v
+Advice runs
+    |
+    v
+Target business method runs
+    |
+    v
+Remaining advice runs
+    |
+    v
+Result returns to caller
+</code></pre></div>
+
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"AOP is a replacement for OOP"</td>
+<td>AOP complements OOP; it organizes the horizontal concerns that OOP classes cannot own cleanly.</td>
+</tr>
+<tr>
+<td>"A utility class solves the cross-cutting problem"</td>
+<td>It centralizes the implementation but the invocation is still scattered and still easy to forget.</td>
+</tr>
+<tr>
+<td>"Inheritance applies behaviour automatically"</td>
+<td>It only shares methods; every business method must still call them by hand.</td>
+</tr>
+<tr>
+<td>"A manual wrapper is the same as Spring AOP"</td>
+<td>The wrapper is the same idea built by hand; Spring creates, orders, and injects the proxy automatically.</td>
+</tr>
+<tr>
+<td>"Cross-cutting concerns are optional extras"</td>
+<td>Security, transactions, and auditing are mandatory in production and are exactly the behaviour developers forget.</td>
+</tr>
+<tr>
+<td>"A pointcut is the code that runs"</td>
+<td>A pointcut only selects where; the action that runs is the advice.</td>
+</tr>
+<tr>
+<td>"The proxy changes the business class"</td>
+<td>The business class is untouched; Spring wraps it with a proxy that the caller receives instead.</td>
+</tr>
+<tr>
+<td>"Any method can be advised regardless of how it is called"</td>
+<td>Spring AOP intercepts calls that go through the proxy; internal self-invocation bypasses it.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "AOP means writing no extra code at all."</strong>
+Verdict: False. The cross-cutting code still exists; AOP moves it into a separate aspect module and applies it automatically, so the business class stays clean but the aspect is still code you write.</p>
+<p><strong>Trap 2 - "Utility methods and AOP are basically the same."</strong>
+Verdict: False. A utility centralizes what the concern does; it does not control where and when it runs. Every business method still calls the utility, so scattering and forgetting remain.</p>
+<p><strong>Trap 3 - "Inheritance solves cross-cutting concerns."</strong>
+Verdict: False. Inheritance shares behaviour but never applies it automatically, and it forces unrelated services into one hierarchy under Java's single inheritance rule.</p>
+<p><strong>Trap 4 - "A manual wrapper is a scalable design."</strong>
+Verdict: Misleading. It demonstrates the right idea, but one wrapper per service type plus one layer per concern produces a deep, manually assembled object chain.</p>
+<p><strong>Trap 5 - "Advice is a rule and pointcut is a method."</strong>
+Verdict: False. It is the reverse: advice is the action that runs; a pointcut is the rule selecting where it runs.</p>
+<p><strong>Trap 6 - "Spring AOP edits my business class to add logging."</strong>
+Verdict: False. The target stays unchanged. Spring creates a proxy around the Spring-managed bean, and the caller receives the proxy.</p>
+<p><strong>Trap 7 - "Calling one method of the same class from another applies the aspect."</strong>
+Verdict: False. Spring AOP intercepts calls that pass through the proxy; a self-invocation inside the target does not cross the proxy and therefore is not advised.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Business methods should primarily express business intent; everything else is a candidate to be applied around them.</li>
+<li>Logging, security, performance measurement, auditing, transactions, and caching are common cross-cutting concerns.</li>
+<li>A concern becomes cross-cutting when the same kind of behaviour must be applied in many different parts of the application.</li>
+<li>Implementing these concerns directly causes scattering (one concern in many methods) and tangling (one method owning many concerns).</li>
+<li>The damage is concrete: hidden intent, inconsistent behaviour, expensive change, forgotten mandatory steps, harder testing, harder maintenance.</li>
+<li>Utility methods centralize implementation but still require manual invocation, so the decision of where and when stays scattered.</li>
+<li>Inheritance shares code but does not automatically apply behaviour, and it forces unrelated classes into one hierarchy.</li>
+<li>Manual wrappers demonstrate the correct idea (before, call, after) but do not scale: one wrapper per type, one layer per concern, manual assembly.</li>
+<li>AOP keeps cross-cutting logic in a separate aspect: advice defines what happens, a pointcut defines where, and the advice type defines when.</li>
+<li>Spring AOP applies aspects through a proxy around a Spring-managed target; OOP organizes business capabilities vertically while AOP organizes shared behaviour horizontally.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a cross-cutting concern?</td>
+<td>A responsibility needed across many unrelated modules, such as logging, security, or auditing, that no single business class should own.</td>
+</tr>
+<tr>
+<td>Why do cross-cutting concerns hurt a codebase?</td>
+<td>Implementing them inline causes scattering and tangling, which hide business intent and make changes and testing expensive.</td>
+</tr>
+<tr>
+<td>What are scattering and tangling?</td>
+<td>Scattering is one concern spread across many methods; tangling is one method containing several unrelated concerns.</td>
+</tr>
+<tr>
+<td>Why do utility methods not solve it?</td>
+<td>They centralize the implementation but every business method must still remember to call them, so invocation stays scattered.</td>
+</tr>
+<tr>
+<td>Why does inheritance not solve it?</td>
+<td>It only shares methods; it cannot apply behaviour automatically and it forces unrelated classes into a single hierarchy.</td>
+</tr>
+<tr>
+<td>What is a manual wrapper and its limit?</td>
+<td>A decorator that runs support code around the target; correct in concept, but it needs one wrapper per type and layer and manual assembly.</td>
+</tr>
+<tr>
+<td>What is AOP in one sentence?</td>
+<td>A way to modularize cross-cutting concerns into separate aspects and apply them automatically without editing business methods.</td>
+</tr>
+<tr>
+<td>Is AOP a replacement for OOP?</td>
+<td>No; OOP organizes business capabilities vertically and AOP organizes shared behaviour horizontally. They are complementary.</td>
+</tr>
+<tr>
+<td>What is an aspect?</td>
+<td>A module that packages a cross-cutting policy: the action, the rule for where it applies, and its timing.</td>
+</tr>
+<tr>
+<td>What is the difference between advice and a pointcut?</td>
+<td>Advice is the action that runs; a pointcut is the rule that selects where it runs.</td>
+</tr>
+<tr>
+<td>What is a proxy in Spring AOP?</td>
+<td>A wrapper object Spring creates around the target bean so it can intercept method calls and run advice before and after.</td>
+</tr>
+<tr>
+<td>What are the three fundamental AOP questions?</td>
+<td>What should happen (advice), where should it apply (pointcut), and when should it run (advice type).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Business method with one responsibility
+        |
+        v
+Production also needs logging, security, timing, auditing, transactions
+        |
+        v
+Naive attempts: utility methods -&gt; inheritance -&gt; manual wrappers
+        |
+        v
+Each fails at scale: invocation scattered, hierarchy forced, wrappers multiplied
+        |
+        v
+AOP: keep business logic in classes, cross-cutting logic in aspects
+        |
+        v
+Advice (what) + pointcut (where) + advice type (when) = an aspect
+        |
+        v
+Spring proxy wraps the target and applies advice at runtime
+        |
+        v
+Caller gets the proxy, target stays clean, behaviour is consistent
+</code></pre></div>
+
+<ul>
+<li>A business method must express business intent; supporting logic should not live inside it.</li>
+<li>Scattering and tangling are the two diseases; hidden intent, inconsistent behaviour, and forgotten mandatory steps are the symptoms.</li>
+<li>Utility methods, inheritance, and manual wrappers are progressively better attempts that all stop short of automation.</li>
+<li>An aspect packages what (advice), where (pointcut), and when (advice type) as one module.</li>
+<li>Spring AOP applies aspects through a proxy around a Spring-managed target, integrated with the IoC container.</li>
+<li>OOP organizes capabilities vertically; AOP organizes shared behaviour horizontally, and the two complement each other.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> AOP is the manual wrapper idea industrialized - the same before, call, after pattern, but declared once in an aspect and applied automatically by a Spring proxy so business methods never carry concerns that are not theirs.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-21.html"><span class="dir">Previous</span><span class="ttl">Lecture 21 — Spring Boot Interceptors</span></a><a class="next" href="doc-theory-lecture-23.html"><span class="dir">Next</span><span class="ttl">Lecture 23 — Spring AOP Advice Types</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

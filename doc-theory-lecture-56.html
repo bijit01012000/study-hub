@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executor Framework Deep Dive | ThreadPool, Future &amp; Callable — Java</title>
+<meta name="description" content="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-56">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-56.html#lecture-56">Lecture 56</a></li><li><a href="doc-theory-lecture-56.html#1-why-manual-thread-creation-does-not-scale">1. Why Manual Thread Creation Does Not Scale</a></li><li><a href="doc-theory-lecture-56.html#2-what-is-the-executor-framework">2. What Is the Executor Framework?</a></li><li><a href="doc-theory-lecture-56.html#3-core-architecture-and-type-hierarchy">3. Core Architecture and Type Hierarchy</a></li><li><a href="doc-theory-lecture-56.html#4-the-executor-interface">4. The Executor Interface</a></li><li><a href="doc-theory-lecture-56.html#5-the-executorservice-interface">5. The ExecutorService Interface</a></li><li><a href="doc-theory-lecture-56.html#6-execute-vs-submit">6. execute() vs submit()</a></li><li><a href="doc-theory-lecture-56.html#7-runnable-vs-callable">7. Runnable vs Callable</a></li><li><a href="doc-theory-lecture-56.html#8-future-a-handle-to-an-asynchronous-result">8. Future — a Handle to an Asynchronous Result</a></li><li><a href="doc-theory-lecture-56.html#9-timed-get-and-cancellation">9. Timed get() and Cancellation</a></li><li><a href="doc-theory-lecture-56.html#10-exception-handling-execute-vs-submit">10. Exception Handling — execute() vs submit()</a></li><li><a href="doc-theory-lecture-56.html#11-managing-the-executor-lifecycle">11. Managing the Executor Lifecycle</a></li><li><a href="doc-theory-lecture-56.html#12-working-with-multiple-tasks-invokeall-and-invokeany">12. Working With Multiple Tasks — invokeAll() and invokeAny()</a></li><li><a href="doc-theory-lecture-56.html#13-threadpoolexecutor-why-a-pool-needs-rules">13. ThreadPoolExecutor — Why a Pool Needs Rules</a></li><li><a href="doc-theory-lecture-56.html#14-threadpoolexecutor-constructor-parameters">14. ThreadPoolExecutor Constructor Parameters</a></li><li><a href="doc-theory-lecture-56.html#15-the-submission-decision-flow">15. The Submission Decision Flow</a></li><li><a href="doc-theory-lecture-56.html#16-work-queue-types">16. Work Queue Types</a></li><li><a href="doc-theory-lecture-56.html#17-executor-factory-methods">17. Executor Factory Methods</a></li><li><a href="doc-theory-lecture-56.html#18-scheduled-execution-fixed-rate-vs-fixed-delay">18. Scheduled Execution — Fixed Rate vs Fixed Delay</a></li><li><a href="doc-theory-lecture-56.html#19-rejection-policies">19. Rejection Policies</a></li><li><a href="doc-theory-lecture-56.html#20-design-principles-for-production-executors">20. Design Principles for Production Executors</a></li><li><a href="doc-theory-lecture-56.html#21-myth-vs-reality">21. Myth vs Reality</a></li><li><a href="doc-theory-lecture-56.html#22-common-trap-questions">22. Common Trap Questions</a></li><li><a href="doc-theory-lecture-56.html#23-points-to-remember">23. Points to Remember</a></li><li><a href="doc-theory-lecture-56.html#24-likely-interview-questions">24. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-56.html#25-final-summary">25. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</h1>
+<p class="readmeta">26 sections · 5,126 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-56" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-56">Lecture 56</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Executor Framework Deep Dive | ThreadPool, Future &amp; Callable" plus the lecture's own repo notes (task vs execution separation; manual threads do not scale), playlist map, verified. Repo evidence: 4 Demo files.</p>
+</blockquote>
+<p>Lecture 48 taught the raw machinery: create a <code>Thread</code>, hand it a <code>Runnable</code>, and let the JVM schedule it. That model explains multithreading, but it does not survive contact with production, because creating one platform thread per task consumes native memory, invites context-switching overhead, and offers no natural upper bound. The Executor Framework replaces "create a thread" with "submit a task to an execution policy": the caller describes the work as a <code>Runnable</code> or <code>Callable&lt;V&gt;</code>, and an <code>ExecutorService</code> decides when, where and on which worker it runs. This lecture walks through the hierarchy (<code>Executor</code> to <code>ExecutorService</code> to <code>ThreadPoolExecutor</code>), the result handle <code>Future&lt;V&gt;</code>, the factory methods of <code>Executors</code>, the tuning parameters of <code>ThreadPoolExecutor</code>, queue behaviour, lifecycle and rejection policies, and scheduled execution.</p>
+<h2 id="1-why-manual-thread-creation-does-not-scale">1. Why Manual Thread Creation Does Not Scale</h2>
+<p>The manual approach looks harmless:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — one thread per task: convenient for a demo, dangerous in production</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ManualThreadsDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Processing &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                </span><span class="s">&quot; on &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">request</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">;</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">process</span><span class="p">(</span><span class="n">id</span><span class="p">)).</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This works, but the code is responsible for defining the task, deciding how it is executed, creating the thread, and managing its lifecycle all at once. Repeatedly creating threads introduces six concrete problems:</p>
+<ol>
+<li><strong>Threads consume resources.</strong> A platform thread is generally backed by an operating-system thread, so each one needs native stack memory, JVM and OS bookkeeping, CPU scheduling time, and context-switching effort. The exact stack size depends on the JVM, OS and configuration, but a very large number of threads consumes substantial native memory.</li>
+<li><strong>Context-switching overhead.</strong> When many runnable threads compete for a limited number of cores, the OS repeatedly saves one thread's state, restores another's, and disrupts CPU-cache locality, spending CPU time on scheduling rather than useful work. Too many active threads can reduce performance instead of improving it.</li>
+<li><strong>Thread creation has a cost.</strong> Creating and destroying an OS thread is more expensive than a lightweight Java method call, and the application pays that cost for every single task.</li>
+<li><strong>No thread reuse.</strong> A manually created thread follows <code>create thread → execute one task → terminate thread</code>, so the next task requires another thread.</li>
+<li><strong>No natural upper bound.</strong> <code>new Thread(() -&gt; process(request)).start()</code> inside a loop will keep creating threads; if requests arrive faster than they are processed, creation continues until memory is exhausted or the application becomes unresponsive.</li>
+<li><strong>Difficult lifecycle management.</strong> After <code>start()</code>, the application must coordinate completion, interruption and shutdown by hand; <code>join()</code> and <code>interrupt()</code> help, but they are not a task-management system.</li>
+</ol>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Creating one thread for every task is like hiring a new chef for every order and dismissing the chef after one dish. A thread pool is the kitchen that keeps its cooks on staff.</p>
+</blockquote>
+<h2 id="2-what-is-the-executor-framework">2. What Is the Executor Framework?</h2>
+<p>The Executor Framework is Java's built-in abstraction for submitting tasks without directly managing the threads that execute them. Its central idea is: <strong>separate task submission from task execution.</strong></p>
+<p>Without an executor, <code>new Thread(() -&gt; processOrder(order)).start();</code> forces the code to decide what should run, which thread runs it, and when that thread is created. With an executor, the code only submits the task and lets the executor decide whether it should run immediately, wait in a queue, run on an existing worker thread, cause another worker to be created, or be rejected because the system is overloaded.</p>
+<p>The framework normally works with two separate concepts:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task (<code>Runnable</code> / <code>Callable</code>)</td>
+<td>Describes the work that must be performed</td>
+</tr>
+<tr>
+<td>Executor</td>
+<td>Decides how and when the task will run</td>
+</tr>
+</tbody>
+</table>
+<p>A thread is a low-level execution unit; an executor is a higher-level abstraction that manages task execution using threads. This separation is what makes the code easier to test and change.</p>
+<h2 id="3-core-architecture-and-type-hierarchy">3. Core Architecture and Type Hierarchy</h2>
+<p>Every executor-based system follows the same pipeline:</p>
+<div class="highlight"><pre><span></span><code>Task (Runnable or Callable)
+        ↓
+Executor / ExecutorService
+        ↓
+Task Queue
+        ↓
+Worker Threads
+        ↓
+Task Execution
+</code></pre></div>
+
+<p>The type hierarchy is equally consistent. The general execution branch runs <code>Executor → ExecutorService → AbstractExecutorService → ThreadPoolExecutor</code>, while scheduled execution adds <code>ExecutorService → ScheduledExecutorService → ScheduledThreadPoolExecutor</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important
+<code>ThreadPoolExecutor</code> is the concrete engine underneath most pools; <code>Executors</code>, by contrast, is only a utility class of factory methods. Knowing which is which is the first step in tuning a pool deliberately.</p>
+</blockquote>
+<h2 id="4-the-executor-interface">4. The Executor Interface</h2>
+<p><code>Executor</code> is the smallest abstraction in the framework, with a single method:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Executor</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="n">Runnable</span><span class="w"> </span><span class="n">command</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>execute()</code> requests that the task be executed and takes a <code>Runnable</code> that describes the task. The interface does <strong>not</strong> define exactly where, when or on which thread it must run, so implementations may behave very differently. A <code>DirectExecutor</code> runs the command on the current thread with <code>command.run()</code>; a <code>NewThreadExecutor</code> does <code>new Thread(command).start()</code>; a thread pool obtained from <code>Executors.newFixedThreadPool(4)</code> is a third implementation. Rather than a shorter way to create threads, an executor is an abstraction for how work is executed.</p>
+<h2 id="5-the-executorservice-interface">5. The ExecutorService Interface</h2>
+<p><code>ExecutorService</code> extends <code>Executor</code> and adds the features required for practical task management:</p>
+<div class="highlight"><pre><span></span><code>ExecutorService = task execution
+              + task results
+              + task cancellation
+              + bulk task operations
+              + lifecycle management
+</code></pre></div>
+
+<p>Its important methods are <code>execute(...)</code>, <code>submit(...)</code>, <code>invokeAll(...)</code>, <code>invokeAny(...)</code>, <code>shutdown()</code>, <code>shutdownNow()</code> and <code>awaitTermination(...)</code>. Any production code that needs a result, a cancellation handle or controlled shutdown uses <code>ExecutorService</code>, not the bare <code>Executor</code>.</p>
+<h2 id="6-execute-vs-submit">6. execute() vs submit()</h2>
+<p><code>execute()</code> accepts a <code>Runnable</code>, returns nothing, does not return a <code>Future</code>, and is suitable for fire-and-forget tasks. <code>submit()</code> returns a <code>Future</code> representing the submitted task, and it accepts a <code>Callable</code>, a <code>Runnable</code>, or a <code>Runnable</code> with a predefined result. For a successfully completed <code>Runnable</code>, <code>future.get()</code> returns <code>null</code>; the overload <code>submit(Runnable, result)</code> yields the supplied value instead (for example <code>"SUCCESS"</code>).</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// submit a Callable, a Runnable, and a Runnable with a predefined result</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fromCallable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="n">Future</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="n">fromRunnable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task completed&quot;</span><span class="p">));</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">withResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Saving data&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;SUCCESS&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><code>execute()</code></th>
+<th><code>submit()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accepted task</td>
+<td><code>Runnable</code></td>
+<td><code>Runnable</code> or <code>Callable</code></td>
+</tr>
+<tr>
+<td>Return value</td>
+<td>Nothing</td>
+<td><code>Future</code></td>
+</tr>
+<tr>
+<td>Per-task cancellation through <code>Future</code></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Completion tracking</td>
+<td>No direct handle</td>
+<td>Available through <code>Future</code></td>
+</tr>
+<tr>
+<td>Task exception</td>
+<td>Reaches the worker thread's uncaught-exception mechanism</td>
+<td>Stored in the <code>Future</code></td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Fire-and-forget task</td>
+<td>Result, cancellation or completion tracking</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--note">
+<p>Cross-reference
+<code>Runnable</code> is a functional interface, so lambdas target-type against it (Lecture 37). <code>Callable&lt;V&gt;</code> is likewise functional, which is why <code>executor.submit(() -&gt; 10 + 20)</code> reads so cleanly.</p>
+</blockquote>
+<h2 id="7-runnable-vs-callable">7. Runnable vs Callable</h2>
+<p><code>Runnable</code> declares <code>void run()</code>, cannot return a value, cannot declare checked exceptions, and can be passed to both <code>execute()</code> and <code>submit()</code>. <code>Callable&lt;V&gt;</code> declares <code>V call() throws Exception</code>, returns a value, may throw checked exceptions, and is submitted through <code>submit()</code>, <code>invokeAll()</code> or <code>invokeAny()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Runnable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Callable</span><span class="o">&lt;</span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">V</span><span class="w"> </span><span class="nf">call</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th><code>Runnable</code></th>
+<th><code>Callable&lt;V&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method</td>
+<td><code>run()</code></td>
+<td><code>call()</code></td>
+</tr>
+<tr>
+<td>Return value</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Checked exceptions</td>
+<td>Cannot declare them</td>
+<td>Can declare them</td>
+</tr>
+<tr>
+<td>Can be passed to <code>execute()</code></td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Can be passed to <code>submit()</code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>The practical rule: if the task must produce a value or may fail with a checked exception, use <code>Callable&lt;V&gt;</code>; otherwise <code>Runnable</code> is enough.</p>
+<h2 id="8-future-a-handle-to-an-asynchronous-result">8. Future<V> — a Handle to an Asynchronous Result</h2>
+<p>A <code>Future</code> is a handle to the result or completion state of an asynchronous task. The task is submitted now, it may finish later, and the <code>Future</code> represents its pending result. Submitting is asynchronous, but retrieval can block.</p>
+<div class="highlight"><pre><span></span><code><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Main thread can do other work&quot;</span><span class="p">);</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Result: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get()</code></td>
+<td>Waits for completion and returns the result</td>
+</tr>
+<tr>
+<td><code>get(timeout, unit)</code></td>
+<td>Waits only for the specified duration</td>
+</tr>
+<tr>
+<td><code>isDone()</code></td>
+<td>Checks whether the task has completed</td>
+</tr>
+<tr>
+<td><code>isCancelled()</code></td>
+<td>Checks whether the task was cancelled</td>
+</tr>
+<tr>
+<td><code>cancel(true)</code></td>
+<td>Requests cancellation and may interrupt the running task</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>future.get()</code> is blocking. If the result is ready it returns immediately; otherwise the calling thread waits. Submitting is asynchronous, but calling <code>get()</code> right away makes the caller behave synchronously at that point, so the pattern is asynchronous execution plus blocking retrieval.</p>
+</blockquote>
+<h2 id="9-timed-get-and-cancellation">9. Timed get() and Cancellation</h2>
+<p>A timed call prevents the caller from waiting forever:</p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Integer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">TimeoutException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task did not finish in time&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>future.cancel(true)</code> requests cancellation; passing <code>true</code> means that, if the task is already running, the executor may interrupt its worker thread. Cancellation is <strong>cooperative</strong>: the task must respond correctly to interruption, as in a loop that checks <code>Thread.currentThread().isInterrupted()</code>. Calling <code>cancel(true)</code> does not forcibly terminate arbitrary Java code.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+A <code>Future</code> that is never inspected hides two things: its result and its failure. Treat ignoring a <code>Future</code> as a code smell unless the task is genuinely fire-and-forget.</p>
+</blockquote>
+<h2 id="10-exception-handling-execute-vs-submit">10. Exception Handling — execute() vs submit()</h2>
+<p>With <code>execute()</code>, the exception is not returned to the submitting thread; it becomes an uncaught exception on the worker thread and is normally reported through that thread's <code>UncaughtExceptionHandler</code>. In a pool, the failed worker may terminate and be replaced when required. Task-level try/catch gives controlled recovery.</p>
+<p>With <code>submit()</code>, the exception is captured by the task's <code>Future</code>. <code>future.get()</code> throws <code>ExecutionException</code>, and the original task exception is available through <code>exception.getCause()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// execute(): exception escapes to the worker thread&#39;s uncaught-exception handler</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">execute</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// submit(): exception is stored and re-thrown wrapped by get()</span>
+<span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Integer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ExecutionException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Throwable</span><span class="w"> </span><span class="n">actualCause</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getCause</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Task failed: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">actualCause</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>execute(Runnable)</code></th>
+<th><code>submit(Callable/Runnable)</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where the exception goes</td>
+<td>Worker thread's uncaught-exception mechanism</td>
+<td>Captured inside the <code>Future</code></td>
+</tr>
+<tr>
+<td>How the caller sees it</td>
+<td>Usually not directly</td>
+<td><code>future.get()</code> throws <code>ExecutionException</code></td>
+</tr>
+<tr>
+<td>Original cause</td>
+<td>n/a</td>
+<td><code>exception.getCause()</code></td>
+</tr>
+<tr>
+<td>Easy to miss?</td>
+<td>Possible in logs</td>
+<td>Yes, if <code>get()</code> is never called</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-managing-the-executor-lifecycle">11. Managing the Executor Lifecycle</h2>
+<p>Worker threads are normally <strong>non-daemon</strong>, so an active executor can keep the JVM running even after <code>main()</code> completes; an executor that is no longer needed must be shut down.</p>
+<ul>
+<li><code>shutdown()</code> stops accepting new tasks, allows previously submitted tasks to complete, initiates an orderly shutdown, and returns immediately without waiting for termination. Submitting after shutdown throws <code>RejectedExecutionException</code>.</li>
+<li><code>shutdownNow()</code> stops accepting new tasks, removes tasks that have not started, returns them as a list, and attempts to interrupt actively running tasks. It does not guarantee that running tasks stop immediately; tasks must cooperate with interruption.</li>
+<li><code>awaitTermination(timeout, unit)</code> waits up to the specified duration for the executor to terminate and is normally called after <code>shutdown()</code> or <code>shutdownNow()</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// graceful shutdown pattern</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">executor</span><span class="p">.</span><span class="na">awaitTermination</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">executor</span><span class="p">.</span><span class="na">shutdownNow</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Executor did not terminate&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">executor</span><span class="p">.</span><span class="na">shutdownNow</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Because <code>ExecutorService</code> is <code>AutoCloseable</code> in modern Java, try-with-resources is the cleanest form: <code>close()</code> shuts the executor down and waits for submitted tasks to finish before returning.</p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">executor</span><span class="p">.</span><span class="na">execute</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">            </span><span class="s">&quot;Running on &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">()));</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Executor closed automatically&quot;</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+Try-with-resources gives an orderly shutdown plus termination wait. If you need to cancel queued work instead, call <code>shutdownNow()</code> explicitly.</p>
+</blockquote>
+<h2 id="12-working-with-multiple-tasks-invokeall-and-invokeany">12. Working With Multiple Tasks — invokeAll() and invokeAny()</h2>
+<p><code>invokeAll(tasks)</code> executes a collection of <code>Callable</code> tasks and waits until all of them complete. It blocks until every task finishes, returns one <code>Future</code> per task, and the returned futures follow the same order as the input list; a completed task may have completed successfully or exceptionally. <code>invokeAny(tasks)</code> executes multiple tasks and returns the result of one that completes successfully, cancelling the unfinished tasks once a result is available; it returns the first <strong>successful</strong> result, not necessarily the first task that terminates.</p>
+<div class="highlight"><pre><span></span><code><span class="n">List</span><span class="o">&lt;</span><span class="n">Callable</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">tasks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">futures</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">invokeAll</span><span class="p">(</span><span class="n">tasks</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">futures</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="p">}</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">invokeAny</span><span class="p">(</span><span class="n">tasks</span><span class="p">);</span>
+</code></pre></div>
+
+<p><code>invokeAny()</code> is useful when the same answer can be obtained from several independent sources, such as three redundant servers.</p>
+<h2 id="13-threadpoolexecutor-why-a-pool-needs-rules">13. ThreadPoolExecutor — Why a Pool Needs Rules</h2>
+<p>A complete thread pool requires a controlled number of worker threads, a queue for waiting tasks, rules for creating additional threads, rules for removing idle threads, and a policy for handling overload. <code>ThreadPoolExecutor</code> provides this configurable execution engine, processing incoming tasks through workers and a work queue in one continuous flow.</p>
+<p><code>Executors</code> is a utility class containing factory methods; <code>ThreadPoolExecutor</code> is the concrete class that performs the actual thread-pool management.</p>
+<div class="highlight"><pre><span></span><code>Executors            = convenient factory methods
+ThreadPoolExecutor   = configurable execution engine
+</code></pre></div>
+
+<p>Factory methods are convenient, but direct construction is useful when the application needs explicit control over queue capacity, maximum threads, thread naming and rejection behaviour.</p>
+<h2 id="14-threadpoolexecutor-constructor-parameters">14. ThreadPoolExecutor Constructor Parameters</h2>
+<p>A commonly used constructor exposes every knob at once:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ThreadPoolExecutor</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
+<span class="w">        </span><span class="n">corePoolSize</span><span class="p">,</span><span class="w"> </span><span class="n">maximumPoolSize</span><span class="p">,</span><span class="w"> </span><span class="n">keepAliveTime</span><span class="p">,</span><span class="w"> </span><span class="n">timeUnit</span><span class="p">,</span>
+<span class="w">        </span><span class="n">workQueue</span><span class="p">,</span><span class="w"> </span><span class="n">threadFactory</span><span class="p">,</span><span class="w"> </span><span class="n">rejectionHandler</span><span class="p">);</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>corePoolSize</code></td>
+<td>Target number of core worker threads</td>
+</tr>
+<tr>
+<td><code>maximumPoolSize</code></td>
+<td>Maximum number of worker threads allowed</td>
+</tr>
+<tr>
+<td><code>keepAliveTime</code></td>
+<td>Maximum idle time for excess (and, if enabled, core) threads</td>
+</tr>
+<tr>
+<td><code>TimeUnit</code></td>
+<td>Unit of <code>keepAliveTime</code></td>
+</tr>
+<tr>
+<td><code>workQueue</code></td>
+<td>Holds tasks waiting to execute</td>
+</tr>
+<tr>
+<td><code>ThreadFactory</code></td>
+<td>Controls how worker threads are created</td>
+</tr>
+<tr>
+<td><code>RejectedExecutionHandler</code></td>
+<td>Handles tasks that cannot be accepted</td>
+</tr>
+</tbody>
+</table>
+<p>Three details repay close reading:</p>
+<ul>
+<li><strong><code>corePoolSize</code>.</strong> When a new task arrives and fewer than this many workers exist, the pool normally creates another worker even if one is idle. Core threads are not necessarily created when the executor object is constructed; by default they start as tasks arrive, though <code>prestartCoreThread()</code> and <code>prestartAllCoreThreads()</code> create them in advance. Core threads are retained even when idle unless core-thread timeout is enabled via <code>allowCoreThreadTimeOut(true)</code>.</li>
+<li><strong><code>maximumPoolSize</code>.</strong> New threads beyond the core size are created only when all core workers are occupied, the current count is below the maximum, <strong>and</strong> the work queue cannot accept another task. With an unbounded queue the queue never fills, so the pool normally does not grow beyond <code>corePoolSize</code>.</li>
+<li><strong><code>keepAliveTime</code>.</strong> When the number of workers exceeds <code>corePoolSize</code>, an excess worker is removed after being idle for the keep-alive duration.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why did my <code>maximumPoolSize</code> have no effect?" Almost always because the default work queue was unbounded, so the queue never rejected a task and the pool never needed extra threads. <code>maximumPoolSize</code> is only consulted after the queue is full.</p>
+</blockquote>
+<h2 id="15-the-submission-decision-flow">15. The Submission Decision Flow</h2>
+<p>For a typical <code>ThreadPoolExecutor</code>, the simplified decision process is:</p>
+<div class="highlight"><pre><span></span><code>1. Worker count below corePoolSize?   Yes → create worker and run task
+2. Otherwise, can the queue accept?   Yes → enqueue task
+3. Otherwise, below maximumPoolSize?  Yes → create extra worker and run task
+4. Otherwise                          → reject task
+</code></pre></div>
+
+<p>The order matters: the executor fills core threads first, then fills the queue, and only then creates threads beyond the core size. With <code>corePoolSize = 2</code>, <code>maximumPoolSize = 4</code> and a queue capacity of <code>2</code>, tasks 1 and 2 each create a worker, tasks 3 and 4 go to the queue, task 5 and task 6 create extra workers once the queue is full, and task 7 is rejected because both the maximum worker count and the queue are full.</p>
+<h2 id="16-work-queue-types">16. Work Queue Types</h2>
+<p>The work queue stores submitted tasks that are waiting for a worker, and its choice directly affects memory usage, latency, maximum concurrency, overload behaviour, and whether <code>maximumPoolSize</code> is ever used.</p>
+<table>
+<thead>
+<tr>
+<th>Queue</th>
+<th>Capacity</th>
+<th>Behaviour</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ArrayBlockingQueue&lt;&gt;(100)</code></td>
+<td>Bounded, fixed at construction</td>
+<td>Predictable overload handling; lets the pool grow beyond core size once full</td>
+<td>Backpressure when memory must be protected</td>
+</tr>
+<tr>
+<td><code>LinkedBlockingQueue&lt;&gt;()</code></td>
+<td>Effectively unbounded without a capacity; optionally bounded</td>
+<td>Can accumulate a huge backlog</td>
+<td>Commonly used by fixed thread pools</td>
+</tr>
+<tr>
+<td><code>SynchronousQueue&lt;&gt;()</code></td>
+<td>No internal storage</td>
+<td>Each task must be handed directly to a worker; otherwise a new worker is created</td>
+<td>Cached thread pools</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">BlockingQueue</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span><span class="w"> </span><span class="n">bounded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+An unbounded queue does not make an executor safe. It merely moves overload from thread creation to memory consumption, hiding it temporarily while the backlog grows.</p>
+</blockquote>
+<h2 id="17-executor-factory-methods">17. Executor Factory Methods</h2>
+<p><code>Executors</code> provides ready-made pools. Each factory method is a shorthand for a specific <code>ThreadPoolExecutor</code> configuration:</p>
+<table>
+<thead>
+<tr>
+<th>Factory method</th>
+<th>Core / max</th>
+<th>Queue</th>
+<th>Notable behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>newFixedThreadPool(n)</code></td>
+<td><code>n</code> / <code>n</code></td>
+<td>Unbounded <code>LinkedBlockingQueue</code></td>
+<td>Fixed concurrency; tasks wait; queue can grow excessively under sustained overload; completion order not guaranteed</td>
+</tr>
+<tr>
+<td><code>newCachedThreadPool()</code></td>
+<td><code>0</code> / very large</td>
+<td><code>SynchronousQueue</code></td>
+<td>Creates threads on demand, reuses idle workers, removes idle workers after 60s keep-alive; risks creating too many platform threads for long/blocking tasks</td>
+</tr>
+<tr>
+<td><code>newSingleThreadExecutor()</code></td>
+<td><code>1</code> / <code>1</code></td>
+<td>Unbounded internal queue</td>
+<td>Sequential execution with automatic thread reuse and worker replacement; a slow worker causes a large backlog</td>
+</tr>
+<tr>
+<td><code>newScheduledThreadPool(n)</code></td>
+<td><code>n</code> / large</td>
+<td>Delayed work queue</td>
+<td>One-time delayed and periodic tasks</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">ExecutorService</span><span class="w"> </span><span class="n">fixed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">cached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newCachedThreadPool</span><span class="p">();</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">single</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newSingleThreadExecutor</span><span class="p">();</span>
+<span class="n">ScheduledExecutorService</span><span class="w"> </span><span class="n">scheduler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newScheduledThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</code></pre></div>
+
+<p>The single-thread executor guarantees sequential execution, but it does not make unrelated shared state thread-safe if other threads touch that state directly. The cached pool benefits many short-lived asynchronous tasks with a controlled submission rate, but a cached (or fixed) pool can create too many platform threads when long-running or blocking tasks arrive rapidly.</p>
+<h2 id="18-scheduled-execution-fixed-rate-vs-fixed-delay">18. Scheduled Execution — Fixed Rate vs Fixed Delay</h2>
+<p><code>ScheduledExecutorService</code> supports one-time delayed tasks, fixed-rate periodic tasks and fixed-delay periodic tasks, and is generally preferred over the legacy <code>Timer</code> for concurrent scheduled execution. <code>scheduler.schedule(task, 2, TimeUnit.SECONDS)</code> runs a task once after a delay relative to submission time.</p>
+<p><code>scheduler.scheduleAtFixedRate(task, initialDelay, period, unit)</code> bases intended start times on a fixed schedule: <code>initialDelay</code>, <code>initialDelay + period</code>, <code>initialDelay + 2 × period</code>, and so on. If one execution takes longer than the period, the next starts late, and executions of the same periodic task never overlap. <code>scheduler.scheduleWithFixedDelay(task, initialDelay, delay, unit)</code> measures the delay <strong>after</strong> the previous execution finishes, so <code>End 1 → wait delay → Start 2</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Fixed Rate</th>
+<th>Fixed Delay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scheduling basis</td>
+<td>Planned start times</td>
+<td>Previous completion time</td>
+</tr>
+<tr>
+<td>Tries to maintain frequency</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Waits after task finishes</td>
+<td>Not necessarily</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Same task overlaps with itself</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Common use</td>
+<td>Metrics collection, regular-cadence polling</td>
+<td>Cleanup or retry work needing a pause after completion</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">ScheduledExecutorService</span><span class="w"> </span><span class="n">scheduler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newScheduledThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">scheduler</span><span class="p">.</span><span class="na">scheduleAtFixedRate</span><span class="p">(</span>
+<span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Fixed rate tick&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">);</span>
+<span class="n">scheduler</span><span class="p">.</span><span class="na">scheduleWithFixedDelay</span><span class="p">(</span>
+<span class="w">        </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Fixed delay tick&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">);</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+If a periodic task throws an uncaught exception, its future executions are suppressed. Handle expected failures <strong>inside</strong> the task when later executions must continue.</p>
+</blockquote>
+<h2 id="19-rejection-policies">19. Rejection Policies</h2>
+<p>A task may be rejected when the executor has been shut down, or when the pool is at <code>maximumPoolSize</code> and its bounded queue is full. A <code>RejectedExecutionHandler</code> decides what happens:</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Behaviour</th>
+<th>When it fits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AbortPolicy</code> (default)</td>
+<td>Throws <code>RejectedExecutionException</code></td>
+<td>Immediate, visible failure; silently losing work is unacceptable</td>
+</tr>
+<tr>
+<td><code>CallerRunsPolicy</code></td>
+<td>Runs the rejected task on the calling thread, slowing the producer (natural backpressure); discards it if the executor is already shut down</td>
+<td>Overload where throttling the producer is acceptable</td>
+</tr>
+<tr>
+<td><code>DiscardPolicy</code></td>
+<td>Silently drops the task</td>
+<td>Only when dropping work is explicitly acceptable and monitored</td>
+</tr>
+<tr>
+<td><code>DiscardOldestPolicy</code></td>
+<td>Removes the queue head and retries the new task</td>
+<td>Fresh information matters more than stale queued work; dangerous when every task must run</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="n">ThreadPoolExecutor</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span>
+<span class="w">        </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">,</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayBlockingQueue</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">.</span><span class="na">CallerRunsPolicy</span><span class="p">());</span>
+</code></pre></div>
+
+<p>This creates two core workers, at most four workers, a queue of ten tasks, a thirty-second timeout for excess idle workers, and caller-runs behaviour during overload.</p>
+<h2 id="20-design-principles-for-production-executors">20. Design Principles for Production Executors</h2>
+<ul>
+<li><strong>Separate tasks from threads.</strong> Write application logic as <code>Runnable</code> or <code>Callable</code> tasks and let the executor own worker management: business logic → task, concurrency policy → executor configuration. This makes the code easier to test and change.</li>
+<li><strong>Do not assume more threads always mean better performance.</strong> The useful number depends on available CPU cores, whether tasks are CPU-bound or I/O-bound, task duration, blocking time, memory limits and downstream capacity. Too many threads for CPU-bound work (image processing, compression, encryption, numerical calculations) add scheduling overhead without adding CPU; more concurrency can help I/O-bound work (database, network, file operations), but the pool must still respect connection, service and memory limits.</li>
+<li><strong>Prefer bounded resources.</strong> A production executor should control queue capacity, maximum worker count, submission rate, task timeout, rejection behaviour and downstream concurrency. An unbounded queue merely moves overload from thread creation to memory consumption.</li>
+<li><strong>Preserve interruption.</strong> Never silently ignore <code>InterruptedException</code>; catch it, restore the flag with <code>Thread.currentThread().interrupt()</code>, and return. Restoring the flag lets higher-level code observe the cancellation request.</li>
+<li><strong>Name worker threads.</strong> A custom <code>ThreadFactory</code> that sets names such as <code>order-worker-1</code> makes logs and production debugging far easier than opaque <code>Thread-8</code>.</li>
+<li><strong>Monitor the pool.</strong> <code>getPoolSize()</code>, <code>getActiveCount()</code>, <code>getQueue().size()</code>, <code>getCompletedTaskCount()</code>, <code>getTaskCount()</code> and <code>getLargestPoolSize()</code> reveal whether the queue is growing, whether the pool reaches its maximum, whether tasks complete fast enough, and whether the executor is frequently overloaded.</li>
+</ul>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Business logic is the task; concurrency policy is the executor. When tuning, ask "am I CPU-bound or I/O-bound?" before changing any number.</p>
+</blockquote>
+<h2 id="21-myth-vs-reality">21. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"An executor is just a shorter way to create threads."</td>
+<td>It is a complete task-execution system: queuing, results, cancellation, scheduling, lifecycle and overload handling.</td>
+</tr>
+<tr>
+<td>"<code>maximumPoolSize</code> always controls concurrency."</td>
+<td>With an unbounded queue the queue never fills, so the pool normally stays at <code>corePoolSize</code> and <code>maximumPoolSize</code> is never reached.</td>
+</tr>
+<tr>
+<td>"<code>submit()</code> makes exceptions disappear."</td>
+<td>The exception is stored in the <code>Future</code>; it is easy to miss only because <code>get()</code> was never called.</td>
+</tr>
+<tr>
+<td>"<code>shutdown()</code> waits for running tasks to finish."</td>
+<td>It returns immediately; use <code>awaitTermination()</code> to wait. <code>shutdownNow()</code> interrupts and returns queued tasks.</td>
+</tr>
+<tr>
+<td>"<code>cancel(true)</code> kills the task immediately."</td>
+<td>Cancellation is cooperative; the task must respond to interruption for it to stop promptly.</td>
+</tr>
+<tr>
+<td>"More threads always mean more throughput."</td>
+<td>Beyond the useful concurrency, extra threads add context switching and resource pressure, reducing performance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-common-trap-questions">22. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Unbounded queue: "I set <code>corePoolSize = 2</code>, <code>maximumPoolSize = 8</code>, but only two threads ever run. Why?"
+The default <code>LinkedBlockingQueue</code> is effectively unbounded, so it never fills and the pool never needs extra threads. Use a bounded <code>ArrayBlockingQueue</code> to make <code>maximumPoolSize</code> reachable.</p>
+<p>Trap 2 — Silent failure: "I called <code>submit(...)</code> and nothing happened when the task failed."
+The exception is captured in the <code>Future</code>. Unless <code>get()</code> is called, the failure is never observed; <code>execute()</code> instead routes it to the worker's uncaught-exception handler.</p>
+<p>Trap 3 — Shutdown semantics: "After <code>shutdown()</code>, is everything finished?"
+No. <code>shutdown()</code> only stops new submissions and lets accepted tasks complete; it returns immediately. Call <code>awaitTermination()</code> if you must wait.</p>
+<p>Trap 4 — Cancellation: "<code>cancel(true)</code> will stop my CPU loop, right?"
+Only if the loop checks interruption (<code>isInterrupted()</code> / handles <code>InterruptedException</code>). Cancellation is cooperative and does not forcibly terminate Java code.</p>
+<p>Trap 5 — Periodic task death: "My scheduled job ran once, then never again. Why?"
+An uncaught exception in a periodic task suppresses all future executions. Catch failures inside the task.</p>
+<p>Trap 6 — Blocking get(): "<code>submit()</code> is asynchronous, so my main code never blocks."
+Submission is asynchronous, but <code>future.get()</code> is blocking and makes the caller wait for the result. Use the timed overload to bound the wait.</p>
+<p>Trap 7 — Sequential does not mean safe: "The single-thread executor makes my shared state thread-safe."
+It only serializes its own tasks. If other threads access the same state directly, synchronization is still required.</p>
+</blockquote>
+<h2 id="23-points-to-remember">23. Points to Remember</h2>
+<ol>
+<li>Manual threads do not scale: they cost native memory and creation time, cause context-switch overhead, have no reuse and no upper bound, and complicate lifecycle management.</li>
+<li>The Executor Framework separates task submission from task execution: the task describes the work, the executor decides how and when it runs.</li>
+<li><code>Executor</code> has one method, <code>execute(Runnable command)</code>, and says nothing about where or when the task runs; <code>ExecutorService</code> adds results, cancellation, bulk operations and lifecycle.</li>
+<li><code>execute()</code> is fire-and-forget; <code>submit()</code> returns a <code>Future</code> that tracks result, completion and cancellation.</li>
+<li><code>Runnable</code> returns nothing and cannot throw checked exceptions; <code>Callable&lt;V&gt;</code> returns a value and may throw checked exceptions.</li>
+<li><code>Future.get()</code> is blocking, <code>get(timeout, unit)</code> bounds the wait, <code>isDone()</code>/<code>isCancelled()</code> inspect state, and <code>cancel(true)</code> requests a cooperative interruption.</li>
+<li>Exceptions from <code>execute()</code> reach the worker's uncaught-exception mechanism; exceptions from <code>submit()</code> are stored and re-thrown by <code>get()</code> as <code>ExecutionException</code> with the cause via <code>getCause()</code>.</li>
+<li><code>shutdown()</code> is orderly, <code>shutdownNow()</code> interrupts and returns queued tasks, and <code>awaitTermination()</code> waits for termination; worker threads are non-daemon and must be shut down.</li>
+<li><code>ThreadPoolExecutor</code> fills core threads, then the queue, then grows to <code>maximumPoolSize</code>, and then rejects according to the chosen <code>RejectedExecutionHandler</code>.</li>
+<li>Bounded queues, explicit <code>maximumPoolSize</code>, timeouts, named threads, interruption preservation and monitoring are what make a pool production-ready.</li>
+</ol>
+<h2 id="24-likely-interview-questions">24. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why is creating threads manually not ideal?</td>
+<td>Each task pays thread-creation cost, consumes native memory, causes context-switch overhead, offers no reuse or upper bound, and complicates lifecycle management.</td>
+</tr>
+<tr>
+<td>What is the core idea of the Executor Framework?</td>
+<td>Separate task submission from task execution: submit a <code>Runnable</code>/<code>Callable</code>, and let the executor decide how and when it runs.</td>
+</tr>
+<tr>
+<td>Difference between <code>Executor</code> and <code>ExecutorService</code>?</td>
+<td><code>Executor</code> defines only <code>execute(Runnable)</code>; <code>ExecutorService</code> adds <code>submit</code>, <code>invokeAll</code>, <code>invokeAny</code>, <code>shutdown</code>, <code>shutdownNow</code> and <code>awaitTermination</code>.</td>
+</tr>
+<tr>
+<td>Difference between <code>execute()</code> and <code>submit()</code>?</td>
+<td><code>execute()</code> takes a <code>Runnable</code>, returns nothing, and exposes exceptions via the worker; <code>submit()</code> returns a <code>Future</code> and stores exceptions in it.</td>
+</tr>
+<tr>
+<td><code>Runnable</code> vs <code>Callable</code>?</td>
+<td><code>Runnable.run()</code> returns void and cannot declare checked exceptions; <code>Callable.call()</code> returns a value and may throw checked exceptions.</td>
+</tr>
+<tr>
+<td>What is a <code>Future</code>?</td>
+<td>A handle to the result or completion state of an asynchronous task, supporting <code>get</code>, <code>get(timeout)</code>, <code>isDone</code>, <code>isCancelled</code> and <code>cancel</code>.</td>
+</tr>
+<tr>
+<td>Is <code>future.get()</code> blocking?</td>
+<td>Yes. It returns immediately if the result is ready, otherwise the caller waits; the timed overload bounds that wait.</td>
+</tr>
+<tr>
+<td>What does <code>cancel(true)</code> do?</td>
+<td>It requests cancellation and may interrupt a running worker; cancellation is cooperative and requires the task to respond to interruption.</td>
+</tr>
+<tr>
+<td><code>shutdown()</code> vs <code>shutdownNow()</code>?</td>
+<td><code>shutdown()</code> stops new tasks and lets accepted tasks finish; <code>shutdownNow()</code> removes queued tasks, returns them, and attempts to interrupt running tasks.</td>
+</tr>
+<tr>
+<td>Why did <code>maximumPoolSize</code> not take effect?</td>
+<td>The work queue was unbounded, so it never filled and the pool never grew beyond <code>corePoolSize</code>.</td>
+</tr>
+<tr>
+<td><code>scheduleAtFixedRate</code> vs <code>scheduleWithFixedDelay</code>?</td>
+<td>Fixed rate schedules against planned start times and tries to keep regular frequency; fixed delay waits a set period after each execution finishes.</td>
+</tr>
+<tr>
+<td>What happens if a periodic task throws?</td>
+<td>Its future executions are suppressed until it is rescheduled; handle expected failures inside the task.</td>
+</tr>
+<tr>
+<td>Which rejection policy provides backpressure?</td>
+<td><code>CallerRunsPolicy</code>, because the submitting thread runs the task and is temporarily unable to submit more.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="25-final-summary">25. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Runnable / Callable
+        ↓  submit()
+ExecutorService (Executor + lifecycle + results)
+        ↓
+ThreadPoolExecutor: corePoolSize → workQueue → maximumPoolSize → reject
+        ↓
+Worker Threads (reused)  →  Future&lt;V&gt; (result / completion / cancel)
+</code></pre></div>
+
+<ul>
+<li>Manual threads → do not scale: costly creation, context switching, no reuse, no upper bound, hard lifecycle.</li>
+<li>Executor framework → separates task definition from execution; <code>Executor</code> (execute) → <code>ExecutorService</code> (submit, lifecycle) → <code>ThreadPoolExecutor</code> (the configurable engine).</li>
+<li>Tasks → <code>Runnable</code> (no return, no checked exceptions) or <code>Callable&lt;V&gt;</code> (returns value, may throw) submitted with <code>submit()</code> to get a <code>Future&lt;V&gt;</code>.</li>
+<li><code>Future</code> → <code>get()</code> blocks, <code>get(timeout)</code> bounds the wait, <code>isDone()</code>/<code>isCancelled()</code> inspect, <code>cancel(true)</code> requests cooperative interruption; its limits motivate <code>CompletableFuture</code> in Lecture 57.</li>
+<li>Pools → <code>Executors</code> factories are convenient, but direct <code>ThreadPoolExecutor</code> construction exposes core/max size, keep-alive, bounded queue, thread factory and rejection policy.</li>
+<li>Flow → core threads, then queue, then <code>maximumPoolSize</code>, then rejection; an unbounded queue prevents the pool from ever growing past core size.</li>
+<li>Lifecycle → <code>shutdown()</code> orderly, <code>shutdownNow()</code> interrupts and returns queued tasks, <code>awaitTermination()</code> waits, try-with-resources closes cleanly.</li>
+<li>Scheduled → <code>scheduleAtFixedRate</code> targets planned start times; <code>scheduleWithFixedDelay</code> waits after completion; uncaught exceptions stop future runs.</li>
+<li>Production → bounded resources, named threads, preserved interruption, pool monitoring, and pool sizing matched to CPU-bound or I/O-bound work.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Do not think, "I need to create a thread." Think, "I need to submit a task to an execution policy." The executor owns the threads; the task owns only the work.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> the Executor Framework turns thread juggling into task submission backed by a configurable pool, a <code>Future</code> for every result, and an explicit rejection policy for overload.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-55.html"><span class="dir">Previous</span><span class="ttl">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</span></a><a class="next" href="doc-theory-lecture-57.html"><span class="dir">Next</span><span class="ttl">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

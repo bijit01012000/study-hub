@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Search System — HLD · System Design</title>
+<meta name="description" content="Design a Search System">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-hld-interview-problems-15-search-system">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="active" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>HLD · System Design</h4><details class="part"><summary>Theory &amp; Notes <span class="count">53</span></summary><ul class="side-list"><li class="grp">hld-merged-notes</li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-00-overview.html" title="HLD Merged Notes">HLD Merged Notes</a><button class="star" data-doc="theory-hld-merged-notes-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-01-scalability-and-system-evolution.html" title="Scalability and System Evolution">Scalability and System Evolution</a><button class="star" data-doc="theory-hld-merged-notes-01-scalability-and-system-evolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-02-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-hld-merged-notes-02-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-03-back-of-the-envelope-estimation.html" title="Back-of-the-Envelope Estimation">Back-of-the-Envelope Estimation</a><button class="star" data-doc="theory-hld-merged-notes-03-back-of-the-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-04-monolith-vs-microservices.html" title="Monolith vs Microservices">Monolith vs Microservices</a><button class="star" data-doc="theory-hld-merged-notes-04-monolith-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-05-sharding-and-consistent-hashing.html" title="Sharding and Consistent Hashing">Sharding and Consistent Hashing</a><button class="star" data-doc="theory-hld-merged-notes-05-sharding-and-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-06-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-hld-merged-notes-06-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-07-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-hld-merged-notes-07-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-08-url-shortener.html" title="Design a URL Shortener (Bit.Ly Clone)">Design a URL Shortener (Bit.Ly Clone)</a><button class="star" data-doc="theory-hld-merged-notes-08-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-09-notification-system.html" title="Notification System">Notification System</a><button class="star" data-doc="theory-hld-merged-notes-09-notification-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-10-messaging-queues-and-kafka.html" title="Messaging Queues and Kafka">Messaging Queues and Kafka</a><button class="star" data-doc="theory-hld-merged-notes-10-messaging-queues-and-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-11-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-hld-merged-notes-11-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-12-authentication-and-authorization.html" title="Authentication and Authorization">Authentication and Authorization</a><button class="star" data-doc="theory-hld-merged-notes-12-authentication-and-authorization" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-13-oauth2.html" title="OAuth 2.0">OAuth 2.0</a><button class="star" data-doc="theory-hld-merged-notes-13-oauth2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-14-autocomplete-engine.html" title="Autocomplete Engine">Autocomplete Engine</a><button class="star" data-doc="theory-hld-merged-notes-14-autocomplete-engine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-hld-merged-notes-15-instagram-feed.html" title="Design an Instagram Feed">Design an Instagram Feed</a><button class="star" data-doc="theory-hld-merged-notes-15-instagram-feed" title="Bookmark">☆</button></div></li><li class="grp">system-design-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-00-overview.html" title="System Design Core Concepts">System Design Core Concepts</a><button class="star" data-doc="theory-system-design-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-01-vertical-scaling.html" title="Vertical Scaling">Vertical Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-01-vertical-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-02-horizontal-scaling.html" title="Horizontal Scaling">Horizontal Scaling</a><button class="star" data-doc="theory-system-design-core-concepts-02-horizontal-scaling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-03-load-balancing.html" title="Load Balancing">Load Balancing</a><button class="star" data-doc="theory-system-design-core-concepts-03-load-balancing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-04-sharding-partitioning.html" title="Sharding / Partitioning">Sharding / Partitioning</a><button class="star" data-doc="theory-system-design-core-concepts-04-sharding-partitioning" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-05-replication.html" title="Replication">Replication</a><button class="star" data-doc="theory-system-design-core-concepts-05-replication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-06-stateless-vs-stateful-services.html" title="Stateless vs Stateful Services">Stateless vs Stateful Services</a><button class="star" data-doc="theory-system-design-core-concepts-06-stateless-vs-stateful-services" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices.html" title="Monolith vs N-Tier vs Microservices">Monolith vs N-Tier vs Microservices</a><button class="star" data-doc="theory-system-design-core-concepts-07-monolith-vs-n-tier-vs-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-08-sql-vs-nosql.html" title="SQL vs NoSQL">SQL vs NoSQL</a><button class="star" data-doc="theory-system-design-core-concepts-08-sql-vs-nosql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-09-caching.html" title="Caching">Caching</a><button class="star" data-doc="theory-system-design-core-concepts-09-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-10-indexing.html" title="Indexing">Indexing</a><button class="star" data-doc="theory-system-design-core-concepts-10-indexing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-11-consistent-hashing.html" title="Consistent Hashing">Consistent Hashing</a><button class="star" data-doc="theory-system-design-core-concepts-11-consistent-hashing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-12-acid-transactions-and-isolation.html" title="ACID Transactions &amp; Isolation">ACID Transactions &amp; Isolation</a><button class="star" data-doc="theory-system-design-core-concepts-12-acid-transactions-and-isolation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-13-write-ahead-log.html" title="Write-Ahead Log">Write-Ahead Log</a><button class="star" data-doc="theory-system-design-core-concepts-13-write-ahead-log" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-14-object-vs-block-vs-file-storage.html" title="Object vs Block vs File Storage">Object vs Block vs File Storage</a><button class="star" data-doc="theory-system-design-core-concepts-14-object-vs-block-vs-file-storage" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-15-database-connection-pooling.html" title="Database Connection Pooling">Database Connection Pooling</a><button class="star" data-doc="theory-system-design-core-concepts-15-database-connection-pooling" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-16-dns-resolution.html" title="DNS Resolution">DNS Resolution</a><button class="star" data-doc="theory-system-design-core-concepts-16-dns-resolution" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-17-cdn-and-edge-caching.html" title="CDN &amp; Edge Caching">CDN &amp; Edge Caching</a><button class="star" data-doc="theory-system-design-core-concepts-17-cdn-and-edge-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-18-http-versions.html" title="HTTP/1.1 vs HTTP/2 vs HTTP/3">HTTP/1.1 vs HTTP/2 vs HTTP/3</a><button class="star" data-doc="theory-system-design-core-concepts-18-http-versions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-19-service-discovery.html" title="Service Discovery">Service Discovery</a><button class="star" data-doc="theory-system-design-core-concepts-19-service-discovery" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-20-real-time-communication.html" title="Real-Time Communication">Real-Time Communication</a><button class="star" data-doc="theory-system-design-core-concepts-20-real-time-communication" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-21-api-gateway-reverse-proxy.html" title="API Gateway / Reverse Proxy">API Gateway / Reverse Proxy</a><button class="star" data-doc="theory-system-design-core-concepts-21-api-gateway-reverse-proxy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-22-cap-theorem.html" title="CAP Theorem">CAP Theorem</a><button class="star" data-doc="theory-system-design-core-concepts-22-cap-theorem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-23-consistency-models.html" title="Consistency Models">Consistency Models</a><button class="star" data-doc="theory-system-design-core-concepts-23-consistency-models" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-24-consensus-paxos-raft.html" title="Consensus (Paxos, Raft)">Consensus (Paxos, Raft)</a><button class="star" data-doc="theory-system-design-core-concepts-24-consensus-paxos-raft" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-25-distributed-locks.html" title="Distributed Locks">Distributed Locks</a><button class="star" data-doc="theory-system-design-core-concepts-25-distributed-locks" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-26-message-queues.html" title="Message Queues">Message Queues</a><button class="star" data-doc="theory-system-design-core-concepts-26-message-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-27-idempotency.html" title="Idempotency">Idempotency</a><button class="star" data-doc="theory-system-design-core-concepts-27-idempotency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-28-event-driven-architecture.html" title="Event-Driven Architecture">Event-Driven Architecture</a><button class="star" data-doc="theory-system-design-core-concepts-28-event-driven-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-29-backpressure.html" title="Backpressure">Backpressure</a><button class="star" data-doc="theory-system-design-core-concepts-29-backpressure" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-30-rate-limiting.html" title="Rate Limiting">Rate Limiting</a><button class="star" data-doc="theory-system-design-core-concepts-30-rate-limiting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-31-bloom-filters.html" title="Bloom Filters">Bloom Filters</a><button class="star" data-doc="theory-system-design-core-concepts-31-bloom-filters" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-32-circuit-breaker-retry.html" title="Circuit Breaker + Retry">Circuit Breaker + Retry</a><button class="star" data-doc="theory-system-design-core-concepts-32-circuit-breaker-retry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-33-back-of-envelope-estimation.html" title="Back-of-Envelope Estimation">Back-of-Envelope Estimation</a><button class="star" data-doc="theory-system-design-core-concepts-33-back-of-envelope-estimation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-34-monitoring-observability.html" title="Monitoring &amp; Observability">Monitoring &amp; Observability</a><button class="star" data-doc="theory-system-design-core-concepts-34-monitoring-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-35-batch-vs-stream-processing.html" title="Batch vs Stream Processing">Batch vs Stream Processing</a><button class="star" data-doc="theory-system-design-core-concepts-35-batch-vs-stream-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-system-design-core-concepts-36-authn-vs-authz.html" title="AuthN vs AuthZ">AuthN vs AuthZ</a><button class="star" data-doc="theory-system-design-core-concepts-36-authn-vs-authz" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li class="grp">hld-interview-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-00-overview.html" title="High-Level Design Problems">High-Level Design Problems</a><button class="star" data-doc="practice-hld-interview-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-01-url-shortener.html" title="Design a URL Shortener">Design a URL Shortener</a><button class="star" data-doc="practice-hld-interview-problems-01-url-shortener" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-02-news-feed.html" title="Design a News Feed">Design a News Feed</a><button class="star" data-doc="practice-hld-interview-problems-02-news-feed" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-03-chat-app.html" title="Design a Chat App">Design a Chat App</a><button class="star" data-doc="practice-hld-interview-problems-03-chat-app" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-04-ride-hailing-delivery-matching.html" title="Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy">Design Ride-Hailing &amp; Delivery Matching — Uber/Swiggy</a><button class="star" data-doc="practice-hld-interview-problems-04-ride-hailing-delivery-matching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-05-rate-limiter.html" title="Design a Rate Limiter">Design a Rate Limiter</a><button class="star" data-doc="practice-hld-interview-problems-05-rate-limiter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-06-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-hld-interview-problems-06-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-07-video-streaming-service.html" title="Design a Video Streaming Service">Design a Video Streaming Service</a><button class="star" data-doc="practice-hld-interview-problems-07-video-streaming-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-08-ticket-booking-system.html" title="Design a Ticket Booking System">Design a Ticket Booking System</a><button class="star" data-doc="practice-hld-interview-problems-08-ticket-booking-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-09-typeahead-service.html" title="Design a Typeahead Service">Design a Typeahead Service</a><button class="star" data-doc="practice-hld-interview-problems-09-typeahead-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-10-web-crawler.html" title="Design a Web Crawler">Design a Web Crawler</a><button class="star" data-doc="practice-hld-interview-problems-10-web-crawler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-11-file-sync-service.html" title="Design a File Sync Service">Design a File Sync Service</a><button class="star" data-doc="practice-hld-interview-problems-11-file-sync-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-12-payment-system.html" title="Design a Payment System">Design a Payment System</a><button class="star" data-doc="practice-hld-interview-problems-12-payment-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-13-ad-click-aggregator.html" title="Design an Ad Click Aggregator">Design an Ad Click Aggregator</a><button class="star" data-doc="practice-hld-interview-problems-13-ad-click-aggregator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-14-job-scheduler.html" title="Design a Job Scheduler">Design a Job Scheduler</a><button class="star" data-doc="practice-hld-interview-problems-14-job-scheduler" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-hld-interview-problems-15-search-system.html" title="Design a Search System">Design a Search System</a><button class="star" data-doc="practice-hld-interview-problems-15-search-system" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-hld-interview-problems-15-search-system.html#level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</a></li><li><a href="doc-practice-hld-interview-problems-15-search-system.html#level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</a></li><li><a href="doc-practice-hld-interview-problems-15-search-system.html#level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-hld-interview-problems-16-trading-system.html" title="Design a Trading System">Design a Trading System</a><button class="star" data-doc="practice-hld-interview-problems-16-trading-system" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-hld.html">HLD · System Design</a> › Practice &amp; Questions</p>
+<h1>Design a Search System</h1>
+<p class="readmeta">3 sections · 3,433 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-hld-interview-problems-15-search-system" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Three levels: Level 1 — The Shape, Level 2 — The Defence, Level 3 — The Edges.</p>
+</blockquote>
+<h2 id="level-1-the-shape-foundation">Level 1 — The Shape (Foundation)</h2>
+<p>Pacing: 3 min ask · 5 min trace flow · 7 min read why.</p>
+<h3 id="the-ask">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Full-text query → ranked results</li>
+<li>Index tracks primary writes, no dualwrite</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>No dual-write from the app ← forces CDC off the primary's own log</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>Auth and query-parsing (booleans, facets) are out of scope. Launch defaults: 5 s freshness SLA (p99, write → searchable), 8 shards, 10-min CDC durability buffer.</p>
+<h3 id="the-shape">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>App — Writes documents · later issues search queries; writes avg 200/s · peak 600/s</li>
+<li>(2) Primary Store — Durable source of truth for document rows — NOT shaped for full-text search</li>
+<li>(3) CDC Stream — Tails the Primary Store's own change log · ordered, durable</li>
+<li>(4) Search Store — Inverted index · term → postings list — what queries actually hit</li>
+<li>search query</li>
+</ul>
+<p>Data model: <code>documents doc_id PK → content, updated_at</code>.</p>
+<p>Line = flow type: INDEX · write → derived store; QUERY · read &amp; rank.</p>
+<h3 id="say-it-like-this">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Search needs a fundamentally different structure than the primary store — an inverted index, not a row store's WHERE clause. So instead of dual-writing from the app, I'd tail the Primary Store's own change log with CDC — one source of truth, so a partial failure can always be replayed. And I wouldn't force every write to be synchronously reflected in search — bounded staleness, not zero lag, is the honest target."</p>
+</blockquote>
+<h3 id="defend-it">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(4) A second store, not a WHERE</td>
+<td>Inverted index — term → docs, ranked. The shape matching actually needs</td>
+<td>A row store's own indexes aren't built for "find every doc with these terms"</td>
+</tr>
+<tr>
+<td>(3) CDC, not dual writes</td>
+<td>Tails one durable log — always catches up from what actually happened</td>
+<td>Dual writes can partially fail — no single log to recover from</td>
+</tr>
+<tr>
+<td>(2) Bounded staleness</td>
+<td>A bounded lag, not zero lag — the honest, statable target</td>
+<td>Sync-index every write → ties write latency to the indexing pipeline</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary Store</td>
+<td>50,000,000 docs × 2,000 B avg</td>
+<td>100.0 GB</td>
+</tr>
+<tr>
+<td>Writes</td>
+<td>200/s avg · peak × 3</td>
+<td>600 /s</td>
+</tr>
+<tr>
+<td>In-flight buffer</td>
+<td>Little's Law: 600/s peak × 5 s SLA</td>
+<td>3,000 docs</td>
+</tr>
+<tr>
+<td>Index size</td>
+<td>50,000,000 × 50 terms/doc × 12 B/posting</td>
+<td>30.0 GB</td>
+</tr>
+<tr>
+<td>Index : Primary</td>
+<td>30.0 GB ÷ 100.0 GB — differently shaped, not smaller</td>
+<td>0.30×</td>
+</tr>
+<tr>
+<td>Shards</td>
+<td>≤4 GB/shard → 8 shards, 3.75 GB each</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+<p>Round hard, out loud. The index (30.0 GB) is smaller than the primary store (100 GB) — but that's not the point. It's a differently-shaped structure a row store's own indexes can't produce.</p>
+<h3 id="before-you-draw-anything-the-four-moves">Before You Draw Anything — The Four Moves</h3>
+<ol>
+<li><strong>Clarify, don't assume.</strong> Search over what — documents, products, one field or many? Say ranked results matter, not just matching. — Two minutes of questions buys the whole design.</li>
+<li><strong>Agree the scale out loud.</strong> "50M documents, 200 writes/s avg, a 5-second p99 freshness SLA." Now every choice has a reason. — An unstated number is an undefendable design.</li>
+<li><strong>Draw the happy path only.</strong> Application → Primary Store → CDC Stream → Search Store. Get agreement before adding anything. — Boxes you add before agreement are boxes you'll defend alone.</li>
+<li><strong>Name one trade-off unprompted.</strong> "I wouldn't dual-write from the app — I'd tail the Primary Store's own change log so there's one source of truth to recover from." — This is the single move that separates L1 from a junior answer.</li>
+</ol>
+<h3 id="what-l1-is-testing">What L1 Is Testing</h3>
+<ul>
+<li>Do you name the inverted index unprompted, not a WHERE clause?</li>
+<li>Do you reach for CDC over dual writes, and say why?</li>
+<li>Did you separate matching from ranking, unasked?</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why not just add a full-text WHERE clause to the Primary Store instead of a whole second store? <em>(ref 4 — tests: recall that a row store's own indexes aren't shaped for term → doc lookups, ranked by relevance)</em></li>
+<li>The app just wrote a document. Why not have it write to the Search Store too, right then? <em>(ref 3 — tests: dual-write failure awareness — CDC as the single source of truth to recover from)</em></li>
+<li>If the index can lag, why isn't every search just wrong? <em>(ref 4 — tests: bounded lag vs. zero lag — the honest target, not a hand-wave)</em></li>
+</ol>
+<p>At L1 you are being judged on one thing: can you produce a coherent shape and defend three choices inside it. Depth is page 2 — do not reach for it here. Ghosted boxes are what arrives next; you should be able to guess two of them.</p>
+<h2 id="level-2-the-defence-intermediate">Level 2 — The Defence (Intermediate)</h2>
+<p>Pacing: 5 min ask · 15 min trace flow · 10 min read why · 30 min cover &amp; answer.</p>
+<h3 id="the-ask_1">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Full-text query → ranked results</li>
+<li>Index tracks primary writes, no dualwrite</li>
+<li>Corpus outgrows one index node's memory</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>No dual-write from the app ← forces CDC off the primary's own log</li>
+<li>Staleness must be measured ← forces a lag/staleness monitor</li>
+<li>Index outgrows one node ← forces sharding + fan-out/merge</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Auth/authz for who may write or search</li>
+<li>Query parsing — booleans, facets</li>
+<li>Personalization / per-user ranking</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>Auth and query-parsing (booleans, facets) are out of scope. Launch defaults: 5 s freshness SLA (p99, write → searchable), 8 shards, 10-min CDC durability buffer.</p>
+<h3 id="the-shape_1">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>App — Writes documents · later issues search queries; writes avg 200/s · peak 600/s</li>
+<li>(2) Primary Store — Durable source of truth for document rows — NOT shaped for full-text search; 50,000,000 docs · 100.0 GB</li>
+<li>(3) CDC Stream — Tails the Primary Store's own change log · ordered, durable</li>
+<li>(5) Indexing Pipeline — Consumes CDC events · transforms rows into indexable documents</li>
+<li>(4) Search Store — Inverted index · term → postings list — what queries actually hit; 30.0 GB · 8 shards · 3.75 GB/shard</li>
+<li>(6) Query Service</li>
+<li>(9) Index Shard Router — Routes writes to a shard · fans queries across all shards</li>
+<li>(7) Ranking / Scorer — Term frequency, doc frequency, field boosts — matching ≠ ranking</li>
+<li>(8) Staleness Monitor — Measures CDC/indexing lag between ② and ④</li>
+<li>search query — avg 2,000/s · peak 6,000/s</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>documents doc_id PK · content · updated_at · version</code></li>
+<li><code>postings term PK → doc_id[], tf, positions</code></li>
+</ul>
+<p>Line = flow type: INDEX · write → derived store; QUERY · read &amp; rank; CHECK · dependency / monitor.</p>
+<h3 id="say-it-like-this_1">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Search needs a fundamentally different structure than the primary store — an inverted index, not a row store's WHERE clause. So instead of dual-writing from the app, I'd tail the Primary Store's own change log with CDC — one source of truth, so a partial failure can always be replayed. And I wouldn't force every write to be synchronously reflected in search — bounded staleness, not zero lag, is the honest target."</p>
+</blockquote>
+<h3 id="defend-it_1">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(4) A second store, not a WHERE</td>
+<td>Inverted index — term → docs, ranked. The shape matching actually needs</td>
+<td>A row store's own indexes aren't built for "find every doc with these terms"</td>
+</tr>
+<tr>
+<td>(3) CDC, not dual writes</td>
+<td>Tails one durable log — always catches up from what actually happened</td>
+<td>Dual writes can partially fail — no single log to recover from</td>
+</tr>
+<tr>
+<td>(2) Bounded staleness</td>
+<td>A bounded lag, not zero lag — the honest, statable target</td>
+<td>Sync-index every write → ties write latency to the indexing pipeline</td>
+</tr>
+<tr>
+<td>(5) Its own pipeline stage</td>
+<td>Tokenizing is real work — its own scalable, retryable stage</td>
+<td>CDC straight into the index → couples ingestion to indexing</td>
+</tr>
+<tr>
+<td>(7) A separate ranking step</td>
+<td>Matching ≠ ranking — relevance scoring is its own problem</td>
+<td>Matched order alone → a term match says nothing about relevance</td>
+</tr>
+<tr>
+<td>(9) Sharding the index</td>
+<td>The corpus outgrows one node's memory — build the seam early</td>
+<td>Single node → a forced migration once memory runs out</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_1">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary Store</td>
+<td>50,000,000 docs × 2,000 B avg</td>
+<td>100.0 GB</td>
+</tr>
+<tr>
+<td>Writes</td>
+<td>200/s avg · peak × 3</td>
+<td>600 /s</td>
+</tr>
+<tr>
+<td>In-flight buffer</td>
+<td>Little's Law: 600/s peak × 5 s SLA</td>
+<td>3,000 docs</td>
+</tr>
+<tr>
+<td>Index size</td>
+<td>50,000,000 × 50 terms/doc × 12 B/posting</td>
+<td>30.0 GB</td>
+</tr>
+<tr>
+<td>Index : Primary</td>
+<td>30.0 GB ÷ 100.0 GB — differently shaped, not smaller</td>
+<td>0.30×</td>
+</tr>
+<tr>
+<td>Shards</td>
+<td>≤4 GB/shard → 8 shards, 3.75 GB each</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Postings</td>
+<td>50,000,000 docs × 50 terms/doc</td>
+<td>2,500,000,000</td>
+</tr>
+<tr>
+<td>Queries</td>
+<td>2,000/s avg · peak × 3</td>
+<td>6,000 /s</td>
+</tr>
+</tbody>
+</table>
+<p>Storage was never the constraint — staying hot and fresh is. 30 GB needs 8 shards to fit in-memory, and every write has a 5-second budget to become searchable, measured via a 3,000-document buffer.</p>
+<h3 id="what-breaks-say-it-before-they-ask">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(5) Indexing Pipeline falls behind.</strong> CDC events pile up in ③'s durable log; nothing is lost, but staleness (⑧) grows until it catches up. — Fix: drain the backlog at a steady rate — never fire the whole thing into ④ at once</li>
+<li><strong>(3) A CDC connector loses its offset.</strong> It crashes without checkpointing and doesn't know where it left off. — Fix: resume from the LAST ACKNOWLEDGED offset in ②'s own log, never from "now"</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_1">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why not just add a full-text WHERE clause to the Primary Store instead of a whole second store? <em>(ref 4 — tests: recall that a row store's own indexes aren't shaped for term → doc lookups, ranked by relevance)</em></li>
+<li>The app just wrote a document. Why not have it write to the Search Store too, right then? <em>(ref 3 — tests: dual-write failure awareness — CDC as the single source of truth to recover from)</em></li>
+<li>If the index can lag, why isn't every search just wrong? <em>(ref 4 — tests: bounded lag vs. zero lag — the honest target, not a hand-wave)</em></li>
+<li>Why not have the CDC stream write straight into the inverted index? <em>(ref 5 — tests: recall that turning a row into indexable terms is real work, worth its own retryable stage)</em></li>
+<li>The index lookup already returns the matching documents. Why rank them separately? <em>(ref 7 — tests: matching vs. ranking as different problems)</em></li>
+<li>Why shard the index instead of just scaling up one node's RAM? <em>(ref 9 — tests: the corpus outgrowing single-node memory, and building the seam in early)</em></li>
+</ol>
+<h3 id="cover-the-sheet-answer-aloud">Cover The Sheet · Answer Aloud</h3>
+<p>Use it as revision: cover the right rail and the two panels to your left, then walk the numbered path out loud. If you cannot say why a box is there and what breaks it, that box is your gap.</p>
+<h2 id="level-3-the-edges-advanced">Level 3 — The Edges (Advanced)</h2>
+<p>Pacing: 10 min ask · 25 min trace flow · 15 min read why · 40 min cover &amp; answer.</p>
+<h3 id="the-ask_2">The Ask</h3>
+<p><strong>Functional</strong></p>
+<ul>
+<li>Full-text query → ranked results</li>
+<li>Index tracks primary writes, no dualwrite</li>
+<li>Corpus outgrows one index node's memory</li>
+<li>Rebuild the index from scratch</li>
+<li>Opt-in check: is my write visible yet?</li>
+</ul>
+<p><strong>Non-Functional</strong></p>
+<ul>
+<li>No dual-write from the app ← forces CDC off the primary's own log</li>
+<li>Staleness must be measured ← forces a lag/staleness monitor</li>
+<li>Index outgrows one node ← forces sharding + fan-out/merge</li>
+<li>Index/query text rules must match ← forces one shared tokenizer</li>
+<li>Standard SLA can't block the rare case ← forces an opt-in freshness check</li>
+</ul>
+<p><strong>Out of Scope — Say It Aloud</strong></p>
+<ul>
+<li>Auth/authz for who may write or search</li>
+<li>Query parsing — booleans, facets</li>
+<li>Personalization / per-user ranking</li>
+</ul>
+<p><strong>Agree These First</strong></p>
+<p>Auth and query-parsing (booleans, facets) are out of scope. Launch defaults: 5 s freshness SLA (p99, write → searchable), 8 shards, 10-min CDC durability buffer.</p>
+<h3 id="the-shape_2">The Shape</h3>
+<p>Components and flow:</p>
+<ul>
+<li>App — Writes documents · later issues search queries; writes avg 200/s · peak 600/s</li>
+<li>(2) Primary Store — Durable source of truth for document rows — NOT shaped for full-text search; 50,000,000 docs · 100.0 GB</li>
+<li>(3) CDC Stream — Tails the Primary Store's own change log · ordered, durable</li>
+<li>(5) Indexing Pipeline — Consumes CDC events · transforms rows into indexable documents</li>
+<li>(12) Tokenizer / Analyzer — Shared by indexing &amp; query — one point of truth</li>
+<li>(4) Search Store — Inverted index · term → postings list — what queries actually hit; 30.0 GB · 8 shards · 3.75 GB/shard</li>
+<li>(6) Query Service</li>
+<li>(9) Index Shard Router — Routes writes to a shard · fans queries across all shards</li>
+<li>(7) Ranking / Scorer — Term frequency, doc frequency, field boosts — matching ≠ ranking</li>
+<li>(8) Staleness Monitor — Measures CDC/indexing lag between ② and ④</li>
+<li>(11) Dead Letter / Reindex Queue — Events ⑤ couldn't apply — retried, never dropped</li>
+<li>(10) Reindex / Backfill Job — Bulk-rebuilds ④ from ② — schema change, ranking change, or drift too severe to catch up</li>
+<li>(13) Freshness Token Check — Opt-in: is my own recent write guaranteed visible yet?</li>
+<li>search query — avg 2,000/s · peak 6,000/s</li>
+</ul>
+<p>Data model:</p>
+<ul>
+<li><code>documents doc_id PK · content · updated_at · version</code></li>
+<li><code>postings term PK → doc_id[], tf, positions</code></li>
+</ul>
+<p>Line = flow type: INDEX · write → derived store; QUERY · read &amp; rank; CHECK · dependency / monitor; BACKFILL · bypasses CDC.</p>
+<h3 id="say-it-like-this_2">Say It Like This</h3>
+<blockquote class="callout callout--note">
+<p>"Search needs a fundamentally different structure than the primary store — an inverted index, not a row store's WHERE clause. So instead of dual-writing from the app, I'd tail the Primary Store's own change log with CDC — one source of truth, so a partial failure can always be replayed. And I wouldn't force every write to be synchronously reflected in search — bounded staleness, not zero lag, is the honest target."</p>
+</blockquote>
+<h3 id="defend-it_2">Defend It</h3>
+<table>
+<thead>
+<tr>
+<th>Decision</th>
+<th>Prefer</th>
+<th>Avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(4) A second store, not a WHERE</td>
+<td>Inverted index — term → docs, ranked. The shape matching actually needs</td>
+<td>A row store's own indexes aren't built for "find every doc with these terms"</td>
+</tr>
+<tr>
+<td>(3) CDC, not dual writes</td>
+<td>Tails one durable log — always catches up from what actually happened</td>
+<td>Dual writes can partially fail — no single log to recover from</td>
+</tr>
+<tr>
+<td>(2) Bounded staleness</td>
+<td>A bounded lag, not zero lag — the honest, statable target</td>
+<td>Sync-index every write → ties write latency to the indexing pipeline</td>
+</tr>
+<tr>
+<td>(5) Its own pipeline stage</td>
+<td>Tokenizing is real work — its own scalable, retryable stage</td>
+<td>CDC straight into the index → couples ingestion to indexing</td>
+</tr>
+<tr>
+<td>(7) A separate ranking step</td>
+<td>Matching ≠ ranking — relevance scoring is its own problem</td>
+<td>Matched order alone → a term match says nothing about relevance</td>
+</tr>
+<tr>
+<td>(9) Sharding the index</td>
+<td>The corpus outgrows one node's memory — build the seam early</td>
+<td>Single node → a forced migration once memory runs out</td>
+</tr>
+<tr>
+<td>(8) An explicit staleness monitor</td>
+<td>"Eventually" needs a number — lag surfaced and alertable</td>
+<td>Assume eventual consistency → a backlog grows for hours, unnoticed</td>
+</tr>
+<tr>
+<td>(13) Opt-in freshness check</td>
+<td>A narrow, opt-in check for the caller who can't tolerate the SLA</td>
+<td>Trust the standard SLA always → "it's not there yet" for your own new post</td>
+</tr>
+</tbody>
+</table>
+<h3 id="capacity-math_2">Capacity Math</h3>
+<table>
+<thead>
+<tr>
+<th>Quantity</th>
+<th>Derivation</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primary Store</td>
+<td>50,000,000 docs × 2,000 B avg</td>
+<td>100.0 GB</td>
+</tr>
+<tr>
+<td>Writes</td>
+<td>200/s avg · peak × 3</td>
+<td>600 /s</td>
+</tr>
+<tr>
+<td>In-flight buffer</td>
+<td>Little's Law: 600/s peak × 5 s SLA</td>
+<td>3,000 docs</td>
+</tr>
+<tr>
+<td>Index size</td>
+<td>50,000,000 × 50 terms/doc × 12 B/posting</td>
+<td>30.0 GB</td>
+</tr>
+<tr>
+<td>Index : Primary</td>
+<td>30.0 GB ÷ 100.0 GB — differently shaped, not smaller</td>
+<td>0.30×</td>
+</tr>
+<tr>
+<td>Shards</td>
+<td>≤4 GB/shard → 8 shards, 3.75 GB each</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Postings</td>
+<td>50,000,000 docs × 50 terms/doc</td>
+<td>2,500,000,000</td>
+</tr>
+<tr>
+<td>Queries</td>
+<td>2,000/s avg · peak × 3</td>
+<td>6,000 /s</td>
+</tr>
+<tr>
+<td>Fan-out</td>
+<td>8 shards × top-50/shard, merged before rerank</td>
+<td>400</td>
+</tr>
+<tr>
+<td>CDC buffer</td>
+<td>600/s × 600 s → 360,000 events × 1,000 B</td>
+<td>360 MB</td>
+</tr>
+</tbody>
+</table>
+<p>At-least-once sync has a real, nameable cost. 360 MB of buffered CDC events survives a 10-minute outage, and every query still fans out to all 8 shards and merges 400 candidates before ranking runs.</p>
+<h3 id="what-breaks-say-it-before-they-ask_1">What Breaks — Say It Before They Ask</h3>
+<ul>
+<li><strong>(5) Indexing Pipeline falls behind.</strong> CDC events pile up in ③'s durable log; nothing is lost, but staleness (⑧) grows until it catches up. — Fix: drain the backlog at a steady rate — never fire the whole thing into ④ at once</li>
+<li><strong>(3) A CDC connector loses its offset.</strong> It crashes without checkpointing and doesn't know where it left off. — Fix: resume from the LAST ACKNOWLEDGED offset in ②'s own log, never from "now"</li>
+<li><strong>(12) Indexing-time and query-time tokenization diverge.</strong> Someone updates the analyzer for indexing but the query path still uses the old rules. — Fix: one shared Tokenizer/Analyzer — documents that obviously match stop appearing otherwise, with no error anywhere</li>
+<li><strong>(9) One shard runs hot.</strong> Uneven term distribution or a popular category clusters on one shard. — Fix: that shard's tail latency drags down the whole fan-out — a query isn't done until every shard responds</li>
+<li><strong>(10) Backfill races live updates.</strong> A Reindex job runs concurrently with CDC-driven updates to the same documents. — Fix: an ordering/version guard — only apply if the backfill's source version is newer than what's already indexed</li>
+</ul>
+<h3 id="the-follow-ups-that-decide-it_2">The Follow-Ups That Decide It</h3>
+<ol>
+<li>Why not just add a full-text WHERE clause to the Primary Store instead of a whole second store? <em>(ref 4 — tests: recall that a row store's own indexes aren't shaped for term → doc lookups, ranked by relevance)</em></li>
+<li>The app just wrote a document. Why not have it write to the Search Store too, right then? <em>(ref 3 — tests: dual-write failure awareness — CDC as the single source of truth to recover from)</em></li>
+<li>If the index can lag, why isn't every search just wrong? <em>(ref 4 — tests: bounded lag vs. zero lag — the honest target, not a hand-wave)</em></li>
+<li>Why not have the CDC stream write straight into the inverted index? <em>(ref 5 — tests: recall that turning a row into indexable terms is real work, worth its own retryable stage)</em></li>
+<li>The index lookup already returns the matching documents. Why rank them separately? <em>(ref 7 — tests: matching vs. ranking as different problems)</em></li>
+<li>Why shard the index instead of just scaling up one node's RAM? <em>(ref 9 — tests: the corpus outgrowing single-node memory, and building the seam in early)</em></li>
+<li>CDC is "eventually consistent" by design. Why do you still need a monitor? <em>(ref 8 — tests: recall that "eventually" needs a measured, alertable number)</em></li>
+<li>A user just created a document and immediately searches for it. What do they see? <em>(ref 13 — tests: the opt-in freshness check for the narrow case that needs it, not default behaviour)</em></li>
+</ol>
+<div class="pager"><a class="prev" href="doc-practice-hld-interview-problems-14-job-scheduler.html"><span class="dir">Previous</span><span class="ttl">Design a Job Scheduler</span></a><a class="next" href="doc-practice-hld-interview-problems-16-trading-system.html"><span class="dir">Next</span><span class="ttl">Design a Trading System</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

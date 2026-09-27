@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problems in Multithreading | Race Condition, Visibility, Ordering Explained — Java</title>
+<meta name="description" content="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-50">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-50.html#lecture-50">Lecture 50</a></li><li><a href="doc-theory-lecture-50.html#1-shared-resources-and-the-critical-section">1. Shared Resources and the Critical Section</a></li><li><a href="doc-theory-lecture-50.html#2-race-conditions-definition-and-interleaving">2. Race Conditions: Definition and Interleaving</a></li><li><a href="doc-theory-lecture-50.html#3-complete-race-condition-program">3. Complete Race Condition Program</a></li><li><a href="doc-theory-lecture-50.html#4-atomicity-definition-and-why-it-matters">4. Atomicity: Definition and Why It Matters</a></li><li><a href="doc-theory-lecture-50.html#5-check-then-act-and-the-money-transfer-problem">5. Check-Then-Act and the Money-Transfer Problem</a></li><li><a href="doc-theory-lecture-50.html#6-solving-atomicity-problems">6. Solving Atomicity Problems</a></li><li><a href="doc-theory-lecture-50.html#7-atomic-and-non-atomic-operations-including-long-and-double">7. Atomic and Non-Atomic Operations (Including long and double)</a></li><li><a href="doc-theory-lecture-50.html#8-visibility-problems">8. Visibility Problems</a></li><li><a href="doc-theory-lecture-50.html#9-using-volatile-for-visibility">9. Using volatile for Visibility</a></li><li><a href="doc-theory-lecture-50.html#10-visibility-through-synchronization">10. Visibility Through Synchronization</a></li><li><a href="doc-theory-lecture-50.html#11-ordering-problems-and-reordering">11. Ordering Problems and Reordering</a></li><li><a href="doc-theory-lecture-50.html#12-preventing-ordering-problems">12. Preventing Ordering Problems</a></li><li><a href="doc-theory-lecture-50.html#13-thread-interference">13. Thread Interference</a></li><li><a href="doc-theory-lecture-50.html#14-race-condition-vs-thread-interference">14. Race Condition vs Thread Interference</a></li><li><a href="doc-theory-lecture-50.html#15-data-inconsistency-and-its-forms">15. Data Inconsistency and Its Forms</a></li><li><a href="doc-theory-lecture-50.html#16-preventing-multithreading-problems">16. Preventing Multithreading Problems</a></li><li><a href="doc-theory-lecture-50.html#17-comparison-tables-and-choosing-the-correct-tool">17. Comparison Tables and Choosing the Correct Tool</a></li><li><a href="doc-theory-lecture-50.html#18-myth-vs-reality">18. Myth vs Reality</a></li><li><a href="doc-theory-lecture-50.html#19-common-trap-questions">19. Common Trap Questions</a></li><li><a href="doc-theory-lecture-50.html#20-points-to-remember">20. Points to Remember</a></li><li><a href="doc-theory-lecture-50.html#21-likely-interview-questions">21. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-50.html#22-final-summary">22. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Problems in Multithreading | Race Condition, Visibility, Ordering Explained</h1>
+<p class="readmeta">23 sections · 4,821 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-50" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-50">Lecture 50</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Problems in Multithreading | Race Condition, Visibility, Ordering Explained" (playlist map, verified) plus the lecture's own repo notes, which enumerate the six problems — race conditions, atomicity, visibility, ordering, thread interference and data inconsistency — starting from shared resources. Repo evidence: 2 Demo files.</p>
+</blockquote>
+<p>Multithreading lets several threads make progress within one program, improving responsiveness and performance, but it also creates problems whenever threads touch the same mutable data without coordination. The lecture's repo notes enumerate six related problems — race conditions, atomicity, visibility, ordering, thread interference and data inconsistency — and stress that they are connected but not identical. This note follows the same arc: it begins with shared resources and critical sections, dissects each problem in turn, and closes with the tools that prevent them. The central lesson is that thread-safe code must rest on Java Memory Model guarantees, never on assumptions about CPU caches or execution timing.</p>
+<h2 id="1-shared-resources-and-the-critical-section">1. Shared Resources and the Critical Section</h2>
+<p>A <strong>shared resource</strong> is any data or object that more than one thread can access. Typical examples from the notes include an <code>int count</code>, a <code>List&lt;Integer&gt; numbers</code> and a <code>BankAccount account</code>; more broadly, shared resources include objects in heap memory, static variables, shared collections, files, database connections and network resources.</p>
+<p>A resource becomes dangerous only when it is both <strong>shared and mutable</strong>. Immutable data can be shared safely because its state cannot change after creation.</p>
+<p>A <strong>critical section</strong> is the part of the program that reads or modifies shared mutable data and therefore requires controlled access. It is the location where incorrect thread interleaving can cause a problem, and it may hold a single statement or several related statements.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">          </span><span class="c1">// shared resource</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w">            </span><span class="c1">// critical section</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>For <code>count</code>, the shared resource is the field and the critical section is <code>count++</code>. When a critical section spans several lines, all of them belong to one logical unit:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">balance</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">       </span><span class="c1">// part of the same critical section</span>
+<span class="w">    </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The condition check and the update must be treated together, because another thread can slip between them.</p>
+<blockquote class="callout callout--important">
+<p>Important
+The pattern to fear is <em>shared</em> + <em>mutable</em>. Removing either property — by confining the data or by making it immutable — removes the danger before any lock is needed.</p>
+</blockquote>
+<p>Memory aid: <strong>shared resource = the noun; critical section = the verb that touches it</strong>.</p>
+<h2 id="2-race-conditions-definition-and-interleaving">2. Race Conditions: Definition and Interleaving</h2>
+<p>A <strong>race condition</strong> occurs when the correctness of a program depends on the unpredictable timing or execution order of multiple threads. In simple terms, multiple threads race to access or modify the same shared state, and the final result depends on which thread executes first.</p>
+<p>The canonical culprit is <code>count++</code>. It looks like one Java statement, but conceptually it performs three operations:</p>
+<ol>
+<li>Read <code>count</code></li>
+<li>Add 1</li>
+<li>Write the updated value</li>
+</ol>
+<p>Because these steps can interleave with another thread, <code>count++</code> is <strong>not atomic</strong>.</p>
+<p>Consider two threads calling <code>increment()</code> when <code>count = 0</code>. The expected execution is <code>Thread-1: 0 → 1</code>, then <code>Thread-2: 1 → 2</code>, giving the expected final result <code>count = 2</code>. But the following interleaving is equally possible:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Thread-1</th>
+<th>Thread-2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reads count = 0</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>Reads count = 0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Calculates 1</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Calculates 1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Writes 1</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>Writes 1</td>
+</tr>
+</tbody>
+</table>
+<p>The final result is <code>count = 1</code>. Two increments were attempted, but one update was lost. This is a race condition, and its defining feature is that the program may produce the correct result sometimes and an incorrect result at other times — which is exactly what makes it hard to detect and reproduce.</p>
+<h2 id="3-complete-race-condition-program">3. Complete Race Condition Program</h2>
+<p>The repo Demo runs two threads that each increment a shared counter 100,000 times. The expected result is <code>200000</code>, but a possible result is an arbitrary smaller value such as <code>173482</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — two threads increment a shared counter without coordination</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                         </span><span class="c1">// shared resource</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w">                           </span><span class="c1">// read → add → write (not atomic)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">count</span><span class="p">);</span><span class="w">  </span><span class="c1">// expected 200000; may be lower</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The exact incorrect value is not guaranteed; it depends on thread scheduling and the number of overlapping updates. There is no single wrong answer to observe — only a right answer that is not reliably produced.</p>
+<h2 id="4-atomicity-definition-and-why-it-matters">4. Atomicity: Definition and Why It Matters</h2>
+<p>An operation is <strong>atomic</strong> when it appears to other threads as one indivisible action: no other thread can observe or interfere with it halfway through. It starts, completes as one unit, and other threads do not see an intermediate state.</p>
+<p>Atomicity in multithreading is about preventing unsafe interleaving. A thread can be paused by the scheduler between individual operations, so if a task contains several dependent steps and those steps are unprotected, another thread can interfere between them.</p>
+<p><code>count++</code> expands conceptually into:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">temporary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w">      </span><span class="c1">// read</span>
+<span class="n">temporary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temporary</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w">  </span><span class="c1">// modify</span>
+<span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temporary</span><span class="p">;</span><span class="w">          </span><span class="c1">// write</span>
+</code></pre></div>
+
+<p>Because these are separate read, modify and write operations, another thread can run between them. The counter race condition is fundamentally caused by a <strong>lack of atomicity</strong>.</p>
+<h2 id="5-check-then-act-and-the-money-transfer-problem">5. Check-Then-Act and the Money-Transfer Problem</h2>
+<p>The <strong>check-then-act</strong> pattern is a classic atomicity failure. A bank withdrawal performs two related actions — check whether enough balance exists, then deduct the amount:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">withdraw</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">balance</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// check</span>
+<span class="w">        </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span><span class="w">   </span><span class="c1">// act</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Suppose <code>balance = 1000</code> and two threads each attempt to withdraw <code>800</code>:</p>
+<ol>
+<li>Thread-1 checks balance → sufficient</li>
+<li>Thread-2 checks balance → sufficient</li>
+<li>Thread-1 deducts 800</li>
+<li>Thread-2 deducts 800</li>
+</ol>
+<p>Both threads made their decision using the old balance. The condition check and the update must therefore be treated as one atomic operation.</p>
+<p>The same issue appears in a money transfer: deduct from Account A, then add to Account B. If only the first step completes, the system is inconsistent. No other thread should observe a partially completed state where money has been deducted but not yet credited; the complete transfer must be protected as one logical operation.</p>
+<h2 id="6-solving-atomicity-problems">6. Solving Atomicity Problems</h2>
+<p>The repo notes give three common solutions, and the correct choice depends on the complexity of the operation.</p>
+<ol>
+<li><strong>Using <code>synchronized</code></strong> — wrap the whole logical unit:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ol start="2">
+<li><strong>Using atomic classes</strong> — for simple state transitions:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">();</span>
+<span class="n">count</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">();</span>
+</code></pre></div>
+
+<ol start="3">
+<li><strong>Using explicit locks</strong> — when advanced features are required:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">Lock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+</code></pre></div>
+
+<h2 id="7-atomic-and-non-atomic-operations-including-long-and-double">7. Atomic and Non-Atomic Operations (Including long and double)</h2>
+<p>A simple read or write of most Java primitive values and object references <strong>is atomic</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="n">Object</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
+</code></pre></div>
+
+<p>Another thread will not observe half of an <code>int</code> value or half of an object reference. But <strong>atomicity alone does not guarantee visibility</strong>: a write may be atomic yet still not become visible without a proper happens-before relationship.</p>
+<p>Several everyday operations are <strong>not atomic</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Why it is not atomic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>count++</code> / <code>count--</code></td>
+<td>read → modify → write</td>
+</tr>
+<tr>
+<td><code>x += 5</code></td>
+<td>conceptually <code>x = x + 5</code>; contains a read and a write</td>
+</tr>
+<tr>
+<td>Check-then-act (<code>if (balance &gt; 0) withdraw();</code>)</td>
+<td>another thread can change <code>balance</code> between check and action</td>
+</tr>
+<tr>
+<td><code>list.add(1)</code> / <code>map.put(key, value)</code></td>
+<td>may perform several internal operations; thread safety depends on the collection</td>
+</tr>
+<tr>
+<td><code>if (!map.containsKey(key)) map.put(key, value);</code></td>
+<td>the check-then-put sequence is not atomic even on a thread-safe map</td>
+</tr>
+</tbody>
+</table>
+<p>For collections, the notes state plainly: <code>ArrayList</code> is <strong>not</strong> thread-safe, <code>HashMap</code> is <strong>not</strong> thread-safe, and <code>ConcurrentHashMap</code> is <strong>designed</strong> for concurrent access. Even so, a sequence of method calls may still need extra synchronization; the complete check-then-put is not automatically atomic unless an atomic API such as <code>putIfAbsent()</code> is used.</p>
+<p>The <strong><code>long</code> and <code>double</code> case</strong> deserves its own rule. The Java Language Specification permits a non-volatile <code>long</code> or <code>double</code> read or write to be treated as two separate 32-bit operations. On most modern JVMs and processors these operations are implemented atomically, but portable Java code should not depend on that implementation detail. Declaring them <code>volatile</code> guarantees atomic reads and writes:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="kd">volatile</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This still does not make compound operations atomic: <code>value++</code> remains a read-modify-write sequence even when <code>value</code> is volatile.</p>
+<h2 id="8-visibility-problems">8. Visibility Problems</h2>
+<p>A <strong>visibility problem</strong> occurs when one thread updates shared data but another thread does not reliably observe the updated value. The first thread may have performed the write correctly; the problem is that another thread has no synchronization guarantee requiring it to see that write.</p>
+<p>Visibility problems occur because modern systems improve performance through CPU caches, processor registers, compiler optimizations, JVM optimizations and instruction reordering. A simplified mental model is:</p>
+<div class="highlight"><pre><span></span><code>Thread → CPU registers and caches → Shared memory
+</code></pre></div>
+
+<p>This model is useful for understanding the problem, but the Java Memory Model does not define visibility as simply reading directly from RAM or CPU cache. The important rule is: <strong>without a happens-before relationship, one thread is not guaranteed to observe another thread's write.</strong></p>
+<p>The repo example uses a <code>flag</code> that an updater thread sets to <code>true</code> while an observer thread loops <code>while (!flag)</code>. The expected behavior is that the updater changes <code>flag</code> to <code>true</code> and the observer exits the loop. However, without proper synchronization the observer is not guaranteed to detect the update. A possible result is that <code>Flag updated to true</code> prints while the observer continues looping: the write happened, but another thread did not reliably observe it.</p>
+<h2 id="9-using-volatile-for-visibility">9. Using volatile for Visibility</h2>
+<p>Declaring the flag <code>volatile</code> closes the visibility gap:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">static</span><span class="w"> </span><span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+</code></pre></div>
+
+<p>A <strong>volatile write happens-before every subsequent volatile read of the same variable</strong>. Therefore, if Thread-1 writes <code>flag = true</code> and Thread-2 later reads <code>flag</code>, Thread-2 must observe the updated value. <code>volatile</code> also prevents certain reorderings around volatile reads and writes.</p>
+<p><strong>What <code>volatile</code> guarantees:</strong></p>
+<ol>
+<li>Visibility</li>
+<li>Ordering guarantees around the volatile access</li>
+<li>Atomic reads and writes of the volatile variable itself</li>
+</ol>
+<p>It is best suited for simple state communication where one thread writes a value and other threads read it, for example <code>volatile boolean running</code>, <code>volatile boolean shutdownRequested</code> or <code>volatile int currentState</code>.</p>
+<p><strong>What <code>volatile</code> does not guarantee:</strong> it does not make compound operations atomic. With <code>volatile int count = 0</code>, the increment still performs read <code>count</code> → add 1 → write <code>count</code>, and two threads can still read the same old value and overwrite one another. Hence:</p>
+<div class="highlight"><pre><span></span><code>volatile  → visibility and ordering
+volatile  ≠ compound-operation atomicity
+</code></pre></div>
+
+<p>For atomic increments use <code>AtomicInteger.incrementAndGet()</code>, or protect the operation with synchronization.</p>
+<h2 id="10-visibility-through-synchronization">10. Visibility Through Synchronization</h2>
+<p><code>synchronized</code> provides visibility through <strong>monitor operations</strong>, which create happens-before relationships. When Thread-1 releases a monitor and Thread-2 later acquires the same monitor, Thread-2 can observe writes made before Thread-1 released it.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The guarantee depends on <strong>both</strong> threads coordinating through the same monitor. It is not enough for one thread to synchronize while another thread accesses the same state without synchronization.</p>
+<h2 id="11-ordering-problems-and-reordering">11. Ordering Problems and Reordering</h2>
+<p><strong>Ordering</strong> refers to the sequence in which memory operations become observable. A programmer may write:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="c1">// Thread-1</span>
+<span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+
+<span class="c1">// Thread-2</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The intended logic is: write <code>data</code> → mark <code>data</code> as ready → another thread observes <code>ready</code> → another thread reads <code>data</code>. Without synchronization, that ordering is <strong>not guaranteed</strong> between threads.</p>
+<p>Reordering happens because compilers, the JVM and processors may reorder instructions to improve performance, using techniques such as instruction scheduling, register allocation, pipelining, store buffering and common-subexpression elimination. Reordering is permitted as long as behavior remains valid according to single-thread semantics and the Java Memory Model.</p>
+<p>The consequence is the classic example. With initial state <code>int data = 0; boolean ready = false;</code>, a programmer expects Thread-2 to print <code>10</code>. But without a happens-before relationship, Thread-2 is not guaranteed to observe the write to <code>data</code> merely because it observes <code>ready</code> as true. It could observe <code>ready = true</code> and <code>data = 0</code>. This may happen because of visibility effects, reordering, or both.</p>
+<h2 id="12-preventing-ordering-problems">12. Preventing Ordering Problems</h2>
+<p><strong>With <code>volatile</code></strong> — declare the publication flag as volatile:</p>
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+</code></pre></div>
+
+<p>The volatile write and read establish the required ordering:</p>
+<div class="highlight"><pre><span></span><code>write data = 10
+  → volatile write ready = true
+  → volatile read ready == true
+  → read data
+</code></pre></div>
+
+<p>If Thread-2 observes the volatile write to <code>ready</code>, it must also observe the preceding write to <code>data</code>. This is the <strong>safe-publication pattern</strong>.</p>
+<p><strong>With <code>synchronized</code></strong> — the same monitor works for both sides:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ready</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ready</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The guarantee comes from monitor release followed by subsequent acquisition of the same monitor. It is more accurate to say that synchronization creates ordering and visibility guarantees between threads; the JVM may still reorder internal instructions when doing so does not violate those guarantees.</p>
+<table>
+<thead>
+<tr>
+<th>Happens-before rule</th>
+<th>What it orders</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Program order</td>
+<td>Actions in one thread appear in source order to that same thread</td>
+</tr>
+<tr>
+<td>Monitor lock</td>
+<td>A release of a monitor happens-before every subsequent acquire of the same monitor</td>
+</tr>
+<tr>
+<td>Volatile variable</td>
+<td>A write to a volatile field happens-before every subsequent read of that field</td>
+</tr>
+<tr>
+<td>Thread start</td>
+<td>A call to <code>Thread.start()</code> happens-before any action in the started thread</td>
+</tr>
+<tr>
+<td>Thread termination</td>
+<td>All actions in a thread happen-before another thread returns successfully from <code>join()</code></td>
+</tr>
+<tr>
+<td>Transitivity</td>
+<td>If A happens-before B and B happens-before C, then A happens-before C</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-thread-interference">13. Thread Interference</h2>
+<p><strong>Thread interference</strong> occurs when operations from multiple threads interleave in a way that causes one thread to disturb the work of another:</p>
+<div class="highlight"><pre><span></span><code>Thread-1 reads count
+Thread-2 reads count
+Thread-1 writes new value
+Thread-2 overwrites that value
+</code></pre></div>
+
+<p>It is usually the visible effect of shared mutable state, non-atomic operations, missing synchronization and unsafe interleaving. The <strong>lost update</strong> above is both a result of interference and an example of a race condition.</p>
+<h2 id="14-race-condition-vs-thread-interference">14. Race Condition vs Thread Interference</h2>
+<p>The terms are related but emphasize different aspects:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Race condition</th>
+<th>Thread interference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Emphasis</td>
+<td>The broader correctness problem</td>
+<td>The harmful overlapping of operations</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>The result depends on thread timing or ordering</td>
+<td>One thread's operation disrupts another thread's operation</td>
+</tr>
+<tr>
+<td>Relationship</td>
+<td>A superset framing of timing-dependent bugs</td>
+<td>The mechanism that produces many race conditions</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Two threads increment the same counter</td>
+<td>Lost update when one write overwrites another</td>
+</tr>
+<tr>
+<td>Overlap</td>
+<td>A lost update is an example of a race condition</td>
+<td>The same lost update is a result of interference</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-data-inconsistency-and-its-forms">15. Data Inconsistency and Its Forms</h2>
+<p><strong>Data inconsistency</strong> means the state stored by the program no longer matches its expected rules or real-world meaning. Race conditions, visibility problems, ordering problems and interference can all produce it. The notes list six common forms:</p>
+<ol>
+<li><strong>Lost update</strong> — two threads perform an update, but one update is overwritten (<code>count++</code>).</li>
+<li><strong>Stale read</strong> — one thread observes an older value because the latest update is not visible (<code>while (!flag)</code>, may continue using a stale value).</li>
+<li><strong>Inconsistent read</strong> — a thread observes related fields from different logical moments, for example <code>accountBalance</code> reflects the new state while <code>transactionStatus</code> still reflects the old state.</li>
+<li><strong>Partial update</strong> — only part of a multi-step operation is visible or completed, for example money deducted from Account A but not yet credited to Account B.</li>
+<li><strong>Check-then-act failure</strong> — a thread acts on a condition that was true when checked but became false before the action (<code>if (balance &gt;= amount) balance -= amount;</code>).</li>
+<li><strong>Unsafe publication</strong> — a thread receives a reference to an object before the object's state has been safely made visible, so it may observe default or stale field values.</li>
+</ol>
+<h2 id="16-preventing-multithreading-problems">16. Preventing Multithreading Problems</h2>
+<p>The notes present a toolkit; the correct choice depends on the shape of the problem.</p>
+<ol>
+<li><strong>Using <code>synchronized</code></strong> — when several operations must execute as one unit, multiple fields form one consistency rule, mutual exclusion and visibility are both required, or threads must later coordinate with <code>wait()</code> and <code>notifyAll()</code>.</li>
+<li><strong>Using atomic classes</strong> — <code>AtomicInteger</code>, <code>AtomicLong</code>, <code>AtomicBoolean</code>, <code>AtomicReference</code>, useful for simple atomic state transitions without protecting a larger compound operation.</li>
+<li><strong>Using explicit locks</strong> — <code>ReentrantLock</code> provides interruptible lock acquisition, timed lock attempts, fairness policies and multiple condition objects, but requires manual release, usually inside <code>finally</code>.</li>
+<li><strong>Using thread-safe collections</strong> — <code>ConcurrentHashMap</code>, <code>CopyOnWriteArrayList</code>, <code>BlockingQueue</code>, <code>ConcurrentLinkedQueue</code>; the choice depends on whether the workload is read-heavy, write-heavy, blocking or non-blocking.</li>
+<li><strong>Using immutability</strong> — a properly constructed and safely published immutable object can be read by many threads, removing many synchronization requirements by design.</li>
+<li><strong>Avoiding shared mutable state</strong> — the safest shared mutable state is the state that is not shared; techniques include thread-local variables, method-local variables, message passing, immutable snapshots, task confinement and dividing work so each thread owns separate data.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — an immutable object can be shared without locks</span>
+<span class="kd">final</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">User</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">name</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">age</span><span class="p">()</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — AtomicInteger makes the whole increment one atomic unit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AtomicDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">count</span><span class="p">.</span><span class="na">incrementAndGet</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">   </span><span class="c1">// exactly 200000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — volatile closes the visibility gap for a stop flag</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">VisibilityDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">volatile</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">   </span><span class="c1">// write happens-before later read</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">updater</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">interrupt</span><span class="p">();</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Flag updated to true&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">observer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">               </span><span class="c1">// waits until the latest value is seen</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Detected flag change&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">updater</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">observer</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">updater</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">observer</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+Immutability and reduced sharing are design-level fixes that eliminate whole classes of problems; synchronization and atomics are the fallback when sharing is unavoidable.</p>
+</blockquote>
+<h2 id="17-comparison-tables-and-choosing-the-correct-tool">17. Comparison Tables and Choosing the Correct Tool</h2>
+<p>The six problems share a root cause but differ in what goes wrong and how it is fixed:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Cause</th>
+<th>Symptom</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Race condition</td>
+<td>Result depends on thread timing or ordering</td>
+<td>Non-deterministic wrong result (counter off)</td>
+<td>Synchronization, atomics or reduced sharing</td>
+</tr>
+<tr>
+<td>Atomicity problem</td>
+<td>A multi-step operation is interrupted or interleaved</td>
+<td>Lost update, partial update (<code>count++</code>)</td>
+<td><code>synchronized</code>, atomic class, explicit lock</td>
+</tr>
+<tr>
+<td>Visibility problem</td>
+<td>One thread does not observe another thread's write</td>
+<td>Stale read (non-volatile stop flag)</td>
+<td><code>volatile</code> or a happens-before via locking</td>
+</tr>
+<tr>
+<td>Ordering problem</td>
+<td>Operations observed in an unexpected order</td>
+<td>Publication flag seen before data</td>
+<td><code>volatile</code> on the flag, or same-monitor locking</td>
+</tr>
+<tr>
+<td>Thread interference</td>
+<td>Threads overlap and disturb each other's work</td>
+<td>Lost update</td>
+<td>Mutual exclusion and atomic units</td>
+</tr>
+<tr>
+<td>Data inconsistency</td>
+<td>State violates expected rules</td>
+<td>Incorrect balance or stale data</td>
+<td>Correct mechanism for the guarantee required</td>
+</tr>
+</tbody>
+</table>
+<p><code>volatile</code>, <code>synchronized</code> and the atomic classes are often confused; their guarantees differ sharply:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>volatile</th>
+<th>synchronized</th>
+<th>Atomic classes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Visibility</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes (for the atomic variable)</td>
+</tr>
+<tr>
+<td>Ordering</td>
+<td>Yes, around the access</td>
+<td>Yes, across monitor boundaries</td>
+<td>Yes (for the atomic variable)</td>
+</tr>
+<tr>
+<td>Mutual exclusion</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Compound-operation atomicity</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes, for the operations it provides</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>Never blocks</td>
+<td>May block acquiring the monitor</td>
+<td>Usually lock-free (CAS)</td>
+</tr>
+<tr>
+<td>Suitable for</td>
+<td>One writer, many readers of a status flag</td>
+<td>Several statements that must be one unit</td>
+<td>Simple atomic state transitions</td>
+</tr>
+<tr>
+<td>Caveat</td>
+<td><code>count++</code> stays non-atomic</td>
+<td>Both threads must use the same monitor</td>
+<td>Does not cover a larger compound operation</td>
+</tr>
+</tbody>
+</table>
+<p>Choosing the mechanism is a matter of matching the requirement to the guarantee:</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Suitable mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simple visible status flag</td>
+<td><code>volatile</code></td>
+</tr>
+<tr>
+<td>Atomic counter update</td>
+<td><code>AtomicInteger</code></td>
+</tr>
+<tr>
+<td>Several statements must be atomic together</td>
+<td><code>synchronized</code> or <code>Lock</code></td>
+</tr>
+<tr>
+<td>Concurrent map access</td>
+<td><code>ConcurrentHashMap</code></td>
+</tr>
+<tr>
+<td>Producer-consumer communication</td>
+<td><code>BlockingQueue</code> or <code>wait()</code> / <code>notifyAll()</code></td>
+</tr>
+<tr>
+<td>State that should never change</td>
+<td>Immutable object</td>
+</tr>
+<tr>
+<td>Avoid sharing entirely</td>
+<td>Thread confinement or message passing</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+The three questions that unlock every concurrency question are: atomicity — can another thread interfere halfway? visibility — can another thread see the latest value? ordering — in what order do writes become observable? Name the guarantee the code lacks, then name the tool that supplies it.</p>
+</blockquote>
+<h2 id="18-myth-vs-reality">18. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>count++</code> is one Java statement, so it is atomic."</td>
+<td>It is a read → modify → write sequence and can interleave; one update can be lost.</td>
+</tr>
+<tr>
+<td>"<code>volatile</code> makes any variable thread-safe."</td>
+<td>It gives visibility, ordering and atomic single reads/writes, but not compound-operation atomicity.</td>
+</tr>
+<tr>
+<td>"<code>synchronized</code> is only about mutual exclusion."</td>
+<td>It also creates visibility and ordering guarantees through monitor happens-before boundaries.</td>
+</tr>
+<tr>
+<td>"A thread-safe collection makes a sequence of calls atomic."</td>
+<td>It protects its own operations; check-then-put still needs <code>putIfAbsent()</code> or a lock.</td>
+</tr>
+<tr>
+<td>"Once a write completes, every thread sees it."</td>
+<td>Without a happens-before relationship, another thread is not guaranteed to observe the write.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-common-trap-questions">19. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — "Is <code>count++</code> atomic?"
+No. It reads, modifies and writes; without protection two threads can read the same old value and overwrite each other, producing a lost update.</p>
+<p>Trap 2 — "A simple <code>int</code> read or write is atomic — so it is also safe."
+Atomicity holds, but visibility does not automatically follow. A non-volatile read may return a stale value without a happens-before relationship.</p>
+<p>Trap 3 — "Does <code>volatile</code> fix the counter race condition?"
+No. <code>volatile int count</code> does not make <code>count++</code> atomic. Use <code>AtomicInteger</code> or synchronization for the compound operation.</p>
+<p>Trap 4 — "Are non-volatile <code>long</code> and <code>double</code> reads and writes atomic?"
+The JLS permits them to be treated as two 32-bit operations. Most JVMs implement them atomically, but portable code should use <code>volatile</code> to guarantee it — and even then <code>value++</code> is not atomic.</p>
+<p>Trap 5 — "If one thread synchronizes, that is enough."
+No. Both threads must coordinate through the same monitor; one thread synchronizing while another accesses the state unsynchronized provides no guarantee.</p>
+<p>Trap 6 — "Java forbids instruction reordering."
+Reordering is allowed as long as single-thread semantics and the Java Memory Model are respected. Volatile accesses and monitor boundaries constrain which reorderings are permitted.</p>
+<p>Trap 7 — "A <code>ConcurrentHashMap</code> makes check-then-put atomic."
+No. <code>if (!map.containsKey(key)) map.put(key, value);</code> is still two calls; use <code>putIfAbsent()</code> for atomicity.</p>
+</blockquote>
+<h2 id="20-points-to-remember">20. Points to Remember</h2>
+<ol>
+<li>Shared mutable data is the primary source of concurrency problems.</li>
+<li><code>count++</code> is not atomic even though it is one Java statement.</li>
+<li>A race condition depends on unpredictable thread timing.</li>
+<li>Atomicity prevents unsafe interleaving of a logical operation.</li>
+<li>Visibility determines whether one thread can observe another thread's writes.</li>
+<li>Ordering determines how operations become observable between threads.</li>
+<li><code>volatile</code> provides visibility and ordering guarantees but does not make compound operations atomic.</li>
+<li><code>synchronized</code> provides mutual exclusion, visibility and ordering through monitor boundaries.</li>
+<li>All threads must follow the same synchronization policy.</li>
+<li>Thread-safe collections protect their own operations, but a sequence of calls may still require atomic coordination.</li>
+<li>Immutable objects and reduced sharing simplify concurrent design.</li>
+<li>Correct concurrent code should be based on Java Memory Model guarantees, not assumptions about CPU caches or execution timing.</li>
+</ol>
+<h2 id="21-likely-interview-questions">21. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a race condition?</td>
+<td>A correctness failure whose result depends on the unpredictable timing or order of threads accessing shared state.</td>
+</tr>
+<tr>
+<td>Is <code>count++</code> atomic?</td>
+<td>No — it is read, add, write, and can interleave; protect it with synchronization or an atomic class.</td>
+</tr>
+<tr>
+<td>What is a critical section?</td>
+<td>The code region that reads or modifies shared mutable data and therefore needs controlled access.</td>
+</tr>
+<tr>
+<td>Why is shared mutable state dangerous?</td>
+<td>Multiple threads can interleave unsafely on it; immutable or unshared data avoids the problem.</td>
+</tr>
+<tr>
+<td>What is atomicity?</td>
+<td>An operation that appears to other threads as one indivisible action with no observable intermediate state.</td>
+</tr>
+<tr>
+<td>What is the check-then-act problem?</td>
+<td>A condition is checked and acted on separately, so it can change in between; the check and action must be atomic together.</td>
+</tr>
+<tr>
+<td>What is a visibility problem?</td>
+<td>One thread writes shared data but another thread is not guaranteed to observe the updated value.</td>
+</tr>
+<tr>
+<td>What does <code>volatile</code> guarantee?</td>
+<td>Visibility, ordering around the access, and atomic reads/writes of that variable — but not compound-operation atomicity.</td>
+</tr>
+<tr>
+<td>How does <code>synchronized</code> provide visibility?</td>
+<td>Monitor release happens-before a later acquire of the same monitor, so writes become observable.</td>
+</tr>
+<tr>
+<td>What is an ordering problem?</td>
+<td>Memory operations may become observable in an unexpected order because of reordering without a happens-before relationship.</td>
+</tr>
+<tr>
+<td>Race condition vs thread interference?</td>
+<td>A race condition is the broader timing-dependent correctness problem; interference is the harmful overlapping of operations that produces it.</td>
+</tr>
+<tr>
+<td>What causes data inconsistency?</td>
+<td>Race conditions, visibility, ordering and interference can all leave state violating its expected rules (lost update, stale read, partial update).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-final-summary">22. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>shared mutable state + multiple threads
+        → missing coordination
+        → unsafe interleaving / reordering / stale caches
+        → race conditions and thread interference
+        → lost updates, stale reads, ordering failures
+        → data inconsistency
+</code></pre></div>
+
+<ul>
+<li>Shared resource → dangerous only when shared <em>and</em> mutable; immutable data is safe.</li>
+<li>Critical section → the code that touches that state; its steps must be one logical unit.</li>
+<li>Race condition → correctness depends on timing; <code>count++</code> is not atomic.</li>
+<li>Atomicity → can another thread interfere halfway? Fixed by <code>synchronized</code>, atomic classes or locks.</li>
+<li>Visibility → can another thread see the latest value? Fixed by <code>volatile</code> or a happens-before via the same monitor.</li>
+<li>Ordering → in what order do writes become observable? Fixed by a volatile publication flag or shared-monitor locking.</li>
+<li>Thread interference and data inconsistency → the visible effects: lost updates, stale reads, partial updates.</li>
+<li>Prevention → synchronization, <code>volatile</code>, atomic classes, explicit locks, thread-safe collections, immutability and reduced sharing.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Name the guarantee the code lacks — atomicity, visibility or ordering — then apply the smallest mechanism that supplies exactly that guarantee, and make every thread follow the same synchronization policy.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> shared mutable state plus missing coordination produces race conditions, atomicity failures, visibility and ordering faults, interference and data inconsistency — and the Java Memory Model, not CPU timing, tells you which tool restores each guarantee.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-49.html"><span class="dir">Previous</span><span class="ttl">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</span></a><a class="next" href="doc-theory-lecture-51.html"><span class="dir">Next</span><span class="ttl">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

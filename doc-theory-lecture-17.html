@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 17 - Spring Boot Exception Handling — Spring Boot</title>
+<meta name="description" content="Lecture 17 - Spring Boot Exception Handling">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-17">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-17.html#lecture-17">Lecture 17</a></li><li><a href="doc-theory-lecture-17.html#1-api-response-communication-between-two-systems">1. API Response: Communication Between Two Systems</a></li><li><a href="doc-theory-lecture-17.html#2-beginner-api-vs-professional-api">2. Beginner API vs Professional API</a></li><li><a href="doc-theory-lecture-17.html#3-common-problems-in-beginner-crud-apis">3. Common Problems in Beginner CRUD APIs</a></li><li><a href="doc-theory-lecture-17.html#4-exception-flow-and-spring-boot-default-error-handling">4. Exception Flow and Spring Boot Default Error Handling</a></li><li><a href="doc-theory-lecture-17.html#5-http-status-codes-for-rest-apis">5. HTTP Status Codes for REST APIs</a></li><li><a href="doc-theory-lecture-17.html#6-why-responseentity-and-its-mental-model">6. Why ResponseEntity and Its Mental Model</a></li><li><a href="doc-theory-lecture-17.html#7-why-error-handling-should-not-live-inside-controllers">7. Why Error Handling Should Not Live Inside Controllers</a></li><li><a href="doc-theory-lecture-17.html#8-better-separation-global-exception-handling-and-the-advice-annotations">8. Better Separation, Global Exception Handling, and the Advice Annotations</a></li><li><a href="doc-theory-lecture-17.html#9-custom-exceptions-and-the-clean-controller">9. Custom Exceptions and the Clean Controller</a></li><li><a href="doc-theory-lecture-17.html#10-the-error-response-dto-request-path-and-validation-errors">10. The Error Response DTO, Request Path, and Validation Errors</a></li><li><a href="doc-theory-lecture-17.html#11-bad-requests-400-vs-409-categories-and-best-practices">11. Bad Requests, 400 vs 409, Categories, and Best Practices</a></li><li><a href="doc-theory-lecture-17.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-17.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-17.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-17.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-17.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 17 - Spring Boot Exception Handling</h1>
+<p class="readmeta">17 sections · 5,986 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-17" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-17">Lecture 17</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Exception Handling: Make Your APIs Professional" (playlist map, verified). Repo folder = exceptionDemo project: an <code>exception</code> package holding <code>GlobalExceptionHandler</code> plus the custom exceptions <code>ResourceNotFoundException</code> and <code>DuplicateResourceException</code>, the error/validation DTOs (<code>ErrorResponseDto</code>, <code>ValidationErrorResponseDto</code>), and the usual controller, service, repository and entity layers plus notes.</p>
+</blockquote>
+<p>A professional API does not merely return data; it clearly communicates what happened during the request. That means the response must answer whether the request succeeded, whether the client sent something wrong, whether the resource was missing, and whether the server broke. This lecture builds that story end to end: HTTP status codes, <code>ResponseEntity</code>, custom exceptions, an error response DTO, global validation handling, and one central <code>GlobalExceptionHandler</code>. The target artifact is the exceptionDemo project, and every idea below is a step toward making a beginner CRUD API behave like a production-grade one.</p>
+<h2 id="1-api-response-communication-between-two-systems">1. API Response: Communication Between Two Systems</h2>
+<p>Every API response is a small message with three main parts:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Status code</td>
+<td>HTTP-level meaning of the outcome</td>
+<td><code>200 OK</code>, <code>404 Not Found</code>, <code>500 Internal Server Error</code></td>
+</tr>
+<tr>
+<td>Headers</td>
+<td>Metadata about the response, not the data itself</td>
+<td><code>Location: /api/students/10</code>, <code>Content-Type: application/json</code></td>
+</tr>
+<tr>
+<td>Body</td>
+<td>The actual data, or a human-readable error message</td>
+<td><code>{"id":10,"name":"Rahul","email":"rahul@gmail.com"}</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The <strong>status code</strong> is for protocol-level meaning. A frontend, mobile app, or another backend service reads it and immediately understands what kind of outcome to expect.</li>
+<li><strong>Headers</strong> carry extra information. For a create operation, <code>Location: /api/students/10</code> tells the client where the new resource lives, and <code>Content-Type: application/json</code> tells it how to parse the body.</li>
+<li>The <strong>body</strong> carries the payload: for success it is the data, and for failure it is the error message.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>HTTP/1.1 404 Not Found
+Content-Type: application/json
+
+{
+  &quot;message&quot;: &quot;Student with id 10 not found&quot;
+}
+</code></pre></div>
+
+<p>Mnemonic: a response is <strong>S-H-B</strong> - Status, Headers, Body. Leave out any one of them and the client is guessing.</p>
+<blockquote class="callout callout--important">
+<p>Important: The status code and the body carry different jobs. The status code is the machine-readable verdict the frontend branches on, while the body is the human-readable explanation. A professional API keeps both consistent.</p>
+</blockquote>
+<h2 id="2-beginner-api-vs-professional-api">2. Beginner API vs Professional API</h2>
+<p>A beginner API usually answers only one question: "Did I get data or not?" A professional API answers a better question: "Did the server clearly tell the client what happened?"</p>
+<p>Take a single call, <code>GET /api/students/10</code>. Many different things can happen:</p>
+<ol>
+<li>The student exists.</li>
+<li>The student does not exist.</li>
+<li>The ID format is wrong.</li>
+<li>The database is down.</li>
+<li>There is a bug in the backend code.</li>
+</ol>
+<p>A professional API communicates each case properly instead of collapsing them into one vague response.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Beginner API</th>
+<th>Professional API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Focus</td>
+<td>Did data come back?</td>
+<td>What exactly happened, and why?</td>
+</tr>
+<tr>
+<td>Status codes</td>
+<td>Almost always <code>200 OK</code></td>
+<td>Code matches the real outcome (<code>201</code>, <code>204</code>, <code>400</code>, <code>404</code>, <code>409</code>, <code>500</code>)</td>
+</tr>
+<tr>
+<td>Error format</td>
+<td><code>null</code>, plain string, or default HTML</td>
+<td>Consistent structured JSON error DTO</td>
+</tr>
+<tr>
+<td>Failure signal</td>
+<td>Service returns <code>null</code>; controller guesses</td>
+<td>Service throws a meaningful custom exception</td>
+</tr>
+<tr>
+<td>Frontend effort</td>
+<td>Must reverse-engineer every response</td>
+<td>Branches on status code and reads a stable shape</td>
+</tr>
+<tr>
+<td>Maintainability</td>
+<td>Repeated checks in controllers</td>
+<td>One central handler</td>
+</tr>
+</tbody>
+</table>
+<p>Example professional responses for that one endpoint:</p>
+<div class="highlight"><pre><span></span><code>Case 1: Student exists          -&gt; 200 OK + student JSON
+Case 2: Student does not exist  -&gt; 404 Not Found + {&quot;message&quot;:&quot;Student with id 10 not found&quot;}
+Case 3: Invalid request         -&gt; 400 Bad Request + {&quot;message&quot;:&quot;Student id must be a number&quot;}
+Case 4: Server error            -&gt; 500 Internal Server Error + {&quot;message&quot;:&quot;Something went wrong on the server&quot;}
+</code></pre></div>
+
+<p>Case 2 is important: the request was valid, but the requested resource does not exist. Case 3 means the client sent an invalid request. Case 4 means the client may have sent a valid request, but something failed inside the server.</p>
+<h2 id="3-common-problems-in-beginner-crud-apis">3. Common Problems in Beginner CRUD APIs</h2>
+<p><strong>Problem 1: everything returns <code>200 OK</code>.</strong> Many beginner APIs return success for almost every operation, including failures:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Beginner response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create student</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Fetch student</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Update student</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Delete student</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Student not found</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Validation failed</td>
+<td>Random error response with <code>null</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is not expressive. The better mapping is:</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Better status code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New resource created</td>
+<td><code>201 Created</code></td>
+</tr>
+<tr>
+<td>Resource fetched or updated</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Delete successful, no body</td>
+<td><code>204 No Content</code></td>
+</tr>
+<tr>
+<td>Resource not found</td>
+<td><code>404 Not Found</code></td>
+</tr>
+<tr>
+<td>Validation failed</td>
+<td><code>400 Bad Request</code></td>
+</tr>
+<tr>
+<td>Duplicate data</td>
+<td><code>409 Conflict</code></td>
+</tr>
+<tr>
+<td>Unexpected backend issue</td>
+<td><code>500 Internal Server Error</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Problem 2: repeated error logic in controllers.</strong> A beginner controller often checks for a missing resource in every method. For <code>getStudentById</code>, it calls the service, and if the returned <code>Student</code> is <code>null</code>, it builds <code>ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found")</code>. This is better than returning <code>null</code>, but the same <code>if (data == null) { return 404; }</code> check reappears in <code>getStudentById</code>, <code>updateStudent</code>, <code>deleteStudent</code>, <code>getCourseById</code>, <code>getTeacherById</code> and <code>getBatchById</code>. Duplicate code makes controllers bulky and easy to get wrong.</p>
+<p><strong>Problem 3: inconsistent error responses.</strong> One API may return <code>{"message": "Student not found"}</code>, another just the string <code>"Course not found"</code>, another <code>{"error": "Something went wrong", "status": 500}</code>, and yet another may fall through to Spring Boot's default error response. This inconsistency makes the frontend harder to build. A professional backend returns a consistent structure for errors.</p>
+<h2 id="4-exception-flow-and-spring-boot-default-error-handling">4. Exception Flow and Spring Boot Default Error Handling</h2>
+<p>Think about the normal request flow in the exceptionDemo project:</p>
+<div class="highlight"><pre><span></span><code>Client
+  |
+  v
+Tomcat / Embedded Server
+  |
+  v
+DispatcherServlet
+  |
+  v
+Controller
+  |
+  v
+Service
+  |
+  v
+Repository
+  |
+  v
+Database
+</code></pre></div>
+
+<p>Now suppose the service layer returns <code>studentRepository.findById(id).get()</code>. If the student does not exist, <code>findById(id)</code> returns an empty <code>Optional</code>, and calling <code>.get()</code> on an empty <code>Optional</code> throws an exception. That exception then travels backward:</p>
+<div class="highlight"><pre><span></span><code>Repository / Service exception
+  |
+  v
+Controller does not handle it
+  |
+  v
+Spring MVC tries to resolve it
+  |
+  v
+If no custom handler exists, Spring Boot default error handling takes over
+</code></pre></div>
+
+<p>Spring Boot does have default error handling, but the default response may not match the meaning of your business case.</p>
+<h3 id="the-default-error-mapping">The default /error mapping</h3>
+<p>Spring Boot provides a default <code>/error</code> mapping. When an unhandled error occurs, Spring Boot internally forwards the request to <code>/error</code>:</p>
+<ul>
+<li>For browser clients, it may show the <strong>Whitelabel Error Page</strong>.</li>
+<li>For API clients such as Postman, it usually returns a JSON error response.</li>
+</ul>
+<p>A test endpoint <code>GET /test/500</code> that throws <code>new RuntimeException("Something went wrong inside server")</code> demonstrates this. Opening <code>http://localhost:8080/test/500</code> in a browser shows an HTML page beginning with "Whitelabel Error Page". In Postman the response may look like:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;timestamp&quot;: &quot;2026-07-05T11:45:06.511Z&quot;,
+  &quot;status&quot;: 500,
+  &quot;error&quot;: &quot;Internal Server Error&quot;,
+  &quot;path&quot;: &quot;/test/500&quot;
+}
+</code></pre></div>
+
+<p>By default, Spring Boot hides detailed exception messages for safety. For learning or local testing only, the response can be made to include the exception message by adding <code>spring.web.error.include-message=always</code> in <code>application.properties</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: Do not expose internal exception messages in production. Raw messages may reveal implementation details. The include-message switch is a local debugging aid, not a production setting.</p>
+</blockquote>
+<h3 id="why-the-default-response-is-not-good-enough">Why the default response is not good enough</h3>
+<p>Default error handling is useful, but it is not domain-specific. Suppose the real issue is "Student with id 2 does not exist", yet the response says <code>"status": 500, "error": "Internal Server Error"</code>. This is misleading: the server did not fail because of an unknown internal crash, the requested student simply does not exist. The correct response should be <code>404 Not Found</code>. This gap is one of the main reasons we need custom exception handling.</p>
+<h2 id="5-http-status-codes-for-rest-apis">5. HTTP Status Codes for REST APIs</h2>
+<p>Status codes are grouped into families:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1xx</td>
+<td>Informational</td>
+</tr>
+<tr>
+<td>2xx</td>
+<td>Success</td>
+</tr>
+<tr>
+<td>3xx</td>
+<td>Redirection</td>
+</tr>
+<tr>
+<td>4xx</td>
+<td>Client error</td>
+</tr>
+<tr>
+<td>5xx</td>
+<td>Server error</td>
+</tr>
+</tbody>
+</table>
+<p>For a beginner-to-intermediate Spring Boot CRUD API, these codes are enough: <code>200 OK</code>, <code>201 Created</code>, <code>204 No Content</code>, <code>400 Bad Request</code>, <code>404 Not Found</code>, <code>409 Conflict</code>, <code>500 Internal Server Error</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Status code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data fetched successfully</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>Data updated successfully</td>
+<td><code>200 OK</code></td>
+</tr>
+<tr>
+<td>New resource created</td>
+<td><code>201 Created</code></td>
+</tr>
+<tr>
+<td>Delete successful with no body</td>
+<td><code>204 No Content</code></td>
+</tr>
+<tr>
+<td>Invalid request body or validation failure</td>
+<td><code>400 Bad Request</code></td>
+</tr>
+<tr>
+<td>Resource does not exist</td>
+<td><code>404 Not Found</code></td>
+</tr>
+<tr>
+<td>Duplicate email, username, or roll number</td>
+<td><code>409 Conflict</code></td>
+</tr>
+<tr>
+<td>Unexpected backend failure</td>
+<td><code>500 Internal Server Error</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>201 Created</strong> is used when a new resource is successfully created. For <code>POST /api/students</code>, the response <code>201 Created</code> plus the saved student JSON tells the client a new resource exists.</li>
+<li><strong>204 No Content</strong> means the request succeeded but there is no response body. It is common for delete APIs: <code>DELETE /api/students/1</code> returns <code>204 No Content</code> with no body. For deletes both <code>204</code> (no body) and <code>200 OK</code> (with a message) are common, but clean REST APIs often prefer <code>204</code>.</li>
+<li><strong>409 Conflict</strong> means the request could not be completed because it conflicts with the current state of the resource. A duplicate email is the classic case: the JSON is valid, the email format is valid, but the email already exists. Other cases include duplicate username, duplicate roll number, version conflict during update, and business rule conflicts.</li>
+<li><strong>500 Internal Server Error</strong> means something unexpected failed inside the backend: a <code>NullPointerException</code> from a bug, an unexpected runtime exception, a database connection failure, a third-party service failure, a file system error, or a server configuration issue. Use <code>500</code> for unexpected server-side failures, never for normal business cases like "student not found".</li>
+</ul>
+<p>Mnemonic for the CRUD status set: <strong>"Two-oh-one makes it, two-oh-four says done-and-gone, four-hundred is you, five-hundred is me."</strong> (201 create, 204 delete, 4xx client, 5xx server.)</p>
+<h2 id="6-why-responseentity-and-its-mental-model">6. Why ResponseEntity and Its Mental Model</h2>
+<p>In a basic controller we may return the <code>Student</code> directly, which returns only the body and lets Spring decide the status code automatically. With <code>ResponseEntity</code>, we control the response explicitly, for example <code>return ResponseEntity.ok(student);</code>. The important difference is <strong>control</strong>: without <code>ResponseEntity</code>, Spring decides the response status; with <code>ResponseEntity</code>, we explicitly decide the response status, headers, and body.</p>
+<p>Mental model - a <code>ResponseEntity</code> can represent any of these:</p>
+<div class="highlight"><pre><span></span><code>Body + Status
+Body + Headers + Status
+Status only
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>ResponseEntity.ok(student);                                   -&gt; 200 OK + student body
+ResponseEntity.status(HttpStatus.CREATED).body(savedStudent); -&gt; 201 Created + saved student body
+ResponseEntity.noContent().build();                           -&gt; 204 No Content + no body
+</code></pre></div>
+
+<h3 id="returning-headers-with-responseentity">Returning headers with ResponseEntity</h3>
+<p>Headers carry extra metadata. For a create API, the <code>Location</code> header is useful because it tells the client where the new resource can be found. After saving, build the URI as <code>URI.create("/api/students/" + savedStudent.getId())</code> and return <code>ResponseEntity.created(location).body(savedStudent)</code>. The result is <code>201 Created</code>, a <code>Location: /api/students/10</code> header, and the saved student body. <code>ResponseEntity.created(location)</code> automatically sets both the <code>201</code> status and the <code>Location</code> header.</p>
+<h3 id="common-responseentity-methods">Common ResponseEntity methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Meaning</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResponseEntity.ok(body)</code></td>
+<td><code>200 OK</code> with a body</td>
+<td>Fetch, update</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.ok().build()</code></td>
+<td><code>200 OK</code> with no body</td>
+<td>Success without payload</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.status(HttpStatus.X).body(body)</code></td>
+<td>Any status with a body</td>
+<td>General control</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.created(location).body(body)</code></td>
+<td><code>201 Created</code> + <code>Location</code> header</td>
+<td>Create</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.noContent().build()</code></td>
+<td><code>204 No Content</code>, no body</td>
+<td>Delete</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The controller owns the success response, and the service owns the business decision. If a controller must inspect data to decide an error status, that decision belongs somewhere else.</p>
+</blockquote>
+<h2 id="7-why-error-handling-should-not-live-inside-controllers">7. Why Error Handling Should Not Live Inside Controllers</h2>
+<p>Once beginners learn <code>ResponseEntity</code>, they often start writing all error handling inside the controller. For <code>getStudentById</code>, the method calls the service and then checks <code>if (student == null)</code> to return a <code>404</code> response before returning the success response. This looks fine for one method, but in a real project the controller starts doing too many things:</p>
+<ol>
+<li>Receive request</li>
+<li>Call service</li>
+<li>Check <code>null</code></li>
+<li>Decide error status</li>
+<li>Decide error message</li>
+<li>Build error response</li>
+<li>Build success response</li>
+</ol>
+<p>A controller should mainly do three things: receive the request, call the service, and return the response. Business checks should stay in the service layer, and common error response logic should stay in one central place.</p>
+<p>The duplicate-email create method makes the same problem visible: it first calls <code>existsByEmail</code>, and if true returns <code>409 Conflict</code> with "Email already exists", otherwise it saves and returns <code>201 Created</code>. Now the controller has too much if-else logic, and the same pattern repeats across many APIs. That is not clean design.</p>
+<h3 id="problems-caused-by-repeated-error-logic">Problems caused by repeated error logic</h3>
+<ol>
+<li><strong>Repetition</strong> - the same error handling logic appears again and again.</li>
+<li><strong>Less readable controllers</strong> - controllers become full of if-else blocks.</li>
+<li><strong>Weak service layer signals</strong> - if the service returns <code>null</code>, the controller has to guess what happened.</li>
+<li><strong>Inconsistent error responses</strong> - different developers may return different error structures.</li>
+<li><strong>Poor separation of concerns</strong> - the controller should not contain repeated business error response logic.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Errors inside the controller</th>
+<th>Global exception handler</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where the check lives</td>
+<td>Scattered in every method</td>
+<td>One central class</td>
+</tr>
+<tr>
+<td>Controller size</td>
+<td>Grows with each endpoint</td>
+<td>Stays small and readable</td>
+</tr>
+<tr>
+<td>Service signal</td>
+<td>Returns <code>null</code>, controller guesses</td>
+<td>Throws a meaningful exception</td>
+</tr>
+<tr>
+<td>Error format</td>
+<td>Whatever each developer chose</td>
+<td>One consistent DTO</td>
+</tr>
+<tr>
+<td>Adding a new error</td>
+<td>Edit many controllers</td>
+<td>Add one handler method</td>
+</tr>
+<tr>
+<td>Separation of concerns</td>
+<td>Weak</td>
+<td>Strong</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-better-separation-global-exception-handling-and-the-advice-annotations">8. Better Separation, Global Exception Handling, and the Advice Annotations</h2>
+<p>A cleaner design splits responsibility across three layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller</td>
+<td>Receive request and return success response</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Run business logic and throw meaningful exceptions</td>
+</tr>
+<tr>
+<td>Global Exception Handler</td>
+<td>Convert exceptions into proper HTTP responses</td>
+</tr>
+</tbody>
+</table>
+<p>When an API fails, two things happen: some exception occurs inside backend code, and that exception must be converted into a proper HTTP response. <strong>Global exception handling</strong> means that instead of handling errors separately inside every controller, we create one central place that catches exceptions and converts them into proper API responses.</p>
+<div class="highlight"><pre><span></span><code>Request comes
+  |
+  v
+Controller calls service
+  |
+  v
+Service either returns data or throws exception
+  |
+  v
+GlobalExceptionHandler catches exception
+  |
+  v
+Proper error response goes back to client
+</code></pre></div>
+
+<h3 id="controlleradvice">@ControllerAdvice</h3>
+<p><code>@ControllerAdvice</code> is a Spring annotation used to define common behavior for multiple controllers. In simple words, it allows one class to provide common support to controllers, and that support can include exception handling, data binding configuration, and model attributes. By itself, <code>@ControllerAdvice</code> does not handle exceptions; to actually handle exceptions we need methods annotated with <code>@ExceptionHandler</code>, so the real combination is <code>@ControllerAdvice + @ExceptionHandler</code>.</p>
+<h3 id="restcontrolleradvice">@RestControllerAdvice</h3>
+<p>In REST APIs we usually return JSON responses. For that, Spring provides <code>@RestControllerAdvice</code>, which is a shortcut for <code>@ControllerAdvice + @ResponseBody</code>. That means exception handler methods return the response content directly as JSON instead of resolving a view or JSP page. For REST API projects, prefer <code>@RestControllerAdvice</code>.</p>
+<h3 id="exceptionhandler-and-the-handler-class">@ExceptionHandler and the handler class</h3>
+<p><code>@ExceptionHandler</code> is used on a method to handle a specific exception type. For example, a method annotated <code>@ExceptionHandler(RuntimeException.class)</code> that takes a <code>RuntimeException ex</code> returns <code>ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage())</code>. If a <code>RuntimeException</code> occurs, Spring calls that method. The exception class decides which handler method runs, and Spring tries to use the most specific matching exception handler: if handlers exist for both <code>ResourceNotFoundException</code> and <code>Exception</code>, then <code>ResourceNotFoundException</code> is handled by its specific handler, not the generic one. The recommended package for the project is <code>in.strikes.dtoDemo.exception</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.dtoDemo.exception</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.HttpStatus</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.http.ResponseEntity</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.ExceptionHandler</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestControllerAdvice</span><span class="p">;</span>
+
+<span class="nd">@RestControllerAdvice</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GlobalExceptionHandler</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleResourceNotFoundException</span><span class="p">(</span><span class="n">ResourceNotFoundException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span>
+<span class="w">            </span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">NOT_FOUND</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="n">ex</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">Exception</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleGenericException</span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span>
+<span class="w">            </span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">INTERNAL_SERVER_ERROR</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">body</span><span class="p">(</span><span class="s">&quot;Something went wrong. Please try again later.&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This class becomes the central place for API error handling. The generic <code>Exception</code> handler is a safety net: it should not be used for normal business cases like "student not found", "duplicate email", or "validation failed", which deserve specific handlers.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The ordering rule here is a favorite question. At runtime Spring matches the exception type to the most specific handler, so a dedicated <code>@ExceptionHandler(ResourceNotFoundException.class)</code> always wins over <code>@ExceptionHandler(Exception.class)</code>. The generic handler exists only so that nothing escapes as a raw stack trace.</p>
+</blockquote>
+<h2 id="9-custom-exceptions-and-the-clean-controller">9. Custom Exceptions and the Clean Controller</h2>
+<h3 id="why-create-custom-exceptions">Why create custom exceptions</h3>
+<p>Java already has generic exceptions such as <code>RuntimeException</code>, <code>IllegalArgumentException</code>, and <code>NoSuchElementException</code>, but these do not clearly describe business meaning. <code>RuntimeException</code> does not tell much; <code>ResourceNotFoundException</code> clearly says the requested resource does not exist. Custom exceptions make service-layer code more meaningful. Extend <code>RuntimeException</code> because, in Spring Boot service-layer business errors, unchecked exceptions are commonly used: you do not need to write <code>throws</code> in every method signature, which is simple and practical for beginner projects.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.dtoDemo.exception</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResourceNotFoundException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RuntimeException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ResourceNotFoundException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>A second custom exception, <code>DuplicateResourceException</code>, follows the same shape with its own <code>String message</code> constructor.</p>
+<h3 id="throwing-a-custom-exception-from-the-service-layer">Throwing a custom exception from the service layer</h3>
+<p>Instead of returning <code>null</code>, the service should clearly say what happened. The bad approach is <code>studentRepository.findById(id).orElse(null)</code>. The better approach is <code>studentRepository.findById(id).orElseThrow(() -&gt; new ResourceNotFoundException("Student with id " + id + " not found"))</code>. Now the service behavior is unambiguous: if the student exists, return the student; if not, throw <code>ResourceNotFoundException</code>. This is much better than returning <code>null</code>.</p>
+<p>The duplicate check in the service does the same: if <code>studentRepository.existsByEmail(requestDto.getEmail())</code> is true, it throws <code>new DuplicateResourceException("Student with email " + requestDto.getEmail() + " already exists")</code> instead of returning a flag the controller must interpret.</p>
+<h3 id="clean-controller-after-using-custom-exceptions">Clean controller after using custom exceptions</h3>
+<p>Once the service throws a meaningful exception, the controller becomes clean. For <code>getStudentById</code> it calls the service and simply returns <code>ResponseEntity.ok(student)</code>. There is no <code>if</code>, no <code>null</code> check, and no <code>404</code> logic. The success response stays in the controller, and the error response goes to the global exception handler.</p>
+<h3 id="update-and-delete-api-examples">Update and delete API examples</h3>
+<p>The <strong>update</strong> service fetches with <code>findById(id).orElseThrow(() -&gt; new ResourceNotFoundException(...))</code>, copies the incoming name, email and age onto the existing student, and returns <code>studentRepository.save(existingStudent)</code>. The <code>@PutMapping("/{id}")</code> controller takes the <code>@PathVariable Long id</code> and <code>@RequestBody Student student</code>, calls the service, and returns <code>ResponseEntity.ok(updatedStudent)</code>.</p>
+<p>The <strong>delete</strong> service fetches with the same <code>orElseThrow</code> pattern and then calls <code>studentRepository.delete(existingStudent)</code>. The <code>@DeleteMapping("/{id}")</code> controller calls the service and returns <code>ResponseEntity.noContent().build()</code>. Flow: if deletion succeeds, the controller returns <code>204 No Content</code>; if the student does not exist, the service throws <code>ResourceNotFoundException</code> and the <code>GlobalExceptionHandler</code> returns <code>404 Not Found</code>.</p>
+<h2 id="10-the-error-response-dto-request-path-and-validation-errors">10. The Error Response DTO, Request Path, and Validation Errors</h2>
+<h3 id="why-use-an-error-response-dto">Why use an error response DTO</h3>
+<p>An exception is a Java-side problem; the client does not understand Java exceptions, it understands HTTP responses. A raw <code>throw new ResourceNotFoundException("Student with id 100 not found")</code> is meaningless to a browser. So our job is to take the Java exception through the <code>GlobalExceptionHandler</code> and emit a standard error response JSON. Instead of returning only a string, we return a structured error response. In the project this DTO is named <code>ErrorResponseDto</code> (the course also shows it as <code>ExceptionResponseDto</code>).</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.dtoDemo.dto</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ErrorResponseDto</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">statusCode</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ErrorResponseDto</span><span class="p">(</span><span class="n">LocalDateTime</span><span class="w"> </span><span class="n">timestamp</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">statusCode</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">String</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">statusCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statusCode</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="w"> </span><span class="nf">getTimestamp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">timestamp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getStatusCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">statusCode</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getError</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getMessage</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">message</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getPath</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">path</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Example response:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;timestamp&quot;: &quot;2026-07-07T10:45:30&quot;,
+  &quot;statusCode&quot;: 404,
+  &quot;error&quot;: &quot;Not Found&quot;,
+  &quot;message&quot;: &quot;Student with id 100 not found&quot;,
+  &quot;path&quot;: &quot;/api/students/100&quot;
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timestamp</code></td>
+<td>When the error happened</td>
+</tr>
+<tr>
+<td><code>statusCode</code></td>
+<td>HTTP status code returned</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Short HTTP error name</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>Specific explanation of the failure</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>API endpoint where the error occurred</td>
+</tr>
+</tbody>
+</table>
+<p>Why each field earns its place:</p>
+<ul>
+<li><code>timestamp</code> helps backend developers match an API error with logs.</li>
+<li><code>statusCode</code> lets frontend code branch programmatically, for example <code>if (error.statusCode === 404) { showNotFoundPage(); }</code>.</li>
+<li><code>path</code> matters because one page may call multiple APIs (<code>/api/students/100</code>, <code>/api/courses/5</code>, <code>/api/teachers/8</code>); the error response itself tells which endpoint failed.</li>
+</ul>
+<h3 id="getting-the-request-path-with-httpservletrequest">Getting the request path with HttpServletRequest</h3>
+<p>Spring injects the current request into a handler method, and <code>request.getRequestURI()</code> returns the failing path. A handler for <code>ResourceNotFoundException</code> builds the DTO with <code>LocalDateTime.now()</code>, <code>HttpStatus.NOT_FOUND.value()</code>, <code>HttpStatus.NOT_FOUND.getReasonPhrase()</code>, <code>ex.getMessage()</code>, and <code>request.getRequestURI()</code>, then returns <code>ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse)</code>. Required import: <code>import jakarta.servlet.http.HttpServletRequest;</code>.</p>
+<h3 id="handling-validation-errors-globally">Handling validation errors globally</h3>
+<p>Suppose the <code>CreateStudentRequestDto</code> carries Bean Validation annotations: <code>@NotBlank(message = "Name cannot be blank")</code> and <code>@Size(min = 2, max = 50, ...)</code> on <code>name</code>; <code>@NotBlank</code> and <code>@Email(message = "Email must be valid")</code> on <code>email</code>; <code>@NotNull(message = "Age is required")</code> and <code>@Min(value = 18, ...)</code> on <code>age</code>. If the client sends <code>{"name":"","email":"wrong-email","age":15}</code>, validation should fail and the API should return a clean <code>400 Bad Request</code>.</p>
+<p>The flow is:</p>
+<div class="highlight"><pre><span></span><code>Request comes
+  |
+  v
+Spring binds JSON to DTO
+  |
+  v
+Validation runs because of @Valid
+  |
+  v
+Validation fails
+  |
+  v
+Spring throws MethodArgumentNotValidException
+  |
+  v
+GlobalExceptionHandler catches it
+  |
+  v
+Field-level validation response is returned
+</code></pre></div>
+
+<p>Important point: validation runs only when we use <code>@Valid</code> in the controller, as in <code>createStudent(@Valid @RequestBody CreateStudentRequestDto requestDto)</code>. <code>MethodArgumentNotValidException</code> occurs when validation fails on a controller method argument; the most common case is exactly that <code>@Valid @RequestBody</code> parameter.</p>
+<p>A professional validation response tells exactly which field failed and why:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;timestamp&quot;: &quot;2026-07-07T11:20:30&quot;,
+  &quot;statusCode&quot;: 400,
+  &quot;error&quot;: &quot;Bad Request&quot;,
+  &quot;message&quot;: &quot;Validation failed&quot;,
+  &quot;path&quot;: &quot;/api/students&quot;,
+  &quot;fieldErrors&quot;: {
+    &quot;name&quot;: &quot;Name cannot be blank&quot;,
+    &quot;email&quot;: &quot;Email must be valid&quot;,
+    &quot;age&quot;: &quot;Student must be at least 18 years old&quot;
+  }
+}
+</code></pre></div>
+
+<p>That response comes from <code>ValidationErrorResponseDto</code> (shown in the course as <code>ValidationExceptionResponseDto</code>), which is the base error DTO plus a <code>private Map&lt;String, String&gt; fieldErrors;</code> with a matching constructor and getter. Field errors are extracted with <code>getBindingResult().getFieldErrors()</code> and folded into a map keyed by field name: for each <code>error</code>, put <code>error.getField()</code> mapped to <code>error.getDefaultMessage()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@ExceptionHandler</span><span class="p">(</span><span class="n">MethodArgumentNotValidException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">ValidationErrorResponseDto</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">handleValidationException</span><span class="p">(</span>
+<span class="w">        </span><span class="n">MethodArgumentNotValidException</span><span class="w"> </span><span class="n">ex</span><span class="p">,</span>
+<span class="w">        </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fieldErrors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="n">ex</span><span class="p">.</span><span class="na">getBindingResult</span><span class="p">().</span><span class="na">getFieldErrors</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">error</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">fieldErrors</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="na">getField</span><span class="p">(),</span><span class="w"> </span><span class="n">error</span><span class="p">.</span><span class="na">getDefaultMessage</span><span class="p">())</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="n">ValidationErrorResponseDto</span><span class="w"> </span><span class="n">errorResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ValidationErrorResponseDto</span><span class="p">(</span>
+<span class="w">        </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">.</span><span class="na">value</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">.</span><span class="na">getReasonPhrase</span><span class="p">(),</span>
+<span class="w">        </span><span class="s">&quot;Validation failed&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">request</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">fieldErrors</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">status</span><span class="p">(</span><span class="n">HttpStatus</span><span class="p">.</span><span class="na">BAD_REQUEST</span><span class="p">).</span><span class="na">body</span><span class="p">(</span><span class="n">errorResponse</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Required imports: <code>org.springframework.web.bind.MethodArgumentNotValidException</code>, <code>java.util.HashMap</code>, <code>java.util.Map</code>.</p>
+<h2 id="11-bad-requests-400-vs-409-categories-and-best-practices">11. Bad Requests, 400 vs 409, Categories, and Best Practices</h2>
+<h3 id="what-is-400-bad-request">What is 400 Bad Request</h3>
+<p><code>400 Bad Request</code> means the client sent something wrong. Validation failure is one type of bad request; other examples are invalid JSON, wrong data type in JSON, malformed request body, invalid request format, invalid path variable type, and missing required query parameter.</p>
+<p><strong>Invalid JSON or wrong data type.</strong> Suppose the DTO expects <code>private Integer age;</code> but the client sends <code>"age": "twenty"</code>. Spring tries to convert <code>"twenty"</code> into <code>Integer</code>, fails, and for an unreadable or malformed body throws <code>HttpMessageNotReadableException</code>; the handler returns <code>400 Bad Request</code> with a message like "Invalid request body. Please check your JSON format and data types." Required import: <code>org.springframework.http.converter.HttpMessageNotReadableException</code>.</p>
+<p><strong>Invalid path variable type.</strong> Suppose the controller expects <code>@PathVariable Long id</code>, but the client calls <code>GET /api/students/abc</code>. Spring cannot convert <code>"abc"</code> into <code>Long</code> and may throw <code>MethodArgumentTypeMismatchException</code>. A clean API returns <code>400 Bad Request</code>, with a message such as <code>"Invalid value for parameter '" + ex.getName() + "'. Please check the required data type."</code>. Required import: <code>org.springframework.web.method.annotation.MethodArgumentTypeMismatchException</code>.</p>
+<h3 id="difference-between-400-bad-request-and-409-conflict">Difference between 400 Bad Request and 409 Conflict</h3>
+<p>First principle: <code>400</code> means the request itself is invalid; <code>409</code> means the request may be valid, but it conflicts with existing server data.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Status code</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invalid email format</td>
+<td><code>400 Bad Request</code></td>
+<td>The value is malformed regardless of server data</td>
+</tr>
+<tr>
+<td>Age sent as the string "twenty"</td>
+<td><code>400 Bad Request</code></td>
+<td>Wrong data type in the request body</td>
+</tr>
+<tr>
+<td>Invalid path variable <code>abc</code> for a <code>Long</code></td>
+<td><code>400 Bad Request</code></td>
+<td>The request cannot be bound</td>
+</tr>
+<tr>
+<td>Email already exists</td>
+<td><code>409 Conflict</code></td>
+<td>The request is valid but clashes with stored data</td>
+</tr>
+<tr>
+<td>Roll number already exists</td>
+<td><code>409 Conflict</code></td>
+<td>Valid request, conflicting state</td>
+</tr>
+</tbody>
+</table>
+<p><code>DuplicateResourceException</code> is handled by its own method that returns an <code>ErrorResponseDto</code> built with <code>HttpStatus.CONFLICT.value()</code>, <code>HttpStatus.CONFLICT.getReasonPhrase()</code>, <code>ex.getMessage()</code> and <code>request.getRequestURI()</code>.</p>
+<h3 id="the-complete-handler-class">The complete handler class</h3>
+<p>The final <code>GlobalExceptionHandler</code> is one <code>@RestControllerAdvice</code> class holding one <code>@ExceptionHandler</code> method per failure type, all returning the standard DTO:</p>
+<table>
+<thead>
+<tr>
+<th>Handler method</th>
+<th>Exception</th>
+<th>Status</th>
+<th>Response body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>handleResourceNotFoundException</code></td>
+<td><code>ResourceNotFoundException</code></td>
+<td><code>404</code></td>
+<td><code>ErrorResponseDto</code></td>
+</tr>
+<tr>
+<td><code>handleDuplicateResourceException</code></td>
+<td><code>DuplicateResourceException</code></td>
+<td><code>409</code></td>
+<td><code>ErrorResponseDto</code></td>
+</tr>
+<tr>
+<td><code>handleValidationException</code></td>
+<td><code>MethodArgumentNotValidException</code></td>
+<td><code>400</code></td>
+<td><code>ValidationErrorResponseDto</code></td>
+</tr>
+<tr>
+<td><code>handleHttpMessageNotReadableException</code></td>
+<td><code>HttpMessageNotReadableException</code></td>
+<td><code>400</code></td>
+<td><code>ErrorResponseDto</code></td>
+</tr>
+<tr>
+<td><code>handleMethodArgumentTypeMismatchException</code></td>
+<td><code>MethodArgumentTypeMismatchException</code></td>
+<td><code>400</code></td>
+<td><code>ErrorResponseDto</code></td>
+</tr>
+<tr>
+<td><code>handleGenericException</code></td>
+<td><code>Exception</code></td>
+<td><code>500</code></td>
+<td><code>ErrorResponseDto</code></td>
+</tr>
+</tbody>
+</table>
+<p>Every method builds its DTO with <code>LocalDateTime.now()</code>, the status value and reason phrase, a human message, and <code>request.getRequestURI()</code>.</p>
+<h3 id="categories-of-exceptions">Categories of exceptions</h3>
+<p>The project handles three major groups:</p>
+<ol>
+<li><strong>Business exceptions</strong> - meaningful business problems.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>Meaning</th>
+<th>Status code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResourceNotFoundException</code></td>
+<td>Requested resource does not exist</td>
+<td><code>404 Not Found</code></td>
+</tr>
+<tr>
+<td><code>DuplicateResourceException</code></td>
+<td>Resource already exists or conflicts with data</td>
+<td><code>409 Conflict</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li><strong>Request/input exceptions</strong> - the client sent incorrect data.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>Meaning</th>
+<th>Status code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MethodArgumentNotValidException</code></td>
+<td>Validation failed on DTO</td>
+<td><code>400 Bad Request</code></td>
+</tr>
+<tr>
+<td><code>HttpMessageNotReadableException</code></td>
+<td>Invalid JSON or wrong data type in request body</td>
+<td><code>400 Bad Request</code></td>
+</tr>
+<tr>
+<td><code>MethodArgumentTypeMismatchException</code></td>
+<td>Wrong type in path variable or request parameter</td>
+<td><code>400 Bad Request</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><strong>Unexpected exceptions</strong> - fallback server-side errors.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>Meaning</th>
+<th>Status code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Exception</code></td>
+<td>Any unhandled unexpected error</td>
+<td><code>500 Internal Server Error</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="clean-api-flow-after-global-exception-handling">Clean API flow after global exception handling</h3>
+<div class="highlight"><pre><span></span><code>Client sends request
+  |
+  v
+Controller receives request
+  |
+  v
+Controller calls service
+  |
+  v
+Service performs business logic
+  |
+  v
+If success: Controller returns success response
+  |
+  v
+If failure: Service throws meaningful exception
+  |
+  v
+GlobalExceptionHandler catches exception
+  |
+  v
+ErrorResponseDto / ValidationErrorResponseDto is returned
+</code></pre></div>
+
+<h3 id="why-this-makes-apis-professional">Why this makes APIs professional</h3>
+<ul>
+<li>Controllers stay clean.</li>
+<li>Repeated error logic is removed.</li>
+<li>Frontend receives consistent error responses.</li>
+<li>Service layer communicates failures clearly.</li>
+<li>Status codes match the real meaning of the failure.</li>
+<li>Debugging becomes easier because error responses contain timestamp and path.</li>
+<li>Unexpected errors are handled safely through a generic fallback.</li>
+</ul>
+<h3 id="best-practices">Best practices</h3>
+<ol>
+<li><strong>Do not return <code>null</code> for missing resources.</strong> Prefer <code>orElseThrow(() -&gt; new ResourceNotFoundException(...))</code> over <code>orElse(null)</code>.</li>
+<li><strong>Keep success logic in the controller</strong> - the controller mainly returns successful responses such as <code>return ResponseEntity.ok(student);</code>.</li>
+<li><strong>Keep business checks in the service</strong> - whether a student exists, whether an email already exists, whether a roll number already exists, whether the user is allowed to perform the action.</li>
+<li><strong>Keep error response logic in the <code>GlobalExceptionHandler</code></strong> - the status code, the error message, and the error response structure.</li>
+<li><strong>Use specific handlers before relying on the generic fallback.</strong> Specific handlers give meaningful responses; the generic handler is only a final safety net.</li>
+<li><strong>Do not expose internal exception messages in production.</strong> Avoid <code>.body(ex.getMessage())</code> for unexpected errors; prefer <code>.body("Something went wrong. Please try again later.")</code> to prevent leaking implementation details.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important: Business checks in the service, HTTP mapping in the handler, and success responses in the controller - that is the whole division of labor. Breaking it is what turns a clean API back into an if-else soup.</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Returning <code>200 OK</code> for every operation is fine"</td>
+<td>Status codes carry the outcome; use <code>201</code> for create, <code>204</code> for empty delete, <code>400</code>/<code>404</code>/<code>409</code> for failures.</td>
+</tr>
+<tr>
+<td>"If the service returns <code>null</code>, the controller should decide the error"</td>
+<td>Returning <code>null</code> is a weak signal; the service should throw a meaningful exception.</td>
+</tr>
+<tr>
+<td>"<code>@ControllerAdvice</code> alone handles exceptions"</td>
+<td>It only declares common behavior; actual handling needs <code>@ExceptionHandler</code> methods.</td>
+</tr>
+<tr>
+<td>"<code>@ControllerAdvice</code> is best for REST JSON"</td>
+<td><code>@RestControllerAdvice</code> adds <code>@ResponseBody</code>, so handlers return JSON directly.</td>
+</tr>
+<tr>
+<td>"The generic <code>Exception</code> handler should cover business cases"</td>
+<td>It is only a safety net; "not found", "duplicate", and validation failures need specific handlers.</td>
+</tr>
+<tr>
+<td>"<code>404</code> and <code>500</code> mean the same kind of failure"</td>
+<td><code>404</code> is a missing resource the server understood; <code>500</code> is an unexpected server-side break.</td>
+</tr>
+<tr>
+<td>"<code>400</code> and <code>409</code> both mean a bad client request"</td>
+<td><code>400</code> is an invalid request; <code>409</code> is a valid request that conflicts with existing data.</td>
+</tr>
+<tr>
+<td>"Exposing raw exception messages helps the frontend"</td>
+<td>It leaks implementation details; return a safe generic message for unexpected errors.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Everything can just return 200 OK with an error message in the body."</strong>
+Verdict: False. The frontend branches on the status code, so a failure must return a failure status. A <code>404</code> body sent with <code>200 OK</code> forces the client to parse strings to detect errors.</p>
+<p><strong>Trap 2 - "Returning null from the service is a valid way to signal not found."</strong>
+Verdict: False. <code>null</code> forces the controller to guess, repeats checks across endpoints, and produces weak service-layer signals. Throw <code>ResourceNotFoundException</code> instead.</p>
+<p><strong>Trap 3 - "@ControllerAdvice by itself handles exceptions."</strong>
+Verdict: False. <code>@ControllerAdvice</code> defines shared behavior; handling needs <code>@ExceptionHandler</code>. For JSON REST APIs, prefer <code>@RestControllerAdvice</code> (<code>@ControllerAdvice</code> + <code>@ResponseBody</code>).</p>
+<p><strong>Trap 4 - "The generic Exception handler will swallow specific ones."</strong>
+Verdict: False. Spring picks the most specific matching handler, so <code>ResourceNotFoundException</code> runs its own method, and the generic <code>Exception</code> handler covers only what is left.</p>
+<p><strong>Trap 5 - "Validation runs automatically for any request body."</strong>
+Verdict: False. Validation runs only when the controller parameter is annotated with <code>@Valid</code>. Without it, the constraints are never checked.</p>
+<p><strong>Trap 6 - "400 and 409 mean the same: the client messed up."</strong>
+Verdict: False. <code>400</code> means the request is invalid on its own (bad JSON, wrong type, invalid path variable); <code>409</code> means the request is valid but conflicts with existing server state, such as a duplicate email.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>An API response is Status + Headers + Body (S-H-B); the status code is protocol-level meaning and the body is the human-readable explanation.</li>
+<li>A beginner API asks "did I get data"; a professional API asks "did the server clearly tell the client what happened".</li>
+<li>Status codes: <code>200</code> fetch/update, <code>201</code> create, <code>204</code> delete with no body, <code>400</code> invalid request, <code>404</code> missing resource, <code>409</code> conflict, <code>500</code> unexpected server failure.</li>
+<li><code>ResponseEntity</code> gives explicit control over status, headers, and body; its mental model is Body + Status, Body + Headers + Status, or Status only.</li>
+<li><code>ResponseEntity.created(location)</code> sets both <code>201 Created</code> and the <code>Location</code> header; <code>noContent().build()</code> returns <code>204</code> with no body.</li>
+<li>Error handling inside controllers causes repetition, bulky controllers, weak service signals, inconsistent responses, and poor separation of concerns.</li>
+<li>Global exception handling puts errors in one central place; the division of labor is controller = success, service = business checks, handler = HTTP mapping.</li>
+<li><code>@RestControllerAdvice</code> = <code>@ControllerAdvice</code> + <code>@ResponseBody</code>; <code>@ExceptionHandler</code> maps a specific exception type to a response, and Spring picks the most specific match.</li>
+<li>Custom exceptions (<code>ResourceNotFoundException</code>, <code>DuplicateResourceException</code>) extend <code>RuntimeException</code> and are thrown from the service via <code>orElseThrow</code>, keeping the controller free of <code>if</code> and <code>null</code> checks.</li>
+<li><code>ErrorResponseDto</code> (timestamp, statusCode, error, message, path) and <code>ValidationErrorResponseDto</code> (plus <code>fieldErrors</code>) give consistent JSON; validation needs <code>@Valid</code>, throws <code>MethodArgumentNotValidException</code>, and bad JSON or wrong types map to <code>400</code>.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What are the three parts of an API response?</td>
+<td>Status code (HTTP meaning), headers (metadata), and body (data or error message).</td>
+</tr>
+<tr>
+<td>When do you return <code>201</code> and <code>204</code>?</td>
+<td><code>201 Created</code> when a new resource is created; <code>204 No Content</code> on a successful delete with no body.</td>
+</tr>
+<tr>
+<td>What is <code>ResponseEntity</code> and why use it?</td>
+<td>A wrapper that lets the controller explicitly set status, headers, and body instead of letting Spring decide.</td>
+</tr>
+<tr>
+<td>Why is error handling inside controllers bad?</td>
+<td>It repeats logic, bloats controllers, weakens service signals, and yields inconsistent responses.</td>
+</tr>
+<tr>
+<td>What is global exception handling?</td>
+<td>One central place (<code>@RestControllerAdvice</code>) that catches exceptions and converts them to proper HTTP responses.</td>
+</tr>
+<tr>
+<td>Difference between <code>@ControllerAdvice</code> and <code>@RestControllerAdvice</code>?</td>
+<td><code>@RestControllerAdvice</code> = <code>@ControllerAdvice</code> + <code>@ResponseBody</code>, so handlers return JSON directly.</td>
+</tr>
+<tr>
+<td>What does <code>@ExceptionHandler</code> do?</td>
+<td>On a method, it handles a specific exception type; Spring runs the most specific matching handler.</td>
+</tr>
+<tr>
+<td>Why custom exceptions?</td>
+<td>Generic exceptions do not express business meaning; <code>ResourceNotFoundException</code> says exactly what went wrong.</td>
+</tr>
+<tr>
+<td>Why throw from the service instead of returning null?</td>
+<td>Throwing gives a clear signal and keeps success logic in the controller and error mapping in the handler.</td>
+</tr>
+<tr>
+<td><code>400</code> vs <code>409</code>?</td>
+<td><code>400</code> = the request is invalid; <code>409</code> = the request is valid but conflicts with existing data (e.g., duplicate email).</td>
+</tr>
+<tr>
+<td>How are validation errors handled globally?</td>
+<td><code>@Valid</code> triggers validation, Spring throws <code>MethodArgumentNotValidException</code>, and the handler maps field errors to a <code>400</code> DTO.</td>
+</tr>
+<tr>
+<td>What does <code>ErrorResponseDto</code> contain?</td>
+<td>timestamp, statusCode, error, message, path - a consistent error shape the frontend can rely on.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Request comes in
+        |
+        v
+Controller: receive request, call service, return success response
+        |
+        v
+Service: run business logic, return data or throw a custom exception
+        |
+        v
+ResourceNotFoundException / DuplicateResourceException / validation failure
+        |
+        v
+@RestControllerAdvice GlobalExceptionHandler (@ExceptionHandler methods)
+        |
+        v
+Status code + ErrorResponseDto / ValidationErrorResponseDto back to client
+        |
+        v
+Frontend branches on the status code and reads a consistent JSON shape
+</code></pre></div>
+
+<ul>
+<li>API response = Status + Headers + Body; the status code carries the machine-readable verdict.</li>
+<li><code>ResponseEntity</code> gives explicit control over status, headers, and body (<code>ok</code>, <code>created</code>, <code>noContent</code>, <code>status</code>).</li>
+<li>Keep error handling out of controllers: controller owns success, service owns business checks, handler owns HTTP mapping.</li>
+<li><code>@RestControllerAdvice</code> + <code>@ExceptionHandler</code> catch exceptions centrally; the most specific handler wins.</li>
+<li>Custom exceptions thrown from the service keep controllers clean and make failures meaningful.</li>
+<li><code>ErrorResponseDto</code> and <code>ValidationErrorResponseDto</code> standardize every error; <code>@Valid</code> plus <code>MethodArgumentNotValidException</code> handles field-level <code>400</code> responses.</li>
+<li>Categories: business (<code>404</code>, <code>409</code>), request/input (<code>400</code>), unexpected (<code>500</code> fallback).</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A professional Spring Boot API keeps success logic in the controller, business decisions in the service, and all exception-to-HTTP mapping in one <code>@RestControllerAdvice</code>, so every failure returns a meaningful status code and a consistent error DTO.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-16.html"><span class="dir">Previous</span><span class="ttl">Lecture 16 — DTOs &amp; Validations in Spring Boot</span></a><a class="next" href="doc-theory-lecture-18.html"><span class="dir">Next</span><span class="ttl">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

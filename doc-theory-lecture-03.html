@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 03 — Master Apache Maven in one video — Spring Boot</title>
+<meta name="description" content="Lecture 03 — Master Apache Maven in one video">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-03">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-03.html#lecture-03">Lecture 03</a></li><li><a href="doc-theory-lecture-03.html#1-the-basic-journey-of-java-code">1. The Basic Journey of Java Code</a></li><li><a href="doc-theory-lecture-03.html#2-what-happens-in-a-real-java-project">2. What Happens in a Real Java Project</a></li><li><a href="doc-theory-lecture-03.html#3-jar-files-what-they-are-and-why-we-need-them">3. JAR Files: What They Are and Why We Need Them</a></li><li><a href="doc-theory-lecture-03.html#4-library-jar-vs-application-jar-and-the-fat-jar">4. Library JAR vs Application JAR (and the Fat JAR)</a></li><li><a href="doc-theory-lecture-03.html#5-external-libraries-and-the-classpath">5. External Libraries and the Classpath</a></li><li><a href="doc-theory-lecture-03.html#6-where-maven-comes-in">6. Where Maven Comes In</a></li><li><a href="doc-theory-lecture-03.html#7-what-maven-is-and-what-it-does-practically">7. What Maven Is and What It Does Practically</a></li><li><a href="doc-theory-lecture-03.html#8-maven-and-ides-one-standard-tool-for-every-editor">8. Maven and IDEs: One Standard Tool for Every Editor</a></li><li><a href="doc-theory-lecture-03.html#9-convention-over-configuration-and-the-standard-project-structure">9. Convention Over Configuration and the Standard Project Structure</a></li><li><a href="doc-theory-lecture-03.html#10-pomxml-the-heart-of-a-maven-project">10. pom.xml: The Heart of a Maven Project</a></li><li><a href="doc-theory-lecture-03.html#11-maven-coordinates-snapshot-packaging-and-properties">11. Maven Coordinates, SNAPSHOT, Packaging, and Properties</a></li><li><a href="doc-theory-lecture-03.html#12-dependencies-starters-and-transitive-dependencies">12. Dependencies: Starters and Transitive Dependencies</a></li><li><a href="doc-theory-lecture-03.html#13-maven-plugins">13. Maven Plugins</a></li><li><a href="doc-theory-lecture-03.html#14-maven-repositories-local-central-remote-and-settingsxml">14. Maven Repositories: Local, Central, Remote, and settings.xml</a></li><li><a href="doc-theory-lecture-03.html#15-how-maven-searches-for-a-dependency-and-why-deleting-m2-fixes-things">15. How Maven Searches for a Dependency (and Why Deleting .m2 Fixes Things)</a></li><li><a href="doc-theory-lecture-03.html#16-the-maven-lifecycle-three-lifecycles-and-the-phase-rule">16. The Maven Lifecycle: Three Lifecycles and the Phase Rule</a></li><li><a href="doc-theory-lecture-03.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-03.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-03.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-03.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-03.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 03 — Master Apache Maven in one video</h1>
+<p class="readmeta">22 sections · 4,725 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-03" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-03">Lecture 03</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Master Apache Maven in one video | POM, Dependencies &amp; Lifecycle" (playlist map, verified). The repo lecture folder carries a MavenDemo project (org/example/MavenDemo with Main, Demo, Demo2, and controller/HelloController) alongside these notes.</p>
+</blockquote>
+<p>This lecture answers the question every beginner eventually asks: why does a Java project need a build tool at all? It starts from the raw journey of <code>.java</code> to <code>.class</code>, shows why sharing loose class files breaks down, introduces the JAR and the classpath, and then explains exactly how Maven standardizes structure, dependencies, builds, and packaging. Everything is grounded in the source notes: JARs, <code>pom.xml</code>, coordinates, starters, transitive dependencies, repositories, <code>settings.xml</code>, and the lifecycle rule that running one phase runs every earlier phase.</p>
+<h2 id="1-the-basic-journey-of-java-code">1. The Basic Journey of Java Code</h2>
+<p>Before Maven, we need the base flow of a Java program in our heads:</p>
+<div class="highlight"><pre><span></span><code>Hello.java  -- compiled by javac --&gt;  Hello.class  -- run by JVM --&gt;  output
+</code></pre></div>
+
+<ul>
+<li><code>.java</code> file = source code written by the developer.</li>
+<li><code>.class</code> file = compiled bytecode understood by the JVM.</li>
+</ul>
+<p>Java code is never executed as <code>.java</code> files directly. First it is compiled into <code>.class</code> files, and then the JVM runs those <code>.class</code> files. This is the same "write once, run anywhere" contract from earlier lectures, seen from the build side.</p>
+<blockquote class="callout callout--important">
+<p>Important: The compiler (<code>javac</code>) and the runtime (JVM) are two separate steps. Maven does not remove either one; it automates the step in between and everything around it.</p>
+</blockquote>
+<h2 id="2-what-happens-in-a-real-java-project">2. What Happens in a Real Java Project</h2>
+<p>A real project is never one class. It may have many files:</p>
+<div class="highlight"><pre><span></span><code>User.java
+Order.java
+Payment.java
+EmailService.java
+InvoiceGenerator.java
+Main.java
+</code></pre></div>
+
+<p>After compilation, each source file becomes its own <code>.class</code> file:</p>
+<div class="highlight"><pre><span></span><code>User.class
+Order.class
+Payment.class
+EmailService.class
+InvoiceGenerator.class
+Main.class
+</code></pre></div>
+
+<p>Now imagine sharing this project with another developer. Sending many separate <code>.class</code> files is not practical because:</p>
+<ul>
+<li>files can get misplaced;</li>
+<li>package/folder structure can break;</li>
+<li>some files may be missed;</li>
+<li>resource files may not be included;</li>
+<li>running the project becomes confusing.</li>
+</ul>
+<p>Java needed a standard way to bundle compiled code and related files together. That standard bundle is the JAR.</p>
+<h2 id="3-jar-files-what-they-are-and-why-we-need-them">3. JAR Files: What They Are and Why We Need Them</h2>
+<p>JAR stands for Java Archive. A JAR file is a packaged bundle for Java projects - think of it as a ZIP file designed specifically for Java.</p>
+<p>A JAR file can contain:</p>
+<ul>
+<li><code>.class</code> files;</li>
+<li>folders/packages;</li>
+<li>images;</li>
+<li>properties files;</li>
+<li>metadata;</li>
+<li>configuration files.</li>
+</ul>
+<p>In simple words: a JAR file is a standard way to package Java compiled code and related resources into one file.</p>
+<p>There are two major reasons JAR files matter:</p>
+<ol>
+<li><strong>To share Java code easily.</strong> Package compiled <code>.class</code> files into one <code>calculator.jar</code>; another developer adds that JAR and uses your compiled code. This is how many Java libraries are shared.</li>
+<li><strong>To use external libraries.</strong> When we say "I am using Spring Core," practically our project is using Spring Core JAR files. A library is often just compiled Java code packaged as a JAR.</li>
+</ol>
+<h2 id="4-library-jar-vs-application-jar-and-the-fat-jar">4. Library JAR vs Application JAR (and the Fat JAR)</h2>
+<p>First, the library-versus-application distinction:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Library</td>
+<td>Code created for other developers to use inside their projects. It usually does not run independently.</td>
+</tr>
+<tr>
+<td>Application</td>
+<td>Code created for the end user. It can run as a complete program, usually with a <code>main()</code> method or an application entry point.</td>
+</tr>
+</tbody>
+</table>
+<p>For the same <code>calculator.jar</code>: if it only provides reusable calculator functions it is a <strong>library JAR</strong>; if it contains a complete runnable program it is an <strong>application JAR</strong>.</p>
+<p>A second, sharper distinction matters for Spring Boot:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Normal library JAR</th>
+<th>Spring Boot executable JAR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contains your compiled code</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Contains external dependency JARs inside</td>
+<td>Usually no</td>
+<td>Can include them</td>
+</tr>
+<tr>
+<td>How dependencies are described</td>
+<td>Separately via Maven <code>pom.xml</code></td>
+<td>Bundled so the app runs as one JAR</td>
+</tr>
+<tr>
+<td>Runnable on its own</td>
+<td>Usually not</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p>A normal library JAR usually does not contain all of its dependency JARs inside it; its dependency information is managed separately through Maven using <code>pom.xml</code>. A Spring Boot application, however, is commonly packaged as an executable JAR that can contain the application code along with required dependencies. That is why we often call the Spring Boot output a <strong>fat JAR</strong> or <strong>executable JAR</strong>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: A library says "use my classes." An application says "run me." A fat JAR tries to be both by carrying its whole dependency world inside one file.</p>
+</blockquote>
+<h2 id="5-external-libraries-and-the-classpath">5. External Libraries and the Classpath</h2>
+<p>Suppose your Java code uses an external JAR. Conceptually the flow is:</p>
+<div class="highlight"><pre><span></span><code>Your Java code
+      +
+External JAR file
+      |
+      v
+Compiled together
+      |
+      v
+Run by JVM
+</code></pre></div>
+
+<p>During compile time and runtime, Java must know where to find the required classes. For example, Java may need to know: "This class is not in my project; it is inside this external JAR." This connection is handled by the <strong>classpath</strong>.</p>
+<p>The classpath is the place where Java searches for classes. Java searches for classes in:</p>
+<ul>
+<li>your own project classes;</li>
+<li>external JAR files;</li>
+<li>other configured class locations.</li>
+</ul>
+<p>If the class is present in your project, Java finds it there. If it is inside an external JAR, Java must know the location of that JAR. In simple words: the classpath tells Java where to search for required classes.</p>
+<blockquote class="callout callout--important">
+<p>Important: The classpath is not a folder you edit by habit; it is the search list the tools build for the compiler and the JVM. Maven's job includes assembling that list so you rarely do it by hand.</p>
+</blockquote>
+<h2 id="6-where-maven-comes-in">6. Where Maven Comes In</h2>
+<p>If a project needs only one external JAR, we can manually download it and add it to the project. But real projects usually need many third-party libraries, and then many problems appear:</p>
+<ul>
+<li>Where should we download these JARs from?</li>
+<li>Which version should we use?</li>
+<li>What if one JAR depends on another JAR?</li>
+<li>What if two teammates use different versions?</li>
+<li>What if we forget to add one required JAR?</li>
+<li>What if version 1 works, but version 2 breaks compatibility?</li>
+</ul>
+<p>This is exactly where Maven becomes useful. Maven says: do not manually download and manage JAR files. Tell me what dependency your project needs, and I will download and manage the required JARs for you.</p>
+<h2 id="7-what-maven-is-and-what-it-does-practically">7. What Maven Is and What It Does Practically</h2>
+<p>Maven is a <strong>project management and build automation tool</strong> for Java projects. It is important to understand that Maven does not exist only because of Spring - Maven is independent of Spring. You can use Maven with:</p>
+<ul>
+<li>Core Java projects;</li>
+<li>Spring projects;</li>
+<li>Spring Boot projects;</li>
+<li>Hibernate projects;</li>
+<li>many other Java-based projects.</li>
+</ul>
+<p>In simple words, Maven helps us manage project structure, dependencies, builds, packaging, and project configuration in a standard way. Practically, Maven mainly helps with these things:</p>
+<ol>
+<li>It gives a standard project structure.</li>
+<li>It compiles Java code.</li>
+<li>It runs tests.</li>
+<li>It creates JAR/WAR files.</li>
+<li>It downloads external JAR libraries.</li>
+<li>It manages dependency versions.</li>
+<li>It uses plugins to perform build-related tasks.</li>
+</ol>
+<p>This makes Java projects more consistent and easier to work with, especially in teams.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A strong answer names Maven as a build and dependency-management tool that is framework-independent. Saying "Maven is a Spring tool" is the fastest way to look like you have only copied tutorials.</p>
+</blockquote>
+<h2 id="8-maven-and-ides-one-standard-tool-for-every-editor">8. Maven and IDEs: One Standard Tool for Every Editor</h2>
+<p>Maven can be used from the command line:</p>
+<div class="highlight"><pre><span></span><code>mvn clean install
+</code></pre></div>
+
+<p>Most modern IDEs also support Maven directly, such as IntelliJ IDEA, Eclipse, and VS Code. Every IDE may have its own project structure, but Maven gives a standard structure that works across tools. That is why Maven is helpful in real projects.</p>
+<h2 id="9-convention-over-configuration-and-the-standard-project-structure">9. Convention Over Configuration and the Standard Project Structure</h2>
+<p>Maven follows a principle called <strong>Convention over Configuration</strong>. This means Maven already assumes a standard project structure. If we follow that structure, we do not need to manually configure everything.</p>
+<p>For example, Maven expects main Java code inside <code>src/main/java</code> and test code inside <code>src/test/java</code>. Because of this standard convention, Maven automatically knows where to find source code, test code, resources, and where to place generated output.</p>
+<p>A typical Maven project looks like this:</p>
+<div class="highlight"><pre><span></span><code>my-maven-project/
+|-- pom.xml
+|-- src/
+|   |-- main/
+|   |   |-- java/
+|   |   `-- resources/
+|   `-- test/
+|       |-- java/
+|       `-- resources/
+`-- target/
+</code></pre></div>
+
+<p>Each part has one job:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it holds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pom.xml</code></td>
+<td>Information about the complete Maven project</td>
+</tr>
+<tr>
+<td><code>src/main/java</code></td>
+<td>Main Java source: controller, service, repository, utility, main classes</td>
+</tr>
+<tr>
+<td><code>src/main/resources</code></td>
+<td>Non-Java files: <code>application.properties</code>, <code>application.yml</code>, config files, static files, templates</td>
+</tr>
+<tr>
+<td><code>src/test/java</code></td>
+<td>Test code: unit tests and integration tests</td>
+</tr>
+<tr>
+<td><code>src/test/resources</code></td>
+<td>Resources needed only during testing: test config files, test data files</td>
+</tr>
+<tr>
+<td><code>target</code></td>
+<td>Generated output: compiled <code>.class</code> files, test reports, generated sources, final JAR/WAR, temporary build files</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>target</code> folder is created by Maven during the build process. If we delete it, Maven can recreate it during the next build - so <code>target</code> is generated output, not source code.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Follow the convention and Maven stops asking questions. Break the convention and you start paying rent in configuration files.</p>
+</blockquote>
+<h2 id="10-pomxml-the-heart-of-a-maven-project">10. pom.xml: The Heart of a Maven Project</h2>
+<p>Every Maven project has a file called <code>pom.xml</code>. POM stands for <strong>Project Object Model</strong>. The <code>pom.xml</code> file is the heart of a Maven project because it tells Maven:</p>
+<ul>
+<li>what the project is;</li>
+<li>which version the project has;</li>
+<li>what type of output should be created;</li>
+<li>which external libraries are needed;</li>
+<li>which plugins should be used;</li>
+<li>whether there is any parent configuration.</li>
+</ul>
+<p>Every <code>pom.xml</code> starts with a root <code>&lt;project&gt;</code> tag. A simple POM may look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0&quot;</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.coderarmy<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>calculator-app<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div>
+
+<p>The extra <code>xmlns</code> lines define the XML namespace and structure. For beginners, we do not need to deeply focus on them at this stage.</p>
+<h2 id="11-maven-coordinates-snapshot-packaging-and-properties">11. Maven Coordinates, SNAPSHOT, Packaging, and Properties</h2>
+<h3 id="maven-coordinates">Maven coordinates</h3>
+<p>These three tags uniquely identify a project or dependency:</p>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Role</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;groupId&gt;</code></td>
+<td>The organization, company, or domain that owns the project</td>
+<td><code>com.coderarmy</code></td>
+</tr>
+<tr>
+<td><code>&lt;artifactId&gt;</code></td>
+<td>The name of the project or module</td>
+<td><code>calculator-app</code></td>
+</tr>
+<tr>
+<td><code>&lt;version&gt;</code></td>
+<td>Which version of the project is being built</td>
+<td><code>1.0.0</code></td>
+</tr>
+</tbody>
+</table>
+<p>Together they are called <strong>Maven coordinates</strong>. Mnemonic: remember <strong>GAV</strong> - GroupId, ArtifactId, Version.</p>
+<p><code>&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</code> tells Maven which POM model version this file follows; most Maven projects use <code>4.0.0</code>.</p>
+<h3 id="snapshot">SNAPSHOT</h3>
+<p>Sometimes we see versions like <code>&lt;version&gt;1.0.0-SNAPSHOT&lt;/version&gt;</code>. SNAPSHOT means the project is still under development. In simple words:</p>
+<ul>
+<li><code>1.0.0</code> -&gt; stable release version;</li>
+<li><code>1.0.0-SNAPSHOT</code> -&gt; development version, not considered a final stable release yet.</li>
+</ul>
+<h3 id="packaging">packaging</h3>
+<p>The <code>&lt;packaging&gt;</code> tag tells Maven what type of output should be created.</p>
+<table>
+<thead>
+<tr>
+<th>Packaging</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jar</code></td>
+<td>Creates a JAR file</td>
+</tr>
+<tr>
+<td><code>war</code></td>
+<td>Creates a WAR file, usually for traditional web applications</td>
+</tr>
+<tr>
+<td><code>pom</code></td>
+<td>Used for parent or aggregator projects</td>
+</tr>
+</tbody>
+</table>
+<p>If we do not mention packaging, Maven defaults to <code>jar</code>.</p>
+<h3 id="properties">properties</h3>
+<p>The <code>&lt;properties&gt;</code> tag defines reusable values in the POM:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;properties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;maven.compiler.source&gt;</span>17<span class="nt">&lt;/maven.compiler.source&gt;</span>
+<span class="w">    </span><span class="nt">&lt;maven.compiler.target&gt;</span>17<span class="nt">&lt;/maven.compiler.target&gt;</span>
+<span class="w">    </span><span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</code></pre></div>
+
+<p>Here we are telling Maven: use Java 17 source code, compile it for Java 17, and use UTF-8 encoding. Properties make the POM cleaner because the same value can be reused in multiple places.</p>
+<h2 id="12-dependencies-starters-and-transitive-dependencies">12. Dependencies: Starters and Transitive Dependencies</h2>
+<p>The <code>&lt;dependencies&gt;</code> section contains external libraries required by the project. For example, the MySQL driver is declared as <code>mysql:mysql-connector-j:8.x.x</code> in coordinates form. Each dependency is identified using Maven coordinates: <code>groupId + artifactId + version</code>. When Maven reads this dependency, it downloads the required JAR file from a Maven repository. The same pattern applies to a Hibernate dependency: declaring <code>org.hibernate.orm:hibernate-core:6.x.x</code> tells Maven the project needs Hibernate Core, and Maven downloads the Hibernate JAR and manages its required supporting dependencies.</p>
+<table>
+<thead>
+<tr>
+<th>Kind of dependency</th>
+<th>What it is</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Library dependency</td>
+<td>A single external JAR you need</td>
+<td><code>mysql-connector-j</code>, <code>hibernate-core</code></td>
+</tr>
+<tr>
+<td>Starter dependency</td>
+<td>A group of related dependencies for one feature</td>
+<td><code>spring-boot-starter-web</code></td>
+</tr>
+<tr>
+<td>Transitive dependency</td>
+<td>A dependency of your dependency</td>
+<td>B and C pulled in because A needs them</td>
+</tr>
+</tbody>
+</table>
+<p>In Spring Boot projects we commonly use starter dependencies:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>A starter dependency does not mean only one JAR. It usually brings a group of related dependencies needed for a particular feature; for example, <code>spring-boot-starter-web</code> brings dependencies related to web application development.</p>
+<p>Transitive dependencies work like this:</p>
+<div class="highlight"><pre><span></span><code>Your project needs A
+A needs B
+B needs C
+</code></pre></div>
+
+<p>If you add dependency A, Maven can automatically download B and C as well. These are called <strong>transitive dependencies</strong>: dependencies of your dependencies. This is one of the biggest reasons Maven is useful - without Maven, we would have to manually find and download every required JAR.</p>
+<blockquote class="callout callout--important">
+<p>Important: Starters are convenience bundles, not single files. One starter line can quietly add a dozen JARs to your classpath, all at versions chosen to work together.</p>
+</blockquote>
+<h2 id="13-maven-plugins">13. Maven Plugins</h2>
+<p>Dependencies are libraries that our project uses. Plugins are tools that Maven uses to perform tasks. Maven plugins can help with:</p>
+<ul>
+<li>compiling code;</li>
+<li>running tests;</li>
+<li>creating JAR files;</li>
+<li>creating reports;</li>
+<li>running a Spring Boot application;</li>
+<li>packaging the application.</li>
+</ul>
+<p>For example, the Spring Boot Maven plugin helps package and run Spring Boot applications. In simple words: a <strong>dependency</strong> is used by our application code; a <strong>plugin</strong> is used by Maven during the build process.</p>
+<h2 id="14-maven-repositories-local-central-remote-and-settingsxml">14. Maven Repositories: Local, Central, Remote, and settings.xml</h2>
+<p>Maven downloads dependencies from Maven repositories. A Maven repository is a storage place where Maven artifacts are kept. Artifacts can include JAR files, WAR files, POM files, plugins, and other build artifacts. At a beginner level, remember these three types:</p>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>What it is</th>
+<th>Location / examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Local</td>
+<td>A folder on your own computer</td>
+<td><code>~/.m2/repository</code></td>
+</tr>
+<tr>
+<td>Maven Central</td>
+<td>A huge public repository of open-source Java libraries</td>
+<td>Spring, Hibernate, Jackson, JUnit, MySQL Connector</td>
+</tr>
+<tr>
+<td>Remote</td>
+<td>Any Maven repository not on your local machine</td>
+<td>Nexus, Artifactory, GitHub Packages, Maven Central</td>
+</tr>
+</tbody>
+</table>
+<h3 id="local-repository">Local repository</h3>
+<p>The local repository is a folder on your own computer. Default location:</p>
+<ul>
+<li>Mac/Linux: <code>~/.m2/repository</code></li>
+<li>Windows: <code>C:\Users\&lt;your-username&gt;\.m2\repository</code></li>
+</ul>
+<p>The local repository has two main jobs:</p>
+<ol>
+<li>It caches downloaded dependencies.</li>
+<li>It stores your own locally installed artifacts.</li>
+</ol>
+<p>When Maven downloads a dependency for the first time, it stores it in the local repository. Because of this, the first build may be slower, but later builds are faster because dependencies are already cached.</p>
+<h3 id="what-happens-during-mvn-install">What happens during <code>mvn install</code>?</h3>
+<p><code>mvn install</code> builds the project and stores the final artifact in the local Maven repository, for example at <code>~/.m2/repository/com/example/MavenDemo/1.0/</code>. This allows other local Maven projects on the same machine to use that artifact.</p>
+<h3 id="maven-central-repository">Maven Central repository</h3>
+<p>Maven Central is a huge public repository where many open-source Java libraries are published. When we add a public dependency in <code>pom.xml</code>, Maven usually downloads it from Maven Central if it is not already available locally.</p>
+<h3 id="remote-repository-and-private-repositories">Remote repository and private repositories</h3>
+<p>A remote repository is any Maven repository that is not on your local machine - available through the internet, a company network, or a private repository server. In companies, not every JAR is public; a company may create internal libraries that should only be used inside the organization, using private repositories like Nexus, Artifactory, or GitHub Packages. A private repository can be configured in <code>pom.xml</code> like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;repositories&gt;</span>
+<span class="w">    </span><span class="nt">&lt;repository&gt;</span>
+<span class="w">        </span><span class="nt">&lt;id&gt;</span>company-repo<span class="nt">&lt;/id&gt;</span>
+<span class="w">        </span><span class="nt">&lt;url&gt;</span>https://repo.company.com/maven2<span class="nt">&lt;/url&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/repository&gt;</span>
+<span class="nt">&lt;/repositories&gt;</span>
+</code></pre></div>
+
+<h3 id="settingsxml">settings.xml</h3>
+<p><code>settings.xml</code> is Maven's user-level configuration file, usually found inside the <code>.m2</code> folder: <code>~/.m2/settings.xml</code>. It can contain user-specific settings such as repository credentials, proxy settings, mirror configuration, and a custom local repository location. For beginners it is enough to remember: <code>pom.xml</code> is project-level configuration, while <code>settings.xml</code> is user/machine-level Maven configuration.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>pom.xml</code> describes the project for everyone; <code>settings.xml</code> describes your machine for yourself. Credentials and mirrors belong in <code>settings.xml</code>, never in a shared POM.</p>
+</blockquote>
+<h2 id="15-how-maven-searches-for-a-dependency-and-why-deleting-m2-fixes-things">15. How Maven Searches for a Dependency (and Why Deleting .m2 Fixes Things)</h2>
+<p>Suppose <code>pom.xml</code> declares <code>com.fasterxml.jackson.core:jackson-databind:2.17.0</code>. Maven roughly follows this process:</p>
+<ol>
+<li>Read <code>pom.xml</code>.</li>
+<li>See that a dependency is required.</li>
+<li>Check the local repository first.</li>
+<li>If found locally, use it.</li>
+<li>If not found locally, check remote repositories.</li>
+<li>Download the JAR and POM.</li>
+<li>Store them in the local repository.</li>
+<li>Use them in the project build.</li>
+</ol>
+<p>That is why the first build is usually slower than later builds: the first time, Maven downloads dependencies; after that, Maven uses the cached dependencies from the local <code>.m2</code> repository.</p>
+<p>Sometimes dependency files inside the local repository become corrupted or incomplete, for example because:</p>
+<ul>
+<li>a download failed in between;</li>
+<li>the internet disconnected during a dependency download;</li>
+<li>a partial JAR file got saved;</li>
+<li>metadata became inconsistent.</li>
+</ul>
+<p>In such cases, deleting the problematic dependency folder from <code>.m2/repository</code> forces Maven to download it again. That is why deleting <code>.m2/repository</code> or a specific dependency folder sometimes fixes Maven dependency errors. However, deleting the entire <code>.m2/repository</code> means Maven will need to download all dependencies again.</p>
+<h2 id="16-the-maven-lifecycle-three-lifecycles-and-the-phase-rule">16. The Maven Lifecycle: Three Lifecycles and the Phase Rule</h2>
+<p>A Java project has a build journey, for example: check project -&gt; compile code -&gt; run tests -&gt; create JAR -&gt; store/deploy artifact. Maven calls this ordered build journey a <strong>lifecycle</strong>. In simple words: a Maven lifecycle is a standard sequence of steps Maven follows to build and manage a project.</p>
+<p>The heart of the Maven lifecycle is this rule:</p>
+<blockquote class="callout callout--important">
+<p>Important: When we run a Maven phase, Maven automatically runs all earlier phases of that lifecycle before it.</p>
+</blockquote>
+<p>For example, <code>mvn package</code> does not only run <code>package</code> - it runs the earlier required phases first:</p>
+<div class="highlight"><pre><span></span><code>validate -&gt; compile -&gt; test -&gt; package
+</code></pre></div>
+
+<p>Similarly, <code>mvn install</code> runs:</p>
+<div class="highlight"><pre><span></span><code>validate -&gt; compile -&gt; test -&gt; package -&gt; verify -&gt; install
+</code></pre></div>
+
+<p>Maven has three main lifecycles:</p>
+<table>
+<thead>
+<tr>
+<th>Lifecycle</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clean</td>
+<td>Cleans old build output</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Builds, tests, packages, installs, and deploys the project</td>
+</tr>
+<tr>
+<td>Site</td>
+<td>Generates project documentation and reports</td>
+</tr>
+</tbody>
+</table>
+<h3 id="clean-lifecycle">Clean lifecycle</h3>
+<p>The clean lifecycle removes old build output. Common command: <code>mvn clean</code>. Usually this deletes the <code>target</code> folder. This is useful when we want a fresh build.</p>
+<h3 id="default-lifecycle-phases">Default lifecycle phases</h3>
+<p>The default lifecycle is the main build lifecycle. Important phases: <code>validate -&gt; compile -&gt; test -&gt; package -&gt; verify -&gt; install -&gt; deploy</code>. Each phase represents one step in the build journey.</p>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate</code></td>
+<td>Checks whether the project is valid</td>
+</tr>
+<tr>
+<td><code>compile</code></td>
+<td>Compiles <code>.java</code> files into <code>.class</code> files</td>
+</tr>
+<tr>
+<td><code>test</code></td>
+<td>Runs test cases</td>
+</tr>
+<tr>
+<td><code>package</code></td>
+<td>Creates JAR/WAR file</td>
+</tr>
+<tr>
+<td><code>verify</code></td>
+<td>Performs additional checks on the packaged output</td>
+</tr>
+<tr>
+<td><code>install</code></td>
+<td>Stores artifact in local <code>.m2</code> repository</td>
+</tr>
+<tr>
+<td><code>deploy</code></td>
+<td>Uploads artifact to a remote Maven repository</td>
+</tr>
+</tbody>
+</table>
+<p>Detail worth knowing:</p>
+<ul>
+<li><code>validate</code> checks whether <code>pom.xml</code> is present, readable, has required project details, and that the project structure is valid enough to continue (<code>mvn validate</code>).</li>
+<li><code>compile</code> compiles the main Java code (<code>mvn compile</code>); the flow is <code>src/main/java -&gt; target/classes</code>, so source files become <code>.class</code> files inside <code>target/classes</code>.</li>
+<li><code>test</code> runs the test cases (<code>mvn test</code>); Maven compiles and runs tests from <code>src/test/java</code>, verifying the code works before packaging.</li>
+<li><code>package</code> creates the final packaged output (<code>mvn package</code>); for a normal Java project this usually creates a JAR inside <code>target</code>, for example <code>target/MavenDemo-1.0.jar</code>. For web applications it may create a WAR depending on the packaging type.</li>
+<li><code>verify</code> checks whether the packaged output is valid (<code>mvn verify</code>); in bigger projects it can include integration tests, code quality checks, coverage checks, and extra validation.</li>
+<li><code>install</code> builds the project and stores the final artifact in the local Maven repository at <code>~/.m2/repository</code> (<code>mvn install</code>); useful when another local project needs to use this project as a dependency.</li>
+<li><code>deploy</code> builds the project and uploads the final artifact to a remote Maven repository (<code>mvn deploy</code>), such as company Nexus, company Artifactory, GitHub Packages, or another remote Maven repository.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: <code>deploy</code> is often confused with pushing code to GitHub. GitHub usually stores source code; a Maven remote repository stores built artifacts like JAR files so that other projects can use them as dependencies.</p>
+</blockquote>
+<h3 id="site-lifecycle">Site lifecycle</h3>
+<p>The site lifecycle generates project documentation and reports. Command: <code>mvn site</code>. Output usually goes inside <code>target/site</code>. This is separate from the normal build flow.</p>
+<h3 id="what-happens-when-we-run-mvn-clean-install">What happens when we run <code>mvn clean install</code>?</h3>
+<p>Maven runs two lifecycle commands together:</p>
+<div class="highlight"><pre><span></span><code>mvn clean install = clean old output
+                  + build the project again
+                  + run tests
+                  + package the project
+                  + install the artifact into local .m2 repository
+</code></pre></div>
+
+<p>First Maven runs the clean lifecycle and deletes old build output, usually the <code>target</code> folder. Then Maven runs the default lifecycle up to the install phase: <code>validate -&gt; compile -&gt; test -&gt; package -&gt; verify -&gt; install</code>.</p>
+<p>Mnemonic for the default phases: "<strong>V</strong>ery <strong>C</strong>ool <strong>T</strong>igers <strong>P</strong>lay <strong>V</strong>iolin <strong>I</strong>n <strong>D</strong>elhi" - Validate, Compile, Test, Package, Verify, Install, Deploy.</p>
+<h3 id="maven-archetypes">Maven archetypes</h3>
+<p>A Maven archetype is a project template: a starter template with a predefined folder structure and configuration. It can generate projects quickly instead of creating everything manually (template -&gt; project structure + basic configuration + boilerplate files). Modern Spring Boot projects are usually created using Spring Initializr, but Maven archetypes are still useful to understand as a Maven concept.</p>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Maven is a Spring tool"</td>
+<td>Maven is independent of Spring; it works with Core Java, Spring, Boot, and Hibernate projects</td>
+</tr>
+<tr>
+<td>"A JAR is only <code>.class</code> files"</td>
+<td>A JAR can also hold folders, images, properties, metadata, and config files</td>
+</tr>
+<tr>
+<td>"A library JAR contains all its dependencies"</td>
+<td>Usually it does not; dependencies are managed separately through <code>pom.xml</code></td>
+</tr>
+<tr>
+<td>"<code>mvn package</code> only packages"</td>
+<td>It also runs all earlier phases: validate, compile, and test</td>
+</tr>
+<tr>
+<td>"Maven Central and the local repo are the same"</td>
+<td>Central is public and remote; the local repo is the cache at <code>~/.m2/repository</code></td>
+</tr>
+<tr>
+<td>"Deleting <code>.m2</code> is always a safe quick fix"</td>
+<td>It works when files are corrupt, but forces re-download of every dependency</td>
+</tr>
+<tr>
+<td>"<code>pom.xml</code> and <code>settings.xml</code> do the same job"</td>
+<td>POM is project-level; <code>settings.xml</code> is user/machine-level configuration</td>
+</tr>
+<tr>
+<td>"<code>mvn deploy</code> pushes source to GitHub"</td>
+<td>Deploy uploads the built artifact to a Maven repository, not source to GitHub</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Maven only works with Spring."</strong>
+Verdict: False. Maven is independent of Spring and works with plain Core Java, Spring, Spring Boot, and Hibernate projects.</p>
+<p><strong>Trap 2 - "A JAR is just a renamed ZIP with class files."</strong>
+Verdict: Half-true and misleading. It is ZIP-like and can hold <code>.class</code> files, but also packages, images, properties, metadata, and config files, and it carries Java-specific meaning.</p>
+<p><strong>Trap 3 - "One <code>spring-boot-starter-web</code> means one JAR."</strong>
+Verdict: False. A starter usually brings a group of related dependencies needed for that feature.</p>
+<p><strong>Trap 4 - "<code>mvn package</code> runs only the package phase."</strong>
+Verdict: False. Running a phase runs all earlier phases: validate, compile, test, then package.</p>
+<p><strong>Trap 5 - "The first Maven build being slow means something is wrong."</strong>
+Verdict: False. The first build downloads dependencies into the local <code>.m2</code> repository; later builds use that cache and are faster.</p>
+<p><strong>Trap 6 - "Deleting <code>.m2/repository</code> is harmless."</strong>
+Verdict: Misleading. It can fix corrupted or partial downloads, but deleting the whole repository forces Maven to re-download every dependency.</p>
+<p><strong>Trap 7 - "<code>pom.xml</code> and <code>settings.xml</code> are interchangeable."</strong>
+Verdict: False. <code>pom.xml</code> is project-level configuration; <code>settings.xml</code> (<code>~/.m2/settings.xml</code>) is user/machine-level configuration for credentials, proxies, and mirrors.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li><code>.java</code> is source, <code>.class</code> is bytecode; <code>javac</code> compiles and the JVM runs.</li>
+<li>Real projects have many classes, so loose <code>.class</code> files are hard to share and easy to break.</li>
+<li>A JAR (Java Archive) is a ZIP-like standard bundle of compiled code and resources.</li>
+<li>Library JAR = code for other developers; application JAR = runnable program with an entry point.</li>
+<li>A normal library JAR usually hides no dependencies; a Spring Boot executable/fat JAR bundles them to run as one file.</li>
+<li>The classpath tells Java where to search: project classes, external JARs, and other configured locations.</li>
+<li>Maven is a framework-independent project management and build automation tool; <code>pom.xml</code> is its heart.</li>
+<li>Coordinates are groupId + artifactId + version (GAV); <code>1.0.0-SNAPSHOT</code> means under development.</li>
+<li>Dependencies come from repositories: local (<code>~/.m2/repository</code>), Maven Central, and remote/private repos; <code>settings.xml</code> is user-level.</li>
+<li>The phase rule: running a phase runs all earlier phases; <code>mvn clean install</code> cleans, builds, tests, packages, and installs.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is Maven?</td>
+<td>A project management and build automation tool that standardizes structure, dependencies, builds, and packaging for Java projects.</td>
+</tr>
+<tr>
+<td>Why do we need JAR files?</td>
+<td>To bundle compiled <code>.class</code> files and resources into one shareable, standard file instead of many loose files.</td>
+</tr>
+<tr>
+<td>Library JAR vs application JAR?</td>
+<td>A library JAR is reusable code for other projects; an application JAR is a runnable program with an entry point.</td>
+</tr>
+<tr>
+<td>What is a fat JAR?</td>
+<td>A Spring Boot executable JAR that can contain application code plus required dependencies so it runs as one file.</td>
+</tr>
+<tr>
+<td>What is the classpath?</td>
+<td>The search path where Java looks for classes: project classes, external JARs, and configured locations.</td>
+</tr>
+<tr>
+<td>What is POM?</td>
+<td>Project Object Model - <code>pom.xml</code>, the file that tells Maven what the project is, its dependencies, and its build.</td>
+</tr>
+<tr>
+<td>What are Maven coordinates?</td>
+<td>groupId + artifactId + version, used to uniquely identify a project or dependency.</td>
+</tr>
+<tr>
+<td>What does SNAPSHOT mean?</td>
+<td>The version is under development and is not a final stable release.</td>
+</tr>
+<tr>
+<td>Dependency vs plugin?</td>
+<td>A dependency is used by application code; a plugin is a tool Maven uses during the build.</td>
+</tr>
+<tr>
+<td>What are transitive dependencies?</td>
+<td>Dependencies of your dependencies; Maven downloads them automatically.</td>
+</tr>
+<tr>
+<td>Local vs Maven Central vs remote repository?</td>
+<td>Local is your machine cache (<code>~/.m2/repository</code>), Central is public, remote is any other (often private) repository.</td>
+</tr>
+<tr>
+<td>What does <code>mvn clean install</code> do?</td>
+<td>Cleans old output, then builds the project through validate, compile, test, package, verify, install.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>.java source
+        |
+        v
+javac -&gt; .class bytecode
+        |
+        v
+JAR package (.class files + resources)
+        |
+        v
+classpath tells the JVM where classes live
+        |
+        v
+manual JAR management: versions, missing files, conflicts
+        |
+        v
+Maven: convention over configuration + pom.xml
+        |
+        v
+dependencies (starters, transitive) from repositories
+        |
+        v
+lifecycle: validate -&gt; compile -&gt; test -&gt; package -&gt; verify -&gt; install -&gt; deploy
+</code></pre></div>
+
+<ul>
+<li><code>.java</code> -&gt; <code>.class</code> -&gt; JAR turns loose bytecode into one shareable artifact.</li>
+<li>Library JAR vs application JAR vs Spring Boot fat JAR depends on what the archive is for.</li>
+<li>Classpath tells Java where to search; Maven assembles it from <code>pom.xml</code>.</li>
+<li>Coordinates (GAV), packaging, properties, dependencies, and plugins all live in the POM.</li>
+<li>Repositories flow from the local cache to Central and remote/private repositories.</li>
+<li>The phase rule means one command triggers every earlier phase.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Maven exists because real Java projects need a standard way to manage structure, dependencies, builds, packaging, and the sharing of artifacts - and once <code>pom.xml</code> and the lifecycle rule click, the whole build stops feeling like magic.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-02.html"><span class="dir">Previous</span><span class="ttl">Lecture 02 — Build Your First Spring Boot Application</span></a><a class="next" href="doc-theory-lecture-04.html"><span class="dir">Next</span><span class="ttl">Lecture 04 — Dependency Injection &amp; IoC Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

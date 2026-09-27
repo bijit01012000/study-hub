@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 12 — Spring Boot CRUD Project with MySQL — Spring Boot</title>
+<meta name="description" content="Lecture 12 — Spring Boot CRUD Project with MySQL">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-12">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-12.html#lecture-12">Lecture 12</a></li><li><a href="doc-theory-lecture-12.html#1-why-we-do-not-create-the-table-manually">1. Why We Do Not Create the Table Manually</a></li><li><a href="doc-theory-lecture-12.html#2-the-crudspringbootdemo-project-layout">2. The crudSpringBootDemo Project Layout</a></li><li><a href="doc-theory-lecture-12.html#3-creating-the-database-once">3. Creating the Database Once</a></li><li><a href="doc-theory-lecture-12.html#4-mysql-configuration-in-applicationproperties">4. MySQL Configuration in application.properties</a></li><li><a href="doc-theory-lecture-12.html#5-the-jdbc-url-breakdown">5. The JDBC URL Breakdown</a></li><li><a href="doc-theory-lecture-12.html#6-the-mysql-driver-dependency">6. The MySQL Driver Dependency</a></li><li><a href="doc-theory-lecture-12.html#7-jpa-hibernate-and-orm-mapping-entity-to-table">7. JPA, Hibernate, and ORM: Mapping Entity to Table</a></li><li><a href="doc-theory-lecture-12.html#8-the-entity-class-and-its-annotations">8. The Entity Class and Its Annotations</a></li><li><a href="doc-theory-lecture-12.html#9-primary-key-and-generation-strategies">9. Primary Key and Generation Strategies</a></li><li><a href="doc-theory-lecture-12.html#10-ddl-auto-values-and-hibernate-auto-ddl-vs-manual-sql">10. ddl-auto: Values and Hibernate Auto DDL vs Manual SQL</a></li><li><a href="doc-theory-lecture-12.html#11-repository-layer-and-jparepository">11. Repository Layer and JpaRepository</a></li><li><a href="doc-theory-lecture-12.html#12-jparepository-methods-and-their-sql-effect">12. JpaRepository Methods and Their SQL Effect</a></li><li><a href="doc-theory-lecture-12.html#13-service-layer">13. Service Layer</a></li><li><a href="doc-theory-lecture-12.html#14-controller-layer-and-http-responses">14. Controller Layer and HTTP Responses</a></li><li><a href="doc-theory-lecture-12.html#15-running-against-mysql-the-complete-request-flow">15. Running Against MySQL: The Complete Request Flow</a></li><li><a href="doc-theory-lecture-12.html#16-myth-vs-reality">16. Myth vs Reality</a></li><li><a href="doc-theory-lecture-12.html#17-common-trap-questions">17. Common Trap Questions</a></li><li><a href="doc-theory-lecture-12.html#18-points-to-remember">18. Points to Remember</a></li><li><a href="doc-theory-lecture-12.html#19-likely-interview-questions">19. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-12.html#final-summary">Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 12 — Spring Boot CRUD Project with MySQL</h1>
+<p class="readmeta">21 sections · 3,720 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-12" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-12">Lecture 12</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot CRUD Project with MySQL | Spring JPA Methods" (playlist map, verified). The repo lecture folder contains the <code>crudSpringBootDemo</code> Maven project (<code>CrudSpringBootDemoApplication</code>, <code>controller.StudentController</code>, <code>service.StudentService</code>, <code>repository.StudentRepository</code>, <code>entity.Student</code>), its <code>src/main/resources/application.properties</code> and <code>pom.xml</code>. Coverage below = MySQL configuration, JPA/Hibernate table mapping, entity annotations, <code>ddl-auto</code>, <code>JpaRepository</code> methods, and repository/service/controller wiring.</p>
+</blockquote>
+<p>This lecture turns the earlier "JPA is a spec, Hibernate is an implementation" story into a working application. We stop creating SQL tables by hand, let Hibernate build them from a <code>Student</code> entity, point Spring Boot at MySQL through <code>application.properties</code>, and expose CRUD over a repository, a service, and a controller. The point is not just to run the demo: it is to be able to explain exactly which layer owns each responsibility, and which property controls which behaviour.</p>
+<h2 id="1-why-we-do-not-create-the-table-manually">1. Why We Do Not Create the Table Manually</h2>
+<p>In plain SQL work, the first step is always a manual DDL statement:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE students (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),
+    email VARCHAR(255)
+);
+</code></pre></div>
+
+<p>In this project we skip that step. The application uses JPA with Hibernate, and the entity class replaces the hand-written DDL:</p>
+<ul>
+<li>JPA lets us work with Java classes and objects.</li>
+<li>Hibernate maps those classes to database tables.</li>
+<li>Given the right configuration, Hibernate can look at the entity and create or update the table structure for us.</li>
+</ul>
+<p>So instead of writing <code>CREATE TABLE students</code>, we let Hibernate read the <code>Student</code> entity and derive the <code>students</code> table from it.</p>
+<div class="highlight"><pre><span></span><code>Manual way:  write CREATE TABLE in SQL  -&gt;  run it by hand
+Hibernate way: write @Entity class      -&gt;  Hibernate builds the table
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Hibernate can create or update tables, but it cannot create the database itself. The database must already exist before the application starts.</p>
+</blockquote>
+<h2 id="2-the-crudspringbootdemo-project-layout">2. The crudSpringBootDemo Project Layout</h2>
+<p>The demo is a standard Spring Boot Maven project. Its package layout mirrors the request flow:</p>
+<div class="highlight"><pre><span></span><code>crudSpringBootDemo
+  src/main/java
+    .../CrudSpringBootDemoApplication   (main class, @SpringBootApplication)
+    .../entity/Student                  (JPA entity -&gt; students table)
+    .../repository/StudentRepository    (extends JpaRepository)
+    .../service/StudentService          (business logic, @Service)
+    .../controller/StudentController    (@RestController, /api/students)
+  src/main/resources
+    application.properties              (MySQL + JPA configuration)
+  pom.xml                               (dependencies incl. the MySQL driver)
+</code></pre></div>
+
+<p>Each package has one job: <code>entity</code> describes the table, <code>repository</code> talks to the database, <code>service</code> holds business rules, and <code>controller</code> handles HTTP. Keeping them separate is what makes the project testable and readable later.</p>
+<h2 id="3-creating-the-database-once">3. Creating the Database Once</h2>
+<p>Even though we do not create the table manually, the database container does not exist yet, so we create it one time:</p>
+<div class="highlight"><pre><span></span><code>CREATE DATABASE student_crud_db;
+</code></pre></div>
+
+<p>After that single statement, Hibernate can create and update tables inside <code>student_crud_db</code>. The rule to remember:</p>
+<div class="highlight"><pre><span></span><code>Database: create it once, by hand.
+Tables:   let Hibernate create and update them.
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: a database is a server-level container you create once; tables are schema objects Hibernate is allowed to manage. Do not confuse the two.</p>
+</blockquote>
+<h2 id="4-mysql-configuration-in-applicationproperties">4. MySQL Configuration in application.properties</h2>
+<p>All connection and JPA settings live in <code>src/main/resources/application.properties</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="na">spring.datasource.url</span><span class="o">=</span><span class="s">jdbc:mysql://localhost:3306/student_crud_db</span>
+<span class="na">spring.datasource.username</span><span class="o">=</span><span class="s">root</span>
+<span class="na">spring.datasource.password</span><span class="o">=</span><span class="s">your_password</span>
+<span class="na">spring.jpa.hibernate.ddl-auto</span><span class="o">=</span><span class="s">update</span>
+<span class="na">spring.jpa.show-sql</span><span class="o">=</span><span class="s">true</span>
+<span class="na">spring.jpa.properties.hibernate.format_sql</span><span class="o">=</span><span class="s">true</span>
+</code></pre></div>
+
+<p>Each property has exactly one meaning:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value in the project</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spring.datasource.url</code></td>
+<td><code>jdbc:mysql://localhost:3306/student_crud_db</code></td>
+<td>Where the database lives and how to reach it</td>
+</tr>
+<tr>
+<td><code>spring.datasource.username</code></td>
+<td><code>root</code></td>
+<td>The MySQL user (root is common in local dev)</td>
+</tr>
+<tr>
+<td><code>spring.datasource.password</code></td>
+<td><code>your_password</code></td>
+<td>Password of that MySQL user</td>
+</tr>
+<tr>
+<td><code>spring.jpa.hibernate.ddl-auto</code></td>
+<td><code>update</code></td>
+<td>How Hibernate treats the table structure</td>
+</tr>
+<tr>
+<td><code>spring.jpa.show-sql</code></td>
+<td><code>true</code></td>
+<td>Print the generated SQL in the console</td>
+</tr>
+<tr>
+<td><code>spring.jpa.properties.hibernate.format_sql</code></td>
+<td><code>true</code></td>
+<td>Pretty-print that SQL instead of one long line</td>
+</tr>
+</tbody>
+</table>
+<p>If the real MySQL password were <code>123456</code>, the line becomes <code>spring.datasource.password=123456</code>. Nothing else changes.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: These six lines are the first thing a reviewer reads in a Spring Boot database project. Being able to say what each one does, and what breaks if it is wrong, signals real project experience rather than copied boilerplate.</p>
+</blockquote>
+<h2 id="5-the-jdbc-url-breakdown">5. The JDBC URL Breakdown</h2>
+<p>The URL is not magic text; it is a path with named parts:</p>
+<div class="highlight"><pre><span></span><code>jdbc:mysql://localhost:3306/student_crud_db
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jdbc</code></td>
+<td>Java Database Connectivity URL format</td>
+</tr>
+<tr>
+<td><code>mysql</code></td>
+<td>The database type is MySQL</td>
+</tr>
+<tr>
+<td><code>localhost</code></td>
+<td>MySQL runs on the same system as the app</td>
+</tr>
+<tr>
+<td><code>3306</code></td>
+<td>The default MySQL port</td>
+</tr>
+<tr>
+<td><code>student_crud_db</code></td>
+<td>The database name to connect to</td>
+</tr>
+</tbody>
+</table>
+<p>Read aloud, the URL means: "Connect this Spring Boot application to the MySQL database named <code>student_crud_db</code>, running on the local machine at port <code>3306</code>." Changing <code>localhost</code> to a server IP, or <code>student_crud_db</code> to another name, changes what the app talks to.</p>
+<h2 id="6-the-mysql-driver-dependency">6. The MySQL Driver Dependency</h2>
+<p>Spring Boot needs a JDBC driver on the classpath to speak MySQL. In most Spring Boot projects we do not write the driver class name ourselves: Spring Boot detects it from the MySQL dependency and the JDBC URL. The driver comes in through <code>pom.xml</code> as the MySQL connector. Only if driver-related issues appear do we add the explicit class name:</p>
+<div class="highlight"><pre><span></span><code>spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+</code></pre></div>
+
+<p>The mental order is: add the dependency, provide the URL, and let Spring Boot infer the driver. The explicit <code>driver-class-name</code> is a fallback, not the default habit.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>com.mysql.cj.jdbc.Driver</code> is the modern MySQL connector class. Spring Boot usually resolves it automatically, so treat the explicit property as a troubleshooting lever.</p>
+</blockquote>
+<h2 id="7-jpa-hibernate-and-orm-mapping-entity-to-table">7. JPA, Hibernate, and ORM: Mapping Entity to Table</h2>
+<p>The worlds do not line up by themselves:</p>
+<div class="highlight"><pre><span></span><code>Java world      -&gt;  classes and objects
+Database world  -&gt;  tables and rows
+</code></pre></div>
+
+<p>JPA provides Object-Relational Mapping (ORM): mapping Java classes to relational database tables. The mapping is one-to-one conceptually:</p>
+<table>
+<thead>
+<tr>
+<th>Java side</th>
+<th>Database side</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Student</code> class</td>
+<td><code>students</code> table</td>
+</tr>
+<tr>
+<td><code>Student</code> object</td>
+<td>one row in <code>students</code></td>
+</tr>
+<tr>
+<td><code>Student</code> fields</td>
+<td>columns of the table</td>
+</tr>
+</tbody>
+</table>
+<p>So <code>Student student = new Student();</code> creates a Java object. When JPA saves that object, it can become a row inside <code>students</code>.</p>
+<h2 id="8-the-entity-class-and-its-annotations">8. The Entity Class and Its Annotations</h2>
+<p>An entity is a Java class that represents a database table:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.entity</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.*</span><span class="p">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;students&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">mobile</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Boolean</span><span class="w"> </span><span class="n">isDeleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// getters and setters</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The four annotations carry the meaning:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>What it tells JPA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Entity</code></td>
+<td>Treat this class as a database entity: it can be mapped to a table and its objects saved as rows</td>
+</tr>
+<tr>
+<td><code>@Table(name = "students")</code></td>
+<td>The table name is explicitly <code>students</code></td>
+</tr>
+<tr>
+<td><code>@Id</code></td>
+<td>The field <code>id</code> is the primary key</td>
+</tr>
+<tr>
+<td><code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code></td>
+<td>The ID is generated automatically by the database</td>
+</tr>
+</tbody>
+</table>
+<p>Without <code>@Entity</code>, JPA treats the class as a normal Java class and nothing maps to a table. Without <code>@Table</code>, JPA usually uses the class name as the table name: <code>Student</code> may map to a table named <code>student</code>. <code>@Table</code> lets us control that name explicitly.</p>
+<h2 id="9-primary-key-and-generation-strategies">9. Primary Key and Generation Strategies</h2>
+<p>Every table should have a primary key: a column that uniquely identifies each row. In the <code>Student</code> entity that column is <code>id</code>.</p>
+<p>We do not want to supply the ID by hand every time we create a student, so <code>@GeneratedValue</code> tells JPA to generate it. The strategy decides who generates it:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Who generates the ID</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GenerationType.IDENTITY</code></td>
+<td>The database</td>
+<td>Auto-increment column; the project's choice</td>
+</tr>
+<tr>
+<td><code>GenerationType.AUTO</code></td>
+<td>The provider picks</td>
+<td>Hibernate chooses based on the dialect</td>
+</tr>
+<tr>
+<td><code>GenerationType.SEQUENCE</code></td>
+<td>A database sequence</td>
+<td>Common on Oracle/PostgreSQL</td>
+</tr>
+<tr>
+<td><code>GenerationType.TABLE</code></td>
+<td>A separate table</td>
+<td>Portable but slow; rarely used</td>
+</tr>
+</tbody>
+</table>
+<p>With <code>IDENTITY</code>, MySQL uses an auto-increment column: the database hands out the next ID when the row is inserted.</p>
+<blockquote class="callout callout--important">
+<p>Important: The ID is the primary key and the entity's identity. <code>save()</code> decides insert versus update largely based on whether the ID is null.</p>
+</blockquote>
+<h2 id="10-ddl-auto-values-and-hibernate-auto-ddl-vs-manual-sql">10. ddl-auto: Values and Hibernate Auto DDL vs Manual SQL</h2>
+<p><code>spring.jpa.hibernate.ddl-auto</code> controls how Hibernate treats the table structure. The common values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>Hibernate does not manage the table structure</td>
+</tr>
+<tr>
+<td><code>validate</code></td>
+<td>Hibernate only checks whether the table matches the entity</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td>Hibernate updates the table structure from the entity</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td>Drops old tables and creates fresh ones on every start</td>
+</tr>
+<tr>
+<td><code>create-drop</code></td>
+<td>Creates tables on start and drops them on stop</td>
+</tr>
+</tbody>
+</table>
+<p>With <code>update</code>, if the target table does not exist Hibernate can create it; if a new field is added to the entity, Hibernate can try to add the column. Existing data is usually not deleted with <code>update</code>.</p>
+<p>The trade-off against manual SQL:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Manual SQL DDL</th>
+<th>Hibernate <code>ddl-auto</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who writes the table</td>
+<td>You, by hand</td>
+<td>Hibernate, from the entity</td>
+</tr>
+<tr>
+<td>Source of truth</td>
+<td>The SQL script</td>
+<td>The Java entity class</td>
+</tr>
+<tr>
+<td>New field added</td>
+<td>You edit the script</td>
+<td>Hibernate alters the table (<code>update</code>)</td>
+</tr>
+<tr>
+<td>Risk to data</td>
+<td>Controlled by you</td>
+<td><code>create</code>/<code>create-drop</code> drop tables and data</td>
+</tr>
+<tr>
+<td>Production use</td>
+<td>Migrations (Flyway, Liquibase)</td>
+<td>Fine for learning and local development</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: In real production projects, schema changes are usually not handled with <code>ddl-auto=update</code>; teams use controlled migration tools such as Flyway or Liquibase with SQL migration scripts. <code>update</code> is convenient for learning and local development, not a production policy.</p>
+</blockquote>
+<h2 id="11-repository-layer-and-jparepository">11. Repository Layer and JpaRepository</h2>
+<p>The application works with Java objects, but the data must live in MySQL. The layer that performs database operations is the repository:</p>
+<ul>
+<li>save a student into the database;</li>
+<li>fetch students from the database;</li>
+<li>find a student by ID;</li>
+<li>update a student;</li>
+<li>delete a student.</li>
+</ul>
+<p>We create an interface, not a class:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.repository</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.entity.Student</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.List</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByIsDeletedFalse</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>JpaRepository</code> needs two things:</p>
+<ol>
+<li>the entity type: <code>Student</code>;</li>
+<li>the primary key type: <code>Long</code>.</li>
+</ol>
+<p>So <code>JpaRepository&lt;Student, Long&gt;</code> provides database operations for the <code>Student</code> entity whose ID type is <code>Long</code>. Normally an interface needs a hand-written implementation class; Spring Data JPA creates the implementation automatically at runtime.</p>
+<p>Do we need <code>@Repository</code>? For Spring Data JPA repositories, usually not. Spring Data JPA automatically detects interfaces that extend <code>JpaRepository</code>, so the annotation is optional.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: for a <code>JpaRepository</code> you define the interface and Spring Data JPA provides the implementation. You never write the class.</p>
+</blockquote>
+<h2 id="12-jparepository-methods-and-their-sql-effect">12. JpaRepository Methods and Their SQL Effect</h2>
+<p><code>JpaRepository</code> gives ready-made CRUD methods. For this project the important five are:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>What it does</th>
+<th>SQL effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>save(student)</code></td>
+<td>Saves the object; inserts if new, updates if it already exists</td>
+<td><code>INSERT</code> (no ID) or <code>UPDATE</code> (existing ID)</td>
+</tr>
+<tr>
+<td><code>findAll()</code></td>
+<td>Fetches all rows from the table</td>
+<td><code>SELECT * FROM students</code></td>
+</tr>
+<tr>
+<td><code>findById(id)</code></td>
+<td>Fetches one student by ID as <code>Optional&lt;Student&gt;</code></td>
+<td><code>SELECT ... WHERE id = ?</code></td>
+</tr>
+<tr>
+<td><code>deleteById(id)</code></td>
+<td>Removes the row permanently (hard delete)</td>
+<td><code>DELETE FROM students WHERE id = ?</code></td>
+</tr>
+<tr>
+<td><code>existsById(id)</code></td>
+<td>Checks whether a row with that ID exists</td>
+<td><code>SELECT ... WHERE id = ?</code> (existence check)</td>
+</tr>
+</tbody>
+</table>
+<p>Each one in context:</p>
+<ol>
+<li><code>studentRepository.save(student);</code> - if the student has no ID, JPA treats it as new and inserts; if it already has an ID, it updates the existing row.</li>
+<li><code>studentRepository.findAll();</code> - fetches all rows. Because this project uses soft delete (the <code>isDeleted</code> flag), <code>findAll()</code> may return both active and soft-deleted students. To fetch only active students we add a custom method: <code>List&lt;Student&gt; findByIsDeletedFalse();</code>.</li>
+<li><code>studentRepository.findById(1L);</code> - returns <code>Optional&lt;Student&gt;</code>. It exists because the student may or may not be present: if found we get the object, if not the <code>Optional</code> is empty. This forces us to handle the "not found" case.</li>
+<li><code>studentRepository.deleteById(1L);</code> - performs a hard delete and removes the row permanently. It backs an API such as <code>DELETE /api/students/{id}</code>.</li>
+<li><code>studentRepository.existsById(1L);</code> - returns a <code>boolean</code>, useful before a hard delete so we do not try to delete a record that does not exist:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>public boolean deleteStudent(Long id) {
+    if (!studentRepository.existsById(id)) {
+        return false;
+    }
+    studentRepository.deleteById(id);
+    return true;
+}
+</code></pre></div>
+
+<p>Mnemonic for the five: <strong>S-F-F-D-E</strong> - Save, FindAll, FindById, DeleteById, ExistsById.</p>
+<h2 id="13-service-layer">13. Service Layer</h2>
+<p>The controller should not contain all business logic; the service layer holds the application logic while the controller handles HTTP requests and responses. Service responsibilities in this project include create student, update student, fetch active students, soft delete, hard delete, and check whether a student exists.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.service</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.entity.Student</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.example.crudSpringBootDemo.repository.StudentRepository</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Service</span><span class="p">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentService</span><span class="p">(</span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@Service</code> tells Spring that this class belongs to the service layer and that Spring should create its object as a bean. It is similar to <code>@Component</code> but more specific:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Component</code></td>
+<td>Generic Spring-managed class</td>
+</tr>
+<tr>
+<td><code>@Service</code></td>
+<td>Spring-managed class that contains business logic</td>
+</tr>
+</tbody>
+</table>
+<p>Using <code>@Service</code> makes the responsibility of the class explicit and the code more readable.</p>
+<h2 id="14-controller-layer-and-http-responses">14. Controller Layer and HTTP Responses</h2>
+<p>The repository talks to the database and the service holds business logic, but an external client (Postman, a browser, a frontend, a mobile app) cannot call them directly. The controller receives HTTP requests and sends HTTP responses:</p>
+<div class="highlight"><pre><span></span><code>GET    /api/students
+POST   /api/students
+PUT    /api/students/{id}
+DELETE /api/students/{id}
+</code></pre></div>
+
+<p><code>@RestController</code> tells Spring this class handles REST API requests and returns data directly (usually JSON). When a method returns a <code>Student</code>, Spring converts it to JSON automatically using Jackson, which arrives with the Spring Boot web dependency:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;Rahul Sharma&quot;,
+  &quot;email&quot;: &quot;rahul@example.com&quot;,
+  &quot;age&quot;: 22,
+  &quot;mobile&quot;: &quot;9876543210&quot;,
+  &quot;isDeleted&quot;: false
+}
+</code></pre></div>
+
+<p><code>@RequestMapping("/api/students")</code> defines the base URL for every API inside the controller, so each method does not repeat <code>/api/students</code>:</p>
+<div class="highlight"><pre><span></span><code>@RestController
+@RequestMapping(&quot;/api/students&quot;)
+public class StudentController {
+    // @GetMapping, @PostMapping, @PutMapping, @DeleteMapping methods
+}
+</code></pre></div>
+
+<p>Why <code>ResponseEntity</code>? A plain return like <code>return studentService.getStudentById(id).get();</code> works only when the student exists. Proper APIs return meaningful status codes: found -&gt; <code>200 OK</code>, not found -&gt; <code>404 Not Found</code>, created -&gt; <code>201 Created</code>. <code>ResponseEntity</code> controls the response body, the HTTP status code, and headers:</p>
+<table>
+<thead>
+<tr>
+<th>Return</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ResponseEntity.ok(student)</code></td>
+<td><code>200 OK</code> with the student body</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.notFound().build()</code></td>
+<td><code>404 Not Found</code> with an empty body</td>
+</tr>
+<tr>
+<td><code>ResponseEntity.status(HttpStatus.CREATED).body(createdStudent)</code></td>
+<td><code>201 Created</code> with the created student body</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why not just return the object?" Because a bare return cannot express not-found or created. <code>ResponseEntity</code> is how the controller speaks correct HTTP instead of always saying <code>200 OK</code>.</p>
+</blockquote>
+<h2 id="15-running-against-mysql-the-complete-request-flow">15. Running Against MySQL: The Complete Request Flow</h2>
+<p>When a client sends a request:</p>
+<div class="highlight"><pre><span></span><code>POST /api/students
+</code></pre></div>
+
+<p>the flow goes down through the layers and back up:</p>
+<div class="highlight"><pre><span></span><code>Client/Postman
+      |
+      v
+Controller        (HTTP request/response)
+      |
+      v
+Service           (business logic)
+      |
+      v
+Repository        (database operations)
+      |
+      v
+Database          (stores actual data)
+      |
+      v
+Repository --&gt; Service --&gt; Controller --&gt; Client/Postman
+</code></pre></div>
+
+<p>The layer responsibilities are fixed:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller</td>
+<td>Handles HTTP requests and responses</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Contains business logic</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Talks to the database</td>
+</tr>
+<tr>
+<td>Entity</td>
+<td>Represents database table structure</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Stores actual data</td>
+</tr>
+</tbody>
+</table>
+<p>Running against MySQL means the app reads <code>application.properties</code>, connects to <code>student_crud_db</code> at <code>localhost:3306</code>, and Hibernate adjusts the <code>students</code> table from the entity on startup. Save, fetch, find, delete, and exists calls then travel this exact path.</p>
+<h2 id="16-myth-vs-reality">16. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Hibernate creates the database too"</td>
+<td>Hibernate creates and updates tables; the database itself must already exist (<code>CREATE DATABASE student_crud_db</code>)</td>
+</tr>
+<tr>
+<td>"We must write <code>CREATE TABLE students</code> first"</td>
+<td>The entity plus <code>ddl-auto</code> lets Hibernate derive the table; no manual DDL is needed</td>
+</tr>
+<tr>
+<td>"The MySQL driver class must always be written"</td>
+<td>Spring Boot detects the driver from the dependency and JDBC URL; the explicit class is a fallback</td>
+</tr>
+<tr>
+<td>"<code>save()</code> only inserts"</td>
+<td><code>save()</code> inserts when the ID is absent and updates when the ID exists</td>
+</tr>
+<tr>
+<td>"<code>findAll()</code> gives only active students"</td>
+<td>It returns all rows; soft-deleted rows are included unless you use <code>findByIsDeletedFalse()</code></td>
+</tr>
+<tr>
+<td>"<code>deleteById()</code> respects the soft-delete flag"</td>
+<td><code>deleteById()</code> is a hard delete; it removes the row permanently</td>
+</tr>
+<tr>
+<td>"<code>ddl-auto=update</code> is a production strategy"</td>
+<td>Production uses controlled migration tools such as Flyway or Liquibase</td>
+</tr>
+<tr>
+<td>"<code>@Repository</code> is required on a JpaRepository"</td>
+<td>Spring Data JPA detects interfaces that extend <code>JpaRepository</code> automatically</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-common-trap-questions">17. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Does Hibernate create the database for us?"</strong>
+Verdict: No. Hibernate can create or update tables inside an existing database, but the database (<code>student_crud_db</code>) is created once by you with <code>CREATE DATABASE</code>.</p>
+<p><strong>Trap 2 - "We still need to write the students table by hand, right?"</strong>
+Verdict: No. With JPA + Hibernate and <code>ddl-auto=update</code>, the <code>@Entity</code> and <code>@Table</code> definitions let Hibernate create or update the table. Manual DDL is what we are avoiding.</p>
+<p><strong>Trap 3 - "<code>spring.datasource.url</code> and the JDBC URL are unrelated."</strong>
+Verdict: False. <code>spring.datasource.url</code> holds the JDBC URL; its parts (<code>jdbc</code>, <code>mysql</code>, <code>localhost</code>, <code>3306</code>, <code>student_crud_db</code>) each name a piece of the connection target.</p>
+<p><strong>Trap 4 - "<code>save()</code> always inserts a new row."</strong>
+Verdict: False. <code>save()</code> inserts when there is no ID and updates the existing row when the ID is already present.</p>
+<p><strong>Trap 5 - "<code>findById()</code> returns a Student directly."</strong>
+Verdict: False. It returns an <code>Optional&lt;Student&gt;</code>, because the student may not exist; you must handle the empty case.</p>
+<p><strong>Trap 6 - "<code>findAll()</code> and <code>findByIsDeletedFalse()</code> are interchangeable."</strong>
+Verdict: False. In a soft-delete project <code>findAll()</code> can return soft-deleted students too, while <code>findByIsDeletedFalse()</code> returns only active ones.</p>
+<p><strong>Trap 7 - "<code>deleteById()</code> performs a soft delete."</strong>
+Verdict: False. <code>deleteById()</code> is a hard delete and removes the row permanently; guard it with <code>existsById()</code> if needed.</p>
+</blockquote>
+<h2 id="18-points-to-remember">18. Points to Remember</h2>
+<ol>
+<li>Hibernate manages tables from the entity; you create the database itself once with <code>CREATE DATABASE student_crud_db</code>.</li>
+<li><code>application.properties</code> is where the datasource URL, username, password, and JPA settings connect Spring Boot to MySQL.</li>
+<li>The JDBC URL <code>jdbc:mysql://localhost:3306/student_crud_db</code> breaks into <code>jdbc</code>, <code>mysql</code>, <code>localhost</code>, <code>3306</code>, and the database name.</li>
+<li>Spring Boot usually detects the MySQL driver from the dependency and URL; <code>com.mysql.cj.jdbc.Driver</code> is the optional explicit class.</li>
+<li>JPA is ORM: a class maps to a table, an object to a row, and fields to columns.</li>
+<li><code>@Entity</code>, <code>@Table</code>, <code>@Id</code>, and <code>@GeneratedValue</code> mark the class as an entity, name the table, set the primary key, and auto-generate the ID.</li>
+<li><code>ddl-auto=update</code> lets Hibernate create or update tables; <code>none</code>, <code>validate</code>, <code>create</code>, and <code>create-drop</code> are the other common values.</li>
+<li><code>JpaRepository&lt;Student, Long&gt;</code> needs the entity type and the primary key type, and Spring Data JPA writes the implementation at runtime.</li>
+<li>The five key methods are <code>save</code>, <code>findAll</code>, <code>findById</code>, <code>deleteById</code>, and <code>existsById</code> (remember S-F-F-D-E).</li>
+<li>The request flow is Controller -&gt; Service -&gt; Repository -&gt; Database, and <code>ResponseEntity</code> returns proper status codes (200, 201, 404).</li>
+</ol>
+<h2 id="19-likely-interview-questions">19. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why do we not create the table manually?</td>
+<td>JPA + Hibernate map the entity to the table, so <code>ddl-auto</code> lets Hibernate create or update it from the class.</td>
+</tr>
+<tr>
+<td>Does Hibernate create the database too?</td>
+<td>No. Create the database once (<code>CREATE DATABASE student_crud_db</code>); Hibernate manages tables inside it.</td>
+</tr>
+<tr>
+<td>What does <code>spring.datasource.url</code> do?</td>
+<td>It gives the JDBC URL that tells Spring Boot where the database is and how to connect.</td>
+</tr>
+<tr>
+<td>Explain <code>jdbc:mysql://localhost:3306/student_crud_db</code>.</td>
+<td>JDBC format, MySQL driver, local machine, default MySQL port 3306, database name <code>student_crud_db</code>.</td>
+</tr>
+<tr>
+<td>What does <code>ddl-auto=update</code> do?</td>
+<td>Hibernate checks the entity and updates the table structure, creating it if absent and adding new columns.</td>
+</tr>
+<tr>
+<td>What is <code>@Entity</code> for?</td>
+<td>It marks the class as a JPA entity that maps to a database table and whose objects become rows.</td>
+</tr>
+<tr>
+<td>What do <code>@Id</code> and <code>@GeneratedValue</code> do?</td>
+<td><code>@Id</code> marks the primary key; <code>@GeneratedValue</code> auto-generates it (<code>IDENTITY</code> = database auto-increment).</td>
+</tr>
+<tr>
+<td>What does <code>JpaRepository&lt;Student, Long&gt;</code> mean?</td>
+<td>It provides CRUD operations for the <code>Student</code> entity whose primary key type is <code>Long</code>.</td>
+</tr>
+<tr>
+<td>What does <code>findById()</code> return and why?</td>
+<td>An <code>Optional&lt;Student&gt;</code>, because the record may or may not exist, forcing explicit not-found handling.</td>
+</tr>
+<tr>
+<td>Difference between <code>findAll()</code> and <code>findByIsDeletedFalse()</code>?</td>
+<td><code>findAll()</code> returns all rows including soft-deleted ones; the custom method returns only active students.</td>
+</tr>
+<tr>
+<td>What is the request flow in this project?</td>
+<td>Controller -&gt; Service -&gt; Repository -&gt; Database, and back up the same path.</td>
+</tr>
+<tr>
+<td>Why use <code>ResponseEntity</code>?</td>
+<td>To control the response body and the HTTP status code, returning 200, 201, or 404 correctly.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="final-summary">Final Summary</h2>
+<div class="highlight"><pre><span></span><code>crudSpringBootDemo
+        |
+        v
+CREATE DATABASE student_crud_db   (done once, by hand)
+        |
+        v
+application.properties
+   url = jdbc:mysql://localhost:3306/student_crud_db
+   username / password / ddl-auto=update / show-sql / format_sql
+        |
+        v
+@Entity Student  --&gt;  Hibernate builds/updates the students table
+        |
+        v
+StudentRepository extends JpaRepository&lt;Student, Long&gt;
+   save | findAll | findById | deleteById | existsById
+        |
+        v
+StudentService (@Service)  --&gt;  business logic
+        |
+        v
+StudentController (@RestController, /api/students)
+        |
+        v
+Controller -&gt; Service -&gt; Repository -&gt; Database  (and back)
+</code></pre></div>
+
+<ul>
+<li>The database is created once by hand; Hibernate manages the tables from the entity.</li>
+<li><code>application.properties</code> wires Spring Boot to MySQL through the JDBC URL and JPA properties.</li>
+<li><code>@Entity</code>, <code>@Table</code>, <code>@Id</code>, and <code>@GeneratedValue</code> describe the table and its primary key.</li>
+<li><code>ddl-auto=update</code> is convenient for learning; production uses Flyway or Liquibase.</li>
+<li><code>JpaRepository&lt;Student, Long&gt;</code> supplies CRUD; the request flows Controller -&gt; Service -&gt; Repository -&gt; Database.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> a Spring Boot CRUD app is one straight line of trust - the entity defines the table, the properties point at MySQL, the repository performs the operations, and the controller returns the right HTTP status.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-11.html"><span class="dir">Previous</span><span class="ttl">Lecture 11 — Spring Boot CRUD Project from Scratch</span></a><a class="next" href="doc-theory-lecture-13.html"><span class="dir">Next</span><span class="ttl">Lecture 13 — Spring Boot CRUD Project with Soft Delete</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

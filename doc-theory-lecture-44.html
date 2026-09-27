@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions — Java</title>
+<meta name="description" content="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-44">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-44.html#lecture-44">Lecture 44</a></li><li><a href="doc-theory-lecture-44.html#1-the-throwable-tree">1. The Throwable Tree</a></li><li><a href="doc-theory-lecture-44.html#2-error-versus-exception">2. Error versus Exception</a></li><li><a href="doc-theory-lecture-44.html#3-checked-versus-unchecked-exceptions">3. Checked versus Unchecked Exceptions</a></li><li><a href="doc-theory-lecture-44.html#4-why-some-exceptions-are-checked-and-others-are-not">4. Why Some Exceptions Are Checked and Others Are Not</a></li><li><a href="doc-theory-lecture-44.html#5-throw-versus-throws">5. throw versus throws</a></li><li><a href="doc-theory-lecture-44.html#6-exception-propagation-and-reading-a-stack-trace">6. Exception Propagation and Reading a Stack Trace</a></li><li><a href="doc-theory-lecture-44.html#7-exception-chaining-and-wrapping">7. Exception Chaining and Wrapping</a></li><li><a href="doc-theory-lecture-44.html#8-custom-exceptions">8. Custom Exceptions</a></li><li><a href="doc-theory-lecture-44.html#9-when-to-choose-checked-versus-unchecked">9. When to Choose Checked versus Unchecked</a></li><li><a href="doc-theory-lecture-44.html#10-worked-example-a-custom-checked-exception">10. Worked Example: A Custom Checked Exception</a></li><li><a href="doc-theory-lecture-44.html#11-worked-example-a-custom-unchecked-exception-and-a-wrapping-caller">11. Worked Example: A Custom Unchecked Exception and a Wrapping Caller</a></li><li><a href="doc-theory-lecture-44.html#12-pitfalls-and-common-errors">12. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-44.html#13-myth-vs-reality">13. Myth vs Reality</a></li><li><a href="doc-theory-lecture-44.html#14-common-trap-questions">14. Common Trap Questions</a></li><li><a href="doc-theory-lecture-44.html#15-points-to-remember">15. Points to Remember</a></li><li><a href="doc-theory-lecture-44.html#16-likely-interview-questions">16. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-44.html#17-final-summary">17. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</h1>
+<p class="readmeta">18 sections · 4,069 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-44" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-44">Lecture 44</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions" (playlist map, verified). Repo evidence: 6 Demo files.</p>
+</blockquote>
+<p>Lecture 43 established what an exception is and how <code>try</code>, <code>catch</code> and <code>finally</code> cooperate. This lecture goes one level deeper into the type system that makes those blocks meaningful: the complete <code>Throwable</code> tree, the checked versus unchecked split, the precise difference between <code>throw</code> and <code>throws</code>, how an uncaught exception unwinds the call stack, and how exception chaining preserves the original cause. It then builds the skill that every production codebase needs — writing custom exceptions that carry meaning instead of leaking implementation details. The governing idea is that an exception type is part of a method's contract, so choosing it well is an API design decision, not an afterthought.</p>
+<h2 id="1-the-throwable-tree">1. The Throwable Tree</h2>
+<p><code>Throwable</code> is the root of every object that Java allows to be thrown or caught. The language enforces this: only a subclass of <code>Throwable</code> may appear after <code>throw</code>, and a <code>catch</code> clause must name a <code>Throwable</code> subtype. The tree splits immediately into two branches — <code>Error</code> and <code>Exception</code> — and the <code>Exception</code> branch splits again into <code>RuntimeException</code> (unchecked) and everything else (checked).</p>
+<div class="highlight"><pre><span></span><code>Throwable
+  Error
+    VirtualMachineError
+      OutOfMemoryError
+      StackOverflowError
+    AssertionError, LinkageError
+  Exception
+    RuntimeException
+      NullPointerException
+      ArithmeticException
+      ArrayIndexOutOfBoundsException
+      ClassCastException
+      IllegalArgumentException
+    IOException
+      FileNotFoundException
+    SQLException
+    ClassNotFoundException
+    InterruptedException
+</code></pre></div>
+
+<p>Because every type above inherits from <code>Throwable</code>, a single <code>catch (Throwable t)</code> would match all of them; that is exactly why catching <code>Throwable</code> is discouraged (Section 12). Catching the most specific subtype is always preferable.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — catching specific subtypes from the Throwable tree</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Object</span><span class="o">[]</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">};</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">data</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">data</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ArithmeticException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Arithmetic: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">length</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">NullPointerException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;NPE caught: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--note">
+<p>Memory aid
+<strong>Error = the environment broke; Exception = the program can react.</strong> <code>OutOfMemoryError</code> and <code>StackOverflowError</code> are conditions the JVM reports and rarely lets you fix in place; the <code>Exception</code> branch is where handling logic belongs.</p>
+</blockquote>
+<h2 id="2-error-versus-exception">2. Error versus Exception</h2>
+<p><code>Error</code> and <code>Exception</code> share a parent but describe opposite situations: an unrecoverable failure of the runtime versus a condition a program might survive.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>Error</code></th>
+<th><code>Exception</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meaning</td>
+<td>Serious problem in the JVM/environment</td>
+<td>Condition arising during normal execution</td>
+</tr>
+<tr>
+<td>Typical members</td>
+<td><code>OutOfMemoryError</code>, <code>StackOverflowError</code>, <code>VirtualMachineError</code></td>
+<td><code>IOException</code>, <code>SQLException</code>, <code>NullPointerException</code></td>
+</tr>
+<tr>
+<td>Checked?</td>
+<td>Unchecked (never declared)</td>
+<td>Either checked or unchecked</td>
+</tr>
+<tr>
+<td>Recoverable?</td>
+<td>Generally not — the process is compromised</td>
+<td>Often yes, if the caller acts</td>
+</tr>
+<tr>
+<td>Should you catch it?</td>
+<td>Almost never</td>
+<td>Yes, at the layer that can respond</td>
+</tr>
+<tr>
+<td>Common cause</td>
+<td>Resource exhaustion, JVM defect, bad recursion</td>
+<td>Bad input, missing file, null, illegal state</td>
+</tr>
+</tbody>
+</table>
+<p>The practical rule: handle <code>Exception</code> subtypes you understand; let <code>Error</code> propagate, because a program that has run out of memory or overflowed its stack cannot be trusted to continue.</p>
+<h2 id="3-checked-versus-unchecked-exceptions">3. Checked versus Unchecked Exceptions</h2>
+<p>The compiler enforces a distinction that no other mainstream language draws so strictly.</p>
+<ul>
+<li>A <strong>checked exception</strong> is any <code>Throwable</code> that is not a <code>RuntimeException</code> and not an <code>Error</code> — that is, <code>Exception</code> and its subclasses excluding <code>RuntimeException</code> and its subclasses. It must be either caught or declared in a <code>throws</code> clause.</li>
+<li>An <strong>unchecked exception</strong> is a <code>RuntimeException</code> (or an <code>Error</code>) and any of their subclasses. The compiler does not require it to be caught or declared.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Checked exception</th>
+<th>Unchecked exception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root types</td>
+<td><code>Exception</code> (excluding <code>RuntimeException</code>)</td>
+<td><code>RuntimeException</code> and <code>Error</code></td>
+</tr>
+<tr>
+<td>Examples</td>
+<td><code>IOException</code>, <code>SQLException</code>, <code>ClassNotFoundException</code>, <code>InterruptedException</code>, <code>FileNotFoundException</code></td>
+<td><code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>ClassCastException</code>, <code>IllegalArgumentException</code></td>
+</tr>
+<tr>
+<td>Compiler enforcement</td>
+<td>Must catch or declare</td>
+<td>Not enforced</td>
+</tr>
+<tr>
+<td>Represents</td>
+<td>Recoverable, caller-actionable condition</td>
+<td>Programming error or domain rule violation</td>
+</tr>
+<tr>
+<td>Typical fix</td>
+<td>Retry, fall back, report to user</td>
+<td>Repair the code or reject the input</td>
+</tr>
+<tr>
+<td>Propagation</td>
+<td>Caller is forced to acknowledge it</td>
+<td>Propagates silently until caught</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+"Checked" and "unchecked" are compile-time categories, not runtime ones. The JVM throws a <code>NullPointerException</code> with exactly the same mechanism as an <code>IOException</code>; only the compiler treats them differently.</p>
+</blockquote>
+<h2 id="4-why-some-exceptions-are-checked-and-others-are-not">4. Why Some Exceptions Are Checked and Others Are Not</h2>
+<p>The designers chose the split deliberately. Checked exceptions model conditions <strong>outside the program's control that a caller can plausibly recover from</strong>:</p>
+<ul>
+<li><code>IOException</code> means a file is missing, a disk is full, or a socket dropped. The caller can retry, use a fallback path, or report the problem — the program's logic is not necessarily wrong.</li>
+<li><code>InterruptedException</code> means a thread blocked in <code>sleep</code>, <code>wait</code> or <code>join</code> was asked to stop. This is a normal coordination signal that the caller is expected to handle by restoring the interrupt flag or terminating cleanly.</li>
+</ul>
+<p>Unchecked exceptions model <strong>programming defects and violated preconditions</strong>, where no sensible recovery exists at the call site:</p>
+<ul>
+<li><code>NullPointerException</code> means a reference that should have been non-null was null — a bug in the code that produced it.</li>
+<li><code>IllegalArgumentException</code> means a caller passed an argument that violates the method's contract — again a bug, best surfaced loudly.</li>
+<li><code>ClassCastException</code>, <code>ArithmeticException</code> (integer division by zero) and <code>ArrayIndexOutOfBoundsException</code> are all symptoms of incorrect logic.</li>
+</ul>
+<p>Forcing every caller to declare these defects would bury method signatures under noise without improving safety, so the compiler leaves them unchecked.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+The clean answer is one sentence: <strong>checked exceptions describe recoverable external conditions the caller can act on; unchecked exceptions describe defects in the program.</strong> When asked "why is <code>InterruptedException</code> checked?", tie it to thread coordination: interruption is a request the blocked thread must honour, not a bug.</p>
+</blockquote>
+<h2 id="5-throw-versus-throws">5. throw versus throws</h2>
+<p>These two keywords look alike and are asked about constantly, yet they live in different parts of the language. <code>throw</code> is a <strong>statement</strong> executed at runtime that raises one exception instance at a specific point in the code. <code>throws</code> is a <strong>declaration</strong> in a method signature that tells the compiler which checked exceptions may escape the method, so every caller can handle them.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>throw</code></th>
+<th><code>throws</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kind</td>
+<td>Statement inside a method body</td>
+<td>Clause in a method signature</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Actually raise an exception instance</td>
+<td>Declare possible escape routes</td>
+</tr>
+<tr>
+<td>Operand</td>
+<td>One <code>Throwable</code> instance</td>
+<td>A comma-separated list of exception types</td>
+</tr>
+<tr>
+<td>When it runs</td>
+<td>At runtime, when execution reaches it</td>
+<td>At compile time, part of the contract</td>
+</tr>
+<tr>
+<td>Count</td>
+<td>One exception per <code>throw</code></td>
+<td>Multiple types: <code>throws A, B</code></td>
+</tr>
+<tr>
+<td>Required for unchecked?</td>
+<td>Yes, to raise one</td>
+<td>No, but allowed</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>throw new IllegalArgumentException("bad");</code></td>
+<td><code>void read() throws IOException</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — throw raises an instance; throws declares what may escape</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArithmeticException</span><span class="p">(</span><span class="s">&quot;divide by zero&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">readLine</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="n">path</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ArithmeticException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Caught: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">readLine</span><span class="p">(</span><span class="s">&quot;missing.txt&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;IO: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>divide</code> may throw <code>ArithmeticException</code>, an unchecked type, so no <code>throws</code> clause is needed. <code>readLine</code> performs file I/O, which can raise the checked <code>IOException</code>, so it must declare <code>throws IOException</code> and <code>main</code> must handle it. Multiple checked types are listed with commas: <code>void work() throws IOException, SQLException</code>.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<strong><code>throw</code> = the verb (do it now); <code>throws</code> = the warning label (may happen here).</strong> A method that declares <code>throws</code> does not necessarily throw; a method that executes <code>throw</code> necessarily does.</p>
+</blockquote>
+<h2 id="6-exception-propagation-and-reading-a-stack-trace">6. Exception Propagation and Reading a Stack Trace</h2>
+<p>When an exception is raised and the current method does not catch it, the JVM <strong>unwinds the call stack</strong>: the exception propagates outward one frame at a time until some <code>catch</code> matches or it reaches the top of the thread, where the default handler prints a stack trace and terminates that thread. At each frame the caller has two choices: catch and handle, or re-declare with <code>throws</code> and pass the responsibility up.</p>
+<p>A stack trace is read top-down. The first line names the exception type and message; the next line is the frame where the exception was <strong>created</strong>, and each subsequent line is its caller, ending at <code>main</code>.</p>
+<div class="highlight"><pre><span></span><code>java.lang.ArithmeticException: / by zero
+    at Demo2.divide(Demo2.java:6)      &lt;- where it was thrown
+    at Demo2.main(Demo2.java:22)       &lt;- its caller, then the top
+</code></pre></div>
+
+<p>Reading it: the top frame is the origin, the bottom frame is the entry point, and every frame between them is part of the call chain. Locating the topmost frame in your own source is usually the fastest path to the defect.</p>
+<blockquote class="callout callout--important">
+<p>Important
+An exception does not "lose" its path when it propagates. The trace records the frames captured at construction time, so wrapping it later (Section 7) does not erase the original origin.</p>
+</blockquote>
+<h2 id="7-exception-chaining-and-wrapping">7. Exception Chaining and Wrapping</h2>
+<p>When a low-level exception is not meaningful to the caller, the method may <strong>wrap</strong> it in a higher-level exception that speaks the caller's language, while preserving the original as the <strong>cause</strong>. The standard constructors accept a <code>Throwable cause</code>, and <code>getCause()</code> returns it; <code>initCause</code> is the fallback for exceptions constructed before the cause was known.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — wrapping preserves the original cause</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ServiceException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ServiceException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="n">cause</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">cause</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">ServiceException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="n">path</span><span class="p">));</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServiceException</span><span class="p">(</span><span class="s">&quot;failed to load &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">path</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">load</span><span class="p">(</span><span class="s">&quot;missing.txt&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ServiceException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;cause = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getCause</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Wrapping matters for three reasons: it hides implementation details from callers, it translates one exception vocabulary into another at a layer boundary, and it keeps the diagnostic chain intact so <code>printStackTrace</code> prints both the wrapper and the cause. The anti-pattern is <code>throw new ServiceException(e.getMessage())</code>, which discards the cause and with it the stack trace of the real failure.</p>
+<h2 id="8-custom-exceptions">8. Custom Exceptions</h2>
+<p>Java allows you to define your own exception types, and a well-named custom exception communicates intent far better than a generic <code>RuntimeException</code>. A custom exception extends either <code>Exception</code> (making it checked, so callers must handle it) or <code>RuntimeException</code> (making it unchecked, so it propagates freely). The conventional constructors mirror the JDK: a message-only form and a message-plus-cause form, optionally extended with context fields such as an error code.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Custom checked exception</th>
+<th>Custom unchecked exception</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Extends</td>
+<td><code>Exception</code></td>
+<td><code>RuntimeException</code></td>
+</tr>
+<tr>
+<td>Handling forced?</td>
+<td>Yes — callers must catch or declare</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Signals</td>
+<td>Recoverable, expected business condition</td>
+<td>Programming error or domain rule violation</td>
+</tr>
+<tr>
+<td>Caller obligation</td>
+<td>Acknowledge and decide</td>
+<td>Usually let it surface</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td><code>InsufficientBalanceException</code>, <code>PaymentDeclinedException</code></td>
+<td><code>InvalidAgeException</code>, <code>DuplicateOrderException</code></td>
+</tr>
+<tr>
+<td>Construction cost</td>
+<td>Heavier: signatures and callers must adapt</td>
+<td>Light: no signature churn</td>
+</tr>
+<tr>
+<td>Modern preference</td>
+<td>When recovery is genuinely required</td>
+<td>For most domain errors in new APIs</td>
+</tr>
+</tbody>
+</table>
+<p>A good custom exception is <strong>specific</strong> (one clearly named condition), <strong>meaningful</strong> (its name is self-documenting), and <strong>informative</strong> (it carries a message and, where useful, structured context such as an error code or the offending value).</p>
+<h2 id="9-when-to-choose-checked-versus-unchecked">9. When to Choose Checked versus Unchecked</h2>
+<p>The choice is an API design decision with a durable cost, because converting a checked exception to unchecked later removes a compile-time obligation that existing callers may depend on, and the reverse breaks compilation everywhere.</p>
+<ol>
+<li><strong>Recoverable and caller-actionable → checked.</strong> If the caller has a real, different action for the failure (retry, fall back, prompt the user), a checked exception forces that decision at the call site.</li>
+<li><strong>Programming error or broken precondition → unchecked.</strong> Null arguments, illegal state and bad indexes should crash early and loudly, not clutter signatures.</li>
+<li><strong>Domain errors in modern APIs → lean unchecked.</strong> Many teams model business rule violations (for example <code>InsufficientBalanceException</code>) as unchecked, especially when the exception must cross layers or be thrown inside lambdas and streams, where checked exceptions are awkward (Section 12).</li>
+<li><strong>Do not create a checked exception you cannot handle.</strong> If every caller immediately wraps or rethrows it, the check is pure ceremony and an unchecked type would serve better.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Use checked exceptions for conditions from which the caller can reasonably be expected to recover; use unchecked exceptions for programming errors and domain rule violations. When in doubt, the cost of a checked exception falls on every caller forever.</p>
+</blockquote>
+<h2 id="10-worked-example-a-custom-checked-exception">10. Worked Example: A Custom Checked Exception</h2>
+<p><code>InsufficientBalanceException</code> is a checked exception because an insufficient balance is a predictable, recoverable business condition: the caller may choose to top up the account, reduce the withdrawal, or inform the user. Extending <code>Exception</code> forces that decision to be made explicitly. The class also carries a <code>deficit</code> field, showing how a custom exception can transport structured context beyond a message string.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo4.java — a custom checked exception forces the caller to handle it</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo4</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InsufficientBalanceException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">deficit</span><span class="p">;</span>
+<span class="w">        </span><span class="n">InsufficientBalanceException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">deficit</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">deficit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">deficit</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="nf">deficit</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">deficit</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Account</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">balance</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Account</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">balance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">balance</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">withdraw</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InsufficientBalanceException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">balance</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InsufficientBalanceException</span><span class="p">(</span>
+<span class="w">                        </span><span class="s">&quot;balance too low by &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">balance</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">amount</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">balance</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">balance</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Account</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Account</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">account</span><span class="p">.</span><span class="na">withdraw</span><span class="p">(</span><span class="mi">150</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InsufficientBalanceException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; (deficit &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">deficit</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;)&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Because the type is checked, the <code>withdraw</code> signature must declare <code>throws InsufficientBalanceException</code> and <code>main</code> must catch it. The <code>deficit()</code> accessor lets the caller react with data, not just text.</p>
+<h2 id="11-worked-example-a-custom-unchecked-exception-and-a-wrapping-caller">11. Worked Example: A Custom Unchecked Exception and a Wrapping Caller</h2>
+<p><code>InvalidAgeException</code> is an unchecked exception because an out-of-range age is a violated precondition and a domain rule, not a condition the caller can recover from at that point. Extending <code>RuntimeException</code> keeps <code>register</code> free of a <code>throws</code> clause while still allowing a caller to catch the type when it wants a friendly message.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo5.java — a custom unchecked exception for a domain rule violation</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InvalidAgeException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RuntimeException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">InvalidAgeException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">150</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InvalidAgeException</span><span class="p">(</span><span class="s">&quot;invalid age for &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; registered at age &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">register</span><span class="p">(</span><span class="s">&quot;Ada&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">36</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">register</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InvalidAgeException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Rejected: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>A caller that wants to translate the domain error into a service-level error would wrap it: <code>throw new RegistrationException("cannot register " + name, e)</code>, preserving the <code>InvalidAgeException</code> as the cause exactly as in Section 7.</p>
+<h2 id="12-pitfalls-and-common-errors">12. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>throws Exception</code> too broad</td>
+<td>Callers must handle everything and learn nothing</td>
+<td>Declare the narrowest checked types actually thrown</td>
+</tr>
+<tr>
+<td>Swallowing an exception</td>
+<td>Empty <code>catch</code> hides failures and corrupts state</td>
+<td>Handle, log with context, or rethrow</td>
+</tr>
+<tr>
+<td>Losing the cause</td>
+<td><code>throw new X(e.getMessage())</code> discards the original trace</td>
+<td>Use <code>throw new X(message, e)</code></td>
+</tr>
+<tr>
+<td>Declaring then ignoring</td>
+<td>A <code>throws</code> clause whose exception is never handled meaningfully</td>
+<td>Handle it or remove the check by design</td>
+</tr>
+<tr>
+<td>Checked exception inside a lambda</td>
+<td>A <code>Stream</code>/lambda cannot declare checked exceptions</td>
+<td>Wrap in an unchecked type or a helper that rethrows</td>
+</tr>
+<tr>
+<td>Over-creating exception types</td>
+<td>One exception class per trivial case bloats the API</td>
+<td>Add a type only when the caller needs to distinguish it</td>
+</tr>
+<tr>
+<td>Custom exception without context</td>
+<td>A bare type with no message is undebuggable</td>
+<td>Always pass a message; add context fields when useful</td>
+</tr>
+<tr>
+<td>Exceptions for control flow</td>
+<td>Using <code>try</code>/<code>catch</code> instead of ordinary branching</td>
+<td>Reserve exceptions for exceptional conditions</td>
+</tr>
+<tr>
+<td>Catching <code>Throwable</code> or <code>Error</code></td>
+<td>Swallows <code>OutOfMemoryError</code> and hides real faults</td>
+<td>Catch specific <code>Exception</code> subtypes</td>
+</tr>
+<tr>
+<td>Reusing a thrown instance</td>
+<td>Rethrowing the same instance accumulates misleading frames</td>
+<td>Construct a fresh exception for each throw</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+A checked exception cannot be thrown directly from inside a lambda or stream pipeline because <code>Stream</code> methods declare no checked exceptions. The usual remedy is to catch it and rethrow wrapped in an unchecked exception, then unwrap at the boundary.</p>
+</blockquote>
+<h2 id="13-myth-vs-reality">13. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>throw</code> and <code>throws</code> are the same keyword with different spelling."</td>
+<td><code>throw</code> raises an instance at runtime; <code>throws</code> declares possible escape types in a signature.</td>
+</tr>
+<tr>
+<td>"Unchecked exceptions cannot be declared with <code>throws</code>."</td>
+<td>They may be declared — it is legal and sometimes documents intent — but the compiler does not require it.</td>
+</tr>
+<tr>
+<td>"Catching <code>Throwable</code> catches everything safely."</td>
+<td>It also catches <code>Error</code> and other faults the program should not attempt to survive.</td>
+</tr>
+<tr>
+<td>"Wrapping an exception loses the original stack trace."</td>
+<td>Wrapping with a cause preserves it; only discarding the cause loses it.</td>
+</tr>
+<tr>
+<td>"A custom exception must always be checked."</td>
+<td>It can extend <code>Exception</code> (checked) or <code>RuntimeException</code> (unchecked), per design.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-common-trap-questions">14. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Keyword confusion: "What is the difference between <code>throw</code> and <code>throws</code>?"
+<code>throw</code> is a statement that raises one exception instance; <code>throws</code> is a method-signature clause listing the checked types that may escape the method. One acts at runtime, the other is a compile-time contract.</p>
+<p>Trap 2 — Checked in a lambda: "Can I call a method that declares <code>throws IOException</code> directly inside <code>stream.map(...)</code>?"
+No. The functional interface declares no checked exception, so the code does not compile; wrap the checked exception in an unchecked type and unwrap it at the boundary.</p>
+<p>Trap 3 — Overbroad declaration: "Is <code>void run() throws Exception</code> good practice?"
+No. It forces callers to handle the entire hierarchy and communicates nothing; declare the specific checked types.</p>
+<p>Trap 4 — Lost cause: "<code>catch (IOException e) { throw new ServiceException(e.getMessage()); }</code> — is anything lost?"
+Yes, the cause. Use <code>new ServiceException(message, e)</code> so <code>getCause()</code> and the full trace survive.</p>
+<p>Trap 5 — Catching Error: "Should I catch <code>Throwable</code> in a top-level handler to be safe?"
+Only with great care and rethrow semantics. Catching <code>Throwable</code> also catches <code>Error</code>; catching <code>Exception</code> is almost always the right boundary.</p>
+<p>Trap 6 — Unchecked declaration: "Does <code>throws RuntimeException</code> change anything?"
+No compiler obligation is added; it merely documents. The method could throw the type whether or not it is declared.</p>
+<p>Trap 7 — Reuse: "Can I create one exception instance and throw it from several places?"
+You can, but you should not: each throw should create a fresh instance so its stack trace reflects the actual origin.</p>
+<p>Trap 8 — Checked intent: "If I declare a checked exception but every caller wraps it, was the check useful?"
+No. If no caller can recover, an unchecked exception communicates the same intent without the ceremony.</p>
+</blockquote>
+<h2 id="15-points-to-remember">15. Points to Remember</h2>
+<ol>
+<li><code>Throwable</code> is the root; only its subclasses may be thrown or caught.</li>
+<li>The two branches are <code>Error</code> (unrecoverable environment faults) and <code>Exception</code> (program conditions).</li>
+<li><code>RuntimeException</code> and its subclasses, plus <code>Error</code>, are unchecked; all other <code>Exception</code> subclasses are checked.</li>
+<li>Checked exceptions must be caught or declared; unchecked ones need not be.</li>
+<li><code>IOException</code> and <code>InterruptedException</code> are checked because callers can recover; <code>NullPointerException</code> and <code>IllegalArgumentException</code> are unchecked because they signal defects.</li>
+<li><code>throw</code> raises an instance; <code>throws</code> declares checked types, and multiple types are comma-separated.</li>
+<li>An uncaught exception unwinds the stack and prints a trace whose top frame is the origin.</li>
+<li>Wrapping with a <code>cause</code> preserves the original trace; <code>initCause</code> sets it after construction.</li>
+<li>A custom exception extends <code>Exception</code> for checked behaviour or <code>RuntimeException</code> for unchecked behaviour, and should carry a message and, when useful, context.</li>
+<li>Prefer checked exceptions for recoverable, caller-actionable conditions and unchecked exceptions for programming and domain errors.</li>
+</ol>
+<h2 id="16-likely-interview-questions">16. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the root of the exception hierarchy?</td>
+<td><code>Throwable</code>; only its subclasses can be thrown or caught.</td>
+</tr>
+<tr>
+<td>Difference between <code>Error</code> and <code>Exception</code>?</td>
+<td><code>Error</code> is an unrecoverable environment/JVM fault; <code>Exception</code> is a condition arising in normal execution.</td>
+</tr>
+<tr>
+<td>What is a checked exception?</td>
+<td>A <code>Throwable</code> that is not <code>RuntimeException</code> or <code>Error</code>; the compiler requires it to be caught or declared.</td>
+</tr>
+<tr>
+<td>What is an unchecked exception?</td>
+<td>A <code>RuntimeException</code> or <code>Error</code> subtype; the compiler does not force handling.</td>
+</tr>
+<tr>
+<td>Difference between <code>throw</code> and <code>throws</code>?</td>
+<td><code>throw</code> raises one instance at runtime; <code>throws</code> declares, in a signature, the checked types a method may let escape.</td>
+</tr>
+<tr>
+<td>Can a method declare multiple exceptions?</td>
+<td>Yes: <code>void f() throws IOException, SQLException</code>.</td>
+</tr>
+<tr>
+<td>Why is <code>IOException</code> checked?</td>
+<td>It models an external, recoverable condition (missing file, failed I/O) the caller can act on.</td>
+</tr>
+<tr>
+<td>Why is <code>NullPointerException</code> unchecked?</td>
+<td>It signals a programming defect; recovery at the call site is not meaningful.</td>
+</tr>
+<tr>
+<td>What is exception chaining?</td>
+<td>Wrapping a low-level exception in a higher-level one while passing the original as the <code>cause</code>, preserving its trace.</td>
+</tr>
+<tr>
+<td>How do you create a custom exception?</td>
+<td>Extend <code>Exception</code> for checked or <code>RuntimeException</code> for unchecked; provide message and message-plus-cause constructors.</td>
+</tr>
+<tr>
+<td>When should you prefer unchecked?</td>
+<td>For programming errors and many domain errors, especially in modern APIs and inside lambdas/streams.</td>
+</tr>
+<tr>
+<td>What is wrong with <code>catch (Throwable t)</code>?</td>
+<td>It also catches <code>Error</code> and can hide unrecoverable faults the program should not survive.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-final-summary">17. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Throwable
+  Error      (unchecked)  -&gt; OutOfMemoryError, StackOverflowError, VirtualMachineError
+  Exception
+    RuntimeException (unchecked) -&gt; NPE, ArithmeticException, AIOOBE, ClassCastException, IllegalArgumentException
+    checked                      -&gt; IOException (FileNotFoundException), SQLException,
+                                    ClassNotFoundException, InterruptedException
+
+throw   : statement  -&gt; raises one Throwable instance now
+throws  : signature  -&gt; declares checked types that may escape; comma-separated; unchecked optional
+
+propagation : uncaught -&gt; unwind stack -&gt; stack trace (top frame = origin)
+chaining    : throw new ServiceException(message, e)  -&gt; getCause() preserves the original
+custom      : extends Exception (checked)  OR  extends RuntimeException (unchecked)
+              message-only and message+cause constructors; add context fields such as errorCode
+</code></pre></div>
+
+<ul>
+<li>Hierarchy → <code>Throwable</code> ⊃ {<code>Error</code>, <code>Exception</code>}; <code>Exception</code> ⊃ {<code>RuntimeException</code> (unchecked), checked types}.</li>
+<li>Checked vs unchecked → recoverable external condition versus programming defect.</li>
+<li><code>throw</code> vs <code>throws</code> → raise an instance versus declare a contract.</li>
+<li>Propagation → unwind the stack, print a trace whose top frame is the origin, and either catch or re-declare.</li>
+<li>Chaining → always pass the <code>cause</code> so the real failure is never lost.</li>
+<li>Custom exceptions → specific, meaningful, informative; checked when recovery is required, unchecked otherwise.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+An exception type is part of a method's contract: raise the right instance with <code>throw</code>, declare the checked ones with <code>throws</code>, preserve the cause when wrapping, and choose checked or unchecked by asking whether the caller can actually recover.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> master the <code>Throwable</code> tree, use <code>throw</code> to raise and <code>throws</code> to declare, wrap without losing the cause, and let custom exceptions name each condition so callers know exactly what went wrong and what to do.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-43.html"><span class="dir">Previous</span><span class="ttl">Java Exception Handling from Scratch | Exceptions vs Errors</span></a><a class="next" href="doc-theory-lecture-45.html"><span class="dir">Next</span><span class="ttl">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

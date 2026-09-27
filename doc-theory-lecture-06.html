@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 06 — Circular Dependency in Spring — Spring Boot</title>
+<meta name="description" content="Lecture 06 — Circular Dependency in Spring">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-06">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-06.html#lecture-06">Lecture 06</a></li><li><a href="doc-theory-lecture-06.html#1-quick-recap-di-ioc-and-beans">1. Quick Recap: DI, IoC, and Beans</a></li><li><a href="doc-theory-lecture-06.html#2-configuration-is-also-a-spring-component">2. @Configuration Is Also a Spring Component</a></li><li><a href="doc-theory-lecture-06.html#3-bean-creation-order-why-it-matters">3. Bean Creation Order: Why It Matters</a></li><li><a href="doc-theory-lecture-06.html#4-what-is-circular-dependency-and-it-is-not-only-a-spring-problem">4. What Is Circular Dependency? (and It Is Not Only a Spring Problem)</a></li><li><a href="doc-theory-lecture-06.html#5-constructor-injection-why-it-fails-and-why-it-is-still-recommended">5. Constructor Injection: Why It Fails, and Why It Is Still Recommended</a></li><li><a href="doc-theory-lecture-06.html#6-setter-and-field-injection-why-circular-may-sometimes-work">6. Setter and Field Injection: Why Circular May Sometimes Work</a></li><li><a href="doc-theory-lecture-06.html#7-early-reference-and-the-two-dependency-flows">7. Early Reference and the Two Dependency Flows</a></li><li><a href="doc-theory-lecture-06.html#8-spring-boot-point-the-design-smell-and-the-best-fix">8. Spring Boot Point, the Design Smell, and the Best Fix</a></li><li><a href="doc-theory-lecture-06.html#9-bean-scope-singleton-and-prototype">9. Bean Scope: Singleton and Prototype</a></li><li><a href="doc-theory-lecture-06.html#10-singleton-per-bean-definition-the-prototype-gotcha-and-web-scopes">10. Singleton Per Bean Definition, the Prototype Gotcha, and Web Scopes</a></li><li><a href="doc-theory-lecture-06.html#11-bean-initialization-eager-lazy-lazy-global-lazy-and-bean-lifecycle">11. Bean Initialization: Eager, Lazy, @Lazy, Global Lazy, and Bean Lifecycle</a></li><li><a href="doc-theory-lecture-06.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-06.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-06.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-06.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-06.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 06 — Circular Dependency in Spring</h1>
+<p class="readmeta">17 sections · 5,100 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-06" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-06">Lecture 06</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Circular Dependency in Spring | Bean Scope, Lazy &amp; Eager Beans" (playlist map, verified). Repo lecture folder holds three demo Maven projects plus notes: <code>BeanInitializationDemo</code> (<code>in.strikes.AppConfig</code>, <code>Main</code>, <code>OrderService</code>, <code>PaymentService</code>), <code>BeanScopeDemo</code> (<code>in.strikes.A</code>, <code>B</code>, <code>AppConfig</code>, <code>Main</code>, <code>OrderService</code>, <code>User</code>), and <code>CircularDependencyDemo</code> (<code>in.strikes.AppConfig</code>, <code>Main</code>, <code>OrderService</code>, <code>PaymentService</code>, plus <code>in.strikes.simple.A</code>, <code>simple.B</code>). Coverage below = circular dependency, the early-reference idea, bean scopes, eager vs lazy initialization, and a brief bean lifecycle preview; the full lifecycle is Lecture 07.</p>
+</blockquote>
+<p>Two beans that need each other create the classic Spring startup deadlock, and the way out is not a trick but better design. Around that problem sit two everyday controls: bean scope decides how many objects Spring makes for a bean definition, and eager vs lazy decides when those objects appear. This lecture ties all three together: why constructor injection fails on a cycle, why setter/field injection can sometimes sneak through via an early reference, what Spring Boot does about it by default, and how <code>@Lazy</code> can break a constructor cycle when refactoring is not an option. The demo classes <code>OrderService</code> and <code>PaymentService</code> in <code>CircularDependencyDemo</code> are the running example.</p>
+<h2 id="1-quick-recap-di-ioc-and-beans">1. Quick Recap: DI, IoC, and Beans</h2>
+<p>Before circular dependency, scope, or initialization, three ideas must be solid:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DI</td>
+<td>Dependency Injection. Spring provides the required dependency to a class instead of the class creating it manually.</td>
+</tr>
+<tr>
+<td>IoC</td>
+<td>Inversion of Control. Control of object creation and dependency management is given to the Spring container.</td>
+</tr>
+<tr>
+<td>Bean</td>
+<td>An object created, managed, and maintained by the Spring IoC container.</td>
+</tr>
+</tbody>
+</table>
+<p>A class becomes a bean when it carries one of the stereotype annotations and is picked up by component scanning:</p>
+<ul>
+<li><code>@Component</code></li>
+<li><code>@Service</code></li>
+<li><code>@Repository</code></li>
+<li><code>@Controller</code></li>
+<li>or a method annotated with <code>@Bean</code> inside a configuration class.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: DI, IoC, and beans are one story told from three angles. DI is the mechanism (who supplies the dependency), IoC is the direction of control (who owns creation), and a bean is the resulting managed object.</p>
+</blockquote>
+<h2 id="2-configuration-is-also-a-spring-component">2. @Configuration Is Also a Spring Component</h2>
+<p><code>@Configuration</code> marks a class as a source of bean definitions. A configuration class can hold <code>@Bean</code> methods that hand objects to the container:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="nf">paymentService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PaymentService</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The important, often-missed point: <code>@Configuration</code> internally contains <code>@Component</code>. So a configuration class is itself detected by component scanning and registered as a Spring bean.</p>
+<div class="highlight"><pre><span></span><code>@Configuration
+    |
+    v
+@Component
+    |
+    v
+Spring can detect and manage this class
+</code></pre></div>
+
+<p>That is why configuration classes appear in the container and why they can be injected elsewhere, just like any other bean.</p>
+<h2 id="3-bean-creation-order-why-it-matters">3. Bean Creation Order: Why It Matters</h2>
+<p>Spring does not create beans in a random order. It creates them based on their dependencies.</p>
+<p>Take this chain:</p>
+<div class="highlight"><pre><span></span><code>OrderController depends on OrderService
+OrderService depends on PaymentService
+PaymentService depends on PaymentGateway
+</code></pre></div>
+
+<p>Spring resolves the deepest dependency first:</p>
+<div class="highlight"><pre><span></span><code>PaymentGateway
+    |
+    v
+PaymentService
+    |
+    v
+OrderService
+    |
+    v
+OrderController
+</code></pre></div>
+
+<p>In one sentence: <strong>Spring tries to create the dependency first, and then the class that depends on it.</strong> That rule is exactly what makes a cycle fatal, because in a cycle there is no "first" bean to create.</p>
+<h2 id="4-what-is-circular-dependency-and-it-is-not-only-a-spring-problem">4. What Is Circular Dependency? (and It Is Not Only a Spring Problem)</h2>
+<p>Circular dependency means two or more classes depend on each other directly or indirectly.</p>
+<div class="highlight"><pre><span></span><code>A needs B
+B needs A
+</code></pre></div>
+
+<p>Spring starts creating <code>A</code>, but to create <code>A</code> it needs <code>B</code>. It starts creating <code>B</code>, but to create <code>B</code> it needs <code>A</code>. The container is stuck in a loop:</p>
+<div class="highlight"><pre><span></span><code>To create A, I need B.
+To create B, I need A.
+To create A, I need B.
+...
+</code></pre></div>
+
+<p>Spring normally relies on dependency order, but when that order becomes circular, there is no clear starting point. The note's example is exactly the <code>OrderService</code> / <code>PaymentService</code> pair.</p>
+<h3 id="it-is-not-only-a-spring-problem">It is not only a Spring problem</h3>
+<p>A plain Java constructor cycle produces the same failure with no Spring involved:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// in.strikes.simple.A / simple.B - plain Java, no framework</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">A</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">B</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">B</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">B</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">A</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Calling <code>new A()</code> runs the <code>A</code> constructor, which calls <code>new B()</code>, which calls <code>new A()</code> again, forever. Java eventually throws <code>StackOverflowError</code>, because constructor calls keep stacking up.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: A circular dependency is a design problem first. Spring does not create it; Spring only exposes it during bean creation.</p>
+</blockquote>
+<h2 id="5-constructor-injection-why-it-fails-and-why-it-is-still-recommended">5. Constructor Injection: Why It Fails, and Why It Is Still Recommended</h2>
+<p>Constructor injection has one strict rule: <strong>an object cannot be created until all its constructor arguments are available.</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderService</span><span class="p">(</span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">paymentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">PaymentService</span><span class="p">(</span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>To create <code>OrderService</code>, Spring must already have a <code>PaymentService</code>. To create <code>PaymentService</code>, Spring must already have an <code>OrderService</code>. There is no starting point, so the loop becomes:</p>
+<div class="highlight"><pre><span></span><code>Create OrderService -&gt; needs PaymentService
+Create PaymentService -&gt; needs OrderService
+Create OrderService -&gt; needs PaymentService
+...
+</code></pre></div>
+
+<p>Spring detects this at startup and throws <code>BeanCurrentlyInCreationException</code>. The application fails to start.</p>
+<h3 id="why-constructor-injection-is-still-recommended">Why constructor injection is still recommended</h3>
+<p>Failing on a cycle is not a reason to abandon constructor injection. Its strength is that it makes dependencies <strong>clear and mandatory</strong>:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class OrderService {
+    private final PaymentService paymentService;
+
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+</code></pre></div>
+
+<p>This code plainly says <code>OrderService cannot exist without PaymentService</code>. Field and setter injection leave that dependency optional-looking and hidden. So constructor injection is not the problem, the real problem is the circular design.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The mature answer separates mechanism from cause. "Constructor injection fails on a cycle" is the mechanism; "the cycle is a design smell" is the cause. Candidates who only repeat the first half sound like they blame the tool.</p>
+</blockquote>
+<h2 id="6-setter-and-field-injection-why-circular-may-sometimes-work">6. Setter and Field Injection: Why Circular May Sometimes Work</h2>
+<p>Now rewrite the same pair with setter injection:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class OrderService {
+    private PaymentService paymentService;
+
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+}
+
+@Service
+public class PaymentService {
+    private OrderService orderService;
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+}
+</code></pre></div>
+
+<p>The key difference: with setters, <strong>object creation and dependency injection are separate steps.</strong> Spring can conceptually do this:</p>
+<div class="highlight"><pre><span></span><code>Step 1: Create empty OrderService object
+Step 2: Create empty PaymentService object
+Step 3: Inject PaymentService into OrderService
+Step 4: Inject OrderService into PaymentService
+</code></pre></div>
+
+<p>Compare the two styles:</p>
+<div class="highlight"><pre><span></span><code>Constructor injection:
+Dependency must exist before object creation.
+
+Setter injection:
+Object can be created first.
+Dependency can be injected later.
+</code></pre></div>
+
+<p>Field injection works the same way. Spring creates the object first and injects the dependency later:</p>
+<div class="highlight"><pre><span></span><code>@Service
+public class OrderService {
+    @Autowired
+    private PaymentService paymentService;
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Injection style</th>
+<th>When the dependency arrives</th>
+<th>Circular dependency outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Constructor</td>
+<td>Must exist before the object is built</td>
+<td>Fails with <code>BeanCurrentlyInCreationException</code></td>
+</tr>
+<tr>
+<td>Setter</td>
+<td>After object creation, via a setter call</td>
+<td>May be resolved via an early reference</td>
+</tr>
+<tr>
+<td>Field</td>
+<td>After object creation, by direct field write</td>
+<td>May be resolved via an early reference</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: "May be resolved" is not the same as "good practice." Setter and field injection only mean Spring can handle <strong>some</strong> circular dependencies when object creation and dependency injection are separated.</p>
+</blockquote>
+<h2 id="7-early-reference-and-the-two-dependency-flows">7. Early Reference and the Two Dependency Flows</h2>
+<p>Why can setter/field injection sometimes work? Because the constructor does not require the dependency immediately. <code>OrderService</code> can be created even though <code>PaymentService</code> is not ready yet.</p>
+<h3 id="normal-dependency-flow">Normal dependency flow</h3>
+<div class="highlight"><pre><span></span><code>Create B
+Inject dependencies into B
+Initialize B
+B is ready
+Create A
+Inject B into A
+Initialize A
+A is ready
+</code></pre></div>
+
+<p>In a normal dependency, the dependent bean receives a <strong>fully created and initialized</strong> dependency.</p>
+<h3 id="circular-flow-with-an-early-reference">Circular flow with an early reference</h3>
+<div class="highlight"><pre><span></span><code>A needs B
+B needs A
+</code></pre></div>
+
+<p>Spring may create one object first and expose an early reference to it:</p>
+<div class="highlight"><pre><span></span><code>A a = new A();
+// A exists, but dependencies are not injected yet
+
+B b = new B();
+// B exists
+
+b.setA(a);
+// B receives the early reference of A
+
+a.setB(b);
+// A receives B
+</code></pre></div>
+
+<p>An early reference means Spring exposes a reference of a bean <strong>before that bean is fully initialized</strong>, so another bean can temporarily use it while the cycle is resolved.</p>
+<div class="highlight"><pre><span></span><code>I have created OrderService object,
+but it is not fully initialized yet.
+Still, I can keep an early reference to it.
+Now I create PaymentService.
+PaymentService needs OrderService.
+I can give it the early reference of OrderService.
+Then I come back and inject PaymentService into OrderService.
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The interview-grade phrase is "the container separates instantiation from population." In setter/field injection a bean can be instantiated, exposed early, and populated afterwards, which is exactly what breaks the strict constructor ordering.</p>
+</blockquote>
+<h2 id="8-spring-boot-point-the-design-smell-and-the-best-fix">8. Spring Boot Point, the Design Smell, and the Best Fix</h2>
+<h3 id="spring-boot-disables-circular-references-by-default">Spring Boot disables circular references by default</h3>
+<p>The Spring Framework has internal mechanisms to resolve some setter- or field-based circular dependencies. Spring Boot, however, discourages them. From Spring Boot 2.6 onward, circular references are <strong>disabled by default</strong>:</p>
+<div class="highlight"><pre><span></span><code>spring.main.allow-circular-references=false
+</code></pre></div>
+
+<p>The default value is <code>false</code>. You can technically turn it back on:</p>
+<div class="highlight"><pre><span></span><code>spring.main.allow-circular-references=true
+</code></pre></div>
+
+<p>But this should not be treated as the solution. The better answer is to improve the design.</p>
+<h3 id="circular-dependency-usually-signals-mixed-responsibilities">Circular dependency usually signals mixed responsibilities</h3>
+<p>A cycle is usually not only a technical issue; it often shows that responsibilities are not clearly separated. Ask:</p>
+<ol>
+<li>Why does <code>A</code> need <code>B</code>?</li>
+<li>Why does <code>B</code> also need <code>A</code>?</li>
+<li>Are both classes doing too much?</li>
+<li>Can we move common logic to a third class?</li>
+<li>Can one dependency direction be removed?</li>
+</ol>
+<p>If <code>OrderService</code> and <code>PaymentService</code> depend on each other, order logic and payment logic may be mixed. Better shapes might be:</p>
+<div class="highlight"><pre><span></span><code>OrderService -&gt; PaymentService
+
+or
+
+OrderService -&gt; PaymentService
+PaymentService -&gt; PaymentStatusRepository
+
+or
+
+OrderService -&gt; PaymentProcessor
+PaymentService -&gt; PaymentProcessor
+</code></pre></div>
+
+<h3 id="the-best-way-to-solve-it">The best way to solve it</h3>
+<p>The best solution is refactoring:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Better design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Two services call each other</td>
+<td>Move shared logic to a third service</td>
+</tr>
+<tr>
+<td>One service has too many responsibilities</td>
+<td>Split responsibilities</td>
+</tr>
+<tr>
+<td>Both classes depend on each other's internal behavior</td>
+<td>Introduce an interface or event-based communication</td>
+</tr>
+<tr>
+<td>Service does orchestration and business logic together</td>
+<td>Create a separate coordinator/orchestrator class</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Avoid circular dependency by designing clear responsibility boundaries. The framework flags the symptom; you fix the design.</p>
+</blockquote>
+<h2 id="9-bean-scope-singleton-and-prototype">9. Bean Scope: Singleton and Prototype</h2>
+<p>Bean scope answers two questions:</p>
+<ol>
+<li>How many objects will Spring create for one bean definition?</li>
+<li>How long will those objects live?</li>
+</ol>
+<p>The two core scopes are <strong>singleton</strong> and <strong>prototype</strong>. Web applications add <strong>request</strong>, <strong>session</strong>, <strong>application</strong>, and <strong>websocket</strong>.</p>
+<h3 id="singleton-scope">Singleton scope</h3>
+<p>Singleton scope means Spring creates exactly one object for a bean definition inside the container, stores it, and returns the same object whenever it is needed. It is the default:</p>
+<div class="highlight"><pre><span></span><code>@Component
+public class PaymentService { }
+</code></pre></div>
+
+<p>is the same as:</p>
+<div class="highlight"><pre><span></span><code>@Component
+@Scope(&quot;singleton&quot;)
+public class PaymentService { }
+</code></pre></div>
+
+<p>We usually do not write <code>@Scope("singleton")</code> explicitly.</p>
+<p>Demo behavior (from <code>BeanScopeDemo</code>):</p>
+<div class="highlight"><pre><span></span><code>PaymentService p1 = context.getBean(PaymentService.class);
+PaymentService p2 = context.getBean(PaymentService.class);
+System.out.println(p1 == p2);   // true
+</code></pre></div>
+
+<p>Both references point to the same Spring-managed singleton bean.</p>
+<h3 id="prototype-scope">Prototype scope</h3>
+<p>Prototype scope means Spring creates a new object every time the bean is requested from the container.</p>
+<div class="highlight"><pre><span></span><code>@Component
+@Scope(&quot;prototype&quot;)
+public class OrderRequest {
+    public OrderRequest() {
+        System.out.println(&quot;OrderRequest object created&quot;);
+    }
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>OrderRequest r1 = context.getBean(OrderRequest.class);
+OrderRequest r2 = context.getBean(OrderRequest.class);
+System.out.println(r1 == r2);   // false
+</code></pre></div>
+
+<p>Each request gives a new object. Prototype feels closer to manual <code>new</code>:</p>
+<div class="highlight"><pre><span></span><code>context.getBean(OrderRequest.class) -&gt; new object
+context.getBean(OrderRequest.class) -&gt; new object
+context.getBean(OrderRequest.class) -&gt; new object
+</code></pre></div>
+
+<p>But the object is still created by Spring, not manually by us.</p>
+<h3 id="choosing-a-scope">Choosing a scope</h3>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Singleton</td>
+<td>Stateless beans that provide behavior</td>
+</tr>
+<tr>
+<td>Prototype</td>
+<td>Stateful beans that store changing data</td>
+</tr>
+</tbody>
+</table>
+<p>Services are usually singleton because they hold behavior, not user-specific data: <code>processPayment()</code>, <code>validateOrder()</code>, <code>sendEmail()</code>, <code>calculateDiscount()</code>. These methods can be reused safely. Prototype fits cases where each request needs a fresh object with its own state, such as <code>OrderRequest</code>.</p>
+<p>Mnemonic: singleton beans are <strong>E</strong>ager and stateless by intent; prototype beans are <strong>L</strong>azy and stateful by intent (remember <strong>E-L</strong>).</p>
+<h2 id="10-singleton-per-bean-definition-the-prototype-gotcha-and-web-scopes">10. Singleton Per Bean Definition, the Prototype Gotcha, and Web Scopes</h2>
+<h3 id="singleton-is-per-bean-definition-not-per-class">Singleton is per bean definition, not per class</h3>
+<p>Spring singleton does <strong>not</strong> mean only one object of this class can ever exist in the JVM. You can still write <code>new PaymentService()</code> yourself; that object is simply not managed by Spring. The precise meaning is: <strong>inside this Spring container, for this bean definition, Spring keeps one shared object.</strong></p>
+<p>Consider two <code>@Bean</code> methods returning the same type:</p>
+<div class="highlight"><pre><span></span><code>@Bean
+public User createUser() {
+    return new User();
+}
+
+@Bean
+public User createUser2() {
+    return new User();
+}
+</code></pre></div>
+
+<p>Spring creates two different bean definitions, <code>createUser</code> and <code>createUser2</code>. Both are singleton by default, so Spring creates one <code>User</code> object per definition:</p>
+<div class="highlight"><pre><span></span><code>2 bean definitions
+2 singleton objects
+</code></pre></div>
+
+<p>In Spring, singleton means one object per <strong>bean name / bean definition</strong> inside the container, not one object per class. This is different from the classic Singleton design pattern.</p>
+<blockquote class="callout callout--important">
+<p>Important: If someone asks "is Spring's singleton the same as the Singleton Design Pattern?", the answer is no. Spring's singleton is scoped to the container and to the bean definition, and per-definition duplicates are allowed.</p>
+</blockquote>
+<h3 id="prototype-bean-injected-into-a-singleton">Prototype bean injected into a singleton</h3>
+<p>Common trap: if you inject a prototype bean into a singleton bean, does the singleton get a new prototype object every time? <strong>No.</strong></p>
+<div class="highlight"><pre><span></span><code>@Service
+public class OrderService {
+    private final OrderRequest orderRequest;
+
+    public OrderService(OrderRequest orderRequest) {
+        this.orderRequest = orderRequest;
+    }
+}
+</code></pre></div>
+
+<p>If <code>OrderService</code> is singleton and <code>OrderRequest</code> is prototype, Spring injects <strong>one</strong> <code>OrderRequest</code> when <code>OrderService</code> is created. After that, the same reference stays inside the singleton.</p>
+<p>Prototype does <strong>not</strong> mean:</p>
+<div class="highlight"><pre><span></span><code>new object every time a singleton method runs
+</code></pre></div>
+
+<p>It means:</p>
+<div class="highlight"><pre><span></span><code>new object every time the prototype bean is requested from the container
+</code></pre></div>
+
+<h3 id="web-scopes">Web scopes</h3>
+<table>
+<thead>
+<tr>
+<th>Scope</th>
+<th>One object for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>request</td>
+<td>One HTTP request</td>
+</tr>
+<tr>
+<td>session</td>
+<td>One user session</td>
+</tr>
+<tr>
+<td>application</td>
+<td>One ServletContext / whole web application</td>
+</tr>
+<tr>
+<td>websocket</td>
+<td>One WebSocket session</td>
+</tr>
+</tbody>
+</table>
+<p>These scopes are available only in a web-aware Spring <code>ApplicationContext</code>. For beginner Spring MVC or Spring Boot Web, the most important are <strong>request</strong>, <strong>session</strong>, and <strong>application</strong>:</p>
+<ul>
+<li>Request scope: one bean object per HTTP request; request 1 and request 2 get different beans. Useful when data should live only during one request.</li>
+<li>Session scope: one bean object per user session; user A and user B get different beans. Useful for user-specific session data.</li>
+<li>Application scope: one bean object for the entire web application, tied to the <code>ServletContext</code> and shared across it.</li>
+</ul>
+<p>Mnemonic for scopes: <strong>S</strong>ingleton and <strong>P</strong>rototype live in core; <strong>R</strong>equest, <strong>S</strong>ession, <strong>A</strong>pplication, <strong>W</strong>ebsocket need the web (SP-RSAW).</p>
+<h2 id="11-bean-initialization-eager-lazy-lazy-global-lazy-and-bean-lifecycle">11. Bean Initialization: Eager, Lazy, @Lazy, Global Lazy, and Bean Lifecycle</h2>
+<p>Spring must answer one question for every bean: <strong>when should I create this bean?</strong></p>
+<table>
+<thead>
+<tr>
+<th>Initialization type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Eager initialization</td>
+<td>Create the bean during application startup</td>
+</tr>
+<tr>
+<td>Lazy initialization</td>
+<td>Create the bean only when it is actually needed</td>
+</tr>
+</tbody>
+</table>
+<p>By default: <strong>singleton beans are eagerly initialized; prototype beans are created lazily, when requested.</strong> Lazy initialization can also be enabled with <code>@Lazy</code>.</p>
+<h3 id="eager-initialization-and-why-it-is-the-default">Eager initialization and why it is the default</h3>
+<p>Eager initialization means Spring creates the bean as soon as the application context starts. It is the default for singleton beans.</p>
+<div class="highlight"><pre><span></span><code>@Component
+public class PaymentService {
+    public PaymentService() {
+        System.out.println(&quot;PaymentService object created&quot;);
+    }
+}
+</code></pre></div>
+
+<p>At first eager initialization looks wasteful ("why create everything if the user may not use it?"), but it buys one big advantage: <strong>fail fast.</strong> If a bean has a configuration issue, missing dependency, or invalid setup, the application fails during startup instead of succeeding and then failing only when the first user hits that feature. Eager initialization gives fast failure, early error detection, and predictable startup validation.</p>
+<h3 id="lazy-initialization">Lazy initialization</h3>
+<p>Lazy initialization means: do not create the bean at startup; create it only when someone actually asks for it.</p>
+<div class="highlight"><pre><span></span><code>@Component
+@Lazy
+public class ReportService {
+    public ReportService() {
+        System.out.println(&quot;ReportService object created&quot;);
+    }
+
+    public void generateReport() {
+        System.out.println(&quot;Report generated&quot;);
+    }
+}
+</code></pre></div>
+
+<p>Spring knows about <code>ReportService</code> but does not immediately create the object; it only keeps the bean definition, which contains information such as:</p>
+<ul>
+<li>class name</li>
+<li>bean name</li>
+<li>scope</li>
+<li>dependencies</li>
+<li>lifecycle details</li>
+</ul>
+<p>The object is created only when requested:</p>
+<div class="highlight"><pre><span></span><code>ReportService reportService = context.getBean(ReportService.class);
+reportService.generateReport();
+</code></pre></div>
+
+<p>Order of output:</p>
+<div class="highlight"><pre><span></span><code>Application started
+ReportService object created
+Report generated
+</code></pre></div>
+
+<h3 id="a-lazy-bean-needed-by-an-eager-bean">A lazy bean needed by an eager bean</h3>
+<p>If a lazy bean is required by an eager singleton bean, the lazy bean <strong>may still be created at startup</strong>, because Spring must satisfy the dependencies of the eager singleton. If <code>UserService</code> is eager and needs <code>ReportService</code>, Spring has to provide <code>ReportService</code> while creating <code>UserService</code>. Unless <code>@Lazy</code> is used at the injection point, where Spring can inject a proxy instead.</p>
+<h3 id="lazy-injection-using-a-proxy">Lazy injection using a proxy</h3>
+<p>Instead of making the whole bean lazy, you can mark the injection point as lazy:</p>
+<div class="highlight"><pre><span></span><code>@Component
+public class UserService {
+    private final EmailService emailService;
+
+    public UserService(@Lazy EmailService emailService) {
+        this.emailService = emailService;
+        System.out.println(&quot;UserService created&quot;);
+    }
+
+    public void registerUser() {
+        System.out.println(&quot;User registered&quot;);
+        emailService.sendEmail();
+    }
+}
+</code></pre></div>
+
+<p>Spring does not inject the real <code>EmailService</code> immediately. It injects a <strong>proxy</strong>, a placeholder that looks like <code>EmailService</code>. When a method is actually called on it, Spring creates or fetches the real bean.</p>
+<p>Startup output:</p>
+<div class="highlight"><pre><span></span><code>UserService created
+Application started
+</code></pre></div>
+
+<p>Later, when <code>emailService.sendEmail()</code> runs:</p>
+<div class="highlight"><pre><span></span><code>User registered
+EmailService created
+Email sent
+</code></pre></div>
+
+<h3 id="bean-level-lazy-vs-injection-point-lazy">Bean-level @Lazy vs injection-point @Lazy</h3>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Lazy</code> on the class</td>
+<td>Do not create this bean until it is requested</td>
+</tr>
+<tr>
+<td><code>@Lazy</code> on the injection point</td>
+<td>Inject a proxy and resolve the real dependency only when it is used</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>@Component
+@Lazy
+public class ReportService {
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>public UserService(@Lazy EmailService emailService) {
+    this.emailService = emailService;
+}
+</code></pre></div>
+
+<h3 id="global-lazy-initialization-and-opting-out">Global lazy initialization and opting out</h3>
+<p>Spring Boot can make the whole application lazy:</p>
+<div class="highlight"><pre><span></span><code>spring.main.lazy-initialization=true
+</code></pre></div>
+
+<p>In YAML:</p>
+<div class="highlight"><pre><span></span><code>spring:
+  main:
+    lazy-initialization: true
+</code></pre></div>
+
+<p>This means beans are created only when needed, which can reduce startup time. The trade-off: misconfiguration errors may be discovered later, only when the lazy bean is initialized. By default:</p>
+<div class="highlight"><pre><span></span><code>spring.main.lazy-initialization=false
+</code></pre></div>
+
+<p>If global lazy initialization is enabled, a particular bean can still be forced eager:</p>
+<div class="highlight"><pre><span></span><code>@Component
+@Lazy(false)
+public class ImportantStartupBean {
+}
+</code></pre></div>
+
+<h3 id="lazyeager-dependency-combinations">Lazy/eager dependency combinations</h3>
+<ol>
+<li><strong>Eager bean depends on lazy bean.</strong> Spring may still create the lazy dependency at startup to satisfy the eager bean, unless <code>@Lazy</code> is used at the injection point so a proxy is injected instead.</li>
+<li><strong>Lazy bean depends on eager bean.</strong> The eager dependency is usually created during startup; the lazy bean is created when needed, and Spring injects the already-created eager dependency into it.</li>
+<li><strong>Lazy bean depends on lazy bean.</strong> Neither is created at startup. When the first is requested, Spring creates it; if it directly needs the second, Spring may create the second at that time as well. If <code>@Lazy</code> is on the injection point, Spring may inject a proxy and delay the real dependency until a method is called.</li>
+</ol>
+<h3 id="breaking-a-constructor-circular-dependency-with-lazy">Breaking a constructor circular dependency with @Lazy</h3>
+<p><code>@Lazy</code> can break a constructor cycle by injecting a proxy instead of the real object:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// CircularDependencyDemo - proxy at the injection point breaks the cycle</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderService</span><span class="p">(</span><span class="nd">@Lazy</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">paymentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">PaymentService</span><span class="p">(</span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Here Spring does not need to create the real <code>PaymentService</code> immediately while creating <code>OrderService</code>; it injects a proxy, and the real <code>PaymentService</code> is resolved later when actually used.</p>
+<h3 id="warning-lazy-is-a-workaround">Warning: @Lazy is a workaround</h3>
+<p>Using <code>@Lazy</code> to solve circular dependency should be treated as a workaround, not the best design. Use it only when:</p>
+<ul>
+<li>you understand the dependency flow clearly;</li>
+<li>refactoring is not immediately possible;</li>
+<li>you are dealing with legacy code;</li>
+<li>you want a temporary solution.</li>
+</ul>
+<p>The best long-term solution is to fix the design, separate responsibilities, and remove the circular dependency.</p>
+<h3 id="bean-lifecycle-a-brief-look-ahead">Bean lifecycle: a brief look ahead</h3>
+<p>Bean lifecycle means the complete journey of a Spring bean: discovery, creation, dependency injection, initialization, use, and destruction.</p>
+<div class="highlight"><pre><span></span><code>Bean Definition
+    |
+    v
+Object Creation
+    |
+    v
+Dependency Injection
+    |
+    v
+Initialization
+    |
+    v
+Ready to Use
+    |
+    v
+Destruction
+</code></pre></div>
+
+<p>Six steps at a glance: a bean definition is created (discovery via <code>@Component</code> types, XML, or a <code>@Bean</code> method, storing name, class, scope, dependencies, lazy/eager behavior, and lifecycle methods); the object is created via its constructor; dependencies are injected; initialization logic runs (<code>@PostConstruct</code>, <code>InitializingBean</code>, or a custom init method) for validation, opening resources, loading data, and checking fields; the bean is ready to use; and on container shutdown singleton beans are destroyed (<code>@PreDestroy</code>, <code>DisposableBean</code>, or a custom destroy method) to close resources and stop background tasks. For prototype beans, Spring creates the object and injects dependencies, but it does not fully manage the destruction lifecycle the way it does for singletons. This is only a preview; the full treatment is Lecture 07.</p>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Circular dependency is a Spring-only problem"</td>
+<td>It exists in plain Java too; two constructors calling each other end in <code>StackOverflowError</code>. Spring merely exposes it at startup.</td>
+</tr>
+<tr>
+<td>"Constructor injection is bad because it fails on cycles"</td>
+<td>Constructor injection is preferred; it makes dependencies clear and mandatory. The cycle is the real defect, not the injection style.</td>
+</tr>
+<tr>
+<td>"Setter/field injection fixes circular dependencies"</td>
+<td>It may let Spring resolve some cycles via an early reference, but that is not a license to keep a bad design.</td>
+</tr>
+<tr>
+<td>"Enabling allow-circular-references is the solution"</td>
+<td>It is a technical escape hatch. The correct solution is to refactor responsibilities.</td>
+</tr>
+<tr>
+<td>"Spring singleton means one object per class in the JVM"</td>
+<td>It means one object per bean definition inside the container; manual <code>new</code> objects and duplicate bean definitions are still possible.</td>
+</tr>
+<tr>
+<td>"A prototype injected into a singleton becomes new on every call"</td>
+<td>The singleton receives one prototype instance at creation and keeps that same reference.</td>
+</tr>
+<tr>
+<td>"Eager initialization is wasteful, so Spring avoids it"</td>
+<td>Eager is the default for singletons because failing fast at startup beats failing when the first user hits a feature.</td>
+</tr>
+<tr>
+<td>"Marking a bean @Lazy guarantees it is never created at startup"</td>
+<td>If an eager singleton depends on it, Spring may still create it at startup unless @Lazy is placed on the injection point.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 — "Circular dependency is only a Spring problem."</strong>
+Verdict: False. Plain Java shows the same failure as unbounded constructor recursion ending in <code>StackOverflowError</code>; Spring just detects it during bean creation.</p>
+<p><strong>Trap 2 — "Constructor injection is wrong because it cannot handle cycles."</strong>
+Verdict: False. Constructor injection is still the recommended style because it makes dependencies explicit and mandatory. The circular design is what is wrong.</p>
+<p><strong>Trap 3 — "Setter/field injection permanently solves circular dependency."</strong>
+Verdict: Misleading. It may let Spring resolve some cases through an early reference, but circular dependency remains a design smell that should be refactored away.</p>
+<p><strong>Trap 4 — "Since Spring Boot 2.6 circular references still work by default."</strong>
+Verdict: False. From Spring Boot 2.6 onward circular references are disabled by default (<code>spring.main.allow-circular-references=false</code>).</p>
+<p><strong>Trap 5 — "Spring singleton equals the Singleton Design Pattern."</strong>
+Verdict: False. Spring keeps one object per bean definition inside the container; two bean definitions of the same class produce two singleton objects, and manual <code>new</code> still works.</p>
+<p><strong>Trap 6 — "A prototype bean injected into a singleton is fresh on every method call."</strong>
+Verdict: False. The prototype is resolved once, when the singleton is created, and that same reference is reused.</p>
+<p><strong>Trap 7 — "@Lazy always prevents a bean from being created at startup."</strong>
+Verdict: False. An eager singleton that directly depends on a lazy bean can force its creation at startup unless @Lazy is applied at the injection point (proxy).</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>DI supplies dependencies, IoC hands control of creation to the container, and a bean is the managed object; <code>@Configuration</code> is itself a <code>@Component</code>.</li>
+<li>Spring creates beans in dependency order; a circular dependency removes any starting point and stalls the container.</li>
+<li>Circular dependency is a design problem, not a framework defect; plain Java shows it as <code>StackOverflowError</code>.</li>
+<li>Constructor injection fails on a cycle because all constructor arguments must exist before the object is built, giving <code>BeanCurrentlyInCreationException</code>.</li>
+<li>Constructor injection is still preferred because dependencies become clear and mandatory; the cycle, not the style, is the defect.</li>
+<li>Setter and field injection separate creation from injection, so Spring may resolve some cycles by exposing an early reference before full initialization.</li>
+<li>Spring Boot disables circular references by default (<code>spring.main.allow-circular-references=false</code>); the real fix is refactoring into clear responsibilities.</li>
+<li>Singleton scope means one object per bean definition inside the container (not per class); prototype scope means a new object every time the bean is requested.</li>
+<li>Web scopes request, session, and application live only in a web-aware context; a prototype injected into a singleton is resolved once and reused.</li>
+<li>Eager initialization (default for singletons) creates beans at startup for fail-fast validation; lazy initialization delays creation, and @Lazy on an injection point injects a proxy that resolves the real bean on first use.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is circular dependency?</td>
+<td>Two or more beans depend on each other directly or indirectly, so Spring cannot find a valid creation order.</td>
+</tr>
+<tr>
+<td>Why does constructor injection fail on a cycle?</td>
+<td>An object cannot be created until all constructor arguments exist, so neither bean can be built first; startup throws <code>BeanCurrentlyInCreationException</code>.</td>
+</tr>
+<tr>
+<td>Why is constructor injection still recommended?</td>
+<td>It makes dependencies explicit and mandatory; the failure exposes a design problem, it is not a reason to abandon the style.</td>
+</tr>
+<tr>
+<td>Why can setter/field injection sometimes work?</td>
+<td>Creation and injection are separate steps, so Spring can expose an early reference to a partially initialized bean and finish wiring later.</td>
+</tr>
+<tr>
+<td>What is an early reference?</td>
+<td>A reference Spring exposes before a bean is fully initialized so another bean can temporarily use it during circular resolution.</td>
+</tr>
+<tr>
+<td>What does Spring Boot do about circular references?</td>
+<td>It discourages them; since Spring Boot 2.6 they are disabled by default via <code>spring.main.allow-circular-references=false</code>.</td>
+</tr>
+<tr>
+<td>What is the best way to solve a circular dependency?</td>
+<td>Refactor: move shared logic to a third service, split responsibilities, use an interface or events, or add a coordinator class.</td>
+</tr>
+<tr>
+<td>Singleton vs prototype?</td>
+<td>Singleton: one object per bean definition inside the container (default). Prototype: a new object on every request to the container.</td>
+</tr>
+<tr>
+<td>Is Spring singleton the same as the Singleton pattern?</td>
+<td>No; it is one object per bean definition inside the container, not one object per class in the JVM.</td>
+</tr>
+<tr>
+<td>What happens when a prototype is injected into a singleton?</td>
+<td>The singleton gets one prototype instance at creation and keeps that same reference afterwards.</td>
+</tr>
+<tr>
+<td>What is the difference between eager and lazy initialization?</td>
+<td>Eager creates the bean at startup (default for singletons) for fail-fast validation; lazy creates it only when needed.</td>
+</tr>
+<tr>
+<td>What does @Lazy on an injection point do?</td>
+<td>Injects a proxy and resolves the real dependency only when a method is called, which can break a constructor cycle.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>DI / IoC / Beans (recap)
+    |
+    v
+@Configuration is also a @Component
+    |
+    v
+Spring creates beans in dependency order
+    |
+    v
+Circular dependency: A needs B, B needs A -&gt; no starting point (also fails in plain Java)
+    |
+    v
+Constructor injection fails -&gt; BeanCurrentlyInCreationException
+    |
+    v
+Setter / field injection separates creation from injection -&gt; early reference may resolve it
+    |
+    v
+Spring Boot disables circular references by default (since 2.6)
+    |
+    v
+Design smell -&gt; best fix is refactoring, not allow-circular-references
+    |
+    v
+Bean scope: singleton (one per bean definition) | prototype (new per request)
+    |
+    v
+Web scopes: request | session | application (+ websocket)
+    |
+    v
+Initialization: eager (default, fail fast) | lazy (create when needed)
+    |
+    v
+@Lazy: bean-level delays creation; injection-point injects a proxy
+    |
+    v
+@Lazy can break a constructor cycle, but it is a temporary workaround
+    |
+    v
+Bean lifecycle: definition -&gt; creation -&gt; injection -&gt; initialization -&gt; use -&gt; destruction (Lecture 07)
+</code></pre></div>
+
+<ul>
+<li>Recap -&gt; DI supplies, IoC controls, beans are managed; <code>@Configuration</code> is a <code>@Component</code>.</li>
+<li>Order -&gt; Spring builds dependencies first; a cycle removes the starting point.</li>
+<li>Cycle -&gt; a design smell present even in plain Java, not just Spring.</li>
+<li>Constructor -&gt; fails on a cycle yet remains the recommended style.</li>
+<li>Setter/field -&gt; separate creation from injection, enabling the early reference.</li>
+<li>Spring Boot -&gt; circular references disabled by default since 2.6.</li>
+<li>Scope -&gt; singleton per bean definition; prototype per request; web scopes for request/session/application.</li>
+<li>Initialization -&gt; eager by default (fail fast); lazy on demand; @Lazy proxy at injection points.</li>
+<li>Lifecycle -&gt; definition, creation, injection, initialization, use, destruction (full detail in Lecture 07).</li>
+</ul>
+<p><strong>One-line takeaway:</strong> a circular dependency is not a Spring bug to be unlocked with <code>allow-circular-references</code> but a design smell to be refactored, while bean scope and eager/lazy initialization decide how many objects Spring builds and when it builds them.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-05.html"><span class="dir">Previous</span><span class="ttl">Lecture 05 — Spring IOC Container</span></a><a class="next" href="doc-theory-lecture-07.html"><span class="dir">Next</span><span class="ttl">Lecture 07 — Bean Lifecycle Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

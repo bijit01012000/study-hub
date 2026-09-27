@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Pub-Sub System — LLD</title>
+<meta name="description" content="Design a Pub-Sub System">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-20-pub-sub">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-delivery-model">The Delivery Model</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-20-pub-sub.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Pub-Sub System</h1>
+<p class="readmeta">15 sections · 1,768 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-20-pub-sub" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 20 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>In-process Broker, Topics, publish a Message to a topic.</li>
+<li>Subscribe and get every message published after subscribing.</li>
+<li>At-least-once: an append-only log per topic, each subscriber its own offset.</li>
+<li>Deliver at the offset, the subscriber acks to advance.</li>
+<li>nack or ack-timeout redelivers, dead-letter after N.</li>
+<li>Per-topic FIFO, one in-flight per subscriber.</li>
+<li>Backpressure: a slow subscriber lags (shared log) or fills a bounded queue with a stated overflow policy.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Multi-node / partitioning / replication / a wire protocol (Kafka, the HLD).</li>
+<li>Exactly-once.</li>
+<li>On-disk persistence past naming a WAL.</li>
+<li>A schema registry.</li>
+<li>Consumer-group rebalancing detail.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>Topics, log, per-subscriber offset. A <code>Broker</code> holds topics and subscriptions; each <code>Topic</code> is an append-only log and each <code>Subscription</code> keeps its own cursor into it.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Publisher</strong> — <code>topic: String</code>; <code>publish(Message m)</code> calls <code>broker.publish(topic, m)</code>.</li>
+<li><strong>App1</strong> / <strong>App2</strong> / <strong>Worker</strong> — implement <code>onMessage(m)</code>, then acks. The handler may throw.</li>
+<li><strong>Broker</strong> (singleton) — <code>topics: Map&lt;String, Topic&gt;</code>, <code>subs: Map&lt;String, List&lt;Subscription&gt;&gt;</code>, <code>sweeper: Sweeper</code>; <code>publish(String topic, Message m): void</code>, <code>subscribe(String topic, Subscriber s): Subscription</code>, <code>ack(String subId, long offset): void</code>.</li>
+<li><strong>Topic</strong> — <code>name: String</code>, <code>log: List&lt;Message&gt;</code> (grows only); <code>append(Message m): long</code>, <code>at(long offset): Message</code>, <code>size(): long</code>.</li>
+<li><strong>Message</strong> (value) — <code>id: String</code>, <code>topic: String</code>, <code>payload: byte[]</code>, <code>at: Instant</code>. An opaque blob to the broker.</li>
+<li><strong>Subscriber</strong> (interface) — <code>name: String</code>; <code>onMessage(Message m): void</code>. Your handler runs here, may throw.</li>
+<li><strong>Subscription</strong> (one per subscriber) — <code>id: String</code>, <code>sub: Subscriber</code>, <code>offset: long</code>, <code>inFlight: Message</code>, <code>deadline: Instant</code>, <code>tries: int</code>; <code>deliverNext(): void</code>, <code>advance(long offset)</code>.</li>
+<li><strong>Sweeper</strong> — <code>scan(): void</code>; redelivers past-deadline in-flight messages, dead-letters after MAX_REDELIVERY. Runs on a timer.</li>
+<li><strong>DeliveryPolicy</strong> / <strong>OverflowRules</strong> (interface) — <code>onOverflow(Subscription s, Message m): void</code>. The one rule for a full bounded queue. <code>BlockPublisher</code> (publish waits for room), <code>DropOldest</code> (evict the head), <code>DropNewest</code> (reject the incoming message). Same seam; only the overflow move differs.</li>
+<li><strong>RetentionPolicy</strong> (interface, seam) — <code>keepUntil(Topic t): long</code>. Caps how far back the shared log is kept. <code>KeepAll</code>, <code>MaxAge</code>, <code>MaxSize</code>.</li>
+<li><strong>DeadLetter</strong> (value, seam) — <code>topic: String</code>, <code>message: Message</code>, <code>tries: int</code>, <code>lastError: String</code>. Parked after N failed deliveries.</li>
+</ul>
+<h3 id="relationships">Relationships</h3>
+<p><code>Broker</code> owns 1..<em> topics and 1..</em> subscriptions per topic. A <code>Subscription</code> reads at its offset; a <code>Message</code> is read, never removed.</p>
+<h3 id="the-invariants">The invariants</h3>
+<ul>
+<li><code>caughtUp</code> when <code>offset == topic.size()</code>.</li>
+<li><code>lag(sub) = topic.size() - offset</code>.</li>
+<li>1 in-flight per sub; FIFO per topic.</li>
+<li>Retention, not reading, frees the log.</li>
+</ul>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>publish(String topic, Message m): void</code> — appends to the topic log (O(1)), then wakes every Subscription on that topic. Never blocks on a subscriber unless the <code>DeliveryPolicy</code> says <code>BlockPublisher</code>.</li>
+<li><code>subscribe(String topic, Subscriber s): Subscription</code> — a new Subscription starts at the current tail (<code>offset == size</code>), so it sees only messages published from now on.</li>
+<li><code>ack(String subId, long offset): void</code> — advances that subscription's offset past the acked message and clears inFlight. An ack for an old offset is a no-op (idempotent).</li>
+<li><code>deliverNext(): void</code> — if caught up, return. Else hand <code>topic.at(offset)</code> to the subscriber with a visibility deadline; one message in flight at a time so order holds.</li>
+</ol>
+<h3 id="from-memory">From memory</h3>
+<ul>
+<li><code>deliverNext</code>: <code>if (offset==size) return; m=at(offset); onMessage(m); deadline=now+VIS</code>.</li>
+<li><code>ack(off)</code>: <code>if (off==offset) offset++; inFlight=null</code> (old / dup ack: no-op).</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Blank on the guarantee means that method is your gap.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>Topic <code>orders</code>. Sub A is caught up at offset 5, sub B is slow at offset 2. A publisher appends m5. Walk what each subscriber does next, and what happens if B never acks m3.</p>
+<p>The same array, two cursors: A.offset = 5, B.offset = 2. B acks 2 -&gt; B.offset = 3. B is silent on m3, so the sweeper redelivers m3. M3 fails three times -&gt; m3 goes to dead-letter, B.offset = 4. A is caught up, so <code>deliverNext()</code> returns at once.</p>
+<h2 id="the-change">The Change</h2>
+<p>Several subscribers share a group and each message goes to exactly ONE member, so a topic's throughput scales across the group. Subscription offset becomes per-group, delivery picks a free member, and rebalancing hands partitions around when a member joins or leaves.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The log is not a queue. A read does not remove anything. Two subscribers on one topic each hold their own offset into the same array, so a slow one only lags. Retention, not consumption, frees a slot.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Publish, deliver and the sweeper:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Broker</span><span class="w"> </span><span class="p">{</span><span class="w">                                     </span><span class="c1">// one singleton</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="n">Topic</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topics</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Subscription</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">subs</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="n">Subscription</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">Message</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Topic</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">topics</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">topic</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w">                    </span><span class="c1">// O(1), append-only</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Subscription</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">subs</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">topic</span><span class="p">))</span>
+<span class="w">            </span><span class="n">s</span><span class="p">.</span><span class="na">deliverNext</span><span class="p">();</span><span class="w">                       </span><span class="c1">// wake, never block</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">ack</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">subId</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">off</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Subscription</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">byId</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">subId</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">off</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">offset</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                     </span><span class="c1">// idempotent</span>
+<span class="w">            </span><span class="n">s</span><span class="p">.</span><span class="na">offset</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">inFlight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">tries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Subscription</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">offset</span><span class="p">;</span><span class="w"> </span><span class="n">Message</span><span class="w"> </span><span class="n">inFlight</span><span class="p">;</span><span class="w"> </span><span class="n">Instant</span><span class="w"> </span><span class="n">deadline</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tries</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">deliverNext</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">topic</span><span class="p">.</span><span class="na">size</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">        </span><span class="c1">// caught up</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">inFlight</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">              </span><span class="c1">// one in flight</span>
+<span class="w">        </span><span class="n">Message</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">topic</span><span class="p">.</span><span class="na">at</span><span class="p">(</span><span class="n">offset</span><span class="p">);</span><span class="w"> </span><span class="n">inFlight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
+<span class="w">        </span><span class="n">deadline</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clock</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">plus</span><span class="p">(</span><span class="n">VIS_TIMEOUT</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sub</span><span class="p">.</span><span class="na">onMessage</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Sweeper</span><span class="w"> </span><span class="p">{</span><span class="w">                                    </span><span class="c1">// runs on a timer</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">scan</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Subscription</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">all</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">inFlight</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">now</span><span class="p">().</span><span class="na">isAfter</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">deadline</span><span class="p">))</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">++</span><span class="n">s</span><span class="p">.</span><span class="na">tries</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">MAX_REDELIVERY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">          </span><span class="c1">// dead-letter</span>
+<span class="w">            </span><span class="n">dlq</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="na">topic</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">inFlight</span><span class="p">);</span>
+<span class="w">            </span><span class="n">s</span><span class="p">.</span><span class="na">offset</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">inFlight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">tries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">inFlight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">                </span><span class="c1">// free the slot,</span>
+<span class="w">            </span><span class="n">s</span><span class="p">.</span><span class="na">deliverNext</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w">                     </span><span class="c1">// offset unmoved</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// per-sub queue variant: DeliveryPolicy.onOverflow fires here</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Slow subscriber, unbounded growth.</strong> With per-sub queues a lagging consumer's queue grows without limit, then OOM. A bounded queue + a stated <code>DeliveryPolicy</code> (block the publisher / drop-oldest / drop-newest); with the shared log, a <code>RetentionPolicy</code> caps how far back the log is kept.</li>
+<li><strong>A subscriber that never acks.</strong> inFlight is pinned and redelivery repeats forever. A visibility timeout redelivers, then dead-letter after MAX_REDELIVERY; never an unbounded retry loop.</li>
+<li><strong>Losing a message with fire-and-forget.</strong> If delivery does not wait for an ack and the process restarts, the in-flight message is gone. At-least-once needs the ack + the persisted offset, so a restart resumes from the last acked offset.</li>
+<li><strong>Publishing while the subscriber set changes.</strong> Iterating <code>subs.get(topic)</code> while another thread subscribes or unsubscribes throws, or a mid-delivery unsubscribe NPEs. Snapshot / copy-on-write the list; tombstone a removed subscription instead of deleting mid-loop.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>if (offset &gt;= topic.size()) return</code> — caught up, the read is not destructive.</li>
+<li><code>if (inFlight != null) return</code> — one in flight, so per-topic order holds; the sweeper clears it first, so <code>deliverNext()</code> re-reads the same unacked offset.</li>
+<li><code>if (off == s.offset)</code> in <code>ack</code> — idempotent; an old or duplicate ack does nothing.</li>
+</ol>
+<h2 id="the-delivery-model">The Delivery Model</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Copies of a message</th>
+<th>Slow consumer</th>
+<th>Replay</th>
+<th>New bug surface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared log + per-sub offset (Kafka-style)</td>
+<td>one</td>
+<td>only lags, needs a retention bound</td>
+<td>yes, seek an offset</td>
+<td>retention + offset bookkeeping</td>
+</tr>
+<tr>
+<td>Per-subscriber queue (RabbitMQ-style)</td>
+<td>N</td>
+<td>its own bounded queue, natural backpressure</td>
+<td>no, gone after delivery</td>
+<td>N queues to bound</td>
+</tr>
+<tr>
+<td>Sync direct-call observer (no broker)</td>
+<td>none</td>
+<td>blocks the publisher and every other subscriber</td>
+<td>no</td>
+<td>a throwing subscriber breaks the loop</td>
+</tr>
+</tbody>
+</table>
+<p>Shared log + per-subscriber offset. One copy, replayable, a slow consumer only lags. Reach for per-subscriber queues when subscribers are truly independent and you want per-consumer backpressure with no retention tuning.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Treating the topic as a queue that pops on delivery, so a second subscriber gets nothing.</li>
+<li>No ack at all (fire-and-forget) while claiming at-least-once.</li>
+<li>An unbounded per-subscriber queue with no overflow policy.</li>
+<li>Retrying a stuck message forever with no visibility timeout and no dead-letter.</li>
+<li>Delivering several messages to one subscriber at once, so acks and the offset desync.</li>
+<li>Iterating the subscriber list while it is being modified.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Observer — subscribers observe a topic, decoupled by the broker. Strategy — <code>DeliveryPolicy</code> and <code>RetentionPolicy</code>. Factory — a Topic on first publish. Iterator — a subscriber walks the log at its offset.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"Each topic is an append-only log. A publish appends and wakes the subscribers on that topic. Every subscriber keeps its own offset, gets the message at that offset with a visibility deadline, and acks to advance. No ack in time, the sweeper redelivers, then dead-letters after N. A slow subscriber only lags; retention, not reading, frees the log."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>Two subscribers on one topic, one slow. What does each see?</strong> Each has its own offset; the slow one only lags.</li>
+<li><strong>A subscriber never acks m3.</strong> Visibility timeout, redeliver, dead-letter after N.</li>
+<li><strong>New subscriber on a topic with 1000 messages. From where?</strong> The tail; only new messages, unless it asks to replay from an offset.</li>
+<li><strong>Publisher outruns a subscriber forever.</strong> Bounded queue + <code>DeliveryPolicy</code>, or a retention bound on the shared log.</li>
+<li><strong>Keep ordering with a slow onMessage.</strong> One in flight per subscriber; or partition by key.</li>
+<li><strong>Make each message go to exactly one of N workers.</strong> A consumer group (the ghost).</li>
+<li><strong>The process restarts.</strong> Resume from the last persisted acked offset; in-flight unacked messages redeliver.</li>
+<li><strong>A subscriber throws inside onMessage.</strong> No ack, the sweeper retries, dead-letter after N; the publish loop is not affected.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Exactly-once</strong> — needs idempotent consumers or a transaction protocol. At-least-once + an idempotency key is the honest answer.</li>
+<li><strong>Persistence</strong> — the log is in memory here; a real one is a segmented WAL with fsync.</li>
+<li><strong>Partitioning across nodes</strong> — the page-2 ghost. One-of-N delivery + rebalancing.</li>
+<li><strong>A schema registry / serialization</strong> — the payload is an opaque blob here.</li>
+<li><strong>A real broker</strong> — that is Kafka, the HLD version. Name it, move on.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>A webhook fan-out</li>
+<li>Redis pub/sub</li>
+<li>Observer at scale</li>
+<li>A change-data-capture stream</li>
+<li>An event bus</li>
+<li>A task queue with retries</li>
+<li>A domain-event dispatcher</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-19-notification-service.html"><span class="dir">Previous</span><span class="ttl">Design a Notification Service</span></a><a class="next" href="subject-lld.html"><span class="dir">Done</span><span class="ttl">Back to LLD</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

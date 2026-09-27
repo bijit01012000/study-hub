@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG quality and failure diagnosis — AI / GenAI</title>
+<meta name="description" content="RAG quality and failure diagnosis">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="active" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>AI / GenAI</h4><details class="part"><summary>Theory &amp; Notes <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-00-overview.html" title="GenAI Concepts">GenAI Concepts</a><button class="star" data-doc="theory-genai-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="theory-genai-concepts-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="theory-genai-concepts-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="theory-genai-concepts-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="theory-genai-concepts-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="theory-genai-concepts-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="theory-genai-concepts-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="theory-genai-concepts-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="theory-genai-concepts-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="theory-genai-concepts-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="theory-genai-concepts-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="theory-genai-concepts-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="theory-genai-concepts-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="theory-genai-concepts-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="theory-genai-concepts-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="theory-genai-concepts-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-questions</li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-00-overview.html" title="GenAI Interview Questions">GenAI Interview Questions</a><button class="star" data-doc="practice-genai-questions-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="practice-genai-questions-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="practice-genai-questions-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="practice-genai-questions-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="practice-genai-questions-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="practice-genai-questions-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="practice-genai-questions-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-genai-questions-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div><ul class="sections"></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="practice-genai-questions-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="practice-genai-questions-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="practice-genai-questions-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="practice-genai-questions-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="practice-genai-questions-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="practice-genai-questions-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="practice-genai-questions-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="practice-genai-questions-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-ai.html">AI / GenAI</a> › Practice &amp; Questions</p>
+<h1>RAG quality and failure diagnosis</h1>
+<p class="readmeta">0 sections · 3,889 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 07 · 9 questions · 1 practical drill</p>
+<blockquote class="callout callout--note">
+<p>Tell a retrieval failure from a generation failure, with evidence.</p>
+</blockquote>
+<h3 id="q71-how-do-you-evaluate-retrieval-quality">Q7.1 — How do you evaluate retrieval quality?</h3>
+<p><strong>Weak answer:</strong> "We used RAGAS to score the pipeline, mainly faithfulness and context precision, and once the numbers looked reasonable we shipped it."</p>
+<p><strong>Why it fails:</strong>
+- Cannot say where the reference answers or relevance labels came from. "Looked reasonable" is not a measurement.
+- Conflates faithfulness, a generation metric, with context precision, a retrieval one, without saying what each scores.</p>
+<p><strong>Instant rejection:</strong>
+- No mention of classic IR metrics, recall@k, precision@k, MRR, or why an LLM-judged metric was chosen over them.
+- Never ran the eval against the retriever alone, only against the full pipeline's final output.</p>
+<p><strong>Model answer:</strong>
+1. We built a golden set of 150 real support queries from production logs, and hand-labelled the chunk IDs that actually contained the answer.
+2. Against that we ran the retriever alone, recall at 10 around 0.81, meaning roughly a fifth of the labelled answer chunks never reached the top 10.
+3. Separately, on the full pipeline, we ran faithfulness and context precision with an LLM judge, two different failure surfaces on separate dashboards.
+4. When we shipped a new embedding model, golden-set recall was the regression gate before generation metrics even reran.
+5. The aggregate number said retrieval was fine for months while one deprecated FAQ category silently returned stale chunks the average absorbed.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — Where did your ground-truth query-to-chunk mapping come from, hand-labelled or LLM-generated? · Whether real ground truth exists or the score is self-referential.
+2. <strong>TECHNICAL</strong> — What's the difference between what context precision measures and what faithfulness measures? · Retrieval-stage versus generation-stage metric literacy.
+3. <strong>FAILURE</strong> — What did you do when the eval score looked fine but one query type was clearly failing? · Whether an aggregate score was broken down per category.
+4. <strong>TRADEOFF</strong> — Why not just use recall@k and precision@k instead of an LLM-judged metric? · Knowing classic IR metrics need labels while LLM-judged metrics substitute a judge model.</p>
+<p><strong>Tip:</strong> If you've built a labelled test set for a search or classification feature and tracked precision or recall against it, that's the same discipline. Don't claim you've run RAGAS in production. Say you understand the difference between a retrieval metric and a generation metric, and why ground truth matters.</p>
+<p><strong>Numbers worth quoting:</strong>
+- 150-query golden set
+- recall@10 around 0.81
+- Retrieval gate before generation
+- Break scores down per category</p>
+<h3 id="q72-walk-me-through-precision-versus-recall-in-retrieval-which-did-you-tune-for-and-why">Q7.2 — Walk me through precision versus recall in retrieval. Which did you tune for, and why?</h3>
+<p><strong>Weak answer:</strong> "Recall matters more, if you don't retrieve the right chunk the model has no chance. So we set k high and leaned on the reranker."</p>
+<p><strong>Why it fails:</strong>
+- States the trade-off as one-sided, ignoring what a high k costs: noisier context, more tokens, more room for a wrong chunk.
+- Treats reranking as a free fix rather than a second stage with its own behaviour and latency cost.</p>
+<p><strong>Instant rejection:</strong>
+- No numbers at all, doesn't know what k was or what the resulting precision looked like.
+- Never ties the choice to the task. Recall-first suits legal discovery but is risky for a bot citing contradictory chunks.</p>
+<p><strong>Model answer:</strong>
+1. Precision@k is what fraction of the top-k chunks are actually relevant. Recall@k is what fraction of all relevant chunks made it into the top k.
+2. We tuned for recall at first-stage retrieval, k=20, because a missed chunk is unrecoverable, nothing downstream conjures information never retrieved.
+3. We didn't hand k=20 to the generator. We reranked down to the top 4, where we optimised precision, past 5-6 chunks faithfulness dropped about 8 points.
+4. The shape was recall-first at retrieval, precision-first at what reaches the prompt, with the reranker unable to recover a chunk retrieval missed.
+5. For a compliance-style system I'd shift the calculus toward precision and abstention, since a confidently wrong citation is worse than an admitted miss.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — What was precision@k doing to the generated answer when k was high, did you measure that? · Whether the precision cost was measured against generation quality.
+2. <strong>FAILURE</strong> — Give me a case where high-recall retrieval actively made the final answer worse. · Concrete awareness that noisy context can get cited into a wrong claim.
+3. <strong>TRADEOFF</strong> — How would your answer change for a system where a wrong answer is worse than no answer? · Whether the choice is task-dependent or a fixed habit.
+4. <strong>TECHNICAL</strong> — What's the actual mechanism by which a reranker trades against your first-stage recall ceiling? · Understanding reranking reorders, it cannot recover recall the first stage missed.</p>
+<p><strong>Tip:</strong> If you've tuned a search feature's result count against user complaints about noise versus missed results, that's the same trade-off, different shape. Don't claim you've tuned retrieval precision or recall. Say you understand the trade-off and which way you'd lean for a given task's cost of being wrong.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Recall-first at k=20
+- Rerank down to top 4
+- Faithfulness drops past 5-6 chunks
+- Reranker cannot fix lost recall</p>
+<h3 id="q73-how-do-you-catch-a-case-where-the-model-answered-from-its-own-knowledge-not-the-retrieved-context">Q7.3 — How do you catch a case where the model answered from its own knowledge, not the retrieved context?</h3>
+<p><strong>Weak answer:</strong> "We instruct the model to only answer from the provided context and say it doesn't know otherwise. That's mostly worked for us."</p>
+<p><strong>Why it fails:</strong>
+- A prompt instruction is a mitigation attempt, not a detection mechanism. It doesn't tell you when the model ignores it.
+- "Mostly worked" has no measurement behind it, no rate, no test, no example caught.</p>
+<p><strong>Instant rejection:</strong>
+- No distinction drawn between the model being right by coincidence and the model being genuinely grounded in the context.
+- No ablation or entailment check mentioned that would actually surface this failure.</p>
+<p><strong>Model answer:</strong>
+1. The dangerous version is invisible. The model answers correctly because it already knew the fact, not because it read the chunk, until the source changes.
+2. First, an ablation test on the golden set: rerun generation with the retrieved context stripped. If the answer barely changes, context wasn't load-bearing.
+3. We found this on about 12% of the golden set, concentrated in well-known category facts rather than our own specific pricing or policy details.
+4. Second, an entailment-style check maps each claim in the answer to a supporting span in the context, catching coincidence even without ablation.
+5. We alert if the unsupported-claim rate climbs on a rolling sample, since a slow drift usually means the corpus changed under a topic the model already knows.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — How would you tell the model being grounded from the model being right by coincidence? · Whether they see this failure as invisible exactly when it doesn't matter.
+2. <strong>TECHNICAL</strong> — What's the ablation test, strip the context and rerun, actually supposed to show you? · If the model answers the same with no context, it wasn't using it.
+3. <strong>MEASUREMENT</strong> — How would you build an automated check for this rather than spot-checking by eye? · Entailment-style faithfulness scoring, does every claim trace to a span.
+4. <strong>TECHNICAL</strong> — Which topics in your corpus are most at risk of this, and why those specifically? · Recognising well-known topics are where the model needs context least.</p>
+<p><strong>Tip:</strong> If you've tested a feature by removing an input to see if the output actually depended on it, that's the same ablation instinct this question wants. Don't claim you've caught ungrounded answers in production. Say how an ablation test would reveal it and why a prompt instruction alone can't.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Strip context, rerun, compare
+- ~12% of golden set ungrounded
+- Entailment maps claim to span
+- Alert on rising unsupported rate</p>
+<h3 id="q74-how-do-you-handle-grounding-citations-and-attribution-so-an-answer-actually-traces-to-a-real-source">Q7.4 — How do you handle grounding, citations and attribution so an answer actually traces to a real source?</h3>
+<p><strong>Weak answer:</strong> "Every answer includes a link to the document it was pulled from, so the user can go check the source themselves if they want."</p>
+<p><strong>Why it fails:</strong>
+- Shows a citation exists but never checks it supports the claim beside it, which is a citation-shaped hallucination.
+- Document-level attribution is far weaker than claim-level. A document can be cited right while the sentence is not.</p>
+<p><strong>Instant rejection:</strong>
+- Pushes all verification onto the user, with no internal check before the answer ships.
+- No mention of what happens when the citation is wrong, no detection, no metric, no correction path.</p>
+<p><strong>Model answer:</strong>
+1. Early on we shipped document-level citations, and it made wrong answers look more trustworthy, the citation was real and topical but not specific.
+2. That's citation-shaped hallucination. The answer looks sourced, so people stop checking it, exactly when they shouldn't.
+3. We moved to claim-level attribution, tracking which chunk each sentence ties to, and verifying that chunk actually entails that sentence.
+4. We measure this as a citation-accuracy rate on the golden set, what fraction of citations actually support the claim, treating under 90% as not ready.
+5. For a compliance answer I'd want the system to refuse rather than cite loosely, since a confidently wrong, plausibly-cited claim costs more there.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — What stops the model citing a real, relevant document next to a claim it doesn't actually support? · Understanding citation-shaped hallucination.
+2. <strong>TECHNICAL</strong> — Is your attribution at the document level or the claim level, and why does that matter? · Sentence-level traceability versus the false confidence of document-level citation.
+3. <strong>MEASUREMENT</strong> — How would you measure your citation accuracy rate, and what's acceptable? · Whether citation correctness is tracked as its own metric.
+4. <strong>TRADEOFF</strong> — What do you do differently for a high-stakes domain like compliance versus general support? · Whether attribution rigour scales with the cost of being wrong.</p>
+<p><strong>Tip:</strong> If you've built an audit trail or changelog that ties a specific claim to a specific source record, not just a general reference, say that plainly. Don't claim you've measured citation accuracy. Say you understand the gap between a document-level link and a verified, claim-level source.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Claim-level, not document-level
+- Citation accuracy under 90% fails
+- Citation-shaped hallucination
+- High stakes: refuse, do not guess</p>
+<h3 id="q75-what-happens-when-a-querys-answer-genuinely-isnt-in-the-corpus-how-do-you-detect-that">Q7.5 — What happens when a query's answer genuinely isn't in the corpus? How do you detect that?</h3>
+<p><strong>Weak answer:</strong> "If the retrieved chunks aren't relevant, the model should recognise that and tell the user it doesn't have that information."</p>
+<p><strong>Why it fails:</strong>
+- Leaves detection to the generator, exactly where weak chunks produce a fluent, unjustified answer instead of abstaining.
+- No similarity threshold, classifier, or feedback loop described, so corpus gaps never get identified or filled.</p>
+<p><strong>Instant rejection:</strong>
+- Assumes the model reliably self-reports uncertainty, not a safe assumption at the surface-fluency level models operate at.
+- No mention of what happens to flagged queries afterward. They just dead-end at a refusal message.</p>
+<p><strong>Model answer:</strong>
+1. We don't trust the model to notice it's out of scope, a weakly related chunk is often similar enough that it answers confidently from it anyway.
+2. We gate on retrieval score. Below a threshold chosen against a labelled set of 60 in-scope and 60 out-of-scope queries, the request routes to abstention.
+3. We accepted that refuses some genuinely answerable borderline queries, measured at roughly 4% of in-scope traffic, against answering from noise.
+4. Every flagged query gets logged and reviewed weekly, which is how we found a real gap, a run of queries about an undocumented refund edge case.
+5. That cluster became a ticket to write the missing document, not a threshold to keep tuning around.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — What's the actual signal you gate on, and how was the threshold chosen? · Concrete detection mechanism versus hoping the model notices.
+2. <strong>TRADEOFF</strong> — What's the failure mode when your threshold is set too low versus too high? · Understanding too strict refuses answerable queries, too loose lets weak matches through.
+3. <strong>TECHNICAL</strong> — What do you do with queries flagged as unservable, does anything happen to them afterward? · Whether they feed corpus-gap analysis or just dead-end.
+4. <strong>FAILURE</strong> — Give me a case where a query looked in-scope but wasn't, and the system got it wrong. · A concrete instance, not a hypothetical description.</p>
+<p><strong>Tip:</strong> If you've built a fallback or "no results" path gated on a confidence score rather than trusting a downstream component to self-report, say that. Don't claim you've tuned an abstention threshold. Say you'd gate on a retrieval-side signal and review what gets flagged, rather than trust the model.</p>
+<p><strong>Numbers worth quoting:</strong>
+- 60 in-scope, 60 out labelled set
+- ~4% of traffic refused, accepted
+- Weekly review of flagged queries
+- Gap found, became a doc ticket</p>
+<h3 id="q76-how-do-you-handle-a-question-that-needs-information-from-two-or-more-documents-to-answer">Q7.6 — How do you handle a question that needs information from two or more documents to answer?</h3>
+<p><strong>Weak answer:</strong> "We just increase k so we pull back more chunks, and the model is usually good enough to piece the pieces together itself."</p>
+<p><strong>Why it fails:</strong>
+- A single query is anchored to the phrasing asked. Widening k pulls more chunks like that phrasing, not the second document.
+- No mention of decomposing the question into sub-queries, or verifying each hop was actually retrieved before generation.</p>
+<p><strong>Instant rejection:</strong>
+- Misses that this fails silently. The model gives a fluent, half-correct answer from the one hop it found, reading as complete.
+- No cost acknowledged for decomposition, extra retrieval round-trips and latency, versus applying it to every query.</p>
+<p><strong>Model answer:</strong>
+1. Widening k doesn't fix multi-hop. The query embedding is anchored to how the question was asked, and the second hop's document shares little vocabulary.
+2. We saw this on a question about the refund window for a plan an enterprise tier replaced. Retrieval missed the changelog naming the old plan.
+3. What worked was decomposing the question into sub-queries, resolving which plan was replaced first, then retrieving again for that entity's policy.
+4. We only generate once both hops surfaced a chunk above the relevance threshold, and flag likely multi-hop queries with a cheap classifier first.
+5. We now measure per-hop coverage for the multi-hop subset, since the failure we'd been missing was a confident answer using only the first hop.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Why doesn't widening k reliably fix this, mechanically? · Understanding a single embedding is anchored to the first hop's phrasing, not the second.
+2. <strong>MEASUREMENT</strong> — How would you detect a multi-hop answer is missing a hop, rather than just being wrong? · Whether per-hop retrieval coverage is checked, not just final correctness.
+3. <strong>TRADEOFF</strong> — What does query decomposition buy you here, and what does it cost? · Extra round-trips and latency in exchange for coverage.
+4. <strong>FAILURE</strong> — What does a silent multi-hop failure look like to a user, how would they even notice? · Recognising the answer looks complete while quietly omitting a hop.</p>
+<p><strong>Tip:</strong> If you've broken a complex query into sub-queries against separate data sources and joined the results, that's the same decomposition instinct. Don't claim you've solved multi-hop retrieval. Say why widening k doesn't fix it and how you'd decompose a question that needs two sources.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Widening k misses the 2nd hop
+- Decompose, then retrieve per hop
+- Classifier flags likely multi-hop
+- Measure coverage per hop, not final</p>
+<h3 id="q77-your-corpus-has-conflicting-versions-of-the-same-document-how-do-you-deal-with-that">Q7.7 — Your corpus has conflicting versions of the same document. How do you deal with that?</h3>
+<p><strong>Weak answer:</strong> "We run deduplication on ingestion to strip out exact duplicates before they get indexed."</p>
+<p><strong>Why it fails:</strong>
+- Exact-text dedup catches copies but does nothing for two documents that genuinely disagree because one is outdated.
+- No recency or authority signal. Nothing tells the retriever or generator that one version supersedes the other.</p>
+<p><strong>Instant rejection:</strong>
+- No detection mechanism for when the model has already blended two conflicting chunks into one confident, contradictory answer.
+- Treats this purely as ingestion hygiene, with no generation-time or retrieval-time response at all.</p>
+<p><strong>Model answer:</strong>
+1. Exact-match dedup handles the boring case, the same PDF re-uploaded twice. The dangerous case is two coherent documents that genuinely disagree.
+2. I tag every document with an effective-date and status at ingestion, and link a deprecated document to its replacement where known.
+3. At retrieval time I filter out anything marked superseded by default, and only surface it if the query is explicitly about history or an audit.
+4. For unclean cases I added a generation-time check: if retrieved chunks contradict each other on the same fact, flag it rather than let the model pick one.
+5. We deliberately didn't delete old versions, support agents still legitimately query historical policy, the fix was visibility, not erasing the record.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What's the difference between a duplicate and a conflict, and why does dedup only catch one? · Exact-match dedup versus semantically similar but contradictory documents.
+2. <strong>TECHNICAL</strong> — What signal would tell the retriever that one of two conflicting chunks is stale? · Recency or authority metadata, or an explicit supersession link.
+3. <strong>FAILURE</strong> — How would you detect afterwards that the model blended two conflicting sources? · Concrete detection, not just prevention.
+4. <strong>TRADEOFF</strong> — What's the cost of aggressively archiving old versions versus keeping them retrievable? · Old content is sometimes still needed; blunt removal has its own failure mode.</p>
+<p><strong>Tip:</strong> If you've handled two conflicting rows or records in a system by tagging one authoritative and one superseded, rather than deleting either, say that. Don't claim you've resolved document conflicts in a live RAG system. Say how you'd tag recency and authority and detect a blended, contradictory answer.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Dedup catches copies, not
+- conflicts
+- Effective-date and status tags
+- Superseded docs filtered by default
+- Flag conflicting chunks at gen time</p>
+<h3 id="q78-you-get-a-bad-answer-from-the-rag-pipeline-how-do-you-tell-if-its-retrieval-or-generation-at-fault">Q7.8 — You get a bad answer from the RAG pipeline. How do you tell if it's retrieval or generation at fault?</h3>
+<p><strong>Weak answer:</strong> "I'd look at the answer, see what went wrong, then check both the retrieved chunks and the prompt to figure out where the issue is."</p>
+<p><strong>Why it fails:</strong>
+- "Check both" isn't a procedure. It doesn't say in what order, or what result at each step tells you to stop.
+- No isolation experiment described. Never separates the two stages so one test can decisively rule one out.</p>
+<p><strong>Instant rejection:</strong>
+- Jumps straight to reading the prompt, the classic reflex that wastes time tuning generation when the real defect is upstream.
+- No mention of the one test that actually splits the search space, running generation on hand-fed, known-good context.</p>
+<p><strong>Model answer:</strong>
+1. First I confirm the answer is in the corpus at all. If not, this is a coverage gap rather than retrieval against generation, and I stop there.
+2. I pull the chunks retrieved for that query and check three things: is the answer chunk there, what rank did it get, did it survive truncation.
+3. If it was not retrieved or ranked highly, that is a retrieval fault. No prompt wording recovers a chunk that was never fetched.
+4. If the chunk was there and ranked well, I run the decisive test. Hand-write the correct context, feed it to the generator, hold everything else constant.
+5. Right with hand-fed context means retrieval was at fault. Still wrong means generation is misreading correct information.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What's the one experiment that, run once, tells you which side of the pipeline is at fault? · The decisive test: hand-feed known-good context and rerun, splitting retrieval from generation.
+2. <strong>MEASUREMENT</strong> — Before that test, what do you check in the retrieved chunks themselves? · Whether the right chunk was retrieved at all, and if it survived truncation.
+3. <strong>FAILURE</strong> — Why is jumping straight to prompt tuning the wrong first move? · No prompt wording recovers information the retriever never fetched.
+4. <strong>TECHNICAL</strong> — How do you turn this into something repeatable across many bad-answer reports? · Whether the procedure became a checklist or tool, not a one-off session.</p>
+<p><strong>Tip:</strong> If you've isolated a bug by swapping in a known-good input to see if a downstream component still failed, that's the exact same isolation instinct. Don't claim you've diagnosed a live RAG failure. Say you'd hand-feed known-good context to split retrieval from generation before touching either.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Check corpus coverage first
+- Inspect rank and truncation
+- Hand-feed known-good context
+- One test splits both stages</p>
+<h3 id="q79-drill-wrong-answers-rose-this-week-no-deploy-happened-build-your-diagnostic-checklist-in-order-practical-drill">Q7.9 — DRILL: Wrong answers rose this week, no deploy happened. Build your diagnostic checklist, in order. <em>(practical drill)</em></h3>
+<p><strong>Weak answer:</strong> "N/A, this is a drill. A weak attempt lists retrieval, generation and the prompt as an unordered bag, with no sequence or decisive test."</p>
+<p><strong>Why it fails:</strong>
+- No ordering at all, and ignores the strongest clue in the prompt itself, something changed silently without a deploy.
+- No decisive isolation test anywhere, and no quantifying of the regression before diagnosing it as real.</p>
+<p><strong>Instant rejection:</strong>
+- Doesn't consider silent causes: index drift, a provider-side model version bump, corpus edits, or a shift in traffic mix.
+- No mitigation instinct while still mid-diagnosis, waits to finish every step before doing anything about it.</p>
+<p><strong>Model answer:</strong>
+1. First, quantify. Pull this week's golden-set score against last week's baseline plus a sample of real bad-answer reports, "feels worse" needs a number.
+2. Say recall at 10 dropped from 0.81 to 0.68, now it's real and retrieval-shaped. Second, since there was no deploy, check what changes without one.
+3. Did the index rebuild cleanly, did an upstream model get a silent version bump, did new documents land, did the traffic mix shift toward a weak query type.
+4. Third, for failing queries, pull retrieved chunks and check rank and truncation, that's how I once found a reindex had silently changed chunk boundaries.
+5. Fourth, run the hand-fed-context test on any query where retrieval looks fine. If I confirm a cause early, like a bad reindex, I roll it back immediately.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What do you check first, specifically because there was no deploy? · Suspecting silent-change causes, index drift, model version bumps, corpus edits.
+2. <strong>MEASUREMENT</strong> — How do you confirm this is a real regression and not noise first? · Quantifying against a baseline before treating an anecdote as a trend.
+3. <strong>TECHNICAL</strong> — Where does the hand-fed-context isolation test sit in your checklist, and why? · Placing the decisive test after coverage and chunk inspection, not instead of them.
+4. <strong>FAILURE</strong> — What's the first thing you'd roll back to stop the bleeding mid-diagnosis? · Mitigation-first instinct even before the full root cause is known.</p>
+<p><strong>Tip:</strong> If you've built an ordered incident-response checklist for a system regression, quantify first, check recent silent changes, then isolate, say that. Don't invent a specific RAG regression story. Say how you'd order the checklist and why you'd suspect a silent cause before touching any code.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Quantify before diagnosing
+- Suspect silent causes, no deploy
+- Inspect rank, then hand-feed test
+- Roll back a confirmed cause early</p>
+<div class="pager"><a class="prev" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html"><span class="dir">Previous</span><span class="ttl">Retrieval and RAG architecture</span></a><a class="next" href="doc-practice-genai-questions-08-evaluation-and-testing.html"><span class="dir">Next</span><span class="ttl">Evaluation and testing</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

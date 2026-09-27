@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Redis and caching — Projects</title>
+<meta name="description" content="Redis and caching">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="backend-playbook-05-redis-and-caching">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="active" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Projects</h4><details class="part" open><summary>Backend Playbook <span class="count">13</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-backend-playbook-00-overview.html" title="Backend Interview Playbook">Backend Interview Playbook</a><button class="star" data-doc="backend-playbook-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-01-project-and-ownership-deep-dives.html" title="Project and ownership deep dives">Project and ownership deep dives</a><button class="star" data-doc="backend-playbook-01-project-and-ownership-deep-dives" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-02-api-design-and-integration.html" title="API design and integration">API design and integration</a><button class="star" data-doc="backend-playbook-02-api-design-and-integration" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-03-databases-and-transactions.html" title="Databases and transactions">Databases and transactions</a><button class="star" data-doc="backend-playbook-03-databases-and-transactions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html" title="Kafka, queues and asynchronous processing">Kafka, queues and asynchronous processing</a><button class="star" data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-backend-playbook-05-redis-and-caching.html" title="Redis and caching">Redis and caching</a><button class="star" data-doc="backend-playbook-05-redis-and-caching" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-backend-playbook-05-redis-and-caching.html#q51-tell-me-about-a-cache-you-added-what-were-you-actually-caching-and-why">Q5.1 - Tell me about a cache you added. What were you actually caching and why?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q52-how-do-you-keep-the-cache-and-the-database-from-drifting-out-of-sync">Q5.2 - How do you keep the cache and the database from drifting out of sync?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q53-a-popular-cached-key-expires-and-thousands-of-requests-hit-the-database-at-once-what-is-this-and-how-do-you-prevent-it">Q5.3 - A popular cached key expires and thousands of requests hit the database at once. What is this and how do you prevent it?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q54-redis-is-full-what-gets-evicted-and-how-do-you-control-that">Q5.4 - Redis is full. What gets evicted, and how do you control that?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q55-redis-goes-down-what-happens-to-your-application">Q5.5 - Redis goes down. What happens to your application?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q56-cache-aside-write-through-write-behind-which-did-you-use-and-why">Q5.6 - Cache-aside, write-through, write-behind - which did you use and why?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q57-whats-the-difference-between-caching-in-redis-and-using-it-as-a-database">Q5.7 - What&#x27;s the difference between caching in Redis and using it as a database?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q58-how-did-you-design-your-cache-keys-and-why-does-that-matter">Q5.8 - How did you design your cache keys, and why does that matter?</a></li><li><a href="doc-backend-playbook-05-redis-and-caching.html#q59-drill-design-the-caching-for-a-product-page-that-shows-price-changes-often-and-description-rarely-changes-under-heavy-read-load-specify-keys-ttls-invalidation-and-stampede-protection">Q5.9 - [DRILL] Design the caching for a product page that shows price (changes often) and description (rarely changes) under heavy read load. Specify keys, TTLs, invalidation, and stampede protection.</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-06-distributed-systems-and-microservices.html" title="Distributed systems and microservices">Distributed systems and microservices</a><button class="star" data-doc="backend-playbook-06-distributed-systems-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-07-reliability-and-resilience.html" title="Reliability and resilience">Reliability and resilience</a><button class="star" data-doc="backend-playbook-07-reliability-and-resilience" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-08-production-incidents-and-debugging.html" title="Production incidents and debugging">Production incidents and debugging</a><button class="star" data-doc="backend-playbook-08-production-incidents-and-debugging" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-09-observability-and-deployment.html" title="Observability and deployment">Observability and deployment</a><button class="star" data-doc="backend-playbook-09-observability-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-10-security-and-data-protection.html" title="Security and data protection">Security and data protection</a><button class="star" data-doc="backend-playbook-10-security-and-data-protection" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-11-system-design-the-blank-page-round.html" title="System design (the blank-page round)">System design (the blank-page round)</a><button class="star" data-doc="backend-playbook-11-system-design-the-blank-page-round" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-12-behavioural-and-managerial-rounds.html" title="Behavioural and managerial rounds">Behavioural and managerial rounds</a><button class="star" data-doc="backend-playbook-12-behavioural-and-managerial-rounds" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Resume <span class="count">1</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-resume-01-resume.html" title="Resume — Bijit Sahu">Resume — Bijit Sahu</a><button class="star" data-doc="resume-01-resume" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve Interview Qa <span class="count">22</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-00-overview.html" title="Tixolve Interview Q&amp;A — Complete">Tixolve Interview Q&amp;A — Complete</a><button class="star" data-doc="tixolve-interview-qa-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-01-project-elevator-pitch.html" title="Project &amp; Elevator Pitch">Project &amp; Elevator Pitch</a><button class="star" data-doc="tixolve-interview-qa-01-project-elevator-pitch" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-02-architecture-microservices.html" title="Architecture &amp; Microservices">Architecture &amp; Microservices</a><button class="star" data-doc="tixolve-interview-qa-02-architecture-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-03-api-gateway.html" title="API Gateway">API Gateway</a><button class="star" data-doc="tixolve-interview-qa-03-api-gateway" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-04-auth-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-interview-qa-04-auth-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-05-data-persistence.html" title="Data &amp; Persistence">Data &amp; Persistence</a><button class="star" data-doc="tixolve-interview-qa-05-data-persistence" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-06-outbox-pattern-dual-write.html" title="Outbox Pattern &amp; Dual-Write">Outbox Pattern &amp; Dual-Write</a><button class="star" data-doc="tixolve-interview-qa-06-outbox-pattern-dual-write" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-07-kafka-event-driven.html" title="Kafka &amp; Event-Driven">Kafka &amp; Event-Driven</a><button class="star" data-doc="tixolve-interview-qa-07-kafka-event-driven" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-08-ai-rag-ingestion.html" title="AI / RAG — Ingestion">AI / RAG — Ingestion</a><button class="star" data-doc="tixolve-interview-qa-08-ai-rag-ingestion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search.html" title="AI / RAG — Retrieval &amp; Hybrid Search">AI / RAG — Retrieval &amp; Hybrid Search</a><button class="star" data-doc="tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-10-ai-rag-generation-prompting-escalation.html" title="AI / RAG — Generation, Prompting &amp; Escalation">AI / RAG — Generation, Prompting &amp; Escalation</a><button class="star" data-doc="tixolve-interview-qa-10-ai-rag-generation-prompting-escalation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-11-chat-service-sse-streaming.html" title="Chat Service &amp; SSE Streaming">Chat Service &amp; SSE Streaming</a><button class="star" data-doc="tixolve-interview-qa-11-chat-service-sse-streaming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-12-ticket-service-state-machine.html" title="Ticket Service &amp; State Machine">Ticket Service &amp; State Machine</a><button class="star" data-doc="tixolve-interview-qa-12-ticket-service-state-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-13-notification-service-websocket.html" title="Notification Service &amp; WebSocket">Notification Service &amp; WebSocket</a><button class="star" data-doc="tixolve-interview-qa-13-notification-service-websocket" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-14-frontend.html" title="Frontend">Frontend</a><button class="star" data-doc="tixolve-interview-qa-14-frontend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-15-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-interview-qa-15-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-16-docker-infra-deployment.html" title="Docker, Infra &amp; Deployment">Docker, Infra &amp; Deployment</a><button class="star" data-doc="tixolve-interview-qa-16-docker-infra-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-17-testing-quality.html" title="Testing &amp; Quality (Honest Gaps)">Testing &amp; Quality (Honest Gaps)</a><button class="star" data-doc="tixolve-interview-qa-17-testing-quality" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-18-scaling-production-readiness.html" title="Scaling &amp; Production-Readiness">Scaling &amp; Production-Readiness</a><button class="star" data-doc="tixolve-interview-qa-18-scaling-production-readiness" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-19-trade-offs-what-would-you-do-differently.html" title="Trade-offs &amp; &quot;What Would You Do Differently&quot;">Trade-offs &amp; &quot;What Would You Do Differently&quot;</a><button class="star" data-doc="tixolve-interview-qa-19-trade-offs-what-would-you-do-differently" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-20-behavioral-project-level.html" title="Behavioral / Project-Level">Behavioral / Project-Level</a><button class="star" data-doc="tixolve-interview-qa-20-behavioral-project-level" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-21-rapid-fire-concept-check.html" title="Rapid-Fire Concept Check">Rapid-Fire Concept Check</a><button class="star" data-doc="tixolve-interview-qa-21-rapid-fire-concept-check" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve System Design <span class="count">12</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-00-overview.html" title="Tixolve — System Design &amp; Engineering Reference">Tixolve — System Design &amp; Engineering Reference</a><button class="star" data-doc="tixolve-system-design-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-01-architecture-overview.html" title="Architecture Overview">Architecture Overview</a><button class="star" data-doc="tixolve-system-design-01-architecture-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-02-application-flow.html" title="Application Flow">Application Flow</a><button class="star" data-doc="tixolve-system-design-02-application-flow" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-03-data-architecture.html" title="Data Architecture">Data Architecture</a><button class="star" data-doc="tixolve-system-design-03-data-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-04-auth-and-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-system-design-04-auth-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-05-kafka-and-events.html" title="Kafka &amp; Event-Driven Design">Kafka &amp; Event-Driven Design</a><button class="star" data-doc="tixolve-system-design-05-kafka-and-events" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-06-ai-rag-pipeline.html" title="AI / RAG Pipeline">AI / RAG Pipeline</a><button class="star" data-doc="tixolve-system-design-06-ai-rag-pipeline" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-07-frontend-architecture.html" title="Frontend Architecture">Frontend Architecture</a><button class="star" data-doc="tixolve-system-design-07-frontend-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-08-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-system-design-08-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-09-tradeoffs-and-decisions.html" title="Trade-offs &amp; Decisions">Trade-offs &amp; Decisions</a><button class="star" data-doc="tixolve-system-design-09-tradeoffs-and-decisions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-10-codebase-walkthrough.html" title="Codebase Walkthrough">Codebase Walkthrough</a><button class="star" data-doc="tixolve-system-design-10-codebase-walkthrough" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-11-build-log.html" title="Build Log">Build Log</a><button class="star" data-doc="tixolve-system-design-11-build-log" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-projects.html">Projects</a> › Backend Playbook</p>
+<h1>Redis and caching</h1>
+<p class="readmeta">9 sections · 3,668 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="backend-playbook-05-redis-and-caching" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 05 - 9 questions - 1 practical drill</p>
+<p>Show that speed gains do not come at the cost of invisible inconsistency.</p>
+<p>Caching interviews look easy and aren't. The follow-ups go straight to the hard parts: invalidation, stampedes, consistency between cache and database, and what happens when Redis itself goes down. "We added Redis and it got faster" gets you nowhere.</p>
+<p><strong>Inside this module:</strong> Cache patterns - Invalidation - Stampedes - Redis failure modes</p>
+<blockquote class="callout callout--note">
+<p>On a read miss the service goes to the cache, then the database; on a write it writes the DB and deletes the cache key. Invalidation is a consistency decision. Name the stale window and its user impact.</p>
+</blockquote>
+<h2 id="q51-tell-me-about-a-cache-you-added-what-were-you-actually-caching-and-why">Q5.1 - Tell me about a cache you added. What were you actually caching and why?</h2>
+<p><strong>What it really tests:</strong> Whether caching was targeted at a measured hot path, or sprinkled on hopefully.</p>
+<p><strong>Weak answer:</strong> "We added Redis to cache database results so we didn't hit the DB every time. It reduced load and made the app faster."</p>
+<p><strong>Why it fails:</strong>
+- No specific data or query identified as the hot path.
+- No hit-rate or latency numbers.
+- No TTL or invalidation strategy mentioned.
+- "Made it faster" with no baseline.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What was the read/write ratio on that data? - Whether the data was cache-appropriate.
+2. <strong>MEASUREMENT</strong> - What hit rate did you get, and was that good? - Cache effectiveness measured.
+3. <strong>TRADEOFF</strong> - What TTL did you set and how did you pick it? - Staleness vs freshness reasoning.
+4. <strong>FAILURE</strong> - What did you do when the cached data changed? - Invalidation awareness.</p>
+<p><strong>Answer framework:</strong>
+1. Identify hot, read-heavy data
+2. Read/write ratio
+3. Cache pattern chosen
+4. Key design
+5. TTL and why
+6. Invalidation on write
+7. Hit rate measured
+8. Latency before/after</p>
+<p><strong>Rejection signals:</strong>
+- Caches without knowing the read/write ratio.
+- No hit rate measured.
+- No TTL reasoning.
+- No invalidation plan.</p>
+<p><strong>Model answer skeleton:</strong>
+I cached the product-detail lookup, which was read maybe 500:1 versus writes and sat on the hottest path in the catalogue - perfect cache candidate because it's read-heavy and tolerates brief staleness.</p>
+<p>I used cache-aside: the app checked Redis, and on a miss read Postgres and populated the cache with a 5-minute TTL.</p>
+<p>I picked 5 minutes because a stale price for a few minutes was acceptable to the business but hours weren't, and on any price update I proactively deleted the key so the next read refreshed it.</p>
+<p>We landed around a 94% hit rate, which took DB read load on that query down by roughly an order of magnitude and cut p95 on the endpoint from ~120ms to ~8ms.</p>
+<p>The number I watched was hit rate - if it had been 60% I'd have questioned whether the TTL or the key granularity was wrong rather than declaring victory.</p>
+<h2 id="q52-how-do-you-keep-the-cache-and-the-database-from-drifting-out-of-sync">Q5.2 - How do you keep the cache and the database from drifting out of sync?</h2>
+<p><strong>What it really tests:</strong> The genuinely hard problem - cache invalidation and the race conditions in it.</p>
+<p><strong>Weak answer:</strong> "On every update to the database we also update the cache with the new value, so they stay in sync."</p>
+<p><strong>Why it fails:</strong>
+- Double-write (update DB then update cache) has a race that leaves stale data.
+- Doesn't consider concurrent writes interleaving.
+- No discussion of delete-vs-update on write.
+- Ignores the failure where one of the two writes fails.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - Two writers update the same key concurrently - how can the cache end up stale? - The double-write race.
+2. <strong>TRADEOFF</strong> - Why is deleting the cache entry safer than updating it? - Delete-on-write reasoning.
+3. <strong>TECHNICAL</strong> - DB write succeeds but cache delete fails - now what? - Partial-failure handling.
+4. <strong>MEASUREMENT</strong> - How stale can you tolerate, and how does TTL bound it? - TTL as a safety net.</p>
+<p><strong>Answer framework:</strong>
+1. Prefer delete-on-write over update-on-write
+2. Order: write DB then invalidate
+3. Race windows and how TTL bounds them
+4. Handle failed invalidation
+5. Optionally CDC-driven invalidation
+6. Accept a bounded staleness
+7. Monitor stale reads</p>
+<p><strong>Rejection signals:</strong>
+- Updates cache and DB as two writes, unaware of the race.
+- Thinks double-write guarantees consistency.
+- No fallback if invalidation fails.
+- No TTL safety net.</p>
+<p><strong>Model answer skeleton:</strong>
+Updating both the database and the cache on write feels right but has a nasty race: two concurrent writers can interleave so the cache ends up holding the older value even though the DB has the newer one. So I invalidate rather than update - on a write I update the DB and then delete the cache key, letting the next read repopulate from the source of truth.</p>
+<p>That collapses the race, because the worst case is an extra cache miss, not a permanently wrong value.</p>
+<p>If the cache delete fails after the DB commit, a short TTL is my backstop - the stale entry self-heals within minutes, so I always set a TTL even with explicit invalidation.</p>
+<p>For data where even minutes of staleness mattered, I drove invalidation off the database change stream via CDC so it wasn't coupled to the application write path at all.</p>
+<p>And I set the TTL based on how much staleness the business could actually tolerate, treating it as the guarantee ceiling.</p>
+<h2 id="q53-a-popular-cached-key-expires-and-thousands-of-requests-hit-the-database-at-once-what-is-this-and-how-do-you-prevent-it">Q5.3 - A popular cached key expires and thousands of requests hit the database at once. What is this and how do you prevent it?</h2>
+<p><strong>What it really tests:</strong> Cache stampede / thundering herd - a classic that separates real operators from theorists.</p>
+<p><strong>Weak answer:</strong> "We'd just increase the TTL so the key doesn't expire as often, which reduces how often we hit the database."</p>
+<p><strong>Why it fails:</strong>
+- Longer TTL delays but doesn't prevent the stampede.
+- Doesn't name the problem or the standard fixes.
+- No locking, no early recompute, no stale-while-revalidate.
+- Ignores that a cold cache or eviction triggers it too.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - How does a mutex/lock stop the stampede? - Single-flight recompute.
+2. <strong>TRADEOFF</strong> - What's probabilistic early expiration (XFetch)? - Advanced prevention.
+3. <strong>MEASUREMENT</strong> - How does stale-while-revalidate change the user experience? - Serving stale to protect the DB.
+4. <strong>FAILURE</strong> - How would you protect against the same thing on a cold start? - Cold-cache stampede.</p>
+<p><strong>Answer framework:</strong>
+1. Name it (stampede/thundering herd)
+2. Single-flight lock so one request recomputes
+3. Warm the cache on deploy
+4. Probabilistic early recompute
+5. Stale-while-revalidate
+6. Others wait or serve stale
+7. Jitter TTLs to avoid synchronised expiry</p>
+<p><strong>Rejection signals:</strong>
+- Only fix is a longer TTL.
+- Can't name the phenomenon.
+- No locking or single-flight concept.
+- No cold-start consideration.</p>
+<p><strong>Model answer skeleton:</strong>
+That's a cache stampede, or thundering herd - one hot key expires and every concurrent request misses simultaneously, so a query that normally runs once a minute suddenly runs thousands of times and can take the database down. A longer TTL just postpones it.</p>
+<p>The core fix is single-flight: when the key is missing, requests take a short-lived Redis lock (SET NX), and only the lock winner recomputes and repopulates while the others briefly wait or serve the last stale value.</p>
+<p>I also like stale-while-revalidate - serve the expired value immediately and refresh asynchronously - so users never block on a recompute.</p>
+<p>For very hot keys, probabilistic early expiration (the XFetch approach) has requests randomly refresh slightly before the TTL, spreading the recompute so it never all lands at once.</p>
+<p>And I jitter TTLs so a batch of keys populated together doesn't all expire in the same instant, and warm critical keys on deploy so a cold start doesn't stampede.</p>
+<h2 id="q54-redis-is-full-what-gets-evicted-and-how-do-you-control-that">Q5.4 - Redis is full. What gets evicted, and how do you control that?</h2>
+<p><strong>What it really tests:</strong> Understanding of maxmemory policies and matching eviction to the workload.</p>
+<p><strong>Weak answer:</strong> "Redis uses LRU to evict old keys when it's full, so the least recently used stuff gets removed automatically."</p>
+<p><strong>Why it fails:</strong>
+- Assumes LRU is the default and only policy - it's configurable, and default is noeviction.
+- Doesn't distinguish allkeys- from volatile-.
+- No LFU consideration.
+- Doesn't consider using Redis as a store vs a cache (noeviction).</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What's the difference between allkeys-lru and volatile-lru? - TTL-scoped vs all-keys eviction.
+2. <strong>TRADEOFF</strong> - When is LFU better than LRU? - Access-pattern fit.
+3. <strong>FAILURE</strong> - What does noeviction do and when would you want it? - Redis-as-store awareness.
+4. <strong>MEASUREMENT</strong> - A key with no TTL under volatile-lru - can it be evicted? - Precise policy semantics.</p>
+<p><strong>Answer framework:</strong>
+1. Redis is memory-bound
+2. maxmemory-policy options
+3. allkeys vs volatile scope
+4. LRU vs LFU by access pattern
+5. noeviction for durable use
+6. Set TTLs deliberately
+7. Monitor evictions and memory</p>
+<p><strong>Rejection signals:</strong>
+- Thinks LRU is automatic and only option.
+- Doesn't know default is noeviction.
+- Can't distinguish allkeys from volatile.
+- Never heard of LFU.</p>
+<p><strong>Model answer skeleton:</strong>
+What gets evicted depends entirely on maxmemory-policy, and the default is actually noeviction, which returns errors on writes when full - fine if you're using Redis as a durable store but wrong for a cache.</p>
+<p>For a pure cache I set allkeys-lru, which can evict any key by least-recently-used. volatile-lru only evicts keys that have a TTL, so if I mixed cache entries and durable keys in one instance I'd give the durable ones no TTL to protect them - though I generally prefer separate instances.</p>
+<p>I switch to allkeys-lfu when the access pattern is skewed toward a stable set of hot keys, because LFU keeps frequently-used keys even if they weren't touched in the last few seconds, whereas LRU can evict a popular-but-momentarily-idle key.</p>
+<p>I always set TTLs deliberately rather than relying solely on eviction, and I monitor the evicted-keys counter and memory usage, because rising evictions mean the working set no longer fits and hit rate is about to fall.</p>
+<h2 id="q55-redis-goes-down-what-happens-to-your-application">Q5.5 - Redis goes down. What happens to your application?</h2>
+<p><strong>What it really tests:</strong> Whether the cache is a performance optimisation or an accidental hard dependency.</p>
+<p><strong>Weak answer:</strong> "If Redis went down we'd have a problem, but we had Redis in a cluster with replication so it basically never went down."</p>
+<p><strong>Why it fails:</strong>
+- Avoids the question by claiming it won't happen.
+- No graceful-degradation path if it does.
+- Implies the app hard-depends on Redis.
+- Ignores the DB load spike when the cache disappears.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - Does your app fail, or fall back to the database? - Graceful degradation.
+2. <strong>TECHNICAL</strong> - The cache vanishes - what does that do to DB load? - Stampede-on-outage awareness.
+3. <strong>MEASUREMENT</strong> - How do you keep a Redis timeout from hanging every request? - Timeouts on cache calls.
+4. <strong>TRADEOFF</strong> - Is Redis your source of truth for anything? What breaks then? - Cache vs store distinction.</p>
+<p><strong>Answer framework:</strong>
+1. Classify: cache (fall back) vs store (critical)
+2. Timeout on Redis calls
+3. Fall back to DB on miss/error
+4. Protect DB from the resulting surge
+5. Rebuild/warm cache
+6. Alert on Redis health
+7. Avoid making Redis a hidden hard dependency</p>
+<p><strong>Rejection signals:</strong>
+- "It won't go down" is the whole answer.
+- App fails entirely without Redis.
+- No timeout, so a slow Redis hangs requests.
+- Redis is a hidden source of truth with no recovery.</p>
+<p><strong>Model answer skeleton:</strong>
+For anything I treat as a cache, a Redis outage should degrade performance, not availability: the client has a tight timeout - tens of milliseconds - so a slow or dead Redis fails fast instead of hanging every request, and on a cache error the code falls straight through to Postgres.</p>
+<p>The real danger is the load spike, because losing the cache is a total stampede - suddenly 100% of reads hit the database - so I protect the DB with per-key single-flight locking and, in the worst case, load shedding on non-critical reads.</p>
+<p>When Redis comes back I let it warm naturally through cache-aside, or pre-warm the hottest keys.</p>
+<p>What I'm careful never to do is quietly make Redis a source of truth - if I store something in Redis that isn't in a durable store, an outage becomes data loss, not just a slowdown, so anything that must survive lives in Postgres and Redis only accelerates it.</p>
+<h2 id="q56-cache-aside-write-through-write-behind-which-did-you-use-and-why">Q5.6 - Cache-aside, write-through, write-behind - which did you use and why?</h2>
+<p><strong>What it really tests:</strong> Whether the candidate knows the caching patterns and their consistency/durability trade-offs.</p>
+<p><strong>Weak answer:</strong> "We used cache-aside because it's the most common. The app checks the cache, and if it's not there, reads from the DB and stores it."</p>
+<p><strong>Why it fails:</strong>
+- "Most common" is the reason, not a fit-to-requirement.
+- Doesn't contrast with write-through/write-behind consequences.
+- No mention of the consistency or durability trade-offs of each.
+- No case where a different pattern would be right.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TRADEOFF</strong> - What consistency does write-through buy, and at what cost? - Write-through semantics.
+2. <strong>FAILURE</strong> - What's the durability risk of write-behind? - Async write loss window.
+3. <strong>TECHNICAL</strong> - With cache-aside, what's the first-read penalty? - Cold-miss awareness.
+4. <strong>MEASUREMENT</strong> - Which one would you pick for a write-heavy counter? - Pattern-to-workload fit.</p>
+<p><strong>Answer framework:</strong>
+1. Cache-aside: lazy, app-managed, cold-miss penalty
+2. Map to read/write ratio and durability need
+3. Write-behind: fast writes, durability risk
+4. Write-through: cache always fresh, write latency cost
+5. Choice justified
+6. Failure mode of the chosen pattern</p>
+<p><strong>Rejection signals:</strong>
+- Picks cache-aside because it's popular, no trade-off.
+- Doesn't know write-behind's data-loss window.
+- Can't map pattern to workload.
+- Thinks one pattern fits all.</p>
+<p><strong>Model answer skeleton:</strong>
+I default to cache-aside for read-heavy data because it's simple and the cache only holds what's actually requested, accepting a cold-miss penalty on the first read of each key.</p>
+<p>I'd use write-through when I need the cache to never be stale relative to the DB - every write goes through the cache to the DB synchronously, so reads are always fresh, at the cost of higher write latency and caching data that may never be read.</p>
+<p>Write-behind - acknowledging the write to the cache and flushing to the DB asynchronously - gives very fast writes and is great for something like a high-frequency view counter, but it has a real durability risk: if Redis dies before the flush, those writes are lost, so I'd only use it where losing a few recent increments is acceptable.</p>
+<p>So the choice tracks the read/write ratio and how much durability I can trade: cache-aside for read-heavy, write-through for freshness-critical, write-behind for write-heavy and loss-tolerant.</p>
+<h2 id="q57-whats-the-difference-between-caching-in-redis-and-using-it-as-a-database">Q5.7 - What's the difference between caching in Redis and using it as a database?</h2>
+<p><strong>What it really tests:</strong> Whether the candidate understands persistence, durability guarantees, and the danger of conflating the two.</p>
+<p><strong>Weak answer:</strong> "Redis is in-memory so it's fast, and you can also persist it to disk, so it can work as a database too if you turn on persistence."</p>
+<p><strong>Why it fails:</strong>
+- Glosses over the durability gap between RDB snapshots and AOF.
+- Implies persistence makes Redis a safe primary store without caveats.
+- No mention of the fsync/data-loss window.
+- Doesn't address memory-bound dataset size.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - RDB snapshots vs AOF - what's the durability difference? - Persistence modes.
+2. <strong>MEASUREMENT</strong> - With AOF everysec, how much data can you lose? - The fsync window.
+3. <strong>FAILURE</strong> - Your dataset exceeds RAM - what happens? - Memory-bound reality.
+4. <strong>TRADEOFF</strong> - When is Redis genuinely a fine primary store? - Balanced judgement.</p>
+<p><strong>Answer framework:</strong>
+1. In-memory, memory-bound
+2. Persistence via RDB and/or AOF
+3. Durability window of each
+4. Data-loss tolerance
+5. Dataset must fit RAM
+6. When Redis-as-store is acceptable
+7. When it must stay a cache in front of a durable DB</p>
+<p><strong>Rejection signals:</strong>
+- Thinks persistence makes Redis fully durable like Postgres.
+- Unaware of the fsync loss window.
+- Ignores the RAM limit on dataset size.
+- Uses Redis as a primary store for critical data blindly.</p>
+<p><strong>Model answer skeleton:</strong>
+As a cache, Redis holds a disposable copy of data whose source of truth is elsewhere, so losing it just means cache misses. As a database it's your source of truth, and that raises two issues.</p>
+<p>First durability: Redis persists via RDB point-in-time snapshots, which can lose everything since the last snapshot on a crash, or AOF, which logs writes - and even AOF with the common everysec fsync can lose up to about a second of writes.</p>
+<p>So it's durable-ish, not Postgres-durable. Second, it's memory-bound: the whole dataset must fit in RAM plus overhead, or you're into eviction or swapping, which a growing primary dataset will eventually hit.</p>
+<p>I'm comfortable using Redis as a primary store for things like session state or rate-limit counters, where sub-second loss on a rare crash is acceptable and the data is naturally bounded.</p>
+<p>For orders or payments - anything I can't lose a second of - Redis stays a cache in front of Postgres, never the system of record.</p>
+<h2 id="q58-how-did-you-design-your-cache-keys-and-why-does-that-matter">Q5.8 - How did you design your cache keys, and why does that matter?</h2>
+<p><strong>What it really tests:</strong> Whether key design was intentional - namespacing, granularity, versioning - or ad hoc.</p>
+<p><strong>Weak answer:</strong> "We used the entity ID as the key, like the user ID, so we could look up the cached user by their ID."</p>
+<p><strong>Why it fails:</strong>
+- No namespacing, risking key collisions across data types.
+- No versioning, so a schema change can't invalidate cheaply.
+- No thought about granularity (one big object vs fields).
+- Doesn't consider how to bulk-invalidate related keys.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - How do you avoid collisions between two features using the same id? - Namespacing discipline.
+2. <strong>TRADEOFF</strong> - You change the cached object's shape - how do you invalidate cheaply? - Key versioning.
+3. <strong>MEASUREMENT</strong> - Cache one big user object vs individual fields - trade-off? - Granularity reasoning.
+4. <strong>FAILURE</strong> - How do you invalidate all keys for one tenant at once? - Bulk invalidation strategy.</p>
+<p><strong>Answer framework:</strong>
+1. Namespace by domain
+2. Include entity type and id
+3. Version the key on schema change
+4. Choose granularity by access pattern
+5. Plan bulk invalidation
+6. Avoid unbounded key cardinality
+7. Document the key scheme</p>
+<p><strong>Rejection signals:</strong>
+- Raw ids as keys, collision-prone.
+- No versioning for schema changes.
+- Never thought about granularity.
+- No way to bulk-invalidate.</p>
+<p><strong>Model answer skeleton:</strong>
+I namespace keys by domain and type so there's no collision - user:profile:v2:{id} rather than a bare id, because two features both keyed on a numeric id would otherwise clobber each other.</p>
+<p>The v2 is deliberate: when I change the cached object's shape, I bump the version in the key, which instantly orphans all old entries so I don't have to hunt down and delete them - they just age out.</p>
+<p>Granularity is an access-pattern call: I cache the whole profile object when it's always read together, but if only a couple of fields are hot and the rest change often, I cache those fields separately to avoid invalidating everything on a minor update.</p>
+<p>For bulk invalidation, like flushing everything for one tenant, I either prefix keys by tenant and use a tag/set of keys to delete, or bump a per-tenant version embedded in the key.</p>
+<p>I avoid keys with unbounded cardinality that would blow up memory, and I keep the scheme documented so the whole team constructs keys the same way.</p>
+<h2 id="q59-drill-design-the-caching-for-a-product-page-that-shows-price-changes-often-and-description-rarely-changes-under-heavy-read-load-specify-keys-ttls-invalidation-and-stampede-protection">Q5.9 - [DRILL] Design the caching for a product page that shows price (changes often) and description (rarely changes) under heavy read load. Specify keys, TTLs, invalidation, and stampede protection.</h2>
+<p><strong>What it really tests:</strong> Whether the candidate can combine granularity, TTL tuning, invalidation, and stampede defence into one coherent design.</p>
+<p><strong>Weak answer:</strong> N/A - drill. A weak attempt caches the whole page under one TTL.</p>
+<p><strong>Why it fails:</strong>
+- One key for the whole page couples volatile price to stable description.
+- Single TTL is wrong for both - too long for price, too short for description.
+- No invalidation on price change.
+- No stampede protection on the hot key.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Why split price and description into separate keys? - Granularity by volatility.
+2. <strong>FAILURE</strong> - How do you protect the hot price key from a stampede? - Single-flight / stale-while-revalidate.
+3. <strong>MEASUREMENT</strong> - What invalidates the price key, and how fast? - Event-driven invalidation.</p>
+<p><strong>Answer framework:</strong>
+1. Separate keys by volatility
+2. Short TTL + event invalidation on price
+3. Long TTL on description
+4. Namespace and version keys
+5. Single-flight lock on the hot price key
+6. Stale-while-revalidate
+7. Jitter TTLs
+8. Monitor hit rate per key</p>
+<p><strong>Rejection signals:</strong>
+- One page-level key and TTL.
+- No invalidation on price change.
+- No stampede protection.
+- Same TTL for volatile and stable data.</p>
+<p><strong>Model answer skeleton:</strong>
+Drill output: I split by volatility - product:price:v1:{id} and product:desc:v1:{id} - because bundling them forces one TTL onto two very different change rates.</p>
+<p>Description gets a long TTL, say an hour, since it rarely changes and I invalidate it explicitly on the rare edit.</p>
+<p>Price gets a short TTL, say 30-60 seconds, plus event-driven invalidation: the pricing service publishes a price-changed event and the consumer deletes that key so a change propagates in seconds rather than waiting out the TTL.</p>
+<p>Because the price key is extremely hot, I guard against stampede with single-flight - on a miss, one request takes a Redis SET-NX lock and recomputes while others serve the last stale price via stale-while-revalidate - and I jitter TTLs so keys populated together don't expire in lockstep.</p>
+<p>I monitor hit rate per key type separately, because a falling price hit rate is expected (short TTL) but a falling description hit rate would signal something wrong.</p>
+<div class="pager"><a class="prev" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html"><span class="dir">Previous</span><span class="ttl">Kafka, queues and asynchronous processing</span></a><a class="next" href="doc-backend-playbook-06-distributed-systems-and-microservices.html"><span class="dir">Next</span><span class="ttl">Distributed systems and microservices</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

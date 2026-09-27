@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 09 — Spring Boot Core — Spring Boot</title>
+<meta name="description" content="Lecture 09 — Spring Boot Core">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-09">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-09.html#lecture-09">Lecture 09</a></li><li><a href="doc-theory-lecture-09.html#1-why-spring-boot-after-spring-core">1. Why Spring Boot After Spring Core?</a></li><li><a href="doc-theory-lecture-09.html#2-setting-up-a-spring-boot-project">2. Setting Up a Spring Boot Project</a></li><li><a href="doc-theory-lecture-09.html#3-the-parent-pom-and-the-starter-concept">3. The Parent POM and the Starter Concept</a></li><li><a href="doc-theory-lecture-09.html#4-spring-core-startup-vs-spring-boot-startup">4. Spring Core Startup vs Spring Boot Startup</a></li><li><a href="doc-theory-lecture-09.html#5-the-same-application-in-spring-boot">5. The Same Application in Spring Boot</a></li><li><a href="doc-theory-lecture-09.html#6-adding-components-and-running-startup-logic">6. Adding Components and Running Startup Logic</a></li><li><a href="doc-theory-lecture-09.html#7-understanding-springapplicationrun">7. Understanding SpringApplication.run()</a></li><li><a href="doc-theory-lecture-09.html#8-understanding-springbootapplication">8. Understanding @SpringBootApplication</a></li><li><a href="doc-theory-lecture-09.html#9-springbootconfiguration">9. @SpringBootConfiguration</a></li><li><a href="doc-theory-lecture-09.html#10-componentscan-in-spring-boot">10. @ComponentScan in Spring Boot</a></li><li><a href="doc-theory-lecture-09.html#11-changing-the-component-scan-base">11. Changing the Component Scan Base</a></li><li><a href="doc-theory-lecture-09.html#12-enableautoconfiguration">12. @EnableAutoConfiguration</a></li><li><a href="doc-theory-lecture-09.html#13-how-auto-configuration-works-internally">13. How Auto-Configuration Works Internally</a></li><li><a href="doc-theory-lecture-09.html#14-manual-configuration-vs-auto-configuration">14. Manual Configuration vs Auto-Configuration</a></li><li><a href="doc-theory-lecture-09.html#15-classpath-based-decision-making-and-the-web-dependency">15. Classpath-Based Decision Making and the Web Dependency</a></li><li><a href="doc-theory-lecture-09.html#16-the-three-main-checks-in-auto-configuration">16. The Three Main Checks in Auto-Configuration</a></li><li><a href="doc-theory-lecture-09.html#17-our-beans-vs-auto-configured-beans-and-the-startup-flow">17. Our Beans vs Auto-Configured Beans and the Startup Flow</a></li><li><a href="doc-theory-lecture-09.html#18-componentscan-vs-enableautoconfiguration">18. @ComponentScan vs @EnableAutoConfiguration</a></li><li><a href="doc-theory-lecture-09.html#19-myth-vs-reality">19. Myth vs Reality</a></li><li><a href="doc-theory-lecture-09.html#20-common-trap-questions">20. Common Trap Questions</a></li><li><a href="doc-theory-lecture-09.html#21-points-to-remember">21. Points to Remember</a></li><li><a href="doc-theory-lecture-09.html#22-likely-interview-questions">22. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-09.html#23-final-summary">23. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 09 — Spring Boot Core</h1>
+<p class="readmeta">24 sections · 3,852 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-09" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-09">Lecture 09</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Core | @SpringBootApplication, Auto Configurations" (playlist map, verified). Repo folder is a Maven project (SpringCoreDemo) containing the classes <code>in.strikes.AppConfig</code>, <code>in.strikes.Main</code>, <code>in.strikes.OrderService</code>, <code>in.strikes.PaymentService</code>, <code>in.strikes.UserService</code>, plus this lecture's notes.</p>
+</blockquote>
+<p>Spring Core taught us how the IoC container manages objects, but it made us start that container by hand every time. This lecture shows the repetitive startup work Spring Boot removes, then opens the box on the one annotation that does most of the magic: <code>@SpringBootApplication</code>. We walk from a manual Maven setup to a running Boot application, then dissect <code>@SpringBootConfiguration</code>, <code>@ComponentScan</code>, and <code>@EnableAutoConfiguration</code>. By the end, "Boot is magic" becomes "Boot is Spring Core plus a smart, condition-based startup system."</p>
+<h2 id="1-why-spring-boot-after-spring-core">1. Why Spring Boot After Spring Core?</h2>
+<p>Till now we learned how Spring Core manages objects using the IoC container. In a pure Spring Core project we start the container manually, provide a configuration class, fetch a bean, and call a method:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="nd">@ComponentScan</span><span class="p">(</span><span class="n">basePackages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;in.strikes&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="n">ApplicationContext</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">AnnotationConfigApplicationContext</span><span class="p">(</span><span class="n">AppConfig</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getBean</span><span class="p">(</span><span class="n">OrderService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="n">orderService</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">();</span>
+</code></pre></div>
+
+<p>This shows how Spring works internally, but in real applications the setup becomes repetitive. Every Spring application needs the same common startup work:</p>
+<div class="highlight"><pre><span></span><code>Start application
+Create Spring container
+Read configuration
+Scan components
+Create beans
+Load properties
+Prepare application context
+Inject dependencies
+</code></pre></div>
+
+<p>Spring Boot solves this repetitive startup problem. It uses Spring Core and gives us a simpler way to start, configure, and run the Spring container.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring Boot does not replace Spring Core. Spring Boot uses Spring Core internally and only adds a standard, convenient startup and configuration layer on top.</p>
+</blockquote>
+<p>A common beginner misunderstanding is <code>Spring Boot = Web API</code>. That is not correct. Spring Boot can be used for console applications, web applications, database applications, batch applications, and microservices. Boot itself is not only about web development; web behavior comes later when we add web-related dependencies.</p>
+<blockquote class="callout callout--important">
+<p>Important: Spring Core gives us IoC and dependency injection. Spring Boot gives us a standard way to start and configure the application.</p>
+</blockquote>
+<h2 id="2-setting-up-a-spring-boot-project">2. Setting Up a Spring Boot Project</h2>
+<p>There are two common ways to create a Spring Boot project:</p>
+<ol>
+<li>Create a Maven project manually and add Spring Boot dependencies.</li>
+<li>Use Spring Initializr to generate a ready-made project structure.</li>
+</ol>
+<p>In real projects, Spring Initializr is usually preferred because it creates the correct project structure, parent configuration, dependencies, and plugin setup. The manual route teaches what those pieces are, but leaves every one of them for us to wire correctly.</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>What we do</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Manual Maven project</td>
+<td>Create <code>pom.xml</code>, add parent + dependencies + plugin by hand</td>
+<td>Full understanding, more error-prone</td>
+</tr>
+<tr>
+<td>Spring Initializr</td>
+<td>Generate structure, parent, dependencies, plugin</td>
+<td>Fast and correct, hides wiring details</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Knowing both routes is the point. Initializr is the professional default; the manual route proves you know what Initializr actually produced.</p>
+</blockquote>
+<h2 id="3-the-parent-pom-and-the-starter-concept">3. The Parent POM and the Starter Concept</h2>
+<p>In Spring Boot projects we commonly use a special parent in <code>pom.xml</code>:</p>
+<div class="highlight"><pre><span></span><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;3.x.x&lt;/version&gt;
+    &lt;relativePath/&gt;
+&lt;/parent&gt;
+</code></pre></div>
+
+<p>The parent helps Maven by providing common Spring Boot project configuration. It manages dependency versions, plugin versions, Java version configuration, build defaults, and encoding settings. The main benefit is version compatibility: if we later add dependencies like Spring JDBC, Hibernate, Validation, Jackson, or Spring Web, we do not have to manually decide every version. Maven can ask the Spring Boot parent "which version of this dependency should I use?" and the parent provides compatible versions, which reduces version mismatch problems.</p>
+<p>A starter, meanwhile, is a dependency shortcut. Instead of adding many related dependencies one by one, we add one starter and Maven brings the required dependencies transitively:</p>
+<div class="highlight"><pre><span></span><code>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre></div>
+
+<p><code>spring-boot-starter</code> is the basic starter for a non-web Spring Boot application. It gives us the basic Spring Boot setup, logging, and core Spring Boot infrastructure.</p>
+<blockquote class="callout callout--important">
+<p>Important: A starter does not mean one single library. A starter means a collection of commonly needed dependencies bundled behind one artifact name.</p>
+</blockquote>
+<p>Mnemonic: <strong>Parent sets the versions, starter sets the dependencies.</strong> The parent answers "which version," the starter answers "which libraries."</p>
+<h2 id="4-spring-core-startup-vs-spring-boot-startup">4. Spring Core Startup vs Spring Boot Startup</h2>
+<p>In Spring Core we manually did four things end to end:</p>
+<ol>
+<li>Create <code>ApplicationContext</code> manually.</li>
+<li>Provide the configuration class manually.</li>
+<li>Fetch the bean manually.</li>
+<li>Trigger application logic manually.</li>
+</ol>
+<p>In Spring Boot we get a standard startup mechanism: <code>SpringApplication.run(MyApplication.class, args)</code>. This single line starts and prepares the Spring application context for us. Compare the two side by side:</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Spring Core</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Container creation</td>
+<td><code>new AnnotationConfigApplicationContext(AppConfig.class)</code></td>
+<td><code>SpringApplication.run(...)</code></td>
+</tr>
+<tr>
+<td>Configuration class</td>
+<td>Written manually with <code>@Configuration</code></td>
+<td>Supplied by <code>@SpringBootApplication</code></td>
+</tr>
+<tr>
+<td>Component scanning</td>
+<td>Declared manually via <code>@ComponentScan</code></td>
+<td>Included in <code>@SpringBootApplication</code></td>
+</tr>
+<tr>
+<td>Bean retrieval</td>
+<td><code>context.getBean(OrderService.class)</code></td>
+<td>Beans are injected where needed</td>
+</tr>
+<tr>
+<td>Triggering logic</td>
+<td>Manual call after <code>getBean</code></td>
+<td><code>CommandLineRunner</code> runs after startup</td>
+</tr>
+<tr>
+<td>Auto-configuration</td>
+<td>Not present</td>
+<td><code>@EnableAutoConfiguration</code> applies defaults</td>
+</tr>
+</tbody>
+</table>
+<p>The developer no longer babysits the container lifecycle; <code>SpringApplication.run()</code> does it.</p>
+<h2 id="5-the-same-application-in-spring-boot">5. The Same Application in Spring Boot</h2>
+<p>A basic Spring Boot application starts like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.SpringApplication</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="p">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SpringBootCoreDemoApplication</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">SpringBootCoreDemoApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Here we did not manually write <code>new AnnotationConfigApplicationContext(...)</code>, <code>@Configuration</code>, <code>@ComponentScan</code>, or <code>context.getBean(...)</code>. The reason is that <code>@SpringBootApplication</code> already combines the common setup required for a Spring Boot application.</p>
+<h2 id="6-adding-components-and-running-startup-logic">6. Adding Components and Running Startup Logic</h2>
+<p>We can create normal Spring components just like in Spring Core. A <code>PaymentService</code> marked <code>@Component</code> is created by Spring, and an <code>OrderService</code> that declares a constructor dependency receives <code>PaymentService</code> through constructor injection. This is still Spring Core behavior: Spring sees <code>@Component</code> and creates beans, and it sees the constructor dependency and injects it. Boot does not change dependency injection; it just starts the container more conveniently.</p>
+<p>In Spring Core we manually fetched the bean and called the method. In Spring Boot we usually do not fetch beans manually from the context. To run code after application startup, we use <code>CommandLineRunner</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.runner</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">in.strikes.service.OrderService</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.CommandLineRunner</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppRunner</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">AppRunner</span><span class="p">(</span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">orderService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">String</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">orderService</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>CommandLineRunner</code> is a Spring Boot interface. Its <code>run()</code> method executes after the Spring application context is created and ready. This is useful for console-based Spring Boot applications, testing startup logic, or running some code immediately after the application starts.</p>
+<h2 id="7-understanding-springapplicationrun">7. Understanding SpringApplication.run()</h2>
+<p>The most important line in a Spring Boot application is <code>SpringApplication.run(SpringBootCoreDemoApplication.class, args)</code>. This line:</p>
+<ul>
+<li>Starts the Spring Boot application.</li>
+<li>Creates the application context.</li>
+<li>Reads configuration and properties.</li>
+<li>Performs component scanning.</li>
+<li>Creates beans.</li>
+<li>Applies auto-configuration.</li>
+<li>Injects dependencies.</li>
+<li>Runs startup hooks like <code>CommandLineRunner.run()</code>.</li>
+</ul>
+<p>It also returns the application context as a <code>ConfigurableApplicationContext</code>. Technically we can still fetch beans manually with <code>context.getBean(OrderService.class)</code>, but in real Spring Boot applications that is not the usual approach. The preferred approach is to let Spring inject dependencies wherever they are needed.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "What does <code>SpringApplication.run()</code> return?" It returns a <code>ConfigurableApplicationContext</code>. Knowing that the return value is a live context, not void, is a small detail that signals real familiarity.</p>
+</blockquote>
+<h2 id="8-understanding-springbootapplication">8. Understanding @SpringBootApplication</h2>
+<p><code>@SpringBootApplication</code> is not a small annotation. It is a combination annotation. It roughly combines <code>@SpringBootConfiguration</code>, <code>@EnableAutoConfiguration</code>, and <code>@ComponentScan</code>. So a class annotated with <code>@SpringBootApplication</code> is conceptually similar to writing all three annotations explicitly on the same class.</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@SpringBootConfiguration</code></td>
+<td>Marks the main configuration class of the Spring Boot application</td>
+</tr>
+<tr>
+<td><code>@EnableAutoConfiguration</code></td>
+<td>Enables Spring Boot's automatic configuration mechanism</td>
+</tr>
+<tr>
+<td><code>@ComponentScan</code></td>
+<td>Scans the current package and subpackages for Spring components</td>
+</tr>
+</tbody>
+</table>
+<p>We already studied <code>@Configuration</code> and <code>@ComponentScan</code> in Spring Core. The major new concept here is <code>@EnableAutoConfiguration</code>.</p>
+<p>Mnemonic: <strong>C-A-S</strong> - <strong>C</strong>onfigure (<code>@SpringBootConfiguration</code>), <strong>A</strong>uto-configure (<code>@EnableAutoConfiguration</code>), <strong>S</strong>can (<code>@ComponentScan</code>).</p>
+<h2 id="9-springbootconfiguration">9. @SpringBootConfiguration</h2>
+<p><code>@SpringBootConfiguration</code> is Spring Boot's version of a configuration marker. In Spring Core we used a class annotated <code>@Configuration</code> containing <code>@Bean</code> methods, and that told Spring: this class contains bean definitions.</p>
+<p>In Spring Boot, the main class indirectly gets <code>@SpringBootConfiguration</code> because of <code>@SpringBootApplication</code>. That means the main class can also define beans through <code>@Bean</code> methods, because it is treated as a configuration class too. In real projects we usually keep the main class clean and create separate configuration classes when needed.</p>
+<table>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Configuration</code></td>
+<td>Regular Spring configuration class</td>
+</tr>
+<tr>
+<td><code>@SpringBootConfiguration</code></td>
+<td>Main Spring Boot application configuration marker</td>
+</tr>
+</tbody>
+</table>
+<p><code>@SpringBootConfiguration</code> also helps Spring Boot tests locate the main application configuration automatically.</p>
+<h2 id="10-componentscan-in-spring-boot">10. @ComponentScan in Spring Boot</h2>
+<p>In Spring Core we manually wrote <code>@ComponentScan(basePackages = "in.strikes")</code> on our configuration class. This told Spring: go inside the <code>in.strikes</code> package and find classes marked with <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, or <code>@Controller</code>.</p>
+<p>In Spring Boot we usually do not write <code>@ComponentScan</code> manually because it is already included inside <code>@SpringBootApplication</code>. By default, Spring Boot scans the package where the main application class is present and all its subpackages.</p>
+<div class="highlight"><pre><span></span><code>in.strikes
+|-- SpringBootCoreDemoApplication.java
+|-- service
+|   |-- PaymentService.java
+|   `-- OrderService.java
+`-- runner
+    `-- AppRunner.java
+</code></pre></div>
+
+<p>Here the main class is inside <code>in.strikes</code>, so Spring Boot scans <code>in.strikes</code> and all packages under it. This is why Spring Boot applications usually keep the main application class in the root package.</p>
+<div class="highlight"><pre><span></span><code>Correct structure:                 Less ideal structure:
+in.strikes                         in.strikes.app
+|-- SpringBootCoreDemoApplication  `-- SpringBootCoreDemoApplication.java
+|-- controller                     in.strikes.service
+|-- service                        `-- PaymentService.java
+|-- repository
+`-- config
+</code></pre></div>
+
+<p>In the less ideal structure, <code>PaymentService</code> may not be scanned automatically because it is outside the main class package hierarchy.</p>
+<h2 id="11-changing-the-component-scan-base">11. Changing the Component Scan Base</h2>
+<p>Yes, we can manually change component scanning. If required, we provide base packages as <code>@SpringBootApplication(scanBasePackages = "in.strikes")</code>. This tells Spring Boot to scan from <code>in.strikes</code> even if the main class is placed somewhere else. However, the better practice is to place the main class in the root package and let Spring Boot scan naturally.</p>
+<blockquote class="callout callout--important">
+<p>Important: The default scan root is the package of the main class. Moving the main class up or down silently changes which components Boot finds.</p>
+</blockquote>
+<h2 id="12-enableautoconfiguration">12. @EnableAutoConfiguration</h2>
+<p><code>@EnableAutoConfiguration</code> tells Spring Boot: look at my project setup and automatically configure useful things for me. Spring Boot checks:</p>
+<ul>
+<li>Which dependencies are present.</li>
+<li>Which classes are available on the classpath.</li>
+<li>Which beans already exist.</li>
+<li>Which properties are configured.</li>
+</ul>
+<p>Then it creates useful default beans only when needed. For example, Boot may check: Is a web dependency present? Is a database dependency present? Is Spring Security present? Has the developer already created a custom bean?</p>
+<p>Based on these checks, Spring Boot applies its pre-written configuration classes. Examples of common auto-configuration classes are <code>DataSourceAutoConfiguration</code>, <code>WebMvcAutoConfiguration</code>, <code>JacksonAutoConfiguration</code>, and <code>TaskExecutionAutoConfiguration</code>.</p>
+<p>Simple meaning: <code>@EnableAutoConfiguration</code> = apply Spring Boot's ready-made configurations when conditions match.</p>
+<h2 id="13-how-auto-configuration-works-internally">13. How Auto-Configuration Works Internally</h2>
+<p>When the application starts, <code>SpringApplication.run(...)</code> runs. Spring Boot sees <code>@SpringBootApplication</code>, and inside it auto-configuration is enabled via <code>@EnableAutoConfiguration</code>. Then Spring Boot considers auto-configuration classes. Conceptually, an auto-configuration class looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@AutoConfiguration</span>
+<span class="nd">@ConditionalOnClass</span><span class="p">(</span><span class="n">SomeLibrary</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SomeLibraryAutoConfiguration</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="nd">@ConditionalOnMissingBean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SomeService</span><span class="w"> </span><span class="nf">someService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DefaultSomeService</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>These classes are not blindly applied. They are applied only when their conditions match. Meaning:</p>
+<div class="highlight"><pre><span></span><code>If SomeLibrary is present in the project
+AND the developer has not already created a SomeService bean
+THEN create a default SomeService bean.
+</code></pre></div>
+
+<p>This is the core idea of Spring Boot auto-configuration.</p>
+<h2 id="14-manual-configuration-vs-auto-configuration">14. Manual Configuration vs Auto-Configuration</h2>
+<p>In Spring Core the developer writes the configuration manually in something like an <code>AppConfig</code> class with <code>@Bean</code> methods. Here the developer directly tells Spring: create this bean.</p>
+<p>In Spring Boot, many configuration classes are already written for us. They are provided by Spring Boot or sometimes by third-party starters. Spring Boot applies them only when the right conditions are satisfied.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Manual Configuration</th>
+<th>Auto-Configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who writes it</td>
+<td>Developer</td>
+<td>Spring Boot or third-party starters</td>
+</tr>
+<tr>
+<td>When applied</td>
+<td>Always, as written</td>
+<td>Only when conditions match</td>
+</tr>
+<tr>
+<td>Trigger</td>
+<td>Explicit <code>@Bean</code> / <code>@Configuration</code></td>
+<td>Classpath, existing beans, properties</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>Total</td>
+<td>Default, overridable by our beans</td>
+</tr>
+<tr>
+<td>Typical source</td>
+<td>Our <code>AppConfig</code></td>
+<td><code>XxxAutoConfiguration</code> classes</td>
+</tr>
+</tbody>
+</table>
+<p>So auto-configuration does not mean random configuration. It means: pre-written configuration plus condition-based activation.</p>
+<h2 id="15-classpath-based-decision-making-and-the-web-dependency">15. Classpath-Based Decision Making and the Web Dependency</h2>
+<p>Classpath means the set of classes and libraries available to the application at runtime. In Maven terms:</p>
+<div class="highlight"><pre><span></span><code>Dependency added in pom.xml
+        |
+        v
+Maven downloads JARs -&gt; they become available on the classpath
+        |
+        v
+Spring Boot checks the available classes -&gt; auto-configuration decisions
+</code></pre></div>
+
+<p>When we add a dependency, we indirectly give Spring Boot a signal. <code>spring-boot-starter</code> tells Spring Boot: this is a basic Spring Boot application. But if we do not add <code>spring-boot-starter-web</code>, then Spring Boot does not treat the application as a web application. It checks:</p>
+<div class="highlight"><pre><span></span><code>Do I see web server classes? No.
+Do I see Spring MVC web classes? No.
+Should I start Tomcat? No.
+</code></pre></div>
+
+<p>So the application starts like a normal console application. You will not see <code>Tomcat started on port 8080</code>, precisely because no web-related classes are present on the classpath.</p>
+<p>Later, when we add <code>spring-boot-starter-web</code>, Maven brings web-related libraries. Then Boot sees that web classes are present, embedded server support is present, and Spring MVC infrastructure is present. Now Spring Boot understands: this looks like a web application. So it configures web-related beans and starts an embedded server such as Tomcat. That is why a Boot web application keeps running and listens for HTTP requests.</p>
+<blockquote class="callout callout--important">
+<p>Important: Adding a dependency is a configuration command. It changes the classpath, and the classpath changes what Spring Boot decides to configure.</p>
+</blockquote>
+<h2 id="16-the-three-main-checks-in-auto-configuration">16. The Three Main Checks in Auto-Configuration</h2>
+<p>Spring Boot commonly checks three things:</p>
+<ol>
+<li>Is the required class present?</li>
+<li>Is the required bean missing?</li>
+<li>Is the required property enabled?</li>
+</ol>
+<p>Conceptual example:</p>
+<div class="highlight"><pre><span></span><code>@AutoConfiguration
+@ConditionalOnClass(PaymentGateway.class)
+public class PaymentAutoConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    public PaymentGateway paymentGateway() {
+        return new DefaultPaymentGateway();
+    }
+}
+</code></pre></div>
+
+<p>Meaning:</p>
+<div class="highlight"><pre><span></span><code>If PaymentGateway class exists
+AND the developer has not created a PaymentGateway bean
+THEN create a default PaymentGateway bean.
+</code></pre></div>
+
+<p>This is why Spring Boot feels automatic but still remains controlled.</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Annotation</th>
+<th>Question asked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class present</td>
+<td><code>@ConditionalOnClass</code></td>
+<td>Is a specific class or library available in the project?</td>
+</tr>
+<tr>
+<td>Bean missing</td>
+<td><code>@ConditionalOnMissingBean</code></td>
+<td>Has the developer not already created this bean?</td>
+</tr>
+<tr>
+<td>Property enabled</td>
+<td>property condition</td>
+<td>Is the required property enabled in configuration?</td>
+</tr>
+</tbody>
+</table>
+<p><code>@ConditionalOnClass</code> is a condition that matches only when a particular class is present on the classpath: apply this configuration only if a specific class or library is available. This is how Spring Boot detects what kind of application we are building.</p>
+<p><code>@ConditionalOnMissingBean</code> is a condition that matches only when a required bean is not already present in the Spring container: create this bean only if the developer has not already created one. This is very important because Spring Boot does not want to override our custom configuration unnecessarily.</p>
+<p>Mnemonic: the three checks are <strong>C-M-P</strong> - <strong>C</strong>lass, <strong>M</strong>issing bean, <strong>P</strong>roperty.</p>
+<h2 id="17-our-beans-vs-auto-configured-beans-and-the-startup-flow">17. Our Beans vs Auto-Configured Beans and the Startup Flow</h2>
+<p>In a Spring Boot application, beans can come from two main sources.</p>
+<ol>
+<li>
+<p>Beans created from our code. These are developer-defined beans, discovered through component scanning or explicit configuration, using <code>@Component</code> or a <code>@Bean</code> method inside a <code>@Configuration</code> class.</p>
+</li>
+<li>
+<p>Beans created by Spring Boot auto-configuration. These come from Spring Boot's pre-written configuration classes, provided by Spring Boot or by a third-party starter. They are not classes we write in our application.</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>How defined</th>
+<th>Who wins on conflict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Our beans</td>
+<td><code>@Component</code>, <code>@Service</code>, <code>@Bean</code></td>
+<td>Ours - Boot backs off</td>
+</tr>
+<tr>
+<td>Auto-configured beans</td>
+<td><code>XxxAutoConfiguration</code> with conditions</td>
+<td>Only if we did not define one</td>
+</tr>
+</tbody>
+</table>
+<p>A simplified Spring Boot startup flow looks like this:</p>
+<div class="highlight"><pre><span></span><code>Application starts
+        |
+        v
+SpringApplication.run() is called
+        |
+        v
+Application context is created
+        |
+        v
+User configuration is processed
+        |
+        v
+Component scanning finds our classes
+        |
+        v
+User-defined beans are registered
+        |
+        v
+Auto-configuration classes are considered
+        |
+        v
+Conditions are checked
+        |
+        v
+Missing default beans are created
+        |
+        v
+Dependencies are injected
+        |
+        v
+Application context becomes ready
+        |
+        v
+CommandLineRunner / ApplicationRunner runs, if present
+</code></pre></div>
+
+<h2 id="18-componentscan-vs-enableautoconfiguration">18. @ComponentScan vs @EnableAutoConfiguration</h2>
+<p>These two annotations solve different problems.</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@ComponentScan</code></td>
+<td>Finds our application classes marked with <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code>, etc.</td>
+</tr>
+<tr>
+<td><code>@EnableAutoConfiguration</code></td>
+<td>Applies Spring Boot's ready-made configurations based on classpath, beans, and properties.</td>
+</tr>
+</tbody>
+</table>
+<p>Simple comparison:</p>
+<div class="highlight"><pre><span></span><code>@ComponentScan finds our code.
+@EnableAutoConfiguration applies Boot&#39;s default setup.
+Both are included inside @SpringBootApplication.
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The classic question is "what does <code>@SpringBootApplication</code> contain?" The strong answer names all three and explains that scanning finds your beans while auto-configuration supplies the ones you did not write.</p>
+</blockquote>
+<h2 id="19-myth-vs-reality">19. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring Boot = Web API"</td>
+<td>Boot also builds console, database, batch, and microservice apps; web behavior only appears with web dependencies</td>
+</tr>
+<tr>
+<td>"Spring Boot replaces Spring Core"</td>
+<td>Boot uses Spring Core internally; it only adds a standard startup and configuration layer</td>
+</tr>
+<tr>
+<td>"A starter is one library"</td>
+<td>A starter is a collection of commonly needed dependencies pulled transitively</td>
+</tr>
+<tr>
+<td>"Auto-configuration runs blindly"</td>
+<td>It applies pre-written configuration only when conditions match</td>
+</tr>
+<tr>
+<td>"Boot overrides my beans"</td>
+<td><code>@ConditionalOnMissingBean</code> makes Boot back off when we define our own</td>
+</tr>
+<tr>
+<td>"You must call <code>getBean</code> in Boot"</td>
+<td>Inject dependencies instead; Boot prepares the context for you</td>
+</tr>
+<tr>
+<td>"A basic starter starts Tomcat"</td>
+<td>Only a web starter brings web classes, so only then does an embedded server start</td>
+</tr>
+<tr>
+<td>"<code>@Configuration</code> and <code>@SpringBootConfiguration</code> are identical"</td>
+<td><code>@SpringBootConfiguration</code> is Boot's main-app marker and helps tests locate the app</td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-common-trap-questions">20. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Spring Boot is a web framework."</strong>
+Verdict: False. Boot is a startup and auto-configuration layer. It is not web-only; adding <code>spring-boot-starter-web</code> is what turns it into a web app.</p>
+<p><strong>Trap 2 - "A starter equals a single dependency."</strong>
+Verdict: False. A starter is a shortcut for a curated set of dependencies that Maven resolves transitively.</p>
+<p><strong>Trap 3 - "Auto-configuration means Spring configures everything always."</strong>
+Verdict: False. It means pre-written configuration plus condition-based activation; if conditions fail, nothing is applied.</p>
+<p><strong>Trap 4 - "Spring Boot ignores my custom bean and uses its default."</strong>
+Verdict: False. <code>@ConditionalOnMissingBean</code> ensures our bean wins; Boot only creates the default when we have not defined one.</p>
+<p><strong>Trap 5 - "The main class does nothing but call run()."</strong>
+Verdict: Misleading. The main class is also a configuration class via <code>@SpringBootConfiguration</code>; it can define <code>@Bean</code>s itself.</p>
+<p><strong>Trap 6 - "Moving the main class does not matter."</strong>
+Verdict: False. Default scanning covers the main class package and below; moving it can put components out of scan range.</p>
+<p><strong>Trap 7 - "Auto-configuration needs my <code>@Bean</code> for every class on the classpath."</strong>
+Verdict: False. Conditions decide whether a configuration is considered; default beans are created only when missing and only when the class is present.</p>
+</blockquote>
+<h2 id="21-points-to-remember">21. Points to Remember</h2>
+<ol>
+<li>Spring Boot does not replace Spring Core; it uses Spring Core and adds standard startup plus configuration.</li>
+<li><code>SpringApplication.run(...)</code> starts the app, creates the context, scans, auto-configures, injects, and runs startup hooks.</li>
+<li><code>@SpringBootApplication</code> combines <code>@SpringBootConfiguration</code>, <code>@EnableAutoConfiguration</code>, and <code>@ComponentScan</code> (CAS).</li>
+<li><code>@SpringBootConfiguration</code> is Boot's main-application configuration marker and helps tests find the app.</li>
+<li><code>@ComponentScan</code> finds our classes; by default it scans the main class package and all subpackages.</li>
+<li><code>@EnableAutoConfiguration</code> applies Boot's ready-made configurations from classpath, beans, and properties.</li>
+<li>Auto-configuration works through conditions: class present, bean missing, property enabled (CMP).</li>
+<li><code>@ConditionalOnMissingBean</code> is why our own beans take preference over Boot's defaults.</li>
+<li>Adding a dependency changes the classpath, and the classpath drives what Boot configures; a web starter starts an embedded server.</li>
+<li><code>spring-boot-starter-parent</code> supplies compatible dependency and plugin versions, reducing version mismatches.</li>
+</ol>
+<h2 id="22-likely-interview-questions">22. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does Spring Boot add over Spring Core?</td>
+<td>A standard way to start and configure the application: <code>SpringApplication.run</code>, starters, auto-configuration, sensible defaults.</td>
+</tr>
+<tr>
+<td>What does <code>SpringApplication.run()</code> do?</td>
+<td>Starts the app, creates the context, reads config, scans components, creates beans, applies auto-configuration, injects dependencies, runs startup hooks.</td>
+</tr>
+<tr>
+<td>What does <code>@SpringBootApplication</code> contain?</td>
+<td><code>@SpringBootConfiguration</code>, <code>@EnableAutoConfiguration</code>, and <code>@ComponentScan</code>.</td>
+</tr>
+<tr>
+<td>Difference between <code>@Configuration</code> and <code>@SpringBootConfiguration</code>?</td>
+<td><code>@Configuration</code> marks any config class; <code>@SpringBootConfiguration</code> marks the main Boot app config and helps tests locate it.</td>
+</tr>
+<tr>
+<td>What is <code>@ComponentScan</code> in Boot?</td>
+<td>It discovers our <code>@Component</code>/<code>@Service</code>/<code>@Repository</code>/<code>@Controller</code> classes, defaulting to the main class package and below.</td>
+</tr>
+<tr>
+<td>What does <code>@EnableAutoConfiguration</code> do?</td>
+<td>Applies Spring Boot's pre-written configurations when classpath, bean, and property conditions match.</td>
+</tr>
+<tr>
+<td>What is a starter?</td>
+<td>A dependency shortcut bundling a set of commonly needed dependencies that Maven resolves transitively.</td>
+</tr>
+<tr>
+<td>Why use <code>spring-boot-starter-parent</code>?</td>
+<td>It manages compatible dependency and plugin versions, Java version, build defaults, and encoding.</td>
+</tr>
+<tr>
+<td>When is an auto-configuration applied?</td>
+<td>Only when its conditions match: required class present, required bean missing, required property enabled.</td>
+</tr>
+<tr>
+<td>What does <code>@ConditionalOnMissingBean</code> mean?</td>
+<td>Create this bean only if the developer has not already defined one.</td>
+</tr>
+<tr>
+<td>Why does a basic starter not start Tomcat?</td>
+<td>No web server or MVC classes are on the classpath, so web auto-configuration conditions fail.</td>
+</tr>
+<tr>
+<td>What happens when you add <code>spring-boot-starter-web</code>?</td>
+<td>Web classes appear, so Boot configures web beans and starts an embedded server such as Tomcat.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="23-final-summary">23. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Spring Core: manual container + config + getBean + trigger
+        |
+        v
+Spring Boot: SpringApplication.run() starts and prepares the context
+        |
+        v
+@SpringBootApplication = @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
+        |
+        v
+@ComponentScan finds OUR beans (main package and below)
+        |
+        v
+@EnableAutoConfiguration applies BOOT&#39;s ready-made configuration classes
+        |
+        v
+Conditions decide: class present? bean missing? property enabled?
+        |
+        v
+Classpath (dependencies) drives the decisions; web starter starts Tomcat
+        |
+        v
+Context ready, dependencies injected, CommandLineRunner runs
+</code></pre></div>
+
+<ul>
+<li>Spring Boot = Spring Core + smart startup and configuration, not a replacement.</li>
+<li><code>@SpringBootApplication</code> = CAS: Configure, Auto-configure, Scan.</li>
+<li><code>@ComponentScan</code> finds our code; <code>@EnableAutoConfiguration</code> supplies Boot's setup.</li>
+<li>Auto-configuration = pre-written configuration plus condition-based activation (CMP).</li>
+<li><code>@ConditionalOnMissingBean</code> lets our beans win; dependencies change the classpath and the classpath changes the configuration.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Boot is not magic; it is Spring Core plus a smart startup and configuration system that uses dependencies, properties, and conditions to prepare the application automatically.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-08.html"><span class="dir">Previous</span><span class="ttl">Lecture 08 — Spring XML Configuration Explained</span></a><a class="next" href="doc-theory-lecture-10.html"><span class="dir">Next</span><span class="ttl">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies) — Spring Boot</title>
+<meta name="description" content="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-20">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-20.html#lecture-20">Lecture 20</a></li><li><a href="doc-theory-lecture-20.html#1-modifying-the-http-response-headers-and-status">1. Modifying the HTTP Response: Headers and Status</a></li><li><a href="doc-theory-lecture-20.html#2-why-add-headers-before-the-response-is-committed">2. Why Add Headers Before the Response Is Committed</a></li><li><a href="doc-theory-lecture-20.html#3-modifying-the-response-body-and-why-getbody-does-not-exist">3. Modifying the Response Body (and Why getBody() Does Not Exist)</a></li><li><a href="doc-theory-lecture-20.html#4-contentcachingresponsewrapper-and-copybodytoresponse">4. ContentCachingResponseWrapper and copyBodyToResponse()</a></li><li><a href="doc-theory-lecture-20.html#5-limitations-of-manually-modifying-a-response-body">5. Limitations of Manually Modifying a Response Body</a></li><li><a href="doc-theory-lecture-20.html#6-modifying-request-data-and-the-request-wrapper-concept">6. Modifying Request Data and the Request Wrapper Concept</a></li><li><a href="doc-theory-lecture-20.html#7-modifying-query-parameters">7. Modifying Query Parameters</a></li><li><a href="doc-theory-lecture-20.html#8-understanding-the-request-body-as-a-stream">8. Understanding the Request Body as a Stream</a></li><li><a href="doc-theory-lecture-20.html#9-why-the-request-body-cannot-be-read-repeatedly">9. Why the Request Body Cannot Be Read Repeatedly</a></li><li><a href="doc-theory-lecture-20.html#10-why-java-and-tomcat-do-not-rewind-the-body">10. Why Java and Tomcat Do Not Rewind the Body</a></li><li><a href="doc-theory-lecture-20.html#11-re-reading-or-replacing-a-request-body">11. Re-reading or Replacing a Request Body</a></li><li><a href="doc-theory-lecture-20.html#12-choosing-the-correct-layer">12. Choosing the Correct Layer</a></li><li><a href="doc-theory-lecture-20.html#13-registering-filters-in-spring-boot-component-vs-filterregistrationbean">13. Registering Filters in Spring Boot (@Component vs FilterRegistrationBean)</a></li><li><a href="doc-theory-lecture-20.html#14-controlling-filter-order">14. Controlling Filter Order</a></li><li><a href="doc-theory-lecture-20.html#15-filtering-specific-urls-and-onceperrequestfilter">15. Filtering Specific URLs and OncePerRequestFilter</a></li><li><a href="doc-theory-lecture-20.html#16-comparing-url-scoping-and-filter-vs-onceperrequestfilter">16. Comparing URL-Scoping and Filter vs OncePerRequestFilter</a></li><li><a href="doc-theory-lecture-20.html#17-practical-guidelines">17. Practical Guidelines</a></li><li><a href="doc-theory-lecture-20.html#18-myth-vs-reality">18. Myth vs Reality</a></li><li><a href="doc-theory-lecture-20.html#19-common-trap-questions">19. Common Trap Questions</a></li><li><a href="doc-theory-lecture-20.html#20-points-to-remember">20. Points to Remember</a></li><li><a href="doc-theory-lecture-20.html#21-likely-interview-questions">21. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-20.html#22-final-summary">22. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</h1>
+<p class="readmeta">23 sections · 4,183 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-20" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-20">Lecture 20</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Filters | Modify Requests, Response, Headers &amp; Bodies" (playlist map,
+verified). Repo lecture folder is the <code>filterDemo</code> project with a <code>filters</code> package
+(<code>RequestFilter</code>, <code>ResponseHeaderFilter</code>, <code>ResponseBodyFilter</code>, <code>SpringDemoFilter</code>, <code>DummyFilter</code>,
+<code>AuthenticationFilter</code>), a <code>configuration.FilterConfig</code>, <code>controller.StudentController</code>,
+<code>dto.Student</code>, <code>dto.StudentResponseDto</code>, <code>service.StudentService</code>, and <code>FilterDemoApplication</code>.</p>
+</blockquote>
+<p>A servlet Filter can do more than inspect a request and response: it can change what the client
+receives and what downstream sees. The rules are not symmetric: response headers and status are easy
+to change, response bodies need a wrapper, request headers and parameters are read-only, and the
+request body is a stream. This lecture covers those cases plus the registration and scoping tools
+(<code>@Component</code>, <code>FilterRegistrationBean</code>, <code>OncePerRequestFilter</code>, <code>shouldNotFilter()</code>).</p>
+<h2 id="1-modifying-the-http-response-headers-and-status">1. Modifying the HTTP Response: Headers and Status</h2>
+<p>A Filter can add or replace response headers before passing the request further through the chain.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResponseHeaderFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span>
+<span class="w">        </span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">        </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">httpResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">)</span><span class="w"> </span><span class="n">response</span><span class="p">;</span>
+<span class="w">        </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">setHeader</span><span class="p">(</span><span class="s">&quot;X-Application-Name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Student Management API&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The client receives a header similar to <code>X-Application-Name: Student Management API</code>.</p>
+<p><code>setHeader()</code> versus <code>addHeader()</code>:</p>
+<ul>
+<li><code>setHeader("X-Application-Name", "Student API")</code> replaces the existing value.</li>
+<li><code>addHeader("X-Feature", "Students")</code> then <code>addHeader("X-Feature", "Courses")</code> adds values without replacing the previous one.</li>
+</ul>
+<p>A Filter can assign an HTTP status directly:
+<code>httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);</code>. The constant <code>SC_UNAUTHORIZED</code> is
+HTTP status <code>401 Unauthorized</code>.</p>
+<p>A Filter can also stop processing and return a complete response by itself. It sets the status,
+content type, and encoding, writes JSON with <code>httpResponse.getWriter().write(...)</code>, and returns.
+Because the method returns without calling <code>chain.doFilter()</code>, the request never reaches the next
+Filter or the controller.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>chain.doFilter(request, response);</code> means "continue processing the request." A bare
+<code>return;</code> without calling the chain means "stop processing the request here."</p>
+<p>Interviewer's perspective: For real authentication and authorization, Spring Security is generally
+the correct solution. Authentication failures are commonly handled through components such as
+<code>AuthenticationEntryPoint</code>, not a homemade Filter.</p>
+</blockquote>
+<h2 id="2-why-add-headers-before-the-response-is-committed">2. Why Add Headers Before the Response Is Committed</h2>
+<p>Downstream code may write and flush the response. Once that happens, the response can become
+committed. A committed response means its status and headers may already have been sent to the
+client. After that point, changing them may have no effect or may cause an error.</p>
+<p>State can be checked with <code>httpResponse.isCommitted()</code>. Add headers early when they should be present
+on every response. Logic that depends on the final result may need to run after <code>chain.doFilter()</code>
+and must account for the response possibly being committed.</p>
+<h2 id="3-modifying-the-response-body-and-why-getbody-does-not-exist">3. Modifying the Response Body (and Why getBody() Does Not Exist)</h2>
+<p>Suppose a controller returns <code>{"name": "Aditya", "age": 25}</code>. The desired response nests that data
+under a <code>data</code> field and adds an <code>application</code> field beside it.</p>
+<p>A normal <code>HttpServletResponse</code> has no <code>response.getBody()</code> method.</p>
+<p>Why? The controller or Spring MVC writes response data to <code>response.getWriter()</code> or
+<code>response.getOutputStream()</code>, and the data moves progressively toward the client. The ordinary response
+is a destination for writes, not a Java object from which the complete body can later be read. To
+inspect or replace the body after downstream processing, the response must first be wrapped.</p>
+<h2 id="4-contentcachingresponsewrapper-and-copybodytoresponse">4. ContentCachingResponseWrapper and copyBodyToResponse()</h2>
+<p>Spring provides <code>ContentCachingResponseWrapper</code>, which stores a copy of the response body so it can be
+accessed after the controller has executed. The filter creates it, passes it through the chain, reads
+the cached bytes afterwards, optionally replaces the body, then <code>copyBodyToResponse()</code> copies the
+final body to the real response.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ResponseBodyFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span>
+<span class="w">        </span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">        </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">httpResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">)</span><span class="w"> </span><span class="n">response</span><span class="p">;</span>
+<span class="w">        </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">httpRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">ContentCachingResponseWrapper</span><span class="w"> </span><span class="n">wrappedResponse</span><span class="w"> </span><span class="o">=</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">ContentCachingResponseWrapper</span><span class="p">(</span><span class="n">httpResponse</span><span class="p">);</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">httpRequest</span><span class="p">,</span><span class="w"> </span><span class="n">wrappedResponse</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">originalBodyBytes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">getContentAsByteArray</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">originalBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">String</span><span class="p">(</span><span class="n">originalBodyBytes</span><span class="p">,</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">);</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">modifiedBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">            {&quot;originalResponse&quot;: %s, &quot;processedBy&quot;: &quot;ResponseBodyFilter&quot;}</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">.</span><span class="na">formatted</span><span class="p">(</span><span class="n">originalBody</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">resetBuffer</span><span class="p">();</span>
+<span class="w">        </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">setContentType</span><span class="p">(</span><span class="s">&quot;application/json&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">setCharacterEncoding</span><span class="p">(</span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">.</span><span class="na">name</span><span class="p">());</span>
+<span class="w">        </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">().</span><span class="na">write</span><span class="p">(</span><span class="n">modifiedBody</span><span class="p">.</span><span class="na">getBytes</span><span class="p">(</span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">wrappedResponse</span><span class="p">.</span><span class="na">copyBodyToResponse</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The important steps:</p>
+<ol>
+<li>Wrap the real response: <code>new ContentCachingResponseWrapper(httpResponse)</code>.</li>
+<li>Pass the wrapper through the chain: the controller writes into <code>wrappedResponse</code>, not the original response.</li>
+<li>Read the cached body: <code>wrappedResponse.getContentAsByteArray()</code>.</li>
+<li>Clear the body: <code>resetBuffer()</code> clears the buffer while keeping status and headers.</li>
+<li>Write the replacement: <code>wrappedResponse.getOutputStream().write(modifiedBodyBytes)</code>.</li>
+<li>Copy to the real response: <code>wrappedResponse.copyBodyToResponse()</code>.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Always call <code>copyBodyToResponse()</code> with <code>ContentCachingResponseWrapper</code>; otherwise the
+client may receive an empty response because the data remains inside the wrapper.</p>
+</blockquote>
+<p>Mnemonic for the response-body dance - <strong>W-R-R-W-C</strong>: Wrap, Run the chain, Read the bytes, reset and
+Write, then Copy to the real response.</p>
+<h2 id="5-limitations-of-manually-modifying-a-response-body">5. Limitations of Manually Modifying a Response Body</h2>
+<p>The wrapper example is useful for understanding wrappers, but manually rebuilding JSON inside a
+Filter is uncommon in normal application code. Potential problems include:</p>
+<ul>
+<li>The original body may be empty.</li>
+<li>The body may not contain JSON.</li>
+<li>Binary responses such as files or images must not be treated as text.</li>
+<li>Buffering large responses consumes memory.</li>
+<li>Headers such as <code>Content-Length</code>, <code>ETag</code>, or compression headers may become invalid after modification.</li>
+<li>Exceptions and error dispatches require careful handling.</li>
+<li>Streaming responses are not suitable for complete-body caching.</li>
+</ul>
+<p>The expression <code>"...".formatted(originalBody)</code> assumes <code>originalBody</code> is already valid JSON. For
+production JSON transformation, use Jackson rather than building JSON by hand. For globally changing
+controller response bodies in Spring MVC, <code>ResponseBodyAdvice</code> is often cleaner than a servlet Filter.</p>
+<h2 id="6-modifying-request-data-and-the-request-wrapper-concept">6. Modifying Request Data and the Request Wrapper Concept</h2>
+<p>Request modification is generally more complex than response-header modification. Suppose the client
+sends <code>GET /api/students</code> with <code>Authorization: Bearer abc123</code>. The Filter can read it with
+<code>httpRequest.getHeader("Authorization")</code>, but the original request has no setter:
+<code>httpRequest.setHeader("Authorization", "Bearer new-token");</code> does not exist.</p>
+<p><code>HttpServletRequest</code> is primarily a read-oriented interface. To change what downstream code sees, the
+normal technique is to pass a wrapper instead of the original request. A custom request wrapper
+normally extends <code>HttpServletRequestWrapper</code>, calls <code>super(request)</code>, and overrides methods such as:</p>
+<ul>
+<li><code>getHeader(String name)</code></li>
+<li><code>getHeaders(String name)</code></li>
+<li><code>getHeaderNames()</code></li>
+<li><code>getParameter(String name)</code></li>
+<li><code>getParameterMap()</code></li>
+<li><code>getParameterValues(String name)</code></li>
+<li><code>getInputStream()</code></li>
+<li><code>getReader()</code></li>
+</ul>
+<p>Downstream components receive the wrapper and observe the values returned by its overridden methods;
+the wrapper delegates everything else to the original request.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Request mutation through wrappers is valid but should be used
+carefully. Business-level transformations are often better placed in Spring MVC, validation,
+Jackson configuration, or the service layer.</p>
+</blockquote>
+<h2 id="7-modifying-query-parameters">7. Modifying Query Parameters</h2>
+<p>Query parameters are also read-only on the original request. For <code>GET /products?page=1</code>, this method
+does not exist: <code>request.setParameter("page", "2");</code>.</p>
+<p>To change how downstream code reads parameters, a wrapper must consistently override:</p>
+<ul>
+<li><code>getParameter(String name)</code></li>
+<li><code>getParameterMap()</code></li>
+<li><code>getParameterValues(String name)</code></li>
+<li><code>getParameterNames()</code></li>
+</ul>
+<p>Overriding only <code>getParameter()</code> may be insufficient because Spring MVC or another library may read
+the complete parameter map instead.</p>
+<p>Use this carefully because the same parameters may be consumed by:</p>
+<ul>
+<li><code>@RequestParam</code></li>
+<li>Data binding</li>
+<li>Validation</li>
+<li>Other Filters</li>
+<li>Spring MVC infrastructure</li>
+</ul>
+<h2 id="8-understanding-the-request-body-as-a-stream">8. Understanding the Request Body as a Stream</h2>
+<p>Request-body handling is more sensitive than reading headers or query parameters. Request
+information is exposed through methods such as <code>getHeader</code>, <code>getHeaderNames</code>, <code>getParameter</code>,
+<code>getParameterMap</code>, <code>getMethod</code>, and <code>getRequestURI</code>.</p>
+<p>However, <code>httpRequest.getBody();</code> does not exist. The request body is accessed as a stream with
+<code>request.getInputStream()</code>, or as a reader with <code>request.getReader()</code>.</p>
+<p>Why a stream? The body can contain many kinds of data: JSON, XML, plain text, PDF documents, images,
+videos, multipart form data, and other binary content.</p>
+<p>The servlet container cannot assume:</p>
+<ul>
+<li>that the body contains text;</li>
+<li>that it contains JSON;</li>
+<li>which Java class it should become;</li>
+<li>how large it is;</li>
+<li>which parser should process it;</li>
+<li>which character encoding should be used.</li>
+</ul>
+<p>At the HTTP level, the body is a sequence of bytes arriving from the client. Spring MVC selects an
+<code>HttpMessageConverter</code>, Jackson handles JSON when applicable, and a Java object results; with
+<code>@RequestBody</code>, Jackson converts those bytes into the required object.</p>
+<h2 id="9-why-the-request-body-cannot-be-read-repeatedly">9. Why the Request Body Cannot Be Read Repeatedly</h2>
+<p>An input stream has a current position, and each read moves it forward. Suppose the client sends
+<code>{"name": "Aditya"}</code>. The position advances through the bytes:
+<code>{ -&gt; " -&gt; n -&gt; a -&gt; m -&gt; e -&gt; " -&gt; : -&gt; ...</code>. After the bytes are consumed, the stream is at its end,
+and the original network bytes are not placed back at position zero.</p>
+<p>Consider a controller that reads the body with <code>@RequestBody Student student</code>. If a Filter reads the
+same body first with <code>httpRequest.getReader()</code>, the Filter may print it successfully, but when Spring
+MVC later tries to create the object the stream may already be empty, and the controller can fail
+with:</p>
+<div class="highlight"><pre><span></span><code>Required request body is missing
+</code></pre></div>
+
+<p>The same issue occurs when the Filter uses <code>getInputStream()</code> and <code>inputStream.readAllBytes()</code>
+instead.</p>
+<p><code>getReader()</code> and <code>getInputStream()</code> are two views of the same body; reading through either consumes
+it, and the Servlet API does not allow mixing both methods on one request.</p>
+<h2 id="10-why-java-and-tomcat-do-not-rewind-the-body">10. Why Java and Tomcat Do Not Rewind the Body</h2>
+<p>Automatic repeated reading would require the server to buffer the complete body. A 2 GB video would
+have to be received, stored in memory or on disk, and kept for possible repeated reads, consuming
+large amounts of memory or disk. Doing this for every request would:</p>
+<ul>
+<li>increase latency;</li>
+<li>reduce throughput;</li>
+<li>create denial-of-service risks;</li>
+<li>be unnecessary for most requests.</li>
+</ul>
+<p>Streaming therefore lets the server process data without storing every body in full.</p>
+<blockquote class="callout callout--important">
+<p>Important: The stream design is a deliberate trade-off, not a bug. Unreadable-again bodies are the
+price of streaming large payloads efficiently.</p>
+</blockquote>
+<h2 id="11-re-reading-or-replacing-a-request-body">11. Re-reading or Replacing a Request Body</h2>
+<p>A Filter that must read and still preserve the body needs a request wrapper. Typical use cases
+include:</p>
+<ul>
+<li>logging selected request data;</li>
+<li>masking sensitive fields before logging;</li>
+<li>decrypting an encrypted payload;</li>
+<li>sanitising input;</li>
+<li>replacing or transforming request content.</li>
+</ul>
+<p>The strategy: read the original stream once, store the bytes in a byte array, pass a custom
+<code>HttpServletRequestWrapper</code>, and let the wrapper return a fresh stream over the cached bytes so Spring
+MVC can read the body normally. The wrapper overrides both <code>getInputStream()</code> and <code>getReader()</code>; each
+call creates a new <code>ByteArrayInputStream(cachedBody)</code> that begins at position zero, so the cached body
+can be read again.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CachedBodyRequestWrapper</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">HttpServletRequestWrapper</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">cachedBody</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CachedBodyRequestWrapper</span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">cachedBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">().</span><span class="na">readAllBytes</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ServletInputStream</span><span class="w"> </span><span class="nf">getInputStream</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ByteArrayInputStream</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ByteArrayInputStream</span><span class="p">(</span><span class="n">cachedBody</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServletInputStream</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="na">read</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isFinished</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="na">available</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isReady</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setReadListener</span><span class="p">(</span><span class="n">ReadListener</span><span class="w"> </span><span class="n">listener</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">BufferedReader</span><span class="w"> </span><span class="nf">getReader</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">InputStreamReader</span><span class="p">(</span><span class="n">getInputStream</span><span class="p">(),</span><span class="w"> </span><span class="n">StandardCharsets</span><span class="p">.</span><span class="na">UTF_8</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Mnemonic for the request fix - <strong>R-C-W-F</strong>: Read once, Cache the bytes, Wrap the request, give a
+Fresh stream.</p>
+<blockquote class="callout callout--important">
+<p>Important: Caching a request body stores it in memory unless a disk-backed strategy is used.
+Before buffering, consider maximum request size, file uploads, multipart requests, sensitive
+information, passwords and tokens, and performance.</p>
+<p>Golden rule: Never log complete request bodies blindly. Logs can expose credentials, personal
+data, access tokens, and financial information.</p>
+</blockquote>
+<h2 id="12-choosing-the-correct-layer">12. Choosing the Correct Layer</h2>
+<p>Before modifying data in a Filter, consider whether another Spring mechanism is more suitable.</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Usually better suited mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication and authorization</td>
+<td>Spring Security</td>
+</tr>
+<tr>
+<td>Standard controller response envelope</td>
+<td>ResponseBodyAdvice</td>
+</tr>
+<tr>
+<td>Exception response formatting</td>
+<td>@RestControllerAdvice</td>
+</tr>
+<tr>
+<td>JSON field conversion</td>
+<td>Jackson configuration or custom deserializer</td>
+</tr>
+<tr>
+<td>Controller argument creation</td>
+<td>HandlerMethodArgumentResolver</td>
+</tr>
+<tr>
+<td>Input validation</td>
+<td>Bean Validation</td>
+</tr>
+<tr>
+<td>Business-data transformation</td>
+<td>Service layer</td>
+</tr>
+<tr>
+<td>Low-level HTTP concern</td>
+<td>Filter</td>
+</tr>
+</tbody>
+</table>
+<p>Filters fit concerns that belong at the servlet or HTTP boundary.</p>
+<h2 id="13-registering-filters-in-spring-boot-component-vs-filterregistrationbean">13. Registering Filters in Spring Boot (@Component vs FilterRegistrationBean)</h2>
+<p>There are multiple ways to register and scope a Filter.</p>
+<p>Approach 1: register with <code>@Component</code>. Spring Boot detects the Filter bean and registers it with the
+servlet container, generally mapped broadly to <code>/*</code>. Use it when the Filter should apply broadly and
+advanced options are unnecessary.</p>
+<p>Approach 2: register with <code>FilterRegistrationBean</code>, which gives explicit control over URL patterns,
+order, name, dispatcher types, whether registration is enabled, and async support. Suppose a Filter
+should apply only to <code>/api/*</code> and not to <code>/actuator/*</code>, <code>/swagger-ui/*</code>, or <code>/static/*</code>; it can
+restrict the Filter at registration time.</p>
+<p>Step 1: create a normal Filter class (a plain <code>RequestLoggingFilter implements Filter</code> that logs the
+request URI and calls the chain). Do not annotate it with <code>@Component</code> when the same instance will be
+registered manually.</p>
+<p>Step 2: register it in a configuration class. In <code>FilterConfig</code> (annotated <code>@Configuration</code>), a
+<code>@Bean</code> method creates a <code>FilterRegistrationBean&lt;RequestLoggingFilter&gt;</code>, sets the filter, URL
+patterns, <code>setOrder(1)</code>, and a name, then returns it. The Filter then applies to <code>/api/students</code> and
+<code>/api/orders/10</code>, but not to <code>/hello</code> or <code>/actuator/health</code>, unless another pattern matches.
+Registering multiple patterns: <code>addUrlPatterns("/api/*", "/admin/*")</code>.</p>
+<p>Step 3: avoid duplicate registration. Do not use both <code>@Component</code> and <code>setFilter(new
+RequestLoggingFilter())</code> for the same Filter, or it can run more than once; choose one strategy.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>@Component</th>
+<th>FilterRegistrationBean</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Registration style</td>
+<td>Automatic bean detection</td>
+<td>Explicit bean in a config class</td>
+</tr>
+<tr>
+<td>Mapping</td>
+<td>Usually broad (<code>/*</code>)</td>
+<td>Exact URL patterns you choose</td>
+</tr>
+<tr>
+<td>Order control</td>
+<td>Indirect</td>
+<td><code>setOrder(...)</code></td>
+</tr>
+<tr>
+<td>Name control</td>
+<td>Default bean name</td>
+<td><code>setName(...)</code></td>
+</tr>
+<tr>
+<td>Dispatcher types</td>
+<td>Not exposed</td>
+<td>Configurable</td>
+</tr>
+<tr>
+<td>Enable/disable</td>
+<td>Not exposed</td>
+<td>Configurable</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Broad, simple Filters</td>
+<td>Precise URL and order control</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-controlling-filter-order">14. Controlling Filter Order</h2>
+<p>When multiple Filters are registered, their order determines the path of the request and response.
+<code>registrationBean.setOrder(1)</code> sets the order, and a lower value runs earlier on the request. With
+<code>LoggingFilter</code> at order 1 and <code>AuthenticationFilter</code> at order 2, the request flows Client,
+LoggingFilter, AuthenticationFilter, DispatcherServlet, Controller; the response returns in reverse.
+This nesting happens because each Filter runs code before and after <code>chain.doFilter()</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Filter order is a classic interview follow-up. "Which filter runs
+first?" is answered by the order value on the request path, and by the reverse on the response
+path.</p>
+</blockquote>
+<h2 id="15-filtering-specific-urls-and-onceperrequestfilter">15. Filtering Specific URLs and OncePerRequestFilter</h2>
+<p>A Filter can inspect the current URI and decide whether to run its custom logic. An <code>ApiFilter
+implements Filter</code> reads <code>httpRequest.getRequestURI()</code>; if the URI does not start with <code>/api/</code> it just
+calls the chain and returns, otherwise it runs the API-specific logic first.</p>
+<p>This works, but the Filter is still invoked for every URL in its servlet registration and decides
+internally. Use it when the condition is small, depends on more than a simple URL pattern, or when the
+Filter is already registered broadly. For clean URL-level registration, <code>FilterRegistrationBean</code> is
+clearer.</p>
+<p>Implementing the servlet <code>Filter</code> interface directly is valid. Spring also provides
+<code>OncePerRequestFilter</code>, an abstract Spring class for HTTP request filtering. It overrides
+<code>doFilterInternal(HttpServletRequest, HttpServletResponse, FilterChain)</code> instead of <code>doFilter</code>, so no
+manual casting is needed.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RequestLoggingFilter</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">OncePerRequestFilter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">RequestLoggingFilter</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilterInternal</span><span class="p">(</span>
+<span class="w">        </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">        </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">        </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">filterChain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">ServletException</span><span class="p">,</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;{} {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getMethod</span><span class="p">(),</span><span class="w"> </span><span class="n">request</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">());</span>
+<span class="w">        </span><span class="n">filterChain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Advantages of <code>OncePerRequestFilter</code>:</p>
+<ul>
+<li>direct access to <code>HttpServletRequest</code> and <code>HttpServletResponse</code>;</li>
+<li>no manual casting from <code>ServletRequest</code> and <code>ServletResponse</code>;</li>
+<li>designed for Spring-based web applications;</li>
+<li>provides extension methods for controlling filtering behaviour;</li>
+<li>prevents duplicate execution within the same dispatch using an internal request attribute.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: The name does not mean the Filter can never run again for every possible dispatch.
+Servlet processing includes dispatch types such as <code>REQUEST</code>, <code>ASYNC</code>, <code>ERROR</code>, <code>FORWARD</code>, and
+<code>INCLUDE</code>; <code>OncePerRequestFilter</code> gives once-per-dispatch protection plus hooks for async and error
+dispatch.</p>
+</blockquote>
+<p>When extending <code>OncePerRequestFilter</code>, URL-exclusion logic can be placed in <code>shouldNotFilter()</code>. An
+<code>ApiLoggingFilter</code> overrides <code>protected boolean shouldNotFilter(HttpServletRequest request)</code>, reads
+the URI, and returns <code>!path.startsWith("/api/")</code>.</p>
+<p>Understanding the return value:</p>
+<ul>
+<li><code>return true;</code> means do not run <code>doFilterInternal()</code> for this request (skip).</li>
+<li><code>return false;</code> means run <code>doFilterInternal()</code> for this request.</li>
+</ul>
+<p>In the example, <code>return !path.startsWith("/api/")</code> produces <code>false</code> for <code>/api/students</code>, so the
+Filter runs, and <code>true</code> for <code>/hello</code>, so the Filter is skipped.</p>
+<h2 id="16-comparing-url-scoping-and-filter-vs-onceperrequestfilter">16. Comparing URL-Scoping and Filter vs OncePerRequestFilter</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Where the decision occurs</th>
+<th>Best suited for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FilterRegistrationBean</td>
+<td>URL patterns at registration</td>
+<td>Clean, broad URL-pattern control</td>
+</tr>
+<tr>
+<td>Manual URI check inside doFilter()</td>
+<td>Inside Filter execution</td>
+<td>Small or custom runtime conditions</td>
+</tr>
+<tr>
+<td>OncePerRequestFilter.shouldNotFilter()</td>
+<td>Spring Filter hook</td>
+<td>Clean exclusions in a Spring-specific Filter</td>
+</tr>
+</tbody>
+</table>
+<p>General guidance:</p>
+<ul>
+<li>Use <code>FilterRegistrationBean</code> when the Filter should not be registered for unrelated paths at all.</li>
+<li>Use <code>shouldNotFilter()</code> when the inclusion rule naturally belongs inside a <code>OncePerRequestFilter</code>.</li>
+<li>Use manual checks only when they stay simple or depend on custom request information.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Filter</th>
+<th>OncePerRequestFilter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API</td>
+<td>Jakarta Servlet API</td>
+<td>Spring Framework</td>
+</tr>
+<tr>
+<td>Request type</td>
+<td>ServletRequest</td>
+<td>HttpServletRequest</td>
+</tr>
+<tr>
+<td>Response type</td>
+<td>ServletResponse</td>
+<td>HttpServletResponse</td>
+</tr>
+<tr>
+<td>Casting required</td>
+<td>Usually yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Main method</td>
+<td>doFilter()</td>
+<td>doFilterInternal()</td>
+</tr>
+<tr>
+<td>Built-in skip hook</td>
+<td>No dedicated Spring hook</td>
+<td>shouldNotFilter()</td>
+</tr>
+<tr>
+<td>Dispatch protection</td>
+<td>Must manage manually if needed</td>
+<td>Built-in once-per-dispatch mechanism</td>
+</tr>
+<tr>
+<td>Portability outside Spring</td>
+<td>Greater</td>
+<td>Spring-specific</td>
+</tr>
+</tbody>
+</table>
+<p>Both are valid; in a Spring Boot app, <code>OncePerRequestFilter</code> often yields cleaner code.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Request wrapper</th>
+<th>Response wrapper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base class</td>
+<td>HttpServletRequestWrapper</td>
+<td>ContentCachingResponseWrapper</td>
+</tr>
+<tr>
+<td>Direction</td>
+<td>Incoming request</td>
+<td>Outgoing response</td>
+</tr>
+<tr>
+<td>What it changes</td>
+<td>Headers, parameters, body</td>
+<td>Body (after caching)</td>
+</tr>
+<tr>
+<td>Key methods</td>
+<td>getHeader, getParameter, getInputStream, getReader</td>
+<td>getContentAsByteArray, resetBuffer, copyBodyToResponse</td>
+</tr>
+<tr>
+<td>Re-read support</td>
+<td>Yes, over cached bytes</td>
+<td>Yes, via cached copy</td>
+</tr>
+<tr>
+<td>Cost</td>
+<td>Memory to buffer request body</td>
+<td>Memory to buffer response body</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-practical-guidelines">17. Practical Guidelines</h2>
+<p>Prefer a Filter for:</p>
+<ul>
+<li>low-level request and response logging;</li>
+<li>correlation or trace IDs;</li>
+<li>compression or encoding concerns;</li>
+<li>cross-origin handling when not using existing framework support;</li>
+<li>request timing across the complete servlet flow;</li>
+<li>HTTP-boundary concerns that apply before Spring MVC;</li>
+<li>security-chain integration.</li>
+</ul>
+<p>Avoid using a Filter for:</p>
+<ul>
+<li>core business logic;</li>
+<li>database operations unrelated to the HTTP boundary;</li>
+<li>normal DTO mapping;</li>
+<li>controller-specific behaviour;</li>
+<li>complex response restructuring when <code>ResponseBodyAdvice</code> is sufficient;</li>
+<li>authentication systems that should use Spring Security;</li>
+<li>blind logging of passwords, tokens, or complete request bodies.</li>
+</ul>
+<h2 id="18-myth-vs-reality">18. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"A Filter can read the request body and the controller still gets it."</td>
+<td>Reading the stream consumes it; the controller may fail with "Required request body is missing" unless a caching wrapper is used.</td>
+</tr>
+<tr>
+<td>"HttpServletResponse has a getBody() method."</td>
+<td>It does not; the body goes to a stream, so a response wrapper is needed to inspect it later.</td>
+</tr>
+<tr>
+<td>"Forgetting copyBodyToResponse() is harmless."</td>
+<td>The client may receive an empty response because the data stays inside the wrapper.</td>
+</tr>
+<tr>
+<td>"setHeader() and addHeader() are the same."</td>
+<td>setHeader() replaces the value; addHeader() appends another value.</td>
+</tr>
+<tr>
+<td>"Request headers and query parameters can be set directly."</td>
+<td>The request is read-only; a wrapper must override the getters to change what downstream sees.</td>
+</tr>
+<tr>
+<td>"OncePerRequestFilter runs exactly once ever."</td>
+<td>It gives once-per-dispatch protection, not once for every possible dispatch such as ERROR or ASYNC.</td>
+</tr>
+<tr>
+<td>"A Filter is the best place for JSON transformation."</td>
+<td>ResponseBodyAdvice or Jackson configuration is usually cleaner; manually rebuilding JSON is uncommon.</td>
+</tr>
+<tr>
+<td>"@Component plus FilterRegistrationBean is fine for one Filter."</td>
+<td>It can create duplicate registrations and run the logic more than once.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-common-trap-questions">19. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Read the body in a Filter to log it; the controller will still bind it."</strong>
+Verdict: False. <code>getReader()</code> and <code>getInputStream()</code> consume the same body, so the controller can
+fail with "Required request body is missing" unless the body is cached and re-served through a
+wrapper.</p>
+<p><strong>Trap 2 - "A response body can be read back with response.getBody()."</strong>
+Verdict: False. No such method exists on <code>HttpServletResponse</code>; the body goes to an output stream,
+so <code>ContentCachingResponseWrapper</code> is required.</p>
+<p><strong>Trap 3 - "You can skip copyBodyToResponse()."</strong>
+Verdict: False. Without it, the client may receive an empty response because the final body
+remains inside the wrapper.</p>
+<p><strong>Trap 4 - "setHeader() and addHeader() do the same thing."</strong>
+Verdict: False. <code>setHeader()</code> replaces the existing value; <code>addHeader()</code> adds another value
+alongside it.</p>
+<p><strong>Trap 5 - "Request headers and parameters can be modified directly on the request."</strong>
+Verdict: False. <code>HttpServletRequest</code> is read-oriented; <code>setHeader()</code> and <code>setParameter()</code> do not
+exist. A wrapper must override the getters.</p>
+<p><strong>Trap 6 - "Registering with both @Component and FilterRegistrationBean is harmless."</strong>
+Verdict: False. It can produce two registrations and execute the Filter logic more than once.
+Choose one strategy.</p>
+<p><strong>Trap 7 - "OncePerRequestFilter guarantees the Filter runs exactly once, ever."</strong>
+Verdict: Misleading. It prevents duplicate execution within the same dispatch; other dispatch
+types such as ERROR, ASYNC, FORWARD, and INCLUDE can still involve the Filter.</p>
+</blockquote>
+<h2 id="20-points-to-remember">20. Points to Remember</h2>
+<ol>
+<li>A Filter can stop a request by returning without calling <code>chain.doFilter()</code>.</li>
+<li>Add important response headers before the response becomes committed (<code>isCommitted()</code> checks this).</li>
+<li>A normal <code>HttpServletResponse</code> does not expose the completed body through <code>getBody()</code>.</li>
+<li><code>ContentCachingResponseWrapper</code> allows the response body to be inspected after downstream processing.</li>
+<li>Always call <code>copyBodyToResponse()</code> when using <code>ContentCachingResponseWrapper</code> to preserve the final response.</li>
+<li>The original <code>HttpServletRequest</code> provides no setters for headers or query parameters.</li>
+<li>Request wrappers change what downstream components see without changing the original request object.</li>
+<li>Reading a request body in a Filter can consume the stream before the controller receives it.</li>
+<li>Re-readable request bodies require caching and overridden <code>getInputStream()</code> and <code>getReader()</code>.</li>
+<li>Buffering request or response bodies has memory, performance, privacy, and security costs, so use the narrowest appropriate layer.</li>
+</ol>
+<h2 id="21-likely-interview-questions">21. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How does a Filter modify a response header?</td>
+<td>Cast to <code>HttpServletResponse</code>, call <code>setHeader()</code> or <code>addHeader()</code> before <code>chain.doFilter()</code>.</td>
+</tr>
+<tr>
+<td><code>setHeader()</code> vs <code>addHeader()</code>?</td>
+<td><code>setHeader()</code> replaces the existing value; <code>addHeader()</code> adds another value.</td>
+</tr>
+<tr>
+<td>Why add headers before <code>chain.doFilter()</code>?</td>
+<td>Downstream code may flush and commit the response; after that, status and headers may no longer change.</td>
+</tr>
+<tr>
+<td>How do you change a response body in a Filter?</td>
+<td>Wrap the response in <code>ContentCachingResponseWrapper</code>, read <code>getContentAsByteArray()</code>, <code>resetBuffer()</code>, write the new body, then <code>copyBodyToResponse()</code>.</td>
+</tr>
+<tr>
+<td>What happens if you forget <code>copyBodyToResponse()</code>?</td>
+<td>The client may get an empty body because the content stayed inside the wrapper.</td>
+</tr>
+<tr>
+<td>How can request headers or parameters be modified?</td>
+<td>Only through an <code>HttpServletRequestWrapper</code> that overrides the relevant getters.</td>
+</tr>
+<tr>
+<td>Why can a request body not be read twice?</td>
+<td>It is a stream with a read position; once consumed, it is at the end and the bytes are not rewound.</td>
+</tr>
+<tr>
+<td>Why does Tomcat not rewind the body automatically?</td>
+<td>Buffering every body would cost memory and disk, add latency, reduce throughput, and create DoS risk.</td>
+</tr>
+<tr>
+<td>How do you make a request body re-readable?</td>
+<td>Read it once, cache the bytes, wrap the request, and return a fresh <code>ByteArrayInputStream</code> from the overridden <code>getInputStream()</code> and <code>getReader()</code>.</td>
+</tr>
+<tr>
+<td>@Component vs FilterRegistrationBean?</td>
+<td><code>@Component</code> maps broadly; <code>FilterRegistrationBean</code> gives explicit URL, order, name, dispatcher, and enable control.</td>
+</tr>
+<tr>
+<td>How is Filter order controlled?</td>
+<td><code>setOrder(n)</code>; lower values run earlier on the request and later on the response.</td>
+</tr>
+<tr>
+<td>What is <code>shouldNotFilter()</code> for?</td>
+<td>A <code>OncePerRequestFilter</code> hook returning true to skip <code>doFilterInternal()</code> for matching requests.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-final-summary">22. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>HTTP Request
+    |
+    v
+Filter chain (order: lower runs first on request)
+    |
+    v
+Headers/status: easy to change before commit
+Query params: read-only, need request wrapper
+Request body: stream, consumed once, needs caching wrapper to re-read
+    |
+    v
+DispatcherServlet -&gt; Controller -&gt; HttpMessageConverter
+    |
+    v
+Response
+    |
+    v
+Response headers: setHeader/addHeader
+Response body: needs ContentCachingResponseWrapper + copyBodyToResponse()
+    |
+    v
+Client
+</code></pre></div>
+
+<ul>
+<li>Filters mutate at the HTTP boundary: headers and status are simple, bodies need wrappers.</li>
+<li>The request is read-oriented; only a wrapper changes what downstream code sees.</li>
+<li>The request body is a one-pass stream; re-reading needs caching plus overridden <code>getInputStream()</code> and <code>getReader()</code>.</li>
+<li>Register with <code>@Component</code> for broad simple use, or <code>FilterRegistrationBean</code> for URL and order control; never both for one Filter.</li>
+<li><code>OncePerRequestFilter</code> plus <code>shouldNotFilter()</code> is the cleaner Spring-native option.</li>
+<li>Use the narrowest correct layer; buffering bodies costs memory and privacy.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> a Filter can change almost anything in the request/response exchange, but
+headers and status are free, bodies require wrappers on both sides, and the request body is a
+single-pass stream that must be cached and re-wrapped to be read again.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-19.html"><span class="dir">Previous</span><span class="ttl">Lecture 19 — Spring Boot Filters</span></a><a class="next" href="doc-theory-lecture-21.html"><span class="dir">Next</span><span class="ttl">Lecture 21 — Spring Boot Interceptors</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

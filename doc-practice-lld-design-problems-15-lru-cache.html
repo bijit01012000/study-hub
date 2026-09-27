@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design an LRU Cache — LLD</title>
+<meta name="description" content="Design an LRU Cache">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-15-lru-cache">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-lines-they-are-watching">The Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#holding-the-recency-order">Holding the Recency Order</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-15-lru-cache.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design an LRU Cache</h1>
+<p class="readmeta">15 sections · 1,902 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-15-lru-cache" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 15 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li><code>get(key)</code> and <code>put(key, value)</code>, both O(1).</li>
+<li>Fixed capacity, set at construction.</li>
+<li><code>put</code> of a new key when full evicts the least recently used entry.</li>
+<li><code>get</code> and <code>put</code> both count as a use — the touched entry becomes most recent.</li>
+<li>Live size and a hit / miss / eviction count.</li>
+<li>The eviction rule is swappable: LRU now, LFU / FIFO / TTL later.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>A distributed / multi-node cache.</li>
+<li>Persistence to disk.</li>
+<li>A background TTL sweeper (lazy expiry only).</li>
+<li>Thread-safety internals.</li>
+<li>Serializing the values.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>A map into a recency list. <code>LruCache</code> holds a <code>Map&lt;K, Node&gt;</code> and a doubly linked <code>RecencyList</code>; the eviction rule sits behind an <code>EvictionPolicy</code>.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Client</strong> — <code>cache: Cache&lt;K,V&gt;</code>; calls <code>v = cache.get(k)</code> and <code>cache.put(k, v)</code>.</li>
+<li><strong>Cache</strong> (interface) / <strong>AbstractCache</strong> — <code>get(K): V</code>, <code>put(K, V): void</code>, <code>size(): int</code>. <code>get</code> is final: look up, then a hook; <code>abstract lookup(K): Node</code>; hooks <code>afterHit(Node)</code>, <code>afterMiss(K)</code>. Template Method, skeleton is optional.</li>
+<li><strong>CacheDecorator</strong> — <code>inner: Cache&lt;K,V&gt;</code>; <code>WriteThroughCache</code> (store on put), <code>StatsCache</code> (count hit / miss), <code>LoggingCache</code> (trace each call). Stack them; the core is untouched.</li>
+<li><strong>LruCache</strong> — <code>map: Map&lt;K, Node&gt;</code>, <code>capacity: int</code>, <code>policy: EvictionPolicy</code>, <code>head</code>, <code>tail: Node</code> (sentinels), <code>stats: CacheStats</code>; <code>get(K): V</code>, <code>put(K, V): void</code>, <code>evict(): void</code>.</li>
+<li><strong>Node</strong> / <strong>CacheEntry</strong> — <code>key: K</code>, <code>value: V</code>, <code>prev: Node</code>, <code>next: Node</code>; <code>createdAt</code>, <code>lastAccessAt: long</code>, <code>frequency: int</code>. TTL reads <code>createdAt</code>, LFU reads <code>frequency</code>; basic LRU folds this into Node.</li>
+<li><strong>RecencyList</strong> — doubly linked; <code>addFront(Node n): void</code>, <code>remove(Node n): void</code>, <code>lru(): Node</code> (returns <code>tail.prev</code>). <code>head.next</code> is MRU, <code>tail.prev</code> is LRU.</li>
+<li><strong>EvictionPolicy</strong> (interface) — <code>recordAccess(Node n): void</code>, <code>evictNext(): Node</code>. The one rule that changes; never touches the map. <code>LruPolicy</code> (move behind head, evict <code>tail.prev</code>), <code>FifoPolicy</code> (no move on access), <code>MruPolicy</code> (evict <code>head.next</code>), <code>TtlPolicy</code> (evict first node past its ttl, lazy). Same seam, only which node is picked differs.</li>
+<li><strong>EvictionListener</strong> (interface) — <code>onEvict(K key, V value): void</code>. <code>MetricsSink</code>, <code>WriteBackTier</code>, <code>WarmLogTail</code>. Observer: fan out every drop, core untouched.</li>
+<li><strong>CacheStats</strong> — <code>hits</code>, <code>misses</code>, <code>evictions: long</code>, <code>size</code>, <code>capacity: int</code>; <code>hitRate(): double</code>, <code>recordHit()</code>, <code>recordMiss()</code>, <code>recordEviction()</code>.</li>
+</ul>
+<h3 id="the-invariant">The invariant</h3>
+<ul>
+<li><code>map.size == list.size</code>.</li>
+<li>Every map value is a live list node.</li>
+<li><code>head.next</code> is newest, <code>tail.prev</code> is oldest.</li>
+</ul>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>get(K key): V</code> — Map miss returns null (-1 in LeetCode 146). On a hit: remove the node, <code>addFront</code> it, return its value. O(1). A read still counts as a use.</li>
+<li><code>put(K key, V value): void</code> — Existing key: overwrite the value, move the node to the front. New key at capacity: evict <code>tail.prev</code> and drop its map key first, then <code>addFront</code>. O(1).</li>
+<li><code>addFront(Node n): void</code> — four pointer writes that splice <code>n</code> between <code>head</code> and <code>head.next</code>. Never sees null because <code>head</code> is a permanent sentinel.</li>
+<li><code>remove(Node n): void</code> — two pointer writes: <code>n.prev.next = n.next</code>, <code>n.next.prev = n.prev</code>. Interior by construction, so no empty or single-node case.</li>
+</ol>
+<h3 id="from-memory">From memory</h3>
+<ul>
+<li><code>get(k)</code>: <code>n = map[k]; if null miss; remove(n); addFront(n); return n.value</code>.</li>
+<li><code>put(k,v)</code>: hit: set + move; new + full: evict <code>tail.prev</code>; <code>addFront</code> + <code>map.put</code>.</li>
+<li><code>evict</code> when <code>map.size() == capacity</code>; LRU = <code>tail.prev</code>.</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Blank on the guarantee means that method is your gap.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>Capacity 3. <code>put A</code>, <code>put B</code>, <code>put C</code>, then <code>get A</code>, then <code>put D</code>. <code>get A</code> moves A behind head; <code>put D</code> is a new key at capacity, so evict <code>tail.prev</code> (B) and drop "B" from the map, then <code>addFront(D)</code>. Order is D, A, C. Which nodes and map keys changed?</p>
+<h2 id="the-change">The Change</h2>
+<p>They want least-FREQUENTLY-used, not least-recently. An <code>LfuPolicy</code> behind the same <code>EvictionPolicy</code>: a map of frequency to a small doubly linked list, plus a <code>minFreq</code> pointer. <code>recordAccess</code> moves the node up one bucket; <code>evictNext</code> drops the tail of the <code>minFreq</code> bucket. Still O(1). Strategy, a second time on this sheet.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p><code>get</code> is a write. Every hit unlinks its node and splices it behind head, so <code>tail.prev</code> is always the true least-recently-used. Skip the move and the list freezes into insertion order.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Get and put, the whole thing:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">LruCache</span><span class="w"> </span><span class="p">{</span><span class="w">                                   </span><span class="c1">// K,V</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="n">Node</span><span class="o">&gt;</span><span class="w"> </span><span class="n">map</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(),</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">();</span><span class="w"> </span><span class="c1">// sentinels</span>
+
+<span class="w">    </span><span class="n">LruCache</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cap</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cap</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">;</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w">         </span><span class="c1">// never null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">V</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">                 </span><span class="c1">// miss</span>
+<span class="w">        </span><span class="n">remove</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">addFront</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">                     </span><span class="c1">// get is a WRITE</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">value</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">capacity</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span><span class="w">                  </span><span class="c1">// holds nothing</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                            </span><span class="c1">// key exists</span>
+<span class="w">            </span><span class="n">n</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="n">remove</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">addFront</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">map</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">               </span><span class="c1">// evict FIRST</span>
+<span class="w">            </span><span class="n">Node</span><span class="w"> </span><span class="n">lru</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">prev</span><span class="p">;</span>
+<span class="w">            </span><span class="n">remove</span><span class="p">(</span><span class="n">lru</span><span class="p">);</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">lru</span><span class="p">.</span><span class="na">key</span><span class="p">);</span><span class="w">       </span><span class="c1">// list AND map</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">fresh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addFront</span><span class="p">(</span><span class="n">fresh</span><span class="p">);</span><span class="w"> </span><span class="n">map</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">fresh</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addFront</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                         </span><span class="c1">// splice behind head</span>
+<span class="w">        </span><span class="n">n</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                           </span><span class="c1">// unlink, both sides</span>
+<span class="w">        </span><span class="n">n</span><span class="p">.</span><span class="na">prev</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">prev</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Get that forgets to move the node.</strong> <code>get</code> returns the value but leaves the node where it sits. Recency never updates, the front of the list is just the last inserted key, and eviction throws out whatever was put longest ago — not what was used longest ago. The hit rate quietly collapses. Every <code>get</code> does <code>remove(n)</code> then <code>addFront(n)</code>, the same as the hit path of <code>put</code>.</li>
+<li><strong>Update in place, recency untouched.</strong> <code>put</code> on an existing key overwrites <code>n.value</code> and returns. The value is fresh but the node is still near the tail, so the very next eviction drops the key you just wrote. The existing-key branch also does <code>remove(n) + addFront(n)</code>.</li>
+<li><strong>Insert, then evict.</strong> Add the new node and put it in the map, then trim <code>tail.prev</code>. At capacity 1 you evict the node you just added; at any capacity the map briefly holds capacity + 1 entries. Evict while <code>size == capacity</code>, then <code>addFront</code> the new node.</li>
+<li><strong>No sentinels.</strong> Without a dummy head and tail, <code>addFront</code> and <code>remove</code> branch on empty list, single node, first, last. One missed case is a null pointer or a lost node. Two permanent dummies make every splice interior; capacity 0 makes <code>put</code> a no-op, capacity 1 evicts on every new key.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-lines-they-are-watching">The Lines They Are Watching</h2>
+<ol>
+<li><code>remove(n); addFront(n)</code> inside <code>get</code> — leave it out and the cache silently becomes FIFO.</li>
+<li>The capacity check evicts before the insert, so size never passes capacity.</li>
+<li><code>map.remove(lru.key)</code> — the node leaves the map as well as the list, or it leaks forever.</li>
+<li><code>capacity &lt;= 0</code> guarded first — without it <code>tail.prev</code> is the head sentinel and <code>remove()</code> null-derefs.</li>
+</ol>
+<h2 id="holding-the-recency-order">Holding the Recency Order</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Get</th>
+<th>Put / evict</th>
+<th>Move on touch</th>
+<th>Swap the rule</th>
+<th>Shows the mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Map + doubly linked list (the answer)</td>
+<td>O(1) unlink + splice</td>
+<td>O(1), drop <code>tail.prev</code></td>
+<td>relink behind head</td>
+<td>LFU / FIFO / TTL: change the policy</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>LinkedHashMap(accessOrder = true)</code></td>
+<td>O(1), reorders itself</td>
+<td>O(1), <code>removeEldestEntry</code></td>
+<td>hidden in the map</td>
+<td>LRU only</td>
+<td>no, the framework hides it</td>
+</tr>
+<tr>
+<td>Map + min-heap</td>
+<td>O(log n) sift</td>
+<td>O(log n) + stale entries</td>
+<td>push (now, key), delete lazily</td>
+<td>TTL yes, LFU no</td>
+<td>partly</td>
+</tr>
+</tbody>
+</table>
+<p>HashMap + a doubly linked list. True O(1) both ways and you can walk every pointer move on the board. <code>LinkedHashMap(accessOrder=true)</code> with <code>removeEldestEntry</code> is the one-line production answer, but it hides the mechanism the question is testing. A heap or an array scan drops you to O(log n) or O(n) and leaves stale entries behind.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li><code>get</code> that returns the value but never moves the node — an LRU cache that evicts in insertion order.</li>
+<li>Inserting the new node before evicting at capacity — the map holds capacity + 1, or you evict what you just added.</li>
+<li>Removing the list tail but leaving the key in the map — a later <code>get</code> returns a node no longer in the list.</li>
+<li>A singly linked list or an <code>ArrayList</code> for recency — deleting an interior node is O(n).</li>
+<li>Eviction hardcoded inside <code>put</code> with no seam — LFU or TTL then means rewriting the core.</li>
+<li>Re-sorting by timestamp on every access — O(n log n) per get for an O(1) problem.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Strategy — the <code>EvictionPolicy</code> (LRU / LFU / FIFO / TTL). Decorator — write-through, stats and logging wrap the cache untouched. Observer — an <code>EvictionListener</code> fans out each drop. Template Method — <code>AbstractCache.get()</code> runs lookup then a hit / miss hook.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"A HashMap from key to a list node, and a doubly linked list ordered by recency with dummy head and tail. <code>get</code> and <code>put</code> both unlink the node and splice it behind head, so the front is most recently used. A <code>put</code> that would overflow evicts <code>tail.prev</code> first and drops its map key. Every path is O(1). The eviction rule sits behind an <code>EvictionPolicy</code>, so LFU or TTL is a swap, not a rewrite."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong><code>get</code> doesn't change the value. Does it change anything?</strong> Yes — it moves the node to the front; skip that and it is FIFO.</li>
+<li><strong><code>put</code> a key that already exists. Where does it end up?</strong> Value overwritten and the node moved to the front.</li>
+<li><strong>Capacity 1, then capacity 0.</strong> Cap 1 evicts on every new key; cap 0 <code>put</code> is a no-op, <code>get</code> always misses.</li>
+<li><strong>Make it least-frequently-used.</strong> Swap in <code>LfuPolicy</code> — freq buckets, each a list, <code>minFreq</code> pointer.</li>
+<li><strong>Give every entry a TTL.</strong> Store <code>createdAt</code>; on <code>get</code>, expired -&gt; remove + miss. Lazy, no thread.</li>
+<li><strong>Make it thread-safe.</strong> One lock is fine; striped locks or <code>CHM</code> + a list lock for throughput.</li>
+<li><strong>Read-through on a miss.</strong> A <code>CacheLoader</code> seam: miss -&gt; <code>load(key)</code> -&gt; <code>put</code> -&gt; return.</li>
+<li><strong>Cap total bytes, not entry count.</strong> Weigh each entry; evict from the tail until <code>totalWeight &lt;= max</code>.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Thread safety</strong> — one lock around <code>get</code> / <code>put</code> is correct; striped locks or a <code>ConcurrentHashMap</code> plus a lock on the list for throughput. Name it, don't whiteboard it.</li>
+<li><strong>A TTL sweeper thread</strong> — expiry is lazy: check <code>createdAt</code> on read, drop if stale. A background sweep is a cron, not this class.</li>
+<li><strong>Distributed cache</strong> — consistent hashing, replication, invalidation. That is the HLD version of this problem.</li>
+<li><strong>Persistence</strong> — a write-ahead log and a warm-up load on restart. Different problem.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>Browser back / recent files list</li>
+<li>OS page cache</li>
+<li>Session store with eviction</li>
+<li>Connection pool idle reaper</li>
+<li>Bounded memoization</li>
+<li>CDN edge cache tier</li>
+<li>Any bounded most-recently-used store</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-14-digital-wallet.html"><span class="dir">Previous</span><span class="ttl">Design a Digital Wallet</span></a><a class="next" href="doc-practice-lld-design-problems-16-in-memory-file-system.html"><span class="dir">Next</span><span class="ttl">Design an In-Memory File System</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 27 — Spring JDBC Complete Tutorial — Spring Boot</title>
+<meta name="description" content="Lecture 27 — Spring JDBC Complete Tutorial">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-27">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-27.html#lecture-27">Lecture 27</a></li><li><a href="doc-theory-lecture-27.html#1-the-problem-with-raw-jdbc">1. The Problem with Raw JDBC</a></li><li><a href="doc-theory-lecture-27.html#2-the-template-idea-behind-spring-jdbc">2. The Template Idea Behind Spring JDBC</a></li><li><a href="doc-theory-lecture-27.html#3-understanding-datasource">3. Understanding DataSource</a></li><li><a href="doc-theory-lecture-27.html#4-drivermanager-vs-datasource">4. DriverManager vs DataSource</a></li><li><a href="doc-theory-lecture-27.html#5-connection-pooling">5. Connection Pooling</a></li><li><a href="doc-theory-lecture-27.html#6-datasource-does-not-always-mean-connection-pooling">6. DataSource Does Not Always Mean Connection Pooling</a></li><li><a href="doc-theory-lecture-27.html#7-hikaricp">7. HikariCP</a></li><li><a href="doc-theory-lecture-27.html#8-creating-a-spring-jdbc-project">8. Creating a Spring JDBC Project</a></li><li><a href="doc-theory-lecture-27.html#9-how-spring-boot-creates-the-datasource-bean">9. How Spring Boot Creates the DataSource Bean</a></li><li><a href="doc-theory-lecture-27.html#10-introducing-jdbctemplate">10. Introducing JdbcTemplate</a></li><li><a href="doc-theory-lecture-27.html#11-project-structure-and-the-student-model">11. Project Structure and the Student Model</a></li><li><a href="doc-theory-lecture-27.html#12-create-update-and-delete-with-jdbctemplateupdate">12. Create, Update and Delete with JdbcTemplate.update()</a></li><li><a href="doc-theory-lecture-27.html#13-read-operations-rowmapper-query-and-queryforobject">13. Read Operations: RowMapper, query() and queryForObject()</a></li><li><a href="doc-theory-lecture-27.html#14-custom-rowmapper-vs-beanpropertyrowmapper">14. Custom RowMapper vs BeanPropertyRowMapper</a></li><li><a href="doc-theory-lecture-27.html#15-spring-jdbc-exception-translation">15. Spring JDBC Exception Translation</a></li><li><a href="doc-theory-lecture-27.html#16-common-spring-database-exceptions">16. Common Spring Database Exceptions</a></li><li><a href="doc-theory-lecture-27.html#17-repository-abstraction-portability-and-execution-flow">17. Repository Abstraction, Portability and Execution Flow</a></li><li><a href="doc-theory-lecture-27.html#18-myth-vs-reality">18. Myth vs Reality</a></li><li><a href="doc-theory-lecture-27.html#19-common-trap-questions">19. Common Trap Questions</a></li><li><a href="doc-theory-lecture-27.html#20-points-to-remember">20. Points to Remember</a></li><li><a href="doc-theory-lecture-27.html#21-likely-interview-questions">21. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-27.html#22-final-summary">22. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 27 — Spring JDBC Complete Tutorial</h1>
+<p class="readmeta">23 sections · 4,022 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-27" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-27">Lecture 27</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring JDBC Complete Tutorial | JdbcTemplate, DataSource, HikariCP" (playlist map, verified). Repo folder for this lecture is the springJDBCDemo project: a JdbcTemplate-based <code>repository.StudentRepository</code>, <code>repository.StudentRowMapper</code>, <code>service.StudentService</code>, <code>controller.StudentController</code>, <code>model.Student</code>, <code>SpringJdbcDemoApplication</code>, and <code>application.properties</code>, plus the lecture notes.</p>
+</blockquote>
+<p>Spring JDBC keeps SQL under our control while removing the repetitive JDBC infrastructure around it.
+This lecture moves from raw JDBC, through the template idea and the DataSource abstraction, into pooling and HikariCP, then through create, read, update and delete with JdbcTemplate.
+It closes with row mapping and exception translation, so every CRUD call has a clear path from controller to database and back.</p>
+<h2 id="1-the-problem-with-raw-jdbc">1. The Problem with Raw JDBC</h2>
+<p>Consider one simple requirement: insert a student into the database.</p>
+<div class="highlight"><pre><span></span><code>INSERT INTO students(name, email, age)
+VALUES (?, ?, ?);
+</code></pre></div>
+
+<p>Written with raw JDBC, the repository method carries a lot of code that has nothing to do with the requirement itself.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;INSERT INTO students(name, email, age) VALUES (?, ?, ?)&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">PASSWORD</span><span class="p">);</span>
+<span class="w">        </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getAge</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">exception</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Only the SQL, the three parameter binds, and the execute call are database-specific work.
+The rest is infrastructure:</p>
+<ul>
+<li>opening a connection;</li>
+<li>creating a PreparedStatement;</li>
+<li>closing the statement and the connection;</li>
+<li>catching SQLException;</li>
+<li>repeating the same workflow in every method.</li>
+</ul>
+<p>Insert, update, delete and select all share this shape.
+Spring JDBC removes the repetition without removing control over SQL.</p>
+<blockquote class="callout callout--important">
+<p>Important: Raw JDBC gives full control, but the boilerplate around that control repeats in every method. The repetition, not SQL, is the problem.</p>
+</blockquote>
+<h2 id="2-the-template-idea-behind-spring-jdbc">2. The Template Idea Behind Spring JDBC</h2>
+<p>Most JDBC operations follow one algorithm:</p>
+<ol>
+<li>Obtain a database connection.</li>
+<li>Create a statement.</li>
+<li>Bind parameter values.</li>
+<li>Execute the statement.</li>
+<li>Process the result.</li>
+<li>Handle SQL exceptions.</li>
+<li>Close JDBC resources.</li>
+</ol>
+<p>Some steps are identical every time (obtain connection, create statement, execute statement, handle exceptions, close resources); only the SQL statement and the parameter values change per query.</p>
+<h3 id="21-fixed-parts-vs-changing-parts">2.1 Fixed Parts vs Changing Parts</h3>
+<p>Spring separates the responsibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Developer handles</th>
+<th>Spring handles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL query</td>
+<td>Connection management</td>
+</tr>
+<tr>
+<td>SQL parameter values</td>
+<td>Statement execution workflow</td>
+</tr>
+<tr>
+<td>Row-to-object mapping</td>
+<td>Resource cleanup</td>
+</tr>
+<tr>
+<td>Business interpretation of the result</td>
+<td>Exception translation</td>
+</tr>
+</tbody>
+</table>
+<p>This is the Template Method idea: Spring provides the fixed JDBC workflow and the developer supplies the operation-specific parts.
+The central class is <code>JdbcTemplate</code>.
+Spring JDBC still uses <code>Connection</code>, <code>PreparedStatement</code>, <code>ResultSet</code> and <code>SQLException</code> internally; Spring only manages their lifecycle.</p>
+<p>Mnemonic for the fixed workflow: <strong>"Great Coders Bind Every Parameter, Handle Cleanup"</strong> = Get connection, Create statement, Bind, Execute, Process result, Handle exceptions, Close resources.</p>
+<h2 id="3-understanding-datasource">3. Understanding DataSource</h2>
+<h3 id="31-a-connection-provider">3.1 A Connection Provider</h3>
+<p>Before using <code>JdbcTemplate</code>, we need to know where database connections come from.
+That is the job of <code>DataSource</code>, a Java interface in <code>javax.sql</code>.
+Its important method is <code>Connection getConnection()</code>.
+A <code>DataSource</code> is a connection provider that hands out <code>Connection</code> objects; it is not itself a database connection.</p>
+<div class="highlight"><pre><span></span><code>Connection connection = dataSource.getConnection();
+</code></pre></div>
+
+<h2 id="4-drivermanager-vs-datasource">4. DriverManager vs DataSource</h2>
+<h3 id="41-injecting-a-provider">4.1 Injecting a Provider</h3>
+<p>Raw JDBC commonly creates connections with <code>DriverManager.getConnection(URL, USERNAME, PASSWORD)</code>, which forces the repository to know the URL, the username, the password, and how connections are created.
+With <code>DataSource</code>, a provider is injected instead, so the repository asks for a connection without knowing how it was made.</p>
+<div class="highlight"><pre><span></span><code>public class StudentRepository {
+    private final DataSource dataSource;
+    public StudentRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+}
+</code></pre></div>
+
+<p>A repository should mainly care about database operations related to its domain, such as student queries; connection configuration stays outside it.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>DriverManager</th>
+<th>DataSource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kind</td>
+<td>Static connection-acquisition mechanism</td>
+<td>Injectable connection-provider abstraction</td>
+</tr>
+<tr>
+<td>Knows connection details</td>
+<td>Repository knows them</td>
+<td>Configuration stays outside the repository</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Small raw JDBC programs</td>
+<td>Managed applications</td>
+</tr>
+<tr>
+<td>Pooling</td>
+<td>Does not itself represent pooling</td>
+<td>Can be implemented by a connection pool</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-connection-pooling">5. Connection Pooling</h2>
+<p>A connection pool maintains a controlled collection of database connections that can be reused.
+Instead of creating a new physical connection for every query, the application borrows an existing connection and returns it after use.</p>
+<h3 id="51-connection-creation-without-a-pool">5.1 Connection Creation Without a Pool</h3>
+<p>Creating a database connection may involve several steps:</p>
+<div class="highlight"><pre><span></span><code>Java app -&gt; network established -&gt; database server contacted
+        -&gt; credentials verified -&gt; session created -&gt; connection returned
+</code></pre></div>
+
+<p>Without pooling, every operation follows this lifecycle: create connection -&gt; execute SQL -&gt; physically close connection.
+For a small console application this may be acceptable, but a web application handling many concurrent requests repeatedly pays that cost:</p>
+<div class="highlight"><pre><span></span><code>Request -&gt; Create connection -&gt; Query -&gt; Close   (repeated for every request)
+</code></pre></div>
+
+<h3 id="52-how-a-connection-pool-works">5.2 How a Connection Pool Works</h3>
+<p>A pool creates and manages a limited number of database connections (for example, Connection 1 through Connection 5).
+When repository code calls <code>dataSource.getConnection()</code>, the pool returns an available connection.
+When the code calls <code>connection.close()</code>, the connection is generally not physically destroyed: the pool intercepts the call and returns the connection for reuse.</p>
+<div class="highlight"><pre><span></span><code>Borrow connection -&gt; execute operation -&gt; call close() -&gt; connection returned to pool
+</code></pre></div>
+
+<h3 id="53-when-every-connection-is-busy">5.3 When Every Connection Is Busy</h3>
+<p>If the maximum pool size is three and all three are in use, a fourth request waits until another request finishes and returns its connection.
+If none becomes available within the configured timeout, the pool throws an exception, protecting the database from unlimited simultaneous connections.</p>
+<h3 id="54-why-connections-must-be-limited">5.4 Why Connections Must Be Limited</h3>
+<p>Each connection consumes memory, socket resources, session state, transaction resources, and database capacity.
+Letting every request open its own connection can overwhelm the database, so a pool improves performance through reuse, stability through controlled concurrency, and resource management on both sides.</p>
+<h2 id="6-datasource-does-not-always-mean-connection-pooling">6. DataSource Does Not Always Mean Connection Pooling</h2>
+<p><code>DataSource</code> is only an interface, so implementations differ: one may create a new physical connection every call, another may return a pooled connection.</p>
+<div class="highlight"><pre><span></span><code>DataSource != Connection Pool
+A connection pool can implement DataSource
+</code></pre></div>
+
+<h3 id="61-dependency-inversion-in-practice">6.1 Dependency Inversion in Practice</h3>
+<p><code>HikariDataSource</code> is a <code>DataSource</code> implementation backed by the HikariCP pool.
+Repository code depends on the <code>DataSource</code> interface, not on <code>HikariDataSource</code>, so the implementation can change without touching repository logic: development may use a simple provider and production a pool.
+This is dependency inversion in practice.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Program against <code>javax.sql.DataSource</code>, not a concrete pool class, so neither development nor production leaks into repository code.</p>
+</blockquote>
+<h2 id="7-hikaricp">7. HikariCP</h2>
+<h3 id="71-what-hikaricp-manages">7.1 What HikariCP Manages</h3>
+<p>HikariCP is a JDBC connection-pool implementation that Spring Boot commonly uses when it is available.
+It ships with starters such as <code>spring-boot-starter-jdbc</code> and <code>spring-boot-starter-data-jpa</code>.
+It manages maximum pool size, minimum idle connections, connection timeout, idle timeout, maximum connection lifetime, borrowing and returning connections, and connection validation.
+Common properties are:</p>
+<div class="highlight"><pre><span></span><code>maximumPoolSize
+minimumIdle
+connectionTimeout
+idleTimeout
+maxLifetime
+</code></pre></div>
+
+<h2 id="8-creating-a-spring-jdbc-project">8. Creating a Spring JDBC Project</h2>
+<h3 id="81-required-dependencies">8.1 Required Dependencies</h3>
+<p>Add the Spring JDBC starter <code>org.springframework.boot:spring-boot-starter-jdbc</code> and the MySQL JDBC driver <code>com.mysql:mysql-connector-j</code> with <code>runtime</code> scope.
+For a REST application, also include <code>spring-boot-starter-web</code>.
+The starter provides Spring JDBC infrastructure; the driver provides database-specific connectivity.</p>
+<h3 id="82-database-configuration">8.2 Database Configuration</h3>
+<p>Configure the database in <code>application.properties</code>:</p>
+<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:mysql://localhost:3306/student_db
+spring.datasource.username=root
+spring.datasource.password=your_password
+</code></pre></div>
+
+<p>Boot reads settings from <code>spring.datasource.*</code> and can usually infer the JDBC driver from the URL, so <code>spring.datasource.driver-class-name</code> is rarely needed.
+Pool settings go under <code>spring.datasource.hikari.*</code>:</p>
+<div class="highlight"><pre><span></span><code>spring.datasource.hikari.maximum-pool-size=10
+spring.datasource.hikari.minimum-idle=5
+spring.datasource.hikari.connection-timeout=30000
+spring.datasource.hikari.idle-timeout=600000
+spring.datasource.hikari.max-lifetime=1800000
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maximum-pool-size</td>
+<td>Maximum connections managed by the pool</td>
+</tr>
+<tr>
+<td>minimum-idle</td>
+<td>Minimum idle connections the pool tries to keep</td>
+</tr>
+<tr>
+<td>connection-timeout</td>
+<td>Maximum wait for a connection before failure</td>
+</tr>
+<tr>
+<td>idle-timeout</td>
+<td>How long an idle connection may stay before removal</td>
+</tr>
+<tr>
+<td>max-lifetime</td>
+<td>Maximum lifetime of a pooled connection</td>
+</tr>
+</tbody>
+</table>
+<p>A larger pool does not automatically improve performance; size it using expected concurrency, average query duration, database capacity, number of application instances, and load tests.</p>
+<h2 id="9-how-spring-boot-creates-the-datasource-bean">9. How Spring Boot Creates the DataSource Bean</h2>
+<p>Boot detects Spring JDBC and the driver, reads <code>spring.datasource.*</code>, detects an available pool, prefers HikariCP, creates and configures a DataSource, and registers it as a Spring bean.
+Conceptually it builds a <code>HikariDataSource</code> and sets its URL, username and password.
+This bean is usually created automatically; if the application defines its own <code>DataSource</code> bean, Boot backs away from its default datasource auto-configuration.</p>
+<p>To verify the configured implementation, inject the <code>DataSource</code> into a component and print its class in a <code>@PostConstruct</code> method.
+A typical output is:</p>
+<div class="highlight"><pre><span></span><code>class com.zaxxer.hikari.HikariDataSource
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "How does your repository get a connection?" The strong answer is: "It does not create one. It receives a <code>DataSource</code> bean from Boot's auto-configuration, normally a <code>HikariDataSource</code> backed by HikariCP."</p>
+</blockquote>
+<h2 id="10-introducing-jdbctemplate">10. Introducing JdbcTemplate</h2>
+<p><code>JdbcTemplate</code> (<code>org.springframework.jdbc.core.JdbcTemplate</code>) is Spring's main abstraction for JDBC operations: insert, select, update, delete, batch operations, stored procedures, and generated-key retrieval.
+The common methods are <code>update()</code>, <code>query()</code> and <code>queryForObject()</code>.
+It does not create connections itself; it needs a <code>DataSource</code>:</p>
+<div class="highlight"><pre><span></span><code>JdbcTemplate -&gt; requests a connection from -&gt; DataSource -&gt; provides -&gt; Connection
+</code></pre></div>
+
+<h3 id="101-responsibilities-of-jdbctemplate">10.1 Responsibilities of JdbcTemplate</h3>
+<p>Conceptually the bean is <code>new JdbcTemplate(dataSource)</code>, configured automatically by Boot and injected into a <code>@Repository</code>; an unconfigured <code>new JdbcTemplate()</code> is unnecessary.
+Responsibilities handled for an update operation:</p>
+<ol>
+<li>Ask <code>DataSource</code> for a connection.</li>
+<li>Create a <code>PreparedStatement</code>.</li>
+<li>Bind parameter values.</li>
+<li>Execute the statement.</li>
+<li>Read the affected-row count.</li>
+<li>Close the statement and release the connection.</li>
+<li>Translate <code>SQLException</code> when necessary.</li>
+</ol>
+<p>For a select operation it additionally obtains the <code>ResultSet</code>, iterates the rows, calls the <code>RowMapper</code> for each row, collects the mapped objects, closes the <code>ResultSet</code> and statement, releases the connection, and translates SQL exceptions.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>JdbcTemplate</code> is stateless and thread-safe once configured, so a single injected instance is reused across the whole application.</p>
+</blockquote>
+<h2 id="11-project-structure-and-the-student-model">11. Project Structure and the Student Model</h2>
+<div class="highlight"><pre><span></span><code>src/main/java
+  in/coderarmy/springjdbc
+    SpringJdbcDemoApplication.java
+    controller/StudentController.java
+    service/StudentService.java
+    repository/StudentRepository.java
+    repository/StudentRowMapper.java
+    model/Student.java
+</code></pre></div>
+
+<p>The database and table:</p>
+<div class="highlight"><pre><span></span><code>CREATE DATABASE student_db;
+USE student_db;
+
+CREATE TABLE students (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(150) NOT NULL UNIQUE,
+  age INT NOT NULL
+);
+</code></pre></div>
+
+<p><code>Student</code> holds <code>Long id</code>, <code>String name</code>, <code>String email</code> and <code>Integer age</code>, with a no-argument constructor, a parameterized constructor, getters and setters.</p>
+<h2 id="12-create-update-and-delete-with-jdbctemplateupdate">12. Create, Update and Delete with JdbcTemplate.update()</h2>
+<p><code>update()</code> is used for SQL statements that change database state: INSERT, UPDATE and DELETE.
+The save operation with positional binding:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Repository</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JdbcTemplate</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentRepository</span><span class="p">(</span><span class="n">JdbcTemplate</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">jdbcTemplate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">            INSERT INTO students(name, email, age)</span>
+<span class="s">            VALUES (?, ?, ?)</span>
+<span class="s">            &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">rowsAffected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">.</span><span class="na">update</span><span class="p">(</span>
+<span class="w">            </span><span class="n">sql</span><span class="p">,</span>
+<span class="w">            </span><span class="n">student</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">student</span><span class="p">.</span><span class="na">getEmail</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">student</span><span class="p">.</span><span class="na">getAge</span><span class="p">()</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">rowsAffected</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3 id="121-binding-and-affected-rows">12.1 Binding and Affected Rows</h3>
+<p>The values bind by position: first <code>?</code> -&gt; <code>student.getName()</code>, second <code>?</code> -&gt; <code>student.getEmail()</code>, third <code>?</code> -&gt; <code>student.getAge()</code>.
+Order must match placeholders; passing age first is wrong because the first placeholder is <code>name</code>.
+Spring uses prepared-statement execution internally when parameters are supplied.</p>
+<p><code>update()</code> returns the affected-row count, so <code>rowsAffected == 1</code> confirms the insert.
+Spring removes explicit connection handling, <code>PreparedStatement</code> creation, parameter setters, try-with-resources, manual cleanup, and repeated catch blocks, but not responsibility for correct SQL, parameter order, or interpreting the count.
+An update uses <code>UPDATE students SET name = ?, email = ?, age = ?
+WHERE id = ?</code> (order name, email, age, id); <code>1</code> means one row updated and <code>0</code> means none matched.
+A delete uses <code>DELETE FROM students WHERE id = ?</code>.
+<code>update()</code> serves insert, update and delete because each changes state and returns a count.</p>
+<h2 id="13-read-operations-rowmapper-query-and-queryforobject">13. Read Operations: RowMapper, query() and queryForObject()</h2>
+<p>A write operation usually returns an affected-row count.
+A select returns rows and columns that must be converted into Java objects, and Spring uses <code>RowMapper</code> for that conversion.</p>
+<p><code>RowMapper&lt;T&gt;</code> converts one <code>ResultSet</code> row into one Java object through <code>T mapRow(ResultSet resultSet, int rowNumber) throws SQLException</code>.
+If a query returns ten rows, Spring calls the mapper ten times; Spring handles iteration, the mapper handles one row.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentRowMapper</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">mapRow</span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rowNumber</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Student</span><span class="p">();</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">getLong</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setEmail</span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">&quot;email&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">setAge</span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="s">&quot;age&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">student</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// In StudentRepository:</span>
+<span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">RowMapper</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">studentRowMapper</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StudentRowMapper</span><span class="p">();</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        SELECT id, name, email, age</span>
+<span class="s">        FROM students</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">.</span><span class="na">query</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span><span class="w"> </span><span class="n">studentRowMapper</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>query()</code> suits zero, one or many rows; it returns a <code>List&lt;Student&gt;</code> and gives an empty list when nothing matches.
+A stateless mapper can be reused across queries, and because <code>RowMapper</code> is a functional interface it can also be a lambda.
+<code>queryForObject()</code> expects exactly one row; it runs a primary-key query such as <code>SELECT id, name, email, age FROM students WHERE id = ?</code> and returns a single mapped <code>Student</code>.</p>
+<h3 id="131-queryforobject-behaviour">13.1 queryForObject() Behaviour</h3>
+<table>
+<thead>
+<tr>
+<th>Rows returned</th>
+<th>Behaviour of queryForObject()</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exactly one row</td>
+<td>Returns the mapped Student</td>
+</tr>
+<tr>
+<td>Zero rows</td>
+<td>Throws <code>EmptyResultDataAccessException</code></td>
+</tr>
+<tr>
+<td>More than one row</td>
+<td>Throws <code>IncorrectResultSizeDataAccessException</code></td>
+</tr>
+</tbody>
+</table>
+<p>For a primary-key lookup more than one row is impossible, so the common missing case is zero rows.
+A missing row can become <code>Optional.empty()</code>: catch only <code>EmptyResultDataAccessException</code>, not every <code>DataAccessException</code>, because "student does not exist" and "server unavailable" are different situations.
+Alternatively, <code>query()</code> plus <code>stream().findFirst()</code> avoids exception handling, at the cost of stating the one-row expectation less clearly.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Use when</th>
+<th>Returns</th>
+<th>No rows</th>
+<th>Many rows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>update()</code></td>
+<td>INSERT, UPDATE, DELETE</td>
+<td>int affected-row count</td>
+<td>0</td>
+<td>n</td>
+</tr>
+<tr>
+<td><code>query()</code></td>
+<td>Zero, one or many rows expected</td>
+<td><code>List&lt;T&gt;</code></td>
+<td>empty list</td>
+<td>full list</td>
+</tr>
+<tr>
+<td><code>queryForObject()</code></td>
+<td>Exactly one row expected</td>
+<td>single <code>T</code></td>
+<td><code>EmptyResultDataAccessException</code></td>
+<td><code>IncorrectResultSizeDataAccessException</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-custom-rowmapper-vs-beanpropertyrowmapper">14. Custom RowMapper vs BeanPropertyRowMapper</h2>
+<h3 id="141-choosing-a-mapper">14.1 Choosing a Mapper</h3>
+<p>A custom mapper calls the right getter for each column and gives explicit control.
+Spring's <code>BeanPropertyRowMapper</code> is configured by passing the target class; the query itself is unchanged.
+It matches columns to JavaBean properties (<code>id</code> -&gt; <code>id</code>, <code>name</code> -&gt; <code>name</code>, <code>email</code> -&gt; <code>email</code>, <code>age</code> -&gt; <code>age</code>) and maps underscore names to camel case (<code>first_name</code> -&gt; <code>firstName</code>).
+The target class needs a no-argument constructor and public setters.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Custom RowMapper</th>
+<th>BeanPropertyRowMapper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Code volume</td>
+<td>More explicit lines</td>
+<td>Reduced mapper code</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>Full control over conversions</td>
+<td>Less control over conversions</td>
+</tr>
+<tr>
+<td>Naming</td>
+<td>Column names chosen by us</td>
+<td>Depends on naming conventions</td>
+</tr>
+<tr>
+<td>Debugging</td>
+<td>Mapping logic is visible</td>
+<td>Mapping problems may be less obvious</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Complex joins and custom logic</td>
+<td>Simple tables, prototypes, straightforward mappings</td>
+</tr>
+<tr>
+<td>Mechanism</td>
+<td>Direct getter/setter calls</td>
+<td>Reflection and metadata-based mapping</td>
+</tr>
+</tbody>
+</table>
+<p>A custom <code>RowMapper</code> is usually better when mapping logic is complex or explicit control matters.</p>
+<h2 id="15-spring-jdbc-exception-translation">15. Spring JDBC Exception Translation</h2>
+<p>Raw JDBC throws <code>SQLException</code>, a checked exception, so callers must catch it or declare it.
+It is also very broad: the same type may mean invalid SQL, a duplicate key, a constraint violation, a connection failure, an authentication failure, a deadlock, a timeout, an invalid column name, or a syntax error.
+Developers may inspect <code>getSQLState()</code>, <code>getErrorCode()</code> and <code>getMessage()</code>, and vendor error codes differ across MySQL, PostgreSQL and Oracle.</p>
+<p>Spring catches <code>SQLException</code> and translates it into its data-access hierarchy, rooted at <code>DataAccessException</code>:</p>
+<div class="highlight"><pre><span></span><code>Database error -&gt; JDBC driver throws SQLException -&gt; JdbcTemplate catches it
+    -&gt; Spring examines the exception -&gt; a suitable DataAccessException subtype is thrown
+</code></pre></div>
+
+<h3 id="151-checked-vs-unchecked">15.1 Checked vs Unchecked</h3>
+<p>This hierarchy is vendor-independent.
+<code>SQLException</code> is checked (<code>extends Exception</code>); <code>DataAccessException</code> is unchecked (extends <code>NestedRuntimeException</code>), so repository methods need not catch or declare it.
+Failures such as a down server, wrong credentials, a missing table or invalid SQL usually cannot be resolved in the repository and propagate to centralized handling.</p>
+<h2 id="16-common-spring-database-exceptions">16. Common Spring Database Exceptions</h2>
+<ul>
+<li><code>DuplicateKeyException</code>: a unique or primary-key constraint is violated (for example a duplicate unique email); often converted into a domain exception such as <code>EmailAlreadyExistsException</code>.</li>
+<li><code>DataIntegrityViolationException</code>: a broader integrity or constraint violation (not-null, foreign-key, check-constraint, some unique violations); <code>DuplicateKeyException</code> is a more specific case.</li>
+<li><code>BadSqlGrammarException</code>: invalid SQL, for example <code>SELEKT id FROM students;</code> or <code>SELECT unknown_column FROM students;</code>.</li>
+<li><code>CannotGetJdbcConnectionException</code>: failure to obtain a connection, from a down server, wrong host or port, network failure, invalid credentials, or a pool timeout.</li>
+<li><code>EmptyResultDataAccessException</code>: at least one result was expected but none arrived, commonly from <code>queryForObject()</code>.</li>
+<li><code>IncorrectResultSizeDataAccessException</code>: the row count does not match the expected size (expected one, received three).</li>
+</ul>
+<h2 id="17-repository-abstraction-portability-and-execution-flow">17. Repository Abstraction, Portability and Execution Flow</h2>
+<p>Translation improves portability: moving from MySQL to PostgreSQL, raw JDBC handling may depend on MySQL error codes, while Spring JDBC handles a common <code>DuplicateKeyException</code>.
+Repository abstraction means controller and service need not know whether the repository uses raw JDBC, Spring JDBC, JPA or Hibernate:</p>
+<div class="highlight"><pre><span></span><code>Controller -&gt; Service -&gt; Repository -&gt; Spring JDBC / JPA / another mechanism
+</code></pre></div>
+
+<p>Persistence details stay inside the repository and can change with limited impact on higher layers.</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Raw JDBC</th>
+<th>Spring JDBC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SQL control</td>
+<td>Full control</td>
+<td>Full control</td>
+</tr>
+<tr>
+<td>Connection handling</td>
+<td>Manual</td>
+<td>Managed through DataSource</td>
+</tr>
+<tr>
+<td>Statement creation</td>
+<td>Manual</td>
+<td>Managed by JdbcTemplate</td>
+</tr>
+<tr>
+<td>Parameter binding</td>
+<td>Manual setter calls</td>
+<td>Positional method arguments</td>
+</tr>
+<tr>
+<td>Result-set iteration</td>
+<td>Manual</td>
+<td>Managed by JdbcTemplate</td>
+</tr>
+<tr>
+<td>Row mapping</td>
+<td>Manual</td>
+<td>Provided through RowMapper</td>
+</tr>
+<tr>
+<td>Resource cleanup</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Exception model</td>
+<td>Checked <code>SQLException</code></td>
+<td>Unchecked <code>DataAccessException</code> hierarchy</td>
+</tr>
+<tr>
+<td>Connection pooling</td>
+<td>Configured separately</td>
+<td>Commonly provided through Boot and HikariCP</td>
+</tr>
+<tr>
+<td>Boilerplate</td>
+<td>High</td>
+<td>Significantly reduced</td>
+</tr>
+</tbody>
+</table>
+<h3 id="complete-execution-flow">Complete Execution Flow</h3>
+<div class="highlight"><pre><span></span><code>Insert:
+StudentRepository.save(student) -&gt; JdbcTemplate.update(sql, parameters)
+    -&gt; DataSource / HikariCP provides a pooled connection
+    -&gt; JdbcTemplate creates PreparedStatement, binds values, executes
+    -&gt; Database returns affected-row count
+    -&gt; statement closed; connection returned to pool -&gt; count returned
+
+Select:
+StudentRepository.findAll() -&gt; JdbcTemplate.query(sql, rowMapper)
+    -&gt; connection from DataSource -&gt; PreparedStatement executed -&gt; ResultSet
+    -&gt; JdbcTemplate iterates; RowMapper converts each row -&gt; Student
+    -&gt; List collected -&gt; ResultSet/statement closed, connection returned
+    -&gt; List&lt;Student&gt; is returned
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring JDBC changes who manages the plumbing, not who writes the SQL. We keep the SQL and the mapping; Spring keeps the lifecycle and the exceptions.</p>
+</blockquote>
+<h2 id="18-myth-vs-reality">18. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring JDBC replaces JDBC"</td>
+<td>It still uses JDBC internally: Connection, PreparedStatement, ResultSet, SQLException</td>
+</tr>
+<tr>
+<td>"Spring JDBC removes SQL"</td>
+<td>We still write SQL, parameters, mapping and result handling</td>
+</tr>
+<tr>
+<td>"DataSource always means a connection pool"</td>
+<td>DataSource is only an interface; a pool is one possible implementation</td>
+</tr>
+<tr>
+<td>"queryForObject returns null when no row exists"</td>
+<td>It throws <code>EmptyResultDataAccessException</code>; use query() or Optional for absent rows</td>
+</tr>
+<tr>
+<td>"update() is only for UPDATE statements"</td>
+<td>It also handles INSERT and DELETE, returning an affected-row count</td>
+</tr>
+<tr>
+<td>"A bigger pool is always faster"</td>
+<td>Every connection costs resources; pool size must be measured and tuned</td>
+</tr>
+<tr>
+<td>"SQLException handling disappears in Spring"</td>
+<td>It is translated into the unchecked <code>DataAccessException</code> hierarchy, not erased</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-common-trap-questions">19. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "DataSource is a connection pool."</strong>
+Verdict: False.
+<code>DataSource</code> is an interface that provides connections; <code>HikariDataSource</code> is a pool-backed implementation of it.
+DataSource does not always mean pooling.</p>
+<p><strong>Trap 2 - "queryForObject returns null when no row is found."</strong>
+Verdict: False.
+It throws <code>EmptyResultDataAccessException</code>.
+Catch only that exception if an absent row should become <code>Optional.empty()</code>.</p>
+<p><strong>Trap 3 - "Spring JDBC means no more SQL."</strong>
+Verdict: False.
+SQL, parameter order and row mapping remain the developer's job; only infrastructure and exception translation move to Spring.</p>
+<p><strong>Trap 4 - "update() only runs UPDATE statements."</strong>
+Verdict: False.
+<code>update()</code> runs any state-changing statement: INSERT, UPDATE and DELETE, returning the affected-row count.</p>
+<p><strong>Trap 5 - "Larger pool size always means better performance."</strong>
+Verdict: False.
+Each connection consumes memory, sockets and database capacity.
+Pool size depends on concurrency, query duration, database capacity and load tests.</p>
+<p><strong>Trap 6 - "Spring hides and swallows database errors."</strong>
+Verdict: False.
+It translates checked <code>SQLException</code> into unchecked <code>DataAccessException</code> subtypes that still propagate to centralized error handling.</p>
+</blockquote>
+<h2 id="20-points-to-remember">20. Points to Remember</h2>
+<ol>
+<li>Raw JDBC repeats connection, statement, binding, cleanup and exception code in every method.</li>
+<li>Spring JDBC keeps SQL under our control and moves infrastructure to <code>JdbcTemplate</code>.</li>
+<li>The template workflow is: get connection, create statement, bind, execute, process, handle, close.</li>
+<li><code>DataSource</code> is a Java interface that provides <code>Connection</code> objects; it is not a connection.</li>
+<li><code>DriverManager</code> is static and repository-aware; <code>DataSource</code> is an injectable connection-provider abstraction.</li>
+<li>Pooling reuses connections; <code>close()</code> returns a connection to the pool instead of destroying it.</li>
+<li><code>DataSource</code> does not always mean pooling; HikariCP is Boot's default pool, reachable through <code>HikariDataSource</code>.</li>
+<li><code>update()</code> handles INSERT/UPDATE/DELETE; <code>query()</code> returns a list; <code>queryForObject()</code> expects exactly one row.</li>
+<li><code>RowMapper</code> maps one row to one object; <code>BeanPropertyRowMapper</code> reduces code but gives less explicit control.</li>
+<li>Spring translates checked <code>SQLException</code> into unchecked <code>DataAccessException</code> subtypes, improving portability.</li>
+</ol>
+<h2 id="21-likely-interview-questions">21. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What problem does Spring JDBC solve?</td>
+<td>It removes repetitive JDBC infrastructure code (connections, statements, cleanup, exception handling) while keeping SQL under developer control.</td>
+</tr>
+<tr>
+<td>What does JdbcTemplate manage for you?</td>
+<td>Connection acquisition, statement creation, parameter binding, execution, result iteration, resource cleanup, and SQLException translation.</td>
+</tr>
+<tr>
+<td>What is a DataSource?</td>
+<td>A Java interface that provides Connection objects; it abstracts where and how connections come from.</td>
+</tr>
+<tr>
+<td>DriverManager vs DataSource?</td>
+<td>DriverManager is a static, repository-aware acquisition mechanism; DataSource is an injectable provider abstraction that a pool can implement.</td>
+</tr>
+<tr>
+<td>What is connection pooling and why use it?</td>
+<td>Reusing a bounded set of connections instead of opening and closing them per request, improving performance, stability and resource use.</td>
+</tr>
+<tr>
+<td>What is HikariCP?</td>
+<td>A JDBC connection pool, commonly used by Spring Boot and reachable through <code>HikariDataSource</code>.</td>
+</tr>
+<tr>
+<td>How does Spring Boot create the DataSource?</td>
+<td>It detects Spring JDBC and the driver, reads <code>spring.datasource.*</code>, prefers HikariCP, then builds and registers the DataSource bean.</td>
+</tr>
+<tr>
+<td>update() vs query() vs queryForObject()?</td>
+<td>update() for INSERT/UPDATE/DELETE returning an int; query() returns a List; queryForObject() expects exactly one row.</td>
+</tr>
+<tr>
+<td>What does queryForObject() throw for zero rows?</td>
+<td><code>EmptyResultDataAccessException</code>; for too many rows, <code>IncorrectResultSizeDataAccessException</code>.</td>
+</tr>
+<tr>
+<td>What is RowMapper?</td>
+<td>An interface that converts one ResultSet row into one Java object; Spring iterates, the mapper maps.</td>
+</tr>
+<tr>
+<td>Custom RowMapper vs BeanPropertyRowMapper?</td>
+<td>Custom gives explicit control; BeanPropertyRowMapper maps columns to bean properties automatically but depends on naming and gives less control.</td>
+</tr>
+<tr>
+<td>What is exception translation?</td>
+<td>Spring converts checked <code>SQLException</code> into the unchecked <code>DataAccessException</code> hierarchy, making handling vendor-independent.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-final-summary">22. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Raw JDBC: repetitive connection/statement/cleanup code
+        |
+        v
+Template idea: fixed workflow + developer-supplied SQL
+        |
+        v
+DataSource: injectable provider of Connection objects
+        |
+        v
+Connection pooling: reuse instead of open/close per request
+        |
+        v
+HikariCP: the pool Spring Boot prefers
+        |
+        v
+JdbcTemplate: update(), query(), queryForObject()
+        |
+        v
+RowMapper / BeanPropertyRowMapper: row -&gt; object
+        |
+        v
+Exception translation: SQLException -&gt; DataAccessException
+        |
+        v
+Repository abstraction: controller/service stay persistence-agnostic
+</code></pre></div>
+
+<ul>
+<li>Raw JDBC = full control with heavy boilerplate; Spring JDBC = full control with managed plumbing.</li>
+<li><code>DataSource</code> provides connections; a pool (HikariCP) may back it but is not required by the interface.</li>
+<li><code>JdbcTemplate</code> runs update, query and queryForObject using a DataSource and a RowMapper.</li>
+<li>Spring translates SQLException into the unchecked DataAccessException hierarchy for portability.</li>
+<li>The repository hides the persistence choice, so higher layers stay clean.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring JDBC keeps SQL in your hands and takes the connection, statement, cleanup and exception plumbing into JdbcTemplate, with DataSource and HikariCP supplying the connections.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-26.html"><span class="dir">Previous</span><span class="ttl">Lecture 26 — JDBC in Java from Scratch</span></a><a class="next" href="doc-theory-lecture-28.html"><span class="dir">Next</span><span class="ttl">Lecture 28 — Hibernate Fundamentals with Spring Boot</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

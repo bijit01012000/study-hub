@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 16 — DTOs &amp; Validations in Spring Boot — Spring Boot</title>
+<meta name="description" content="Lecture 16 — DTOs &amp; Validations in Spring Boot">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-16">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-16.html#lecture-16">Lecture 16</a></li><li><a href="doc-theory-lecture-16.html#1-the-real-problem">1. The Real Problem</a></li><li><a href="doc-theory-lecture-16.html#2-the-four-layers-of-a-crud-project">2. The Four Layers of a CRUD Project</a></li><li><a href="doc-theory-lecture-16.html#3-entity-the-class-connected-to-the-database">3. Entity: The Class Connected to the Database</a></li><li><a href="doc-theory-lecture-16.html#4-the-complete-create-api-flow">4. The Complete Create API Flow</a></li><li><a href="doc-theory-lecture-16.html#5-two-worlds-outside-api-vs-inside-database">5. Two Worlds: Outside API vs Inside Database</a></li><li><a href="doc-theory-lecture-16.html#6-entity-has-one-specific-purpose">6. Entity Has One Specific Purpose</a></li><li><a href="doc-theory-lecture-16.html#7-the-five-problems-of-exposing-the-entity">7. The Five Problems of Exposing the Entity</a></li><li><a href="doc-theory-lecture-16.html#8-the-main-design-issue">8. The Main Design Issue</a></li><li><a href="doc-theory-lecture-16.html#9-what-is-a-dto-types-and-location">9. What Is a DTO? Types and Location</a></li><li><a href="doc-theory-lecture-16.html#10-request-dto-and-response-dto">10. Request DTO and Response DTO</a></li><li><a href="doc-theory-lecture-16.html#11-manual-mapping-why-how-where">11. Manual Mapping: Why, How, Where</a></li><li><a href="doc-theory-lecture-16.html#12-crud-apis-rewritten-with-dtos">12. CRUD APIs Rewritten With DTOs</a></li><li><a href="doc-theory-lecture-16.html#13-validation-without-vs-with-and-the-dependency">13. Validation: Without vs With, and the Dependency</a></li><li><a href="doc-theory-lecture-16.html#14-common-validation-annotations">14. Common Validation Annotations</a></li><li><a href="doc-theory-lecture-16.html#15-valid-internal-steps-and-the-400-error">15. @Valid, Internal Steps, and the 400 Error</a></li><li><a href="doc-theory-lecture-16.html#16-final-create-api-flow-with-dto-and-validation">16. Final Create API Flow With DTO and Validation</a></li><li><a href="doc-theory-lecture-16.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-16.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-16.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-16.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-16.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 16 — DTOs &amp; Validations in Spring Boot</h1>
+<p class="readmeta">22 sections · 5,187 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-16" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-16">Lecture 16</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "DTOs &amp; Validations in Spring Boot | Make Your REST API Professional" (playlist map, verified). Repo lecture folder is the <code>dtoDemo</code> project: a <code>dto</code> package with Create/Update Request and Response DTOs, plus <code>entity</code>, <code>controller</code>, <code>service</code>, <code>repository</code> packages and the cached lecture notes.</p>
+</blockquote>
+<p>A working CRUD API is not the same as a professional CRUD API. The same <code>Student</code> entity that maps neatly to a database table becomes dangerous the moment it is also used as the request body and the response body. This lecture explains why passing the entity everywhere breaks the API boundary, and then fixes it with DTOs: separate request and response objects backed by validation rules. By the end we have a request pipeline where bad data is rejected with a clean 400 before it ever touches the service or the database.</p>
+<h2 id="1-the-real-problem">1. The Real Problem</h2>
+<p>Suppose we are building a simple Student Management Application. It supports basic CRUD operations: create student, get all students, get student by ID, update student, and delete student.</p>
+<p>While creating a student, the client may send this request body:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;name&quot;: &quot;Amit&quot;,
+  &quot;email&quot;: &quot;amit@gmail.com&quot;,
+  &quot;age&quot;: 21
+}
+</code></pre></div>
+
+<p>Now the important backend question is: when this request reaches our Spring Boot application, which layer receives it, which layer processes it, which layer talks to the database, and which layer returns the response? This is where layered architecture becomes important, and it is also where the real design problem starts.</p>
+<h2 id="2-the-four-layers-of-a-crud-project">2. The Four Layers of a CRUD Project</h2>
+<p>A simple Spring Boot CRUD project commonly works with four parts, each with one clear responsibility:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Main responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller</td>
+<td>Handles HTTP requests and sends HTTP responses</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Contains business logic</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Communicates with the database</td>
+</tr>
+<tr>
+<td>Entity</td>
+<td>Represents a database table</td>
+</tr>
+</tbody>
+</table>
+<p>A clean backend application should keep these responsibilities separate. When the separation is respected, each layer changes for one reason only.</p>
+<blockquote class="callout callout--important">
+<p>Important: The four layers are not decoration. The Controller owns HTTP, the Service owns business rules, the Repository owns persistence, and the Entity owns the database shape. Mixing their jobs is exactly how the problems in Section 7 are born.</p>
+</blockquote>
+<h2 id="3-entity-the-class-connected-to-the-database">3. Entity: The Class Connected to the Database</h2>
+<p>An Entity is a Java class mapped to a database table.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Because of the <code>@Entity</code> annotation, JPA/Hibernate understands that this class should be mapped to a database table. The class <code>Student</code> becomes a table <code>student</code>, and its fields <code>id</code>, <code>name</code>, <code>email</code>, and <code>age</code> become columns with the same names.</p>
+<p>At the database level, the table may look like this:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>email</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Amit</td>
+<td>amit@gmail.com</td>
+<td>21</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Neha</td>
+<td>neha@gmail.com</td>
+<td>22</td>
+</tr>
+</tbody>
+</table>
+<p>The first important point is this: an Entity is mainly designed to represent the database structure. Nothing about it was written for the outside world.</p>
+<h2 id="4-the-complete-create-api-flow">4. The Complete Create API Flow</h2>
+<p>In a normal create API, the flow looks like this:</p>
+<div class="highlight"><pre><span></span><code>Client
+  |
+  v
+Controller
+  |
+  v
+Service
+  |
+  v
+Repository
+  |
+  v
+Database
+</code></pre></div>
+
+<p>The same flow in ten explicit steps:</p>
+<ol>
+<li>Client sends a POST request with JSON data.</li>
+<li>Controller receives the request.</li>
+<li>Spring/Jackson converts JSON into a Java object.</li>
+<li>Controller calls the Service layer.</li>
+<li>Service applies business logic.</li>
+<li>Service calls the Repository.</li>
+<li>Repository saves data into the database.</li>
+<li>Database returns the saved data.</li>
+<li>Service prepares the response.</li>
+<li>Controller sends the HTTP response back to the client.</li>
+</ol>
+<p>This flow is correct. The problem starts when we use the same Entity class everywhere.</p>
+<h2 id="5-two-worlds-outside-api-vs-inside-database">5. Two Worlds: Outside API vs Inside Database</h2>
+<p>A backend application mainly deals with two worlds:</p>
+<table>
+<thead>
+<tr>
+<th>Outside world</th>
+<th>Inside world</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API request / API response</td>
+<td>Database / business logic</td>
+</tr>
+<tr>
+<td>Frontend, mobile app, Postman</td>
+<td>Database tables, entity classes</td>
+</tr>
+<tr>
+<td>Third-party client, another backend service</td>
+<td>Repository layer, business logic, internal fields</td>
+</tr>
+</tbody>
+</table>
+<p>The key principle is:</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The outside world should not directly control or depend on the internal database structure.</p>
+</blockquote>
+<p>In a beginner CRUD project, we often pass the <code>Student</code> entity everywhere: <code>Controller -&gt; Service -&gt; Repository -&gt; Database</code>. The same <code>Student</code> entity may be used for:</p>
+<ol>
+<li>Representing the database table.</li>
+<li>Receiving request data.</li>
+<li>Moving data through the service layer.</li>
+<li>Getting saved by the repository.</li>
+<li>Returning the API response.</li>
+</ol>
+<p>For a small demo project, this works. But in real-world applications, this becomes a bad design, because it quietly erases the wall between the two worlds.</p>
+<h2 id="6-entity-has-one-specific-purpose">6. Entity Has One Specific Purpose</h2>
+<p>An Entity is created mainly for database mapping. It belongs to the internal side of the application because it is closely connected to:</p>
+<ul>
+<li>the database table;</li>
+<li>columns;</li>
+<li>the primary key;</li>
+<li>relationships;</li>
+<li>Hibernate/JPA.</li>
+</ul>
+<p>On the other hand, request and response objects belong to the external API side. So a clean separation should be:</p>
+<div class="highlight"><pre><span></span><code>Entity            -&gt; Internal database model
+Request/Response  -&gt; External API model
+</code></pre></div>
+
+<p>But when we pass the Entity everywhere, we are effectively doing this:</p>
+<div class="highlight"><pre><span></span><code>Entity = Database model
+Entity = Request model
+Entity = Response model
+</code></pre></div>
+
+<p>This is the root problem. One class is now three contracts at once, and any change to one contract risks breaking the other two.</p>
+<h2 id="7-the-five-problems-of-exposing-the-entity">7. The Five Problems of Exposing the Entity</h2>
+<p>But when we accept and return entities directly, we start exposing the internal structure of our application. Five concrete problems follow.</p>
+<p><strong>Problem 1: the client can send fields they should not send.</strong> Suppose the entity grows internal fields such as <code>id</code>, <code>isDeleted</code>, <code>createdAt</code>, and <code>updatedAt</code>. Because the controller directly accepts <code>Student</code>, the client may send extra fields:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;id&quot;: 100,
+  &quot;name&quot;: &quot;Amit&quot;,
+  &quot;email&quot;: &quot;amit@gmail.com&quot;,
+  &quot;age&quot;: 21,
+  &quot;isDeleted&quot;: true,
+  &quot;createdAt&quot;: &quot;2026-07-04T10:00:00&quot;,
+  &quot;updatedAt&quot;: &quot;2026-07-04T10:00:00&quot;
+}
+</code></pre></div>
+
+<p>The client should not decide values like <code>id</code>, <code>isDeleted</code>, <code>createdAt</code>, <code>updatedAt</code>, or internal status fields. These fields should be controlled by the backend. Entity exposes internal fields to the outside world.</p>
+<p><strong>Problem 2: the client can modify sensitive or internal data.</strong> As the entity grows, it may contain <code>password</code>, <code>role</code>, <code>isVerified</code>, <code>internalRemark</code>, and more. During update, a client could send:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;name&quot;: &quot;Amit&quot;,
+  &quot;email&quot;: &quot;amit@gmail.com&quot;,
+  &quot;age&quot;: 21,
+  &quot;role&quot;: &quot;ADMIN&quot;,
+  &quot;isVerified&quot;: true,
+  &quot;isDeleted&quot;: false
+}
+</code></pre></div>
+
+<p>This is dangerous. The user should not be able to make themselves ADMIN, verified, premium, not deleted, or approved. These values should be controlled by business logic, not by the client. This problem is commonly called the mass assignment problem: the client sends more data than required, and the backend accidentally accepts it.</p>
+<p><strong>Problem 3: the response may leak unwanted data.</strong> When the controller returns the entity directly, the API response may accidentally expose internal or sensitive fields. The client usually does not need <code>password</code>, <code>isDeleted</code>, <code>internalRemark</code>, internal flags, or backend-only metadata. Returning the entity directly can leak unwanted internal data.</p>
+<p><strong>Problem 4: request and response usually need different structures.</strong> For creating a student, the client may send only <code>name</code>, <code>email</code>, and <code>age</code>. But after creating the student, the API may return:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;Amit&quot;,
+  &quot;email&quot;: &quot;amit@gmail.com&quot;,
+  &quot;message&quot;: &quot;Student created successfully&quot;
+}
+</code></pre></div>
+
+<p>The request does not need <code>id</code> or <code>message</code>. The response may need <code>id</code> and <code>message</code>. So request and response should not always use the same class.</p>
+<p><strong>Problem 5: database changes can break the API contract.</strong> Suppose <code>name</code> is split into <code>firstName</code> and <code>lastName</code> for database design reasons. If we return the entity directly, the API response changes with it, but the frontend may still be expecting the old <code>"name": "Amit Sharma"</code> shape. One internal database change can break the external API contract. A good API should not break just because the database structure changed internally.</p>
+<h2 id="8-the-main-design-issue">8. The Main Design Issue</h2>
+<p>A class should ideally have one clear responsibility. But when we pass the Entity everywhere, the Entity becomes responsible for too many things:</p>
+<ul>
+<li>database mapping;</li>
+<li>request handling;</li>
+<li>response handling;</li>
+<li>business data transfer;</li>
+<li>the external API contract.</li>
+</ul>
+<p>This is why we introduce DTOs.</p>
+<h2 id="9-what-is-a-dto-types-and-location">9. What Is a DTO? Types and Location</h2>
+<p>DTO stands for Data Transfer Object. A DTO is a simple object used to transfer data between layers or between client and server. In simple terms: a DTO carries only the data required for a particular request or response, and it is not created for database mapping.</p>
+<table>
+<thead>
+<tr>
+<th>Class type</th>
+<th>Main purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Entity</td>
+<td>Represents the database table</td>
+</tr>
+<tr>
+<td>DTO</td>
+<td>Transfers data in a request/response or between layers</td>
+</tr>
+</tbody>
+</table>
+<p>In a normal CRUD project, we commonly create two main types of DTOs: a Request DTO and a Response DTO. In real projects we may create more specific ones: <code>CreateStudentRequestDto</code>, <code>UpdateStudentRequestDto</code>, <code>StudentResponseDto</code>, <code>StudentSummaryResponseDto</code>, and <code>StudentDetailResponseDto</code>.</p>
+<p>A common package structure keeps DTOs in their own folder:</p>
+<div class="highlight"><pre><span></span><code>src/main/java/com/example/studentapp
+|-- controller
+|-- service
+|-- repository
+|-- entity
+`-- dto
+</code></pre></div>
+
+<p>The <code>dto</code> package contains request and response DTO classes.</p>
+<h2 id="10-request-dto-and-response-dto">10. Request DTO and Response DTO</h2>
+<p>A Request DTO represents the data that the client is allowed to send to the API. It is part of the API contract:</p>
+<div class="highlight"><pre><span></span><code>public class StudentRequestDto {
+    private String name;
+    private String email;
+    private Integer age;
+}
+</code></pre></div>
+
+<p>Now the controller can receive this DTO instead of the Entity, which clearly says: for creating a student, the client can send only <code>name</code>, <code>email</code>, and <code>age</code>. The Request DTO protects the API boundary and prevents the client from directly controlling internal database fields.</p>
+<p>A Response DTO represents the data that the API wants to send back to the client:</p>
+<div class="highlight"><pre><span></span><code>public class StudentResponseDto {
+    private Long id;
+    private String name;
+    private String email;
+    private Integer age;
+    private String message;
+}
+</code></pre></div>
+
+<p>This DTO allows us to decide exactly what should be visible in the API response.</p>
+<p>Instead of mixing student data and the message at the same level, we can also create a cleaner, more structured response:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;studentInfo&quot;: {
+    &quot;id&quot;: 1,
+    &quot;name&quot;: &quot;Amit&quot;,
+    &quot;email&quot;: &quot;amit@gmail.com&quot;,
+    &quot;age&quot;: 21
+  },
+  &quot;message&quot;: &quot;Student created successfully&quot;
+}
+</code></pre></div>
+
+<p>For that we create separate response classes: <code>CreateStudentResponseDto</code> holding a <code>StudentInfoDto</code> and a <code>message</code>, and <code>StudentInfoDto</code> holding <code>id</code>, <code>name</code>, <code>email</code>, and <code>age</code>.</p>
+<h3 id="dto-naming-convention">DTO naming convention</h3>
+<p>For beginners, simple names are fine: <code>StudentRequestDto</code> and <code>StudentResponseDto</code>. In real projects, more specific names are better, because different APIs may require different request and response structures. A create request may allow email, while an update request may not allow changing email. DTOs allow each API to define its own contract clearly.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>Request DTO</th>
+<th>Response DTO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beginner</td>
+<td><code>StudentRequestDto</code></td>
+<td><code>StudentResponseDto</code></td>
+</tr>
+<tr>
+<td>Real project</td>
+<td><code>CreateStudentRequestDto</code>, <code>UpdateStudentRequestDto</code></td>
+<td><code>StudentResponseDto</code>, <code>StudentDetailsResponseDto</code>, <code>StudentListResponseDto</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-manual-mapping-why-how-where">11. Manual Mapping: Why, How, Where</h2>
+<p>A DTO and an Entity are two different classes, so we need to convert one into another. There are two common mappings:</p>
+<div class="highlight"><pre><span></span><code>StudentRequestDto -&gt; Student Entity
+Student Entity    -&gt; StudentResponseDto
+</code></pre></div>
+
+<p><strong>Mapping 1: Request DTO to Entity.</strong> When the client sends data, the controller receives a <code>StudentRequestDto</code>, but the repository cannot save a <code>StudentRequestDto</code>; the repository saves the Entity. So we convert:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">mapToEntity</span><span class="p">(</span><span class="n">StudentRequestDto</span><span class="w"> </span><span class="n">requestDto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Student</span><span class="p">();</span>
+<span class="w">    </span><span class="n">student</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">requestDto</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">    </span><span class="n">student</span><span class="p">.</span><span class="na">setEmail</span><span class="p">(</span><span class="n">requestDto</span><span class="p">.</span><span class="na">getEmail</span><span class="p">());</span>
+<span class="w">    </span><span class="n">student</span><span class="p">.</span><span class="na">setAge</span><span class="p">(</span><span class="n">requestDto</span><span class="p">.</span><span class="na">getAge</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">student</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Mapping 2: Entity to Response DTO.</strong> After saving or fetching data from the database we get a <code>Student</code> entity, but we do not want to return the Entity directly, so we convert:</p>
+<div class="highlight"><pre><span></span><code>private StudentResponseDto mapToResponseDto(Student student) {
+    StudentResponseDto responseDto = new StudentResponseDto();
+    responseDto.setId(student.getId());
+    responseDto.setName(student.getName());
+    responseDto.setEmail(student.getEmail());
+    responseDto.setAge(student.getAge());
+    return responseDto;
+}
+</code></pre></div>
+
+<p><strong>Where should mapping happen?</strong> For a beginner project, mapping can be done inside the Service layer. The Service sits between the Controller and the Repository, so it works as the bridge:</p>
+<div class="highlight"><pre><span></span><code>Controller
+  | DTO
+  v
+Service
+  | Entity
+  v
+Repository
+</code></pre></div>
+
+<p>The Controller should not know too much about the Entity, and the Repository should not know anything about DTOs. That is why the Service layer is a clean place for mapping in a beginner project. In larger projects, we can create a separate mapper class or use mapping libraries like MapStruct.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The mapping direction is the tell. A candidate who says "map request DTO to entity before saving, and entity to response DTO before returning" understands the boundary; a candidate who "returns the entity" has not felt the problem yet.</p>
+</blockquote>
+<h2 id="12-crud-apis-rewritten-with-dtos">12. CRUD APIs Rewritten With DTOs</h2>
+<p><strong>Create API.</strong> The controller accepts the request DTO and returns the response DTO, and the service maps in both directions:</p>
+<div class="highlight"><pre><span></span><code>@PostMapping
+public StudentResponseDto createStudent(@RequestBody StudentRequestDto requestDto) {
+    return studentService.createStudent(requestDto);
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>public StudentResponseDto createStudent(StudentRequestDto requestDto) {
+    Student student = mapToEntity(requestDto);
+    Student savedStudent = studentRepository.save(student);
+    return mapToResponseDto(savedStudent);
+}
+</code></pre></div>
+
+<p>The full create flow with DTOs:</p>
+<div class="highlight"><pre><span></span><code>Client JSON
+  |
+  v
+StudentRequestDto
+  |
+  v
+Student Entity
+  |
+  v
+Database
+  |
+  v
+Student Entity
+  |
+  v
+StudentResponseDto
+  |
+  v
+Client Response
+</code></pre></div>
+
+<p><strong>Get all students API.</strong> The service returns a list of response DTOs instead of a list of entities, mapping each entity as it goes:</p>
+<div class="highlight"><pre><span></span><code>@GetMapping
+public List&lt;StudentResponseDto&gt; getAllStudents() {
+    return studentService.getAllStudents();
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>public List&lt;StudentResponseDto&gt; getAllStudents() {
+    List&lt;Student&gt; students = studentRepository.findAll();
+    return students.stream()
+            .map(this::mapToResponseDto)
+            .toList();
+}
+</code></pre></div>
+
+<p>Here, for every Student entity we call <code>mapToResponseDto(student)</code>, so the API returns a list of response DTOs instead of a list of entities.</p>
+<p><strong>Get student by ID API.</strong> The Repository returns an Entity, the Service converts that Entity into a Response DTO, and the Controller returns only the DTO:</p>
+<div class="highlight"><pre><span></span><code>@GetMapping(&quot;/{id}&quot;)
+public StudentResponseDto getStudentById(@PathVariable Long id) {
+    return studentService.getStudentById(id);
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>public StudentResponseDto getStudentById(Long id) {
+    Student student = studentRepository.findById(id)
+            .orElseThrow(() -&gt; new RuntimeException(&quot;Student not found&quot;));
+    return mapToResponseDto(student);
+}
+</code></pre></div>
+
+<p><strong>Update API.</strong> We do not create a completely new entity during update. We first fetch the existing entity, update allowed fields, save it again, and return a response DTO:</p>
+<div class="highlight"><pre><span></span><code>public StudentResponseDto updateStudent(Long id, StudentRequestDto requestDto) {
+    Student existingStudent = studentRepository.findById(id)
+            .orElseThrow(() -&gt; new RuntimeException(&quot;Student not found&quot;));
+    existingStudent.setName(requestDto.getName());
+    existingStudent.setEmail(requestDto.getEmail());
+    existingStudent.setAge(requestDto.getAge());
+    Student updatedStudent = studentRepository.save(existingStudent);
+    return mapToResponseDto(updatedStudent);
+}
+</code></pre></div>
+
+<p><strong>Delete API.</strong> Many projects return only a message. A more professional response wraps it in a simple response DTO such as <code>ApiResponseDto</code> with a single <code>message</code> field:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;message&quot;: &quot;Student deleted successfully&quot;
+}
+</code></pre></div>
+
+<h2 id="13-validation-without-vs-with-and-the-dependency">13. Validation: Without vs With, and the Dependency</h2>
+<p>Whenever a backend receives data from outside, the data is not guaranteed to be correct. The client may send invalid data such as an empty name, a <code>wrong-email</code> address, or an age of -5, or nulls where values are required. This data should not directly reach the service layer or the database. Validation means: before accepting request data, check whether the data follows the rules of the application.</p>
+<p><strong>Without validation</strong>, the controller accepts the DTO, invalid data reaches the service layer, the service maps it to an Entity, and the repository saves it. Bad input enters the system and the bad row sits in the database.</p>
+<p><strong>With validation</strong>, we declare rules like: name should not be blank, name should have at least 2 characters, email should not be blank, email should be valid, age should not be null, and age should be at least 18. The correct flow becomes:</p>
+<div class="highlight"><pre><span></span><code>Client sends JSON
+  |
+  v
+Controller receives request
+  |
+  v
+Validation happens
+  |
+  +--&gt; If valid   -&gt; Service method runs
+  |
+  `--&gt; If invalid -&gt; Error response goes back
+</code></pre></div>
+
+<p>Validation protects the service layer and the database from invalid input.</p>
+<p>In Spring Boot, validation support usually comes from this dependency:</p>
+<div class="highlight"><pre><span></span><code>&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-validation&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre></div>
+
+<p>If we are using Spring Initializr, we can add it by selecting the Validation starter.</p>
+<h2 id="14-common-validation-annotations">14. Common Validation Annotations</h2>
+<p>Validation annotations are placed on fields. For example, <code>@NotBlank private String name;</code> means names cannot be null, empty, or only spaces.</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Used for</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@NotNull</code></td>
+<td>Any object</td>
+<td>Value cannot be null</td>
+</tr>
+<tr>
+<td><code>@NotBlank</code></td>
+<td>String</td>
+<td>Value cannot be null, empty, or only spaces</td>
+</tr>
+<tr>
+<td><code>@NotEmpty</code></td>
+<td>String, Collection, Array</td>
+<td>Value cannot be null or empty</td>
+</tr>
+<tr>
+<td><code>@Email</code></td>
+<td>String</td>
+<td>Value should be a valid email format</td>
+</tr>
+<tr>
+<td><code>@Min(value)</code></td>
+<td>Number</td>
+<td>Minimum allowed value</td>
+</tr>
+<tr>
+<td><code>@Max(value)</code></td>
+<td>Number</td>
+<td>Maximum allowed value</td>
+</tr>
+<tr>
+<td><code>@Size(min, max)</code></td>
+<td>String, Collection</td>
+<td>Length or size should be within range</td>
+</tr>
+<tr>
+<td><code>@Pattern(regexp)</code></td>
+<td>String</td>
+<td>Value should match a regex pattern</td>
+</tr>
+<tr>
+<td><code>@Positive</code></td>
+<td>Number</td>
+<td>Value should be positive</td>
+</tr>
+<tr>
+<td><code>@Past</code></td>
+<td>Date/time</td>
+<td>Date should be in the past</td>
+</tr>
+<tr>
+<td><code>@Future</code></td>
+<td>Date/time</td>
+<td>Date should be in the future</td>
+</tr>
+</tbody>
+</table>
+<h3 id="notnull-vs-notblank-vs-notempty">@NotNull vs @NotBlank vs @NotEmpty</h3>
+<p><code>@NotNull</code> checks only one thing: the value should not be null. It is useful for numbers like <code>Integer</code>, <code>Long</code>, and <code>Double</code>. But for strings, <code>@NotNull</code> is often not enough because <code>"name": ""</code> is not null. For fields like name, email, title, and city, <code>@NotBlank</code> is usually better because it rejects null, empty, and whitespace-only strings. <code>@NotEmpty</code> checks that a value is neither null nor empty, and it is useful for lists, arrays, and collections - for normal strings, prefer <code>@NotBlank</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th><code>@NotNull</code></th>
+<th><code>@NotBlank</code></th>
+<th><code>@NotEmpty</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rejects <code>null</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Rejects <code>""</code> (empty)</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Rejects <code>"   "</code> (spaces only)</td>
+<td>No</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Works on numbers</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Works on collections/arrays</td>
+<td>Yes</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Integer/Long/Double</td>
+<td>name, email, title</td>
+<td>List/array fields</td>
+</tr>
+</tbody>
+</table>
+<h3 id="where-should-we-add-validations">Where should we add validations?</h3>
+<p>A common question is whether validations should be added in the Entity or in the Request DTO. For request validation, validations should be added in the Request DTO, because validation rules are about what the client is allowed to send, and the client sends request data. So request validation naturally belongs to the Request DTO.</p>
+<p>The updated request DTO with validations:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Email</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Max</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Min</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.NotBlank</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.NotNull</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.constraints.Size</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentRequestDto</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student name is required&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Size</span><span class="p">(</span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student name must be between 2 and 50 characters&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@NotBlank</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student email is required&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Email</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student email should be valid&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@NotNull</span><span class="p">(</span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student age is required&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Min</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student age must be at least 18&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@Max</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Student age must not be greater than 60&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This DTO clearly defines the rules: name cannot be blank, name length should be between 2 and 50 characters, email cannot be blank, email should be valid, age cannot be null, and age should be between 18 and 60.</p>
+<h2 id="15-valid-internal-steps-and-the-400-error">15. @Valid, Internal Steps, and the 400 Error</h2>
+<p>Adding validation annotations in the DTO is not enough. To trigger validation for request body data, we use <code>@Valid</code> in the controller:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.validation.Valid</span><span class="p">;</span>
+
+<span class="nd">@PostMapping</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">StudentResponseDto</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@Valid</span><span class="w"> </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">StudentRequestDto</span><span class="w"> </span><span class="n">requestDto</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">createStudent</span><span class="p">(</span><span class="n">requestDto</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The same thing can be done for the update API by putting <code>@Valid</code> before the <code>@RequestBody</code>. Now Spring validates <code>StudentRequestDto</code> before calling the service method. The important line <code>@Valid @RequestBody StudentRequestDto requestDto</code> means two separate things:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@RequestBody</code></td>
+<td>Convert JSON into a Java object</td>
+</tr>
+<tr>
+<td><code>@Valid</code></td>
+<td>Apply the validation rules on that Java object</td>
+</tr>
+</tbody>
+</table>
+<p>Suppose the client sends <code>name</code> empty, <code>email</code> as <code>wrong-email</code>, and <code>age</code> as 15. Spring performs these steps:</p>
+<ol>
+<li>JSON is converted into <code>StudentRequestDto</code>.</li>
+<li>Because <code>@Valid</code> is present, Spring checks the validation annotations.</li>
+<li>It checks <code>name</code>; name is blank, so validation fails.</li>
+<li>It checks <code>email</code>; email format is invalid, so validation fails.</li>
+<li>It checks <code>age</code>; age is less than 18, so validation fails.</li>
+<li>The service method is not called.</li>
+<li>An error response goes back to the client.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important: If validation fails, the request does not reach the service layer. So validation protects both business logic and the database from bad input.</p>
+</blockquote>
+<h3 id="validation-annotations-vs-valid">Validation annotations vs @Valid</h3>
+<p>Both parts are important. The annotations (<code>@NotBlank</code>, <code>@Email</code>, <code>@Min</code>, <code>@Max</code>, <code>@Size</code>) define the rules. <code>@Valid</code> tells Spring to apply those rules. In one line: validation annotations define the rules, and <code>@Valid</code> triggers the validation process.</p>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Validation annotations</th>
+<th><code>@Valid</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role</td>
+<td>Define the rules</td>
+<td>Triggers the validation process</td>
+</tr>
+<tr>
+<td>Placed on</td>
+<td>Fields of the Request DTO</td>
+<td>The controller method parameter</td>
+</tr>
+<tr>
+<td>Examples</td>
+<td><code>@NotBlank</code>, <code>@Email</code>, <code>@Min</code>, <code>@Size</code></td>
+<td><code>@Valid @RequestBody StudentRequestDto requestDto</code></td>
+</tr>
+<tr>
+<td>Alone</td>
+<td>Inactive until triggered</td>
+<td>Has nothing to check without rules</td>
+</tr>
+<tr>
+<td>Result when rule fails</td>
+<td>One field-level violation</td>
+<td>A 400 Bad Request before the service runs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="what-status-code-is-returned">What status code is returned?</h3>
+<p>When validation fails, Spring Boot returns HTTP 400 Bad Request. It is 400 because the client sent invalid request data; the problem is with the request body, and the server is working fine. It is not 500 Internal Server Error.</p>
+<p>The default error response is technically correct, but it is not always clean or frontend-friendly. A frontend usually wants a simple response such as a map of field to message, or a structured response like this:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;success&quot;: false,
+  &quot;message&quot;: &quot;Validation failed&quot;,
+  &quot;errors&quot;: {
+    &quot;name&quot;: &quot;Student name is required&quot;,
+    &quot;email&quot;: &quot;Student email should be valid&quot;,
+    &quot;age&quot;: &quot;Student age must be at least 18&quot;
+  }
+}
+</code></pre></div>
+
+<p>Spring Boot may not give this exact clean format automatically. That is why we later use Global Exception Handling, which allows us to control the exact error response format.</p>
+<h3 id="custom-validation-messages">Custom validation messages</h3>
+<p>Without a custom message, <code>@NotBlank private String name;</code> may return a generic default like <code>must not be blank</code>. A better approach is a clear custom message such as <code>@NotBlank(message = "Student name is required")</code> or <code>@Email(message = "Student email should be valid")</code>. Custom messages make validation errors easier to understand for frontend developers and API users.</p>
+<h2 id="16-final-create-api-flow-with-dto-and-validation">16. Final Create API Flow With DTO and Validation</h2>
+<p>Putting all of it together, the clean and professional flow is:</p>
+<div class="highlight"><pre><span></span><code>Client sends JSON
+  |
+  v
+Controller receives StudentRequestDto
+  |
+  v
+@Valid checks request data
+  |
+  +--&gt; If invalid: return 400 Bad Request
+  |
+  `--&gt; If valid:
+         |
+         v
+       Service method runs
+         |
+         v
+       Service maps StudentRequestDto to Student Entity
+         |
+         v
+       Repository saves Student Entity
+         |
+         v
+       Service maps saved Student Entity to StudentResponseDto
+         |
+         v
+       Controller returns response DTO
+</code></pre></div>
+
+<p>This is a cleaner and more professional API design.</p>
+<h3 id="entity-vs-dto-summary">Entity vs DTO summary</h3>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Entity</th>
+<th>DTO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main purpose</td>
+<td>Database mapping</td>
+<td>Data transfer</td>
+</tr>
+<tr>
+<td>Belongs to</td>
+<td>Internal application side</td>
+<td>API/request-response side</td>
+</tr>
+<tr>
+<td>Connected with</td>
+<td>JPA, Hibernate, database table</td>
+<td>Controller, request body, response body</td>
+</tr>
+<tr>
+<td>Should client control it?</td>
+<td>No</td>
+<td>Yes, in a limited and controlled way</td>
+</tr>
+<tr>
+<td>Can contain internal fields?</td>
+<td>Yes</td>
+<td>Should contain only required fields</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>Student</code></td>
+<td><code>StudentRequestDto</code>, <code>StudentResponseDto</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-dto-vs-response-dto-summary">Request DTO vs Response DTO summary</h3>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th>Request DTO</th>
+<th>Response DTO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>Client to server</td>
+<td>Server to client</td>
+</tr>
+<tr>
+<td>Represents</td>
+<td>What client can send</td>
+<td>What API returns</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>StudentRequestDto</code></td>
+<td><code>StudentResponseDto</code></td>
+</tr>
+<tr>
+<td>Usually contains</td>
+<td>Input fields</td>
+<td>Output fields</td>
+</tr>
+<tr>
+<td>Validation</td>
+<td>Usually added here</td>
+<td>Usually not needed for normal response</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"The entity is good enough as the request body"</td>
+<td>Any internal field then becomes client-controllable; that is the mass assignment problem.</td>
+</tr>
+<tr>
+<td>"The entity is good enough as the response body"</td>
+<td>Returning the entity can leak <code>password</code>, <code>isDeleted</code>, and internal metadata.</td>
+</tr>
+<tr>
+<td>"DTOs are only for large projects"</td>
+<td>Even a small CRUD project exposes its database model the moment it returns the entity.</td>
+</tr>
+<tr>
+<td>"One DTO can serve every API"</td>
+<td>Create and update often allow different fields; separate DTOs define separate contracts.</td>
+</tr>
+<tr>
+<td>"Adding validation annotations is enough"</td>
+<td>Without <code>@Valid</code> in the controller, the annotations are never triggered.</td>
+</tr>
+<tr>
+<td>"Validation failure should be a 500"</td>
+<td>It is a 400 Bad Request; the client's data is wrong, not the server.</td>
+</tr>
+<tr>
+<td>"Validation belongs on the entity"</td>
+<td>Request validation belongs on the Request DTO, because it governs what the client may send.</td>
+</tr>
+<tr>
+<td>"Mapping is unnecessary if names match"</td>
+<td>The entity and DTO are different classes; something must still copy the values.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "We have DTOs, so we no longer need entities."</strong>
+Verdict: False. Entities still own database mapping; DTOs only own transport. They solve different problems and coexist.</p>
+<p><strong>Trap 2 - "DTO means Data Transfer Object, so any object is a DTO."</strong>
+Verdict: Misleading. A DTO is deliberately shaped for one request or response contract, not for the database.</p>
+<p><strong>Trap 3 - "Validation annotations run by themselves once added to the DTO."</strong>
+Verdict: False. <code>@Valid</code> (or <code>@Validated</code>) must be present in the controller to trigger validation of the request body.</p>
+<p><strong>Trap 4 - "For a String field, @NotNull is enough."</strong>
+Verdict: False. An empty string <code>""</code> is not null; use <code>@NotBlank</code> for strings, and <code>@NotEmpty</code> for lists and arrays.</p>
+<p><strong>Trap 5 - "The repository can save the request DTO directly."</strong>
+Verdict: False. The repository understands the Entity, not the DTO; the Service must map the DTO to an entity first.</p>
+<p><strong>Trap 6 - "A failed validation returns 500."</strong>
+Verdict: False. It returns 400 Bad Request; the request body is invalid, not the server.</p>
+<p><strong>Trap 7 - "Update should build a brand-new entity from the request DTO."</strong>
+Verdict: False. Update fetches the existing entity, changes allowed fields, saves it again, and returns a response DTO.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Layered architecture separates Controller (HTTP), Service (business logic), Repository (database), and Entity (table mapping).</li>
+<li>An Entity is designed for database mapping; it belongs to the internal side of the application.</li>
+<li>Passing the entity everywhere makes one class the database model, the request model, and the response model at once.</li>
+<li>The five problems are: forbidden client fields, mass assignment, response leakage, different request/response shapes, and database changes breaking the API contract.</li>
+<li>A DTO is a Data Transfer Object: it carries only the data needed for one request or response and is never used for database mapping.</li>
+<li>Request DTOs define what the client may send; response DTOs define what the API returns; both live in the <code>dto</code> package.</li>
+<li>Mapping runs both ways: request DTO to entity before saving, and entity to response DTO before returning; the Service layer is the beginner-friendly place for it.</li>
+<li>Validation belongs on the Request DTO, because the rules describe what the client is allowed to send.</li>
+<li><code>@Valid</code> in the controller triggers validation; annotations such as <code>@NotBlank</code>, <code>@Email</code>, <code>@Min</code>, and <code>@Size</code> only define the rules.</li>
+<li>Failed validation returns 400 Bad Request (never 500), and invalid data never reaches the service or the database.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a DTO?</td>
+<td>A Data Transfer Object: a simple object used to carry only the data required for a particular request, response, or layer boundary.</td>
+</tr>
+<tr>
+<td>Why not expose the entity directly?</td>
+<td>It exposes internal structure, allows mass assignment, leaks sensitive fields, couples the API to the table, and breaks the contract on schema changes.</td>
+</tr>
+<tr>
+<td>What is the mass assignment problem?</td>
+<td>The client sends more fields than required (like <code>role</code> or <code>isVerified</code>) and the backend accidentally accepts them into the entity.</td>
+</tr>
+<tr>
+<td>Entity vs DTO?</td>
+<td>Entity maps to a database table (internal); DTO transfers data across the API boundary (external) and holds only the needed fields.</td>
+</tr>
+<tr>
+<td>Request DTO vs Response DTO?</td>
+<td>Request DTO = what the client may send; Response DTO = what the API returns; they usually have different fields.</td>
+</tr>
+<tr>
+<td>Where should DTOs live?</td>
+<td>In a dedicated <code>dto</code> package alongside <code>controller</code>, <code>service</code>, <code>repository</code>, and <code>entity</code>.</td>
+</tr>
+<tr>
+<td>Why is mapping required?</td>
+<td>DTO and Entity are different classes; the repository saves entities and the controller speaks DTOs, so values must be copied across.</td>
+</tr>
+<tr>
+<td>Where should mapping happen?</td>
+<td>In the Service layer for beginner projects; a separate mapper or MapStruct in larger projects.</td>
+</tr>
+<tr>
+<td>Where do validations go?</td>
+<td>On the Request DTO, because they describe what the client is allowed to send.</td>
+</tr>
+<tr>
+<td>Difference between validation annotations and <code>@Valid</code>?</td>
+<td>Annotations define the rules; <code>@Valid</code> triggers Spring to apply them to the request body.</td>
+</tr>
+<tr>
+<td><code>@NotNull</code> vs <code>@NotBlank</code> vs <code>@NotEmpty</code>?</td>
+<td><code>@NotNull</code> rejects only null; <code>@NotBlank</code> rejects null/empty/spaces for strings; <code>@NotEmpty</code> rejects null/empty for strings, lists, and arrays.</td>
+</tr>
+<tr>
+<td>What status code does failed validation return?</td>
+<td>400 Bad Request, because the client's request data is invalid; the server itself is fine.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Entity everywhere:
+  Database model = Request model = Response model
+  |
+  v
+5 problems: forbidden fields | mass assignment | response leak |
+            request vs response shapes | DB change breaks contract
+  |
+  v
+Split the two worlds:
+  Entity -&gt; internal database model
+  DTO    -&gt; external API model (request DTO, response DTO)
+  |
+  v
+Map in the Service layer:
+  Request DTO -&gt; Entity -&gt; Database -&gt; Entity -&gt; Response DTO
+  |
+  v
+Validate the Request DTO:
+  annotations define the rules (@NotBlank, @Email, @Min, @Size)
+  @Valid triggers them in the controller
+  |
+  v
+Clean result:
+  invalid data -&gt; 400 Bad Request (never reaches service or DB)
+  valid data   -&gt; clean, stable, professional API response
+</code></pre></div>
+
+<ul>
+<li>Entity = database mapping; DTO = data transfer; keep the two worlds separate.</li>
+<li>Request DTO guards what the client may send; response DTO controls what the API returns.</li>
+<li>The five problems all trace to one root cause: one class serving three contracts.</li>
+<li>Mapping belongs in the Service layer for beginners, a mapper class for larger projects.</li>
+<li>Validation on the Request DTO plus <code>@Valid</code> in the controller keeps bad data out with a 400.</li>
+<li>Custom validation messages make errors understandable for frontend developers and API users.</li>
+</ul>
+<p>Mnemonic: <strong>"Entity guards the table, DTO guards the door."</strong> The entity never leaves the database side; the DTO is the only thing that crosses the API boundary. For the five problems, remember <strong>"Forbidden, Forged, Leaked, Different, Broken."</strong></p>
+<p><strong>One-line takeaway:</strong> Professional REST APIs do not expose the database; they exchange purpose-built DTOs and reject invalid input at the boundary with a validated 400 before a single bad row can reach the database.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-15.html"><span class="dir">Previous</span><span class="ttl">Lecture 15 — Spring MVC Architecture</span></a><a class="next" href="doc-theory-lecture-17.html"><span class="dir">Next</span><span class="ttl">Lecture 17 - Spring Boot Exception Handling</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

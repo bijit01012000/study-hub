@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem — Spring Boot</title>
+<meta name="description" content="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-31">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-31.html#lecture-31">Lecture 31</a></li><li><a href="doc-theory-lecture-31.html#1-the-three-practical-questions-jpa-relationships-raise">1. The Three Practical Questions JPA Relationships Raise</a></li><li><a href="doc-theory-lecture-31.html#2-cascading-propagating-a-persistence-operation">2. Cascading: Propagating a Persistence Operation</a></li><li><a href="doc-theory-lecture-31.html#3-cascade-does-not-mean-relationship-ownership">3. Cascade Does Not Mean Relationship Ownership</a></li><li><a href="doc-theory-lecture-31.html#4-cascadetypepersist">4. CascadeType.PERSIST</a></li><li><a href="doc-theory-lecture-31.html#5-cascadetyperemove-and-the-full-cascadetype-set">5. CascadeType.REMOVE and the Full CascadeType Set</a></li><li><a href="doc-theory-lecture-31.html#6-relationship-loading-and-the-fetch-plan">6. Relationship Loading and the Fetch Plan</a></li><li><a href="doc-theory-lecture-31.html#7-static-fetch-strategy-lazy-vs-eager-and-the-defaults">7. Static Fetch Strategy: LAZY vs EAGER and the Defaults</a></li><li><a href="doc-theory-lecture-31.html#8-how-lazy-loading-works">8. How Lazy Loading Works</a></li><li><a href="doc-theory-lecture-31.html#9-why-lazy-loading-is-useful">9. Why Lazy Loading Is Useful</a></li><li><a href="doc-theory-lecture-31.html#10-the-n1-query-problem-and-whether-lazy-loading-is-bad">10. The N+1 Query Problem and Whether Lazy Loading Is Bad</a></li><li><a href="doc-theory-lecture-31.html#11-detecting-and-preventing-n1-sql-logging-and-entity-graphs">11. Detecting and Preventing N+1: SQL Logging and Entity Graphs</a></li><li><a href="doc-theory-lecture-31.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-31.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-31.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-31.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-31.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</h1>
+<p class="readmeta">17 sections · 4,505 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-31" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-31">Lecture 31</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "JPA Cascading, Lazy Loading &amp; N+1 Problem | EntityGraph in Spring Boot" (playlist map, verified). The repo folder <code>jpaRelationshipDemo</code> (package <code>com.coderarmy.jpaRelationshipDemo</code>) extends the relationship demo with cascading + fetch demos: <code>model.Department</code>, <code>model.Student</code>, <code>model.Profile</code>, the repositories <code>StudentRepository</code>, <code>DepartmentRepository</code>, <code>ProfileRepository</code>, the services <code>StudentService</code>, <code>DepartmentService</code>, and SQL logging configured in <code>application.properties</code>.</p>
+</blockquote>
+<p>JPA relationships do more than connect two entity classes: they also raise three practical questions about <em>lifecycle</em>, <em>timing</em>, and <em>hidden cost</em>. This lecture answers all three with three tools -- cascading (what happens to related entities on save/delete), fetch strategies (when related data is loaded), and query-level fetch plans such as entity graphs (how to avoid a large number of hidden SQL queries). The payoff is being able to keep object graphs small by default while still fetching exactly what each use case needs, and being able to see and control the SQL Hibernate actually runs.</p>
+<h2 id="1-the-three-practical-questions-jpa-relationships-raise">1. The Three Practical Questions JPA Relationships Raise</h2>
+<p>A relationship between two entities does not just express "these classes are linked." It forces us to make three decisions that directly shape correctness and performance:</p>
+<ol>
+<li>What should happen to related entities when one entity is saved or deleted? (Cascading)</li>
+<li>When should related data be loaded from the database? (Fetch strategy)</li>
+<li>How can we avoid executing a large number of hidden SQL queries? (Query-level fetch plan)</li>
+</ol>
+<p>The mapping itself only declares the link. The behavior underneath is governed by cascading, fetch strategies, and query fetch plans:</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Mechanism that answers it</th>
+<th>Where it is configured</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Save/delete propagation</td>
+<td><code>CascadeType</code></td>
+<td>On the relationship mapping</td>
+</tr>
+<tr>
+<td>When to load related data</td>
+<td><code>FetchType</code> / lazy proxies</td>
+<td>On the relationship mapping (static)</td>
+</tr>
+<tr>
+<td>Avoid hidden queries per use case</td>
+<td>Entity graph / fetch join</td>
+<td>On the specific repository method or query</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: These are separate axes. Choosing <code>cascade</code> says nothing about loading, and choosing <code>LAZY</code> says nothing about saving. Interviewers deliberately mix them to see if you treat them as one knob.</p>
+</blockquote>
+<p>A <code>Student</code> touches many other entities, and those entities have relationships of their own:</p>
+<div class="highlight"><pre><span></span><code>Student
+  +-- Department
+  +-- Address
+  +-- Profile
+  +-- Courses
+  +-- Projects
+  +-- Certificates
+  +-- Comments
+</code></pre></div>
+
+<p>That fan-out is exactly why the timing question matters: load everything eagerly and a tiny operation can drag a huge portion of the database into memory.</p>
+<h2 id="2-cascading-propagating-a-persistence-operation">2. Cascading: Propagating a Persistence Operation</h2>
+<p>A cascade propagates a persistence operation from one entity to another through a mapped relationship. In plain terms: "when I do this to the parent, also do it to the related objects."</p>
+<p>Suppose an <code>Order</code> contains multiple <code>OrderItem</code> objects:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;orders&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Order</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@OneToMany</span><span class="p">(</span>
+<span class="w">        </span><span class="n">mappedBy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;order&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">cascade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CascadeType</span><span class="p">.</span><span class="na">PERSIST</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OrderItem</span><span class="o">&gt;</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The <code>OrderItem</code> side holds the foreign key:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;order_id&quot;)
+    private Order order;
+}
+</code></pre></div>
+
+<p>Now consider a single call:</p>
+<div class="highlight"><pre><span></span><code>entityManager.persist(order);
+</code></pre></div>
+
+<p>Because the relationship uses <code>CascadeType.PERSIST</code>, Hibernate also persists the items contained in <code>order.getItems()</code>. Conceptually, the single call behaves like:</p>
+<div class="highlight"><pre><span></span><code>persist(order);
+persist(item1);
+persist(item2);
+persist(item3);
+</code></pre></div>
+
+<p>The application does not need to call <code>persist()</code> separately for every <code>OrderItem</code>.</p>
+<p><strong>Cascade is not enabled by default.</strong> JPA does not automatically cascade every operation across relationships. With a plain mapping:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(mappedBy = &quot;order&quot;)
+private List&lt;OrderItem&gt; items;
+</code></pre></div>
+
+<p>the call <code>entityManager.persist(order)</code> does <strong>not</strong> automatically persist new <code>OrderItem</code> objects. This is intentional: related entities do not always share the same lifecycle.</p>
+<blockquote class="callout callout--important">
+<p>Important: Cascading is a lifecycle decision, not a convenience switch. Add it only after asking whether the related objects really should follow the parent's operation.</p>
+</blockquote>
+<h2 id="3-cascade-does-not-mean-relationship-ownership">3. Cascade Does Not Mean Relationship Ownership</h2>
+<p>Cascading and relationship ownership solve two different problems, and conflating them is one of the most common modeling mistakes:</p>
+<ul>
+<li><strong>Relationship ownership</strong> decides which side controls the foreign-key value.</li>
+<li><strong>Cascading</strong> decides whether a persistence operation should propagate to a related entity.</li>
+</ul>
+<p>In the <code>Order</code> / <code>OrderItem</code> example:</p>
+<ul>
+<li><code>OrderItem</code> is the <strong>owning side</strong> because it contains the <code>order_id</code> foreign key.</li>
+<li>The <code>Order.items</code> collection is the <strong>inverse side</strong> because it uses <code>mappedBy = "order"</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>OrderItem  (owning side)   --&gt; owns order_id column
+Order.items (inverse side) --&gt; mappedBy = &quot;order&quot; (mirror only)
+</code></pre></div>
+
+<p>Adding an item only to the inverse collection is not enough to set the foreign key correctly. Both sides of the object relationship should be maintained:</p>
+<div class="highlight"><pre><span></span><code>public void addItem(OrderItem item) {
+    items.add(item);
+    item.setOrder(this);
+}
+</code></pre></div>
+
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code>Order order = new Order();
+OrderItem item1 = new OrderItem();
+OrderItem item2 = new OrderItem();
+order.addItem(item1);
+order.addItem(item2);
+entityManager.persist(order);
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: The helper method keeps the Java object graph consistent; <code>CascadeType.PERSIST</code> is what allows the items to be persisted <em>through</em> the order. Ownership writes the foreign key; cascade propagates the operation. They are different jobs.</p>
+</blockquote>
+<h2 id="4-cascadetypepersist">4. CascadeType.PERSIST</h2>
+<p><code>CascadeType.PERSIST</code> propagates the persist operation:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(
+    mappedBy = &quot;order&quot;,
+    cascade = CascadeType.PERSIST
+)
+private List&lt;OrderItem&gt; items;
+</code></pre></div>
+
+<p>When a new order is persisted with <code>entityManager.persist(order)</code>, new items reachable through the relationship are persisted as well.</p>
+<p>This cascade is useful when:</p>
+<ol>
+<li>the parent and children are created together;</li>
+<li>the child belongs to the parent's lifecycle;</li>
+<li>saving the parent should also save its newly created children.</li>
+</ol>
+<p>It should <strong>not</strong> be added merely for convenience. The correct question is:</p>
+<blockquote class="callout callout--note">
+<p>If this parent is persisted, should these related objects always be persisted with it?</p>
+</blockquote>
+<p>If the answer is not an unconditional yes, do not cascade persists -- persist the children explicitly instead.</p>
+<h2 id="5-cascadetyperemove-and-the-full-cascadetype-set">5. CascadeType.REMOVE and the Full CascadeType Set</h2>
+<p><code>CascadeType.REMOVE</code> propagates deletion from one entity to related entities:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(
+    mappedBy = &quot;order&quot;,
+    cascade = CascadeType.REMOVE
+)
+private List&lt;OrderItem&gt; items;
+</code></pre></div>
+
+<p>Now <code>entityManager.remove(order)</code> conceptually becomes:</p>
+<div class="highlight"><pre><span></span><code>remove(Order)
+  +-- remove(Item A)
+  +-- remove(Item B)
+  +-- remove(Item C)
+</code></pre></div>
+
+<p>Possible SQL:</p>
+<div class="highlight"><pre><span></span><code>DELETE FROM order_item WHERE id = 1;
+DELETE FROM order_item WHERE id = 2;
+DELETE FROM order_item WHERE id = 3;
+DELETE FROM orders WHERE id = 100;
+</code></pre></div>
+
+<p>The child rows are normally deleted before the parent row so that the foreign-key constraint is not violated.</p>
+<p><strong>When does REMOVE make sense?</strong> When the child belongs exclusively to the parent. An <code>OrderItem</code> normally has no independent meaning without its <code>Order</code>, so deleting the items when the order is deleted is usually reasonable. It becomes dangerous when the related entity is shared. For example:</p>
+<div class="highlight"><pre><span></span><code>@ManyToMany
+private Set&lt;Course&gt; courses;
+</code></pre></div>
+
+<p>If many students share the same course, deleting one student must not delete the course itself. Therefore, <code>CascadeType.REMOVE</code> is usually inappropriate on shared many-to-many relationships.</p>
+<p><strong>The full set of cascade types.</strong> JPA provides six values, and their meaning can be summarized as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Cascade type</th>
+<th>Propagated operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PERSIST</code></td>
+<td>Persist new related entities</td>
+</tr>
+<tr>
+<td><code>MERGE</code></td>
+<td>Merge the state of related detached entities</td>
+</tr>
+<tr>
+<td><code>REMOVE</code></td>
+<td>Remove related entities</td>
+</tr>
+<tr>
+<td><code>REFRESH</code></td>
+<td>Reload related entities from the database</td>
+</tr>
+<tr>
+<td><code>DETACH</code></td>
+<td>Detach related entities from the persistence context</td>
+</tr>
+<tr>
+<td><code>ALL</code></td>
+<td>Apply all the cascade types above</td>
+</tr>
+</tbody>
+</table>
+<p>Multiple cascade types can be selected at once:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(
+    mappedBy = &quot;order&quot;,
+    cascade = {
+        CascadeType.PERSIST,
+        CascadeType.REMOVE
+    }
+)
+private List&lt;OrderItem&gt; items;
+</code></pre></div>
+
+<p><code>CascadeType.ALL</code> should be used only when the related entity genuinely shares the complete lifecycle of the parent. (Many-to-many and shared references are the usual places where <code>ALL</code> turns into a data-loss bug.)</p>
+<p>Mnemonic for the six values -- <strong>"Please Merge Records, Recheck Detached Attachments"</strong> maps to <strong>P</strong>ersist, <strong>M</strong>erge, <strong>R</strong>emove, <strong>R</strong>efresh, <strong>D</strong>etach, <strong>A</strong>ll.</p>
+<h2 id="6-relationship-loading-and-the-fetch-plan">6. Relationship Loading and the Fetch Plan</h2>
+<p>Fetching an entity by its primary key is straightforward:</p>
+<div class="highlight"><pre><span></span><code>Student student = entityManager.find(Student.class, 1L);
+</code></pre></div>
+
+<p>However, a <code>Student</code> may be related to many other entities (Department, Address, Profile, Courses, Projects, Certificates, Comments), and those entities may contain further relationships of their own. If Hibernate loaded every reachable entity whenever one <code>Student</code> was requested, a small operation could load a huge portion of the database.</p>
+<p>Hibernate therefore needs a fetch plan:</p>
+<blockquote class="callout callout--note">
+<p>Which relationships are required now, and which relationships can wait until they are actually used?</p>
+</blockquote>
+<p>The fetch plan is the bridge between the object graph you model and the amount of SQL the database actually runs.</p>
+<table>
+<thead>
+<tr>
+<th>Concern</th>
+<th>Question it settles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default timing</td>
+<td>Should a relationship load now or later? (<code>FetchType</code>)</td>
+</tr>
+<tr>
+<td>Per-use-case graph</td>
+<td>What does this specific operation need? (entity graph / fetch join)</td>
+</tr>
+<tr>
+<td>Hidden cost</td>
+<td>How many extra statements appear when I navigate a relationship?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-static-fetch-strategy-lazy-vs-eager-and-the-defaults">7. Static Fetch Strategy: LAZY vs EAGER and the Defaults</h2>
+<p>A fetch strategy can be configured directly in the entity mapping:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(fetch = FetchType.LAZY)
+private Department department;
+</code></pre></div>
+
+<p>This is called a <strong>static fetch strategy</strong> because it becomes part of the entity's mapping metadata. It acts as the default whenever the entity is loaded, for example <code>entityManager.find(Student.class, 1L)</code>. The default can still be overridden for a particular use case through a fetch join, an entity graph, or another query-specific fetch plan.</p>
+<p>JPA defines exactly two fetch types:</p>
+<table>
+<thead>
+<tr>
+<th>Fetch type</th>
+<th>Conceptually</th>
+<th>Spec-level nature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LAZY</code></td>
+<td>Load the relationship when it is first needed</td>
+<td>A hint -- the provider is asked to delay loading, but the spec does not absolutely require it to</td>
+</tr>
+<tr>
+<td><code>EAGER</code></td>
+<td>Load the relationship as part of loading the entity</td>
+<td>A requirement -- the provider must make the relationship available eagerly</td>
+</tr>
+</tbody>
+</table>
+<p>Hibernate supports lazy loading extensively:</p>
+<ul>
+<li>to-many relationships are represented using lazy persistent collections;</li>
+<li>to-one relationships can be loaded lazily through proxies or bytecode enhancement.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: <code>EAGER</code> is a promise, <code>LAZY</code> is a request. That asymmetry matters when you reason about what Hibernate is allowed to do.</p>
+</blockquote>
+<p><strong>Default fetch types.</strong> JPA defines the following defaults, and they are worth memorizing because they explain most "surprise" SQL:</p>
+<table>
+<thead>
+<tr>
+<th>Relationship</th>
+<th>Default fetch type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@OneToMany</code></td>
+<td><code>LAZY</code></td>
+</tr>
+<tr>
+<td><code>@ManyToMany</code></td>
+<td><code>LAZY</code></td>
+</tr>
+<tr>
+<td><code>@ManyToOne</code></td>
+<td><code>EAGER</code></td>
+</tr>
+<tr>
+<td><code>@OneToOne</code></td>
+<td><code>EAGER</code></td>
+</tr>
+</tbody>
+</table>
+<p>Therefore, to-many relationships are lazy by default, while to-one relationships are eager by default. (Memory aid: "to-many waits, to-one races.")</p>
+<p>These defaults should not automatically be treated as the best choice for every application. In practice, many teams explicitly configure to-one relationships as lazy:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(fetch = FetchType.LAZY)
+private Department department;
+</code></pre></div>
+
+<p>This keeps the default object graph small and allows each query to request the relationships required by its use case.</p>
+<h2 id="8-how-lazy-loading-works">8. How Lazy Loading Works</h2>
+<p>Consider:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+public class Student {
+    @Id
+    private Long id;
+    private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = &quot;department_id&quot;)
+    private Department department;
+}
+</code></pre></div>
+
+<p>When the student is loaded with <code>entityManager.find(Student.class, 1L)</code>, Hibernate can initially execute:</p>
+<div class="highlight"><pre><span></span><code>SELECT id, name, department_id
+FROM student
+WHERE id = 1;
+</code></pre></div>
+
+<p>The <code>Student</code> is loaded, but its <code>Department</code> may be represented by an uninitialized proxy. Conceptually:</p>
+<div class="highlight"><pre><span></span><code>Student
+  +-- id = 1
+  +-- name = Rahul
+  +-- department = not initialized yet
+</code></pre></div>
+
+<p>Accessing only the department reference does not necessarily initialize it:</p>
+<div class="highlight"><pre><span></span><code>Department department = student.getDepartment();
+</code></pre></div>
+
+<p>Accessing data that requires the real department state can trigger initialization:</p>
+<div class="highlight"><pre><span></span><code>String departmentName = student.getDepartment().getName();
+</code></pre></div>
+
+<p>Hibernate may then execute:</p>
+<div class="highlight"><pre><span></span><code>SELECT id, name
+FROM department
+WHERE id = 10;
+</code></pre></div>
+
+<p>Lazy loading therefore defers the cost of fetching an association until that association is actually used.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The subtle point is that touching the <em>reference</em> is not the same as touching the <em>state</em>. <code>getDepartment()</code> may hand back the proxy without a query; <code>getDepartment().getName()</code> forces the proxy to initialize and issues SQL.</p>
+</blockquote>
+<h2 id="9-why-lazy-loading-is-useful">9. Why Lazy Loading Is Useful</h2>
+<p>Lazy loading is useful because different use cases need different parts of the same entity graph. For example:</p>
+<ul>
+<li>a student list may need only <code>id</code> and <code>name</code>;</li>
+<li>a student details page may also need <code>department</code> and <code>profile</code>;</li>
+<li>an administration report may need <code>department</code>, <code>courses</code>, and <code>projects</code>.</li>
+</ul>
+<p>Using one large eager graph for all three cases wastes database work and memory. Lazy mapping provides a small default graph; each use case can then explicitly fetch the associations it needs.</p>
+<p>However, lazy loading creates another risk: database queries can be triggered implicitly while Java code navigates relationships. This is how the N+1 problem commonly appears -- invisible until you either count the SQL or notice the latency.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Keep relationships lazy by default and fetch the required graph explicitly for each use case. Lazy is the safe default; the fetch plan is the tool that makes a specific operation cheap.</p>
+</blockquote>
+<h2 id="10-the-n1-query-problem-and-whether-lazy-loading-is-bad">10. The N+1 Query Problem and Whether Lazy Loading Is Bad</h2>
+<p>The N+1 problem occurs when:</p>
+<ol>
+<li>one query loads a collection of parent entities; and</li>
+<li>additional queries are executed while accessing a relationship for each parent.</li>
+</ol>
+<p>Suppose <code>Student.department</code> is lazy:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(fetch = FetchType.LAZY)
+private Department department;
+</code></pre></div>
+
+<p>Load all students:</p>
+<div class="highlight"><pre><span></span><code>List&lt;Student&gt; students = studentRepository.findAll();
+</code></pre></div>
+
+<p>Hibernate first executes one query:</p>
+<div class="highlight"><pre><span></span><code>SELECT id, name, department_id
+FROM student;
+</code></pre></div>
+
+<p>Now iterate through the results:</p>
+<div class="highlight"><pre><span></span><code>for (Student student : students) {
+    System.out.println(student.getDepartment().getName());
+}
+</code></pre></div>
+
+<p>Each department access may initialize a lazy proxy:</p>
+<div class="highlight"><pre><span></span><code>SELECT * FROM department WHERE id = 1;
+SELECT * FROM department WHERE id = 2;
+SELECT * FROM department WHERE id = 3;
+-- additional queries
+</code></pre></div>
+
+<p>The total pattern is:</p>
+<div class="highlight"><pre><span></span><code>1 query for the students
++
+N additional relationship queries
+</code></pre></div>
+
+<p>The Java loop looks harmless, but every relationship access may involve a database round trip.</p>
+<p><strong>First-level cache and the exact query count.</strong> The term "N+1" describes the query <em>pattern</em>; it does not guarantee that exactly N additional SQL statements will always be executed. Suppose 100 students belong to only three departments. The initial query loads all students (1 student query). As departments are accessed, Hibernate may need only 3 department queries, because once a department has been loaded into the current persistence context, Hibernate can reuse that managed entity for other students referencing the same department. The result may therefore be <code>1 + 3</code> rather than <code>1 + 100</code>.</p>
+<p>The first-level cache can reduce duplicate primary-key lookups within one persistence context, but it does not solve the underlying fetch-plan problem. The important issue remains: relationship access is causing additional SQL statements that were not visible in the original repository call.</p>
+<p><strong>N+1 during collection iteration.</strong> The classic to-many example begins by loading departments:</p>
+<div class="highlight"><pre><span></span><code>List&lt;Department&gt; departments = departmentRepository.findAll();
+</code></pre></div>
+
+<p>Suppose <code>Department.students</code> is lazy:</p>
+<div class="highlight"><pre><span></span><code>@OneToMany(
+    mappedBy = &quot;department&quot;,
+    fetch = FetchType.LAZY
+)
+private List&lt;Student&gt; students;
+</code></pre></div>
+
+<p>Now iterate over every collection:</p>
+<div class="highlight"><pre><span></span><code>for (Department department : departments) {
+    for (Student student : department.getStudents()) {
+        System.out.println(student.getName());
+    }
+}
+</code></pre></div>
+
+<p>Hibernate may execute:</p>
+<div class="highlight"><pre><span></span><code>SELECT * FROM department;
+SELECT * FROM student WHERE department_id = 1;
+SELECT * FROM student WHERE department_id = 2;
+SELECT * FROM student WHERE department_id = 3;
+</code></pre></div>
+
+<p>There is one query for all departments and one additional query for the student collection of each department. This is a true N+1 pattern: <code>1 parent query + N collection queries</code>.</p>
+<p><strong>Does N+1 mean lazy loading is bad?</strong> No. The N+1 problem can make it appear that lazy loading is bad and eager loading is the solution, but that conclusion is too broad. Lazy loading is useful when an association is not required; the problem arises when the application <em>knows</em> it will access an association for every result but does not include that association in the query's fetch plan. The correct principle is: keep relationships lazy by default and fetch the required graph explicitly for each use case.</p>
+<p>Changing the mapping to <code>EAGER</code> is not a reliable N+1 solution. With:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(fetch = FetchType.EAGER)
+private Department department;
+</code></pre></div>
+
+<p>JPA requires the departments to be available eagerly, but it does not require Hibernate to obtain everything using one join query. Depending on the query and provider behavior, Hibernate may still execute secondary selects. <code>EAGER</code> also applies globally: it loads the association even in use cases that do not need it. Therefore:</p>
+<ul>
+<li><code>LAZY</code> controls the default timing;</li>
+<li>a query-level fetch plan controls what a specific operation needs;</li>
+<li>neither setting should be chosen without considering the use case and the generated SQL.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The expected answer is <em>not</em> "switch to EAGER." It is "keep LAZY, fetch the graph for this use case." Candidates who reach for EAGER globally are trading one hidden query pattern for another and paying for data they do not use.</p>
+</blockquote>
+<h2 id="11-detecting-and-preventing-n1-sql-logging-and-entity-graphs">11. Detecting and Preventing N+1: SQL Logging and Entity Graphs</h2>
+<p>One of the simplest ways to detect N+1 during development is to inspect the SQL generated by Hibernate. Enable SQL logging in <code>application.properties</code>:</p>
+<div class="highlight"><pre><span></span><code>spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+</code></pre></div>
+
+<p>For parameter values in modern Hibernate versions, logging can also be configured through the application's logging settings:</p>
+<div class="highlight"><pre><span></span><code>logging.level.org.hibernate.SQL=DEBUG
+logging.level.org.hibernate.orm.jdbc.bind=TRACE
+</code></pre></div>
+
+<p>Now run the use case and inspect:</p>
+<ol>
+<li>how many SQL queries are executed;</li>
+<li>whether queries repeat inside a loop;</li>
+<li>which Java relationship access triggers each query;</li>
+<li>whether the same association is fetched even when it is not required.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important: SQL logging is especially useful while learning because it makes the hidden database work visible. A "single" repository call is rarely a single statement once lazy relationships are involved.</p>
+</blockquote>
+<p><strong>Preventing N+1 with an entity graph.</strong> An entity graph defines which associations should be fetched for a particular operation. Suppose the default mapping remains lazy:</p>
+<div class="highlight"><pre><span></span><code>@ManyToOne(fetch = FetchType.LAZY)
+private Department department;
+</code></pre></div>
+
+<p>In Spring Data JPA:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span>
+<span class="w">        </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@EntityGraph</span><span class="p">(</span><span class="n">attributePaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;department&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This method requests <code>department</code> as part of its fetch plan. The important design is:</p>
+<div class="highlight"><pre><span></span><code>Default entity mapping:   Student.department = LAZY
+Specific repository method: fetch Student + Department
+</code></pre></div>
+
+<p>The mapping remains small for other operations, while this method fetches the association it knows it will need. Hibernate commonly satisfies this graph using a join, although the exact SQL strategy is controlled by the persistence provider. The entity graph defines <em>what</em> must be fetched, not one universally guaranteed SQL statement.</p>
+<p><strong>Fetching multiple attributes:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@EntityGraph</span><span class="p">(</span>
+<span class="w">    </span><span class="n">attributePaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;department&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;profile&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">();</span>
+</code></pre></div>
+
+<p>Conceptually, this repository method requests:</p>
+<div class="highlight"><pre><span></span><code>Student
+  +-- Department
+  +-- Profile
+</code></pre></div>
+
+<p>Both attributes become part of that method's fetch plan.</p>
+<p><strong>Nested attribute paths.</strong> Spring Data JPA also supports nested paths:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@EntityGraph</span><span class="p">(</span>
+<span class="w">    </span><span class="n">attributePaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="s">&quot;department.manager&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">)</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">();</span>
+</code></pre></div>
+
+<p>This asks for:</p>
+<div class="highlight"><pre><span></span><code>Student
+  +-- Department
+      +-- Manager
+</code></pre></div>
+
+<p>Nested graphs should be selected carefully. Fetching several large collections in one operation can produce a very large joined result and duplicate rows at the SQL level.</p>
+<p>A <code>JOIN FETCH</code> query is the JPQL equivalent lever when you want the fetch plan expressed in the query itself rather than via an annotation:</p>
+<div class="highlight"><pre><span></span><code>SELECT s FROM Student s JOIN FETCH s.department
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: One repository method, one fetch plan. Keep the mapping lazy, then let each method declare the graph it actually needs -- that is how you remove hidden queries without bloating every other use case.</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Cascade and ownership are the same thing"</td>
+<td>Ownership decides which side writes the foreign key; cascading decides whether a persistence operation propagates. Separate concerns.</td>
+</tr>
+<tr>
+<td>"Cascading is on by default"</td>
+<td>JPA does not cascade automatically; without a <code>cascade</code> setting, <code>persist(order)</code> does not persist new children.</td>
+</tr>
+<tr>
+<td>"<code>CascadeType.ALL</code> is always the safest choice"</td>
+<td><code>ALL</code> is correct only when the child shares the parent's complete lifecycle; on shared or many-to-many references it can delete data you did not intend to touch.</td>
+</tr>
+<tr>
+<td>"<code>FetchType.LAZY</code> always defers the query"</td>
+<td><code>LAZY</code> is a hint, not an absolute guarantee; the spec only <em>requires</em> <code>EAGER</code> to be eager.</td>
+</tr>
+<tr>
+<td>"To-one is lazy by default"</td>
+<td>In JPA, <code>@ManyToOne</code> and <code>@OneToOne</code> are <code>EAGER</code> by default; only <code>@OneToMany</code> and <code>@ManyToMany</code> default to <code>LAZY</code>.</td>
+</tr>
+<tr>
+<td>"N+1 always means exactly N extra queries"</td>
+<td>The first-level cache can collapse duplicates; 100 students in 3 departments may cost <code>1 + 3</code>, not <code>1 + 100</code>. The pattern is named, not counted.</td>
+</tr>
+<tr>
+<td>"Switch to EAGER to fix N+1"</td>
+<td><code>EAGER</code> is global and does not force a single join; it loads data everywhere and may still emit secondary selects. Fetch the graph per use case instead.</td>
+</tr>
+<tr>
+<td>"An entity graph guarantees one SQL statement"</td>
+<td>The graph defines what must be fetched; the provider chooses the strategy (commonly a join, but not guaranteed).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Does <code>entityManager.persist(order)</code> save the order's items?"</strong>
+Verdict: Only if the relationship is configured with <code>CascadeType.PERSIST</code> (or <code>ALL</code>). With a plain <code>@OneToMany(mappedBy = "order")</code>, new <code>OrderItem</code> objects are not persisted automatically.</p>
+<p><strong>Trap 2 - "I added the item to <code>order.getItems()</code>; will the foreign key be set?"</strong>
+Verdict: Not reliably. <code>OrderItem</code> is the owning side because it holds <code>order_id</code>; you must set both sides, which is why the <code>addItem</code> helper calls <code>item.setOrder(this)</code>.</p>
+<p><strong>Trap 3 - "<code>CascadeType.REMOVE</code> on a many-to-many is convenient."</strong>
+Verdict: Usually wrong. If students share courses, deleting one student must not delete the course; <code>REMOVE</code> on shared many-to-many relationships can delete shared data.</p>
+<p><strong>Trap 4 - "<code>@ManyToOne</code> is lazy by default."</strong>
+Verdict: False. <code>@ManyToOne</code> and <code>@OneToOne</code> default to <code>EAGER</code>; <code>@OneToMany</code> and <code>@ManyToMany</code> default to <code>LAZY</code>. Teams often override to-one to <code>LAZY</code> deliberately.</p>
+<p><strong>Trap 5 - "Accessing <code>student.getDepartment()</code> triggers the SQL."</strong>
+Verdict: Not necessarily. Getting the reference may return an uninitialized proxy; it is accessing the department's <em>state</em> (for example <code>getName()</code>) that forces initialization and issues the query.</p>
+<p><strong>Trap 6 - "N+1 proves lazy loading is broken."</strong>
+Verdict: No. Lazy loading is fine when an association is unused; N+1 appears when you access an association for every row without adding it to the query's fetch plan. Fix the plan, not the fetch type.</p>
+<p><strong>Trap 7 - "Set the mapping to <code>EAGER</code> and N+1 disappears."</strong>
+Verdict: Not reliably. <code>EAGER</code> is global and does not guarantee a single join; Hibernate may still run secondary selects, and now every use case pays for data it may not need.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>JPA relationships raise three questions: what happens on save/delete (cascade), when related data loads (fetch), and how to avoid hidden queries (query-level fetch plan).</li>
+<li>A cascade propagates a persistence operation across a mapped relationship; it is not enabled by default.</li>
+<li>Ownership decides which side controls the foreign key; cascading decides whether operations propagate. They are different concerns.</li>
+<li><code>CascadeType.PERSIST</code> saves reachable new children with the parent; add it only when the child belongs to the parent's lifecycle.</li>
+<li><code>CascadeType.REMOVE</code> deletes children before the parent; it is dangerous on shared many-to-many references and is safe only for exclusive children.</li>
+<li>The six cascade values are <code>PERSIST</code>, <code>MERGE</code>, <code>REMOVE</code>, <code>REFRESH</code>, <code>DETACH</code>, <code>ALL</code>; <code>ALL</code> only when the child shares the parent's entire lifecycle.</li>
+<li><code>FetchType.LAZY</code> loads on first use (a hint); <code>FetchType.EAGER</code> loads with the entity (a requirement).</li>
+<li>Defaults: <code>@ManyToOne</code> and <code>@OneToOne</code> are <code>EAGER</code>; <code>@OneToMany</code> and <code>@ManyToMany</code> are <code>LAZY</code>; many teams set to-one to <code>LAZY</code> to keep the default graph small.</li>
+<li>Lazy loading returns an uninitialized proxy; accessing real state initializes it and issues SQL, which is how N+1 (1 parent query + N relationship queries) appears; the first-level cache can reduce duplicates but not the pattern.</li>
+<li>Detect N+1 with SQL logging (<code>show-sql</code>, <code>format_sql</code>, Hibernate log levels) and prevent it with a query-level fetch plan such as <code>@EntityGraph(attributePaths=...)</code> (or <code>JOIN FETCH</code>), keeping the mapping lazy.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is cascading in JPA?</td>
+<td>It propagates a persistence operation from one entity to related entities through a mapped relationship.</td>
+</tr>
+<tr>
+<td>Is cascade enabled by default?</td>
+<td>No; without a <code>cascade</code> setting, operations do not propagate across the relationship.</td>
+</tr>
+<tr>
+<td>Cascade vs relationship ownership?</td>
+<td>Ownership decides which side writes the foreign key; cascade decides whether operations propagate.</td>
+</tr>
+<tr>
+<td>When is <code>CascadeType.REMOVE</code> appropriate?</td>
+<td>When the child belongs exclusively to the parent; it is usually wrong on shared many-to-many references.</td>
+</tr>
+<tr>
+<td>List the cascade types.</td>
+<td><code>PERSIST</code>, <code>MERGE</code>, <code>REMOVE</code>, <code>REFRESH</code>, <code>DETACH</code>, <code>ALL</code> (all six, with <code>ALL</code> meaning the rest).</td>
+</tr>
+<tr>
+<td>What are the default fetch types?</td>
+<td>To-one (<code>@ManyToOne</code>, <code>@OneToOne</code>) is <code>EAGER</code>; to-many (<code>@OneToMany</code>, <code>@ManyToMany</code>) is <code>LAZY</code>.</td>
+</tr>
+<tr>
+<td><code>LAZY</code> vs <code>EAGER</code>?</td>
+<td><code>LAZY</code> loads on first use and is only a hint; <code>EAGER</code> loads with the entity and is a requirement.</td>
+</tr>
+<tr>
+<td>How does lazy loading work?</td>
+<td>A proxy or lazy collection is created; accessing its real state initializes it and runs the missing query.</td>
+</tr>
+<tr>
+<td>What is the N+1 problem?</td>
+<td>One query loads parents, then one extra query per parent runs when a relationship is accessed: <code>1 + N</code>.</td>
+</tr>
+<tr>
+<td>Does the first-level cache prevent N+1?</td>
+<td>No; it avoids duplicate primary-key lookups in one persistence context but not the underlying fetch-plan issue.</td>
+</tr>
+<tr>
+<td>How do you fix N+1?</td>
+<td>Keep mapping lazy and add a query-level fetch plan such as <code>@EntityGraph(attributePaths=...)</code> or <code>JOIN FETCH</code>.</td>
+</tr>
+<tr>
+<td>How do you detect N+1?</td>
+<td>Enable SQL logging (<code>spring.jpa.show-sql=true</code>, <code>spring.jpa.properties.hibernate.format_sql=true</code>) and count statements.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>JPA relationship
+        |
+        +--&gt; 1. Lifecycle: what happens on save/delete?   --&gt; Cascading (CascadeType)
+        |           PERSIST  saves new children
+        |           REMOVE   deletes children (exclusive children only)
+        |           MERGE / REFRESH / DETACH / ALL
+        |
+        +--&gt; 2. Timing: when is related data loaded?      --&gt; Fetch strategy (FetchType)
+        |           LAZY  = on first use (hint)  -&gt; proxy / lazy collection
+        |           EAGER = with the entity (requirement)
+        |           defaults: to-one EAGER, to-many LAZY
+        |
+        +--&gt; 3. Cost: how to avoid hidden queries?         --&gt; Query-level fetch plan
+                    N+1 = 1 parent query + N relationship queries
+                    detect  -&gt; SQL logging (show-sql, format_sql)
+                    prevent -&gt; @EntityGraph(attributePaths) / JOIN FETCH
+</code></pre></div>
+
+<ul>
+<li>Causality split: ownership writes the foreign key; cascading propagates operations -- never confuse the two.</li>
+<li>Cascade set: <code>PERSIST</code>, <code>MERGE</code>, <code>REMOVE</code>, <code>REFRESH</code>, <code>DETACH</code>, <code>ALL</code>; use <code>ALL</code>/<code>REMOVE</code> only for children that share the parent's whole lifecycle.</li>
+<li>Fetch defaults: to-one eager, to-many lazy; many teams deliberately make to-one lazy to keep the default graph small.</li>
+<li>Lazy mechanics: proxy stays uninitialized until real state is accessed, which is when the extra query fires.</li>
+<li>N+1: a pattern, not a fixed count; the first-level cache collapses duplicates but does not fix the fetch plan.</li>
+<li>Fix: keep mapping lazy, add a per-use-case graph (<code>@EntityGraph</code> / <code>JOIN FETCH</code>), and verify with SQL logging.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Cascading decides <em>what happens</em> to related entities, fetch type decides <em>when</em> they load, and an entity graph decides <em>what a specific query fetches</em> -- keep mappings lazy by default, propagate operations only where the lifecycle truly is shared, and let each use case state the graph it needs.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-30.html"><span class="dir">Previous</span><span class="ttl">Lecture 30 — JPA Relationships</span></a><a class="next" href="doc-theory-lecture-32.html"><span class="dir">Next</span><span class="ttl">Lecture 32 — Master Spring Data JPA</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

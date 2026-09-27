@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks — Java</title>
+<meta name="description" content="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-51">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-51.html#lecture-51">Lecture 51</a></li><li><a href="doc-theory-lecture-51.html#1-multithreading-and-shared-data">1. Multithreading and Shared Data</a></li><li><a href="doc-theory-lecture-51.html#2-what-synchronization-does">2. What Synchronization Does</a></li><li><a href="doc-theory-lecture-51.html#3-why-synchronization-is-needed">3. Why Synchronization Is Needed</a></li><li><a href="doc-theory-lecture-51.html#4-synchronization-does-not-stop-all-threads">4. Synchronization Does Not Stop All Threads</a></li><li><a href="doc-theory-lecture-51.html#5-what-is-a-monitor-lock">5. What Is a Monitor Lock?</a></li><li><a href="doc-theory-lecture-51.html#6-how-monitor-acquisition-works">6. How Monitor Acquisition Works</a></li><li><a href="doc-theory-lecture-51.html#7-the-lock-belongs-to-the-object-not-the-method">7. The Lock Belongs to the Object, Not the Method</a></li><li><a href="doc-theory-lecture-51.html#8-multiple-synchronized-methods-on-the-same-object">8. Multiple Synchronized Methods on the Same Object</a></li><li><a href="doc-theory-lecture-51.html#9-different-objects-use-different-monitors">9. Different Objects Use Different Monitors</a></li><li><a href="doc-theory-lecture-51.html#10-synchronized-blocks-and-the-critical-section">10. Synchronized Blocks and the Critical Section</a></li><li><a href="doc-theory-lecture-51.html#11-custom-lock-objects-dedicated-locks">11. Custom Lock Objects: Dedicated Locks</a></li><li><a href="doc-theory-lecture-51.html#12-multiple-locks-and-independent-state">12. Multiple Locks and Independent State</a></li><li><a href="doc-theory-lecture-51.html#13-the-one-monitor-rule-same-state-same-lock">13. The One-Monitor Rule: Same State, Same Lock</a></li><li><a href="doc-theory-lecture-51.html#14-common-mistake-a-new-lock-every-time">14. Common Mistake: A New Lock Every Time</a></li><li><a href="doc-theory-lecture-51.html#15-static-synchronization-the-class-monitor">15. Static Synchronization: The Class Monitor</a></li><li><a href="doc-theory-lecture-51.html#16-object-monitor-vs-class-monitor">16. Object Monitor vs Class Monitor</a></li><li><a href="doc-theory-lecture-51.html#17-monitor-internals-entry-and-exit-and-reentrancy">17. Monitor Internals, Entry and Exit, and Reentrancy</a></li><li><a href="doc-theory-lecture-51.html#18-common-synchronization-mistakes">18. Common Synchronization Mistakes</a></li><li><a href="doc-theory-lecture-51.html#19-synchronized-vs-explicit-lock-preview">19. Synchronized vs Explicit Lock (Preview)</a></li><li><a href="doc-theory-lecture-51.html#20-deadlock-and-safe-lock-ordering">20. Deadlock and Safe Lock Ordering</a></li><li><a href="doc-theory-lecture-51.html#21-myth-vs-reality">21. Myth vs Reality</a></li><li><a href="doc-theory-lecture-51.html#22-common-trap-questions">22. Common Trap Questions</a></li><li><a href="doc-theory-lecture-51.html#23-points-to-remember">23. Points to Remember</a></li><li><a href="doc-theory-lecture-51.html#24-likely-interview-questions">24. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-51.html#25-final-summary">25. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</h1>
+<p class="readmeta">26 sections · 5,048 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-51" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-51">Lecture 51</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks" plus the lecture's own repo notes (intrinsic monitor lock), playlist map, verified. Repo evidence: 5 Demo files.</p>
+</blockquote>
+<p>Synchronization is the mechanism Java uses to control concurrent access to shared mutable data. When several threads operate on the same object or variable, their steps can overlap and produce results no correct program would ever intend. This lecture explains why that happens with the classic <code>count++</code> counter, then builds the full monitor-lock model: what an intrinsic monitor is, how a thread acquires and releases it, what each form of <code>synchronized</code> actually locks, how static synchronization differs, how to design custom lock objects, and the mistakes that quietly defeat the whole mechanism. The governing idea is that synchronization works only when every competing thread agrees on the same monitor object.</p>
+<h2 id="1-multithreading-and-shared-data">1. Multithreading and Shared Data</h2>
+<p>Multithreading means that more than one thread can make progress within the same program. Consider the simplest possible shared-state example, a counter:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — the lost-update problem on shared mutable state</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">count</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The expected result is <code>2000</code>. The actual result may be <strong>less than 2000</strong>. The reason is that <code>count++</code> is not one indivisible operation; conceptually it performs three steps:</p>
+<ol>
+<li>Read the current value of <code>count</code>.</li>
+<li>Add 1.</li>
+<li>Write the new value back.</li>
+</ol>
+<p>Two threads can overlap during these steps:</p>
+<div class="highlight"><pre><span></span><code>Thread-1 reads 10          Thread-2 reads 10
+Thread-1 writes 11         Thread-2 writes 11
+</code></pre></div>
+
+<p>Two increments were attempted, but the value increased only once. This is called a <strong>lost update</strong>.</p>
+<blockquote class="callout callout--important">
+<p>Important
+The bug is invisible in source: <code>count++</code> looks like a single action. It is actually a read-modify-write sequence with a window during which another thread can read the same stale value.</p>
+</blockquote>
+<h2 id="2-what-synchronization-does">2. What Synchronization Does</h2>
+<p>Synchronization allows a thread to enter a protected section only after acquiring the required <strong>monitor lock</strong>. Marking the method <code>synchronized</code> makes the read-modify-write sequence execute under that lock:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — synchronized instance method closes the lost-update window</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">getCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">getCount</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>If Thread-1 is executing <code>increment()</code> on a particular <code>Counter</code> object, Thread-2 cannot enter another synchronized instance method guarded by the same object until Thread-1 releases the monitor. Using <code>synchronized</code> here prevents the read-modify-write steps of <code>count++</code> from overlapping.</p>
+<h2 id="3-why-synchronization-is-needed">3. Why Synchronization Is Needed</h2>
+<p>Synchronization mainly provides three things.</p>
+<p><strong>3.1 Protection of shared data.</strong> When multiple threads access the same mutable data, synchronization prevents conflicting operations from running at the same time. Examples include updating a counter, modifying a bank balance, adding or removing elements from a shared collection, and changing the state of a shared resource.</p>
+<p><strong>3.2 Atomicity.</strong> An operation is atomic when other threads cannot observe or interfere with it halfway through. In <code>synchronized void increment() { count++; }</code>, the complete <code>count++</code> operation is protected by one monitor. This does not mean that every statement inside Java automatically becomes a hardware-level atomic instruction. It means that no other thread using the same monitor can enter the protected section until the current thread completes it.</p>
+<p><strong>3.3 Memory visibility.</strong> Modern processors and compilers may keep values in registers, processor caches, or reordered instruction sequences. Without proper synchronization, one thread may update a variable while another thread continues observing an older value. Monitor synchronization establishes a <strong>happens-before</strong> relationship:</p>
+<div class="highlight"><pre><span></span><code>a thread releases a monitor
+   → another thread later acquires the same monitor
+   → the acquiring thread can observe the writes made before the release
+</code></pre></div>
+
+<p>Therefore, synchronization provides both <strong>mutual exclusion + memory visibility</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>What it guarantees</th>
+<th>What it does not guarantee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mutual exclusion</td>
+<td>Only one thread at a time enters code guarded by the same monitor</td>
+<td>Anything about code guarded by a different monitor</td>
+</tr>
+<tr>
+<td>Atomicity</td>
+<td>The protected section runs as one unit with respect to the same monitor</td>
+<td>Hardware-level atomicity of each Java statement</td>
+</tr>
+<tr>
+<td>Memory visibility</td>
+<td>Writes before a release become visible after a later acquire of the same monitor</td>
+<td>Visibility between threads that never share the monitor</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-synchronization-does-not-stop-all-threads">4. Synchronization Does Not Stop All Threads</h2>
+<p>Synchronization does not pause the entire application. It only controls access to the code protected by a particular monitor. If Thread-1 holds the monitor of an object:</p>
+<ul>
+<li>Thread-2 cannot enter code protected by the same monitor.</li>
+<li>Thread-2 can still execute unrelated code.</li>
+<li>Thread-2 can enter code protected by a different monitor.</li>
+<li>Other threads can continue running normally.</li>
+</ul>
+<p>The correct mental model is: synchronization restricts access to a protected region; it does not stop multithreading.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+A monitor is a single key to a single door, not a building-wide power switch. Holding the key blocks only the people waiting at that door.</p>
+</blockquote>
+<h2 id="5-what-is-a-monitor-lock">5. What Is a Monitor Lock?</h2>
+<p>Every Java object can be used as a monitor. A monitor acts like a permission mechanism: a thread must acquire the object's monitor before entering code synchronized on that object. The monitor is managed by the JVM and is not a normal field that appears inside the Java class.</p>
+<p>The lock object can be used as a monitor:</p>
+<div class="highlight"><pre><span></span><code>Object lock = new Object();
+
+synchronized (lock) {
+    // protected code
+}
+</code></pre></div>
+
+<p>This intrinsic monitor is the mechanism behind every <code>synchronized</code> construct in Java; it is the same object-level monitor regardless of whether it is used through a method or a block.</p>
+<h2 id="6-how-monitor-acquisition-works">6. How Monitor Acquisition Works</h2>
+<p>When a thread reaches synchronized code:</p>
+<ol>
+<li>It attempts to acquire the required monitor.</li>
+<li>If the monitor is available, the thread acquires it and enters.</li>
+<li>If another thread owns the monitor, the current thread cannot enter.</li>
+<li>The current thread remains blocked until the monitor becomes available.</li>
+<li>The monitor is released when the owning thread exits the synchronized region.</li>
+</ol>
+<p>The canonical demonstration uses a method that sleeps while holding the monitor:</p>
+<div class="highlight"><pre><span></span><code>class Test {
+    synchronized void show() {
+        System.out.println(Thread.currentThread().getName() + &quot; entered&quot;);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println(Thread.currentThread().getName() + &quot; exiting&quot;);
+    }
+}
+</code></pre></div>
+
+<p>Both threads call the same synchronized method on the same object, so only one thread can execute <code>show()</code> at a time. The second thread is <code>BLOCKED</code> until the first releases the monitor (Lecture 48).</p>
+<h2 id="7-the-lock-belongs-to-the-object-not-the-method">7. The Lock Belongs to the Object, Not the Method</h2>
+<p>A synchronized method does not have its own independent lock. For an instance method:</p>
+<div class="highlight"><pre><span></span><code>synchronized void show() {
+    // code
+}
+</code></pre></div>
+
+<p>the monitor belongs to the current object, <code>this</code>. The method is conceptually equivalent to:</p>
+<div class="highlight"><pre><span></span><code>void show() {
+    synchronized (this) {
+        // code
+    }
+}
+</code></pre></div>
+
+<p>This distinction is important because multiple synchronized methods on the same object use the same monitor.</p>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Conceptual expansion</th>
+<th>Monitor acquired</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>synchronized void m()</code></td>
+<td><code>synchronized (this) { ... }</code></td>
+<td>the current instance</td>
+</tr>
+<tr>
+<td><code>static synchronized void s()</code></td>
+<td><code>synchronized (ClassName.class) { ... }</code></td>
+<td>the <code>Class</code> object</td>
+</tr>
+<tr>
+<td><code>synchronized (expr) { ... }</code></td>
+<td>itself</td>
+<td>the object that <code>expr</code> evaluates to</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+Two different synchronized instance methods do not lock two different things. They lock the same object, so they block each other.</p>
+</blockquote>
+<h2 id="8-multiple-synchronized-methods-on-the-same-object">8. Multiple Synchronized Methods on the Same Object</h2>
+<p>Consider two synchronized methods on one class:</p>
+<div class="highlight"><pre><span></span><code>class Test {
+    synchronized void m1() { System.out.println(&quot;m1&quot;); }
+    synchronized void m2() { System.out.println(&quot;m2&quot;); }
+}
+</code></pre></div>
+
+<p>Suppose Thread-1 enters <code>m1()</code> on a particular <code>Test</code> object. Thread-2 cannot enter <code>m2()</code> on that same object, because both methods require the monitor of the same object:</p>
+<div class="highlight"><pre><span></span><code>Thread-1 -&gt; test.m1()
+Thread-2 -&gt; test.m2()
+same object -&gt; same monitor -&gt; mutual blocking
+</code></pre></div>
+
+<p>The methods are different, but the monitor is the same.</p>
+<h2 id="9-different-objects-use-different-monitors">9. Different Objects Use Different Monitors</h2>
+<p>Now suppose two instances exist:</p>
+<div class="highlight"><pre><span></span><code>Test first  = new Test();
+Test second = new Test();
+
+Thread-1 -&gt; first.m1()
+Thread-2 -&gt; second.m1()
+</code></pre></div>
+
+<p>Both threads may execute simultaneously, because the two objects have different monitors:</p>
+<div class="highlight"><pre><span></span><code>first object  -&gt; first monitor
+second object -&gt; second monitor
+</code></pre></div>
+
+<p>Therefore, synchronization depends on the monitor object being shared, not merely on the method or class containing the code.</p>
+<h2 id="10-synchronized-blocks-and-the-critical-section">10. Synchronized Blocks and the Critical Section</h2>
+<p>A synchronized instance method protects the entire method. Sometimes only a small part of the method accesses shared mutable data, and protecting the whole method may keep the monitor occupied longer than necessary. A synchronized block protects only the critical section:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — protect only the critical section, not the whole method</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Before increment&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;After increment&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">count</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Only the code inside <code>synchronized (this)</code> requires the monitor of the current <code>Counter</code> object; the code before and after does not. This can reduce unnecessary contention, provided the shared state is still protected correctly.</p>
+<p>A <strong>critical section</strong> is the part of the program that accesses shared mutable state and must not be executed concurrently by threads using the same synchronization policy. The goal is not to make synchronized blocks as small as possible at any cost; the complete operation that must remain consistent should be protected under the same monitor. For example:</p>
+<div class="highlight"><pre><span></span><code>synchronized (this) {
+    if (balance &gt;= amount) {
+        balance = balance - amount;
+    }
+}
+</code></pre></div>
+
+<p>The condition check and the update must remain inside the same synchronized section.</p>
+<h2 id="11-custom-lock-objects-dedicated-locks">11. Custom Lock Objects: Dedicated Locks</h2>
+<p>A class does not have to synchronize on <code>this</code>. It can use a dedicated private object:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo4.java — a dedicated private final lock object</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="nf">getCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="na">getCount</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Here the critical section is protected by the monitor of <code>lock</code>, not by the monitor of the <code>Counter</code> instance itself. A dedicated lock object gives the class more control over which operations block one another. It should normally be <code>private final</code>: private prevents external code from acquiring the same monitor accidentally, and final prevents the lock reference from being replaced.</p>
+<h2 id="12-multiple-locks-and-independent-state">12. Multiple Locks and Independent State</h2>
+<p>A class may use different monitors for independent state:</p>
+<div class="highlight"><pre><span></span><code>class AccountManager {
+    private final Object accountLock = new Object();
+    private final Object auditLock = new Object();
+    private int balance;
+    private int auditEntries;
+
+    void updateBalance(int amount) {
+        synchronized (accountLock) { balance += amount; }
+    }
+
+    void recordAuditEntry() {
+        synchronized (auditLock) { auditEntries++; }
+    }
+}
+</code></pre></div>
+
+<p>The two methods may run concurrently because they use different monitors and protect independent state:</p>
+<div class="highlight"><pre><span></span><code>updateBalance()    -&gt; accountLock
+recordAuditEntry() -&gt; auditLock
+</code></pre></div>
+
+<h2 id="13-the-one-monitor-rule-same-state-same-lock">13. The One-Monitor Rule: Same State, Same Lock</h2>
+<p>Different locks are safe only for independent state. Consider this flawed design:</p>
+<div class="highlight"><pre><span></span><code>class Bank {
+    private final Object depositLock  = new Object();
+    private final Object withdrawLock = new Object();
+    private int balance;
+
+    void deposit(int amount) {
+        synchronized (depositLock)  { balance += amount; }
+    }
+    void withdraw(int amount) {
+        synchronized (withdrawLock) { balance -= amount; }
+    }
+}
+</code></pre></div>
+
+<p>Although <code>deposit()</code> and <code>withdraw()</code> use synchronized blocks, they modify the same <code>balance</code> using different monitors. They can still execute concurrently and corrupt the shared state. To protect the same invariant, use the same monitor:</p>
+<div class="highlight"><pre><span></span><code>class Bank {
+    private final Object balanceLock = new Object();
+    private int balance;
+
+    void deposit(int amount)  { synchronized (balanceLock) { balance += amount; } }
+    void withdraw(int amount) { synchronized (balanceLock) { balance -= amount; } }
+}
+</code></pre></div>
+
+<p>The rule is: data that participates in the same consistency rule must be protected by the same lock. Two pieces of identical code are not synchronized with each other merely because they look the same; they coordinate only when they acquire the same monitor object. All threads must use the same lock reference for the protection to work.</p>
+<h2 id="14-common-mistake-a-new-lock-every-time">14. Common Mistake: A New Lock Every Time</h2>
+<p>This attempt at synchronization silently does nothing:</p>
+<div class="highlight"><pre><span></span><code>synchronized (new Object()) {   // INCORRECT
+    count++;
+}
+</code></pre></div>
+
+<p>Every execution creates a new object, so every call uses a different monitor:</p>
+<div class="highlight"><pre><span></span><code>Call 1 -&gt; monitor A
+Call 2 -&gt; monitor B
+Call 3 -&gt; monitor C
+</code></pre></div>
+
+<p>Because the threads acquire different monitors, they do not block one another. The correct form keeps one stable reference:</p>
+<div class="highlight"><pre><span></span><code>class Counter {
+    private final Object lock = new Object();
+    private int count;
+
+    void increment() {
+        synchronized (lock) { count++; }   // every call uses the same monitor
+    }
+}
+</code></pre></div>
+
+<h2 id="15-static-synchronization-the-class-monitor">15. Static Synchronization: The Class Monitor</h2>
+<p>Instance fields belong to individual objects; static fields belong to the class:</p>
+<div class="highlight"><pre><span></span><code>class Counter { int count; }          // instance field
+class Counter { static int count; }   // static field
+</code></pre></div>
+
+<p>A synchronized instance method uses the current object's monitor, which is not enough to coordinate access to static state across multiple objects. For static synchronized methods, Java uses the monitor of the corresponding <strong><code>Class</code> object</strong>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo5.java — static synchronized methods share the class monitor</span>
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">synchronized</span><span class="w"> </span><span class="p">(</span><span class="n">Counter</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">Counter</span><span class="p">::</span><span class="n">increment</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">Counter</span><span class="p">::</span><span class="n">increment</span><span class="p">);</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">Counter</span><span class="p">.</span><span class="na">getCount</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The static synchronized method is conceptually equivalent to:</p>
+<div class="highlight"><pre><span></span><code>static void increment() {
+    synchronized (Counter.class) {
+        count++;
+    }
+}
+</code></pre></div>
+
+<p>The monitor is <code>Counter.class</code>, not <code>this</code>; a static method has no <code>this</code> reference.</p>
+<h2 id="16-object-monitor-vs-class-monitor">16. Object Monitor vs Class Monitor</h2>
+<p>Multiple objects still share the class monitor:</p>
+<div class="highlight"><pre><span></span><code>Counter first  = new Counter();
+Counter second = new Counter();
+
+Thread t1 = new Thread(Counter::increment);
+Thread t2 = new Thread(Counter::increment);
+</code></pre></div>
+
+<p>Both calls require the same monitor <code>Counter.class</code>, so they cannot execute the static synchronized method simultaneously. The number of <code>Counter</code> objects does not create additional class monitors.</p>
+<p>Now compare the two method kinds inside one class:</p>
+<div class="highlight"><pre><span></span><code>class Test {
+    synchronized void instanceMethod() { /* monitor: this */ }
+    static synchronized void staticMethod() { /* monitor: Test.class */ }
+}
+</code></pre></div>
+
+<p>Suppose Thread-1 calls <code>test.instanceMethod()</code> and Thread-2 calls <code>Test.staticMethod()</code>. These methods can execute concurrently, because they use different monitors:</p>
+<div class="highlight"><pre><span></span><code>instanceMethod() -&gt; test object
+staticMethod()   -&gt; Test.class object
+</code></pre></div>
+
+<p>Therefore, a synchronized instance method and a synchronized static method do not automatically block one another. They block only if both are explicitly synchronized on the same monitor. The comparison table below is the single most useful summary of what <code>synchronized</code> locks.</p>
+<table>
+<thead>
+<tr>
+<th>Construct</th>
+<th>Monitor acquired</th>
+<th>Blocks which other constructs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>synchronized</code> instance method</td>
+<td><code>this</code> (the instance)</td>
+<td>Other synchronized instance methods and <code>synchronized (this)</code> on the same instance</td>
+</tr>
+<tr>
+<td><code>static synchronized</code> method</td>
+<td><code>ClassName.class</code></td>
+<td>Other static synchronized methods and <code>synchronized (ClassName.class)</code></td>
+</tr>
+<tr>
+<td><code>synchronized (lock)</code> block</td>
+<td>the object <code>lock</code> evaluates to</td>
+<td>Any synchronized code using that same object</td>
+</tr>
+<tr>
+<td><code>synchronized (new Object())</code></td>
+<td>a brand-new object each call</td>
+<td>Nothing in practice, because no other thread uses that object</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-monitor-internals-entry-and-exit-and-reentrancy">17. Monitor Internals, Entry and Exit, and Reentrancy</h2>
+<p>Conceptually, a monitor must track information such as the current owning thread, a re-entry count, threads waiting to acquire the monitor, and threads waiting after calling <code>wait()</code>. A simplified teaching model might look like:</p>
+<div class="highlight"><pre><span></span><code>Monitor {
+    owner
+    holdCount
+    entrySet
+    waitSet
+}
+</code></pre></div>
+
+<p>This is a teaching model, not the exact JVM memory layout. The JVM may use optimized representations such as lightweight locking, lock inflation, operating-system primitives, or other implementation-specific mechanisms.</p>
+<p>When a thread reaches <code>synchronized (lock)</code>, conceptually the JVM checks whether it can acquire <code>lock</code>'s monitor; if available, the thread becomes its owner; if another thread owns it, the current thread cannot enter and becomes eligible again when the monitor is released. Acquiring the monitor is performed atomically by the JVM: two threads cannot both successfully become the first owner of the same monitor at the same time. The exact implementation is JVM-dependent and should not be reduced to a guarantee that one particular CAS instruction is always used.</p>
+<p>The monitor is released when execution leaves the synchronized method or block. This applies during normal completion:</p>
+<div class="highlight"><pre><span></span><code>synchronized (lock) {
+    // work
+}
+</code></pre></div>
+
+<p>It also applies when the code exits because of an exception:</p>
+<div class="highlight"><pre><span></span><code>synchronized (lock) {
+    throw new RuntimeException();
+}
+</code></pre></div>
+
+<p>The JVM still releases the monitor while unwinding the synchronized region. This automatic release is one major advantage of <code>synchronized</code>.</p>
+<p>Java monitors are <strong>reentrant</strong>: a thread that already owns a monitor may acquire the same monitor again.</p>
+<div class="highlight"><pre><span></span><code>class Service {
+    synchronized void methodA() { methodB(); }
+    synchronized void methodB() { System.out.println(&quot;Inside methodB&quot;); }
+}
+</code></pre></div>
+
+<p>When a thread enters <code>methodA()</code>, it acquires the monitor of <code>this</code>. It can then call <code>methodB()</code> on the same object without blocking itself, because it already owns that monitor. The JVM tracks the number of times the thread has acquired the monitor, and the monitor is fully released only after the matching synchronized entries are exited.</p>
+<h2 id="18-common-synchronization-mistakes">18. Common Synchronization Mistakes</h2>
+<p>Beyond the "new lock every time" error, the repo notes collect several more.</p>
+<table>
+<thead>
+<tr>
+<th>Mistake</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Synchronizing on different objects (<code>lock1</code> vs <code>lock2</code>)</td>
+<td>The two blocks do not protect the shared state from each other</td>
+<td>Use one consistent lock reference for that state</td>
+</tr>
+<tr>
+<td>Replacing the lock reference (<code>lock = new Object()</code>)</td>
+<td>Threads may begin synchronizing on different monitor objects</td>
+<td>Declare the lock <code>private final</code></td>
+</tr>
+<tr>
+<td>Exposing the lock publicly</td>
+<td>External code could synchronize on it and unexpectedly block the class</td>
+<td>Keep the lock <code>private</code></td>
+</tr>
+<tr>
+<td>Protecting only part of a compound operation</td>
+<td>A check performed outside the monitor can be invalidated before the update</td>
+<td>Put check and update in the same synchronized section</td>
+</tr>
+</tbody>
+</table>
+<p>The compound-operation trap is worth spelling out. Incorrect:</p>
+<div class="highlight"><pre><span></span><code>if (balance &gt;= amount) {
+    synchronized (lock) {
+        balance -= amount;   // condition checked outside the monitor
+    }
+}
+</code></pre></div>
+
+<p>The condition is checked outside the monitor, so another thread may change <code>balance</code> before the synchronized update begins. Correct:</p>
+<div class="highlight"><pre><span></span><code>synchronized (lock) {
+    if (balance &gt;= amount) {
+        balance -= amount;   // check and update form one atomic operation
+    }
+}
+</code></pre></div>
+
+<p>The check and update form one atomic operation with respect to the same monitor.</p>
+<h2 id="19-synchronized-vs-explicit-lock-preview">19. Synchronized vs Explicit Lock (Preview)</h2>
+<p>The intrinsic monitor is Java's built-in locking tool, and it is enough for most sharing problems. The <code>java.util.concurrent.locks</code> package offers explicit <code>Lock</code> implementations (such as <code>ReentrantLock</code>) that expose the same exclusivity with more control. This is a forward-looking comparison; the full API belongs to the concurrency-utilities lectures.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>synchronized</code> (intrinsic monitor)</th>
+<th>Explicit <code>Lock</code> (e.g. <code>ReentrantLock</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Acquire / release</td>
+<td>Automatic on entering and leaving the region</td>
+<td>Explicit <code>lock()</code> and <code>unlock()</code> calls</td>
+</tr>
+<tr>
+<td>Release on exception</td>
+<td>Automatic while unwinding</td>
+<td>Must be released in a <code>finally</code> block</td>
+</tr>
+<tr>
+<td>Monitor object</td>
+<td>Any Java object's intrinsic monitor</td>
+<td>The <code>Lock</code> instance itself</td>
+</tr>
+<tr>
+<td>Try to acquire without blocking</td>
+<td>Not supported by the keyword</td>
+<td><code>tryLock()</code> returns or times out</td>
+</tr>
+<tr>
+<td>Interruptible acquisition</td>
+<td>Not offered</td>
+<td><code>lockInterruptibly()</code></td>
+</tr>
+<tr>
+<td>Lock ownership fairness</td>
+<td>No fairness option</td>
+<td>Optional fairness policy</td>
+</tr>
+<tr>
+<td>Best fit</td>
+<td>Simple, well-contained critical sections</td>
+<td>Advanced coordination, timeouts, fairness</td>
+</tr>
+<tr>
+<td><code>\|</code>Composability<code>\|</code></td>
+<td>Cannot be composed arbitrarily</td>
+<td>Can wrap multiple lock objects in one holder</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Prefer <code>synchronized</code> when the critical section is simple, because it can never be forgotten. Reach for an explicit <code>Lock</code> only when you truly need timeouts, interruptibility, or fairness, and always release it in <code>finally</code>.</p>
+</blockquote>
+<h2 id="20-deadlock-and-safe-lock-ordering">20. Deadlock and Safe Lock Ordering</h2>
+<p>The blocking rule of monitors has a well-known consequence: if two threads each hold one lock and each waits for the lock the other holds, both wait forever. This is a <strong>deadlock</strong>, and it is entirely consistent with the acquisition rules of Section 6.</p>
+<div class="highlight"><pre><span></span><code>Thread-1                                  Thread-2
+  owns lockA                                owns lockB
+  waits for lockB                           waits for lockA
+              -&gt; neither can proceed (deadlock)
+</code></pre></div>
+
+<p>The safe design is to impose a <strong>global lock ordering</strong> and to always acquire monitors in that order.</p>
+<table>
+<thead>
+<tr>
+<th>Design</th>
+<th>Interleaving</th>
+<th>Outcome</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lock ordering A then B</td>
+<td>T1 takes A then waits for B; T2 waits for A</td>
+<td>No cycle; progress continues</td>
+</tr>
+<tr>
+<td>Lock ordering B then A</td>
+<td>T1 waits for B; T2 owns B and waits for A</td>
+<td>Cycle; deadlock</td>
+</tr>
+<tr>
+<td>Always same order</td>
+<td>Every thread requests locks in A -&gt; B</td>
+<td>No circular wait can form</td>
+</tr>
+<tr>
+<td>Nested acquisition without a rule</td>
+<td>Each thread may hold one lock while requesting another</td>
+<td>Risk of deadlock</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>deadlock : Thread-1 holds A, wants B  |  Thread-2 holds B, wants A
+safe     : every thread takes A, then B, and releases in reverse order
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+The classic one-liner: deadlock needs a cycle of threads each holding a resource and waiting for another. Break the cycle by consistent ordering, by acquiring all locks at once, or by not holding a monitor while calling into unknown code (which may itself lock).</p>
+</blockquote>
+<h2 id="21-myth-vs-reality">21. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>synchronized</code> on a method locks the method."</td>
+<td>It locks the object (<code>this</code>) or the class object; the method has no lock of its own.</td>
+</tr>
+<tr>
+<td>"Two synchronized methods on one object can run together."</td>
+<td>No; both need the same object monitor, so they block each other.</td>
+</tr>
+<tr>
+<td>"Synchronization pauses the whole program."</td>
+<td>It restricts only code guarded by the same monitor; other threads keep running.</td>
+</tr>
+<tr>
+<td>"Marking a method <code>synchronized</code> makes <code>count++</code> a hardware atomic instruction."</td>
+<td>No; it excludes other threads using the same monitor, which is what makes the sequence safe.</td>
+</tr>
+<tr>
+<td>"A synchronized instance method also controls static state."</td>
+<td>Static state needs the class monitor; instance and class monitors are different and do not block each other.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="22-common-trap-questions">22. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Same object, two methods: "Thread-1 is in <code>m1()</code>; can Thread-2 enter <code>m2()</code> on the same object?"
+No. Both methods require the same object monitor, so Thread-2 blocks until Thread-1 exits.</p>
+<p>Trap 2 — Different objects: "Thread-1 uses <code>first.m1()</code>, Thread-2 uses <code>second.m1()</code>. Do they block?"
+No. Different objects have different monitors, so both may execute simultaneously.</p>
+<p>Trap 3 — The disappearing lock: "Is <code>synchronized (new Object())</code> valid synchronization?"
+It compiles and runs, but each call locks a fresh object, so no two threads ever contend for the same monitor. It protects nothing.</p>
+<p>Trap 4 — Instance vs static: "Does <code>synchronized void f()</code> block <code>static synchronized void g()</code> on the same class?"
+Not automatically. <code>f()</code> uses <code>this</code>; <code>g()</code> uses <code>ClassName.class</code>. They block only if explicitly synchronized on the same monitor.</p>
+<p>Trap 5 — Reentrancy: "If a synchronized method calls another synchronized method on the same object, does it deadlock itself?"
+No. Java monitors are reentrant; the thread already owns the monitor and re-acquires it, incrementing the hold count.</p>
+<p>Trap 6 — Exception path: "Does an exception thrown inside <code>synchronized</code> leave the monitor locked forever?"
+No. The JVM releases the monitor while unwinding the synchronized region.</p>
+<p>Trap 7 — Split locks: "<code>deposit()</code> locks <code>depositLock</code> and <code>withdraw()</code> locks <code>withdrawLock</code>, both touching <code>balance</code>. Is <code>balance</code> safe?"
+No. They protect the same state with different monitors, so they can still corrupt it. Data under one consistency rule needs one lock.</p>
+</blockquote>
+<h2 id="23-points-to-remember">23. Points to Remember</h2>
+<ol>
+<li>Synchronization coordinates threads that access shared mutable state; <code>count++</code> is a non-atomic read-modify-write sequence.</li>
+<li>Both forms use the intrinsic monitor: instance methods lock <code>this</code>, <code>static synchronized</code> methods lock <code>ClassName.class</code>, and blocks lock the object written in parentheses.</li>
+<li>Synchronization provides mutual exclusion and memory visibility (a happens-before relationship) at the same time.</li>
+<li>Synchronization restricts only code guarded by a particular monitor; it does not stop multithreading.</li>
+<li>A lock belongs to an object, not to a method, so multiple synchronized methods on one object share one monitor.</li>
+<li>Different objects have different monitors, and different monitors do not block one another.</li>
+<li>Data that participates in the same consistency rule must be protected by the same lock; a new lock per call protects nothing.</li>
+<li>Dedicated lock objects should normally be <code>private final</code>; never replace the lock reference or expose it publicly.</li>
+<li>A monitor is released automatically on normal exit, on exception, and after reentrant calls finish; Java monitors are reentrant.</li>
+<li>A synchronized instance method and a synchronized static method do not automatically block one another; a whole compound operation (check plus update) must sit under one monitor.</li>
+</ol>
+<h2 id="24-likely-interview-questions">24. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is synchronization in Java?</td>
+<td>The mechanism that controls concurrent access to shared mutable data by making threads acquire a monitor before entering a protected region.</td>
+</tr>
+<tr>
+<td>Why can <code>count++</code> lose updates?</td>
+<td>It is read-modify-write; two threads can read the same value and both write the same incremented result, so one update is lost.</td>
+</tr>
+<tr>
+<td>What is a monitor lock?</td>
+<td>An intrinsic per-object lock managed by the JVM that a thread must acquire to enter code synchronized on that object.</td>
+</tr>
+<tr>
+<td>Which monitor does a synchronized instance method use?</td>
+<td>The monitor of <code>this</code>; conceptually it is <code>synchronized (this) { ... }</code>.</td>
+</tr>
+<tr>
+<td>Which monitor does a static synchronized method use?</td>
+<td>The monitor of <code>ClassName.class</code>, not <code>this</code>; a static method has no <code>this</code>.</td>
+</tr>
+<tr>
+<td>Why are two synchronized methods on one object mutually blocking?</td>
+<td>Both require the same object monitor, and the lock belongs to the object, not to the method, so only one thread can hold it at a time.</td>
+</tr>
+<tr>
+<td>What does a synchronized block lock?</td>
+<td>The object expression written in parentheses, chosen explicitly by the programmer.</td>
+</tr>
+<tr>
+<td>Why use a separate lock object instead of <code>this</code>?</td>
+<td>It decouples the class's locking policy from the instance monitor and can protect independent state with independent locks.</td>
+</tr>
+<tr>
+<td>What does synchronization guarantee besides mutual exclusion?</td>
+<td>Memory visibility: a release followed by a later acquire of the same monitor makes prior writes visible.</td>
+</tr>
+<tr>
+<td>Are Java monitors reentrant?</td>
+<td>Yes; a thread that owns a monitor may re-acquire it, and the monitor is fully released only after the matching exits.</td>
+</tr>
+<tr>
+<td>What is the difference between an intrinsic lock and a ReentrantLock?</td>
+<td>The intrinsic lock is automatic (release on exit/exception) with no try/fairness/interruption; a <code>ReentrantLock</code> adds explicit release, <code>tryLock()</code>, interruptibility and fairness.</td>
+</tr>
+<tr>
+<td>What condition can consistent lock ordering prevent?</td>
+<td>Deadlock, where two threads each hold one lock and wait for the lock held by the other.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="25-final-summary">25. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>count++                     -&gt; read, add, write (non-atomic)          -&gt; lost update
+
+synchronized method         -&gt; lock this
+static synchronized method  -&gt; lock ClassName.class
+synchronized (obj) block    -&gt; lock obj          (obj must be shared)
+
+release a monitor  -&gt; later acquire the same monitor  -&gt; happens-before + mutual exclusion
+
+same object  -&gt; same monitor -&gt; mutual blocking
+different objects -&gt; different monitors -&gt; concurrent
+</code></pre></div>
+
+<ul>
+<li>Shared data → <code>count++</code> is a three-step sequence; without coordination, increments are lost.</li>
+<li>Monitor → every object has an intrinsic monitor managed by the JVM; a thread must own it to enter protected code.</li>
+<li>What <code>synchronized</code> locks → instance method locks <code>this</code>, static method locks <code>ClassName.class</code>, block locks the object in parentheses.</li>
+<li>Consistency → the whole invariant must sit under one monitor; a new lock per call, a replaced lock, an exposed lock, or a partially protected operation all break safety.</li>
+<li>Guarantees → mutual exclusion plus memory visibility, automatic release on normal exit or exception, and reentrant acquisition.</li>
+<li>Forward → explicit <code>Lock</code>, <code>tryLock()</code> and fairness belong to the concurrency utilities; this lecture's monitor rules and safe lock ordering are the foundation.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Synchronization works only when every competing thread uses the same monitor for the same state; choose the monitor deliberately, keep it <code>private final</code>, and wrap the entire compound operation inside it.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> <code>synchronized</code> is not a property of a method but an agreement on one shared monitor object, and it provides mutual exclusion and memory visibility only when all threads guarding the same state hold that same lock.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-50.html"><span class="dir">Previous</span><span class="ttl">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</span></a><a class="next" href="doc-theory-lecture-52.html"><span class="dir">Next</span><span class="ttl">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

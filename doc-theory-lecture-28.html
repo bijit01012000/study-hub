@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 28 — Hibernate Fundamentals with Spring Boot — Spring Boot</title>
+<meta name="description" content="Lecture 28 — Hibernate Fundamentals with Spring Boot">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-28">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-28.html#lecture-28">Lecture 28</a></li><li><a href="doc-theory-lecture-28.html#1-java-objects-vs-relational-tables">1. Java Objects vs Relational Tables</a></li><li><a href="doc-theory-lecture-28.html#2-persistence-with-spring-jdbc-and-its-remaining-limitation">2. Persistence with Spring JDBC and Its Remaining Limitation</a></li><li><a href="doc-theory-lecture-28.html#3-what-is-orm-the-object-relational-impedance-mismatch">3. What Is ORM? The Object-Relational Impedance Mismatch</a></li><li><a href="doc-theory-lecture-28.html#4-hibernate-jpa-specification-vs-hibernate-implementation">4. Hibernate: JPA Specification vs Hibernate Implementation</a></li><li><a href="doc-theory-lecture-28.html#5-required-dependencies-project-structure-and-mysql-setup">5. Required Dependencies, Project Structure, and MySQL Setup</a></li><li><a href="doc-theory-lecture-28.html#6-the-entity-class-entity-table-id-generatedvalue">6. The Entity Class: @Entity, @Table, @Id, @GeneratedValue</a></li><li><a href="doc-theory-lecture-28.html#7-column-and-field-mapping-options">7. @Column and Field Mapping Options</a></li><li><a href="doc-theory-lecture-28.html#8-enum-mapping-enumerated-ordinal-vs-string">8. Enum Mapping: @Enumerated ORDINAL vs STRING</a></li><li><a href="doc-theory-lecture-28.html#9-value-types-embeddable-embedded-attributeoverride-elementcollection">9. Value Types: @Embeddable, @Embedded, @AttributeOverride, @ElementCollection</a></li><li><a href="doc-theory-lecture-28.html#10-attribute-converters-convert-and-transient">10. Attribute Converters (@Convert) and @Transient</a></li><li><a href="doc-theory-lecture-28.html#11-crud-with-spring-data-jpa-and-the-entity-lifecycle">11. CRUD with Spring Data JPA and the Entity Lifecycle</a></li><li><a href="doc-theory-lecture-28.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-28.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-28.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-28.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-28.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 28 — Hibernate Fundamentals with Spring Boot</h1>
+<p class="readmeta">17 sections · 4,580 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-28" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-28">Lecture 28</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Hibernate Fundamentals with Spring Boot | CRUD &amp; Entity Mapping" (playlist map, verified). Repo folder is the <code>hibernateDemo</code> project (package <code>in.coderarmy.hibernateDemo</code>): <code>HibernateDemoApplication</code>, <code>model.Student</code>, <code>model.Address</code> (<code>@Embeddable</code>), <code>model.StudentStatus</code> enum, <code>model.BooleanToStringConverter</code> (<code>@Converter</code>), plus <code>repository.StudentRepository</code>, <code>service.StudentService</code>, <code>controller.StudentController</code>, <code>application.properties</code>, and the lecture notes cached in the repo.</p>
+</blockquote>
+<p>This lecture is the bridge from raw data access to real persistence. It starts with the structural gap between Java objects and relational tables, shows why Spring JDBC alone still leaves manual work, and then introduces ORM, the JPA specification, and Hibernate as its implementation. From there it walks the entity mapping annotations field by field: identity, columns, enums, embeddables, converters, and transient fields, ending with CRUD through a Spring Data JPA repository running against MySQL.</p>
+<h2 id="1-java-objects-vs-relational-tables">1. Java Objects vs Relational Tables</h2>
+<p>Consider a plain Java class:</p>
+<div class="highlight"><pre><span></span><code>public class Student {
+    private Long id;
+    private String name;
+    private String email;
+    private Integer age;
+}
+</code></pre></div>
+
+<p>The equivalent relational representation might be:</p>
+<div class="highlight"><pre><span></span><code>CREATE TABLE students (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE,
+    age INT
+);
+</code></pre></div>
+
+<p>The object and the row contain similar information, but they are fundamentally different structures. Java understands classes, objects, references, inheritance, encapsulation, object identity, method behaviour, and collections. A relational database understands tables, rows, columns, primary keys, foreign keys, constraints, joins, and SQL data types.</p>
+<table>
+<thead>
+<tr>
+<th>Java world</th>
+<th>Relational world</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Classes</td>
+<td>Tables</td>
+</tr>
+<tr>
+<td>Objects</td>
+<td>Rows</td>
+</tr>
+<tr>
+<td>Fields</td>
+<td>Columns</td>
+</tr>
+<tr>
+<td>References</td>
+<td>Foreign keys</td>
+</tr>
+<tr>
+<td>Collections</td>
+<td>Related rows</td>
+</tr>
+<tr>
+<td>Object identity</td>
+<td>Primary key</td>
+</tr>
+<tr>
+<td>Inheritance / polymorphism</td>
+<td>No direct equivalent</td>
+</tr>
+<tr>
+<td>Method behaviour</td>
+<td>No direct equivalent</td>
+</tr>
+<tr>
+<td>Encapsulation</td>
+<td>Constraints</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Because the two worlds disagree, Java cannot directly save an object into MySQL. The object must first be translated into SQL-compatible values, and this translation is exactly what persistence frameworks are built to handle.</p>
+</blockquote>
+<p>A quick mnemonic for the mapping direction: <strong>T-R-C</strong> (Tables for Classes, Rows for Objects, Columns for Fields), extended by References for foreign keys and Collections for related rows.</p>
+<h2 id="2-persistence-with-spring-jdbc-and-its-remaining-limitation">2. Persistence with Spring JDBC and Its Remaining Limitation</h2>
+<p>Spring JDBC is already a large improvement over raw JDBC. An insertion may look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">        INSERT INTO students(name, email, age)</span>
+<span class="s">        VALUES (?, ?, ?)</span>
+<span class="s">        &quot;&quot;&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">jdbcTemplate</span><span class="p">.</span><span class="na">update</span><span class="p">(</span>
+<span class="w">        </span><span class="n">sql</span><span class="p">,</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">getEmail</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">student</span><span class="p">.</span><span class="na">getAge</span><span class="p">()</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is much cleaner than raw JDBC, but the developer still performs the translation manually. Spring JDBC manages much of the JDBC infrastructure, yet it does not understand the semantic relationship between the <code>Student</code> class and the <code>students</code> table.</p>
+<p>The manual work shows up in three places:</p>
+<ol>
+<li>Manual SQL writing. Every operation needs hand-written SQL:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Insert:  INSERT INTO students(name, email, age) VALUES (?, ?, ?);
+Select:  SELECT id, name, email, age FROM students WHERE id = ?;
+Update:  UPDATE students SET name = ?, email = ?, age = ? WHERE id = ?;
+Delete:  DELETE FROM students WHERE id = ?;
+</code></pre></div>
+
+<ol start="2">
+<li>
+<p>Manual parameter binding. Spring JDBC removes direct <code>PreparedStatement</code> handling, but values must still be passed in the correct order. First <code>?</code> is <code>name</code>, second is <code>email</code>, third is <code>age</code>, fourth is <code>id</code>. A wrong order may not cause a compilation error at all.</p>
+</li>
+<li>
+<p>Manual row-to-object mapping. When reading data, the opposite translation is needed:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>private final RowMapper&lt;Student&gt; studentRowMapper =
+    (resultSet, rowNumber) -&gt; {
+        Student student = new Student();
+        student.setId(resultSet.getLong(&quot;id&quot;));
+        student.setName(resultSet.getString(&quot;name&quot;));
+        student.setEmail(resultSet.getString(&quot;email&quot;));
+        student.setAge(resultSet.getInt(&quot;age&quot;));
+        return student;
+    };
+</code></pre></div>
+
+<p>This is not necessarily bad. SQL gives precise control. The problem appears when an application has hundreds of entities, many relationships, and repeated CRUD operations: the amount of repetitive translation code grows rapidly.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect "Why not just use Spring JDBC?" The right answer is not "it is bad." Spring JDBC is excellent for fine-grained SQL. The issue is that it still forces a human to translate objects to rows and rows back to objects for every single operation.</p>
+</blockquote>
+<h2 id="3-what-is-orm-the-object-relational-impedance-mismatch">3. What Is ORM? The Object-Relational Impedance Mismatch</h2>
+<p>The differences between object models and relational models are collectively called object-relational impedance mismatch.</p>
+<p>Object-Relational Mapping, or ORM, is the process of defining how:</p>
+<ul>
+<li>Java classes map to database tables;</li>
+<li>Java objects map to database rows;</li>
+<li>Java fields map to database columns;</li>
+<li>Java references map to foreign-key relationships;</li>
+<li>Java collections map to related rows.</li>
+</ul>
+<p>For example, a <code>Student</code> class declares that the class maps to the <code>students</code> table, the <code>id</code> field maps to the <code>id</code> column, and the <code>name</code> field maps to its column. This metadata tells the framework how to translate, and it is declared once and reused during inserts, selects, updates, and deletes.</p>
+<p>An ORM framework normally handles several responsibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Responsibility</th>
+<th>What it means</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mapping metadata</td>
+<td>Understands how classes and attributes correspond to tables and columns</td>
+</tr>
+<tr>
+<td>SQL generation</td>
+<td>Generates SQL based on entity operations</td>
+</tr>
+<tr>
+<td>Parameter binding</td>
+<td>Extracts values from the entity and binds them to JDBC parameters</td>
+</tr>
+<tr>
+<td>Result-set mapping</td>
+<td>Converts database rows back into entity objects</td>
+</tr>
+<tr>
+<td>Relationship management</td>
+<td>Turns object references and collections into foreign-key and join-table operations</td>
+</tr>
+<tr>
+<td>Caching</td>
+<td>May avoid unnecessary database access via first-level and optional second-level caches</td>
+</tr>
+<tr>
+<td>Transaction integration</td>
+<td>Coordinates entity operations with database transactions</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Declare the mapping once, and every future operation benefits. The annotation metadata is the single source of truth for how objects become rows and rows become objects.</p>
+</blockquote>
+<h2 id="4-hibernate-jpa-specification-vs-hibernate-implementation">4. Hibernate: JPA Specification vs Hibernate Implementation</h2>
+<p>Hibernate is an ORM framework for Java and JVM applications. Hibernate operates above JDBC:</p>
+<div class="highlight"><pre><span></span><code>Application
+    |
+    v
+Hibernate
+    |
+    v
+JDBC
+    |
+    v
+JDBC Driver
+    |
+    v
+Database
+</code></pre></div>
+
+<p>JPA originally meant Java Persistence API. The current standard is named Jakarta Persistence, though developers still commonly use the term JPA. It defines contracts such as <code>jakarta.persistence.Entity</code>, <code>jakarta.persistence.Id</code>, <code>jakarta.persistence.EntityManager</code>, <code>jakarta.persistence.EntityManagerFactory</code>, and <code>jakarta.persistence.PersistenceContext</code>.</p>
+<p>A specification does not perform the work by itself. An implementation is required, and Hibernate implements the Jakarta Persistence specification. Therefore, when application code uses <code>import jakarta.persistence.EntityManager;</code>, the interface is defined by Jakarta Persistence but the runtime object may be implemented by Hibernate. This resembles other interface-and-implementation relationships, such as the <code>List</code> interface and the <code>ArrayList</code> implementation.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Jakarta Persistence (JPA)</td>
+<td>Specification</td>
+<td>Defines the ORM API and contracts</td>
+</tr>
+<tr>
+<td>Hibernate</td>
+<td>Implementation</td>
+<td>Does the real ORM work at runtime</td>
+</tr>
+<tr>
+<td>Spring Data JPA</td>
+<td>Spring abstraction</td>
+<td>Repository-style data access on top</td>
+</tr>
+</tbody>
+</table>
+<p>Other JPA providers have historically included EclipseLink and OpenJPA, but Spring Boot commonly uses Hibernate when the JPA starter is present.</p>
+<p>Mnemonic: <strong>JPA says what; Hibernate does how.</strong></p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "JPA vs Hibernate" is a spec-versus-implementation question. A strong answer also names the analogy (<code>List</code> vs <code>ArrayList</code>) and notes that Spring Boot wires Hibernate in automatically through the JPA starter.</p>
+</blockquote>
+<h2 id="5-required-dependencies-project-structure-and-mysql-setup">5. Required Dependencies, Project Structure, and MySQL Setup</h2>
+<p>Create a Spring Boot project with two dependencies:</p>
+<ol>
+<li>Spring Data JPA. The starter <code>spring-boot-starter-data-jpa</code> brings configuration and dependencies. In this lecture we deliberately focus on the lower-level operations first; Spring Data repositories would otherwise hide many of these operations.</li>
+<li>MySQL Driver.</li>
+</ol>
+<p>Hibernate can manage tables, but for a basic MySQL setup the database is created first:</p>
+<div class="highlight"><pre><span></span><code>CREATE DATABASE student_db;
+USE student_db;
+</code></pre></div>
+
+<p>The project structure:</p>
+<div class="highlight"><pre><span></span><code>hibernate-demo
++-- pom.xml
++-- src
+    +-- main
+        +-- java
+        |   +-- in.coderarmy.hibernateDemo
+        |       +-- HibernateDemoApplication.java
+        |       +-- model
+        |       |   +-- Student.java
+        |       |   +-- Address.java
+        |       |   +-- StudentStatus.java
+        |       |   +-- BooleanToStringConverter.java
+        |       +-- repository
+        |       |   +-- StudentRepository.java
+        |       +-- service
+        |       |   +-- StudentService.java
+        |       +-- controller
+        |           +-- StudentController.java
+        +-- resources
+            +-- application.properties
+</code></pre></div>
+
+<p>DataSource configuration in <code>application.properties</code>:</p>
+<div class="highlight"><pre><span></span><code>spring.datasource.url=jdbc:mysql://localhost:3306/hibernate_demo
+spring.datasource.username=root
+spring.datasource.password=your_password
+</code></pre></div>
+
+<p>Spring Boot uses these properties to configure a <code>DataSource</code>. The <code>DataSource</code> supplies JDBC connections to Hibernate.</p>
+<p>Schema generation is controlled by <code>ddl-auto</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>Hibernate performs no schema action</td>
+</tr>
+<tr>
+<td><code>validate</code></td>
+<td>Hibernate checks whether the existing schema matches the entity mappings; creates nothing</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td>Hibernate attempts to update the schema to match the mappings</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td>Hibernate drops and recreates the mapped schema at startup; existing data may be lost</td>
+</tr>
+<tr>
+<td><code>create-drop</code></td>
+<td>Hibernate creates the schema at startup and drops it when the persistence factory closes</td>
+</tr>
+</tbody>
+</table>
+<p>For learning, <code>spring.jpa.hibernate.ddl-auto=update</code> is convenient, but it is not a production migration system; production schema changes are usually managed with tools such as Flyway or Liquibase.</p>
+<p>Enable generated SQL while learning:</p>
+<div class="highlight"><pre><span></span><code>spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: <code>ddl-auto</code> is a development convenience, not a migration strategy. <code>create</code> and <code>create-drop</code> can destroy data, and <code>update</code> is too weak to be a real production change-management tool.</p>
+</blockquote>
+<h2 id="6-the-entity-class-entity-table-id-generatedvalue">6. The Entity Class: @Entity, @Table, @Id, @GeneratedValue</h2>
+<p>An initial entity looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.coderarmy.hibernateDemo.model</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.*</span><span class="p">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;students&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Id</span>
+<span class="w">    </span><span class="nd">@GeneratedValue</span><span class="p">(</span><span class="n">strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenerationType</span><span class="p">.</span><span class="na">IDENTITY</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">Student</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Student</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">email</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// getters and setters</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The annotations, one by one:</p>
+<ol>
+<li><code>@Entity</code> marks the class as a persistent entity that Hibernate manages.</li>
+<li><code>@Table(name = "students")</code> maps the class to the <code>students</code> table.</li>
+<li><code>@Id</code> marks the primary-key field.</li>
+<li><code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code> delegates id generation to the database's identity column.</li>
+<li>A no-argument constructor is required by the provider (often declared <code>protected</code>); a convenience constructor is added for application code, and getters and setters complete the bean.</li>
+</ol>
+<p>The class-to-table and field-to-column mapping is metadata Hibernate reads once and reuses for every insert, select, update, and delete.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The entity is the mapping. Once <code>@Entity</code>, <code>@Table</code>, <code>@Id</code>, and <code>@GeneratedValue</code> are declared, Hibernate knows how to persist the object without a single line of hand-written SQL.</p>
+</blockquote>
+<h2 id="7-column-and-field-mapping-options">7. @Column and Field Mapping Options</h2>
+<p><code>@Column</code> tunes how a field maps to a column. Important options include:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Controls the mapped column name</td>
+</tr>
+<tr>
+<td><code>nullable</code></td>
+<td>Used in schema generation to indicate whether the column may be null</td>
+</tr>
+<tr>
+<td><code>unique</code></td>
+<td>Declares a single-column uniqueness constraint during schema generation</td>
+</tr>
+<tr>
+<td><code>length</code></td>
+<td>Provides the expected string-column length for generated schema</td>
+</tr>
+<tr>
+<td><code>insertable</code></td>
+<td>Controls whether the column appears in generated insert statements</td>
+</tr>
+<tr>
+<td><code>updatable</code></td>
+<td>Controls whether the column appears in generated update statements</td>
+</tr>
+</tbody>
+</table>
+<p>Applied to the entity:</p>
+<div class="highlight"><pre><span></span><code>@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+
+@Column(name = &quot;student_name&quot;, nullable = false, length = 100)
+private String name;
+
+@Column(nullable = false, unique = true, length = 150)
+private String email;
+
+private Integer age;
+</code></pre></div>
+
+<p>For decimal precision, use <code>precision</code> and <code>scale</code>, and prefer <code>BigDecimal</code> when decimal precision matters:</p>
+<div class="highlight"><pre><span></span><code>@Column(precision = 5, scale = 2)
+private BigDecimal percentage;
+</code></pre></div>
+
+<p>Conceptually, <code>precision</code> is the total number of digits and <code>scale</code> is the digits after the decimal point.</p>
+<p>Date and time mapping should normally use the modern Java date/time classes:</p>
+<table>
+<thead>
+<tr>
+<th>Java type</th>
+<th>Conceptual database type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LocalDate</code></td>
+<td><code>DATE</code></td>
+<td>2000-08-21</td>
+</tr>
+<tr>
+<td><code>LocalTime</code></td>
+<td><code>TIME</code></td>
+<td>10:30</td>
+</tr>
+<tr>
+<td><code>LocalDateTime</code></td>
+<td><code>TIMESTAMP</code></td>
+<td>2026-07-25T10:30:00</td>
+</tr>
+</tbody>
+</table>
+<p>Large objects use <code>@Lob</code>, which instructs the provider to use a database-native large-object mapping:</p>
+<div class="highlight"><pre><span></span><code>@Lob
+private String profileDescription;
+
+@Lob
+private byte[] profileImage;
+</code></pre></div>
+
+<p>Storing large files directly inside the database should be an intentional architectural decision; often the database stores file metadata and an object-storage URL instead.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>nullable</code>, <code>unique</code>, and <code>length</code> are primarily schema-generation hints. When the table already exists, they do not silently rewrite it; the physical schema and the migration tooling remain in charge.</p>
+</blockquote>
+<h2 id="8-enum-mapping-enumerated-ordinal-vs-string">8. Enum Mapping: @Enumerated ORDINAL vs STRING</h2>
+<p>Consider an enum:</p>
+<div class="highlight"><pre><span></span><code>public enum StudentStatus {
+    ACTIVE,
+    INACTIVE,
+    SUSPENDED
+}
+</code></pre></div>
+
+<p>An entity field is mapped with <code>@Enumerated</code>:</p>
+<div class="highlight"><pre><span></span><code>@Enumerated(EnumType.STRING)
+private StudentStatus status;
+</code></pre></div>
+
+<p>With <code>EnumType.STRING</code>, the database stores the enum names: <code>ACTIVE</code>, <code>INACTIVE</code>, <code>SUSPENDED</code>.</p>
+<p><code>EnumType.ORDINAL</code> is the default and stores the index position instead. The two behave very differently over time:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>EnumType.ORDINAL</code></th>
+<th><code>EnumType.STRING</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is stored</td>
+<td>The integer index (0, 1, 2)</td>
+<td>The enum name (<code>ACTIVE</code>)</td>
+</tr>
+<tr>
+<td>Readability in the database</td>
+<td>Poor; opaque numbers</td>
+<td>Clear and self-documenting</td>
+</tr>
+<tr>
+<td>Default</td>
+<td>Yes</td>
+<td>No, must be declared</td>
+</tr>
+<tr>
+<td>Safety if constants are reordered</td>
+<td>Fragile; old rows change meaning</td>
+<td>Safe; names are stable</td>
+</tr>
+<tr>
+<td>Storage size</td>
+<td>Smallest</td>
+<td>Larger, but predictable</td>
+</tr>
+<tr>
+<td>Recommendation</td>
+<td>Avoid for durable data</td>
+<td>Prefer for durable data</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The enum trap is reordering. Add a new constant in the middle with <code>ORDINAL</code> and every existing row silently points at the wrong value. The professional choice is <code>@Enumerated(EnumType.STRING)</code>, even though it costs a little storage.</p>
+</blockquote>
+<h2 id="9-value-types-embeddable-embedded-attributeoverride-elementcollection">9. Value Types: @Embeddable, @Embedded, @AttributeOverride, @ElementCollection</h2>
+<p>Consider a student and an address. A student has independent identity and continues to exist even if the address changes. An address often has no independent identity in the domain: house number, street, city, state, and postal code exist only as part of another object. A student owns the address, which makes <code>Address</code> a good candidate for a value type. Hibernate classifies value types as values whose lifecycle is owned by an entity, whereas entities have independent identity.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Entity type</th>
+<th>Value type (<code>@Embeddable</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity</td>
+<td>Has its own <code>@Id</code></td>
+<td>No independent id</td>
+</tr>
+<tr>
+<td>Lifecycle</td>
+<td>Managed independently</td>
+<td>Owned by the embedding entity</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Usually its own table</td>
+<td>Stored inside the owner's table</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>Can be shared and referenced</td>
+<td>Copied into each owner</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>Student</code>, <code>Department</code></td>
+<td><code>Address</code>, <code>PhoneNumber</code></td>
+</tr>
+</tbody>
+</table>
+<p>Define the value type:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.coderarmy.hibernateDemo.model</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.Column</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.Embeddable</span><span class="p">;</span>
+
+<span class="nd">@Embeddable</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Address</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;address_line&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">addressLine</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;postal_code&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">postalCode</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">Address</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Address</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">addressLine</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">state</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">postalCode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">addressLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">addressLine</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">city</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">city</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">postalCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">postalCode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@Embeddable</code> means the class does not represent an independent entity; its state may be embedded inside an owning entity. An embeddable has no <code>@Id</code> of its own. Its state is stored as an intrinsic part of its owner.</p>
+<p>Use the value inside <code>Student</code>:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+@Table(name = &quot;students&quot;)
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    @Embedded
+    private Address address;
+}
+</code></pre></div>
+
+<p>The resulting table becomes:</p>
+<div class="highlight"><pre><span></span><code>students
++-- id
++-- name
++-- address_line
++-- city
++-- state
++-- postal_code
+</code></pre></div>
+
+<p>There is no separate address table by default. <code>@Embedded</code> declares an entity attribute whose value is an embeddable object, and the object structure is flattened into the owner's row.</p>
+<p>Why use an embeddable instead of separate fields? Without it, the entity carries <code>addressLine</code>, <code>city</code>, <code>state</code>, and <code>postalCode</code> as unrelated primitives. With it, the Java model becomes more expressive.</p>
+<p>When a student has two addresses, both embeddables would contribute the same column names, which creates conflicting column mappings:</p>
+<div class="highlight"><pre><span></span><code>@Embedded
+private Address currentAddress;
+@Embedded
+private Address permanentAddress;
+</code></pre></div>
+
+<p>The clash is resolved with <code>@AttributeOverride</code>, which replaces a basic mapping originally declared by the embeddable for a particular embedding location:</p>
+<div class="highlight"><pre><span></span><code>@Embedded
+@AttributeOverrides({
+    @AttributeOverride(name = &quot;addressLine&quot;, column = @Column(name = &quot;current_address_line&quot;)),
+    @AttributeOverride(name = &quot;city&quot;, column = @Column(name = &quot;current_city&quot;)),
+    @AttributeOverride(name = &quot;state&quot;, column = @Column(name = &quot;current_state&quot;)),
+    @AttributeOverride(name = &quot;postalCode&quot;, column = @Column(name = &quot;current_postal_code&quot;))
+})
+private Address currentAddress;
+</code></pre></div>
+
+<p>The resulting table contains <code>id</code>, <code>current_address_line</code>, <code>current_city</code>, <code>current_state</code>, <code>current_postal_code</code>, and the matching <code>permanent_*</code> columns.</p>
+<p>An entity may also own a collection of value types, such as <code>Set&lt;String&gt; skills</code>. A collection cannot normally fit into one relational column, so it is stored in a separate table using <code>@ElementCollection</code> and <code>@CollectionTable</code>:</p>
+<div class="highlight"><pre><span></span><code>@ElementCollection
+@CollectionTable(
+    name = &quot;student_skills&quot;,
+    joinColumns = @JoinColumn(name = &quot;student_id&quot;)
+)
+@Column(name = &quot;skill&quot;)
+private Set&lt;String&gt; skills = new HashSet&lt;&gt;();
+</code></pre></div>
+
+<p>Possible database structure:</p>
+<div class="highlight"><pre><span></span><code>students
++-- id
++-- name
+
+student_skills
++-- student_id
++-- skill
+</code></pre></div>
+
+<p>The values in <code>student_skills</code> are not independent entities; each string belongs to the owning <code>Student</code>. The same approach works for a collection of value objects such as <code>PhoneNumber</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: Use an entity when the object has independent identity (a department exists independently of a particular student, can be shared, queried, updated, and referenced by an identifier). Use an embeddable value when the object lives and dies with its owner.</p>
+</blockquote>
+<h2 id="10-attribute-converters-convert-and-transient">10. Attribute Converters (@Convert) and @Transient</h2>
+<p>Sometimes the database stores a representation that differs from the Java type. Suppose the database stores <code>Y</code> or <code>N</code>, but Java should use <code>Boolean</code>. An attribute converter bridges the two:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.coderarmy.hibernateDemo.model</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.AttributeConverter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.persistence.Converter</span><span class="p">;</span>
+
+<span class="nd">@Converter</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BooleanToStringConverter</span>
+<span class="w">        </span><span class="kd">implements</span><span class="w"> </span><span class="n">AttributeConverter</span><span class="o">&lt;</span><span class="n">Boolean</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">convertToDatabaseColumn</span><span class="p">(</span><span class="n">Boolean</span><span class="w"> </span><span class="n">attribute</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">attribute</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">attribute</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&quot;N&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Boolean</span><span class="w"> </span><span class="nf">convertToEntityAttribute</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">databaseValue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">databaseValue</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Y&quot;</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">databaseValue</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Use it on the field with <code>@Convert</code>:</p>
+<div class="highlight"><pre><span></span><code>@Convert(converter = BooleanToStringConverter.class)
+private Boolean active;
+</code></pre></div>
+
+<p>The converter gives the entity a clean Java type while the database keeps its own representation. <code>convertToDatabaseColumn</code> runs on the way out; <code>convertToEntityAttribute</code> runs on the way back in.</p>
+<p>Not every field should be persisted. Sometimes an entity needs a field that lives only in memory:</p>
+<div class="highlight"><pre><span></span><code>@Transient
+private String displayName;
+</code></pre></div>
+
+<p>Hibernate ignores a <code>@Transient</code> field entirely: it is never mapped, never written, and never read back.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Transient</code> (the JPA annotation) is not the same as Java's <code>transient</code> keyword, even though both mean "not persisted." In JPA code, use <code>@Transient</code> so the provider knows to skip the field.</p>
+</blockquote>
+<h2 id="11-crud-with-spring-data-jpa-and-the-entity-lifecycle">11. CRUD with Spring Data JPA and the Entity Lifecycle</h2>
+<p>The repository is the entry point for CRUD. A Spring Data JPA repository is declared as an interface:</p>
+<div class="highlight"><pre><span></span><code>package in.coderarmy.hibernateDemo.repository;
+
+import in.coderarmy.hibernateDemo.model.Student;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface StudentRepository extends JpaRepository&lt;Student, Long&gt; {
+}
+</code></pre></div>
+
+<p>The inherited operations cover the whole CRUD cycle:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Repository method</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create</td>
+<td><code>save(student)</code></td>
+<td>Insert a new student</td>
+</tr>
+<tr>
+<td>Read one</td>
+<td><code>findById(id)</code></td>
+<td>Fetch by primary key</td>
+</tr>
+<tr>
+<td>Read all</td>
+<td><code>findAll()</code></td>
+<td>Fetch every student</td>
+</tr>
+<tr>
+<td>Update</td>
+<td><code>save(student)</code> on a managed entity</td>
+<td>Change fields</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td><code>deleteById(id)</code> or <code>delete(student)</code></td>
+<td>Remove a row</td>
+</tr>
+</tbody>
+</table>
+<p>Underneath Spring Data JPA, the JPA <code>EntityManager</code> performs the primitive operations: <code>persist(student)</code> inserts, <code>find(Student.class, id)</code> reads, and <code>remove(student)</code> marks an entity for deletion. These operations run inside a transaction, usually opened by <code>@Transactional</code> on the service layer.</p>
+<p>A subtle but important point: for an update, there is no explicit <code>update</code> call. Load a managed entity, change a field, and commit the transaction. Hibernate detects that the loaded object changed and generates the update during flushing; neither an <code>EntityManager.update(student)</code> nor a <code>repository.save(student)</code> is required for an already-managed entity.</p>
+<p>At a high level, an entity moves through lifecycle states:</p>
+<div class="highlight"><pre><span></span><code>new / transient  --persist--&gt;  managed  --commit/flush--&gt;  database
+                                   |
+                             remove(student)
+                                   |
+                                   v
+                                removed  --flush--&gt;  database delete
+</code></pre></div>
+
+<p>The persistence context tracks managed entities, which is exactly why dirty checking works. The full mechanics belong to the persistence-context discussion; the mental model here is enough.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>remove()</code> operates on a managed entity; Hibernate marks that entity for deletion and the delete is synchronized with the database during flushing. The service layer typically guards against a null lookup and throws an <code>IllegalArgumentException</code> when the id does not exist.</p>
+<p>Interviewer's perspective: The favorite probe is "Where is the update method?" The answer is that update happens implicitly through the managed entity and dirty checking. Candidates who only memorized <code>save</code> miss the whole point of a persistence context.</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Java can save an object directly to MySQL"</td>
+<td>Java objects and relational rows are different structures; the object must be translated to SQL-compatible values</td>
+</tr>
+<tr>
+<td>"Spring JDBC removes the need to write SQL"</td>
+<td>It removes much infrastructure boilerplate but SQL, parameter order, and row mapping are still manual</td>
+</tr>
+<tr>
+<td>"JPA and Hibernate are the same thing"</td>
+<td>JPA/Jakarta Persistence is the specification; Hibernate is one implementation of it</td>
+</tr>
+<tr>
+<td>"ORM means you never touch SQL"</td>
+<td>ORM generates and manages SQL; it does not remove the relational model or the need to understand it</td>
+</tr>
+<tr>
+<td>"<code>@Enumerated</code> stores the enum name by default"</td>
+<td>The default is <code>ORDINAL</code>, which stores the index; use <code>EnumType.STRING</code> for durable data</td>
+</tr>
+<tr>
+<td>"An <code>@Embeddable</code> gets its own table and id"</td>
+<td>It has no <code>@Id</code>; its state is flattened into the owner's table unless it is placed in an element collection</td>
+</tr>
+<tr>
+<td>"<code>@Column(nullable = false)</code> always enforces NOT NULL"</td>
+<td>It is primarily a schema-generation hint; an existing schema is governed by migration tooling</td>
+</tr>
+<tr>
+<td>"Updates need an explicit update call"</td>
+<td>A managed entity is flushed automatically; changing a field inside a transaction signals the update</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Why can Java not persist an object directly?"</strong>
+Verdict: Because objects and relational tables are fundamentally different structures. Java thinks in classes, objects, references, and identity; the database thinks in tables, rows, columns, keys, and constraints.</p>
+<p><strong>Trap 2 - "Spring JDBC already removes boilerplate, so why use Hibernate?"</strong>
+Verdict: Spring JDBC manages infrastructure but still leaves manual SQL, manual parameter ordering, and manual row mapping. With hundreds of entities and repeated CRUD, that repetitive translation grows rapidly.</p>
+<p><strong>Trap 3 - "JPA and Hibernate are the same."</strong>
+Verdict: False. Jakarta Persistence (JPA) is the specification defining contracts such as <code>Entity</code>, <code>Id</code>, and <code>EntityManager</code>; Hibernate implements that specification. The relationship is like <code>List</code> and <code>ArrayList</code>.</p>
+<p><strong>Trap 4 - "<code>@Enumerated</code> stores the enum name by default."</strong>
+Verdict: False. The default is <code>EnumType.ORDINAL</code>, which stores the integer index. Reordering constants then corrupts the meaning of existing rows, so durable data should use <code>EnumType.STRING</code>.</p>
+<p><strong>Trap 5 - "An <code>@Embeddable</code> needs its own <code>@Id</code> and table."</strong>
+Verdict: False. An embeddable has no independent identity and no <code>@Id</code>; its state is stored as an intrinsic part of the owning entity. <code>@ElementCollection</code> is what puts value types into a separate table.</p>
+<p><strong>Trap 6 - "Updating a field requires calling an update method."</strong>
+Verdict: False. For a managed entity, change the field inside a transaction and commit. Hibernate detects the change and flushes the update; no explicit update call is needed.</p>
+<p><strong>Trap 7 - "<code>ddl-auto=update</code> is safe for production schema management."</strong>
+Verdict: Misleading. It is convenient for learning and early development but is not a migration system; production uses tools such as Flyway or Liquibase.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>Java objects and relational tables are different structures; an object cannot be saved directly, it must be translated into SQL-compatible values.</li>
+<li>Spring JDBC removes much JDBC infrastructure boilerplate but still leaves manual SQL, manual parameter ordering, and manual row-to-object mapping.</li>
+<li>The gap between the two models is the object-relational impedance mismatch; ORM declares the mapping once and reuses it for inserts, selects, updates, and deletes.</li>
+<li>Jakarta Persistence (JPA) is the specification; Hibernate is the implementation; Spring Data JPA sits on top with repository-style access.</li>
+<li>Required dependencies are <code>spring-boot-starter-data-jpa</code> plus the MySQL driver; the connection details live under <code>spring.datasource.*</code> in <code>application.properties</code>.</li>
+<li><code>@Entity</code> plus <code>@Table</code> map the class to a table; <code>@Id</code> plus <code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code> map the identity.</li>
+<li><code>@Column</code> tunes <code>name</code>, <code>nullable</code>, <code>unique</code>, <code>length</code>, <code>insertable</code>, and <code>updatable</code>; use <code>precision</code> and <code>scale</code> for <code>BigDecimal</code>, and <code>@Lob</code> for large objects.</li>
+<li><code>@Enumerated(EnumType.STRING)</code> stores enum names and is safer than the default <code>ORDINAL</code>, which stores indexes and breaks when constants are reordered.</li>
+<li><code>@Embeddable</code> and <code>@Embedded</code> store a value type inside the owner's table; <code>@AttributeOverride</code> resolves column clashes and <code>@ElementCollection</code> uses a separate table.</li>
+<li><code>@Convert</code> with an <code>AttributeConverter</code> changes the stored representation, <code>@Transient</code> skips a field, and CRUD runs through the repository with dirty checking handling updates.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why can Java not save an object directly into a relational database?</td>
+<td>Objects and tables are different structures; the object must be translated into SQL-compatible values first.</td>
+</tr>
+<tr>
+<td>What is the object-relational impedance mismatch?</td>
+<td>The collective difference between object models (classes, references, identity) and relational models (tables, keys, constraints).</td>
+</tr>
+<tr>
+<td>What is ORM?</td>
+<td>Object-Relational Mapping: defining how classes map to tables, objects to rows, fields to columns, references to foreign keys, and collections to related rows.</td>
+</tr>
+<tr>
+<td>JPA vs Hibernate?</td>
+<td>JPA/Jakarta Persistence is the specification; Hibernate is the implementation that does the work at runtime.</td>
+</tr>
+<tr>
+<td>Which dependencies are needed?</td>
+<td><code>spring-boot-starter-data-jpa</code> and the MySQL driver; Spring Boot's JPA starter brings Hibernate, Spring Data JPA, and Spring ORM.</td>
+</tr>
+<tr>
+<td>What does <code>@Entity</code> and <code>@Table</code> do?</td>
+<td><code>@Entity</code> marks a managed class; <code>@Table(name = "...")</code> maps it to a specific database table.</td>
+</tr>
+<tr>
+<td>What is <code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code>?</td>
+<td>It tells the provider to let the database identity column generate the primary-key value.</td>
+</tr>
+<tr>
+<td>What does <code>@Column(nullable = false, unique = true, length = 150)</code> mean?</td>
+<td>Schema-generation hints: the column is non-null, unique, and expected to be 150 characters long.</td>
+</tr>
+<tr>
+<td>ORDINAL vs STRING enum mapping?</td>
+<td>ORDINAL (default) stores the index and is fragile; STRING stores the enum name and is safe across reordering.</td>
+</tr>
+<tr>
+<td>Entity type vs value type?</td>
+<td>Entities have independent identity and lifecycle; value types (<code>@Embeddable</code>) are owned and stored inside the owner's table.</td>
+</tr>
+<tr>
+<td>What does an <code>AttributeConverter</code> do?</td>
+<td>It converts between the Java attribute type and the database column type, e.g. <code>Boolean</code> to <code>Y</code>/<code>N</code> via <code>@Convert</code>.</td>
+</tr>
+<tr>
+<td>Does an update need an explicit call?</td>
+<td>No. A managed entity is watched; changing a field inside a transaction is flushed automatically (dirty checking).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Java objects (classes, references, identity)
+        |
+        v
+Relational tables (rows, columns, PKs, FKs, constraints)
+        |
+        v
+Spring JDBC: clean infrastructure, but manual SQL + binding + row mapping
+        |
+        v
+ORM: declare the mapping once, reuse it for insert/select/update/delete
+        |
+        v
+JPA / Jakarta Persistence (specification)  -&gt;  Hibernate (implementation)
+        |
+        v
+@Entity + @Table + @Id + @GeneratedValue + @Column
+        |
+        v
+@Enumerated(STRING) | @Embeddable/@Embedded | @Convert | @Transient
+        |
+        v
+Spring Data JPA repository: save / findById / findAll / update / delete
+        |
+        v
+MySQL via application.properties (DataSource + ddl-auto + SQL logging)
+</code></pre></div>
+
+<ul>
+<li>Java objects and relational tables disagree, and that gap is the impedance mismatch.</li>
+<li>Spring JDBC reduces boilerplate but keeps the translation manual.</li>
+<li>ORM declares the class-to-table and field-to-column mapping once.</li>
+<li>JPA is the specification; Hibernate is the implementation; Spring Data JPA is the convenience layer.</li>
+<li>Entity annotations cover identity, columns, enums, embeddables, converters, and transient fields.</li>
+<li>CRUD goes through the repository, and updates flow from managed-entity dirty checking.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Hibernate earns its place by turning one-time annotation metadata into automatic, repeatable translation between Java objects and MySQL rows, so CRUD stops being manual SQL and becomes entity operations.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-27.html"><span class="dir">Previous</span><span class="ttl">Lecture 27 — Spring JDBC Complete Tutorial</span></a><a class="next" href="doc-theory-lecture-29.html"><span class="dir">Next</span><span class="ttl">Lecture 29 — Hibernate Internals</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

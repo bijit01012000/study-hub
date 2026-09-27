@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels — Spring Boot</title>
+<meta name="description" content="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-34">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-34.html#lecture-34">Lecture 34</a></li><li><a href="doc-theory-lecture-34.html#1-the-transactional-attribute-reference">1. The @Transactional Attribute Reference</a></li><li><a href="doc-theory-lecture-34.html#2-default-transactional-behaviour">2. Default @Transactional Behaviour</a></li><li><a href="doc-theory-lecture-34.html#3-commit-and-rollback-rules">3. Commit and Rollback Rules</a></li><li><a href="doc-theory-lecture-34.html#4-the-proxy-requirement">4. The Proxy Requirement</a></li><li><a href="doc-theory-lecture-34.html#5-propagation-modes-at-a-glance">5. Propagation Modes at a Glance</a></li><li><a href="doc-theory-lecture-34.html#6-propagationrequired-join-or-create">6. Propagation.REQUIRED: Join or Create</a></li><li><a href="doc-theory-lecture-34.html#7-the-rollback-only-trap-unexpectedrollbackexception">7. The rollback-only Trap: UnexpectedRollbackException</a></li><li><a href="doc-theory-lecture-34.html#8-propagationrequires_new-suspend-and-resume">8. Propagation.REQUIRES_NEW: Suspend and Resume</a></li><li><a href="doc-theory-lecture-34.html#9-requires_new-in-practice-audit-logging-and-visibility">9. REQUIRES_NEW in Practice: Audit Logging and Visibility</a></li><li><a href="doc-theory-lecture-34.html#10-other-propagation-modes-supports-mandatory-not_supported-never">10. Other Propagation Modes: SUPPORTS, MANDATORY, NOT_SUPPORTED, NEVER</a></li><li><a href="doc-theory-lecture-34.html#11-propagationnested-savepoints">11. Propagation.NESTED: Savepoints</a></li><li><a href="doc-theory-lecture-34.html#12-isolation-and-the-three-read-phenomena">12. Isolation and the Three Read Phenomena</a></li><li><a href="doc-theory-lecture-34.html#13-spring-isolation-levels-compared">13. Spring Isolation Levels Compared</a></li><li><a href="doc-theory-lecture-34.html#14-choosing-the-right-isolation-level">14. Choosing the Right Isolation Level</a></li><li><a href="doc-theory-lecture-34.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-34.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-34.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-34.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-34.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</h1>
+<p class="readmeta">20 sections · 4,760 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-34" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-34">Lecture 34</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring @Transactional Propagation &amp; Isolation Levels Explained" (playlist map, verified). Repo folder is the <code>transactionDemo</code> project: <code>OrderService</code> with propagation demos (<code>placeOrder()</code>, <code>reserveStock()</code>), <code>PaymentAuditService</code> used for the REQUIRES_NEW audit example, <code>Order</code> and <code>PaymentAudit</code> entities, <code>OrderRepository</code>/<code>PaymentAuditRepository</code>, <code>OrderController</code>, <code>TransactionDemoApplication</code>, <code>application.properties</code>, plus the lecture notes.</p>
+</blockquote>
+<p><code>@Transactional</code> is where declarative transaction management meets the real world: it decides how a method joins, creates, suspends, or refuses a transaction, and how concurrent transactions are allowed to see each other's data. This lecture reads the annotation attribute by attribute, then walks the propagation modes with concrete call flows, and finishes with propagation versus isolation, the rollback-only trap, and the three read phenomena. Every rule here has a name, and every name hides a trap that interviewers love to trigger.</p>
+<h2 id="1-the-transactional-attribute-reference">1. The @Transactional Attribute Reference</h2>
+<p><code>@Transactional</code> is the annotation that tells Spring how a method participates in a transaction.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span><span class="p">(</span>
+<span class="w">    </span><span class="n">propagation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Propagation</span><span class="p">.</span><span class="na">REQUIRED</span><span class="p">,</span>
+<span class="w">    </span><span class="n">isolation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Isolation</span><span class="p">.</span><span class="na">READ_COMMITTED</span><span class="p">,</span>
+<span class="w">    </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">    </span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="n">rollbackFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IOException</span><span class="p">.</span><span class="na">class</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>The five important attributes and what each one is responsible for:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>propagation</code></td>
+<td>Decides whether the method joins, creates, suspends, or rejects a transaction</td>
+</tr>
+<tr>
+<td><code>isolation</code></td>
+<td>Controls how concurrent transactions can observe one another's changes</td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td>Sets the maximum time allowed for the transaction</td>
+</tr>
+<tr>
+<td><code>readOnly</code></td>
+<td>Provides a hint that the transaction will only read data</td>
+</tr>
+<tr>
+<td><code>rollbackFor</code></td>
+<td>Adds exception types that should cause rollback</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>propagation</code> is about method-to-method calls: does the callee reuse the caller's transaction or start its own?</li>
+<li><code>isolation</code> is about concurrency: what can two transactions running at the same time see of each other?</li>
+<li><code>timeout</code>, <code>readOnly</code>, and <code>rollbackFor</code> are per-transaction tuning knobs.</li>
+</ul>
+<p>Mnemonic for the five attributes: <strong>P-I-T-R-R</strong> (Propagation, Isolation, Timeout, ReadOnly, RollbackFor).</p>
+<h2 id="2-default-transactional-behaviour">2. Default @Transactional Behaviour</h2>
+<p>A bare <code>@Transactional</code> is not "no configuration"; it is a stack of defaults.</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void performOperation() {
+    // Business operations
+}
+</code></pre></div>
+
+<p>The annotation uses the following defaults:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Propagation</td>
+<td><code>Propagation.REQUIRED</code></td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td><code>Isolation.DEFAULT</code></td>
+</tr>
+<tr>
+<td>Read-only</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>Default of the underlying transaction infrastructure</td>
+</tr>
+<tr>
+<td>Rollback</td>
+<td><code>RuntimeException</code> and <code>Error</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Default propagation: REQUIRED.</strong> If a transaction exists, join it; if no transaction exists, create one.</li>
+<li><strong>Default isolation: DEFAULT.</strong> Spring asks the underlying transaction infrastructure for its default, which is commonly determined by the database.</li>
+<li><strong>Default read-write behaviour: <code>readOnly = false</code>.</strong> The transaction is treated as a normal read-write transaction.</li>
+<li><strong>Default timeout: the infrastructure default.</strong> This does not mean a timeout can never occur. Timeout rules may still come from the transaction manager, database, connection pool, JDBC driver, query, or lock-acquisition settings.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: A missing <code>timeout</code> attribute means "use the infrastructure default", not "run forever". Timeouts can still fire from the layers below Spring.</p>
+</blockquote>
+<h2 id="3-commit-and-rollback-rules">3. Commit and Rollback Rules</h2>
+<p>A transaction normally commits when all three conditions are satisfied:</p>
+<ol>
+<li>The transactional method completes normally.</li>
+<li>The transaction has not been marked as rollback-only.</li>
+<li>The actual commit operation succeeds.</li>
+</ol>
+<p>Return values such as <code>false</code>, <code>null</code>, <code>Optional.empty()</code>, or <code>ResponseEntity.badRequest()</code> do not represent transaction failure. They are ordinary Java return values, and Spring does not inspect their business meaning to decide whether to roll back.</p>
+<h3 id="rollback-for-runtime-exceptions">Rollback for Runtime Exceptions</h3>
+<p>By default, an unchecked exception causes rollback when it escapes the transactional method.</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void transfer() {
+    debit();
+    throw new IllegalStateException(&quot;Transfer failed&quot;);
+}
+</code></pre></div>
+
+<p>The flow is:</p>
+<div class="highlight"><pre><span></span><code>RuntimeException escapes the method
+        |
+        v
+Default rollback rule matches
+        |
+        v
+Transaction rolls back
+</code></pre></div>
+
+<p>Common examples matched by the default rule include <code>IllegalArgumentException</code>, <code>IllegalStateException</code>, <code>NullPointerException</code>, <code>DataIntegrityViolationException</code>, and custom subclasses of <code>RuntimeException</code>.</p>
+<h3 id="rollback-for-error">Rollback for Error</h3>
+<p>An <code>Error</code> also triggers rollback by default: <code>OutOfMemoryError</code>, <code>StackOverflowError</code>, <code>AssertionError</code>, and <code>LinkageError</code>. An <code>Error</code> usually represents a serious JVM or environment failure rather than an ordinary business problem, but it still matches Spring's default rollback policy.</p>
+<h3 id="checked-exception-behaviour-and-rollbackfor">Checked Exception Behaviour and rollbackFor</h3>
+<p>A checked exception does not trigger rollback under Spring's traditional default policy.</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void transfer() throws TransferException {
+    debit();
+    throw new TransferException(&quot;Transfer failed&quot;);
+}
+
+public class TransferException extends Exception {
+}
+</code></pre></div>
+
+<p>The default flow is:</p>
+<div class="highlight"><pre><span></span><code>Checked exception escapes the method
+        |
+        v
+Default rollback rule does not match
+        |
+        v
+Spring proceeds towards commit
+</code></pre></div>
+
+<p>This does not mean checked exceptions are harmless; it only describes the default rollback rule. Use <code>rollbackFor</code> when a checked exception should cause rollback:</p>
+<div class="highlight"><pre><span></span><code>@Transactional(rollbackFor = TransferException.class)
+public void transfer() throws TransferException {
+    debit();
+    throw new TransferException(&quot;Transfer failed&quot;);
+}
+</code></pre></div>
+
+<p>Multiple types can be configured at once:</p>
+<div class="highlight"><pre><span></span><code>@Transactional(
+    rollbackFor = {
+        TransferException.class,
+        IOException.class
+    }
+)
+public void transfer() {
+    // Business operations
+}
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: normal completion commits; <code>RuntimeException</code> and <code>Error</code> roll back by default; checked exceptions commit unless you name them in <code>rollbackFor</code>.</p>
+</blockquote>
+<h2 id="4-the-proxy-requirement">4. The Proxy Requirement</h2>
+<p><code>@Transactional</code> is normally applied through a Spring-generated proxy. Therefore, the method must be invoked through that proxy for transactional interception to occur.</p>
+<div class="highlight"><pre><span></span><code>Caller --&gt; Spring proxy --&gt; transactional interceptor --&gt; your method
+</code></pre></div>
+
+<ul>
+<li>If the call enters through the proxy, Spring can start, join, or suspend transactions around your method.</li>
+<li>If the call bypasses the proxy (for example, a plain <code>new</code>, or a method calling another method on <code>this</code>), no interception happens and the annotation has no effect.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why did my <code>@Transactional</code> method do nothing?" is almost always a proxy question - the method was called internally, not through the proxy.</p>
+</blockquote>
+<h2 id="5-propagation-modes-at-a-glance">5. Propagation Modes at a Glance</h2>
+<p>Propagation answers one central question: what should this transactional method do when it is called with or without an existing transaction?</p>
+<table>
+<thead>
+<tr>
+<th>Propagation mode</th>
+<th>If a transaction exists</th>
+<th>If no transaction exists</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>REQUIRED</code></td>
+<td>Join it</td>
+<td>Create a transaction</td>
+</tr>
+<tr>
+<td><code>REQUIRES_NEW</code></td>
+<td>Suspend it and create a new transaction</td>
+<td>Create a transaction</td>
+</tr>
+<tr>
+<td><code>SUPPORTS</code></td>
+<td>Join it</td>
+<td>Run without a transaction</td>
+</tr>
+<tr>
+<td><code>MANDATORY</code></td>
+<td>Join it</td>
+<td>Throw an exception</td>
+</tr>
+<tr>
+<td><code>NOT_SUPPORTED</code></td>
+<td>Suspend it and run without a transaction</td>
+<td>Run without a transaction</td>
+</tr>
+<tr>
+<td><code>NEVER</code></td>
+<td>Throw an exception</td>
+<td>Run without a transaction</td>
+</tr>
+<tr>
+<td><code>NESTED</code></td>
+<td>Create a savepoint inside it</td>
+<td>Create a transaction</td>
+</tr>
+</tbody>
+</table>
+<h3 id="transaction-suspension">Transaction Suspension</h3>
+<p>Suspending a transaction does not temporarily commit it. It means Spring pauses its association with the current transaction and its resources while another scope executes. The suspended transaction has neither committed nor rolled back; it resumes after the inner scope completes.</p>
+<p>Propagation modes that may suspend an existing transaction are:</p>
+<ul>
+<li><code>REQUIRES_NEW</code>: suspends the outer transaction and starts a new transaction.</li>
+<li><code>NOT_SUPPORTED</code>: suspends the outer transaction and runs without a transaction.</li>
+</ul>
+<p>Mnemonic for the modes: <strong>REQUIRED joins, REQUIRES_NEW owns, NESTED saves a spot, MANDATORY demands, NEVER refuses, NOT_SUPPORTED ignores, SUPPORTS follows.</strong></p>
+<h2 id="6-propagationrequired-join-or-create">6. Propagation.REQUIRED: Join or Create</h2>
+<p><code>REQUIRED</code> is Spring's default propagation mode.</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void placeOrder() {
+    // Business operations
+}
+</code></pre></div>
+
+<p>It is equivalent to:</p>
+<div class="highlight"><pre><span></span><code>@Transactional(propagation = Propagation.REQUIRED)
+public void placeOrder() {
+    // Business operations
+}
+</code></pre></div>
+
+<p>Its rule is simple: if a transaction exists, join it; if no transaction exists, create one.</p>
+<h3 id="joining-an-existing-transaction">Joining an Existing Transaction</h3>
+<p>Consider an outer method that calls three transactional services:</p>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void checkout() {
+    orderService.createOrder();
+    inventoryService.reserveStock();
+    paymentService.createPaymentRecord();
+}
+</code></pre></div>
+
+<p>If all three inner methods use <code>REQUIRED</code>, they participate in the same physical transaction:</p>
+<div class="highlight"><pre><span></span><code>Transaction A
+|-- createOrder()
+|-- reserveStock()
+`-- createPaymentRecord()
+</code></pre></div>
+
+<p>They normally share the same physical database transaction, JDBC connection, transaction-bound <code>EntityManager</code>, persistence context, and final commit-or-rollback decision. The inner methods create separate logical transaction scopes, but they do not create independent physical transactions.</p>
+<h3 id="inner-transaction-settings-do-not-override-the-outer">Inner Transaction Settings Do Not Override the Outer</h3>
+<p>Suppose the outer method declares <code>isolation = Isolation.READ_COMMITTED, timeout = 30</code>, and the inner <code>reserveStock()</code> declares <code>propagation = REQUIRED, isolation = Isolation.SERIALIZABLE, timeout = 5</code>. The inner method joins an already-running physical transaction, so it cannot normally replace that transaction's characteristics:</p>
+<div class="highlight"><pre><span></span><code>Effective physical transaction:
+Isolation -&gt; READ_COMMITTED   (outer wins)
+Timeout   -&gt; 30 seconds       (outer wins)
+</code></pre></div>
+
+<h3 id="outer-failure-after-inner-success">Outer Failure After Inner Success</h3>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void placeOrder() {
+    orderRepository.save(order);
+    inventoryService.reserveStock();
+
+    throw new IllegalStateException(
+        &quot;Failure after inventory reservation&quot;
+    );
+}
+</code></pre></div>
+
+<p>Even if <code>reserveStock()</code> completes successfully, both operations roll back because they belong to the same physical transaction. An inner <code>REQUIRED</code> method cannot commit independently.</p>
+<h3 id="when-to-use-required">When to Use REQUIRED</h3>
+<p><code>REQUIRED</code> is appropriate when all participating operations represent one business unit of work and must share one final outcome. Typical examples: placing an order, transferring money, creating an invoice, registering a student, reserving inventory, cancelling a booking, updating employee information.</p>
+<h2 id="7-the-rollback-only-trap-unexpectedrollbackexception">7. The rollback-only Trap: UnexpectedRollbackException</h2>
+<p>A subtle problem occurs when an inner <code>REQUIRED</code> method fails but the outer method catches the exception:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">orderRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Order</span><span class="p">());</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">inventoryService</span><span class="p">.</span><span class="na">reserveStock</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InsufficientStockException</span><span class="w"> </span><span class="n">exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Stock reservation failed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Order method completed normally&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The execution flow is:</p>
+<ol>
+<li>The outer method starts Transaction A.</li>
+<li><code>reserveStock()</code> joins Transaction A.</li>
+<li><code>reserveStock()</code> throws a <code>RuntimeException</code>.</li>
+<li>Its transactional interceptor marks Transaction A as rollback-only.</li>
+<li>The outer method catches the Java exception.</li>
+<li>The outer method completes normally and attempts to commit.</li>
+<li>Transaction A cannot commit because it is already rollback-only.</li>
+<li>Spring rolls it back and throws <code>UnexpectedRollbackException</code>.</li>
+</ol>
+<p>Catching the original exception prevents it from propagating further in Java. It does not remove the rollback-only state already placed on the shared transaction.</p>
+<div class="highlight"><pre><span></span><code>Inner REQUIRED fails -&gt; interceptor sets rollback-only on shared tx
+        |
+        v
+Outer catches exception and &quot;succeeds&quot;
+        |
+        v
+Commit attempt fails -&gt; Spring rolls back -&gt; UnexpectedRollbackException
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Catching an inner exception cannot resurrect a transaction that has already been marked rollback-only. The shared physical transaction remembers.</p>
+</blockquote>
+<h2 id="8-propagationrequires_new-suspend-and-resume">8. Propagation.REQUIRES_NEW: Suspend and Resume</h2>
+<p><code>REQUIRES_NEW</code> always executes the method inside a new physical transaction. If an outer transaction exists: suspend it, create a separate transaction, and after the inner transaction completes, resume the outer transaction.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentAuditService</span><span class="w"> </span><span class="n">paymentAuditService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Transaction A</span>
+<span class="w">        </span><span class="n">paymentAuditService</span><span class="p">.</span><span class="na">recordAttempt</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// Transaction A resumes</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentAuditService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentAuditRepository</span><span class="w"> </span><span class="n">paymentAuditRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span><span class="p">(</span><span class="n">propagation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Propagation</span><span class="p">.</span><span class="na">REQUIRES_NEW</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">recordAttempt</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">paymentAuditRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PaymentAudit</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The flow is:</p>
+<ol>
+<li><code>placeOrder()</code> starts Transaction A.</li>
+<li><code>recordAttempt()</code> is invoked through the <code>PaymentAuditService</code> proxy.</li>
+<li>Spring suspends Transaction A.</li>
+<li>Spring starts Transaction B.</li>
+<li><code>recordAttempt()</code> executes inside Transaction B.</li>
+<li>Transaction B commits or rolls back.</li>
+<li>Spring releases Transaction B's resources.</li>
+<li>Spring resumes Transaction A.</li>
+</ol>
+<h3 id="separate-physical-resources">Separate Physical Resources</h3>
+<p>In a typical single-database JPA application, the transactions use separate resources:</p>
+<div class="highlight"><pre><span></span><code>Outer Transaction A
+|-- EntityManager A
+|-- Persistence Context A
+`-- JDBC Connection A
+
+Inner Transaction B
+|-- EntityManager B
+|-- Persistence Context B
+`-- JDBC Connection B
+</code></pre></div>
+
+<p>Because the transactions are independent, the inner transaction may define its own isolation level, timeout, read-only status, and rollback rules.</p>
+<h3 id="inner-commits-outer-rolls-back">Inner Commits, Outer Rolls Back</h3>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void outer() {
+    orderRepository.save(...);
+    paymentAuditService.saveAudit();
+    throw new RuntimeException();
+}
+
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveAudit() {
+    paymentAuditRepository.save(...);
+}
+</code></pre></div>
+
+<p>Expected result:</p>
+<div class="highlight"><pre><span></span><code>Audit transaction   -&gt; commits
+Order transaction   -&gt; rolls back
+</code></pre></div>
+
+<p>The audit remains committed because it completed in a separate physical transaction.</p>
+<h3 id="inner-rolls-back-outer-continues">Inner Rolls Back, Outer Continues</h3>
+<div class="highlight"><pre><span></span><code>@Transactional
+public void outer() {
+    orderRepository.save(...);
+    try {
+        paymentAuditService.saveAuditAndFail();
+    } catch (RuntimeException exception) {
+        System.out.println(&quot;Audit failed&quot;);
+    }
+    order.markCompleted();
+}
+</code></pre></div>
+
+<p>The inner transaction can roll back without marking the outer transaction as rollback-only. If the exception is caught and the outer transaction remains valid, the outer transaction can still commit. If the exception is not caught, it reaches the outer transactional boundary; the outer transaction may then roll back because it received a <code>RuntimeException</code>, not because the two physical transactions share rollback state.</p>
+<h2 id="9-requires_new-in-practice-audit-logging-and-visibility">9. REQUIRES_NEW in Practice: Audit Logging and Visibility</h2>
+<h3 id="visibility-of-outer-uncommitted-data">Visibility of Outer Uncommitted Data</h3>
+<p>Suppose Transaction A inserts a new order but has not committed it:</p>
+<div class="highlight"><pre><span></span><code>Transaction A:
+INSERT order id = 101
+Status: uncommitted
+</code></pre></div>
+
+<p>Transaction B starts through <code>REQUIRES_NEW</code> and attempts to load that order:</p>
+<div class="highlight"><pre><span></span><code>@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void recordOrderAudit(Long orderId) {
+    Order order = orderRepository.findById(orderId)
+        .orElseThrow();
+}
+</code></pre></div>
+
+<p>Transaction B generally cannot assume that it can see Transaction A's uncommitted insert. An independent transaction should not depend casually on uncommitted state owned by the suspended outer transaction.</p>
+<h3 id="common-use-case-audit-logging">Common Use Case: Audit Logging</h3>
+<p><code>REQUIRES_NEW</code> is commonly used when an audit record must be preserved even if the main business transaction fails. It should be used deliberately because it needs an additional physical transaction and typically another database connection while the outer resources remain suspended.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>REQUIRES_NEW</code> is a resource decision, not just a code convenience. It consumes a second connection and suspends the outer transaction until the inner one finishes.</p>
+</blockquote>
+<h2 id="10-other-propagation-modes-supports-mandatory-not_supported-never">10. Other Propagation Modes: SUPPORTS, MANDATORY, NOT_SUPPORTED, NEVER</h2>
+<h3 id="propagationsupports">Propagation.SUPPORTS</h3>
+<div class="highlight"><pre><span></span><code>If a transaction exists    -&gt; join it
+If no transaction exists   -&gt; run without a transaction
+</code></pre></div>
+
+<p><code>SUPPORTS</code> means that a transaction is welcome but not required. It can be suitable for read helper methods, calculations that may use transaction-bound entities, methods called both inside and outside larger workflows, and infrastructure helpers that do not require atomic writes. Its behaviour can change depending on the caller, so it should not be used for a write operation that requires a guaranteed transactional boundary.</p>
+<h3 id="propagationmandatory">Propagation.MANDATORY</h3>
+<div class="highlight"><pre><span></span><code>If a transaction exists    -&gt; join it
+If no transaction exists   -&gt; throw an exception
+</code></pre></div>
+
+<p><code>MANDATORY</code> creates a clear contract: the caller must establish the transaction. For example, stock reservation may be designed only as a building block of a larger operation such as placing an order or replacing an order item; it should never execute independently.</p>
+<div class="highlight"><pre><span></span><code>@Transactional(propagation = Propagation.MANDATORY)
+public void reserveStock() {
+    // Business operations
+}
+</code></pre></div>
+
+<p>Calling this method without an active transaction causes an exception. Calling it from a transactional service makes it join the existing transaction.</p>
+<p><code>MANDATORY</code> versus <code>REQUIRED</code>:</p>
+<div class="highlight"><pre><span></span><code>REQUIRED   -&gt; join an existing transaction or create one
+MANDATORY  -&gt; join an existing transaction or fail
+</code></pre></div>
+
+<p>Use <code>REQUIRED</code> when the method can represent an independent business operation. Use <code>MANDATORY</code> when it should only be part of a transaction defined by its caller.</p>
+<h3 id="propagationnot_supported">Propagation.NOT_SUPPORTED</h3>
+<div class="highlight"><pre><span></span><code>If a transaction exists    -&gt; suspend it and run without a transaction
+If no transaction exists   -&gt; run without a transaction
+</code></pre></div>
+
+<p>The method always executes non-transactionally.</p>
+<h3 id="propagationnever">Propagation.NEVER</h3>
+<div class="highlight"><pre><span></span><code>If a transaction exists    -&gt; throw an exception
+If no transaction exists   -&gt; run without a transaction
+</code></pre></div>
+
+<p><code>NEVER</code> establishes the opposite contract to <code>MANDATORY</code>: the method must not execute inside a transaction.</p>
+<h2 id="11-propagationnested-savepoints">11. Propagation.NESTED: Savepoints</h2>
+<p><code>NESTED</code> normally does not create a second independent physical transaction. It uses the existing physical transaction and creates a database savepoint.</p>
+<p>Suppose Transaction A has completed two operations:</p>
+<div class="highlight"><pre><span></span><code>Operation 1
+Operation 2
+SAVEPOINT S1
+Operation 3
+Operation 4
+</code></pre></div>
+
+<p>If a failure occurs after S1, the transaction can execute:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ROLLBACK</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">SAVEPOINT</span><span class="w"> </span><span class="n">S1</span><span class="p">;</span>
+</code></pre></div>
+
+<p>This discards Operations 3 and 4 while retaining Operations 1 and 2. The outer transaction remains active and still owns the final commit-or-rollback decision.</p>
+<p>If no outer transaction exists, <code>NESTED</code> behaves like <code>REQUIRED</code> and creates a new transaction, because there is no existing transaction in which to create a savepoint.</p>
+<p><code>NESTED</code> requires support from the chosen transaction manager and underlying resource. It is commonly associated with JDBC savepoints and should not be assumed to work identically in every JPA configuration.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: <code>NESTED</code> is the mode where candidates most often guess. The correct sentence is "a savepoint inside the existing physical transaction", not "a second independent transaction".</p>
+</blockquote>
+<h2 id="12-isolation-and-the-three-read-phenomena">12. Isolation and the Three Read Phenomena</h2>
+<p>Propagation controls the relationship between transactional method calls. Isolation controls the relationship between transactions executing concurrently. Concurrent execution is unavoidable because many users may place orders, transfer money, book seats, update inventory, and read reports at the same time.</p>
+<p>The database must balance two competing objectives:</p>
+<div class="highlight"><pre><span></span><code>Correctness  &lt;-&gt;  Concurrency
+</code></pre></div>
+
+<p>Stronger isolation offers more protection but can increase blocking, retries, deadlocks, and resource usage. Weaker isolation allows more concurrency but exposes the application to more anomalies.</p>
+<h3 id="dirty-read">Dirty Read</h3>
+<p>A dirty read occurs when one transaction reads a change made by another transaction that has not committed.</p>
+<p>Initial state (Account A = 10,000):</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Transaction T1</th>
+<th>Transaction T2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Begins</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Updates balance to 2,000</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>Begins</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Reads balance as 2,000</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Rolls back</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Balance returns to 10,000</td>
+<td>Continues using 2,000</td>
+</tr>
+</tbody>
+</table>
+<p>T2 used a value that never became part of the committed database state.</p>
+<h3 id="non-repeatable-read">Non-Repeatable Read</h3>
+<p>A non-repeatable read occurs when a transaction reads the same row twice and receives different committed values.</p>
+<p>Initial state (Account A = 10,000):</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Transaction T1</th>
+<th>Transaction T2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Begins</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Reads balance as 10,000</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>Begins</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Updates balance to 8,000</td>
+</tr>
+<tr>
+<td>5</td>
+<td></td>
+<td>Commits</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Reads the same row again</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Receives 8,000</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>The second value is not dirty because T2 committed it. The problem is that the same row did not produce a repeatable value inside T1.</p>
+<h3 id="phantom-read">Phantom Read</h3>
+<p>A phantom read concerns a set of rows selected by a condition rather than a change to one previously read row. T1 runs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">employee</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">salary</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">100000</span><span class="p">;</span>
+</code></pre></div>
+
+<p>It receives three employees. T2 then inserts a new matching row and commits:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">employee</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">salary</span><span class="p">)</span>
+<span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;Employee D&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">120000</span><span class="p">);</span>
+</code></pre></div>
+
+<p>When T1 repeats the original query, it receives four employees. The additional matching row is the phantom.</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>Transaction T1</th>
+<th>Transaction T2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Begins</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>Finds 3 matching employees</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>Inserts a matching employee</td>
+</tr>
+<tr>
+<td>4</td>
+<td></td>
+<td>Commits</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Repeats the query</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Finds 4 matching employees</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-databases-implement-isolation">How Databases Implement Isolation</h3>
+<p>Databases do not necessarily lock an entire table for every transaction. Depending on the database and isolation level, they may use row and range locks, shared and exclusive locks, Multi-Version Concurrency Control (MVCC), consistent snapshots, predicate locking, conflict detection, or transaction aborts and retries. The same isolation level may therefore have different performance characteristics and edge-case behaviour across database systems.</p>
+<h2 id="13-spring-isolation-levels-compared">13. Spring Isolation Levels Compared</h2>
+<p>Spring provides the following options: <code>Isolation.DEFAULT</code>, <code>Isolation.READ_UNCOMMITTED</code>, <code>Isolation.READ_COMMITTED</code>, <code>Isolation.REPEATABLE_READ</code>, and <code>Isolation.SERIALIZABLE</code>.</p>
+<p><code>Isolation.DEFAULT</code> is not an additional database isolation level created by Spring. Spring does not request a different isolation level; it uses the default of the underlying transaction infrastructure.</p>
+<div class="highlight"><pre><span></span><code>PostgreSQL DEFAULT  -&gt; READ COMMITTED
+MySQL InnoDB        -&gt; REPEATABLE READ
+</code></pre></div>
+
+<p>The comparison table an interviewer expects:</p>
+<table>
+<thead>
+<tr>
+<th>Isolation level</th>
+<th>Dirty read</th>
+<th>Non-repeatable read</th>
+<th>Phantom read</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>READ_UNCOMMITTED</code></td>
+<td>Possible</td>
+<td>Possible</td>
+<td>Possible</td>
+</tr>
+<tr>
+<td><code>READ_COMMITTED</code></td>
+<td>Prevented</td>
+<td>Possible</td>
+<td>Possible</td>
+</tr>
+<tr>
+<td><code>REPEATABLE_READ</code></td>
+<td>Prevented</td>
+<td>Prevented</td>
+<td>Standard permits it; the actual database may prevent it</td>
+</tr>
+<tr>
+<td><code>SERIALIZABLE</code></td>
+<td>Prevented</td>
+<td>Prevented</td>
+<td>Prevented</td>
+</tr>
+</tbody>
+</table>
+<h3 id="read_uncommitted">READ_UNCOMMITTED</h3>
+<p>The weakest standard isolation level. A transaction may observe another transaction's uncommitted changes.</p>
+<div class="highlight"><pre><span></span><code>@Transactional(isolation = Isolation.READ_UNCOMMITTED)
+public void generateReport() {
+    // Business operations
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Dirty read          -&gt; Possible
+Non-repeatable read -&gt; Possible
+Phantom read        -&gt; Possible
+</code></pre></div>
+
+<p>It is rarely suitable for business operations because decisions may be based on data that is later rolled back.</p>
+<h3 id="read_committed">READ_COMMITTED</h3>
+<p>A transaction cannot read another transaction's uncommitted changes.</p>
+<div class="highlight"><pre><span></span><code>@Transactional(isolation = Isolation.READ_COMMITTED)
+public void performOperation() {
+    // Business operations
+}
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Dirty read          -&gt; Prevented
+Non-repeatable read -&gt; Possible
+Phantom read        -&gt; Possible
+</code></pre></div>
+
+<p>Each statement may see the latest data committed before that statement begins, so two reads inside one transaction can still produce different results.</p>
+<h3 id="repeatable_read">REPEATABLE_READ</h3>
+<p>In the standard isolation model:</p>
+<div class="highlight"><pre><span></span><code>Dirty read          -&gt; Prevented
+Non-repeatable read -&gt; Prevented
+Phantom read        -&gt; May occur
+</code></pre></div>
+
+<p>Actual behaviour depends on the database implementation. For example, an MVCC-based database may prevent some phantom-read scenarios even though the SQL standard permits them at this level.</p>
+<h3 id="serializable">SERIALIZABLE</h3>
+<p><code>SERIALIZABLE</code> is the strongest standard isolation level. Concurrent transactions must produce a result equivalent to some valid serial order. For two transactions, the result should be equivalent to either "T1 completes, then T2 completes" or "T2 completes, then T1 completes".</p>
+<p>The transactions may still overlap physically. The database can enforce serializable behaviour using locks, MVCC, predicate or range locks, conflict detection, or transaction abortion and retry.</p>
+<div class="highlight"><pre><span></span><code>Dirty read            -&gt; Prevented
+Non-repeatable read   -&gt; Prevented
+Phantom read          -&gt; Prevented
+Serialization anomaly -&gt; Prevented
+</code></pre></div>
+
+<h2 id="14-choosing-the-right-isolation-level">14. Choosing the Right Isolation Level</h2>
+<p>Do not choose the strongest isolation level automatically. Choose the weakest level that still preserves the correctness rules of the business operation. Consider:</p>
+<ul>
+<li>What incorrect outcome can occur if data changes during the transaction?</li>
+<li>Does the method read the same row or query result more than once?</li>
+<li>Can two users update the same business data concurrently?</li>
+<li>Can the operation tolerate a retry?</li>
+<li>What are the database's actual guarantees at the chosen level?</li>
+<li>Would optimistic or pessimistic locking solve the specific problem more precisely?</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule: isolation is a trade-off, not a trophy. Pick the weakest level that keeps the business invariant true, and let the database's real guarantees - not the label - decide.</p>
+</blockquote>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Catching the inner exception prevents rollback"</td>
+<td>Only if propagation created a separate transaction; a shared <code>REQUIRED</code> transaction is already rollback-only, so commit throws <code>UnexpectedRollbackException</code></td>
+</tr>
+<tr>
+<td>"REQUIRES_NEW just starts a new logical scope"</td>
+<td>It suspends the outer transaction and starts a new physical transaction with its own connection and persistence context</td>
+</tr>
+<tr>
+<td>"A REQUIRED inner method can override outer isolation/timeout"</td>
+<td>It joins the existing physical transaction, so the outer settings win</td>
+</tr>
+<tr>
+<td>"<code>readOnly = true</code> forbids all writes"</td>
+<td>It is a hint to the infrastructure, not an enforcement guarantee</td>
+</tr>
+<tr>
+<td>"No <code>timeout</code> means the transaction never times out"</td>
+<td>Spring falls back to the infrastructure default; timeouts can still come from the DB, pool, or driver</td>
+</tr>
+<tr>
+<td>"Checked exceptions roll back by default"</td>
+<td>They do not; use <code>rollbackFor</code> to include them</td>
+</tr>
+<tr>
+<td>"A private/self-invoked @Transactional method still works"</td>
+<td>Interception needs the proxy; bypassing it disables the annotation</td>
+</tr>
+<tr>
+<td>"SERIALIZABLE means transactions actually run one after another"</td>
+<td>They may overlap physically; the database only guarantees an equivalent serial result</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Catching the inner exception fixes the rollback."</strong>
+Verdict: False. With <code>REQUIRED</code>, the inner failure marks the shared transaction rollback-only, and the outer commit then throws <code>UnexpectedRollbackException</code>.</p>
+<p><strong>Trap 2 - "REQUIRES_NEW is only a new logical transaction scope."</strong>
+Verdict: False. It suspends the outer transaction and creates an independent physical transaction with separate resources.</p>
+<p><strong>Trap 3 - "The inner REQUIRED method can set its own isolation and timeout."</strong>
+Verdict: False. It joins the already-running physical transaction; the outer isolation and timeout remain in effect.</p>
+<p><strong>Trap 4 - "readOnly = true blocks writes."</strong>
+Verdict: Misleading. It is a hint that the transaction only reads; enforcement is not guaranteed.</p>
+<p><strong>Trap 5 - "A missing timeout attribute means no timeout."</strong>
+Verdict: False. Spring uses the default of the underlying transaction infrastructure, and lower layers can still time the operation out.</p>
+<p><strong>Trap 6 - "Checked exceptions roll back like runtime exceptions."</strong>
+Verdict: False. Checked exceptions commit by default; add them with <code>rollbackFor</code>.</p>
+<p><strong>Trap 7 - "Calling a @Transactional method from the same class still gets a transaction."</strong>
+Verdict: False. The call bypasses the proxy, so no transactional interception happens.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li><code>@Transactional</code> attributes: propagation, isolation, timeout, readOnly, rollbackFor (mnemonic P-I-T-R-R).</li>
+<li>Defaults: <code>propagation = REQUIRED</code>, <code>isolation = DEFAULT</code>, <code>readOnly = false</code>, infrastructure timeout, rollback on <code>RuntimeException</code> and <code>Error</code>.</li>
+<li>A transaction commits only when the method completes normally, the transaction is not rollback-only, and the commit itself succeeds.</li>
+<li><code>false</code>, <code>null</code>, <code>Optional.empty()</code>, and <code>ResponseEntity.badRequest()</code> are ordinary return values; Spring does not roll back because of them.</li>
+<li>Checked exceptions commit by default; use <code>rollbackFor</code> to force rollback.</li>
+<li><code>@Transactional</code> works through a Spring proxy, so the method must be invoked through the proxy.</li>
+<li><code>REQUIRED</code> joins or creates; <code>REQUIRES_NEW</code> suspends and starts a new physical transaction; <code>NESTED</code> creates a savepoint inside the existing transaction.</li>
+<li>An inner <code>REQUIRED</code> failure marks the shared transaction rollback-only, and a later commit throws <code>UnexpectedRollbackException</code>.</li>
+<li>Suspending a transaction neither commits nor rolls it back; it pauses its association and resumes after the inner scope.</li>
+<li>Isolation trades correctness for concurrency; pick the weakest level that preserves the business rules, and remember the database implementation decides the real behaviour.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What does <code>@Transactional</code> do?</td>
+<td>Declares transactional boundaries around a method via a Spring proxy, using propagation, isolation, timeout, readOnly, and rollbackFor.</td>
+</tr>
+<tr>
+<td>What is the default propagation?</td>
+<td><code>REQUIRED</code>: join an existing transaction or create one.</td>
+</tr>
+<tr>
+<td>What is the default rollback rule?</td>
+<td><code>RuntimeException</code> and <code>Error</code> roll back; checked exceptions do not unless listed in <code>rollbackFor</code>.</td>
+</tr>
+<tr>
+<td>REQUIRED vs REQUIRES_NEW?</td>
+<td>REQUIRED joins the current transaction; REQUIRES_NEW suspends it and starts a new physical transaction.</td>
+</tr>
+<tr>
+<td>REQUIRED vs MANDATORY?</td>
+<td>REQUIRED creates a transaction if none exists; MANDATORY throws if none exists.</td>
+</tr>
+<tr>
+<td>What does NESTED do?</td>
+<td>Creates a database savepoint inside the existing transaction when supported; behaves like REQUIRED with no outer transaction.</td>
+</tr>
+<tr>
+<td>What is a dirty read?</td>
+<td>Reading uncommitted data written by another transaction that may later roll back.</td>
+</tr>
+<tr>
+<td>Non-repeatable vs phantom read?</td>
+<td>Non-repeatable: the same row returns different committed values; phantom: the same condition returns a different set of rows.</td>
+</tr>
+<tr>
+<td>Which isolation prevents dirty reads only?</td>
+<td><code>READ_COMMITTED</code> prevents dirty reads but allows non-repeatable and phantom reads.</td>
+</tr>
+<tr>
+<td>What is <code>Isolation.DEFAULT</code>?</td>
+<td>Spring uses the underlying infrastructure's default, not a level Spring invents (PostgreSQL -&gt; READ COMMITTED, MySQL InnoDB -&gt; REPEATABLE READ).</td>
+</tr>
+<tr>
+<td>Why does <code>UnexpectedRollbackException</code> occur?</td>
+<td>An inner REQUIRED method marked the shared transaction rollback-only, so the outer commit could not succeed and Spring rolled back.</td>
+</tr>
+<tr>
+<td>What does transaction suspension mean?</td>
+<td>Pausing the association with the current transaction and its resources without committing or rolling back.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>@Transactional attributes: propagation, isolation, timeout, readOnly, rollbackFor
+        |
+        v
+Defaults: REQUIRED / DEFAULT / readOnly=false / infra timeout / rollback RuntimeException + Error
+        |
+        v
+Commit needs: normal completion + not rollback-only + successful commit
+        |
+        v
+Proxy required: invocation must pass through the Spring proxy
+        |
+        v
+Propagation:
+    REQUIRED      -&gt; join existing or create
+    REQUIRES_NEW  -&gt; suspend outer, create new physical transaction, resume outer
+    NESTED        -&gt; savepoint inside the existing transaction when supported
+    SUPPORTS      -&gt; join if present, else no transaction
+    MANDATORY     -&gt; join or throw
+    NOT_SUPPORTED -&gt; suspend and run non-transactionally
+    NEVER         -&gt; throw if a transaction exists
+        |
+        v
+Rollback-only trap: inner REQUIRED failure + outer catch -&gt; UnexpectedRollbackException
+        |
+        v
+Isolation: READ_UNCOMMITTED &lt; READ_COMMITTED &lt; REPEATABLE_READ &lt; SERIALIZABLE
+        |
+        v
+Phenomena: dirty read -&gt; non-repeatable read -&gt; phantom read
+</code></pre></div>
+
+<ul>
+<li>Propagation decides the relationship between transactional method calls; isolation decides the relationship between concurrent transactions.</li>
+<li><code>REQUIRED</code> shares one physical transaction, so one failure can roll back everything and a caught exception cannot clear the rollback-only marker.</li>
+<li><code>REQUIRES_NEW</code> buys independence with a second physical transaction and connection, and the outer transaction resumes only after the inner one finishes.</li>
+<li><code>NESTED</code> is a savepoint, not a second independent transaction, and it depends on transaction-manager and resource support.</li>
+<li>Isolation is a correctness-versus-concurrency trade-off, and the actual behaviour depends on both the chosen level and the database implementation.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> <code>@Transactional</code> is easy to annotate and hard to master - propagation decides who owns the transaction, isolation decides what concurrent transactions may see, and the proxy is the silent gate that makes either one work.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-33.html"><span class="dir">Previous</span><span class="ttl">Lecture 33 — Spring Transactions</span></a><a class="next" href="doc-theory-lecture-35.html"><span class="dir">Next</span><span class="ttl">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

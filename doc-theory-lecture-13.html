@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 13 — Spring Boot CRUD Project with Soft Delete — Spring Boot</title>
+<meta name="description" content="Lecture 13 — Spring Boot CRUD Project with Soft Delete">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-13">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-13.html#lecture-13">Lecture 13</a></li><li><a href="doc-theory-lecture-13.html#1-what-is-soft-delete">1. What Is Soft Delete?</a></li><li><a href="doc-theory-lecture-13.html#2-why-patch-is-the-right-verb-for-soft-delete">2. Why PATCH Is the Right Verb for Soft Delete</a></li><li><a href="doc-theory-lecture-13.html#3-patch-vs-delete">3. PATCH vs DELETE</a></li><li><a href="doc-theory-lecture-13.html#4-hard-delete-vs-soft-delete">4. Hard Delete vs Soft Delete</a></li><li><a href="doc-theory-lecture-13.html#5-adding-the-isdeleted-field-to-the-entity">5. Adding the isDeleted Field to the Entity</a></li><li><a href="doc-theory-lecture-13.html#6-the-problem-with-findall">6. The Problem with findAll()</a></li><li><a href="doc-theory-lecture-13.html#7-custom-finder-methods-findbyisdeletedfalse">7. Custom Finder Methods: findByIsDeletedFalse()</a></li><li><a href="doc-theory-lecture-13.html#8-normal-findall-vs-custom-filtered-finder">8. Normal findAll() vs Custom Filtered Finder</a></li><li><a href="doc-theory-lecture-13.html#9-how-the-derived-query-name-works">9. How the Derived Query Name Works</a></li><li><a href="doc-theory-lecture-13.html#10-why-findbyidandisdeletedfalse">10. Why findByIdAndIsDeletedFalse()</a></li><li><a href="doc-theory-lecture-13.html#11-final-repository-interface">11. Final Repository Interface</a></li><li><a href="doc-theory-lecture-13.html#12-service-and-controller-changes">12. Service and Controller Changes</a></li><li><a href="doc-theory-lecture-13.html#13-keeping-hard-delete-as-an-option">13. Keeping Hard Delete as an Option</a></li><li><a href="doc-theory-lecture-13.html#14-the-complete-soft-delete-flow">14. The Complete Soft Delete Flow</a></li><li><a href="doc-theory-lecture-13.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-13.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-13.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-13.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-13.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 13 — Spring Boot CRUD Project with Soft Delete</h1>
+<p class="readmeta">20 sections · 3,691 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-13" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-13">Lecture 13</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot CRUD Project with Soft Delete | Spring JPA custom Methods" (playlist map, verified). The repo keeps the same <code>crudSpringBootDemo</code> project (classes <code>CrudSpringBootDemoApplication</code>, <code>controller.StudentController</code>, <code>service.StudentService</code>, <code>repository.StudentRepository</code>, <code>entity.Student</code>, plus <code>src/main/resources/application.properties</code> and <code>pom.xml</code>) now extended with an <code>is_deleted</code> column and custom repository finder methods.</p>
+</blockquote>
+<p>So far our CRUD API removed a student by deleting the row. Real applications rarely destroy data; they hide it. This lecture turns the hard delete into a soft delete: a new <code>isDeleted</code> field, a <code>PATCH</code> endpoint that flips it, and custom Spring Data JPA finder methods that keep the hidden rows out of normal reads. The whole lecture is a small, careful extension of the same project, so the code stays familiar and the design reasoning can take center stage.</p>
+<h2 id="1-what-is-soft-delete">1. What Is Soft Delete?</h2>
+<p>In hard delete, we permanently remove the row from the database. Once gone, the row is gone: it cannot be restored, and any historical reference to it breaks.</p>
+<div class="highlight"><pre><span></span><code>DELETE /api/students/1
+</code></pre></div>
+
+<p>In soft delete, we do not actually delete the row. Instead, we only update one field:</p>
+<div class="highlight"><pre><span></span><code>isDeleted = true
+</code></pre></div>
+
+<p>So the student record still remains in the database, but it is marked as deleted. The row is physically present; the application simply agrees to treat it as gone.</p>
+<p>The difference is entirely in who enforces the deletion. In hard delete the database enforces it: the row is absent, so every query agrees. In soft delete the application enforces it: the row is present, so every query that should ignore deleted students must say so explicitly.</p>
+<p>Why would a system choose this? Because the data still has value: an audit trail, a possible undo, foreign-key references from other tables, or a reporting history. Soft delete keeps that value while hiding the record from ordinary users.</p>
+<blockquote class="callout callout--important">
+<p>Important: Soft delete is a change of state, not a removal. The row survives; only the meaning of the row changes.</p>
+</blockquote>
+<h2 id="2-why-patch-is-the-right-verb-for-soft-delete">2. Why PATCH Is the Right Verb for Soft Delete</h2>
+<p>Because we are only changing one specific field, soft delete is technically a partial update.</p>
+<p>That single sentence decides the HTTP method:</p>
+<div class="highlight"><pre><span></span><code>partial update  -&gt;  PATCH
+</code></pre></div>
+
+<p>A full replacement would need every field of the resource; we are touching exactly one column, so <code>PATCH</code> describes the operation honestly. The endpoint keeps the student id in the path and names the action explicitly:</p>
+<div class="highlight"><pre><span></span><code>PATCH /api/students/1/soft-delete
+</code></pre></div>
+
+<p>Naming <code>soft-delete</code> in the path makes the intent obvious to any reader of the API and keeps it distinct from a normal <code>PATCH</code> that updates a student's profile fields.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The expected reasoning is "one field changes, therefore it is a partial update, therefore PATCH." An answer that says "we use PATCH because it feels right" gives no design principle; the partial-update argument is the one that scores.</p>
+</blockquote>
+<h2 id="3-patch-vs-delete">3. PATCH vs DELETE</h2>
+<p>The two operations differ in intent and in method. This is the table to memorize:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>What happens?</th>
+<th>HTTP Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hard Delete</td>
+<td>Row is permanently removed from the database</td>
+<td><code>DELETE</code></td>
+</tr>
+<tr>
+<td>Soft Delete</td>
+<td>Row remains in the database, but <code>isDeleted</code> becomes <code>true</code></td>
+<td><code>PATCH</code></td>
+</tr>
+</tbody>
+</table>
+<p>So for hard delete:</p>
+<div class="highlight"><pre><span></span><code>DELETE /api/students/1
+</code></pre></div>
+
+<p>For soft delete:</p>
+<div class="highlight"><pre><span></span><code>PATCH /api/students/1/soft-delete
+</code></pre></div>
+
+<p>The method is not decoration; it is a contract. A caller who sees <code>DELETE</code> expects the resource to stop existing. A caller who sees <code>PATCH</code> expects a modified resource that can still be fetched, at least by an administrator or an audit query.</p>
+<p>Put differently, the endpoint's method should match what the database will actually do. A soft delete runs an <code>UPDATE</code>, so exposing it as <code>PATCH</code> tells the truth; exposing it as <code>DELETE</code> would promise a removal that never happens.</p>
+<p>Mnemonic: <strong>PATCH the flag, DELETE the row.</strong> One flips a boolean; the other removes a tuple.</p>
+<h2 id="4-hard-delete-vs-soft-delete">4. Hard Delete vs Soft Delete</h2>
+<p>The same design choice seen from the data's point of view:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Hard Delete</th>
+<th>Soft Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Row in database</td>
+<td>Permanently removed</td>
+<td>Still present</td>
+</tr>
+<tr>
+<td>Recoverable</td>
+<td>No</td>
+<td>Yes, by setting <code>isDeleted = false</code></td>
+</tr>
+<tr>
+<td>HTTP method</td>
+<td><code>DELETE</code></td>
+<td><code>PATCH</code></td>
+</tr>
+<tr>
+<td>Storage cost</td>
+<td>Freed</td>
+<td>Retained</td>
+</tr>
+<tr>
+<td>Normal reads</td>
+<td>Row disappears naturally</td>
+<td>Row must be filtered out manually</td>
+</tr>
+<tr>
+<td>Audit / history</td>
+<td>Lost</td>
+<td>Preserved</td>
+</tr>
+<tr>
+<td>SQL effect</td>
+<td><code>DELETE FROM students ...</code></td>
+<td><code>UPDATE students SET is_deleted = true ...</code></td>
+</tr>
+</tbody>
+</table>
+<p>The catch is hidden in the "normal reads" row: with hard delete, a naive <code>findAll()</code> is automatically correct. With soft delete, every read path must now decide what to do with the hidden rows.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Soft delete moves the deletion decision from the database into your query layer. The row is still there, so your reads must be deliberate about excluding it.</p>
+</blockquote>
+<h2 id="5-adding-the-isdeleted-field-to-the-entity">5. Adding the isDeleted Field to the Entity</h2>
+<p>When we use soft delete, our table contains a column like this:</p>
+<div class="highlight"><pre><span></span><code>is_deleted
+</code></pre></div>
+
+<p>In the Java entity class, we represent it like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Column</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;is_deleted&quot;</span><span class="p">)</span>
+<span class="kd">private</span><span class="w"> </span><span class="n">Boolean</span><span class="w"> </span><span class="n">isDeleted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Two details matter here:</p>
+<ol>
+<li>The field is named <code>isDeleted</code> in Java but maps to <code>is_deleted</code> in the database through <code>@Column(name = "is_deleted")</code>. The two conventions meet cleanly without renaming anything in SQL.</li>
+<li>The default value is <code>false</code>, which means the student is active and not deleted. Every newly created student is therefore visible by default, which is exactly the behavior we want.</li>
+</ol>
+<p>When a student is soft deleted, we update this value to:</p>
+<div class="highlight"><pre><span></span><code>isDeleted = true;
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: The default is part of the design. Because <code>isDeleted</code> starts <code>false</code>, no old insert statement needs to know about soft delete; only the delete path changes.</p>
+</blockquote>
+<h2 id="6-the-problem-with-findall">6. The Problem with findAll()</h2>
+<p>Normally, when we fetch all students, we may use:</p>
+<div class="highlight"><pre><span></span><code>studentRepository.findAll();
+</code></pre></div>
+
+<p>But there is a problem: <code>findAll()</code> fetches every row from the database, including soft-deleted records.</p>
+<p>Consider this table:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>is_deleted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Rahul</td>
+<td>false</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Priya</td>
+<td>true</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Aman</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>If we use <code>findAll()</code>, it may return all three students, including the soft-deleted Priya. But in normal application behavior, soft-deleted students should not be shown. So we only want records where:</p>
+<div class="highlight"><pre><span></span><code>isDeleted = false
+</code></pre></div>
+
+<p>In SQL, the query would look like this:</p>
+<div class="highlight"><pre><span></span><code>SELECT * FROM students
+WHERE is_deleted = false;
+</code></pre></div>
+
+<p>The lesson is general: an ORM method does exactly what its name says. <code>findAll()</code> means "all rows," not "all rows the user is allowed to see." Filtering is our responsibility.</p>
+<p>The same leak appears wherever the old hard-delete assumptions survive:</p>
+<table>
+<thead>
+<tr>
+<th>Call site</th>
+<th>Under hard delete</th>
+<th>Under soft delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>List all</td>
+<td><code>findAll()</code> is correct</td>
+<td>Returns hidden rows too</td>
+</tr>
+<tr>
+<td>Get one</td>
+<td><code>findById(id)</code> is correct</td>
+<td>Returns a hidden row if present</td>
+</tr>
+<tr>
+<td>Existence checks</td>
+<td>Row absent means deleted</td>
+<td>Row present but flagged deleted</td>
+</tr>
+<tr>
+<td>Counts and reports</td>
+<td>Naturally exclude deleted</td>
+<td>Include deleted rows</td>
+</tr>
+</tbody>
+</table>
+<p>Every one of these reads must now choose a side: show everything (admin or audit) or show only active students (normal APIs). The default inherited behavior is "show everything," which is almost never what a user-facing endpoint wants.</p>
+<blockquote class="callout callout--important">
+<p>Important: Soft delete does not change <code>findAll()</code>; it changes the meaning of the rows <code>findAll()</code> returns. The fix belongs in the query methods, not in the database.</p>
+</blockquote>
+<h2 id="7-custom-finder-methods-findbyisdeletedfalse">7. Custom Finder Methods: findByIsDeletedFalse()</h2>
+<p>Spring Data JPA allows us to create queries by simply writing method names. Instead of writing SQL manually, we can create this method inside the repository:</p>
+<div class="highlight"><pre><span></span><code>List&lt;Student&gt; findByIsDeletedFalse();
+</code></pre></div>
+
+<p>Spring Data JPA reads the method name and automatically generates the required query. This method means:</p>
+<div class="highlight"><pre><span></span><code>Find all students where isDeleted is false.
+</code></pre></div>
+
+<p>This type of method is called a <strong>derived query method</strong>: the query is derived from the method name, not written by hand. The equivalent SQL idea is:</p>
+<div class="highlight"><pre><span></span><code>SELECT * FROM students
+WHERE is_deleted = false;
+</code></pre></div>
+
+<p>That is the entire trick. No <code>@Query</code>, no SQL string, no XML; a correctly spelled method name is the query.</p>
+<h2 id="8-normal-findall-vs-custom-filtered-finder">8. Normal findAll() vs Custom Filtered Finder</h2>
+<p>The two reads look almost identical at the call site, but they return different worlds:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>findAll()</code></th>
+<th><code>findByIsDeletedFalse()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Returns</td>
+<td>Every row, including soft-deleted</td>
+<td>Only active rows (<code>isDeleted = false</code>)</td>
+</tr>
+<tr>
+<td>Query written by</td>
+<td>Spring Data JPA</td>
+<td>Spring Data JPA (from the name)</td>
+</tr>
+<tr>
+<td>Filter condition</td>
+<td>None</td>
+<td><code>is_deleted = false</code></td>
+</tr>
+<tr>
+<td>Good for</td>
+<td>Admin/audit views that must see everything</td>
+<td>Normal user-facing lists</td>
+</tr>
+<tr>
+<td>Risk</td>
+<td>Leaks hidden records</td>
+<td>Hides records that callers might legitimately need</td>
+</tr>
+</tbody>
+</table>
+<p>The design decision is not "which is better" but "which read path is this." A student list endpoint should use the filtered finder; an internal audit tool may deliberately use <code>findAll()</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect the question "why not just override <code>findAll()</code>?" The answer: derived finders keep both behaviors available and explicit; silently changing <code>findAll()</code> would hide rows from code that genuinely needs them.</p>
+</blockquote>
+<h2 id="9-how-the-derived-query-name-works">9. How the Derived Query Name Works</h2>
+<p>Every derived finder is read in parts. For:</p>
+<div class="highlight"><pre><span></span><code>List&lt;Student&gt; findByIsDeletedFalse();
+</code></pre></div>
+
+<p>the breakdown is:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>findBy</code></td>
+<td>Query starts here</td>
+</tr>
+<tr>
+<td><code>IsDeleted</code></td>
+<td>Entity field name</td>
+</tr>
+<tr>
+<td><code>False</code></td>
+<td>Condition should be false</td>
+</tr>
+</tbody>
+</table>
+<p>So Spring understands the method as: find students where <code>isDeleted</code> is false.</p>
+<p>This works because Spring Data JPA follows naming conventions. It reads the method name, identifies the field, understands the condition, and creates the query automatically.</p>
+<p>Mnemonic for any derived finder: <strong>A-F-C</strong> - Action (<code>findBy</code>), Field (<code>IsDeleted</code>), Condition (<code>False</code>). Spell the three parts and the query writes itself.</p>
+<h2 id="10-why-findbyidandisdeletedfalse">10. Why findByIdAndIsDeletedFalse()</h2>
+<p>For getting a student by ID, we may normally write:</p>
+<div class="highlight"><pre><span></span><code>studentRepository.findById(id);
+</code></pre></div>
+
+<p>But this can create an issue when soft delete is used. Suppose a student exists in the database but is already soft deleted:</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+<th>is_deleted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Rahul</td>
+<td>true</td>
+</tr>
+</tbody>
+</table>
+<p>If we use <code>findById(1L)</code>, it will still return Rahul because the row still exists in the database. But from the application's point of view, a soft-deleted student should behave like an inactive or hidden record. So for normal get-by-id APIs, we should fetch only students that are not deleted.</p>
+<p>For that, we create this repository method:</p>
+<div class="highlight"><pre><span></span><code>Optional&lt;Student&gt; findByIdAndIsDeletedFalse(Long id);
+</code></pre></div>
+
+<p>This means: find student where <code>id = given id AND isDeleted = false</code>.</p>
+<p>The equivalent SQL idea is:</p>
+<div class="highlight"><pre><span></span><code>SELECT * FROM students
+WHERE id = 1
+AND is_deleted = false;
+</code></pre></div>
+
+<p>Its breakdown follows the same grammar as before:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>findBy</code></td>
+<td>Query starts here</td>
+</tr>
+<tr>
+<td><code>Id</code></td>
+<td>Match the student ID</td>
+</tr>
+<tr>
+<td><code>And</code></td>
+<td>Add another condition</td>
+</tr>
+<tr>
+<td><code>IsDeleted</code></td>
+<td>Check the <code>isDeleted</code> field</td>
+</tr>
+<tr>
+<td><code>False</code></td>
+<td>Value should be false</td>
+</tr>
+</tbody>
+</table>
+<p>So Spring Data JPA understands: find a student where <code>id</code> matches and <code>isDeleted</code> is false. The same <code>findById()</code> that was always correct under hard delete silently returns hidden rows under soft delete; the filtered finder restores the expected behavior.</p>
+<h2 id="11-final-repository-interface">11. Final Repository Interface</h2>
+<p>Inside the repository interface, we can add both derived methods:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByIsDeletedFalse</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findByIdAndIsDeletedFalse</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now we can use <code>findByIsDeletedFalse()</code> to fetch all active students. And <code>findByIdAndIsDeletedFalse(id)</code> to fetch one active student by ID.</p>
+<p>Notice what did not change: the repository still extends <code>JpaRepository&lt;Student, Long&gt;</code>, so all the inherited CRUD methods remain available. The two new methods sit alongside them; nothing is replaced.</p>
+<p>It is worth noting that no <code>@Query</code> and no hand-written SQL appear here. Both filters are simple equality checks on a single field, and that is exactly the shape derived query methods handle best: Spring Data JPA parses the name and builds the query for us. Reach for <code>@Query</code> only when the condition is complex enough that a method name could not express it cleanly; for soft delete, the naming convention is sufficient.</p>
+<blockquote class="callout callout--important">
+<p>Important: Derived methods do not remove the inherited ones. <code>findAll()</code> and <code>findById()</code> still exist and still see soft-deleted rows, which is precisely why the new methods are needed.</p>
+</blockquote>
+<h2 id="12-service-and-controller-changes">12. Service and Controller Changes</h2>
+<p>The soft delete operation itself is small: instead of deleting the row permanently with <code>studentRepository.deleteById(id)</code>, we first fetch the student, then update the field.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">softDeleteStudent</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Student not found&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="n">student</span><span class="p">.</span><span class="na">setIsDeleted</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The controller exposes that service call under the soft-delete path:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@PatchMapping</span><span class="p">(</span><span class="s">&quot;/{id}/soft-delete&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">softDeleteStudent</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">studentService</span><span class="p">.</span><span class="na">softDeleteStudent</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ResponseEntity</span><span class="p">.</span><span class="na">ok</span><span class="p">(</span><span class="s">&quot;Student soft deleted&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The read endpoints change in the same spirit: a "get all" endpoint now calls <code>findByIsDeletedFalse()</code> instead of <code>findAll()</code>, and a "get by id" endpoint calls <code>findByIdAndIsDeletedFalse(id)</code> instead of <code>findById(id)</code>. The controller signatures stay the same; only the repository method behind the service changes.</p>
+<div class="highlight"><pre><span></span><code>public List&lt;Student&gt; getAllStudents() {
+    return studentRepository.findByIsDeletedFalse();
+}
+
+public Student getStudentById(Long id) {
+    return studentRepository.findByIdAndIsDeletedFalse(id)
+            .orElseThrow(() -&gt; new RuntimeException(&quot;Student not found&quot;));
+}
+</code></pre></div>
+
+<p>This is the quiet part of the feature: the write path adds one boolean update, but the read path must be revisited in every place that expected a missing row to be impossible. Miss a read path and a soft-deleted student reappears in the UI.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A strong answer separates the layers: repository owns the query methods, service owns the state transition (<code>setIsDeleted(true)</code> plus <code>save</code>), controller owns the HTTP verb and path. Mixing entity mutation into the controller is a common red flag.</p>
+</blockquote>
+<h2 id="13-keeping-hard-delete-as-an-option">13. Keeping Hard Delete as an Option</h2>
+<p>Soft delete does not have to abolish hard delete; the two can coexist. The original hard-delete endpoint stays available for the cases that genuinely need permanent removal:</p>
+<div class="highlight"><pre><span></span><code>DELETE /api/students/1
+</code></pre></div>
+
+<p>Both operations now live in the same project:</p>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Method and path</th>
+<th>Repository call</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Remove forever</td>
+<td><code>DELETE /api/students/1</code></td>
+<td><code>deleteById(id)</code></td>
+</tr>
+<tr>
+<td>Hide but keep</td>
+<td><code>PATCH /api/students/1/soft-delete</code></td>
+<td>fetch, <code>setIsDeleted(true)</code>, <code>save</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is a common real-world arrangement: user-facing "delete" is soft, while an admin purge or a data-retention job performs the hard delete. Keeping both is a design decision, not a contradiction.</p>
+<p>The important thing is that the method matches the intent at each endpoint. A single <code>DELETE</code> route that only flips a flag teaches every client the wrong model of the system; a <code>PATCH</code> soft-delete route plus a separate admin <code>DELETE</code> keeps both meanings honest.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>DELETE</code> is suitable when the row is actually removed from the database. Reserve it for that meaning; using <code>DELETE</code> to hide a row confuses every caller who reads the method.</p>
+</blockquote>
+<h2 id="14-the-complete-soft-delete-flow">14. The Complete Soft Delete Flow</h2>
+<p>Putting the whole path together, replacing the old hard delete:</p>
+<div class="highlight"><pre><span></span><code>OLD (hard delete):
+DELETE /api/students/1
+-&gt; service.deleteStudent(id)
+-&gt; studentRepository.deleteById(id)
+-&gt; row permanently removed
+
+NEW (soft delete):
+PATCH /api/students/1/soft-delete
+-&gt; service.softDeleteStudent(id)
+-&gt; studentRepository.findById(id)          (locate the active row)
+-&gt; student.setIsDeleted(true)
+-&gt; studentRepository.save(student)         (UPDATE, not DELETE)
+-&gt; row remains, is_deleted = true
+
+READ path afterwards:
+GET /api/students
+-&gt; studentRepository.findByIsDeletedFalse()      (hidden rows excluded)
+
+GET /api/students/1
+-&gt; studentRepository.findByIdAndIsDeletedFalse(1) (hidden row treated as absent)
+</code></pre></div>
+
+<p>So the row remains in the database, but it becomes hidden from normal APIs. The only three moving parts are the new column, the two derived finders, and the one state transition in the service.</p>
+<p>Read the flow top to bottom and notice that nothing was destroyed. The write path changed from a <code>DELETE</code> to an <code>UPDATE</code>, and the read path gained a filter. Because the data is still there, the same design leaves a restore path open: setting <code>isDeleted</code> back to <code>false</code> and saving makes the student visible again without any special "undo" storage.</p>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Soft delete removes the row."</td>
+<td>The row stays; only <code>isDeleted</code> becomes <code>true</code>. Nothing is deleted physically.</td>
+</tr>
+<tr>
+<td>"Soft delete should use <code>DELETE</code>."</td>
+<td>Only one field changes, so it is a partial update; <code>PATCH</code> is the honest method.</td>
+</tr>
+<tr>
+<td>"<code>findAll()</code> returns only active students."</td>
+<td><code>findAll()</code> returns every row, including soft-deleted ones; filtering is your job.</td>
+</tr>
+<tr>
+<td>"<code>findById(id)</code> is safe with soft delete."</td>
+<td>It still returns a soft-deleted row because the row exists; use <code>findByIdAndIsDeletedFalse(id)</code>.</td>
+</tr>
+<tr>
+<td>"Derived query methods need custom SQL."</td>
+<td>The query is generated from the method name; <code>findByIsDeletedFalse()</code> is enough.</td>
+</tr>
+<tr>
+<td>"Soft delete replaces hard delete everywhere."</td>
+<td>Both can coexist: soft for users, hard for admin purge or retention jobs.</td>
+</tr>
+<tr>
+<td>"Soft-deleted records are gone from the database."</td>
+<td>They are hidden from normal reads only; they remain fully queryable if you ask for them.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Soft delete removes the row from the database."</strong>
+Verdict: False. Soft delete means marking a record as deleted instead of removing it permanently; the row remains and <code>isDeleted</code> becomes <code>true</code>.</p>
+<p><strong>Trap 2 - "Soft delete is a <code>DELETE</code> operation because the word delete appears."</strong>
+Verdict: False. It updates one specific field, which makes it a partial update, so <code>PATCH</code> is the suitable HTTP method.</p>
+<p><strong>Trap 3 - "<code>findAll()</code> is fine after adding soft delete."</strong>
+Verdict: False. <code>findAll()</code> fetches every row, including soft-deleted records. Use <code>findByIsDeletedFalse()</code> for normal user-facing lists.</p>
+<p><strong>Trap 4 - "<code>findById(id)</code> will not return a soft-deleted student."</strong>
+Verdict: False. The row still exists, so <code>findById(1L)</code> returns it. Normal get-by-id APIs should use <code>findByIdAndIsDeletedFalse(id)</code>.</p>
+<p><strong>Trap 5 - "<code>findByIsDeletedFalse()</code> needs a hand-written <code>@Query</code>."</strong>
+Verdict: False. It is a derived query method; Spring Data JPA reads <code>findBy</code> + field + condition and generates the query automatically.</p>
+<p><strong>Trap 6 - "Adding the filtered finders removes <code>findAll()</code> and <code>findById()</code>."</strong>
+Verdict: False. The repository still extends <code>JpaRepository</code>, so the inherited methods remain; the new methods simply give explicit filtered alternatives.</p>
+<p><strong>Trap 7 - "A soft-deleted student can never come back."</strong>
+Verdict: False. Because the row is preserved, restoring it is just setting <code>isDeleted = false</code> again; the data was never destroyed.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>Soft delete means marking a record as deleted instead of removing it permanently.</li>
+<li>In soft delete, we usually update a field like <code>isDeleted</code>.</li>
+<li>Because only one field is updated, <code>PATCH</code> is a suitable HTTP method; <code>DELETE</code> is for actual removal.</li>
+<li>The endpoint pattern is <code>PATCH /api/students/{id}/soft-delete</code>.</li>
+<li>The entity field is <code>@Column(name = "is_deleted") private Boolean isDeleted = false;</code> with <code>false</code> meaning active.</li>
+<li><code>findAll()</code> may return soft-deleted records too; it does not filter them.</li>
+<li>To fetch only active records, use custom finder methods such as <code>findByIsDeletedFalse()</code>.</li>
+<li>For a single active record by id, use <code>findByIdAndIsDeletedFalse(id)</code>.</li>
+<li>Spring Data JPA can generate queries automatically from method names; these are called derived query methods.</li>
+<li>Soft-deleted records should usually be hidden from normal get APIs but can be kept as an option alongside hard delete.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is soft delete?</td>
+<td>Marking a record as deleted instead of removing it permanently, usually by setting an <code>isDeleted</code> flag to <code>true</code>.</td>
+</tr>
+<tr>
+<td>Why use <code>PATCH</code> for soft delete?</td>
+<td>Only one field changes, so it is a partial update, and <code>PATCH</code> is the HTTP method for partial updates.</td>
+</tr>
+<tr>
+<td><code>PATCH</code> vs <code>DELETE</code>?</td>
+<td><code>PATCH</code> updates part of a resource (soft delete); <code>DELETE</code> removes the resource permanently (hard delete).</td>
+</tr>
+<tr>
+<td>How do you add the field to the entity?</td>
+<td><code>@Column(name = "is_deleted") private Boolean isDeleted = false;</code>, defaulting to active.</td>
+</tr>
+<tr>
+<td>What is the problem with <code>findAll()</code>?</td>
+<td>It returns every row, including soft-deleted ones, so hidden records leak into normal list APIs.</td>
+</tr>
+<tr>
+<td>How do you fetch only active students?</td>
+<td>Use the derived method <code>findByIsDeletedFalse()</code>, equivalent to <code>SELECT * FROM students WHERE is_deleted = false</code>.</td>
+</tr>
+<tr>
+<td>What is a derived query method?</td>
+<td>A repository method whose query Spring Data JPA generates from the method name, such as <code>findByIsDeletedFalse()</code>.</td>
+</tr>
+<tr>
+<td>Why <code>findByIdAndIsDeletedFalse(id)</code>?</td>
+<td><code>findById(id)</code> returns soft-deleted rows; the filtered method returns a student only when the id matches and <code>isDeleted</code> is false.</td>
+</tr>
+<tr>
+<td>What does <code>findByIsDeletedFalse()</code> mean?</td>
+<td>Find all students where <code>isDeleted</code> is false, i.e. all active students.</td>
+</tr>
+<tr>
+<td>What happens in the database during soft delete?</td>
+<td>An <code>UPDATE</code> sets <code>is_deleted = true</code>; the row is not removed, unlike hard delete's <code>DELETE</code>.</td>
+</tr>
+<tr>
+<td>Can hard and soft delete coexist?</td>
+<td>Yes; keep <code>DELETE</code> for permanent removal and <code>PATCH</code> soft-delete for hiding, choosing per endpoint.</td>
+</tr>
+<tr>
+<td>Can a soft-deleted record be restored?</td>
+<td>Yes; the row still exists, so setting <code>isDeleted</code> back to <code>false</code> makes it visible again.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>hard delete vs soft delete
+
+hard:  DELETE /api/students/1        -&gt; row permanently removed
+soft:  PATCH  /api/students/1/soft-delete
+            |
+            v
+      entity gains: @Column(name = &quot;is_deleted&quot;) Boolean isDeleted = false
+            |
+            v
+      service: findById(id) -&gt; setIsDeleted(true) -&gt; save(student)
+            |
+            v
+      row remains, is_deleted = true, hidden from normal APIs
+            |
+            v
+      reads must filter:
+        findByIsDeletedFalse()             -&gt; all active students
+        findByIdAndIsDeletedFalse(id)      -&gt; one active student
+            |
+            v
+      derived query grammar: findBy + Field(IsDeleted) + Condition(False)
+</code></pre></div>
+
+<ul>
+<li>Soft delete marks a record as deleted instead of removing it permanently.</li>
+<li>Only one field changes, so <code>PATCH</code> suits soft delete; <code>DELETE</code> remains for real removal.</li>
+<li>The <code>is_deleted</code> column maps to <code>isDeleted</code>, defaulting to <code>false</code> (active).</li>
+<li><code>findAll()</code> and <code>findById()</code> do not filter; soft-deleted rows leak through them.</li>
+<li><code>findByIsDeletedFalse()</code> and <code>findByIdAndIsDeletedFalse(id)</code> are derived query methods that filter hidden rows.</li>
+<li>Hard delete and soft delete can coexist for different audiences and jobs.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Soft delete keeps the row but changes its meaning, so the real work is not the <code>UPDATE</code> but the custom finder methods that keep hidden records out of every normal read.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-12.html"><span class="dir">Previous</span><span class="ttl">Lecture 12 — Spring Boot CRUD Project with MySQL</span></a><a class="next" href="doc-theory-lecture-14.html"><span class="dir">Next</span><span class="ttl">Lecture 14 — How Java Web Apps Actually Work</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

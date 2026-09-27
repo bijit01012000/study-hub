@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 38 - Spring JWT Authentication — Spring Boot</title>
+<meta name="description" content="Lecture 38 - Spring JWT Authentication">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-38">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-38.html#lecture-38">Lecture 38</a></li><li><a href="doc-theory-lecture-38.html#1-the-problem-authentication-on-every-request">1. The Problem: Authentication on Every Request</a></li><li><a href="doc-theory-lecture-38.html#2-session-based-authentication">2. Session-Based Authentication</a></li><li><a href="doc-theory-lecture-38.html#3-session-management-and-why-sessions-are-stateful">3. Session Management and Why Sessions Are Stateful</a></li><li><a href="doc-theory-lecture-38.html#4-why-jwt-a-stateless-client-carried-credential">4. Why JWT? A Stateless, Client-Carried Credential</a></li><li><a href="doc-theory-lecture-38.html#5-the-security-problem-with-client-carried-data">5. The Security Problem With Client-Carried Data</a></li><li><a href="doc-theory-lecture-38.html#6-why-not-send-plain-json-base64url-is-encoding-not-encryption">6. Why Not Send Plain JSON? Base64URL Is Encoding, Not Encryption</a></li><li><a href="doc-theory-lecture-38.html#7-why-encoding-alone-is-insecure-and-why-a-plain-hash-is-not-enough">7. Why Encoding Alone Is Insecure, and Why a Plain Hash Is Not Enough</a></li><li><a href="doc-theory-lecture-38.html#8-structure-of-a-signed-jwt-headerpayloadsignature">8. Structure of a Signed JWT: HEADER.PAYLOAD.SIGNATURE</a></li><li><a href="doc-theory-lecture-38.html#9-symmetric-signing-with-hs256-and-symmetric-keys">9. Symmetric Signing With HS256 and Symmetric Keys</a></li><li><a href="doc-theory-lecture-38.html#10-asymmetric-signing-and-symmetric-vs-asymmetric">10. Asymmetric Signing and Symmetric vs Asymmetric</a></li><li><a href="doc-theory-lecture-38.html#11-jwt-tampering-experiment">11. JWT Tampering Experiment</a></li><li><a href="doc-theory-lecture-38.html#12-jwt-authentication-flow-and-the-resource-server-dependency">12. JWT Authentication Flow and the Resource Server Dependency</a></li><li><a href="doc-theory-lecture-38.html#13-jwtencoder-vs-jwtdecoder-secret-secretkey-encoder">13. JwtEncoder vs JwtDecoder: Secret, SecretKey, Encoder</a></li><li><a href="doc-theory-lecture-38.html#14-login-dtos-jwtservice-and-authlogin">14. Login DTOs, JwtService, and /auth/login</a></li><li><a href="doc-theory-lecture-38.html#15-authenticating-future-requests-decoder-converter-and-the-final-securityfilterchain">15. Authenticating Future Requests: Decoder, Converter, and the Final SecurityFilterChain</a></li><li><a href="doc-theory-lecture-38.html#16-two-providers-end-to-end-flow-and-session-vs-jwt">16. Two Providers, End-to-End Flow, and Session vs JWT</a></li><li><a href="doc-theory-lecture-38.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-38.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-38.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-38.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-38.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 38 - Spring JWT Authentication</h1>
+<p class="readmeta">22 sections · 4,637 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-38" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-38">Lecture 38</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring JWT Authentication | JWT Internals &amp; Stateless Security" (playlist map, verified). Repo folder is the springPracticalDemo project extended for JWT: config.SecurityConfig, controller.AuthController, controller.UserController, controller.RoleController, dto.LoginRequestDto, dto.LoginResponseDto, entity.CustomUserDetails, entity.User, entity.Role, repository.UserRepository, repository.RoleRepository, service.JwtService, service.AuthService, service.CustomUserDetailsService, and application.properties.</p>
+</blockquote>
+<p>Every HTTP request arrives with no memory of the requests before it, so authentication cannot be "done once and remembered" unless the client and server agree on a credential that keeps travelling. This lecture follows the whole story: why a server-side session exists, why it is called stateful, why a JWT is a stateless client-carried credential, why Base64URL is encoding and not encryption, why the signature is what protects a token, and how Spring Security turns a signed JWT into the same <code>Authentication</code> a password login produces.</p>
+<h2 id="1-the-problem-authentication-on-every-request">1. The Problem: Authentication on Every Request</h2>
+<p>Consider a protected endpoint such as <code>/profile</code> that returns the logged-in user's name. If the request carries valid credentials, authentication succeeds:</p>
+<div class="highlight"><pre><span></span><code>GET /profile + Authorization: Basic ...   -&gt; authentication succeeds
+</code></pre></div>
+
+<p>But a second request without credentials is a completely separate HTTP request:</p>
+<div class="highlight"><pre><span></span><code>GET /profile   -&gt; 401 Unauthorized
+</code></pre></div>
+
+<p>Why? HTTP does not automatically remember that a previous request was authenticated.</p>
+<p>Authenticating one request does not automatically authenticate future requests. If the server wants to remember an authenticated client, it needs an identifier travelling with later requests.</p>
+<blockquote class="callout callout--important">
+<p>Important: HTTP is stateless. "The user logged in earlier" is knowledge the server must reconstruct each request, from stored state keyed by an identifier or from a credential the client re-sends.</p>
+</blockquote>
+<h2 id="2-session-based-authentication">2. Session-Based Authentication</h2>
+<p>After a successful username/password login, Spring Security has an authenticated <code>Authentication</code> object:</p>
+<div class="highlight"><pre><span></span><code>Authentication
+|-- Principal
+|-- Authorities
+|-- authenticated = true
+</code></pre></div>
+
+<p>Instead of discarding this state after the request, the server can associate it with an HTTP session:</p>
+<div class="highlight"><pre><span></span><code>Server: Session ABC123 -&gt; SecurityContext -&gt; Authentication
+        (Principal: aditya, Authorities: ROLE_USER)
+</code></pre></div>
+
+<p>The client receives only the session identifier; the value <code>ABC123</code> by itself tells us almost nothing. In a Spring Boot servlet application the session ID commonly travels through a cookie:</p>
+<div class="highlight"><pre><span></span><code>Cookie: JSESSIONID=ABC123
+</code></pre></div>
+
+<p>Session login flow: the client sends username/password; the server authenticates, creates an <code>HttpSession</code> and <code>SecurityContext</code>, and replies with <code>Set-Cookie: JSESSIONID=ABC123</code>. A future request sends that cookie, and the server finds session <code>ABC123</code> to restore the <code>Authentication</code>.</p>
+<p><code>JSESSIONID</code> does not normally contain the username, password, or roles. It is essentially an identifier that points to server-side session state.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Where is the user stored after login?" With sessions, the answer is the server (a session store); the cookie only holds a pointer. That single fact is what makes sessions stateful and what JWT later removes.</p>
+</blockquote>
+<h2 id="3-session-management-and-why-sessions-are-stateful">3. Session Management and Why Sessions Are Stateful</h2>
+<p>A typical session-based configuration enables form login, HTTP Basic, and session creation, and Spring Security can persist the <code>SecurityContext</code> using an <code>HttpSession</code>-backed <code>SecurityContextRepository</code>. <code>SessionCreationPolicy</code> controls how Spring Security behaves with HTTP sessions:</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Creates session?</th>
+<th>Uses existing session?</th>
+<th>Mental model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALWAYS</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Always session-based</td>
+</tr>
+<tr>
+<td>IF_REQUIRED</td>
+<td>When needed</td>
+<td>Yes</td>
+<td>Create a session when security requires one</td>
+</tr>
+<tr>
+<td>NEVER</td>
+<td>No</td>
+<td>Yes</td>
+<td>Do not create a session, but use one if it already exists</td>
+</tr>
+<tr>
+<td>STATELESS</td>
+<td>No</td>
+<td>No (for restoring the SecurityContext)</td>
+<td>Authenticate each request independently</td>
+</tr>
+</tbody>
+</table>
+<p>For session-based authentication, <code>IF_REQUIRED</code> is common. For JWT authentication later, <code>STATELESS</code> is used. With a session, the request may contain only <code>Cookie: JSESSIONID=ABC123</code>, but the server still has to remember what that session represents: <code>ABC123 -&gt; Aditya</code>, <code>XYZ456 -&gt; Rohit</code>, <code>PQR789 -&gt; Priya</code>.</p>
+<p>Authentication state therefore exists on the server. This is why session-based authentication is called stateful authentication. At scale that means the server keeps and consults a session entry for every authenticated client, so the "who is this" knowledge lives in server-side storage rather than in the request itself.</p>
+<blockquote class="callout callout--important">
+<p>Important: "Stateful" is not a bug, it is a design. It becomes a scaling concern because every authenticated client needs a server-held entry, and any server that answers the request must be able to find that entry.</p>
+</blockquote>
+<h2 id="4-why-jwt-a-stateless-client-carried-credential">4. Why JWT? A Stateless, Client-Carried Credential</h2>
+<p>JWT stands for JSON Web Token. The central idea is a question:</p>
+<div class="highlight"><pre><span></span><code>Can a user authenticate once without the server maintaining a
+separate session entry for every authenticated client?
+</code></pre></div>
+
+<p>With a session, <code>JSESSIONID = ABC123 -&gt; Session Store -&gt; SecurityContext -&gt; Authentication</code>. A JWT can instead carry claims such as <code>{"sub":"aditya","roles":["ROLE_USER"],"iat":1786570000,"exp":1786573600}</code>. The server can use information inside the token to reconstruct authentication for each request:</p>
+<div class="highlight"><pre><span></span><code>JWT -&gt; claims -&gt; Authentication -&gt; SecurityContext
+</code></pre></div>
+
+<p>The server no longer needs to preserve the user's <code>Authentication</code> object in an HTTP session. That is what "stateless" buys: the credential itself carries enough information to rebuild the identity, so a protected request does not depend on a stored session entry.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The best one-line answer for "why JWT?" is "so the server does not have to remember a session per user; the token carries the claims and the client re-sends them on every request."</p>
+</blockquote>
+<h2 id="5-the-security-problem-with-client-carried-data">5. The Security Problem With Client-Carried Data</h2>
+<p>Suppose the token contains <code>"roles": ["ROLE_USER"]</code>. What prevents a client from changing it to <code>"roles": ["ROLE_ADMIN"]</code>? The server needs to answer two questions:</p>
+<div class="highlight"><pre><span></span><code>Was this information issued by a trusted party?
+Has the information been modified after it was issued?
+</code></pre></div>
+
+<p>That is the purpose of the signature.</p>
+<blockquote class="callout callout--important">
+<p>Important: Because the payload travels through the client, it must be assumed hostile. The signature is the only reason the server can trust a claim it did not personally keep.</p>
+</blockquote>
+<h2 id="6-why-not-send-plain-json-base64url-is-encoding-not-encryption">6. Why Not Send Plain JSON? Base64URL Is Encoding, Not Encryption</h2>
+<p>A naive token could be raw JSON such as <code>{"sub": "aditya", "role": "ROLE_USER"}</code>. But raw JSON is inconvenient as a transport format: it contains spaces, braces, quotes, and possibly line breaks; the same JSON can be formatted differently; tokens should be easy to transport as a compact string; and cryptographic signing needs a precise byte representation.</p>
+<p>JWT therefore uses Base64URL encoding for its compact representation. For example:</p>
+<div class="highlight"><pre><span></span><code>{&quot;sub&quot;:&quot;42&quot;}   -&gt;   eyJzdWIiOiI0MiJ9
+</code></pre></div>
+
+<p>Base64URL provides a URL-safe textual representation of bytes and generally removes trailing padding. The important point is:</p>
+<div class="highlight"><pre><span></span><code>Base64URL is encoding, not encryption.
+</code></pre></div>
+
+<p>Anyone with the token can decode the header and payload; no key is required merely to decode. So JWT payloads are not hidden data, and Base64URL does not compress: encoded data is larger than the original bytes.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Base64URL encodes, it never encrypts. If you would not write a value on a postcard, do not put it in a JWT payload.</p>
+</blockquote>
+<h2 id="7-why-encoding-alone-is-insecure-and-why-a-plain-hash-is-not-enough">7. Why Encoding Alone Is Insecure, and Why a Plain Hash Is Not Enough</h2>
+<p>Suppose the token is only <code>Base64URL(payload)</code> with payload <code>{"sub": "user-42", "role": "STUDENT"}</code>. An attacker could:</p>
+<div class="highlight"><pre><span></span><code>1. Decode the payload.
+2. Change STUDENT to ADMIN.
+3. Encode it again.
+4. Send the modified value.
+</code></pre></div>
+
+<p>The server would have no cryptographic way to know whether the data was genuinely issued by it. We need:</p>
+<div class="highlight"><pre><span></span><code>Integrity    -&gt; the protected data has not been modified.
+Authenticity -&gt; the protected data was created by someone
+                possessing the trusted signing key.
+</code></pre></div>
+
+<p>A naive next idea might be a hash: <code>token = payload + SHA256(payload)</code>. But an attacker can modify the payload and calculate a new SHA-256 hash themselves:</p>
+<div class="highlight"><pre><span></span><code>Original:            role = STUDENT
+Attacker changes:    role = ADMIN
+Attacker calculates: SHA256(modified payload)
+</code></pre></div>
+
+<p>A plain hash can answer "does this hash match this data?" but it cannot answer "was this data produced by my trusted server?". To establish authenticity, the calculation must depend on a secret or private key that the attacker does not possess.</p>
+<blockquote class="callout callout--important">
+<p>Important: A hash detects accidental corruption; it does not establish origin. Only a keyed or private-key calculation ties the data to a trusted issuer.</p>
+</blockquote>
+<h2 id="8-structure-of-a-signed-jwt-headerpayloadsignature">8. Structure of a Signed JWT: HEADER.PAYLOAD.SIGNATURE</h2>
+<p>A signed JWT commonly has three parts, each Base64URL encoded:</p>
+<div class="highlight"><pre><span></span><code>HEADER.PAYLOAD.SIGNATURE          (example shape: xxxxx.yyyyy.zzzzz)
+</code></pre></div>
+
+<p>The header names the algorithm and type, for example <code>{ "alg": "HS256", "typ": "JWT" }</code>: <code>alg</code> specifies the cryptographic algorithm used to sign the token, and <code>typ</code> describes the token type. The payload holds claims such as <code>iss</code>, <code>sub</code>, <code>aud</code>, <code>role</code>, <code>iat</code>, and <code>exp</code>.</p>
+<p>Common JWT claims:</p>
+<table>
+<thead>
+<tr>
+<th>Claim</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iss</td>
+<td>Issuer - who issued the token</td>
+</tr>
+<tr>
+<td>sub</td>
+<td>Subject - who or what the token represents</td>
+</tr>
+<tr>
+<td>aud</td>
+<td>Audience - which application/API should accept it</td>
+</tr>
+<tr>
+<td>iat</td>
+<td>Issued At - when the token was created</td>
+</tr>
+<tr>
+<td>exp</td>
+<td>Expiration Time - when the token expires</td>
+</tr>
+<tr>
+<td>jti</td>
+<td>Unique identifier for the token</td>
+</tr>
+</tbody>
+</table>
+<p>The JWT standard defines registered claims, but not every claim is mandatory; the application or protocol decides which are required. Custom claims are allowed, such as <code>{ "roles": ["ROLE_USER"] }</code>. Because the payload is readable, never store passwords, API keys, card numbers, or private personal information.</p>
+<p>The signature protects the encoded header and encoded payload:</p>
+<div class="highlight"><pre><span></span><code>Base64URL(header) + &quot;.&quot; + Base64URL(payload)  -&gt; signing input
+signature = cryptographic_sign(signingInput, signingKey)
+Final JWT: Base64URL(header) . Base64URL(payload) . Base64URL(signature)
+</code></pre></div>
+
+<p>Mnemonic for the three parts: <strong>H-P-S</strong> (Header, Payload, Signature). A signed JWT is always three parts; a four-part JWE is a different thing.</p>
+<h2 id="9-symmetric-signing-with-hs256-and-symmetric-keys">9. Symmetric Signing With HS256 and Symmetric Keys</h2>
+<p><code>HS256</code> means HMAC using SHA-256:</p>
+<div class="highlight"><pre><span></span><code>signature = HMAC-SHA256(secretKey,
+                        Base64URL(header) + &quot;.&quot; + Base64URL(payload))
+headerEncoded.payloadEncoded + secret key -&gt; HMAC-SHA256 -&gt; signature
+</code></pre></div>
+
+<p>The client receives <code>headerEncoded.payloadEncoded.signature</code>. What happens if the payload changes? The original payload contains <code>"role": "STUDENT"</code> and an attacker changes it to <code>"role": "ADMIN"</code>. The payload encoding changes, which means the signing input changes:</p>
+<div class="highlight"><pre><span></span><code>Original: header.originalPayload
+Modified: header.modifiedPayload
+</code></pre></div>
+
+<p>Without the secret key, the attacker cannot calculate the correct HMAC for the modified input. When the modified token reaches the server:</p>
+<div class="highlight"><pre><span></span><code>Server recalculates expected signature using its secret
+-&gt; Expected signature != token signature
+-&gt; Reject token
+</code></pre></div>
+
+<p>The JWT signature does not physically prevent someone from editing the token. It makes unauthorized modification detectable. With HS256, the signing key equals the verification key: the same secret is used to create and verify the HMAC (<code>Issuer: HMAC(message, secret)</code>, <code>Verifier: HMAC(message, same secret)</code>).</p>
+<p>Advantages: simple, fast, convenient when one trusted application both issues and validates tokens. Limitation: every service that verifies the token must know the same secret, so anyone who has the shared secret can not only verify tokens but also create valid tokens; if one service is compromised, the shared signing secret may also be compromised.</p>
+<h2 id="10-asymmetric-signing-and-symmetric-vs-asymmetric">10. Asymmetric Signing and Symmetric vs Asymmetric</h2>
+<p>Asymmetric cryptography uses a key pair with different responsibilities:</p>
+<div class="highlight"><pre><span></span><code>Private key -&gt; creates signatures
+Public key  -&gt; verifies signatures
+</code></pre></div>
+
+<p>Common JWT signature algorithms include <code>RS256</code> (RSA signature with SHA-256) and <code>ES256</code> (ECDSA signature with SHA-256). For RS256, conceptually:</p>
+<div class="highlight"><pre><span></span><code>signature = Sign(privateKey, Base64URL(header) + &quot;.&quot; + Base64URL(payload))
+Verification: Verify(publicKey, signingInput, signature)
+</code></pre></div>
+
+<p>A typical architecture becomes: the authentication server holds the private key plus the public key, while the course, payment, and admin services receive only the public key.</p>
+<p>The resource services can verify signatures using the public key but cannot create new valid signatures. This model is useful when one authorization server issues tokens and multiple APIs validate them.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>HS256</th>
+<th>RS256 / ES256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Key model</td>
+<td>Shared secret</td>
+<td>Private/public key pair</td>
+</tr>
+<tr>
+<td>Signing</td>
+<td>Secret key</td>
+<td>Private key</td>
+</tr>
+<tr>
+<td>Verification</td>
+<td>Same secret key</td>
+<td>Public key</td>
+</tr>
+<tr>
+<td>Can verifier create tokens?</td>
+<td>Yes, if it has the secret</td>
+<td>No, if it only has the public key</td>
+</tr>
+<tr>
+<td>Simple for one application</td>
+<td>Yes</td>
+<td>More setup</td>
+</tr>
+<tr>
+<td>Useful for multiple independent APIs</td>
+<td>Less ideal</td>
+<td>Very useful</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: <strong>HS = "Handshake secret, same key both ways"; RS = "Read with public, Sign with private."</strong></p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: If asked "why pick RS256 over HS256?" the answer is distribution of trust: with RS256, verifiers can check tokens without being able to mint them, so a compromised verifier does not become a token factory.</p>
+</blockquote>
+<h2 id="11-jwt-tampering-experiment">11. JWT Tampering Experiment</h2>
+<p>A useful way to understand JWT security is to create a token, decode it, modify its payload, and verify it again. Original shape <code>A.B.C</code> (<code>A</code> header, <code>B</code> payload, <code>C</code> signature) with payload <code>{"sub": "aditya", "role": "STUDENT"}</code>. Changing the role to <code>ADMIN</code> makes the encoded payload <code>B2</code>; a tool with the secret can produce a valid <code>C2</code>, but an attacker cannot.</p>
+<div class="highlight"><pre><span></span><code>A.B2.C2
+</code></pre></div>
+
+<p>But a real attacker who does not know the secret cannot calculate <code>C2</code>. The attacker's tampered token would instead look like:</p>
+<div class="highlight"><pre><span></span><code>A.B2.C     (original header + modified payload + original signature)
+</code></pre></div>
+
+<p>The payload can still be decoded and may visibly show <code>"role": "ADMIN"</code>, but signature verification fails because the signature was created for the original payload:</p>
+<div class="highlight"><pre><span></span><code>Modified signing input -&gt; Old signature no longer matches -&gt; Invalid Signature
+</code></pre></div>
+
+<p>This demonstrates the central security property of a signed JWT: the payload is readable and editable, but unauthorized changes cause signature verification to fail.</p>
+<blockquote class="callout callout--important">
+<p>Important: Never trust a decoded payload until the signature has verified. Reading a JWT is not the same as validating it.</p>
+</blockquote>
+<h2 id="12-jwt-authentication-flow-and-the-resource-server-dependency">12. JWT Authentication Flow and the Resource Server Dependency</h2>
+<p>There are two major flows in the application. Login flow:</p>
+<div class="highlight"><pre><span></span><code>POST /auth/login { &quot;username&quot;: &quot;aditya&quot;, &quot;password&quot;: &quot;123456&quot; }
+-&gt; AuthenticationManager -&gt; DaoAuthenticationProvider
+-&gt; CustomUserDetailsService -&gt; Database -&gt; PasswordEncoder
+-&gt; Authentication successful -&gt; Generate JWT -&gt; Return token
+</code></pre></div>
+
+<p>Future protected request:</p>
+<div class="highlight"><pre><span></span><code>GET /profile + Authorization: Bearer eyJhbGciOi...
+-&gt; Extract JWT -&gt; Validate JWT -&gt; Identify user
+-&gt; Create Authentication -&gt; SecurityContext -&gt; Authorization -&gt; Controller
+</code></pre></div>
+
+<p>Add Spring Security Resource Server support with the dependency <code>spring-boot-starter-oauth2-resource-server</code> from <code>org.springframework.boot</code>. Spring Security Resource Server can authenticate requests using bearer JWTs, including custom JWTs issued by the application itself.</p>
+<blockquote class="callout callout--important">
+<p>Important: Resource Server support does not require you to run a full OAuth2 Authorization Server. It is the piece that understands <code>Authorization: Bearer &lt;JWT&gt;</code> and validates it.</p>
+</blockquote>
+<h2 id="13-jwtencoder-vs-jwtdecoder-secret-secretkey-encoder">13. JwtEncoder vs JwtDecoder: Secret, SecretKey, Encoder</h2>
+<p>Spring Security separates token creation and token validation into two responsibilities:</p>
+<div class="highlight"><pre><span></span><code>JwtEncoder -&gt; CREATE / SIGN JWT
+JwtDecoder -&gt; READ / VERIFY / VALIDATE JWT
+</code></pre></div>
+
+<p>For this application, HS256 is used, so the same secret key signs and verifies. This keeps the demonstration simple because the same Spring Boot application both issues and validates the token.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>JwtEncoder</th>
+<th>JwtDecoder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Responsibility</td>
+<td>Create and sign a JWT</td>
+<td>Read, verify, and validate a JWT</td>
+</tr>
+<tr>
+<td>Input</td>
+<td><code>JwtClaimsSet</code> via <code>JwtEncoderParameters</code></td>
+<td>The encoded token string</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>A <code>Jwt</code> whose <code>getTokenValue()</code> is the string</td>
+<td>A trusted <code>Jwt</code> with validated claims</td>
+</tr>
+<tr>
+<td>Uses the key to</td>
+<td>Sign</td>
+<td>Verify</td>
+</tr>
+<tr>
+<td>HS256 key</td>
+<td>Shared secret key</td>
+<td>Same shared secret key</td>
+</tr>
+<tr>
+<td>Concrete class</td>
+<td><code>NimbusJwtEncoder</code></td>
+<td><code>NimbusJwtDecoder</code></td>
+</tr>
+</tbody>
+</table>
+<p>Generate a sufficiently long Base64-encoded secret with <code>openssl rand -base64 32</code>. Configuration:</p>
+<div class="highlight"><pre><span></span><code>jwt.secret=${JWT_SECRET}
+jwt.issuer=coderarmy-api
+jwt.expiry=900
+</code></pre></div>
+
+<p>Here <code>900</code> seconds = 15 minutes. For classroom demos the secret can temporarily live in <code>application.properties</code>; in production, never commit signing secrets to Git. Create the <code>SecretKey</code>, then the <code>JwtEncoder</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">SecretKey</span><span class="w"> </span><span class="nf">jwtSecretKey</span><span class="p">(</span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${jwt.secret}&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">secret</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="n">decodedKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Base64</span><span class="p">.</span><span class="na">getDecoder</span><span class="p">().</span><span class="na">decode</span><span class="p">(</span><span class="n">secret</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SecretKeySpec</span><span class="p">(</span><span class="n">decodedKey</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;HmacSHA256&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">JwtEncoder</span><span class="w"> </span><span class="nf">jwtEncoder</span><span class="p">(</span><span class="n">SecretKey</span><span class="w"> </span><span class="n">secretKey</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">NimbusJwtEncoder</span><span class="p">.</span><span class="na">withSecretKey</span><span class="p">(</span><span class="n">secretKey</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">algorithm</span><span class="p">(</span><span class="n">MacAlgorithm</span><span class="p">.</span><span class="na">HS256</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Conceptually the Base64 config value decodes to raw key bytes forming the <code>SecretKey</code>, which both encoder and decoder share. The application depends on the <code>JwtEncoder</code> abstraction; <code>NimbusJwtEncoder</code> implements it.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect "why do you need both an encoder and a decoder if you use one secret?" The answer is separation of concerns: signing and verification are different operations with different trust assumptions, and asymmetric setups make the split even more visible.</p>
+</blockquote>
+<h2 id="14-login-dtos-jwtservice-and-authlogin">14. Login DTOs, JwtService, and /auth/login</h2>
+<p><code>LoginRequestDto</code> carries <code>username</code> and <code>password</code>; <code>LoginResponseDto</code> (a record) carries <code>accessToken</code>. The client sends <code>{ "username": "aditya", "password": "123456" }</code> and the server replies <code>{ "accessToken": "eyJhbGciOiJIUzI1NiJ9..." }</code>. Create <code>JwtService</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JwtService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">JwtEncoder</span><span class="w"> </span><span class="n">jwtEncoder</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${jwt.expiry}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">expiry</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${jwt.issuer}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">issuer</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">JwtService</span><span class="p">(</span><span class="n">JwtEncoder</span><span class="w"> </span><span class="n">jwtEncoder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">jwtEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jwtEncoder</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">generateToken</span><span class="p">(</span><span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Instant</span><span class="w"> </span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Instant</span><span class="p">.</span><span class="na">now</span><span class="p">();</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">authorities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getAuthorities</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">GrantedAuthority</span><span class="p">::</span><span class="n">getAuthority</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">toList</span><span class="p">();</span>
+<span class="w">        </span><span class="n">JwtClaimsSet</span><span class="w"> </span><span class="n">claims</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JwtClaimsSet</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">issuer</span><span class="p">(</span><span class="n">issuer</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">issuedAt</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">expiresAt</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="na">plusSeconds</span><span class="p">(</span><span class="n">expiry</span><span class="p">))</span>
+<span class="w">                </span><span class="p">.</span><span class="na">subject</span><span class="p">(</span><span class="n">authentication</span><span class="p">.</span><span class="na">getName</span><span class="p">())</span>
+<span class="w">                </span><span class="p">.</span><span class="na">claim</span><span class="p">(</span><span class="s">&quot;authorities&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">authorities</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Jwt</span><span class="w"> </span><span class="n">jwt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jwtEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="n">JwtEncoderParameters</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">claims</span><span class="p">));</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">jwt</span><span class="p">.</span><span class="na">getTokenValue</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The service receives an already authenticated <code>Authentication</code> (<code>Principal -&gt; aditya</code>, <code>Authorities -&gt; ROLE_USER</code>, <code>Authenticated -&gt; true</code>) and converts that result into claims:</p>
+<ul>
+<li><code>issuer</code> produces <code>"iss": "coderarmy-api"</code>; it identifies who issued the JWT, and the decoder can later accept tokens only from this issuer.</li>
+<li><code>subject</code> from <code>authentication.getName()</code> produces <code>"sub": "aditya"</code>; it identifies who the token represents.</li>
+<li><code>issuedAt</code> produces the <code>iat</code> claim recording when the token was created.</li>
+<li><code>expiresAt(now.plusSeconds(expiry))</code> produces the <code>exp</code> claim; after this time the token should no longer be accepted.</li>
+<li><code>.claim("authorities", authorities)</code> adds <code>{ "authorities": [ "ROLE_USER" ] }</code>.</li>
+</ul>
+<p>Why store authorities in the JWT? <code>sub</code> answers who the user is and <code>authorities</code> answers what they may do, so later requests skip the <code>JWT -&gt; username -&gt; database -&gt; UserDetails</code> lookup and go straight from <code>JWT (sub, authorities) -&gt; Authentication</code>. This is what makes the example stateless.</p>
+<p>Create <code>/auth/login</code> in <code>AuthController</code>: build an unauthenticated <code>UsernamePasswordAuthenticationToken</code> from the request, call <code>authenticationManager.authenticate(authenticationRequest)</code>, and return <code>new LoginResponse(jwtService.generateToken(authentication))</code>. Password authentication is unchanged; JWT generation happens only after it succeeds.</p>
+<div class="highlight"><pre><span></span><code>username + password
+-&gt; UsernamePasswordAuthenticationToken unauthenticated
+-&gt; AuthenticationManager -&gt; DaoAuthenticationProvider
+-&gt; CustomUserDetailsService -&gt; Database -&gt; PasswordEncoder
+-&gt; Authentication (authenticated = true)
+-&gt; JwtService -&gt; JwtEncoder -&gt; JWT
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Token issuing lives behind a successful authentication. <code>JwtService</code> never decides who the user is; it only translates an already authenticated <code>Authentication</code> into signed claims.</p>
+</blockquote>
+<h2 id="15-authenticating-future-requests-decoder-converter-and-the-final-securityfilterchain">15. Authenticating Future Requests: Decoder, Converter, and the Final SecurityFilterChain</h2>
+<p>JWT creation is only half of the process. When a token comes back from the client, the application must turn <code>JWT string -&gt; verify signature -&gt; validate claims -&gt; trusted Jwt object</code>. This is the responsibility of <code>JwtDecoder</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">JwtDecoder</span><span class="w"> </span><span class="nf">jwtDecoder</span><span class="p">(</span><span class="n">SecretKey</span><span class="w"> </span><span class="n">secretKey</span><span class="p">,</span>
+<span class="w">                             </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${jwt.issuer}&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">issuer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">NimbusJwtDecoder</span><span class="w"> </span><span class="n">decoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NimbusJwtDecoder</span>
+<span class="w">            </span><span class="p">.</span><span class="na">withSecretKey</span><span class="p">(</span><span class="n">secretKey</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">macAlgorithm</span><span class="p">(</span><span class="n">MacAlgorithm</span><span class="p">.</span><span class="na">HS256</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="n">decoder</span><span class="p">.</span><span class="na">setJwtValidator</span><span class="p">(</span>
+<span class="w">            </span><span class="n">JwtValidators</span><span class="p">.</span><span class="na">createDefaultWithIssuer</span><span class="p">(</span><span class="n">issuer</span><span class="p">));</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">decoder</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The decoder uses the same HS256 secret key that was used by the encoder, and it configures validation for the expected issuer. What the decoder checks, for an incoming <code>HEADER.PAYLOAD.SIGNATURE</code>:</p>
+<div class="highlight"><pre><span></span><code>Is this structurally a valid JWT?
+-&gt; Can the signature be verified using the trusted secret key?
+-&gt; Are the standard claims valid?
+-&gt; Is the issuer correct?
+-&gt; Is the token currently valid?
+</code></pre></div>
+
+<p>Only after these checks can the resulting claims be treated as trusted authentication data.</p>
+<p>Map JWT authorities into Spring Security. Resource Server normally maps scopes like <code>{ "scope": "read write" }</code> to <code>SCOPE_read</code> and <code>SCOPE_write</code>. This app stores <code>ROLE_USER</code>/<code>ROLE_ADMIN</code> in a custom <code>authorities</code> claim, so Spring must read that claim and add no prefix via a <code>JwtGrantedAuthoritiesConverter</code> (<code>setAuthoritiesClaimName("authorities")</code>, <code>setAuthorityPrefix("")</code>):</p>
+<div class="highlight"><pre><span></span><code>JwtGrantedAuthoritiesConverter:
+    setAuthoritiesClaimName(&quot;authorities&quot;);
+    setAuthorityPrefix(&quot;&quot;);
+JwtAuthenticationConverter:
+    setJwtGrantedAuthoritiesConverter(authoritiesConverter);
+</code></pre></div>
+
+<p>The empty prefix is important because the token already contains <code>ROLE_USER</code>; exactly <code>ROLE_USER</code> is wanted, keeping <code>.hasRole("USER")</code> and <code>.hasRole("ADMIN")</code> compatible. The final <code>SecurityFilterChain</code>:</p>
+<div class="highlight"><pre><span></span><code>csrf disabled
+sessionManagement: SessionCreationPolicy.STATELESS
+authorizeHttpRequests:
+  permitAll: /auth/login, /register
+  hasRole(&quot;ADMIN&quot;): /admin/**
+  authenticated: anyRequest
+oauth2ResourceServer: jwt -&gt; jwtAuthenticationConverter
+</code></pre></div>
+
+<p>Why <code>SessionCreationPolicy.STATELESS</code>? It means Spring Security should not use the HTTP session to preserve authentication between requests. Each protected request must carry its own authentication material, in this case <code>Authorization: Bearer &lt;JWT&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code>Request + Bearer JWT -&gt; JWT validation -&gt; Authentication
+-&gt; SecurityContext -&gt; Authorization
+</code></pre></div>
+
+<p>After the request completes the application does not rely on an HTTP session to remember that authentication. Why <code>oauth2ResourceServer().jwt()</code>? Spring Security packages bearer-token JWT authentication under Resource Server support, which can protect an API with a custom JWT without implementing a full OAuth2 Authorization Server:</p>
+<div class="highlight"><pre><span></span><code>Protected request -&gt; Authorization: Bearer &lt;JWT&gt;
+-&gt; Spring Security Resource Server -&gt; JWT validation -&gt; Authentication
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: CSRF is disabled here because this is a stateless bearer-token API. The empty authority prefix matters just as much: a stray <code>SCOPE_</code> or <code>ROLE_</code> prefix silently breaks every <code>.hasRole(...)</code> rule.</p>
+</blockquote>
+<h2 id="16-two-providers-end-to-end-flow-and-session-vs-jwt">16. Two Providers, End-to-End Flow, and Session vs JWT</h2>
+<p>The application now uses two authentication mechanisms. <code>DaoAuthenticationProvider</code> handles <code>username + password</code> and authenticates login credentials; <code>JwtAuthenticationProvider</code> handles a <code>JWT</code> and authenticates future bearer-token requests. Both produce the same core Spring Security abstraction, <code>Authentication</code>, keeping the architecture consistent regardless of how identity is proven.</p>
+<p>Session authentication vs JWT authentication:</p>
+<table>
+<thead>
+<tr>
+<th>Session-Based Authentication</th>
+<th>JWT-Based Authentication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Server stores authentication state</td>
+<td>Authentication information is reconstructed from the token</td>
+</tr>
+<tr>
+<td>Client usually sends JSESSIONID</td>
+<td>Client sends a bearer JWT</td>
+</tr>
+<tr>
+<td>Session ID points to server-side state</td>
+<td>Token carries claims</td>
+</tr>
+<tr>
+<td>Commonly stateful</td>
+<td>Can be stateless</td>
+</tr>
+<tr>
+<td>Server restores SecurityContext from session</td>
+<td>Server validates token and creates authentication per request</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: In both models the server still produces an <code>Authentication</code>; the difference is only where the facts live. Sessions keep them on the server; JWTs make the client carry them back, protected by a signature.</p>
+</blockquote>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"JWT is encrypted, so the payload is secret"</td>
+<td>Header and payload are Base64URL encoded, not encrypted; anyone can decode them. Only the signature protects integrity.</td>
+</tr>
+<tr>
+<td>"Once you sign a JWT, nobody can edit it"</td>
+<td>The payload is readable and editable; the signature makes unauthorized edits detectable, not impossible.</td>
+</tr>
+<tr>
+<td>"Base64 is encryption"</td>
+<td>Base64URL is an encoding; no key is needed to decode it, and it does not compress.</td>
+</tr>
+<tr>
+<td>"A SHA-256 hash proves who issued the token"</td>
+<td>A plain hash can be recomputed after editing; authenticity needs a secret or private key.</td>
+</tr>
+<tr>
+<td>"HS256 and RS256 are interchangeable"</td>
+<td>With HS256 every verifier holds the signing secret and could mint tokens; RS256 verifiers hold only the public key.</td>
+</tr>
+<tr>
+<td>"JWT stores no authentication data anywhere"</td>
+<td>It is stateless between requests; the token still carries the claims the server trusts.</td>
+</tr>
+<tr>
+<td>"You can authorize on a decoded token before verification"</td>
+<td>Claims are trusted only after signature and claim validation. Decoding is not validating.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "JWT payloads are encrypted."</strong>
+Verdict: False. Header and payload are Base64URL encoded, readable by anyone; never put passwords, API keys, card numbers, or private data inside.</p>
+<p><strong>Trap 2 - "The signature stops an attacker from editing the token."</strong>
+Verdict: False. It cannot block edits; it makes them detectable. A changed payload changes the signing input, so the old signature no longer matches.</p>
+<p><strong>Trap 3 - "A plain hash is enough to secure a token."</strong>
+Verdict: False. An attacker can recompute a plain hash after editing; authenticity needs a secret or private key they lack.</p>
+<p><strong>Trap 4 - "HS256 and RS256 differ only in algorithm name."</strong>
+Verdict: False. HS256 uses one shared secret, so any verifier can also create tokens; RS256 verifiers hold only the public key.</p>
+<p><strong>Trap 5 - "You need an OAuth2 Authorization Server to use Spring's JWT support."</strong>
+Verdict: False. <code>spring-boot-starter-oauth2-resource-server</code> plus <code>oauth2ResourceServer().jwt()</code> validate custom bearer JWTs without a full Authorization Server.</p>
+<p><strong>Trap 6 - "You should keep the default authority prefix."</strong>
+Verdict: False. By default scopes map to <code>SCOPE_read</code> style authorities; this app reads <code>ROLE_USER</code> from the <code>authorities</code> claim with an empty prefix.</p>
+<p><strong>Trap 7 - "JWT makes the login step optional on future requests."</strong>
+Verdict: False. The token is only issued after a successful password login; later requests skip the database lookup, not the login.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>HTTP is stateless, so each request must carry or trigger its own proof of identity.</li>
+<li>Session auth is stateful: the server keeps one session entry per client; the client sends only <code>JSESSIONID</code>.</li>
+<li><code>STATELESS</code> disables session auth; each request must carry <code>Authorization: Bearer &lt;JWT&gt;</code>.</li>
+<li>A signed JWT is <code>HEADER.PAYLOAD.SIGNATURE</code>, each part Base64URL encoded.</li>
+<li>Base64URL is encoding, not encryption: anyone can decode it; it does not compress.</li>
+<li>The signature gives integrity and authenticity; it makes tampering detectable, not impossible.</li>
+<li>HS256 signs and verifies with one secret; RS256/ES256 sign with a private key and verify with a public key.</li>
+<li><code>JwtEncoder</code> creates and signs tokens; <code>JwtDecoder</code> verifies the signature and validates claims.</li>
+<li>Store <code>sub</code> and <code>authorities</code> so later requests rebuild authentication without a database lookup.</li>
+<li><code>JwtAuthenticationConverter</code> reads <code>authorities</code> with an empty prefix so <code>.hasRole(...)</code> matches; <code>DaoAuthenticationProvider</code> does passwords, <code>JwtAuthenticationProvider</code> does tokens.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why can't the server remember a login from one request to the next?</td>
+<td>HTTP is stateless; each request is isolated, so a credential must be re-sent or looked up.</td>
+</tr>
+<tr>
+<td>Why is session auth called stateful?</td>
+<td>The server stores a session entry per client; the cookie only points at it.</td>
+</tr>
+<tr>
+<td>What does JWT stand for and what is the core idea?</td>
+<td>JSON Web Token; a client-carried credential whose claims rebuild authentication without a stored session.</td>
+</tr>
+<tr>
+<td>Is a JWT encrypted?</td>
+<td>No; header and payload are Base64URL encoded and readable. Only the signature protects integrity.</td>
+</tr>
+<tr>
+<td>What is Base64URL and why use it?</td>
+<td>An encoding giving bytes a URL-safe compact form; not encryption, and it does not compress.</td>
+</tr>
+<tr>
+<td>Why is Base64URL alone insecure?</td>
+<td>An attacker can decode, change, re-encode, and resend; without a keyed signature the server cannot detect it.</td>
+</tr>
+<tr>
+<td>Why is a plain SHA-256 hash not enough?</td>
+<td>The attacker recomputes the hash after editing; authenticity needs a secret key they do not possess.</td>
+</tr>
+<tr>
+<td>What are the three parts of a signed JWT?</td>
+<td>Header, payload, signature, dot-separated, each Base64URL encoded.</td>
+</tr>
+<tr>
+<td>Difference between HS256 and RS256?</td>
+<td>HS256: one shared secret signs and verifies. RS256: private key signs, public key verifies.</td>
+</tr>
+<tr>
+<td>What does JwtEncoder do versus JwtDecoder?</td>
+<td>Encoder creates/signs from a JwtClaimsSet; decoder verifies the signature and validates claims.</td>
+</tr>
+<tr>
+<td>What does the decoder check?</td>
+<td>Structure, signature against the trusted key, standard claims, issuer, and current validity.</td>
+</tr>
+<tr>
+<td>Why set an empty authority prefix?</td>
+<td>The <code>authorities</code> claim already holds <code>ROLE_USER</code>; no extra prefix keeps <code>.hasRole("USER")</code> matching.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>HTTP request is stateless
+        |
+        v
+Session auth: server stores SecurityContext, client sends JSESSIONID -&gt; stateful
+        |
+        v
+JWT: client-carried claims -&gt; stateless authentication
+        |
+        v
+Problem: client can tamper with claims
+        |
+        v
+Base64URL encode (no security) + plain hash (attacker recomputes) are not enough
+        |
+        v
+Signature = key-based integrity + authenticity
+        |
+        +--&gt; HS256: shared secret, same key both ways
+        +--&gt; RS256: private key signs, public key verifies
+        |
+        v
+Spring: JwtEncoder signs -&gt; LoginResponse -&gt; client keeps token
+        |
+        v
+Client sends Authorization: Bearer &lt;JWT&gt;
+        |
+        v
+JwtDecoder verifies + JwtAuthenticationConverter maps authorities
+        |
+        v
+SecurityContext -&gt; Authorization rules -&gt; Controller
+</code></pre></div>
+
+<ul>
+<li>Sessions keep auth state on the server; JWTs make the client carry signed claims.</li>
+<li>Base64URL encodes but never encrypts; a plain hash proves nothing about origin.</li>
+<li>The signature makes tampering detectable, not impossible; HS256 shares one secret, RS256 splits signing from verification.</li>
+<li><code>JwtEncoder</code> issues tokens after login; <code>JwtDecoder</code> verifies them on every protected request.</li>
+<li><code>STATELESS</code> plus <code>oauth2ResourceServer().jwt()</code> makes Spring Security rebuild <code>Authentication</code> per request.</li>
+<li>Two providers, one abstraction: <code>DaoAuthenticationProvider</code> for passwords and <code>JwtAuthenticationProvider</code> for tokens.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A JWT does not encrypt your user's data and does not remember anything on the server; it simply carries signed claims that the server can verify and trust on every stateless request.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-37.html"><span class="dir">Previous</span><span class="ttl">Lecture 37 — Spring Security Authentication Internals</span></a><a class="next" href="doc-theory-lecture-39.html"><span class="dir">Next</span><span class="ttl">Lecture 39 — OAuth 2.0 Masterclass with Google Login</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

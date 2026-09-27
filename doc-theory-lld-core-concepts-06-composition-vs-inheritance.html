@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Composition vs Inheritance — LLD</title>
+<meta name="description" content="Composition vs Inheritance">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lld-core-concepts-06-composition-vs-inheritance">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#the-idea">The Idea</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#before">Before</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#after">After</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#inheritance-is-still-fine-when">Inheritance Is Still Fine When</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#quick-check">Quick Check</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#how-its-built">How It&#x27;s Built</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#in-the-interview">In The Interview</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#how-its-different">How It&#x27;s Different</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#watch-out-for">Watch Out For</a></li><li><a href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html#where-its-used">Where It&#x27;s Used</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Theory &amp; Notes</p>
+<h1>Composition vs Inheritance</h1>
+<p class="readmeta">10 sections · 658 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Comparison · LLD Core Concepts · Concept 06 of 09</p>
+</blockquote>
+<h2 id="the-idea">The Idea</h2>
+<p>Favor composition.</p>
+<h3 id="youll-see-this">You'll See This</h3>
+<ul>
+<li>A subclass overriding a method just to throw or do nothing.</li>
+<li>A subclass tree exploding for every combination (Flying+Swimming, Flying-only...).</li>
+<li>"Is-a" doesn't hold: resizing one dimension breaks another's invariant.</li>
+</ul>
+<p>Has-a, not is-a.</p>
+<h2 id="before">Before</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Bird</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">fly</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Penguin</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Bird</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">fly</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UnsupportedOperationException</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// LSP breaks</span>
+<span class="p">}</span>
+<span class="c1">// Penguin &quot;is-a&quot; Bird, but can&#39;t do what a Bird does</span>
+</code></pre></div>
+
+<p>Is-a breaks.</p>
+<h2 id="after">After</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">interface</span> <span class="nc">Flyer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">fly</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Sparrow</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Flyer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">fly</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Penguin</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// no Flyer at all</span>
+<span class="w">    </span><span class="n">Swimmer</span><span class="w"> </span><span class="n">swim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Swimmer</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// has-a swim behaviour</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">swim</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">swim</span><span class="p">.</span><span class="na">doSwim</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// Penguin never claims to fly. nothing to override.</span>
+</code></pre></div>
+
+<h2 id="inheritance-is-still-fine-when">Inheritance Is Still Fine When</h2>
+<ul>
+<li>A genuine, stable is-a relationship shares real implementation.</li>
+<li>You want polymorphism through a real type hierarchy, not just code reuse.</li>
+</ul>
+<h2 id="quick-check">Quick Check</h2>
+<p>Ask "is-a" or "has-a." A Car has-an Engine. A Car is-a Vehicle, only if every Vehicle method truly applies.</p>
+<h2 id="how-its-built">How It's Built</h2>
+<h3 id="the-shape">The Shape</h3>
+<div class="highlight"><pre><span></span><code>«INTERFACE»
+Flyer
+    + fly()
+
+Penguin
+    has-a (composition)
+        Swimmer
+
+Sparrow
+    is-a (implements)
+        Flyer
+
+PENGUIN HOLDS A SWIMMER. SPARROW IMPLEMENTS FLYER.
+NEITHER EXTENDS BIRD.
+</code></pre></div>
+
+<h3 id="the-move-3-steps">The Move (3 Steps)</h3>
+<ol>
+<li>Ask is-a or has-a. Pick composition by default; inheritance only when is-a never breaks.</li>
+<li>A subclass that overrides to throw or no-op is the LSP alarm saying it should never have been a subclass.</li>
+<li>Prefer implementing a small interface over extending a shared base: you can hold many, but extend only one.</li>
+</ol>
+<h2 id="in-the-interview">In The Interview</h2>
+<blockquote class="callout callout--note">
+<p>"Penguin extending Bird forced it to override fly() with an exception, which breaks Liskov substitution. I gave flying birds a Flyer interface and let Penguin hold a Swimmer instead. Penguin never claims to fly."</p>
+</blockquote>
+<h2 id="how-its-different">How It's Different</h2>
+<h3 id="the-confusion-pairs">The Confusion Pairs</h3>
+<p><strong>Composition (OOP) vs composition (UML).</strong> As a principle, composition loosely means "holds a reference to." In UML diagram notation, Composition is the strict version: the part cannot outlive the whole.</p>
+<p><strong>Composition vs Strategy.</strong> Strategy is composition, formalized: the has-a object is swapped in through a constructor specifically to vary one behaviour.</p>
+<p><strong>Composition vs inheritance for reuse.</strong> Inheritance reuses through a fixed parent. Composition reuses by holding whatever object you choose, swappable at runtime.</p>
+<p><strong>Single inheritance vs many interfaces.</strong> Most languages allow extending one class but implementing many interfaces. Composition sidesteps the one-parent limit entirely.</p>
+<h3 id="they-say-add-a-bird-that-both-flies-and-swims">They Say: "add a bird that both flies and swims"</h3>
+<ul>
+<li><strong>With it:</strong> implement Flyer and hold a Swimmer, no new subclass tangle.</li>
+<li><strong>Without:</strong> you're stuck deciding which base class it "is," or a subclass for every combination.</li>
+</ul>
+<h2 id="watch-out-for">Watch Out For</h2>
+<ul>
+<li>Overriding a method to throw or no-op is the single loudest inheritance-gone-wrong signal.</li>
+<li>Deep chains (4-5 levels) make it hard to know which ancestor a behaviour actually comes from.</li>
+<li>Composition needs a forwarding call written by hand; inheritance gives you the method free: that convenience is why it gets overused.</li>
+<li>"Is-a" can read true in English and still be false in behaviour (a Square "is-a" Rectangle in geometry, not in code with independent width/height).</li>
+<li>This isn't "never inherit." A genuinely closed, stable hierarchy (Shape to Circle/Rectangle for one shared method) is legitimate.</li>
+</ul>
+<h2 id="where-its-used">Where It's Used</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>In this pack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>05</td>
+<td>Decorator wraps behaviour by holding an object, never by subclassing</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Adapter composition around an incompatible object, not extension</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Strategy composition made swappable at runtime</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Composite a has-a tree of children, not an inheritance tree</td>
+</tr>
+<tr>
+<td>01</td>
+<td>Coupling &amp; Cohesion composition keeps that thin edge between classes</td>
+</tr>
+</tbody>
+</table>
+<div class="pager"><a class="prev" href="doc-theory-lld-core-concepts-05-kiss.html"><span class="dir">Previous</span><span class="ttl">KISS</span></a><a class="next" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html"><span class="dir">Next</span><span class="ttl">Interface vs Abstract Class</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

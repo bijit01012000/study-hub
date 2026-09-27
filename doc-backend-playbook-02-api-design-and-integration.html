@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API design and integration — Projects</title>
+<meta name="description" content="API design and integration">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="backend-playbook-02-api-design-and-integration">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="active" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Projects</h4><details class="part" open><summary>Backend Playbook <span class="count">13</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-backend-playbook-00-overview.html" title="Backend Interview Playbook">Backend Interview Playbook</a><button class="star" data-doc="backend-playbook-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-01-project-and-ownership-deep-dives.html" title="Project and ownership deep dives">Project and ownership deep dives</a><button class="star" data-doc="backend-playbook-01-project-and-ownership-deep-dives" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-backend-playbook-02-api-design-and-integration.html" title="API design and integration">API design and integration</a><button class="star" data-doc="backend-playbook-02-api-design-and-integration" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q21-tell-me-about-an-api-you-designed">Q2.1 - Tell me about an API you designed.</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q22-how-do-you-version-an-api-without-breaking-existing-clients">Q2.2 - How do you version an API without breaking existing clients?</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q23-a-client-calls-your-api-times-out-and-retries-walk-me-through-what-your-server-does">Q2.3 - A client calls your API, times out, and retries. Walk me through what your server does.</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q24-how-do-you-design-error-responses-so-that-clients-can-actually-handle-them">Q2.4 - How do you design error responses so that clients can actually handle them?</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q25-when-would-you-choose-grpc-over-rest-or-the-other-way-around">Q2.5 - When would you choose gRPC over REST, or the other way around?</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q26-how-did-you-handle-pagination-on-a-large-collection-endpoint">Q2.6 - How did you handle pagination on a large collection endpoint?</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q27-two-services-need-to-stay-in-sync-do-you-make-a-synchronous-call-or-publish-an-event-walk-me-through-the-trade-off">Q2.7 - Two services need to stay in sync. Do you make a synchronous call or publish an event? Walk me through the trade-off.</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q28-how-do-you-protect-an-api-from-a-client-that-starts-sending-ten-times-its-normal-traffic">Q2.8 - How do you protect an API from a client that starts sending ten times its normal traffic?</a></li><li><a href="doc-backend-playbook-02-api-design-and-integration.html#q29-drill-write-the-full-contract-for-a-single-post-payments-endpoint-request-shape-success-response-and-every-error-response-with-its-status-code-and-machine-code">Q2.9 - [DRILL] Write the full contract for a single POST /payments endpoint: request shape, success response, and every error response with its status code and machine code.</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-03-databases-and-transactions.html" title="Databases and transactions">Databases and transactions</a><button class="star" data-doc="backend-playbook-03-databases-and-transactions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html" title="Kafka, queues and asynchronous processing">Kafka, queues and asynchronous processing</a><button class="star" data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-05-redis-and-caching.html" title="Redis and caching">Redis and caching</a><button class="star" data-doc="backend-playbook-05-redis-and-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-06-distributed-systems-and-microservices.html" title="Distributed systems and microservices">Distributed systems and microservices</a><button class="star" data-doc="backend-playbook-06-distributed-systems-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-07-reliability-and-resilience.html" title="Reliability and resilience">Reliability and resilience</a><button class="star" data-doc="backend-playbook-07-reliability-and-resilience" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-08-production-incidents-and-debugging.html" title="Production incidents and debugging">Production incidents and debugging</a><button class="star" data-doc="backend-playbook-08-production-incidents-and-debugging" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-09-observability-and-deployment.html" title="Observability and deployment">Observability and deployment</a><button class="star" data-doc="backend-playbook-09-observability-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-10-security-and-data-protection.html" title="Security and data protection">Security and data protection</a><button class="star" data-doc="backend-playbook-10-security-and-data-protection" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-11-system-design-the-blank-page-round.html" title="System design (the blank-page round)">System design (the blank-page round)</a><button class="star" data-doc="backend-playbook-11-system-design-the-blank-page-round" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-12-behavioural-and-managerial-rounds.html" title="Behavioural and managerial rounds">Behavioural and managerial rounds</a><button class="star" data-doc="backend-playbook-12-behavioural-and-managerial-rounds" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Resume <span class="count">1</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-resume-01-resume.html" title="Resume — Bijit Sahu">Resume — Bijit Sahu</a><button class="star" data-doc="resume-01-resume" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve Interview Qa <span class="count">22</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-00-overview.html" title="Tixolve Interview Q&amp;A — Complete">Tixolve Interview Q&amp;A — Complete</a><button class="star" data-doc="tixolve-interview-qa-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-01-project-elevator-pitch.html" title="Project &amp; Elevator Pitch">Project &amp; Elevator Pitch</a><button class="star" data-doc="tixolve-interview-qa-01-project-elevator-pitch" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-02-architecture-microservices.html" title="Architecture &amp; Microservices">Architecture &amp; Microservices</a><button class="star" data-doc="tixolve-interview-qa-02-architecture-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-03-api-gateway.html" title="API Gateway">API Gateway</a><button class="star" data-doc="tixolve-interview-qa-03-api-gateway" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-04-auth-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-interview-qa-04-auth-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-05-data-persistence.html" title="Data &amp; Persistence">Data &amp; Persistence</a><button class="star" data-doc="tixolve-interview-qa-05-data-persistence" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-06-outbox-pattern-dual-write.html" title="Outbox Pattern &amp; Dual-Write">Outbox Pattern &amp; Dual-Write</a><button class="star" data-doc="tixolve-interview-qa-06-outbox-pattern-dual-write" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-07-kafka-event-driven.html" title="Kafka &amp; Event-Driven">Kafka &amp; Event-Driven</a><button class="star" data-doc="tixolve-interview-qa-07-kafka-event-driven" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-08-ai-rag-ingestion.html" title="AI / RAG — Ingestion">AI / RAG — Ingestion</a><button class="star" data-doc="tixolve-interview-qa-08-ai-rag-ingestion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search.html" title="AI / RAG — Retrieval &amp; Hybrid Search">AI / RAG — Retrieval &amp; Hybrid Search</a><button class="star" data-doc="tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-10-ai-rag-generation-prompting-escalation.html" title="AI / RAG — Generation, Prompting &amp; Escalation">AI / RAG — Generation, Prompting &amp; Escalation</a><button class="star" data-doc="tixolve-interview-qa-10-ai-rag-generation-prompting-escalation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-11-chat-service-sse-streaming.html" title="Chat Service &amp; SSE Streaming">Chat Service &amp; SSE Streaming</a><button class="star" data-doc="tixolve-interview-qa-11-chat-service-sse-streaming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-12-ticket-service-state-machine.html" title="Ticket Service &amp; State Machine">Ticket Service &amp; State Machine</a><button class="star" data-doc="tixolve-interview-qa-12-ticket-service-state-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-13-notification-service-websocket.html" title="Notification Service &amp; WebSocket">Notification Service &amp; WebSocket</a><button class="star" data-doc="tixolve-interview-qa-13-notification-service-websocket" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-14-frontend.html" title="Frontend">Frontend</a><button class="star" data-doc="tixolve-interview-qa-14-frontend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-15-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-interview-qa-15-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-16-docker-infra-deployment.html" title="Docker, Infra &amp; Deployment">Docker, Infra &amp; Deployment</a><button class="star" data-doc="tixolve-interview-qa-16-docker-infra-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-17-testing-quality.html" title="Testing &amp; Quality (Honest Gaps)">Testing &amp; Quality (Honest Gaps)</a><button class="star" data-doc="tixolve-interview-qa-17-testing-quality" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-18-scaling-production-readiness.html" title="Scaling &amp; Production-Readiness">Scaling &amp; Production-Readiness</a><button class="star" data-doc="tixolve-interview-qa-18-scaling-production-readiness" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-19-trade-offs-what-would-you-do-differently.html" title="Trade-offs &amp; &quot;What Would You Do Differently&quot;">Trade-offs &amp; &quot;What Would You Do Differently&quot;</a><button class="star" data-doc="tixolve-interview-qa-19-trade-offs-what-would-you-do-differently" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-20-behavioral-project-level.html" title="Behavioral / Project-Level">Behavioral / Project-Level</a><button class="star" data-doc="tixolve-interview-qa-20-behavioral-project-level" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-21-rapid-fire-concept-check.html" title="Rapid-Fire Concept Check">Rapid-Fire Concept Check</a><button class="star" data-doc="tixolve-interview-qa-21-rapid-fire-concept-check" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve System Design <span class="count">12</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-00-overview.html" title="Tixolve — System Design &amp; Engineering Reference">Tixolve — System Design &amp; Engineering Reference</a><button class="star" data-doc="tixolve-system-design-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-01-architecture-overview.html" title="Architecture Overview">Architecture Overview</a><button class="star" data-doc="tixolve-system-design-01-architecture-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-02-application-flow.html" title="Application Flow">Application Flow</a><button class="star" data-doc="tixolve-system-design-02-application-flow" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-03-data-architecture.html" title="Data Architecture">Data Architecture</a><button class="star" data-doc="tixolve-system-design-03-data-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-04-auth-and-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-system-design-04-auth-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-05-kafka-and-events.html" title="Kafka &amp; Event-Driven Design">Kafka &amp; Event-Driven Design</a><button class="star" data-doc="tixolve-system-design-05-kafka-and-events" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-06-ai-rag-pipeline.html" title="AI / RAG Pipeline">AI / RAG Pipeline</a><button class="star" data-doc="tixolve-system-design-06-ai-rag-pipeline" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-07-frontend-architecture.html" title="Frontend Architecture">Frontend Architecture</a><button class="star" data-doc="tixolve-system-design-07-frontend-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-08-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-system-design-08-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-09-tradeoffs-and-decisions.html" title="Trade-offs &amp; Decisions">Trade-offs &amp; Decisions</a><button class="star" data-doc="tixolve-system-design-09-tradeoffs-and-decisions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-10-codebase-walkthrough.html" title="Codebase Walkthrough">Codebase Walkthrough</a><button class="star" data-doc="tixolve-system-design-10-codebase-walkthrough" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-11-build-log.html" title="Build Log">Build Log</a><button class="star" data-doc="tixolve-system-design-11-build-log" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-projects.html">Projects</a> › Backend Playbook</p>
+<h1>API design and integration</h1>
+<p class="readmeta">9 sections · 3,555 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="backend-playbook-02-api-design-and-integration" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 02 - 9 questions - 1 practical drill</p>
+<p>Design contracts that remain correct through retries, change and failure.</p>
+<p>APIs are contracts between teams. This round tests whether you designed the contract on purpose - versioning, idempotency, error semantics, backward compatibility - or just wrote CRUD endpoints and hoped. The follow-ups always chase the failure path: timeouts, retries, duplicates.</p>
+<p><strong>Inside this module:</strong> Contracts &amp; versioning - Idempotency - Failure semantics - Integration choices</p>
+<blockquote class="callout callout--note">
+<p>A request travels CLIENT -&gt; API -&gt; DEPENDENCY within a 200ms budget, and a retry carries the same key. Retries are part of the contract. Design the duplicate path before production does it for you.</p>
+</blockquote>
+<h2 id="q21-tell-me-about-an-api-you-designed">Q2.1 - Tell me about an API you designed.</h2>
+<p><strong>What it really tests:</strong> Whether you designed a contract deliberately, thinking about consumers, failure, and evolution - or just exposed a database.</p>
+<p><strong>Weak answer:</strong> "We designed a REST API for our order service using standard CRUD endpoints and JSON payloads, following best practices."</p>
+<p><strong>Why it fails:</strong>
+- "Standard CRUD" and "best practices" are filler that describe nothing specific.
+- No consumer named, so no requirement drove the design.
+- No mention of versioning, errors, idempotency, or evolution.
+- "We designed" hides who decided what.
+- No failure path considered at all.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Who consumed the API? - Whether a real consumer shaped the design.
+2. <strong>TRADEOFF</strong> - How was the contract decided? - Deliberate contract negotiation vs convenience.
+3. <strong>FAILURE</strong> - What happened after a timeout? - Failure-path design.
+4. <strong>TECHNICAL</strong> - How was duplicate processing prevented? - Idempotency awareness.
+5. <strong>FAILURE</strong> - What failed in production? - Real operational experience.
+6. <strong>REFLECTION</strong> - What would you redesign? - Hindsight and judgement.</p>
+<p><strong>Answer framework:</strong>
+1. Consumer
+2. Requirement
+3. Constraint
+4. Personal responsibility
+5. Design decision
+6. Alternative rejected
+7. Failure handling
+8. Production outcome
+9. Reflection</p>
+<p><strong>Rejection signals:</strong>
+- Cannot name who consumed the API.
+- Cannot describe any alternative considered and rejected.
+- No answer for what happens on failure or timeout.
+- Never uses "I" to describe a specific decision.</p>
+<p><strong>Model answer skeleton:</strong>
+I designed the reservations API consumed by our web checkout and, later, a partner mobile app. The core requirement was that a 'reserve seat' call had to be safe to retry, because mobile networks dropped and clients retried aggressively.</p>
+<p>I made the POST idempotent with a client-supplied Idempotency-Key header; the server stored the key with the first response for 24 hours and replayed it on retries, so a duplicate reserve returned the original reservation instead of a second one.</p>
+<p>I rejected keying idempotency on request-body hashing because two genuinely different reservations could hash-collide on identical payloads.</p>
+<p>In production our first bug was that we didn't expire the keys, so the table grew unbounded; I added a TTL and a nightly cleanup.</p>
+<p>If I redid it I'd return Retry-After on our 429s from day one instead of bolting it on after the partner hammered us.</p>
+<h2 id="q22-how-do-you-version-an-api-without-breaking-existing-clients">Q2.2 - How do you version an API without breaking existing clients?</h2>
+<p><strong>What it really tests:</strong> Understanding that clients you don't control can't be forced to upgrade, and how to evolve a contract safely.</p>
+<p><strong>Weak answer:</strong> "We put a version number in the URL like /v1 and /v2. When we made changes we'd release a v2 and tell clients to migrate."</p>
+<p><strong>Why it fails:</strong>
+- Stops at URL versioning without discussing when a new version is actually needed.
+- No distinction between breaking and non-breaking changes.
+- "Tell clients to migrate" ignores clients that never do.
+- No deprecation or sunset strategy.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What change is breaking versus additive? - Precise understanding of compatibility.
+2. <strong>MEASUREMENT</strong> - How long did you support the old version, and how did you know when to kill it? - Data-driven deprecation.
+3. <strong>TRADEOFF</strong> - Why URL versioning over header or media-type versioning? - Considered alternatives.
+4. <strong>FAILURE</strong> - A client depended on a bug you fixed - now what? - The classic Hyrum's Law situation.</p>
+<p><strong>Answer framework:</strong>
+1. Breaking vs additive rule
+2. Default to additive
+3. When a new version is justified
+4. Versioning mechanism chosen
+5. Deprecation policy
+6. How you measured remaining old-version traffic
+7. Sunset decision</p>
+<p><strong>Rejection signals:</strong>
+- Thinks every change needs a new version.
+- No rule for what counts as breaking.
+- Never measured old-version usage before removing it.
+- No plan for clients that won't migrate.</p>
+<p><strong>Model answer skeleton:</strong>
+My rule was additive-by-default: adding an optional field or a new endpoint never breaks a client that ignores unknown fields, so those went out without a version bump.</p>
+<p>I only cut a new major version for genuinely breaking changes - removing a field, changing a type, tightening validation.</p>
+<p>We used URL versioning (/v2/) because it was trivial for our partners to see and test in a browser, over header versioning which was cleaner but invisible and harder to debug on their side.</p>
+<p>When we shipped v2 we kept v1 alive and instrumented per-version request counts; we only sunset v1 once it dropped below 0.5% of traffic and we'd emailed the three remaining partners.</p>
+<p>The trickiest case was a client relying on a leading-zero formatting bug - we treated the fix as breaking, gated it behind v2, and left v1 returning the old format until they migrated.</p>
+<h2 id="q23-a-client-calls-your-api-times-out-and-retries-walk-me-through-what-your-server-does">Q2.3 - A client calls your API, times out, and retries. Walk me through what your server does.</h2>
+<p><strong>What it really tests:</strong> Whether idempotency and duplicate-handling are designed in, or the system silently double-processes.</p>
+<p><strong>Weak answer:</strong> "The retry would just come in as a new request and get processed. Usually that's fine because most of our operations were reads."</p>
+<p><strong>Why it fails:</strong>
+- Assumes retries are harmless without checking write semantics.
+- No idempotency mechanism for the writes that aren't safe.
+- Doesn't consider the timeout might have fired after the server committed.
+- No dedupe, no idempotency key.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - The first request actually succeeded but the response was lost - what does the retry do? - The hard case that breaks naive designs.
+2. <strong>TECHNICAL</strong> - How do you make a POST idempotent? - Concrete mechanism.
+3. <strong>TRADEOFF</strong> - Where do you store the idempotency key and for how long? - Practical implementation detail.
+4. <strong>MEASUREMENT</strong> - What status code does the replay return? - Contract precision.</p>
+<p><strong>Answer framework:</strong>
+1. Classify the operation
+2. Safe-to-retry check
+3. Idempotency key on unsafe writes
+4. Storage and TTL of keys
+5. What the replay returns
+6. Distinguish 'in progress' from 'completed'
+7. Guard against concurrent duplicates</p>
+<p><strong>Rejection signals:</strong>
+- Assumes all retries are safe.
+- No mechanism for the lost-response case.
+- Cannot describe idempotency key storage.
+- Confuses idempotency with retries themselves.</p>
+<p><strong>Model answer skeleton:</strong>
+First I classify: GETs and PUTs are naturally idempotent, so a retry is fine. For a POST that creates a charge, a naive retry double-charges, so I require an Idempotency-Key.</p>
+<p>On the first request I insert the key into a table inside the same transaction that does the work; if the client retries and the response was lost, the retry hits a unique-constraint violation on the key, and I return the stored original response with the original 201 rather than re-executing.</p>
+<p>To handle the case where the first request is still in flight, the key row has a status - in_progress returns a 409 or makes the retry wait, completed replays the result.</p>
+<p>I keep keys for 24 hours, which comfortably covers client retry windows, and expire them to bound the table.</p>
+<p>That way 'timed out and retried' always converges to exactly one charge.</p>
+<h2 id="q24-how-do-you-design-error-responses-so-that-clients-can-actually-handle-them">Q2.4 - How do you design error responses so that clients can actually handle them?</h2>
+<p><strong>What it really tests:</strong> Whether errors are part of the contract or an afterthought - machine-readable codes, right status, no leaking internals.</p>
+<p><strong>Weak answer:</strong> "We returned appropriate HTTP status codes and an error message in the JSON body so the client knew what went wrong."</p>
+<p><strong>Why it fails:</strong>
+- "Appropriate status codes" with no examples of the tricky ones (409, 422, 429).
+- Human-readable message only - nothing a client can branch on programmatically.
+- No stable machine-readable error code.
+- No mention of not leaking stack traces or internal detail.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - How does a client distinguish 'retry this' from 'never retry this'? - Actionable error semantics.
+2. <strong>TRADEOFF</strong> - 400 vs 422 vs 409 - when each? - Precise status semantics.
+3. <strong>TECHNICAL</strong> - How do you return multiple validation errors at once? - Practical DX design.
+4. <strong>FAILURE</strong> - What did you make sure never appeared in an error body? - Security and information leakage.</p>
+<p><strong>Answer framework:</strong>
+1. Status code taxonomy
+2. Stable machine code field
+3. Retryable flag or convention
+4. Human message separate from code
+5. Validation error shape
+6. Correlation/trace id
+7. What you redact</p>
+<p><strong>Rejection signals:</strong>
+- Only human-readable messages, no codes.
+- Returns 200 with an error inside the body.
+- Leaks stack traces or SQL to clients.
+- No way for clients to tell retryable from fatal.</p>
+<p><strong>Model answer skeleton:</strong>
+I treat the error body as part of the contract: every error returns the right HTTP status plus a stable code string, a human message, and a trace_id.</p>
+<p>The code is what clients branch on - INSUFFICIENT_STOCK never changes even if we reword the message.</p>
+<p>I map 400 to malformed syntax, 422 to well-formed but semantically invalid input, 409 to a state conflict like a duplicate reservation, and 429 to rate limiting with a Retry-After.</p>
+<p>For validation I return 422 with an array of field-level errors so the client can highlight every bad field in one pass instead of round-tripping.</p>
+<p>I make sure stack traces, SQL, and internal hostnames never reach the client - those go to logs keyed by the same trace_id so support can correlate without us leaking internals.</p>
+<h2 id="q25-when-would-you-choose-grpc-over-rest-or-the-other-way-around">Q2.5 - When would you choose gRPC over REST, or the other way around?</h2>
+<p><strong>What it really tests:</strong> Whether you can justify a protocol choice by constraints rather than fashion.</p>
+<p><strong>Weak answer:</strong> "gRPC is faster because it uses binary and HTTP/2, so for high-performance stuff we'd use gRPC and REST for everything else."</p>
+<p><strong>Why it fails:</strong>
+- "Faster" as the whole justification, no numbers or context.
+- Ignores tooling, browser support, debuggability trade-offs.
+- No mention of streaming, contracts, or codegen.
+- Binary "internal vs external" split stated as a slogan, not reasoned.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Why is gRPC awkward from a browser? - Knows gRPC-web and its limits.
+2. <strong>TRADEOFF</strong> - What do you lose in debuggability with gRPC? - Honest downsides.
+3. <strong>TECHNICAL</strong> - How do Protobuf field numbers help with versioning? - Schema evolution depth.
+4. <strong>MEASUREMENT</strong> - When would streaming actually change your choice? - Concrete use-case fit.</p>
+<p><strong>Answer framework:</strong>
+1. Consumer type (browser/partner/internal)
+2. Latency and payload constraints
+3. Streaming needs
+4. Contract and codegen value
+5. Debuggability cost
+6. Ecosystem/tooling
+7. Decision and rejected option</p>
+<p><strong>Rejection signals:</strong>
+- "gRPC is just faster" with no context.
+- Doesn't know browser limitations.
+- No awareness of the debuggability trade-off.
+- Picks by trend, not constraint.</p>
+<p><strong>Model answer skeleton:</strong>
+I default to REST for anything a browser or an external partner touches, because it's debuggable with curl, cacheable, and every client can speak it.</p>
+<p>I reach for gRPC on internal service-to-service paths where the strong Protobuf contract and generated clients kill a whole class of integration bugs, and where the binary framing and HTTP/2 multiplexing matter - on one high-fanout path it cut serialization overhead and p99 noticeably versus JSON.</p>
+<p>The costs I accept with gRPC are real: it's painful from a browser without gRPC-web and a proxy, and you can't just eyeball traffic, so I lean harder on tracing.</p>
+<p>Protobuf's numbered fields are a genuine versioning win - you add a field with a new number and old clients ignore it - so schema evolution is safer than with loosely-typed JSON.</p>
+<p>So the rule is consumer and contract strength decide it, not raw speed.</p>
+<h2 id="q26-how-did-you-handle-pagination-on-a-large-collection-endpoint">Q2.6 - How did you handle pagination on a large collection endpoint?</h2>
+<p><strong>What it really tests:</strong> Whether you understand offset pagination's failure modes under concurrent writes and at depth.</p>
+<p><strong>Weak answer:</strong> "We used offset and limit - page and page size parameters - so clients could fetch data in chunks. It worked fine for our use case."</p>
+<p><strong>Why it fails:</strong>
+- Offset pagination without mentioning its drift/duplication under inserts.
+- No awareness of deep-offset performance collapse.
+- "Worked fine" with no scale stated.
+- No cursor alternative considered.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - A row is inserted while a client pages - what does the client see? - Understanding of offset drift.
+2. <strong>TECHNICAL</strong> - What happens to OFFSET 1000000 performance-wise? - Deep pagination cost.
+3. <strong>TRADEOFF</strong> - How does cursor pagination fix that, and what does it cost? - Cursor mechanics and limits.
+4. <strong>REFLECTION</strong> - How would a client jump to page 500 with cursors? - Honest about cursor's weakness.</p>
+<p><strong>Answer framework:</strong>
+1. Access pattern (feed vs jump-to-page)
+2. Offset drawbacks under inserts
+3. Deep-offset cost
+4. Cursor design (stable sort key)
+5. What cursors give up
+6. Choice justified by pattern
+7. Page-size limits and defaults</p>
+<p><strong>Rejection signals:</strong>
+- Only knows offset, unaware of its drift.
+- No idea why deep offsets are slow.
+- Cannot describe a cursor.
+- Ignores the sort-stability requirement for cursors.</p>
+<p><strong>Model answer skeleton:</strong>
+For our activity feed I moved from offset to cursor pagination because offset broke under concurrent inserts - a new event at the top pushed everything down, so a client fetching page 2 saw an item it already saw on page 1.</p>
+<p>Offset also died at depth: OFFSET 100000 still scans and discards 100k rows, so deep pages got slow.</p>
+<p>I used a cursor built from (created_at, id) - the client passes the last-seen tuple and I query WHERE (created_at, id) &lt; (?, ?) ORDER BY created_at DESC, id DESC LIMIT 20, which is index-friendly and stable under inserts.</p>
+<p>The cost I accepted is that cursors can't jump to an arbitrary page 500, but a feed doesn't need that - nobody deep-links to page 500 of a feed.</p>
+<p>For an admin table where users genuinely wanted numbered pages, I kept offset but capped it and pushed heavy users to filters instead.</p>
+<h2 id="q27-two-services-need-to-stay-in-sync-do-you-make-a-synchronous-call-or-publish-an-event-walk-me-through-the-trade-off">Q2.7 - Two services need to stay in sync. Do you make a synchronous call or publish an event? Walk me through the trade-off.</h2>
+<p><strong>What it really tests:</strong> Whether you understand coupling, and that synchronous calls chain failures while events add eventual-consistency complexity.</p>
+<p><strong>Weak answer:</strong> "We'd just call the other service's API directly since it's simpler and we get an immediate response. Events are more complex so we avoided them."</p>
+<p><strong>Why it fails:</strong>
+- Never weighs the failure coupling a synchronous call creates.
+- "Events are complex so we avoided them" - dismisses without reasoning.
+- No mention of what happens when the callee is down.
+- No sense of consistency requirements driving the choice.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - The downstream service is down during your call - what does the user see? - Failure coupling awareness.
+2. <strong>TECHNICAL</strong> - With events, how do you handle the consumer being down for an hour? - Durability and replay.
+3. <strong>TRADEOFF</strong> - Which path can the user tolerate being eventually consistent? - Mapping consistency need to mechanism.
+4. <strong>TECHNICAL</strong> - How do you avoid the dual-write problem publishing an event after a DB commit? - Outbox pattern awareness.</p>
+<p><strong>Answer framework:</strong>
+1. Consistency requirement
+2. Latency/user-facing need
+3. Failure coupling of sync
+4. Durability of async
+5. Dual-write hazard and outbox
+6. Choice per path
+7. How you'd monitor the async lag</p>
+<p><strong>Rejection signals:</strong>
+- Always picks sync for simplicity, ignores coupling.
+- No idea what happens when the callee is down.
+- Unaware of the dual-write problem.
+- Cannot tie the choice to a consistency requirement.</p>
+<p><strong>Model answer skeleton:</strong>
+I decide by whether the caller needs the result to proceed and how much it can tolerate staleness.</p>
+<p>Checkout needs a synchronous stock check because it can't confirm an order without knowing stock exists - but I accept that this couples checkout's availability to inventory's, so I wrap it in a timeout and a circuit breaker.</p>
+<p>For 'order placed, now update the loyalty points and send the email', I publish an event, because the user doesn't need points updated in the same 50ms and the loyalty service being down for an hour shouldn't fail the order - the event sits durably in Kafka and is processed when it recovers.</p>
+<p>The trap with events is the dual-write: if I commit the order then publish and the publish fails, they diverge, so I use the transactional outbox - write the event to an outbox table in the same DB transaction and relay it to Kafka separately.</p>
+<p>I'd watch consumer lag as the health signal for the async path.</p>
+<h2 id="q28-how-do-you-protect-an-api-from-a-client-that-starts-sending-ten-times-its-normal-traffic">Q2.8 - How do you protect an API from a client that starts sending ten times its normal traffic?</h2>
+<p><strong>What it really tests:</strong> Rate limiting, quotas, and fair-use design - protecting the system and other tenants.</p>
+<p><strong>Weak answer:</strong> "We'd add rate limiting to cap how many requests they can make, maybe using a library, and return an error if they went over."</p>
+<p><strong>Why it fails:</strong>
+- No algorithm named (token bucket, sliding window).
+- No dimension - per user, per IP, per API key?
+- Doesn't mention 429 or Retry-After.
+- Ignores distributed rate-limiting across multiple servers.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Token bucket vs sliding window - which and why? - Algorithm understanding.
+2. <strong>TECHNICAL</strong> - You have 10 API servers - where does the counter live? - Distributed limiting with Redis.
+3. <strong>MEASUREMENT</strong> - What do you return, and how does the client know when to retry? - Correct 429 + Retry-After contract.
+4. <strong>TRADEOFF</strong> - How do you avoid one noisy client starving the others? - Fairness / per-tenant isolation.</p>
+<p><strong>Answer framework:</strong>
+1. Dimension to limit on
+2. Algorithm choice
+3. Where the counter lives (shared store)
+4. Burst vs steady handling
+5. Response and Retry-After
+6. Per-tenant fairness
+7. Graceful degradation vs hard reject</p>
+<p><strong>Rejection signals:</strong>
+- No algorithm, just "a library".
+- Counter is per-server, so limits don't hold in aggregate.
+- Returns 500 or 200 instead of 429.
+- No per-tenant isolation.</p>
+<p><strong>Model answer skeleton:</strong>
+I rate-limit per API key, not per IP, because our clients sat behind shared NATs and IP-level limiting punished innocent users.</p>
+<p>I used a token-bucket algorithm because it allows short legitimate bursts while capping the sustained rate, implemented in Redis so the count is shared across all our API servers - a per-server counter would let a client do N times the limit by spreading requests.</p>
+<p>When a client exceeds the bucket, I return 429 with a Retry-After header so well-behaved clients back off precisely instead of hammering.</p>
+<p>To stop one tenant starving others, each key has its own bucket, so a misbehaving client only exhausts its own quota.</p>
+<p>For internal callers I preferred shedding load gracefully - degrade to cached data - over hard rejects, but for external abuse a hard 429 was the right call.</p>
+<h2 id="q29-drill-write-the-full-contract-for-a-single-post-payments-endpoint-request-shape-success-response-and-every-error-response-with-its-status-code-and-machine-code">Q2.9 - [DRILL] Write the full contract for a single POST /payments endpoint: request shape, success response, and every error response with its status code and machine code.</h2>
+<p><strong>What it really tests:</strong> Forces the candidate to think in contracts and failure paths, not happy-path CRUD.</p>
+<p><strong>Weak answer:</strong> N/A - drill. A weak attempt lists only the 200 case and a generic 400.</p>
+<p><strong>Why it fails:</strong>
+- Only happy path plus one vague error.
+- No idempotency key in the request.
+- No 409/422/429 distinction.
+- Error bodies have no stable machine code.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Where's the idempotency key, and what does a replay return? - Idempotency baked into the contract.
+2. <strong>FAILURE</strong> - Which of your errors is retryable and how does the client tell? - Actionable error design.
+3. <strong>MEASUREMENT</strong> - What's in the response that lets support trace a failed call? - Observability in the contract.</p>
+<p><strong>Answer framework:</strong>
+1. Request fields + idempotency key
+2. 201 success shape
+3. 422 validation array
+4. 409 duplicate/conflict
+5. 402/422 for declined
+6. 429 with Retry-After
+7. 5xx retryable
+8. trace id in every response</p>
+<p><strong>Rejection signals:</strong>
+- Only documents the success case.
+- No idempotency in the request.
+- Errors carry no stable codes.
+- No trace id anywhere.</p>
+<p><strong>Model answer skeleton:</strong>
+Drill output: POST /payments takes { amount, currency, source_id, order_id } plus a required Idempotency-Key header. 201 returns { payment_id, status: 'captured', trace_id }.</p>
+<p>A replay of the same key returns the original 201 body, not a new payment. 422 returns { code: 'INVALID_CURRENCY', errors: [{field, message}], trace_id } for well-formed-but-invalid input. 409 { code: 'DUPLICATE_ORDER', trace_id } if that order_id already has a captured payment under a different key. 402 { code: 'CARD_DECLINED', decline_reason, trace_id } - not retryable without a new source. 429 with Retry-After for rate limiting. 503 { code: 'PROCESSOR_UNAVAILABLE', trace_id } is the only safe-to-retry error, since the processor call may not have landed.</p>
+<p>Every response, success or failure, carries trace_id so support can find the exact call in logs.</p>
+<div class="pager"><a class="prev" href="doc-backend-playbook-01-project-and-ownership-deep-dives.html"><span class="dir">Previous</span><span class="ttl">Project and ownership deep dives</span></a><a class="next" href="doc-backend-playbook-03-databases-and-transactions.html"><span class="dir">Next</span><span class="ttl">Databases and transactions</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

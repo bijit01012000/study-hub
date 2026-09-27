@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOLID Principles — LLD</title>
+<meta name="description" content="SOLID Principles">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lld-core-concepts-02-solid-principles">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#the-idea">The Idea</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#before">Before</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#after">After</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#dont-force-all-five-at-once">Don&#x27;t Force All Five At Once</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#quick-check">Quick Check</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#how-its-built">How It&#x27;s Built</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#in-the-interview">In The Interview</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#how-its-different">How It&#x27;s Different</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#watch-out-for">Watch Out For</a></li><li><a href="doc-theory-lld-core-concepts-02-solid-principles.html#where-its-used">Where It&#x27;s Used</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Theory &amp; Notes</p>
+<h1>SOLID Principles</h1>
+<p class="readmeta">10 sections · 763 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lld-core-concepts-02-solid-principles" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Principle · LLD Core Concepts · Concept 02 of 09</p>
+</blockquote>
+<h2 id="the-idea">The Idea</h2>
+<h3 id="the-five-one-line-each">The Five, One Line Each</h3>
+<ul>
+<li><strong>S:</strong> one class, one reason to change.</li>
+<li><strong>O:</strong> open to behaviour, closed to edits.</li>
+<li><strong>L:</strong> a subtype honors the parent's promises.</li>
+<li><strong>I:</strong> thin, focused interfaces only.</li>
+<li><strong>D:</strong> depend on abstractions, not concretes.</li>
+</ul>
+<p>One job each. One per letter.</p>
+<h2 id="before">Before</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">ReportManager</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// S: content + format + storage</span>
+<span class="w">    </span><span class="n">MySqlDatabase</span><span class="w"> </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MySqlDatabase</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// D: tied to one concrete DB</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">Data</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Report</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build</span><span class="p">(</span><span class="n">d</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">type</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;CSV&quot;</span><span class="p">))</span>
+<span class="w">            </span><span class="n">writeCsv</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">            </span><span class="c1">// O: a new format means editing this method</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">type</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;PDF&quot;</span><span class="p">))</span>
+<span class="w">            </span><span class="n">writePdf</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+<span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Three reasons to change: content, format, storage.</p>
+<h2 id="after">After</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">interface</span> <span class="nc">Formatter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// the step that changes</span>
+<span class="w">    </span><span class="kt">byte</span><span class="o">[]</span><span class="w"> </span><span class="nf">format</span><span class="p">(</span><span class="n">Report</span><span class="w"> </span><span class="n">r</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">CsvFormatter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Formatter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">PdfFormatter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Formatter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">..</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">interface</span> <span class="nc">Database</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Report</span><span class="w"> </span><span class="n">r</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="c1">// not MySqlDatabase</span>
+<span class="kd">class</span> <span class="nc">ReportManager</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Formatter</span><span class="w"> </span><span class="n">fmt</span><span class="p">;</span><span class="w">  </span><span class="c1">// both injected, never built here</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Database</span><span class="w"> </span><span class="n">db</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ReportManager</span><span class="p">(</span><span class="n">Formatter</span><span class="w"> </span><span class="n">fmt</span><span class="p">,</span><span class="w"> </span><span class="n">Database</span><span class="w"> </span><span class="n">db</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">fmt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fmt</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="n">Data</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// one job: build, then save</span>
+<span class="w">        </span><span class="n">db</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">build</span><span class="p">(</span><span class="n">d</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="dont-force-all-five-at-once">Don't Force All Five At Once</h2>
+<ul>
+<li>A 2-method, 1-impl class doesn't need an interface yet.</li>
+<li>Injecting 6 interfaces "to be SOLID" is its own smell.</li>
+</ul>
+<h2 id="quick-check">Quick Check</h2>
+<p>Say it in one breath: one reason, open/closed, substitutable, thin interfaces, depend on abstractions.</p>
+<h2 id="how-its-built">How It's Built</h2>
+<h3 id="the-shape">The Shape</h3>
+<div class="highlight"><pre><span></span><code>ReportManager  HOLDER
+    - fmt: Formatter
+    - db: Database
+    + generate(d)
+    keeps one
+    the one step that changes
+
+«INTERFACE»
+Formatter
+    + format(r): byte[]
+
+CsvFormatter
+PdfFormatter
+    never checks the format
+
+ADD A FORMAT, NOTHING ELSE CHANGES
+</code></pre></div>
+
+<h3 id="the-move-3-steps">The Move (3 Steps)</h3>
+<ol>
+<li>Find what's actually growing. New formats, new storage backends. That growth line is your SRP/OCP boundary.</li>
+<li>Extract an interface where a second case already exists (or is clearly coming), not before.</li>
+<li>Inject the interface, never the concrete class. The holder depends on the abstraction; the abstraction never depends back.</li>
+</ol>
+<h2 id="in-the-interview">In The Interview</h2>
+<blockquote class="callout callout--note">
+<p>"This class has three reasons to change: content, format, storage. I'd keep content in ReportManager, put format behind a Formatter interface so a new format is a new class, and inject Database instead of newing a concrete one so it's swappable and testable."</p>
+</blockquote>
+<h2 id="how-its-different">How It's Different</h2>
+<h3 id="the-confusion-pairs">The Confusion Pairs</h3>
+<p><strong>SRP vs one class per file.</strong> SRP is about reasons to change, not size. A small class can still violate it if two unrelated people can each force an edit.</p>
+<p><strong>LSP vs "it compiles."</strong> Compiling isn't enough. A subtype that throws on a method the parent always allowed, or narrows what it accepts, breaks LSP even with a green build.</p>
+<p><strong>OCP vs YAGNI.</strong> OCP says stay open to extension. YAGNI says don't build the extension point yet. Resolve it by adding the seam when the second real case shows up, not the first.</p>
+<p><strong>ISP vs DIP.</strong> DIP says depend on an interface. ISP says keep that interface thin. One fat interface can satisfy DIP and still violate ISP.</p>
+<h3 id="they-say-now-add-a-json-report-format">They Say: "now add a JSON report format"</h3>
+<ul>
+<li><strong>With it:</strong> write one JsonFormatter class, hand it in. Nothing else moves.</li>
+<li><strong>Without:</strong> they watch you reopen generate() and add another else if.</li>
+</ul>
+<h2 id="watch-out-for">Watch Out For</h2>
+<ul>
+<li><strong>S:</strong> count reasons to change, not method count. A class with 10 tiny related methods can still have one job.</li>
+<li><strong>O:</strong> don't add an extension seam nobody asked for yet: that's OCP fighting YAGNI and losing on purpose.</li>
+<li><strong>L:</strong> a subtype throwing UnsupportedOperationException on an inherited method is an LSP violation, not an edge case.</li>
+<li><strong>I:</strong> a 12-method "Manager" interface that forces every implementer to stub 9 of them is the smell: split it by caller.</li>
+<li><strong>D:</strong> DIP means depend on an abstraction, not "add an interface to everything." A concrete class you will never swap doesn't need one.</li>
+</ul>
+<h2 id="where-its-used">Where It's Used</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>In this pack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>07</td>
+<td>Strategy is OCP in a box: a new rule is a new class</td>
+</tr>
+<tr>
+<td>04</td>
+<td>Adapter is DIP made concrete: depend on the interface it exposes</td>
+</tr>
+<tr>
+<td>05</td>
+<td>Decorator adds behaviour without touching the original class</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Splitwise keeps the ledger and the notifier as separate classes</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Observer keeps its interface to one method: ISP by construction</td>
+</tr>
+</tbody>
+</table>
+<div class="pager"><a class="prev" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html"><span class="dir">Previous</span><span class="ttl">Coupling &amp; Cohesion</span></a><a class="next" href="doc-theory-lld-core-concepts-03-dry.html"><span class="dir">Next</span><span class="ttl">DRY</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

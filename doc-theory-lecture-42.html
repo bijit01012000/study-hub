@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallel Streams in Java Explained | Primitive Optional Classes — Java</title>
+<meta name="description" content="Parallel Streams in Java Explained | Primitive Optional Classes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-42">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-42.html#lecture-42">Lecture 42</a></li><li><a href="doc-theory-lecture-42.html#1-what-a-parallel-stream-is">1. What a Parallel Stream Is</a></li><li><a href="doc-theory-lecture-42.html#2-how-work-is-split-the-spliterator">2. How Work Is Split: The Spliterator</a></li><li><a href="doc-theory-lecture-42.html#3-making-a-stream-parallel">3. Making a Stream Parallel</a></li><li><a href="doc-theory-lecture-42.html#4-sequential-vs-parallel-streams">4. Sequential vs Parallel Streams</a></li><li><a href="doc-theory-lecture-42.html#5-when-parallel-helps-and-when-it-hurts">5. When Parallel Helps and When It Hurts</a></li><li><a href="doc-theory-lecture-42.html#6-correctness-rules-stateless-non-interfering-no-shared-accumulators">6. Correctness Rules: Stateless, Non-Interfering, No Shared Accumulators</a></li><li><a href="doc-theory-lecture-42.html#7-reduce-and-collect-in-parallel">7. reduce and collect in Parallel</a></li><li><a href="doc-theory-lecture-42.html#8-ordering-under-parallelism">8. Ordering Under Parallelism</a></li><li><a href="doc-theory-lecture-42.html#9-performance-caveats">9. Performance Caveats</a></li><li><a href="doc-theory-lecture-42.html#10-the-primitive-optional-classes">10. The Primitive Optional Classes</a></li><li><a href="doc-theory-lecture-42.html#11-stream-integration-numeric-terminals-return-primitive-optionals">11. Stream Integration: Numeric Terminals Return Primitive Optionals</a></li><li><a href="doc-theory-lecture-42.html#12-optionalint-vs-optional">12. OptionalInt vs Optional</a></li><li><a href="doc-theory-lecture-42.html#13-worked-example-parallel-sum-ordered-print-and-findany">13. Worked Example: Parallel Sum, Ordered Print, and findAny</a></li><li><a href="doc-theory-lecture-42.html#14-pitfalls-and-common-errors">14. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-42.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-42.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-42.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-42.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-42.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Parallel Streams in Java Explained | Primitive Optional Classes</h1>
+<p class="readmeta">20 sections · 3,589 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-42" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-42">Lecture 42</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Parallel Streams in Java Explained | Primitive Optional Classes" (playlist map, verified). Repo evidence: code/Demo.java.</p>
+</blockquote>
+<p>Lecture 40 catalogued the stream operations and Lecture 41 introduced <code>Optional</code> as a null-safe container for a possibly missing value. This lecture turns a stream into a multi-threaded pipeline with <code>parallel()</code> and <code>parallelStream()</code>, explains the Fork/Join common pool that silently backs every parallel stream, and states the correctness rules a parallel lambda must obey. It then covers the primitive-optional family — <code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code> — which the numeric streams return so that no boxing is needed. The governing lesson is that parallelism is an optimization, not a default: it pays only for large, CPU-bound, easily splittable, stateless work, and it silently corrupts results when those conditions are not met.</p>
+<h2 id="1-what-a-parallel-stream-is">1. What a Parallel Stream Is</h2>
+<p>A <strong>parallel stream</strong> is a stream whose operations may execute concurrently: the source is partitioned into chunks, the chunks are processed on several threads, and the partial results are combined into one answer. Everything from Lecture 40 still holds — laziness, single-use, intermediate versus terminal operations — but the pipeline now has a hidden concurrency dimension.</p>
+<p>There are three spellings, and they are not different things:</p>
+<ol>
+<li><code>collection.parallelStream()</code> — obtains a parallel stream directly from a <code>Collection</code>.</li>
+<li><code>stream.parallel()</code> — marks an existing sequential stream as parallel and returns the same stream type.</li>
+<li><code>stream.sequential()</code> — the inverse; it marks the pipeline sequential again.</li>
+</ol>
+<p>The backing engine is the <strong><code>ForkJoinPool.commonPool()</code></strong>. Its default parallelism is <code>Runtime.getRuntime().availableProcessors() - 1</code>, so an eight-core machine runs seven worker threads by default. The internal task-stealing mechanics are covered in Lecture 56 and Lecture 57.</p>
+<blockquote class="callout callout--important">
+<p>Important
+Parallel is a property of the <strong>stream instance</strong>, not of the terminal operation. <code>list.stream().parallel()</code> and <code>list.parallelStream()</code> have the same effect; the mode is fixed at the moment the terminal operation fires.</p>
+<p>Memory aid
+Sequential means one thread, encounter order. Parallel means a pool of threads, no promised order. The word "parallel" never appears in the result — it only changes how the result is computed.</p>
+</blockquote>
+<h2 id="2-how-work-is-split-the-spliterator">2. How Work Is Split: The Spliterator</h2>
+<p>Every stream is fed by a <strong><code>Spliterator</code></strong> (splittable iterator), the source abstraction that can divide itself. Under <code>parallel()</code> the framework repeatedly calls <code>trySplit()</code> to break the source into roughly equal chunks, runs the pipeline per chunk, then merges the partial results. How well a source splits therefore decides whether parallelism helps at all.</p>
+<p>Sources that split well — random access or O(1) division:</p>
+<ul>
+<li><code>ArrayList</code>, plain arrays, <code>IntStream.range</code> and <code>IntStream.rangeClosed</code>.</li>
+<li><code>Arrays.stream(...)</code>, and the key sets of <code>HashMap</code>/<code>HashSet</code>.</li>
+</ul>
+<p>These carry <code>SIZED</code>, <code>SUBSIZED</code> and <code>ORDERED</code> characteristics, so <code>trySplit()</code> divides them cleanly.</p>
+<p>Sources that split poorly:</p>
+<ul>
+<li><code>LinkedList</code> — splitting needs traversal, so the halves are unbalanced and the overhead grows.</li>
+<li><code>Stream.iterate(...)</code> — inherently sequential and often infinite, so there is almost nothing to split.</li>
+<li>Some I/O sources such as <code>BufferedReader.lines()</code>.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+A parallel stream over a poorly splittable source is usually <strong>slower</strong> than the sequential stream, because the framework pays splitting and merging costs and receives little real concurrency in return.</p>
+</blockquote>
+<h2 id="3-making-a-stream-parallel">3. Making a Stream Parallel</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — the three spellings of a parallel pipeline</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">parallelStream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">mapToInt</span><span class="p">(</span><span class="n">Integer</span><span class="p">::</span><span class="n">intValue</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">sum</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">parallel</span><span class="p">()</span><span class="w">                          </span><span class="c1">// same effect as parallelStream()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">mapToInt</span><span class="p">(</span><span class="n">Integer</span><span class="p">::</span><span class="n">intValue</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">sum</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">isParallel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">parallel</span><span class="p">().</span><span class="na">isParallel</span><span class="p">();</span><span class="w">   </span><span class="c1">// true</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">isParallel</span><span class="p">);</span><span class="w">           </span><span class="c1">// 36 36 true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>isParallel()</code> reports the current mode, and it is the only honest way to confirm that a pipeline is parallel after a chain of conversions.</p>
+<h2 id="4-sequential-vs-parallel-streams">4. Sequential vs Parallel Streams</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Sequential stream</th>
+<th>Parallel stream</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Threads</td>
+<td>the calling thread only</td>
+<td>Fork/Join common pool workers</td>
+</tr>
+<tr>
+<td>Chunking</td>
+<td>none, element by element</td>
+<td>Spliterator splits into chunks</td>
+</tr>
+<tr>
+<td>Encounter order</td>
+<td>preserved by default</td>
+<td>guaranteed only by the ordered terminals</td>
+</tr>
+<tr>
+<td>Overhead</td>
+<td>low</td>
+<td>splitting, task scheduling, merging</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>small data, I/O, order-sensitive work</td>
+<td>large, CPU-bound, splittable, stateless work</td>
+</tr>
+<tr>
+<td>Lambda contract</td>
+<td>lenient</td>
+<td>must be stateless and non-interfering</td>
+</tr>
+<tr>
+<td>Creation</td>
+<td><code>stream()</code></td>
+<td><code>parallelStream()</code> or <code>parallel()</code></td>
+</tr>
+<tr>
+<td>Default pool size</td>
+<td>not applicable</td>
+<td><code>availableProcessors - 1</code></td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: the parallel column is not a strict upgrade. Every entry that costs something — chunking, overhead, the lambda contract — is a condition that must be satisfied before parallel is a win.</p>
+<h2 id="5-when-parallel-helps-and-when-it-hurts">5. When Parallel Helps and When It Hurts</h2>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Parallel helps</th>
+<th>Parallel hurts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Data size</td>
+<td>large (hundreds of thousands of elements or more)</td>
+<td>small (overhead dominates the useful work)</td>
+</tr>
+<tr>
+<td>Work type</td>
+<td>CPU-bound computation</td>
+<td>I/O-bound waiting</td>
+</tr>
+<tr>
+<td>Splittability</td>
+<td><code>ArrayList</code>, array, <code>IntStream.range</code></td>
+<td><code>LinkedList</code>, <code>Stream.iterate</code></td>
+</tr>
+<tr>
+<td>State</td>
+<td>stateless, side-effect-free lambdas</td>
+<td>shared mutable state</td>
+</tr>
+<tr>
+<td>Ordering</td>
+<td>order not required</td>
+<td><code>sorted</code>, <code>forEachOrdered</code>, <code>findFirst</code></td>
+</tr>
+<tr>
+<td>Nesting</td>
+<td>a single parallel pipeline</td>
+<td>parallel inside parallel</td>
+</tr>
+<tr>
+<td>Determinism</td>
+<td>result independent of execution order</td>
+<td>result depends on execution order</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+The expected answer is never "parallel is faster". It is "parallel can be faster when the data is large, the work is CPU-bound, the operations are stateless, and the source splits well; otherwise it adds overhead or introduces bugs, so measure before switching."</p>
+</blockquote>
+<h2 id="6-correctness-rules-stateless-non-interfering-no-shared-accumulators">6. Correctness Rules: Stateless, Non-Interfering, No Shared Accumulators</h2>
+<p>A parallel lambda must satisfy three contracts:</p>
+<ol>
+<li><strong>Stateless</strong> — it must not depend on mutable state that can change between invocations.</li>
+<li><strong>Non-interfering</strong> — it must not modify the stream source while the pipeline runs.</li>
+<li><strong>No shared mutable accumulators</strong> — concurrent updates to one list, map or array element are a data race.</li>
+</ol>
+<p>The classic broken example mutates a shared <code>ArrayList</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — shared mutable accumulator: wrong under parallel</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IntStream</span><span class="p">.</span><span class="na">rangeClosed</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">boxed</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">shared</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">nums</span><span class="p">.</span><span class="na">parallelStream</span><span class="p">().</span><span class="na">forEach</span><span class="p">(</span><span class="n">shared</span><span class="p">::</span><span class="n">add</span><span class="p">);</span><span class="w">   </span><span class="c1">// data race: entries lost or corrupt</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">shared</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">            </span><span class="c1">// usually less than 1000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The fix is to let the framework own the accumulation:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — the correct, parallel-safe replacement</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">safe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">parallelStream</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span><span class="w">            </span><span class="c1">// framework merges chunk results</span>
+</code></pre></div>
+
+<p>The same defect appears with a captured array slot (<code>int[] total = {0}; stream.forEach(x -&gt; total[0] += x)</code>) and with a captured mutable counter. The cure is always the same: express the intent as <code>reduce</code> or <code>collect</code>, never as a side effect on shared state.</p>
+<h2 id="7-reduce-and-collect-in-parallel">7. reduce and collect in Parallel</h2>
+<p><code>reduce</code> performs an <strong>immutable reduction</strong>: it folds the elements into one new value. In parallel, the two-argument form reuses the accumulator as the combiner, so the operation must be associative and the identity must be a true identity. When the accumulated type differs from the element type, the three-argument form supplies an explicit combiner that merges the per-chunk partials.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — a correct parallel reduction and a parallel collector</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">nums</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IntStream</span><span class="p">.</span><span class="na">rangeClosed</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">boxed</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">parallelStream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">reduce</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">::</span><span class="n">sum</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">::</span><span class="n">sum</span><span class="p">);</span><span class="w">   </span><span class="c1">// identity, accumulator, combiner</span>
+
+<span class="w">        </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">byParity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">parallelStream</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">groupingBy</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">2</span><span class="p">));</span><span class="w">   </span><span class="c1">// framework merges buckets</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sum</span><span class="p">);</span><span class="w">                          </span><span class="c1">// 500500</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">byParity</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">size</span><span class="p">());</span><span class="w">       </span><span class="c1">// 500</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>collect</code> is built for parallelism: the standard collectors use a per-thread container and a combiner. For a shared concurrent container, <code>Collectors.groupingByConcurrent(...)</code> and <code>Collectors.toConcurrentMap(...)</code> write into a <code>ConcurrentHashMap</code>, which can reduce merging work. The trade-off is that a concurrent collector does <strong>not</strong> promise encounter order, so use it only when order is irrelevant.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A non-associative combiner silently produces wrong answers in parallel. <code>reduce(0, (a, b) -&gt; a - b)</code> is fine sequentially and wrong in parallel, because subtraction has no associativity to rely on.</p>
+</blockquote>
+<h2 id="8-ordering-under-parallelism">8. Ordering Under Parallelism</h2>
+<p>Encounter order is the order in which the source presents its elements. Parallel execution may process them in any order, so the terminals that promise order pay a coordination cost.</p>
+<table>
+<thead>
+<tr>
+<th>Terminal</th>
+<th>Order guarantee</th>
+<th>Parallel fit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forEach</code></td>
+<td>none in parallel</td>
+<td>excellent, order-agnostic</td>
+</tr>
+<tr>
+<td><code>forEachOrdered</code></td>
+<td>encounter order enforced</td>
+<td>works, but reduces the speedup</td>
+</tr>
+<tr>
+<td><code>findFirst</code></td>
+<td>first in encounter order</td>
+<td>possible, less parallel</td>
+</tr>
+<tr>
+<td><code>findAny</code></td>
+<td>any matching element</td>
+<td>preferred under parallel</td>
+</tr>
+<tr>
+<td><code>collect(toList)</code></td>
+<td>preserves encounter order for ordered streams</td>
+<td>good</td>
+</tr>
+<tr>
+<td><code>sorted</code></td>
+<td>stable for ordered streams</td>
+<td>needs every element before emitting</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<strong><code>forEach</code> races, <code>forEachOrdered</code> queues; <code>findAny</code> picks, <code>findFirst</code> waits.</strong> Reach for the second of each pair only when the semantics truly require it.</p>
+</blockquote>
+<h2 id="9-performance-caveats">9. Performance Caveats</h2>
+<ul>
+<li>The common pool is <strong>shared across the whole JVM</strong>. A blocking task — a sleep, a network call, a lock — occupies a worker and can starve unrelated parallel streams. Never do blocking I/O inside a parallel stream.</li>
+<li>Parallelism has fixed overhead: splitting, task creation and merging. On small data it is pure loss.</li>
+<li><strong>Measure, do not guess.</strong> Use a real benchmark harness (JMH) and account for JIT warm-up; a single cold timing run is misleading.</li>
+<li><strong>Amdahl's law</strong> intuition: the sequential fraction of the work caps the speedup, however many cores exist.</li>
+<li>Thread count is not throughput. Seven threads doing trivial work is slower than one.</li>
+<li>Nested parallel pipelines oversubscribe the pool and rarely help; flatten them.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Reach for sequential first; switch to parallel only when the workload is large, CPU-bound, stateless and easily split, and only after measuring both versions.</p>
+</blockquote>
+<h2 id="10-the-primitive-optional-classes">10. The Primitive Optional Classes</h2>
+<p>Lecture 41 introduced <code>Optional&lt;T&gt;</code> for reference types. Using <code>Optional&lt;Integer&gt;</code> for a numeric result would reintroduce the very boxing the primitive streams were built to avoid, so Java ships three primitive specializations:</p>
+<ul>
+<li><strong><code>OptionalInt</code></strong> — a container for a possibly absent primitive <code>int</code>.</li>
+<li><strong><code>OptionalLong</code></strong> — a container for a possibly absent primitive <code>long</code>.</li>
+<li><strong><code>OptionalDouble</code></strong> — a container for a possibly absent primitive <code>double</code>.</li>
+</ul>
+<p>They are <strong>not generic</strong> and are <strong>not subtypes of <code>Optional</code></strong>; they are separate value-type-specific containers with their own API. Their common methods are:</p>
+<table>
+<thead>
+<tr>
+<th>Purpose</th>
+<th>Method</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create present</td>
+<td><code>OptionalInt.of(5)</code></td>
+<td>null is not allowed</td>
+</tr>
+<tr>
+<td>Create absent</td>
+<td><code>OptionalInt.empty()</code></td>
+<td>shared empty instance</td>
+</tr>
+<tr>
+<td>Test presence</td>
+<td><code>isPresent()</code>, <code>isEmpty()</code></td>
+<td><code>isEmpty</code> is Java 11</td>
+</tr>
+<tr>
+<td>Read</td>
+<td><code>getAsInt()</code></td>
+<td>throws <code>NoSuchElementException</code> when empty</td>
+</tr>
+<tr>
+<td>Default</td>
+<td><code>orElse(0)</code>, <code>orElseGet(...)</code></td>
+<td><code>orElseGet</code> takes a supplier</td>
+</tr>
+<tr>
+<td>Act</td>
+<td><code>ifPresent(...)</code>, <code>ifPresentOrElse(...)</code></td>
+<td>Java 9 adds the two-branch form</td>
+</tr>
+<tr>
+<td>Convert</td>
+<td><code>stream()</code> (Java 9), then <code>boxed()</code></td>
+<td>turns it into an <code>IntStream</code>/<code>Stream&lt;Integer&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>getAsInt()</code> is the <code>OptionalInt</code> analogue of <code>Optional.get()</code> and it fails the same way on an empty container. Prefer <code>orElse</code>, <code>orElseGet</code> or <code>ifPresent</code>.</p>
+</blockquote>
+<h2 id="11-stream-integration-numeric-terminals-return-primitive-optionals">11. Stream Integration: Numeric Terminals Return Primitive Optionals</h2>
+<p>The numeric streams terminate into primitive optionals because a stream may be empty and a result may not exist.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — primitive optionals produced by IntStream terminals</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">OptionalInt</span><span class="w"> </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">stream</span><span class="p">(</span><span class="n">values</span><span class="p">).</span><span class="na">max</span><span class="p">();</span><span class="w">          </span><span class="c1">// OptionalInt</span>
+<span class="w">        </span><span class="n">OptionalInt</span><span class="w"> </span><span class="n">min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">stream</span><span class="p">(</span><span class="n">values</span><span class="p">).</span><span class="na">min</span><span class="p">();</span><span class="w">          </span><span class="c1">// OptionalInt</span>
+<span class="w">        </span><span class="n">OptionalDouble</span><span class="w"> </span><span class="n">avg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">stream</span><span class="p">(</span><span class="n">values</span><span class="p">).</span><span class="na">average</span><span class="p">();</span><span class="w">   </span><span class="c1">// OptionalDouble</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">max</span><span class="p">.</span><span class="na">getAsInt</span><span class="p">());</span><span class="w">                     </span><span class="c1">// 9</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">min</span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span><span class="w">                     </span><span class="c1">// 2</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">avg</span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="mf">0.0</span><span class="p">));</span><span class="w">                    </span><span class="c1">// 5.4</span>
+
+<span class="w">        </span><span class="n">max</span><span class="p">.</span><span class="na">ifPresent</span><span class="p">(</span><span class="n">m</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;max=&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">m</span><span class="p">));</span><span class="w">     </span><span class="c1">// max=9</span>
+
+<span class="w">        </span><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">boxed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">max</span><span class="p">.</span><span class="na">stream</span><span class="p">().</span><span class="na">boxed</span><span class="p">().</span><span class="na">findFirst</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">boxed</span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span><span class="w">                   </span><span class="c1">// 9</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>An empty numeric stream therefore yields <code>OptionalInt.empty()</code> or <code>OptionalDouble.empty()</code> rather than a default sentinel. The terminal map is: <code>max()</code>, <code>min()</code> and <code>findFirst()</code>/<code>findAny()</code> on an <code>IntStream</code> return <code>OptionalInt</code>; <code>average()</code> returns <code>OptionalDouble</code>; <code>summaryStatistics()</code> returns a statistics object, not an optional.</p>
+<h2 id="12-optionalint-vs-optional">12. OptionalInt vs Optional<Integer></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>Optional&lt;Integer&gt;</code></th>
+<th><code>OptionalInt</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Element type</td>
+<td>reference wrapper <code>Integer</code></td>
+<td>primitive <code>int</code></td>
+</tr>
+<tr>
+<td>Boxing</td>
+<td>allocates a wrapper</td>
+<td>no boxing</td>
+</tr>
+<tr>
+<td>Generic</td>
+<td>yes, works for any <code>T</code></td>
+<td>no, <code>int</code> only</td>
+</tr>
+<tr>
+<td>Library use</td>
+<td>general-purpose APIs</td>
+<td>numeric stream terminals</td>
+</tr>
+<tr>
+<td>Read method</td>
+<td><code>get()</code></td>
+<td><code>getAsInt()</code></td>
+</tr>
+<tr>
+<td>Default method</td>
+<td><code>orElse(Integer)</code></td>
+<td><code>orElse(int)</code></td>
+</tr>
+<tr>
+<td>Produced by</td>
+<td><code>Stream&lt;Integer&gt;</code> terminals</td>
+<td><code>IntStream</code> terminals</td>
+</tr>
+<tr>
+<td>Conversion</td>
+<td>not specialized</td>
+<td><code>opt.stream().boxed().findFirst()</code> returns <code>Optional&lt;Integer&gt;</code></td>
+</tr>
+<tr>
+<td>Siblings</td>
+<td>none</td>
+<td><code>OptionalLong</code>, <code>OptionalDouble</code></td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: choose <code>OptionalInt</code> whenever the value is a primitive <code>int</code> produced by a numeric stream; choose <code>Optional&lt;Integer&gt;</code> when the container must participate in generic code.</p>
+<h2 id="13-worked-example-parallel-sum-ordered-print-and-findany">13. Worked Example: Parallel Sum, Ordered Print, and findAny</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo4.java — parallel sum of a large range, ordered printing, parallel search</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.stream.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo4</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IntStream</span><span class="p">.</span><span class="na">rangeClosed</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10_000_000</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">parallel</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">asLongStream</span><span class="p">()</span><span class="w">                 </span><span class="c1">// avoid int overflow</span>
+<span class="w">                </span><span class="p">.</span><span class="na">sum</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span><span class="w">              </span><span class="c1">// 50000005000000</span>
+
+<span class="w">        </span><span class="n">IntStream</span><span class="p">.</span><span class="na">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">parallel</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">forEachOrdered</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">print</span><span class="p">);</span><span class="w">   </span><span class="c1">// 123456789</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">OptionalInt</span><span class="w"> </span><span class="n">any</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IntStream</span><span class="p">.</span><span class="na">rangeClosed</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">parallel</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100_000</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">findAny</span><span class="p">();</span><span class="w">                     </span><span class="c1">// parallel-friendly search</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">any</span><span class="p">.</span><span class="na">orElse</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The first pipeline demonstrates a large, splittable, associative sum — the ideal case. The second shows why <code>forEachOrdered</code> exists: plain <code>forEach</code> would print the digits in no defined order. The third shows <code>findAny</code>, the search terminal built for parallel execution.</p>
+<h2 id="14-pitfalls-and-common-errors">14. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Using parallel by default</td>
+<td>overhead makes small or I/O work slower</td>
+<td>keep sequential; parallelize only after measurement</td>
+</tr>
+<tr>
+<td>Shared mutable accumulator</td>
+<td>lost updates and corrupt results</td>
+<td>use <code>reduce</code> or <code>collect</code></td>
+</tr>
+<tr>
+<td>Assuming order in <code>forEach</code></td>
+<td>nondeterministic output</td>
+<td>use <code>forEachOrdered</code> when order matters</td>
+</tr>
+<tr>
+<td>Blocking call inside parallel</td>
+<td>starves the shared common pool</td>
+<td>keep I/O out, or use a dedicated executor</td>
+</tr>
+<tr>
+<td>Parallel over I/O</td>
+<td>threads idle while waiting</td>
+<td>use async I/O or remain sequential</td>
+</tr>
+<tr>
+<td>Nested parallel pipelines</td>
+<td>oversubscription, little speedup</td>
+<td>flatten to one parallel pipeline</td>
+</tr>
+<tr>
+<td>Non-associative combiner</td>
+<td>silently wrong result</td>
+<td>use associative operations</td>
+</tr>
+<tr>
+<td><code>LinkedList</code> or <code>Stream.iterate</code> source</td>
+<td>poor splitting, slower than sequential</td>
+<td>use <code>ArrayList</code>, an array or <code>IntStream.range</code></td>
+</tr>
+<tr>
+<td>Mistaking thread count for speed</td>
+<td>more threads, no more throughput</td>
+<td>benchmark with JMH</td>
+</tr>
+<tr>
+<td><code>getAsInt()</code> on empty</td>
+<td>throws <code>NoSuchElementException</code></td>
+<td>use <code>orElse</code>/<code>orElseGet</code>/<code>ifPresent</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Parallel is always faster."</td>
+<td>Overhead and poor splitting make it slower for small data and sequential sources.</td>
+</tr>
+<tr>
+<td>"<code>parallelStream()</code> uses one thread per element."</td>
+<td>It uses the shared common pool, with parallelism <code>availableProcessors - 1</code>.</td>
+</tr>
+<tr>
+<td>"<code>forEach</code> preserves order in parallel."</td>
+<td>Order is unspecified; use <code>forEachOrdered</code> when order is required.</td>
+</tr>
+<tr>
+<td>"<code>OptionalInt</code> is just <code>Optional&lt;Integer&gt;</code>."</td>
+<td>It is a non-generic primitive specialization that avoids boxing.</td>
+</tr>
+<tr>
+<td>"<code>reduce</code> works in parallel with any combiner."</td>
+<td>The combiner must be associative, or results are silently wrong.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Pool size: "How many threads does a parallel stream use on an eight-core machine?"
+Seven — the common pool's parallelism is <code>availableProcessors - 1</code>; it is shared JVM-wide.</p>
+<p>Trap 2 — Order in forEach: "Does a parallel <code>forEach</code> print elements in source order?"
+No. The visit order is unspecified; <code>forEachOrdered</code> enforces encounter order at the cost of some speedup.</p>
+<p>Trap 3 — Shared list: "Why does <code>parallelStream().forEach(list::add)</code> lose elements?"
+Concurrent mutation of an unsynchronized <code>ArrayList</code> is a data race; use <code>collect(Collectors.toList())</code>.</p>
+<p>Trap 4 — findAny versus findFirst: "In a parallel stream, does <code>findAny</code> return the first match?"
+No. It may return any match and is deliberately non-deterministic; use <code>findFirst</code> when order matters.</p>
+<p>Trap 5 — Empty primitive optional: "What does <code>IntStream.empty().max().getAsInt()</code> do?"
+It throws <code>NoSuchElementException</code>; <code>max()</code> returns <code>OptionalInt.empty()</code>, so guard with <code>orElse</code>.</p>
+<p>Trap 6 — Splitting quality: "Is a parallel stream over a <code>LinkedList</code> faster than sequential?"
+Usually not. <code>LinkedList</code> splits poorly, so the framework pays overhead without gaining parallelism; <code>Stream.iterate</code> is worse still.</p>
+<p>Trap 7 — Blocking the pool: "Is it safe to call a slow network service inside a parallel stream?"
+No. The common pool is shared; blocking workers can starve every other parallel stream in the JVM.</p>
+<p>Trap 8 — Return types: "What does <code>IntStream.max()</code> return — <code>int</code> or <code>OptionalInt</code>?"
+<code>OptionalInt</code>. A stream may be empty, so the terminal cannot return a bare primitive.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>A parallel stream splits the source, processes chunks on the Fork/Join common pool, and merges results.</li>
+<li><code>parallelStream()</code>, <code>parallel()</code> and the inverse <code>sequential()</code> control the mode; <code>isParallel()</code> reports it.</li>
+<li>Default common-pool parallelism is <code>availableProcessors - 1</code>; the pool is shared JVM-wide (Lecture 56/57).</li>
+<li>The Spliterator decides splitting quality: <code>ArrayList</code>, arrays and <code>IntStream.range</code> split well; <code>LinkedList</code> and <code>Stream.iterate</code> split poorly.</li>
+<li>Parallel pays off for large, CPU-bound, stateless, easily splittable work and costs for small, I/O-bound or order-sensitive work.</li>
+<li>Lambdas must be stateless, non-interfering and free of shared mutable accumulators.</li>
+<li><code>reduce</code> needs an associative accumulator and combiner; <code>collect</code> merges per-chunk containers, with <code>groupingByConcurrent</code> for shared concurrent maps.</li>
+<li>Ordering: <code>forEach</code> is unordered in parallel, <code>forEachOrdered</code> enforces encounter order, <code>findAny</code> is parallel-friendly, <code>findFirst</code> is not.</li>
+<li><code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code> avoid boxing and are returned by numeric stream terminals such as <code>max()</code>, <code>min()</code>, <code>average()</code> and <code>findFirst()</code>.</li>
+<li>Never add parallel by default; measure with a real benchmark and honor Amdahl's law before trusting a speedup.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a parallel stream?</td>
+<td>A stream whose operations may run concurrently: the source is split into chunks, processed on pool threads, and merged.</td>
+</tr>
+<tr>
+<td>How do you create a parallel stream?</td>
+<td><code>collection.parallelStream()</code>, or <code>stream.parallel()</code>; <code>sequential()</code> reverses it.</td>
+</tr>
+<tr>
+<td>Which thread pool backs parallel streams?</td>
+<td>The shared <code>ForkJoinPool.commonPool()</code>, whose parallelism defaults to <code>availableProcessors - 1</code>.</td>
+</tr>
+<tr>
+<td>What decides whether parallel helps?</td>
+<td>Data size, CPU-bound work, stateless operations and how well the Spliterator splits the source.</td>
+</tr>
+<tr>
+<td>Why can a <code>LinkedList</code> parallel stream be slower?</td>
+<td>Its Spliterator splits poorly, so splitting and merging overhead is paid without real parallelism.</td>
+</tr>
+<tr>
+<td>Why must parallel lambdas be stateless?</td>
+<td>Shared mutable state is updated concurrently and produces data races and wrong results.</td>
+</tr>
+<tr>
+<td>How do you accumulate correctly in parallel?</td>
+<td>Use <code>reduce</code> with an associative combiner, or <code>collect</code> with a collector; never mutate a shared container.</td>
+</tr>
+<tr>
+<td>Difference between <code>forEach</code> and <code>forEachOrdered</code>?</td>
+<td><code>forEach</code> gives no order in parallel; <code>forEachOrdered</code> enforces encounter order at reduced parallelism.</td>
+</tr>
+<tr>
+<td>Difference between <code>findFirst</code> and <code>findAny</code>?</td>
+<td><code>findFirst</code> respects encounter order; <code>findAny</code> may return any element and suits parallel search.</td>
+</tr>
+<tr>
+<td>Does <code>collect(groupingBy(...))</code> preserve order in parallel?</td>
+<td>The standard collector preserves encounter order for ordered streams; <code>groupingByConcurrent</code> does not.</td>
+</tr>
+<tr>
+<td>What are the primitive optional types?</td>
+<td><code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code> — non-generic containers that avoid boxing for numeric streams.</td>
+</tr>
+<tr>
+<td>Why does <code>IntStream.max()</code> return <code>OptionalInt</code>?</td>
+<td>A stream may be empty, so the terminal returns a container; <code>getAsInt()</code> throws when it is empty.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>sequential : one thread, encounter order, low overhead
+parallel   : ForkJoinPool.commonPool (parallelism = availableProcessors - 1)
+             Spliterator.trySplit() -&gt; chunks -&gt; merge
+
+splits well : ArrayList, arrays, IntStream.range
+splits badly: LinkedList, Stream.iterate
+
+helps  : large data · CPU-bound · stateless · splittable source · order not needed
+hurts  : small data · I/O-bound · shared mutable state · order-sensitive · nested parallel
+
+rules  : stateless, non-interfering, no shared accumulators
+         reduce(identity, accumulator, combiner)  combiner must be associative
+         collect(toList / groupingBy)             groupingByConcurrent -&gt; no order promise
+
+order  : forEach (none)  vs  forEachOrdered (encounter order)
+         findAny (any)   vs  findFirst (encounter order)
+
+primitive optionals : OptionalInt · OptionalLong · OptionalDouble
+   IntStream.max()/min()/findFirst() -&gt; OptionalInt
+   IntStream.average()               -&gt; OptionalDouble
+   opt.stream().boxed().findFirst()  -&gt; Optional&lt;Integer&gt;
+</code></pre></div>
+
+<ul>
+<li>Modes → <code>parallelStream()</code> or <code>parallel()</code>; <code>isParallel()</code> confirms it; the shared common pool does the work.</li>
+<li>Splitting → the Spliterator decides success; random-access sources split, linked and <code>iterate</code> sources do not.</li>
+<li>Fit → large, CPU-bound, stateless, splittable, order-agnostic work only; otherwise parallel is slower.</li>
+<li>Correctness → stateless non-interfering lambdas plus <code>reduce</code>/<code>collect</code>, never shared mutable accumulators.</li>
+<li>Ordering → <code>forEach</code> versus <code>forEachOrdered</code>, <code>findAny</code> versus <code>findFirst</code>, <code>collect</code> preserves encounter order.</li>
+<li>Performance → the common pool is shared; don't block it; measure with JMH and remember Amdahl's law.</li>
+<li>Primitive optionals → <code>OptionalInt</code>/<code>OptionalLong</code>/<code>OptionalDouble</code> avoid boxing; <code>boxed()</code> crosses back to the generic world.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Use parallel streams only when the work is large, CPU-bound, stateless and easily split; use <code>OptionalInt</code> and its siblings whenever a numeric stream hands back a possibly absent primitive.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> a parallel stream is an optimization that the shared common pool performs only when the source splits, the work is stateless and CPU-bound and the data is large, while <code>OptionalInt</code>, <code>OptionalLong</code> and <code>OptionalDouble</code> keep numeric results unboxed and null-safe.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-41.html"><span class="dir">Previous</span><span class="ttl">Java Optional Explained from Scratch | All Methods + Streams Integration</span></a><a class="next" href="doc-theory-lecture-43.html"><span class="dir">Next</span><span class="ttl">Java Exception Handling from Scratch | Exceptions vs Errors</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

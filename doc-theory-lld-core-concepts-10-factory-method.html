@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Factory Method — LLD</title>
+<meta name="description" content="Factory Method">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lld-core-concepts-10-factory-method">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#intent">Intent</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#when-to-use-it">When To Use It</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#before">Before</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#after">After</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#structure">Structure</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#how-its-built-3-steps">How It&#x27;s Built (3 Steps)</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#in-the-interview">In The Interview</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#how-its-different">How It&#x27;s Different</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#watch-out-for">Watch Out For</a></li><li><a href="doc-theory-lld-core-concepts-10-factory-method.html#where-its-used">Where It&#x27;s Used</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Theory &amp; Notes</p>
+<h1>Factory Method</h1>
+<p class="readmeta">10 sections · 821 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lld-core-concepts-10-factory-method" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Creational · Design Patterns · Pattern 01 of 12</p>
+</blockquote>
+<h2 id="intent">Intent</h2>
+<p>Hide the <code>new</code> behind a <code>create()</code> so callers depend on the product interface, not a concrete class. One product, one method.</p>
+<h2 id="when-to-use-it">When To Use It</h2>
+<h3 id="the-signs">The Signs</h3>
+<ul>
+<li><code>new ConcreteThing()</code> scattered across many files.</li>
+<li>The same switch (type) returning a new per case, copied in three places.</li>
+<li>Caller code that imports and names every concrete class.</li>
+<li>A class you cannot unit-test because it hardcodes what it creates.</li>
+</ul>
+<h3 id="dont-bother-if">Don't Bother If</h3>
+<ul>
+<li>There is only ever one concrete product.</li>
+<li>Construction is a plain new with no choice to make.</li>
+<li>A one-line static helper reads fine and the set will not grow.</li>
+<li>You would add a creator subclass just to change one line.</li>
+</ul>
+<h2 id="before">Before</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">ParkingLot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ParkingSpot</span><span class="w"> </span><span class="nf">makeSpot</span><span class="p">(</span><span class="n">SpotType</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">BIKE</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BikeSpot</span><span class="p">();</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">CAR</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CarSpot</span><span class="p">();</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="n">TRUCK</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TruckSpot</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// ParkingLot now names every concrete spot class,</span>
+<span class="c1">// and this same switch is copied in Floor and in the tests</span>
+</code></pre></div>
+
+<p>Coupled to concretes.</p>
+<h2 id="after">After</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">interface</span> <span class="nc">SpotFactory</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">ParkingSpot</span><span class="w"> </span><span class="nf">create</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="c1">// one product, behind one method</span>
+<span class="kd">class</span> <span class="nc">CarSpotFactory</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">SpotFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ParkingSpot</span><span class="w"> </span><span class="nf">create</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CarSpot</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// BikeSpotFactory, TruckSpotFactory: the same three lines</span>
+
+<span class="kd">class</span> <span class="nc">ParkingLot</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">SpotFactory</span><span class="w"> </span><span class="n">factory</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ParkingLot</span><span class="p">(</span><span class="n">SpotFactory</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ParkingSpot</span><span class="w"> </span><span class="nf">addSpot</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">factory</span><span class="p">.</span><span class="na">create</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// holds the interface, never names a concrete</span>
+</code></pre></div>
+
+<p>Or the compact real-world form: one registry, keyed by type.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Map</span><span class="o">&lt;</span><span class="n">SpotType</span><span class="p">,</span><span class="w"> </span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">ParkingSpot</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">spots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">    </span><span class="n">SpotType</span><span class="p">.</span><span class="na">BIKE</span><span class="p">,</span><span class="w"> </span><span class="n">BikeSpot</span><span class="p">::</span><span class="k">new</span><span class="p">,</span>
+<span class="w">    </span><span class="n">SpotType</span><span class="p">.</span><span class="na">CAR</span><span class="p">,</span><span class="w"> </span><span class="n">CarSpot</span><span class="p">::</span><span class="k">new</span><span class="p">,</span>
+<span class="w">    </span><span class="n">SpotType</span><span class="p">.</span><span class="na">TRUCK</span><span class="p">,</span><span class="w"> </span><span class="n">TruckSpot</span><span class="p">::</span><span class="k">new</span><span class="p">);</span>
+<span class="n">ParkingSpot</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spots</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">t</span><span class="p">).</span><span class="na">get</span><span class="p">();</span>
+<span class="c1">// a new size is one small factory, or one entry. nothing else stirs.</span>
+</code></pre></div>
+
+<p>Or the caller news it directly:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ParkingSpot</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CarSpot</span><span class="p">();</span>
+<span class="c1">// Floor does this too. so does the seeder. so do three tests.</span>
+<span class="c1">// each one now imports BikeSpot, CarSpot, TruckSpot by name</span>
+<span class="c1">// and each one breaks the day a new size is added</span>
+</code></pre></div>
+
+<h2 id="structure">Structure</h2>
+<div class="highlight"><pre><span></span><code>«INTERFACE»
+SpotFactory
+    + create(): ParkingSpot
+    one product, one method
+
+Client
+    holds a SpotFactory
+    calls create()
+    holds one
+
+BikeSpotFactory
+CarSpotFactory
+TruckSpotFactory
+
+«INTERFACE»
+«creates»
+ParkingSpot
+    the product
+    callers hold this
+
+THE CLIENT HOLDS THE INTERFACE, NEVER A CONCRETE
+</code></pre></div>
+
+<h2 id="how-its-built-3-steps">How It's Built (3 Steps)</h2>
+<ol>
+<li>Name the product interface. The thing callers actually use (ParkingSpot). They hold this, never a concrete class.</li>
+<li>Put the new behind a create(). An abstract method on a creator, a small factory class per type, or a <code>Map&lt;key, Supplier&gt;</code> registry.</li>
+<li>Callers depend on the product and the factory only. The words new CarSpot() live in exactly one place, not scattered.</li>
+</ol>
+<h2 id="in-the-interview">In The Interview</h2>
+<blockquote class="callout callout--note">
+<p>"ParkingLot should not name CarSpot or BikeSpot. I would put a SpotFactory behind a create() method, or a registry of Suppliers keyed by SpotType, so adding a size is one new factory and nothing else changes."</p>
+</blockquote>
+<h2 id="how-its-different">How It's Different</h2>
+<h3 id="from-the-lookalikes">From The Lookalikes</h3>
+<p><strong>Vs a plain static factory.</strong> Integer.valueOf() style. Handy, but not the GoF pattern: there is no subclass or strategy hook to vary what gets made.</p>
+<p><strong>Vs Builder.</strong> Builder assembles one complex object step by step with validation. Factory Method picks which class to instantiate in one call.</p>
+<p><strong>Vs Prototype.</strong> Prototype makes a new object by cloning an existing one. Factory Method constructs a fresh one from scratch.</p>
+<p><strong>Vs Abstract Factory.</strong> Factory Method makes one product behind one method. Abstract Factory makes a whole family of related products (a matching button, checkbox and menu) behind one object.</p>
+<h3 id="they-say-now-add-an-ev-only-spot">They Say: "now add an EV-only spot"</h3>
+<ul>
+<li><strong>With it:</strong> one EvSpotFactory, one registry entry. ParkingLot, Floor and the seeder are untouched.</li>
+<li><strong>Without:</strong> you edit the same switch in three files and hope you found them all.</li>
+</ul>
+<h2 id="watch-out-for">Watch Out For</h2>
+<ul>
+<li>Do not return null for an unknown type. Throw, or return a Null Object the caller can safely use.</li>
+<li>A factory whose switch keeps growing is its own smell. Move to a <code>Map&lt;key, Supplier&gt;</code> registry that types self-register into.</li>
+<li>Keep the factory dumb: it constructs and wires, it does not run business logic.</li>
+<li>Java shortcut: an enum where each constant overrides create() is a clean, closed factory.</li>
+<li>A static factory method cannot be overridden or mocked. If a test must swap the product, take a SpotFactory parameter instead.</li>
+</ul>
+<h2 id="where-its-used">Where It's Used</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>In this pack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>Parking Lot a Spot or Vehicle from a type code</td>
+</tr>
+<tr>
+<td>06</td>
+<td>Chess a Piece from a letter, and the promotion piece</td>
+</tr>
+<tr>
+<td>16</td>
+<td>In-memory File System a File or Directory from a kind</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Notification Service a channel from a ChannelType</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Pub-Sub a Topic created on first publish</td>
+</tr>
+</tbody>
+</table>
+<div class="pager"><a class="prev" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html"><span class="dir">Previous</span><span class="ttl">How to Approach Any LLD Problem</span></a><a class="next" href="doc-theory-lld-core-concepts-11-builder.html"><span class="dir">Next</span><span class="ttl">Builder</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

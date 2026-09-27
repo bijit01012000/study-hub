@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Multithreading in Java | Process vs Thread — Java</title>
+<meta name="description" content="Introduction to Multithreading in Java | Process vs Thread">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-47">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-47.html#lecture-47">Lecture 47</a></li><li><a href="doc-theory-lecture-47.html#1-the-six-terms-from-stored-file-to-running-code">1. The Six Terms: From Stored File to Running Code</a></li><li><a href="doc-theory-lecture-47.html#2-what-is-a-program-instructions-at-rest">2. What Is a Program? Instructions at Rest</a></li><li><a href="doc-theory-lecture-47.html#3-what-is-a-process-a-program-in-execution">3. What Is a Process? A Program in Execution</a></li><li><a href="doc-theory-lecture-47.html#4-what-is-a-thread-the-unit-of-execution">4. What Is a Thread? The Unit of Execution</a></li><li><a href="doc-theory-lecture-47.html#5-program-vs-process-vs-thread">5. Program vs Process vs Thread</a></li><li><a href="doc-theory-lecture-47.html#6-process-vs-thread">6. Process vs Thread</a></li><li><a href="doc-theory-lecture-47.html#7-cpu-cores-the-hardware-that-executes-instructions">7. CPU Cores: The Hardware That Executes Instructions</a></li><li><a href="doc-theory-lecture-47.html#8-concurrency-vs-parallelism">8. Concurrency vs Parallelism</a></li><li><a href="doc-theory-lecture-47.html#9-why-multithreading-and-when-it-backfires">9. Why Multithreading (and When It Backfires)</a></li><li><a href="doc-theory-lecture-47.html#10-shared-heap-private-stack-why-threads-race">10. Shared Heap, Private Stack: Why Threads Race</a></li><li><a href="doc-theory-lecture-47.html#11-javas-threading-model">11. Java&#x27;s Threading Model</a></li><li><a href="doc-theory-lecture-47.html#12-code-the-main-thread-and-a-concurrency-hint">12. Code: The Main Thread and a Concurrency Hint</a></li><li><a href="doc-theory-lecture-47.html#13-pitfalls-and-common-errors">13. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-47.html#14-myth-vs-reality">14. Myth vs Reality</a></li><li><a href="doc-theory-lecture-47.html#15-common-trap-questions">15. Common Trap Questions</a></li><li><a href="doc-theory-lecture-47.html#16-points-to-remember">16. Points to Remember</a></li><li><a href="doc-theory-lecture-47.html#17-likely-interview-questions">17. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-47.html#18-final-summary">18. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Introduction to Multithreading in Java | Process vs Thread</h1>
+<p class="readmeta">19 sections · 4,247 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-47" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-47">Lecture 47</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Introduction to Multithreading in Java | Process vs Thread" plus the lecture's own notes terms (program/process/thread/core/concurrency/parallelism), playlist map, verified. Repo evidence: code/Demo.java.</p>
+</blockquote>
+<p>Every Java program you have written so far ran as a single sequence of steps, and that is enough until something must respond, compute and wait at the same time. This lecture builds the vocabulary that all of multithreading rests on: program, process, thread, CPU core, concurrency and parallelism. It traces a Java source file from a passive stored program, through an executing process, down to the threads that actually do the work on a core. Mastering these distinctions is what separates guessing about concurrent behaviour from reasoning about it.</p>
+<h2 id="1-the-six-terms-from-stored-file-to-running-code">1. The Six Terms: From Stored File to Running Code</h2>
+<p>Multithreading sits on a chain of ideas that describe how code moves from a stored file to actual execution:</p>
+<div class="highlight"><pre><span></span><code>Program  →  Process  →  Thread  →  CPU Core
+(stored)    (running)   (execution)   (hardware that runs it)
+
+Concurrency  →  overlapping progress (can happen on one core)
+Parallelism  →  simultaneous execution (needs multiple cores)
+</code></pre></div>
+
+<ol>
+<li><strong>Program</strong> — a set of instructions stored in a file; passive.</li>
+<li><strong>Process</strong> — a program in execution; active, isolated, resource-owning.</li>
+<li><strong>Thread</strong> — a unit of execution inside a process; shares the process memory, owns a stack.</li>
+<li><strong>CPU Core</strong> — the hardware unit that actually executes machine instructions.</li>
+<li><strong>Concurrency</strong> — dealing with many tasks by interleaving their progress.</li>
+<li><strong>Parallelism</strong> — executing many tasks at the same physical instant on multiple units.</li>
+</ol>
+<blockquote class="callout callout--note">
+<p>Memory aid
+A <strong>program</strong> is a recipe at rest, a <strong>process</strong> is the meal being cooked, and <strong>threads</strong> are the cooks working inside one kitchen. One core is one stove: cooks can take turns, but only one uses it at a time.</p>
+</blockquote>
+<h2 id="2-what-is-a-program-instructions-at-rest">2. What Is a Program? Instructions at Rest</h2>
+<p>A <strong>program</strong> is a set of instructions written to make a computer perform a particular task. Examples include a Java source file, a compiled Java class file, a browser application, a code editor and a media player.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — a program stored as source</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This source can be stored in <code>Demo.java</code>. After compilation, the bytecode is stored in <code>Demo.class</code>. Both are programs in <strong>stored form</strong>: they contain instructions, but those instructions are not currently being executed.</p>
+<p>A program is a <strong>passive entity</strong>:</p>
+<div class="highlight"><pre><span></span><code>Program  →  instructions stored in a file  →  not currently executing
+</code></pre></div>
+
+<p>The program file itself occupies storage space. It does not receive its own active process memory, CPU scheduling or execution resources until it is launched. An operating system may cache file contents in memory for performance, but caching does not mean the program is actively executing as a process.</p>
+<p><strong>Is bytecode also a program?</strong> Yes. Java source is the human-readable program; Java bytecode is the JVM-executable representation of the same program. Bytecode becomes active only when a JVM loads and executes it.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A <code>.java</code> file and a <code>.class</code> file are both programs. Neither is a process, and neither is executing simply because it exists on disk.</p>
+</blockquote>
+<h2 id="3-what-is-a-process-a-program-in-execution">3. What Is a Process? A Program in Execution</h2>
+<p>A <strong>process</strong> is a running instance of a program. The distinction is the entire point:</p>
+<div class="highlight"><pre><span></span><code>Program  →  passive instructions
+Process  →  active execution of those instructions
+</code></pre></div>
+
+<p>When we run <code>java Demo</code>, the operating system starts a process that contains the JVM and the Java application being executed. Launching a real application such as VS Code, Chrome, IntelliJ IDEA or Spotify likewise creates one or more processes, so one visible window does not always correspond to exactly one process — a browser may create separate processes for its interface, tabs, extensions, graphics and network services.</p>
+<p>When a process is created, the operating system provides an execution environment with several parts:</p>
+<ol>
+<li><strong>Memory</strong> — a virtual address space holding executable code, runtime data, heap memory, thread stacks, memory-mapped files and loaded libraries.</li>
+<li><strong>CPU scheduling</strong> — the OS scheduler decides when the process's threads receive processor time. The process does not execute instructions directly; its threads do.</li>
+<li><strong>Resources</strong> — files, network sockets, input and output devices, database connections, shared libraries and operating-system handles.</li>
+</ol>
+<p>A process has three defining properties:</p>
+<ul>
+<li><strong>Independent execution environment</strong> — each process has its own execution context; if one process crashes, other processes normally continue. Applications can still affect one another indirectly through shared files, databases, services or OS resources.</li>
+<li><strong>Separate address space</strong> — one process cannot normally access another process's memory directly.</li>
+<li><strong>Managed by the operating system</strong> — creation, termination, memory allocation, CPU scheduling, resource access and security boundaries are all OS responsibilities.</li>
+</ul>
+<p>Because address spaces are separate, communication between processes needs dedicated mechanisms — pipes, sockets, shared memory, files, message queues and remote calls. This collection is called <strong>inter-process communication</strong> (IPC), and it is heavyweight compared with talking between threads.</p>
+<p>Where does the JVM fit? Running <code>java Demo</code> starts an <strong>operating-system process</strong> that contains a JVM runtime, which in turn runs the Java application:</p>
+<div class="highlight"><pre><span></span><code>Operating-system process
++-- JVM runtime
+    +-- Java application
+</code></pre></div>
+
+<p>The JVM is not a separate process living inside another unrelated Java process; it is the runtime executing within the process the OS started. Each process also has a <strong>PID</strong> that identifies it to the operating system.</p>
+<blockquote class="callout callout--important">
+<p>Important
+Process A memory ≠ Process B memory. Isolation is what makes processes robust, and it is also exactly why IPC is comparatively costly.</p>
+</blockquote>
+<h2 id="4-what-is-a-thread-the-unit-of-execution">4. What Is a Thread? The Unit of Execution</h2>
+<p>A <strong>thread</strong> is an independent path of execution inside a process. A process can contain one or more threads, and the threads execute instructions belonging to the process:</p>
+<div class="highlight"><pre><span></span><code>Program    →  launched as a process
+Process    →  contains threads
+Thread     →  executes instructions
+</code></pre></div>
+
+<p>A thread carries its own execution-related state: program counter, call stack, stack frames, local variables and current instruction position. Threads inside the same process generally <strong>share</strong> heap objects, static variables, loaded classes, open files and network resources. The resulting core model is:</p>
+<div class="highlight"><pre><span></span><code>Private execution stacks  +  shared process memory
+</code></pre></div>
+
+<p>This is why a thread is often called a <strong>lightweight process</strong>: threads are cheaper to create than processes, they share the same process memory, communication between them is faster, and switching between threads is cheaper than switching between processes. A thread is still not a separate process, and it does not normally have its own independent address space.</p>
+<p>A process must contain at least one executing thread. When a normal Java application begins, the JVM creates a thread that invokes <code>main()</code> — the <strong>main thread</strong>.</p>
+<div class="highlight"><pre><span></span><code>One process
++-- Main thread
++-- Worker thread 1
++-- Worker thread 2
++-- Background thread
+</code></pre></div>
+
+<p>The main thread can create more worker threads, and now each thread has its own Java stack and program counter while all of them can read and write the same shared heap objects.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<strong>Stack is private, heap is shared.</strong> A thread's local variables live in its own stack; every object it references lives in the shared heap.</p>
+</blockquote>
+<h2 id="5-program-vs-process-vs-thread">5. Program vs Process vs Thread</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Program</th>
+<th>Process</th>
+<th>Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What it is</td>
+<td>A set of instructions stored in a file</td>
+<td>A program in execution</td>
+<td>A unit of execution inside a process</td>
+</tr>
+<tr>
+<td>Nature</td>
+<td>Passive (at rest)</td>
+<td>Active (running instance)</td>
+<td>Active (execution path)</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>Lives on disk as a file</td>
+<td>Own virtual address space</td>
+<td>Shares the process heap; own stack</td>
+</tr>
+<tr>
+<td>State</td>
+<td>Not executing</td>
+<td>Has a lifecycle; may be running or suspended</td>
+<td>Has a lifecycle (Lecture 48)</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td>Only the file itself</td>
+<td>Files, sockets, handles, PID</td>
+<td>Uses the process's resources</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>Demo.java</code>, <code>Demo.class</code></td>
+<td><code>java Demo</code> while it runs</td>
+<td>The main thread, worker threads</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: a program becomes a process when launched, and the actual work inside that process is performed by threads.</p>
+<h2 id="6-process-vs-thread">6. Process vs Thread</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Process</th>
+<th>Thread</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition</td>
+<td>Running instance of a program</td>
+<td>Execution path inside a process</td>
+</tr>
+<tr>
+<td>Address space</td>
+<td>Independent address space</td>
+<td>Shares the process address space</td>
+</tr>
+<tr>
+<td>Creation cost</td>
+<td>Higher</td>
+<td>Usually cheaper</td>
+</tr>
+<tr>
+<td>Context switch</td>
+<td>Generally heavier</td>
+<td>Generally lighter</td>
+</tr>
+<tr>
+<td>Communication</td>
+<td>Requires IPC (pipes, sockets, shared memory)</td>
+<td>Through shared memory (the heap)</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>Strong</td>
+<td>Weak (shared memory)</td>
+</tr>
+<tr>
+<td>Crash impact</td>
+<td>Usually does not directly terminate other processes</td>
+<td>A serious failure can affect the entire process</td>
+</tr>
+<tr>
+<td>Managed by</td>
+<td>The operating system</td>
+<td>JVM plus the OS scheduler</td>
+</tr>
+</tbody>
+</table>
+<p>The trade-off is one sentence: <strong>shared memory makes threads fast to communicate with but risky, while process isolation makes them safe but slow to coordinate.</strong></p>
+<h2 id="7-cpu-cores-the-hardware-that-executes-instructions">7. CPU Cores: The Hardware That Executes Instructions</h2>
+<p>The CPU ultimately executes <strong>native machine instructions</strong>, never Java source code directly. Java bytecode may be interpreted by the JVM, compiled into native code by the JIT compiler, or executed as optimized native instructions — but the hardware unit doing the work is the <strong>CPU core</strong>.</p>
+<p>On a <strong>single-core CPU</strong>, only one runnable thread can execute on that core at one exact instant. If the process has a main thread and two workers, the scheduler interleaves them:</p>
+<div class="highlight"><pre><span></span><code>Main → Thread-1 → Main → Thread-2 → Thread-1
+</code></pre></div>
+
+<p>The switching can happen so quickly that the threads appear to run together. That switching is a <strong>context switch</strong>: the CPU stops executing one thread and begins executing another.</p>
+<div class="highlight"><pre><span></span><code>Running Thread-A
+→ save Thread-A execution context
+→ select Thread-B
+→ restore Thread-B execution context
+→ continue Thread-B
+</code></pre></div>
+
+<p>The saved execution context may include the instruction pointer, CPU registers, stack pointer, processor state and scheduling information. Context switching is <strong>not free</strong>: it involves scheduler work, saving and restoring state, cache disruption, translation-lookaside-buffer effects and possibly moving execution between cores. Too many threads can reduce performance because the system spends more time switching than doing useful work.</p>
+<blockquote class="callout callout--important">
+<p>Important
+The OS does not simply copy all CPU register values into Java stack frames. The native thread context is saved in OS- and runtime-managed structures. A safe mental model is: thread execution state is saved, then another thread's state is restored.</p>
+</blockquote>
+<p>On a <strong>multi-core CPU</strong>, different threads may execute at the same instant — for example, Core-1 to the main thread, Core-2 to Worker-1, Core-3 to Worker-2 and Core-4 to Worker-3. That is parallel execution.</p>
+<h2 id="8-concurrency-vs-parallelism">8. Concurrency vs Parallelism</h2>
+<p>These two words are the most commonly conflated pair in threading:</p>
+<ul>
+<li><strong>Concurrency</strong> means multiple tasks are in progress during overlapping periods of time, but they do not necessarily execute at the exact same instant. It is about <strong>managing</strong> multiple tasks, and it can exist even with one processor core.</li>
+<li><strong>Parallelism</strong> means multiple tasks are executing at the same physical instant on different processing units. It is about <strong>executing</strong> multiple tasks simultaneously, and it normally requires multiple cores, processors or hardware execution units.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Concurrency</th>
+<th>Parallelism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Definition</td>
+<td>Multiple tasks make progress in overlapping periods</td>
+<td>Multiple tasks execute at the same instant</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>Not necessarily simultaneous</td>
+<td>Simultaneous by definition</td>
+</tr>
+<tr>
+<td>Hardware</td>
+<td>Can happen on one core</td>
+<td>Usually requires multiple cores</td>
+</tr>
+<tr>
+<td>Concern</td>
+<td>Task coordination and interleaving</td>
+<td>Simultaneous execution</td>
+</tr>
+<tr>
+<td>Mechanism</td>
+<td>Scheduling and time slicing</td>
+<td>Actual hardware execution</td>
+</tr>
+<tr>
+<td>Speed guarantee</td>
+<td>Does not guarantee speed improvement</td>
+<td>Can improve throughput when work is parallelizable</td>
+</tr>
+</tbody>
+</table>
+<p>A program can therefore be <strong>concurrent but not parallel</strong> (several threads on one CPU core) or <strong>concurrent and parallel</strong> (several coordinated threads executing on multiple cores).</p>
+<p>Two related words should be kept separate as well:</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Meaning</th>
+<th>Isolation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multitasking</td>
+<td>The OS manages multiple tasks or applications during the same period</td>
+<td>Usually multiple processes</td>
+</tr>
+<tr>
+<td>Multithreading</td>
+<td>One process contains multiple threads of execution</td>
+<td>Multiple threads sharing one address space</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-why-multithreading-and-when-it-backfires">9. Why Multithreading (and When It Backfires)</h2>
+<p>Multithreading exists because it buys three things:</p>
+<ol>
+<li><strong>Responsiveness</strong> — a UI thread stays responsive while background work proceeds on another thread.</li>
+<li><strong>Throughput</strong> — a server can process many requests concurrently; several request-processing threads run the same controller code for different HTTP requests.</li>
+<li><strong>Core utilisation</strong> — multiple CPU cores can only be used if there are multiple runnable threads to place on them.</li>
+</ol>
+<p>Consider a Spring Boot application. The JAR is a program stored on disk; <code>java -jar application.jar</code> starts an OS process containing a JVM with a main thread, web-server threads, garbage-collection threads, database-pool threads and application worker threads. Those threads share the application objects on the heap, which is exactly why thread safety matters in server applications.</p>
+<p>But threads are not free, and more threads do not always mean more speed:</p>
+<ul>
+<li>Each thread consumes memory for its stack.</li>
+<li>Every context switch costs scheduler work plus cache and TLB disruption.</li>
+<li>Once the number of runnable threads exceeds the number of usable cores, the extra threads mostly wait and switch, so throughput can fall.</li>
+<li>Shared mutable state invites contention and races (Lecture 50), so coordination can cost more than the parallelism gains.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Multithreading is a tool for overlapping wait time and using idle cores — not a volume knob for speed. Past a point, more threads means more overhead, not more work done.</p>
+</blockquote>
+<h2 id="10-shared-heap-private-stack-why-threads-race">10. Shared Heap, Private Stack: Why Threads Race</h2>
+<p>The reason threads are both powerful and dangerous is the memory model: they share the heap but not their stacks. Heap objects and static variables are common property; local variables and method-call frames are private to a thread (Lecture 45). When two threads read and write the same mutable heap location without coordination, the result depends on timing — a <strong>data race</strong> (forward reference, Lecture 50).</p>
+<p>The classic demonstration is a counter incremented by two threads. <code>counter++</code> is not one operation; it is read, add, then write, and the interleaving can lose updates.</p>
+<blockquote class="callout callout--important">
+<p>Important
+The output of the counter program below is often <em>less</em> than the expected total. That is not a bug in <code>Thread</code>; it is a race on shared mutable state, and it is the subject of Lecture 50.</p>
+</blockquote>
+<h2 id="11-javas-threading-model">11. Java's Threading Model</h2>
+<p>Java's model rests on a few facts:</p>
+<ol>
+<li>A <strong>platform thread</strong> maps one-to-one to an operating-system thread; the OS schedules it.</li>
+<li>The JVM itself runs threads: the <strong>main</strong> thread, <strong>garbage-collection</strong> threads, <strong>JIT compiler</strong> threads and others, even before <code>main()</code> runs.</li>
+<li>Higher-level APIs (executors, thread pools) build on the same separation between a task and its execution (Lecture 48).</li>
+<li><strong>Virtual threads</strong> (Project Loom, Java 21) multiplex many lightweight virtual threads onto a small number of platform threads — a forward reference to Lecture 57.</li>
+</ol>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"How many threads does a simple Java program have?" More than one. At minimum the JVM starts the main thread plus internal threads for garbage collection and JIT compilation, so a "single-threaded" Java program is only single-threaded from the programmer's point of view.</p>
+</blockquote>
+<h2 id="12-code-the-main-thread-and-a-concurrency-hint">12. Code: The Main Thread and a Concurrency Hint</h2>
+<p>Every Java program already runs on a thread. The first program prints the name of the thread executing <code>main()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — every program already runs on a thread</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Running on: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">current</span><span class="p">.</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">        </span><span class="c1">// Running on: main</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The second program shows threads sharing the heap. Two threads increment one shared counter; the result hints at a race, which is fully treated later:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — two threads share the heap; the result hints at a race</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                 </span><span class="c1">// shared mutable state on the heap</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">counter</span><span class="o">++</span><span class="p">;</span><span class="w">                  </span><span class="c1">// read, add, write — not atomic</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">t2</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counter</span><span class="p">);</span><span class="w">        </span><span class="c1">// often less than 200000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The third program shows one process with several threads and asks how many cores are available:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — one process, several threads, one or many cores</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Cores: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Runtime</span><span class="p">.</span><span class="na">getRuntime</span><span class="p">().</span><span class="na">availableProcessors</span><span class="p">());</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;Task &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; on &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">()</span>
+<span class="w">            </span><span class="p">)).</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The order of the printed lines is not guaranteed: on one core the threads interleave (concurrency), and on several cores they can run at the same instant (parallelism).</p>
+<h2 id="13-pitfalls-and-common-errors">13. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Confusing program, process and thread</td>
+<td>Wrong mental model for every later topic</td>
+<td>Program is stored instructions; process is a running instance; thread is an execution path</td>
+</tr>
+<tr>
+<td>Mixing up concurrency and parallelism</td>
+<td>Expecting speedup from one core</td>
+<td>Concurrency interleaves; parallelism needs multiple cores</td>
+</tr>
+<tr>
+<td>"More threads is always faster"</td>
+<td>Context-switch and contention overhead</td>
+<td>Size pools to the workload and core count</td>
+</tr>
+<tr>
+<td>Assuming threads are free</td>
+<td>Extra stack memory and scheduling cost</td>
+<td>Create threads deliberately, or use a pool</td>
+</tr>
+<tr>
+<td>Sharing mutable state without synchronization</td>
+<td>Lost updates and data races</td>
+<td>Coordinate access (Lecture 50)</td>
+</tr>
+<tr>
+<td>Believing all threads run at the exact same instant on one core</td>
+<td>Wrong reasoning about timing</td>
+<td>On one core they take turns; simultaneity needs multiple cores</td>
+</tr>
+<tr>
+<td>Treating a <code>.class</code> file as a running process</td>
+<td>A stored program mistaken for execution</td>
+<td>It is active only when a JVM loads and runs it in a process</td>
+</tr>
+<tr>
+<td>Assuming <code>java Demo</code> creates one thread</td>
+<td>Underestimating JVM threads</td>
+<td>The JVM also starts GC, JIT and other internal threads</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-myth-vs-reality">14. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"A program and a process are the same thing."</td>
+<td>A program is passive stored instructions; a process is an active running instance.</td>
+</tr>
+<tr>
+<td>"Starting a Java program starts only one thread."</td>
+<td>The JVM starts the main thread plus internal threads such as GC and JIT before and around <code>main()</code>.</td>
+</tr>
+<tr>
+<td>"Threads always run at the exact same instant."</td>
+<td>Only on multiple cores; on a single core they interleave through time slicing.</td>
+</tr>
+<tr>
+<td>"More threads always means more speed."</td>
+<td>Beyond the usable core count, threads add context-switch overhead and can slow the system down.</td>
+</tr>
+<tr>
+<td>"Each thread has its own copy of every variable."</td>
+<td>Threads share heap objects and static variables; only stack locals are private.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-common-trap-questions">15. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Is a <code>.class</code> file a process?
+No. It is a program in stored form. It becomes active only when a JVM loads and executes it inside a process.</p>
+<p>Trap 2 — Does the JVM run in a different process from the Java application?
+No. The process started by <code>java Demo</code> contains the JVM runtime, which in turn runs the application.</p>
+<p>Trap 3 — Is it concurrency or parallelism on a single core?
+Concurrency. Parallelism requires multiple cores or hardware execution units.</p>
+<p>Trap 4 — Do threads share the stack or the heap?
+They share the heap; each thread has its own stack and program counter (Lecture 45).</p>
+<p>Trap 5 — Can two processes access each other's memory directly?
+No. Processes have separate address spaces; they need IPC such as pipes, sockets or shared memory.</p>
+<p>Trap 6 — Can a process run without any thread?
+No. A process must contain at least one executing thread; a process with no thread cannot do work.</p>
+<p>Trap 7 — Do more threads guarantee higher throughput?
+No. Extra threads bring context-switch and contention overhead, so throughput can fall after a point.</p>
+<p>Trap 8 — Is IPC as cheap as thread communication?
+No. Threads communicate through shared heap memory; processes must use OS-mediated IPC, which is heavier.</p>
+</blockquote>
+<h2 id="16-points-to-remember">16. Points to Remember</h2>
+<ol>
+<li>A program is passive stored instructions; a process is a program in execution; a thread is an execution path inside a process.</li>
+<li><code>Demo.java</code> source and <code>Demo.class</code> bytecode are both programs in stored form; neither is executing.</li>
+<li>Running <code>java Demo</code> creates an OS process containing the JVM runtime and the application.</li>
+<li>Each process has its own virtual address space, resources and PID; processes are isolated.</li>
+<li>A process must contain at least one thread; the JVM starts a main thread that invokes <code>main()</code>.</li>
+<li>Threads share the process heap, static data and open resources but have private stacks and program counters (Lecture 45).</li>
+<li>Creating threads is cheaper than creating processes, and thread context switches are generally lighter than process switches.</li>
+<li>A single core executes one thread at an instant; concurrency on one core is achieved by time slicing.</li>
+<li>Concurrency is overlapping progress; parallelism is simultaneous execution on multiple cores.</li>
+<li>More threads do not guarantee more speed: context switching, cache disruption and shared-state contention create diminishing returns (Lecture 50).</li>
+</ol>
+<h2 id="17-likely-interview-questions">17. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a program?</td>
+<td>A set of instructions stored in a file; a passive entity that is not executing.</td>
+</tr>
+<tr>
+<td>What is a process?</td>
+<td>A running instance of a program, with its own address space, resources and PID, managed by the OS.</td>
+</tr>
+<tr>
+<td>What is a thread?</td>
+<td>An independent path of execution inside a process; it has its own stack and program counter.</td>
+</tr>
+<tr>
+<td>Difference between a program and a process?</td>
+<td>A program is stored instructions; a process is that program in active execution.</td>
+</tr>
+<tr>
+<td>Difference between a process and a thread?</td>
+<td>A process has its own address space and is isolated; a thread shares the process address space and is cheaper to create and switch.</td>
+</tr>
+<tr>
+<td>Why is a thread called a lightweight process?</td>
+<td>It is cheaper to create, shares process memory, communicates faster and switches more cheaply than a process.</td>
+</tr>
+<tr>
+<td>Do threads share memory? Which parts?</td>
+<td>They share the heap, static variables and open resources; each thread has its own stack, PC register and local variables.</td>
+</tr>
+<tr>
+<td>Can a process exist without a thread?</td>
+<td>No; a process must contain at least one executing thread.</td>
+</tr>
+<tr>
+<td>What is concurrency?</td>
+<td>Multiple tasks make progress during overlapping periods, not necessarily at the same instant; possible on one core.</td>
+</tr>
+<tr>
+<td>What is parallelism?</td>
+<td>Multiple tasks execute at the same physical instant on different cores, requiring multiple hardware units.</td>
+</tr>
+<tr>
+<td>What is a context switch, and why is it costly?</td>
+<td>The CPU saves one thread's state and restores another's; it costs scheduler work, cache and TLB disruption.</td>
+</tr>
+<tr>
+<td>Why does the JVM start multiple threads?</td>
+<td>It needs threads for <code>main</code>, garbage collection, JIT compilation and other runtime services, not just application code.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-final-summary">18. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Program   : Demo.java  → javac → Demo.class            (stored, passive)
+Process   : java Demo  → OS process → JVM runtime      (running, isolated, owns resources)
+Thread    : main + workers inside the process          (execution; private stack, shared heap)
+CPU Core  : one core = one thread at an instant        (scheduler interleaves, context switch costs)
+Concurrency  → overlapping progress  → possible on one core
+Parallelism  → simultaneous execution → needs multiple cores
+</code></pre></div>
+
+<ul>
+<li>Program → stored instructions; <code>.java</code> and <code>.class</code> are both programs, neither is executing.</li>
+<li>Process → a running instance with its own address space, resources and PID; isolation makes IPC heavyweight.</li>
+<li>Thread → the unit of execution inside a process; private stack, shared heap, cheaper to create and switch.</li>
+<li>CPU core → the hardware that runs native instructions; one core executes one thread at an instant.</li>
+<li>Concurrency → interleaving for progress; can happen on a single core.</li>
+<li>Parallelism → true simultaneous execution; requires multiple cores.</li>
+<li>JVM → runs several threads (main, GC, JIT); platform threads map one-to-one to OS threads, with virtual threads in Lecture 57.</li>
+<li>Danger → shared mutable heap means races; coordination is Lecture 50.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+A program becomes active as a process, the work inside that process is performed by threads, and whether those threads merely interleave or truly run together depends on the number of CPU cores.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> a program is stored instructions, a process is that program running in isolation, and threads are the execution paths inside it that share the heap and race toward the cores.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-46.html"><span class="dir">Previous</span><span class="ttl">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</span></a><a class="next" href="doc-theory-lecture-48.html"><span class="dir">Next</span><span class="ttl">Java Thread Creation &amp; Lifecycle Explained from Scratch</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

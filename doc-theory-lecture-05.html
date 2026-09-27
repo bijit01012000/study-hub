@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 05 — Spring IOC Container — Spring Boot</title>
+<meta name="description" content="Lecture 05 — Spring IOC Container">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-05">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-05.html#lecture-05">Lecture 05</a></li><li><a href="doc-theory-lecture-05.html#1-the-core-idea-classes-should-not-create-their-own-dependencies">1. The Core Idea: Classes Should Not Create Their Own Dependencies</a></li><li><a href="doc-theory-lecture-05.html#2-first-principles-who-creates-connects-and-manages-objects">2. First-Principles: Who Creates, Connects, and Manages Objects?</a></li><li><a href="doc-theory-lecture-05.html#3-basic-project-setup-maven-spring-context">3. Basic Project Setup: Maven + spring-context</a></li><li><a href="doc-theory-lecture-05.html#4-what-is-a-spring-bean-and-the-two-configuration-styles">4. What Is a Spring Bean? and the Two Configuration Styles</a></li><li><a href="doc-theory-lecture-05.html#5-telling-spring-which-classes-to-manage-reflection-component-componentscan">5. Telling Spring Which Classes to Manage (Reflection, @Component, @ComponentScan)</a></li><li><a href="doc-theory-lecture-05.html#6-applicationcontext-the-spring-ioc-container">6. ApplicationContext: The Spring IoC Container</a></li><li><a href="doc-theory-lecture-05.html#7-getbean-asking-the-container-for-a-bean">7. getBean(): Asking the Container for a Bean</a></li><li><a href="doc-theory-lecture-05.html#8-dependency-injection-in-spring-constructor-field-setter">8. Dependency Injection in Spring: Constructor, Field, Setter</a></li><li><a href="doc-theory-lecture-05.html#9-what-happens-internally-when-spring-starts-beandefinitions-first">9. What Happens Internally When Spring Starts (BeanDefinitions First)</a></li><li><a href="doc-theory-lecture-05.html#10-no-matching-bean-vs-multiple-matching-beans-primary-qualifier-custom-names">10. No Matching Bean vs Multiple Matching Beans (@Primary, @Qualifier, Custom Names)</a></li><li><a href="doc-theory-lecture-05.html#11-bean-manual-registration-dependencies-and-component-vs-bean">11. @Bean: Manual Registration, Dependencies, and @Component vs @Bean</a></li><li><a href="doc-theory-lecture-05.html#12-why-not-put-everything-in-main-beanfactory-vs-applicationcontext">12. Why Not Put Everything in main()? BeanFactory vs ApplicationContext</a></li><li><a href="doc-theory-lecture-05.html#13-myth-vs-reality">13. Myth vs Reality</a></li><li><a href="doc-theory-lecture-05.html#14-common-trap-questions">14. Common Trap Questions</a></li><li><a href="doc-theory-lecture-05.html#15-points-to-remember">15. Points to Remember</a></li><li><a href="doc-theory-lecture-05.html#16-likely-interview-questions">16. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-05.html#17-final-summary">17. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 05 — Spring IOC Container</h1>
+<p class="readmeta">18 sections · 4,796 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-05" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-05">Lecture 05</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring IOC Container | Beans, @Component, @Autowired &amp; @Bean" (playlist map,
+verified). The lecture folder holds two Maven projects, SpringCoreDemo and SpringCoreDemo2, plus
+these notes. Coverage = IoC first principles, Maven + spring-context setup, Spring Beans, XML vs
+annotation configuration, reflection and <code>Student.class</code>, <code>@Component</code>, <code>@ComponentScan</code>,
+<code>ApplicationContext</code>, <code>AnnotationConfigApplicationContext</code>, <code>AppConfig.class</code>, <code>@Configuration</code>,
+<code>getBean()</code>, the three DI styles, internal startup steps, <code>@Primary</code>, <code>@Qualifier</code>, custom bean
+names, <code>@Bean</code>, <code>@Component</code> vs <code>@Bean</code>, and <code>BeanFactory</code> vs <code>ApplicationContext</code>.</p>
+</blockquote>
+<p>Spring Core answers one question every growing application hits: who builds the objects, and who
+connects them? This lecture moves that responsibility out of our code and into the Spring IoC
+container. We start from a tightly coupled <code>OrderService</code>, watch Spring invert control, and finish
+with a precise picture of what happens when the container starts. Every later Spring feature (MVC,
+Data, Security) sits on top of this container.</p>
+<h2 id="1-the-core-idea-classes-should-not-create-their-own-dependencies">1. The Core Idea: Classes Should Not Create Their Own Dependencies</h2>
+<p>A class should focus on its own responsibility. <code>OrderService</code> should focus on placing an order; it
+should not also create the object of <code>PaymentService</code>. The moment a class calls <code>new</code> on its
+collaborator, the two become welded together:</p>
+<div class="highlight"><pre><span></span><code>public class OrderService {
+    private PaymentService paymentService = new PaymentService();
+
+    public void placeOrder() {
+        paymentService.pay();
+        System.out.println(&quot;Order placed&quot;);
+    }
+}
+</code></pre></div>
+
+<p>The problem is tight coupling: if we later swap in another implementation (a card gateway, a mock
+for tests, a UPI provider), we must edit <code>OrderService</code>, and the consumer can never be tested
+without the real dependency.</p>
+<p>A better design removes the <code>new</code>. The class declares what it needs and receives it from outside:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderService</span><span class="p">(</span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">paymentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">paymentService</span><span class="p">.</span><span class="na">pay</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Order placed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now <code>OrderService</code> does not create its dependency; it receives it from outside. This is Dependency
+Injection (DI): the dependency is injected, not manufactured.</p>
+<blockquote class="callout callout--important">
+<p>Important: DI is the "how"; IoC is the "who". Spring owns creation and wiring (IoC), and fulfils
+that ownership by injecting dependencies (DI). One concept enables the other.</p>
+</blockquote>
+<p>Two consequences follow, and interviewers love both:</p>
+<ul>
+<li><strong>Loose coupling.</strong> The class depends on the <code>PaymentService</code> abstraction, not on <code>new
+  PaymentService()</code>. Swapping the implementation no longer touches the consumer.</li>
+<li><strong>Testability.</strong> We can pass a fake <code>PaymentService</code> in a unit test without starting Spring.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule: A class should ask for what it needs, never build it. Ask, do not <code>new</code>.</p>
+</blockquote>
+<h2 id="2-first-principles-who-creates-connects-and-manages-objects">2. First-Principles: Who Creates, Connects, and Manages Objects?</h2>
+<p>Every application needs objects, and those objects may need other objects. So the real questions
+are:</p>
+<ol>
+<li><strong>Who will create these objects?</strong></li>
+<li><strong>Who will connect them together?</strong></li>
+<li><strong>Who will manage their lifecycle?</strong></li>
+</ol>
+<p>Without Spring, we do this manually. <code>main()</code> creates objects, connects them, and behaves like a
+small manual container:</p>
+<div class="highlight"><pre><span></span><code>main()
+  -&gt; new PaymentService()
+  -&gt; new OrderService(paymentService)
+  -&gt; orderService.placeOrder()
+</code></pre></div>
+
+<p>With Spring, this responsibility shifts to the Spring IoC container: Spring creates objects,
+connects them, and manages their lifecycle. Instead of our code pulling dependencies, the container
+pushes them in. That is IoC, <strong>Inversion of Control</strong>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: IoC is not a synonym for DI. IoC is the broad principle (the framework
+calls you, not the reverse - the Hollywood principle). DI is one technique for achieving it.
+Distinguish the two.</p>
+</blockquote>
+<p>A shorthand for the container's four jobs: <strong>C-W-L-G</strong> - <strong>C</strong>reate, <strong>W</strong>ire, manage the
+<strong>L</strong>ifecycle, and <strong>G</strong>ive it back when asked.</p>
+<h2 id="3-basic-project-setup-maven-spring-context">3. Basic Project Setup: Maven + spring-context</h2>
+<p>The setup is deliberately small: create a Maven project, then add the <code>spring-context</code> dependency.
+That one dependency is the heart of the story and gives us:</p>
+<ul>
+<li><code>ApplicationContext</code> - the IoC container interface;</li>
+<li>annotation-based configuration - <code>@Configuration</code>, <code>@Component</code>, <code>@Autowired</code>, <code>@Bean</code>;</li>
+<li>component scanning - <code>@ComponentScan</code>;</li>
+<li>bean creation and dependency injection.</li>
+</ul>
+<p>Two projects are used. <code>SpringCoreDemo</code> demonstrates registration and injection with our own
+classes; <code>SpringCoreDemo2</code> demonstrates the <code>@Bean</code> style, where object creation is written by hand
+inside a configuration class. Both are plain Maven projects pulling <code>spring-context</code> from the
+central repository.</p>
+<blockquote class="callout callout--important">
+<p>Important: There is no <code>spring-boot-starter</code> here on purpose. This is pure Spring Core.
+Understanding <code>spring-context</code> without auto-configuration is what makes Boot's automation legible
+instead of magical.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code>Repository layout (conceptual)
+SpringCoreDemo/
+  pom.xml
+  src/main/java/in/coderarmy/AppConfig.java, Main.java, OrderService.java, ...
+SpringCoreDemo2/
+  pom.xml
+  src/main/java/in/coderarmy/...
+</code></pre></div>
+
+<h2 id="4-what-is-a-spring-bean-and-the-two-configuration-styles">4. What Is a Spring Bean? and the Two Configuration Styles</h2>
+<p>A Spring Bean is an object whose creation, dependency wiring, and lifecycle are managed by the
+Spring IoC container. Spring is responsible for creating the object, wiring its dependencies,
+managing its lifecycle, and giving it to us when we ask. The bean is ordinary Java; what makes it
+special is that Spring, not us, owns it.</p>
+<p>Spring manages objects through two configuration styles:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>XML-based configuration</th>
+<th>Annotation-based configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where declared</td>
+<td>In XML files</td>
+<td>In Java classes with annotations</td>
+</tr>
+<tr>
+<td>Era</td>
+<td>Older Spring applications</td>
+<td>Modern and commonly used</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>&lt;bean id="paymentService" class="..."/&gt;</code></td>
+<td><code>@Component</code>, <code>@Bean</code></td>
+</tr>
+<tr>
+<td>Readability</td>
+<td>Separate from source</td>
+<td>Lives next to the code</td>
+</tr>
+<tr>
+<td>Today</td>
+<td>Mostly legacy projects</td>
+<td>Default for new projects</td>
+</tr>
+</tbody>
+</table>
+<p>XML was widely used in older Spring applications and is still common in legacy projects, so it is
+useful to understand. Annotation-based configuration is the modern approach.</p>
+<blockquote class="callout callout--important">
+<p>Important: Both styles populate the same container with the same kind of beans. The container is
+indifferent to how a bean was declared; only where the instructions live differs.</p>
+</blockquote>
+<h2 id="5-telling-spring-which-classes-to-manage-reflection-component-componentscan">5. Telling Spring Which Classes to Manage (Reflection, @Component, @ComponentScan)</h2>
+<p>Spring does not automatically manage every class. We must tell it which classes are eligible to
+become beans. One common way is <code>@Component</code>:</p>
+<div class="highlight"><pre><span></span><code>@Component
+public class PaymentService {
+    public void pay() {
+        System.out.println(&quot;Payment done&quot;);
+    }
+}
+</code></pre></div>
+
+<p><code>@Component</code> says: "this class is eligible to become a Spring bean." But that alone is not enough;
+Spring also needs to know where to search. That is where <code>@ComponentScan</code> comes in:</p>
+<div class="highlight"><pre><span></span><code>@Configuration
+@ComponentScan(&quot;in.coderarmy&quot;)
+public class AppConfig {
+}
+</code></pre></div>
+
+<p><code>@ComponentScan</code> tells Spring: scan the given package and its sub-packages, find classes marked with
+<code>@Component</code> (and <code>@Service</code>, <code>@Repository</code>, <code>@Controller</code>), and register them as beans. The two
+annotations are two halves of one sentence:</p>
+<table>
+<thead>
+<tr>
+<th>Annotation</th>
+<th>Level</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@Component</code></td>
+<td>Class</td>
+<td>Marks a class as eligible to become a bean</td>
+</tr>
+<tr>
+<td><code>@ComponentScan</code></td>
+<td>Configuration class</td>
+<td>Tells Spring where to search</td>
+</tr>
+</tbody>
+</table>
+<p>Can we write <code>@ComponentScan</code> without a package name? Yes:</p>
+<div class="highlight"><pre><span></span><code>@Configuration
+@ComponentScan
+public class AppConfig {
+}
+</code></pre></div>
+
+<p>Spring then scans the package where <code>AppConfig</code> is present and its sub-packages. If <code>AppConfig</code> is
+at <code>in.coderarmy.AppConfig</code>, Spring scans <code>in.coderarmy</code> and below. Leaving the package off is
+convenient: the configuration class's own location becomes the scan origin.</p>
+<h3 id="reflection-why-studentclass-matters">Reflection: Why <code>Student.class</code> Matters</h3>
+<p><code>Student.class</code> does not create a <code>Student</code> object. It refers to a special object of type <code>Class</code>:</p>
+<div class="highlight"><pre><span></span><code>Class&lt;Student&gt; c = Student.class;
+</code></pre></div>
+
+<p><code>c</code> contains metadata about the <code>Student</code> class, such as:</p>
+<ul>
+<li>class name -&gt; <code>Student</code>;</li>
+<li>fields -&gt; <code>name</code>, <code>age</code>;</li>
+<li>methods -&gt; <code>study()</code>;</li>
+<li>constructors -&gt; <code>Student()</code>;</li>
+<li>annotations -&gt; <code>@Component</code>, <code>@Service</code>, and so on.</li>
+</ul>
+<p>Spring uses this metadata internally. This is reflection: reading a class's shape at runtime
+instead of compile time. Passing <code>new AnnotationConfigApplicationContext(AppConfig.class)</code> gives
+Spring metadata about <code>AppConfig</code>, so it can read the configuration instructions inside.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>AppConfig.class</code> is not an <code>AppConfig</code> instance. It is a <code>Class</code> object describing
+<code>AppConfig</code>. Spring asks that metadata "which annotations do you carry?", and the answers drive
+everything that follows.</p>
+</blockquote>
+<h2 id="6-applicationcontext-the-spring-ioc-container">6. ApplicationContext: The Spring IoC Container</h2>
+<p>In normal Spring applications we commonly work with <code>ApplicationContext</code>:</p>
+<div class="highlight"><pre><span></span><code>ApplicationContext context =
+        new AnnotationConfigApplicationContext(AppConfig.class);
+</code></pre></div>
+
+<p><code>ApplicationContext</code> represents the Spring IoC container. It reads configuration, creates beans,
+resolves dependencies, manages bean lifecycle, and provides beans when requested.</p>
+<p>One point trips up beginners: <code>new ApplicationContext()</code> is not possible, because
+<code>ApplicationContext</code> is an interface. We use an implementation. For annotation-based configuration,
+we commonly use <code>AnnotationConfigApplicationContext</code>, which starts a container using Java
+annotation-based configuration. Concretely, the line above means:</p>
+<ol>
+<li>Start the Spring container.</li>
+<li>Read instructions from <code>AppConfig.class</code>.</li>
+<li>Use annotation-based configuration.</li>
+<li>Create and manage beans accordingly.</li>
+</ol>
+<h3 id="appconfigclass-and-configuration">AppConfig.class and @Configuration</h3>
+<p><code>AppConfig</code> is a configuration class (Section 5 shows it: <code>@Configuration</code> plus
+<code>@ComponentScan("in.coderarmy")</code>). It tells Spring: scan <code>in.coderarmy</code>; find classes marked with
+<code>@Component</code>; create their beans; wire their dependencies. So passing <code>AppConfig.class</code> to the
+container is handing Spring its startup instruction file.</p>
+<p><code>@Configuration</code> tells Spring that a class contains Spring configuration instructions. Spring then
+understands this is not a normal class, that it may contain setup instructions, and that it can be a
+source of bean definitions. A configuration class may contain <code>@ComponentScan</code>, <code>@Bean</code> methods, and
+other instructions. Definition: <code>@Configuration</code> marks a class as a source of bean definitions.</p>
+<table>
+<thead>
+<tr>
+<th>Class or annotation</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AppConfig</code></td>
+<td>The configuration class carrying startup instructions</td>
+</tr>
+<tr>
+<td><code>@Configuration</code></td>
+<td>Marks a class as a source of bean definitions</td>
+</tr>
+<tr>
+<td><code>@ComponentScan</code></td>
+<td>Tells the container which packages to search</td>
+</tr>
+<tr>
+<td><code>AnnotationConfigApplicationContext</code></td>
+<td>Reads <code>AppConfig.class</code> and starts the container</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: <code>@Configuration</code> is the recipe book, <code>@ComponentScan</code> finds the ingredients, and the
+container is the kitchen that turns both into ready-to-use beans.</p>
+</blockquote>
+<h2 id="7-getbean-asking-the-container-for-a-bean">7. getBean(): Asking the Container for a Bean</h2>
+<p>After beans are stored in the container, we can ask for one:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ApplicationContext</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">AnnotationConfigApplicationContext</span><span class="p">(</span><span class="n">AppConfig</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getBean</span><span class="p">(</span><span class="n">OrderService</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">        </span><span class="n">orderService</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This means: "Spring, give me the <code>OrderService</code> bean from your container." If Spring already created
+the bean, it returns that object; if Spring does not know about <code>OrderService</code>, we get an error.
+Common reasons:</p>
+<ul>
+<li><code>OrderService</code> is not annotated with <code>@Component</code>;</li>
+<li>its package is not included in <code>@ComponentScan</code>;</li>
+<li>the bean is not registered using <code>@Bean</code> or XML.</li>
+</ul>
+<p>Two overloads matter: <code>getBean(Class&lt;T&gt;)</code> asks by type, and <code>getBean(String)</code> asks by name. The
+by-name form matters the moment two beans share a type: <code>context.getBean(OrderService.class)</code>
+versus <code>context.getBean("orderService")</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>getBean()</code> is a lookup. For singleton beans the object already exists inside the
+container; <code>getBean</code> hands back the same instance each time.</p>
+</blockquote>
+<h2 id="8-dependency-injection-in-spring-constructor-field-setter">8. Dependency Injection in Spring: Constructor, Field, Setter</h2>
+<p>Spring supports three types of dependency injection: constructor, field, and setter. This table is
+the most reused comparison in Spring interviews:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Constructor</th>
+<th>Field</th>
+<th>Setter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Injection point</td>
+<td>Constructor parameters</td>
+<td>Directly on a field</td>
+<td>Via a setter method</td>
+</tr>
+<tr>
+<td><code>@Autowired</code> needed</td>
+<td>Optional for a single constructor</td>
+<td>Required</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>final</code> possible</td>
+<td>Yes</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Complete after creation</td>
+<td>Yes</td>
+<td>No, may be null until injected</td>
+<td>Only after the setter runs</td>
+</tr>
+<tr>
+<td>Testable without Spring</td>
+<td>Yes, call the constructor</td>
+<td>Hard</td>
+<td>Yes, call the setter</td>
+</tr>
+<tr>
+<td>Recommended for</td>
+<td>Mandatory dependencies</td>
+<td>Avoid</td>
+<td>Optional or changeable dependencies</td>
+</tr>
+</tbody>
+</table>
+<h3 id="constructor-injection">Constructor Injection</h3>
+<p>Dependencies are provided through the constructor - exactly the <code>OrderService</code> from Section 1. In
+modern Spring, if a bean has only one constructor, <code>@Autowired</code> on it is optional; Spring
+automatically uses that constructor for injection. Writing <code>@Autowired</code> explicitly is equally valid.</p>
+<h3 id="why-constructor-injection-is-preferred">Why Constructor Injection Is Preferred</h3>
+<p>A constructor is called when an object is created, so the cleanest time to supply <code>PaymentService</code>
+is while creating <code>OrderService</code>. The object is then created in a complete, usable state.</p>
+<ul>
+<li><strong>Benefit 1 - the dependency is mandatory.</strong> The object cannot be created without its required
+  dependency; there is no window in which it exists half-built.</li>
+<li><strong>Benefit 2 - we can use <code>final</code>.</strong> <code>private final PaymentService paymentService;</code> means the
+  dependency cannot be changed accidentally, making the class safer.</li>
+<li><strong>Benefit 3 - easy to test without Spring.</strong> We can call
+  <code>new OrderService(new PaymentService())</code> directly; no container is needed.</li>
+</ul>
+<h3 id="field-injection">Field Injection</h3>
+<p>Spring directly injects into a field, most commonly with <code>@Autowired</code> on the field and no
+constructor. This works because Spring can use reflection to set the field. However, field injection
+is generally not preferred, for four reasons:</p>
+<ul>
+<li>the dependency is hidden (not visible in the class's API);</li>
+<li>the class cannot easily be tested without Spring;</li>
+<li>the field cannot be marked <code>final</code>;</li>
+<li>the object can exist in an incomplete state before injection.</li>
+</ul>
+<p>Constructor injection is usually the better choice for required dependencies.</p>
+<h3 id="setter-injection">Setter Injection</h3>
+<p>Spring creates the object first, then calls a setter to provide the dependency:</p>
+<ol>
+<li>Create <code>OrderService</code> using the no-argument constructor.</li>
+<li>Call <code>setPaymentService()</code>.</li>
+<li>Pass <code>PaymentService</code> into the setter.</li>
+</ol>
+<p>Setter injection is useful when a dependency is optional or can change after creation. For mandatory
+dependencies, constructor injection is usually preferred.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The expected ranking is constructor &gt; setter &gt; field. Constructor
+injection guarantees a fully initialised, immutable object, while field injection hides
+dependencies and blocks <code>final</code>. Give the reason, not just the ranking.</p>
+</blockquote>
+<p>Mnemonic: <strong>C-S-F</strong> - Constructor for what is mandatory, Setter for what is optional, Field for
+almost nothing.</p>
+<h2 id="9-what-happens-internally-when-spring-starts-beandefinitions-first">9. What Happens Internally When Spring Starts (BeanDefinitions First)</h2>
+<p>When we write <code>new AnnotationConfigApplicationContext(AppConfig.class)</code>, Spring performs several
+steps:</p>
+<ol>
+<li><strong>Start the container.</strong> Spring creates an <code>ApplicationContext</code>, the IoC container.</li>
+<li><strong>Read <code>AppConfig.class</code>.</strong> Spring understands it contains configuration instructions and reads
+   the annotations on it.</li>
+<li><strong>Process <code>@ComponentScan</code>.</strong> With <code>@ComponentScan("in.coderarmy")</code>, Spring searches that package
+   and its sub-packages.</li>
+<li><strong>Find component classes.</strong> Spring finds classes marked <code>@Component</code>, <code>@Service</code>, <code>@Repository</code>,
+   and <code>@Controller</code>, for example <code>PaymentService</code> and <code>OrderService</code>.</li>
+<li><strong>Create BeanDefinitions.</strong> Before creating objects, Spring stores information about them:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Bean name          -&gt; paymentService
+Bean class         -&gt; in.coderarmy.PaymentService
+Scope              -&gt; singleton
+Dependencies       -&gt; none
+Creation strategy  -&gt; constructor
+</code></pre></div>
+
+<p>This metadata is a <code>BeanDefinition</code>. It is not the object; it is information about how the object
+should be created and managed.</p>
+<ol start="6">
+<li><strong>Create bean objects.</strong> Spring now instantiates beans from the definitions. If <code>PaymentService</code>
+   has no dependency, Spring creates it: conceptually <code>new PaymentService()</code>, internally.</li>
+<li><strong>Create <code>OrderService</code> and resolve dependencies.</strong> Spring reads <code>OrderService(PaymentService)</code>
+   and understands it needs <code>PaymentService</code>. This is dependency resolution. Spring checks whether
+   a <code>PaymentService</code> bean exists; if yes, it passes that bean into the constructor: conceptually
+   <code>new OrderService(paymentService)</code>.</li>
+<li><strong>Inject dependencies.</strong> In constructor injection, injection happens at creation time, so
+   <code>OrderService</code> is ready immediately after construction.</li>
+<li><strong>Our application uses the bean.</strong> Calling <code>orderService.placeOrder();</code> prints <code>Payment done</code>
+   then <code>Order placed</code>.</li>
+</ol>
+<h3 id="why-does-spring-create-bean-definitions-first">Why Does Spring Create Bean Definitions First?</h3>
+<p>Spring is not creating one object; it is managing a whole application. Before instantiating, it
+must know which beans exist, their classes, scopes, dependencies, creation strategy, and lifecycle
+methods. That is why it builds bean definitions first. Conceptually:</p>
+<div class="highlight"><pre><span></span><code>BeanDefinition list
+  |
+  +-- paymentService
+  +-- orderService
+
+Then: beans are instantiated, wired, and stored.
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Definitions before instances. Spring plans the whole graph from metadata first, then
+instantiates. This ordering is what lets dependency resolution and lifecycle callbacks work
+consistently.</p>
+</blockquote>
+<h2 id="10-no-matching-bean-vs-multiple-matching-beans-primary-qualifier-custom-names">10. No Matching Bean vs Multiple Matching Beans (@Primary, @Qualifier, Custom Names)</h2>
+<h3 id="what-if-no-matching-bean-exists">What If No Matching Bean Exists?</h3>
+<p>Suppose <code>OrderService</code> needs <code>PaymentService</code>, but Spring has no <code>PaymentService</code> bean. Spring
+cannot create <code>OrderService</code> and we may get:</p>
+<div class="highlight"><pre><span></span><code>No qualifying bean of type &#39;PaymentService&#39; available
+</code></pre></div>
+
+<p>Common reasons: <code>PaymentService</code> is not annotated <code>@Component</code>; its package is not in
+<code>@ComponentScan</code>; the dependency is not registered; no <code>@Bean</code> method creates it.</p>
+<h3 id="what-if-multiple-matching-beans-exist">What If Multiple Matching Beans Exist?</h3>
+<p>Two implementations of one interface: <code>PaymentService</code> has <code>pay()</code>; <code>UpiPayment</code> prints "UPI
+payment done" and <code>CardPayment</code> prints "Card payment done", both annotated <code>@Component</code>.
+<code>OrderService</code> depends on the interface, and the container now has two matching beans:</p>
+<div class="highlight"><pre><span></span><code>upiPayment   -&gt; UpiPayment  -&gt; PaymentService
+cardPayment  -&gt; CardPayment -&gt; PaymentService
+</code></pre></div>
+
+<p>Both are valid. Spring is confused: should it inject <code>UpiPayment</code> or <code>CardPayment</code>? This is a
+<strong>bean ambiguity problem</strong>, solved with <code>@Primary</code> or <code>@Qualifier</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>@Primary</code></th>
+<th><code>@Qualifier</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Purpose</td>
+<td>Default choice among candidates</td>
+<td>Selects one specific bean by name</td>
+</tr>
+<tr>
+<td>Placement</td>
+<td>On the bean class or <code>@Bean</code> method</td>
+<td>At the injection point</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Global default for that type</td>
+<td>Local, only where written</td>
+</tr>
+<tr>
+<td>If both present</td>
+<td>Loses</td>
+<td>Wins: specific beats default</td>
+</tr>
+</tbody>
+</table>
+<h3 id="using-primary">Using @Primary</h3>
+<p><code>@Primary</code> marks the default choice. Adding <code>@Primary</code> next to <code>@Component</code> on <code>UpiPayment</code> tells
+Spring: if multiple <code>PaymentService</code> beans exist, prefer this one. Then <code>OrderService</code> receives
+<code>UpiPayment</code>.</p>
+<h3 id="using-qualifier">Using @Qualifier</h3>
+<p><code>@Qualifier</code> explicitly chooses a bean. Writing <code>@Qualifier("cardPayment")</code> on the constructor
+parameter tells Spring: inject the bean named <code>cardPayment</code> here.</p>
+<h3 id="how-did-spring-get-the-bean-name">How Did Spring Get the Bean Name?</h3>
+<p>By default, the bean name comes from the class name: <code>CardPayment</code> becomes <code>cardPayment</code>,
+<code>UpiPayment</code> becomes <code>upiPayment</code>. The first letter is usually lowercased, but acronyms can behave
+differently under Java bean naming rules. To avoid confusion, give a custom name:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span><span class="p">(</span><span class="s">&quot;upi&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">UpiPayment</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="nd">@Component</span><span class="p">(</span><span class="s">&quot;card&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CardPayment</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="c1">// Then inject the specific one:</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">OrderService</span><span class="p">(</span><span class="nd">@Qualifier</span><span class="p">(</span><span class="s">&quot;card&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="na">paymentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentService</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is clearer and easier to control. <code>@Qualifier</code> also works with field injection
+(<code>@Autowired @Qualifier("upiPayment")</code> on the field) and setter injection
+(<code>@Qualifier("cardPayment")</code> on the setter parameter), though constructor injection is still
+preferred.</p>
+<h3 id="what-if-both-primary-and-qualifier-are-used">What If Both @Primary and @Qualifier Are Used?</h3>
+<p><code>@Qualifier</code> gets priority. <code>@Primary</code> gives a default choice; <code>@Qualifier</code> gives a specific choice,
+and a specific choice wins over a default choice.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: <code>@Primary</code> answers "which one if nobody says anything?" <code>@Qualifier</code> answers "exactly
+this one, right here." When they disagree, the explicit instruction beats the ambient default.</p>
+</blockquote>
+<p>Mnemonic: <strong>Primary is the default, Qualifier is the order.</strong> The chef's daily special is
+<code>@Primary</code>, but pointing at a dish and naming it is <code>@Qualifier</code>, which wins.</p>
+<h2 id="11-bean-manual-registration-dependencies-and-component-vs-bean">11. @Bean: Manual Registration, Dependencies, and @Component vs @Bean</h2>
+<p>So far we used <code>@Component</code> to register our own classes. But sometimes we cannot use it. Suppose a
+class comes from an external library:</p>
+<div class="highlight"><pre><span></span><code>public class EmailClient {
+    private final String apiKey;
+
+    public EmailClient(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public void sendEmail() {
+        System.out.println(&quot;Email sent using API key: &quot; + apiKey);
+    }
+}
+</code></pre></div>
+
+<p>We cannot open a library class and add <code>@Component</code>, yet we may still want Spring to manage its
+object. In such cases we use <code>@Bean</code>.</p>
+<h3 id="another-case-custom-object-creation">Another Case: Custom Object Creation</h3>
+<p>Sometimes creation is not simple. A <code>User</code> class with a <code>User(String name, String email)</code>
+constructor is a good example: if we simply ask Spring to create it, Spring may not know what values
+to pass for <code>name</code> and <code>email</code>. So we tell Spring exactly how to create it. That is what <code>@Bean</code>
+helps us do.</p>
+<h3 id="what-exactly-does-bean-mean">What Exactly Does @Bean Mean?</h3>
+<p><code>@Bean</code> is used on a method inside a configuration class:</p>
+<div class="highlight"><pre><span></span><code>@Configuration
+public class AppConfig {
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentService();
+    }
+}
+</code></pre></div>
+
+<p>This means: Spring, call this method; take the returned object; register it in your container;
+manage it as a Spring bean. For singleton beans, Spring usually creates and stores the object when
+the context starts.</p>
+<h3 id="custom-bean-name-with-bean">Custom Bean Name with @Bean</h3>
+<p>By default the bean name is the method name: <code>paymentService()</code> gives <code>paymentService</code>. We can give
+a custom name with <code>@Bean("myPaymentService")</code> and fetch it by name:
+<code>(PaymentService) context.getBean("myPaymentService")</code>.</p>
+<h3 id="bean-with-dependencies">@Bean with Dependencies</h3>
+<p>Suppose <code>OrderService</code> needs <code>PaymentService</code> and no <code>@Component</code> is used anywhere. We can create
+both beans with <code>@Bean</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppConfig</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">PaymentService</span><span class="w"> </span><span class="nf">paymentService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PaymentService</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">OrderService</span><span class="w"> </span><span class="nf">orderService</span><span class="p">(</span><span class="n">PaymentService</span><span class="w"> </span><span class="n">paymentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderService</span><span class="p">(</span><span class="n">paymentService</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Spring first creates <code>PaymentService</code>, then passes it into <code>orderService()</code>. Another style is
+<code>orderService()</code> calling <code>paymentService()</code> directly; in a full <code>@Configuration</code> class Spring
+ensures singleton behaviour for such calls (the call is intercepted and returns the existing bean).
+Using method parameters is usually cleaner.</p>
+<h3 id="component-vs-bean">@Component vs @Bean</h3>
+<table>
+<thead>
+<tr>
+<th>Point</th>
+<th><code>@Component</code></th>
+<th><code>@Bean</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where used</td>
+<td>On a class</td>
+<td>On a method in a configuration class</td>
+</tr>
+<tr>
+<td>Style</td>
+<td>Automatic detection</td>
+<td>Manual registration</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Our own classes</td>
+<td>Library classes or custom creation</td>
+</tr>
+<tr>
+<td>Needs scanning</td>
+<td>Yes</td>
+<td>No, but the config class must be loaded</td>
+</tr>
+<tr>
+<td>Bean name</td>
+<td>Class name based</td>
+<td>Method name by default</td>
+</tr>
+</tbody>
+</table>
+<p>Simple comparison: <code>@Component</code> means Spring finds the class automatically; <code>@Bean</code> means we
+manually tell Spring how to create the object.</p>
+<h3 id="important-note-avoid-creating-the-same-bean-twice">Important Note: Avoid Creating the Same Bean Twice</h3>
+<p>Do not register the same object through both <code>@Component</code> and <code>@Bean</code> unless you intentionally want
+multiple beans. Registering <code>PaymentService</code> with <code>@Component</code> and also returning it from an <code>@Bean</code>
+method can create confusion. Possible outcomes:</p>
+<ul>
+<li>Spring may treat them as two different beans if their names differ;</li>
+<li>dependency injection by type may become ambiguous;</li>
+<li>if the names are the same, bean overriding rules may apply depending on configuration.</li>
+</ul>
+<p>The clean rule: register a bean using either <code>@Component</code> or <code>@Bean</code>, not both, unless you have a
+clear reason.</p>
+<h3 id="dependency-resolution-with-bean">Dependency Resolution with @Bean</h3>
+<p>If multiple beans of the same type exist, the same rules apply. Use <code>@Primary</code> on the <code>@Bean</code> method
+(for example <code>@Bean @Primary public PaymentService upiPaymentService()</code>), or <code>@Qualifier</code> on the
+<code>@Bean</code> method parameter (<code>@Qualifier("cardPaymentService") PaymentService paymentService</code>). In
+short, <code>@Primary</code> and <code>@Qualifier</code> behave identically whether candidates came from <code>@Component</code> or
+<code>@Bean</code>.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Component</code> is for classes you own and can annotate; <code>@Bean</code> is for everything else -
+third-party classes, configured objects, and conditional or complex construction.</p>
+</blockquote>
+<h2 id="12-why-not-put-everything-in-main-beanfactory-vs-applicationcontext">12. Why Not Put Everything in main()? BeanFactory vs ApplicationContext</h2>
+<h3 id="why-not-put-everything-in-main">Why Not Put Everything in main()?</h3>
+<p>A common question: why do we need <code>AppConfig</code>? Why not create everything in <code>main()</code>? Because
+<code>main()</code> should only start the application. Putting all creation and wiring inside <code>main()</code> makes it
+responsible for configuration and object management again, which is back to manual object creation.
+Instead we keep <code>main()</code> simple - exactly the <code>Main</code> from Section 7. <code>main()</code> is a launcher, not a
+factory.</p>
+<h3 id="beanfactory-vs-applicationcontext">BeanFactory vs ApplicationContext</h3>
+<p>Internally, Spring has a <code>BeanFactory</code>: the basic container interface. <code>ApplicationContext</code> builds
+on top of it and provides more complete features for real applications.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>BeanFactory</code></th>
+<th><code>ApplicationContext</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role</td>
+<td>Basic container interface</td>
+<td>Advanced container on <code>BeanFactory</code></td>
+</tr>
+<tr>
+<td>Bean loading</td>
+<td>Lazy by default</td>
+<td>Eager for singleton beans at startup</td>
+</tr>
+<tr>
+<td>Feature set</td>
+<td>Bean creation and DI</td>
+<td>DI plus events, i18n, lifecycle</td>
+</tr>
+<tr>
+<td>Usage</td>
+<td>Rare, low-level</td>
+<td>The normal choice in applications</td>
+</tr>
+</tbody>
+</table>
+<p><code>ApplicationContext</code> gives bean creation and dependency injection, lifecycle management, event
+publishing, internationalization support, and integration with other Spring features. In normal
+Spring applications, we commonly use <code>ApplicationContext</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "BeanFactory vs ApplicationContext" is a classic one-liner check.
+<code>ApplicationContext</code> is a superset of <code>BeanFactory</code> with eager singleton loading plus enterprise
+features; <code>BeanFactory</code> is the minimal, mostly lazy core.</p>
+</blockquote>
+<h2 id="13-myth-vs-reality">13. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring manages every class automatically."</td>
+<td>Only classes it is told about, via <code>@ComponentScan</code>, <code>@Bean</code>, or XML.</td>
+</tr>
+<tr>
+<td>"<code>Student.class</code> creates a <code>Student</code>."</td>
+<td>It is <code>Class</code> metadata; no instance is created.</td>
+</tr>
+<tr>
+<td>"<code>@Component</code> alone is enough."</td>
+<td><code>@ComponentScan</code> must point Spring at the package.</td>
+</tr>
+<tr>
+<td>"<code>new ApplicationContext()</code> works."</td>
+<td>It is an interface; instantiate an implementation.</td>
+</tr>
+<tr>
+<td>"Field injection is fine, it is shorter."</td>
+<td>It hides deps, blocks <code>final</code>, and is hard to test.</td>
+</tr>
+<tr>
+<td>"Spring creates objects, then finds deps."</td>
+<td><code>BeanDefinition</code> metadata is built first, then instantiation.</td>
+</tr>
+<tr>
+<td>"<code>@Component</code> and <code>@Bean</code> are interchangeable."</td>
+<td>Class-level automatic vs method-level manual registration.</td>
+</tr>
+<tr>
+<td>"<code>@Primary</code> beats <code>@Qualifier</code>."</td>
+<td>Backwards: an explicit <code>@Qualifier</code> wins.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-common-trap-questions">14. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 — "Spring creates the bean before it knows the dependencies."</strong>
+Verdict: False. Spring records <code>BeanDefinition</code> metadata first, then instantiates and injects.
+Definitions before instances.</p>
+<p><strong>Trap 2 — "<code>@Component</code> is enough to register a bean."</strong>
+Verdict: False. <code>@Component</code> marks eligibility, but nothing happens unless <code>@ComponentScan</code> (or
+XML and <code>@Bean</code>) makes Spring look in that package.</p>
+<p><strong>Trap 3 — "<code>ApplicationContext</code> can be instantiated directly."</strong>
+Verdict: False. It is an interface; we instantiate <code>AnnotationConfigApplicationContext</code> or another
+implementation.</p>
+<p><strong>Trap 4 — "Field injection is preferred because it is concise."</strong>
+Verdict: False. It hides dependencies, prevents <code>final</code>, and is hard to test. Constructor
+injection is preferred for mandatory dependencies.</p>
+<p><strong>Trap 5 — "<code>@Primary</code> wins over <code>@Qualifier</code> when both are present."</strong>
+Verdict: False. Specific beats default: <code>@Qualifier</code> names a bean and takes priority.</p>
+<p><strong>Trap 6 — "<code>@Bean</code> needs component scanning like <code>@Component</code>."</strong>
+Verdict: False. <code>@Bean</code> methods are read from a loaded configuration class; scanning is not
+required, though the config class itself must be registered.</p>
+<p><strong>Trap 7 — "Mixing <code>@Component</code> and <code>@Bean</code> for the same type is harmless."</strong>
+Verdict: Misleading. It can create two beans, ambiguous by-type injection, or overriding rules.
+Register the bean one way unless you want multiple beans.</p>
+</blockquote>
+<h2 id="15-points-to-remember">15. Points to Remember</h2>
+<ol>
+<li>A Spring Bean is an object whose creation, wiring, and lifecycle are managed by the IoC
+   container.</li>
+<li>A class should ask for its dependencies, never create them; IoC is the principle, DI the
+   mechanism.</li>
+<li>Setup is a Maven project plus the <code>spring-context</code> dependency; no Boot or auto-configuration.</li>
+<li><code>@Component</code> marks a class as bean-eligible; <code>@ComponentScan</code> says which package to search.</li>
+<li><code>Student.class</code> and <code>AppConfig.class</code> are <code>Class</code> metadata, not instances; read via reflection.</li>
+<li><code>ApplicationContext</code> is the interface; <code>AnnotationConfigApplicationContext</code> is the
+   annotation-based implementation.</li>
+<li><code>@Configuration</code> marks a class as a source of bean definitions; <code>getBean()</code> asks for a bean.</li>
+<li>Injection types: constructor (mandatory deps), setter (optional or changeable), field (avoid).</li>
+<li>Spring builds <code>BeanDefinition</code> metadata first, then resolves, creates, and injects.</li>
+<li>No matching bean errors; multiple matching beans need <code>@Primary</code> (default) or <code>@Qualifier</code>
+    (specific, which wins).</li>
+</ol>
+<h2 id="16-likely-interview-questions">16. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a Spring Bean?</td>
+<td>An object whose creation, wiring, and lifecycle are managed by the container.</td>
+</tr>
+<tr>
+<td>IoC vs DI?</td>
+<td>IoC: the container controls creation and wiring; DI: dependencies are passed in.</td>
+</tr>
+<tr>
+<td>What does <code>@Component</code> do?</td>
+<td>Marks a class as bean-eligible; <code>@ComponentScan</code> must point at its package.</td>
+</tr>
+<tr>
+<td>What does <code>@ComponentScan</code> do?</td>
+<td>Tells Spring which package and sub-packages to search.</td>
+</tr>
+<tr>
+<td>What is <code>@Configuration</code>?</td>
+<td>Marks a class as a source of Spring configuration and bean definitions.</td>
+</tr>
+<tr>
+<td>Why does <code>Student.class</code> matter?</td>
+<td>It is <code>Class</code> metadata read by reflection, so Spring can inspect the class.</td>
+</tr>
+<tr>
+<td><code>ApplicationContext</code> vs <code>AnnotationConfigApplicationContext</code>?</td>
+<td>Interface vs the annotation-based implementation we instantiate.</td>
+</tr>
+<tr>
+<td>What does <code>getBean()</code> do?</td>
+<td>Looks up and returns a managed bean by type or by name.</td>
+</tr>
+<tr>
+<td>Which DI type is best?</td>
+<td>Constructor injection: complete, immutable, testable without Spring.</td>
+</tr>
+<tr>
+<td>What if multiple beans match?</td>
+<td>Ambiguity error unless <code>@Primary</code> or <code>@Qualifier</code> decides; <code>@Qualifier</code> wins.</td>
+</tr>
+<tr>
+<td><code>@Component</code> vs <code>@Bean</code>?</td>
+<td>Class-level automatic detection vs method-level manual registration (use <code>@Bean</code> for library classes).</td>
+</tr>
+<tr>
+<td><code>BeanFactory</code> vs <code>ApplicationContext</code>?</td>
+<td>Minimal, mostly lazy core vs advanced superset with events and i18n.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-final-summary">17. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Need objects + wiring
+        |
+        v
+Manual container: main() creates, connects, manages
+        |
+        v
+Inversion of Control: the container owns creation, wiring, lifecycle
+        |
+        v
+Tell Spring what to manage
+        |
+        +-- @Component        (class-level eligibility)
+        +-- @ComponentScan    (where to search)
+        +-- @Configuration    (source of bean definitions)
+        +-- @Bean             (method-level, manual creation)
+        |
+        v
+AnnotationConfigApplicationContext(AppConfig.class)
+        |
+        v
+BeanDefinitions first  -&gt;  resolve deps  -&gt;  create  -&gt;  inject  -&gt;  store
+        |
+        v
+getBean() returns ready-to-use beans
+        |
+        v
+Ambiguity?  -&gt;  @Primary (default) or @Qualifier (specific, wins)
+        |
+        v
+Container features: ApplicationContext over BeanFactory
+</code></pre></div>
+
+<ul>
+<li>A Spring Bean is an object managed end to end by the IoC container.</li>
+<li><code>@Component</code> marks, <code>@ComponentScan</code> locates, <code>@Configuration</code> declares, <code>@Bean</code> registers
+  manually.</li>
+<li><code>ApplicationContext</code> is the interface; <code>AnnotationConfigApplicationContext</code> starts it from
+  <code>AppConfig.class</code>.</li>
+<li>Constructor injection is preferred; setter serves optional deps; field injection is discouraged.</li>
+<li>Spring builds <code>BeanDefinition</code> metadata before creating anything, then resolves, creates, injects.</li>
+<li>No bean means an error; many beans mean <code>@Primary</code> (default) or <code>@Qualifier</code> (specific, wins).</li>
+<li><code>main()</code> starts the application; the container manages the graph; <code>BeanFactory</code> is the minimal
+  core, <code>ApplicationContext</code> the practical choice.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring IoC Container creates objects, wires dependencies, manages lifecycle,
+and gives us ready-to-use beans when required.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-04.html"><span class="dir">Previous</span><span class="ttl">Lecture 04 — Dependency Injection &amp; IoC Explained</span></a><a class="next" href="doc-theory-lecture-06.html"><span class="dir">Next</span><span class="ttl">Lecture 06 — Circular Dependency in Spring</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition — Java</title>
+<meta name="description" content="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-53">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-53.html#lecture-53">Lecture 53</a></li><li><a href="doc-theory-lecture-53.html#1-why-go-beyond-synchronized">1. Why Go Beyond synchronized</a></li><li><a href="doc-theory-lecture-53.html#2-the-lock-interface-and-the-finally-pattern">2. The Lock Interface and the finally Pattern</a></li><li><a href="doc-theory-lecture-53.html#3-reentrantlock-and-reentrancy">3. ReentrantLock and Reentrancy</a></li><li><a href="doc-theory-lecture-53.html#4-reentrantlock-methods-lock-unlock-trylock-timeout-and-interruption">4. ReentrantLock Methods: lock, unlock, tryLock, Timeout and Interruption</a></li><li><a href="doc-theory-lecture-53.html#5-reentrantlock-diagnostics-fairness-and-queue-methods">5. ReentrantLock Diagnostics, Fairness and Queue Methods</a></li><li><a href="doc-theory-lecture-53.html#6-read-write-locks-the-problem-and-the-readwritelock-interface">6. Read-Write Locks: The Problem and the ReadWriteLock Interface</a></li><li><a href="doc-theory-lecture-53.html#7-reentrantreadwritelock-in-practice">7. ReentrantReadWriteLock in Practice</a></li><li><a href="doc-theory-lecture-53.html#8-readwritelock-reentrancy-downgrading-upgrading-fairness-and-starvation">8. ReadWriteLock Reentrancy, Downgrading, Upgrading, Fairness and Starvation</a></li><li><a href="doc-theory-lecture-53.html#9-stampedlock-stamps-modes-and-optimistic-reads">9. StampedLock: Stamps, Modes and Optimistic Reads</a></li><li><a href="doc-theory-lecture-53.html#10-stampedlock-validation-non-reentrancy-conversion-and-comparison">10. StampedLock Validation, Non-Reentrancy, Conversion and Comparison</a></li><li><a href="doc-theory-lecture-53.html#11-semaphore-permits-and-concurrency-limiting">11. Semaphore: Permits and Concurrency Limiting</a></li><li><a href="doc-theory-lecture-53.html#12-condition-variables-await-signal-and-multiple-wait-sets">12. Condition Variables: await, signal and Multiple Wait Sets</a></li><li><a href="doc-theory-lecture-53.html#13-bounded-buffer-and-condition-vs-waitnotify">13. Bounded Buffer and Condition vs wait/notify</a></li><li><a href="doc-theory-lecture-53.html#14-choosing-the-correct-tool">14. Choosing the Correct Tool</a></li><li><a href="doc-theory-lecture-53.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-53.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-53.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-53.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-53.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</h1>
+<p class="readmeta">20 sections · 5,729 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-53" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-53">Lecture 53</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition" plus the lecture's own repo notes (java.util.concurrent.locks: Lock, ReentrantLock, ReentrantReadWriteLock), playlist map, verified. Repo evidence: 3 Demo files.</p>
+</blockquote>
+<p>The <code>synchronized</code> keyword is often enough for protecting a critical section: it automatically acquires an intrinsic lock on entry and releases it on exit, even when an exception is thrown. Java also provides explicit locking utilities in <code>java.util.concurrent.locks</code>, and those APIs matter when an application needs more control over acquisition, interruption, timeouts, fairness, multiple waiting conditions, or read-heavy access patterns. This lecture covers the <code>Lock</code> interface, <code>ReentrantLock</code>, <code>ReadWriteLock</code> and <code>ReentrantReadWriteLock</code>, <code>StampedLock</code>, <code>Semaphore</code>, and <code>Condition</code>, and ends by choosing the simplest tool that matches the shared-state rule.</p>
+<h2 id="1-why-go-beyond-synchronized">1. Why Go Beyond synchronized</h2>
+<p>A synchronized block is simple and safe, and the JVM handles lock release automatically even if the block throws an exception. However, intrinsic locks do not directly provide some forms of control.</p>
+<ul>
+<li><strong>1.1 No immediate try-and-fallback operation.</strong> There is no direct equivalent of "try once; if the lock is unavailable, do fallback work." With <code>synchronized</code>, a thread waits until the monitor becomes available. Explicit locks provide <code>tryLock()</code> for this purpose.</li>
+<li><strong>1.2 No timed lock acquisition.</strong> A synchronized block cannot directly express "wait for the lock for at most two seconds; if it is still unavailable, stop waiting." <code>Lock.tryLock(timeout, unit)</code> supports timed acquisition.</li>
+<li><strong>1.3 Lock acquisition is not interruptible.</strong> A thread waiting to enter a synchronized block cannot use a dedicated interruptible lock-acquisition method. The <code>Lock</code> interface provides <code>lock.lockInterruptibly()</code>, which lets a waiting thread respond to interruption.</li>
+<li><strong>1.4 No configurable fairness.</strong> Intrinsic locks do not expose a fairness policy. Some explicit-lock implementations can be created in fair mode, which generally favours threads that have waited longer. Fairness can improve predictability but usually reduces throughput.</li>
+<li><strong>1.5 Only one monitor wait set.</strong> With intrinsic locking, <code>wait()</code>, <code>notify()</code> and <code>notifyAll()</code> operate on the monitor's single wait set. A <code>Lock</code> can create multiple <code>Condition</code> objects (<code>Condition notEmpty = lock.newCondition();</code>), allowing different groups of threads to wait for different state predicates.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important
+<code>synchronized</code> is not weak; it is limited. Every gap above is a genuine capability, not a defect. Use an explicit lock only when one of these five gaps is actually the problem.</p>
+</blockquote>
+<h2 id="2-the-lock-interface-and-the-finally-pattern">2. The Lock Interface and the finally Pattern</h2>
+<p>The <code>Lock</code> interface belongs to <code>java.util.concurrent.locks.Lock</code> and separates lock acquisition and release into explicit method calls. A <code>Lock</code> implementation provides synchronization semantics similar to monitor locking, but with additional capabilities.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>lock()</code></td>
+<td><code>void lock()</code></td>
+<td>Acquires the lock, blocking if another thread holds it</td>
+</tr>
+<tr>
+<td><code>lockInterruptibly()</code></td>
+<td><code>void lockInterruptibly() throws InterruptedException</code></td>
+<td>Blocking acquisition that can be interrupted</td>
+</tr>
+<tr>
+<td><code>tryLock()</code></td>
+<td><code>boolean tryLock()</code></td>
+<td>Immediate, non-blocking acquisition attempt</td>
+</tr>
+<tr>
+<td><code>tryLock(time, unit)</code></td>
+<td><code>boolean tryLock(long time, TimeUnit unit) throws InterruptedException</code></td>
+<td>Timed acquisition attempt</td>
+</tr>
+<tr>
+<td><code>unlock()</code></td>
+<td><code>void unlock()</code></td>
+<td>Releases the lock</td>
+</tr>
+<tr>
+<td><code>newCondition()</code></td>
+<td><code>Condition newCondition()</code></td>
+<td>Creates a <code>Condition</code> bound to this lock</td>
+</tr>
+</tbody>
+</table>
+<p>The basic locking pattern is:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Lock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+
+<span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// critical section</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The <code>finally</code> block is essential. If an exception occurs and <code>unlock()</code> is skipped, the lock can remain held indefinitely. Acquire the lock before entering <code>try</code>, and release it in <code>finally</code>. Do not place <code>lock.lock()</code> inside the <code>try</code> block unless the code is carefully structured: if acquisition itself fails before the lock is obtained, <code>finally</code> must not call <code>unlock()</code>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+<code>lock()</code> goes immediately before <code>try</code>; <code>unlock()</code> goes immediately inside <code>finally</code>. This pairing is the entire safety contract of explicit locking.</p>
+</blockquote>
+<h2 id="3-reentrantlock-and-reentrancy">3. ReentrantLock and Reentrancy</h2>
+<p><code>ReentrantLock</code> is the most commonly used implementation of the <code>Lock</code> interface. It provides mutual exclusion, reentrancy, immediate lock attempts, interruptible acquisition, timed lock attempts, condition variables, diagnostic methods, and optional fairness.</p>
+<p>A reentrant lock allows the thread that already owns the lock to acquire it again without blocking itself. The lock maintains, conceptually, an <strong>owner thread</strong> plus a <strong>hold count</strong>: <code>lock.lock(); lock.lock();</code> takes the count to 1 and then 2, and each <code>unlock()</code> decrements it (<code>2 → 1 → 0</code>). The lock becomes available to another thread only when the hold count reaches zero.</p>
+<p>Reentrancy is necessary because one lock-protected method often calls another that uses the same lock. In the lecture's <code>BankAccount</code> example, <code>deposit()</code> acquires the lock and then calls <code>validateAmount()</code>, which acquires the same lock again. Because the lock is reentrant, the thread does not deadlock with itself. In real code a private validation method may not need to acquire the lock independently; the example demonstrates that independently synchronized methods can safely call one another when they use the same reentrant lock.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — ReentrantLock: mutual exclusion, reentrancy and tryLock</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.ReentrantLock</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">tryIncrement</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">.</span><span class="na">tryLock</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// lock was unavailable: fallback path</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Counter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">counter</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">ReentrantLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;hold count = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">getHoldCount</span><span class="p">());</span><span class="w"> </span><span class="c1">// 2</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;tryIncrement = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">tryIncrement</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Intrinsic monitors are reentrant too: a <code>public synchronized void methodA()</code> that calls <code>methodB()</code>, also <code>synchronized</code>, lets the same thread enter both. <code>ReentrantLock</code> is therefore not useful merely because it is reentrant. Its main advantage is the additional acquisition, fairness and condition-management APIs.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+The hold count is a per-thread depth counter: lock twice, unlock twice. The lock is free only at depth zero.</p>
+</blockquote>
+<h2 id="4-reentrantlock-methods-lock-unlock-trylock-timeout-and-interruption">4. ReentrantLock Methods: lock, unlock, tryLock, Timeout and Interruption</h2>
+<p><strong><code>lock()</code></strong> acquires the lock if available; otherwise the current thread waits. <strong><code>unlock()</code></strong> releases the lock. Only the thread that currently owns a <code>ReentrantLock</code> may release it, and every successful acquisition must have a matching release. Calling <code>unlock()</code> without owning the lock throws <code>IllegalMonitorStateException</code>. A double acquisition followed by a single <code>unlock()</code> leaves the lock still held; the second <code>unlock()</code> fully releases it. Avoid defensive patterns that silently unlock whenever <code>isHeldByCurrentThread()</code> returns true; balanced acquisition and release should be clear from the code structure.</p>
+<p><strong><code>tryLock()</code></strong> attempts to acquire the lock immediately and returns <code>true</code> if the lock was acquired, <code>false</code> if it was unavailable. This is useful when waiting would be more expensive than using an alternative path.</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">lock</span><span class="p">.</span><span class="na">tryLock</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">performCriticalWork</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">performFallbackWork</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Timed <code>tryLock()</code></strong> waits for up to the requested time with <code>lock.tryLock(2, TimeUnit.SECONDS)</code>. It has three outcomes: the lock becomes available in time and returns <code>true</code>; the timeout expires and returns <code>false</code>; the waiting thread is interrupted and <code>InterruptedException</code> is thrown. <strong><code>lockInterruptibly()</code></strong> is like <code>lock()</code> except the waiting thread may respond to interruption, which is useful for cancellable tasks and shutdown-sensitive systems. Both blocking forms should be wrapped so that a caught <code>InterruptedException</code> restores the interrupt status with <code>Thread.currentThread().interrupt()</code>, so the cancellation request is not swallowed.</p>
+<blockquote class="callout callout--important">
+<p>Important
+<code>lock()</code> before <code>try</code>; <code>unlock()</code> in <code>finally</code>. When catching <code>InterruptedException</code>, restore the interrupt flag rather than swallowing the signal.</p>
+</blockquote>
+<h2 id="5-reentrantlock-diagnostics-fairness-and-queue-methods">5. ReentrantLock Diagnostics, Fairness and Queue Methods</h2>
+<p><code>ReentrantLock</code> exposes several observation-only methods:</p>
+<ul>
+<li><strong><code>isLocked()</code></strong> reports whether any thread currently holds the lock. It is mainly useful for monitoring, testing and diagnostics. Do not use it for check-then-act business logic, because the observed state can change immediately.</li>
+<li><strong><code>isHeldByCurrentThread()</code></strong> checks whether the current thread owns the lock. It is useful for assertions, diagnostic helpers and validating internal lock requirements.</li>
+<li><strong><code>getHoldCount()</code></strong> returns the number of times the current thread has acquired the lock without matching releases; it returns zero for a thread that does not own the lock.</li>
+<li><strong>Queue diagnostics</strong> such as <code>hasQueuedThreads()</code>, <code>getQueueLength()</code> and <code>hasQueuedThread(thread)</code> provide estimates or snapshots useful for monitoring. Do not build correctness rules around them, because queue state can change immediately after inspection.</li>
+</ul>
+<p>Use <code>tryLock()</code> when the action depends on actually acquiring the lock, because a check such as <code>if (!lock.isLocked())</code> can become false before the next statement runs.</p>
+<p>A non-fair lock is the default (<code>new ReentrantLock()</code>); a fair lock is created with <code>new ReentrantLock(true)</code>. In a non-fair lock, a newly arriving thread may acquire the lock before threads that have waited longer; this behaviour is called <strong>barging</strong>, and non-fair locks usually provide better throughput. A fair lock generally favours the longest-waiting thread under contention, giving approximately arrival-order acquisition. Fairness does not mean mathematically strict scheduling order; thread scheduling and untimed <code>tryLock()</code> can still affect the observed order. Use fair locks only when starvation risk or predictable access order matters more than maximum throughput.</p>
+<p>The classic comparison is:</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>synchronized</th>
+<th>ReentrantLock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Automatic release</td>
+<td>Yes</td>
+<td>No (manual, in <code>finally</code>)</td>
+</tr>
+<tr>
+<td>Reentrant</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Immediate try</td>
+<td>No</td>
+<td>Yes (<code>tryLock()</code>)</td>
+</tr>
+<tr>
+<td>Timed acquisition</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Interruptible acquisition</td>
+<td>No dedicated API</td>
+<td>Yes (<code>lockInterruptibly()</code>)</td>
+</tr>
+<tr>
+<td>Configurable fairness</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Multiple condition queues</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Simpler syntax</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Diagnostic APIs</td>
+<td>Limited</td>
+<td>More extensive</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Use <code>synchronized</code> when its simpler structure is sufficient. Use <code>ReentrantLock</code> when a specific explicit-lock feature is required.</p>
+</blockquote>
+<h2 id="6-read-write-locks-the-problem-and-the-readwritelock-interface">6. Read-Write Locks: The Problem and the ReadWriteLock Interface</h2>
+<p>A normal exclusive lock allows only one thread inside the protected region. That is necessary for writes, but it can be unnecessarily restrictive for read-only access: Reader 1 enters, Reader 2 waits, Reader 3 waits. If several threads only inspect stable data, they may be able to proceed together. Shared-resource operations can often be divided into reads, which observe data without changing protected state, and writes, which modify protected state. The core rule is:</p>
+<table>
+<thead>
+<tr>
+<th>Access pattern</th>
+<th>Allowed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multiple readers</td>
+<td>Allowed</td>
+</tr>
+<tr>
+<td>One writer</td>
+<td>Allowed alone</td>
+</tr>
+<tr>
+<td>Reader with writer</td>
+<td>Not allowed</td>
+</tr>
+<tr>
+<td>Multiple writers</td>
+<td>Not allowed</td>
+</tr>
+</tbody>
+</table>
+<p><code>ReadWriteLock</code> provides two related locks, <code>Lock readLock()</code> and <code>Lock writeLock()</code>. The standard implementation is <code>ReadWriteLock lock = new ReentrantReadWriteLock();</code>, from which <code>lock.readLock()</code> and <code>lock.writeLock()</code> are obtained.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A read-write lock pays off only when reads dominate. If writes are frequent or critical sections are extremely short, the extra bookkeeping reduces throughput rather than improving it.</p>
+</blockquote>
+<h2 id="7-reentrantreadwritelock-in-practice">7. ReentrantReadWriteLock in Practice</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — shared reads, exclusive writes</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.Lock</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.ReadWriteLock</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.ReentrantReadWriteLock</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SharedData</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ReadWriteLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantReadWriteLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">readLock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">readLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Lock</span><span class="w"> </span><span class="n">writeLock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">writeLock</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">read</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">readLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">readLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">writeLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">writeLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SharedData</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SharedData</span><span class="p">();</span>
+<span class="w">        </span><span class="n">data</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="na">read</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Several threads can execute <code>read()</code> together, while a thread executing <code>write()</code> receives exclusive access. Read locks are not mainly used to protect readers from other readers; they coordinate readers with writers. Without a read lock, a reader could begin reading several related fields, a writer could modify those fields midway, and the reader could observe an inconsistent combination. A read lock prevents a writer from modifying the protected state until the reader finishes.</p>
+<p>A read-write lock may improve concurrency when reads are much more frequent than writes, read operations take enough time for concurrency to matter, the protected state is shared by many threads, and writes must remain exclusive. Typical examples are in-memory caches, configuration snapshots, read-heavy registries, shared indexes and lookup tables. It may not help when critical sections are extremely short, writes are frequent, contention is low, or lock-management overhead exceeds the benefit. Measure rather than assuming that a read-write lock is faster.</p>
+<h2 id="8-readwritelock-reentrancy-downgrading-upgrading-fairness-and-starvation">8. ReadWriteLock Reentrancy, Downgrading, Upgrading, Fairness and Starvation</h2>
+<p>Both the read lock and the write lock are reentrant. The write-lock owner can reacquire the write lock, and a thread holding the write lock may also acquire the read lock, which enables lock downgrading.</p>
+<p><strong>Downgrading</strong> means changing a write lock into a read lock. The safe sequence is: acquire the write lock, update the state, acquire the read lock while still holding the write lock, release the write lock, continue reading, then release the read lock.</p>
+<div class="highlight"><pre><span></span><code><span class="n">writeLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">    </span><span class="n">readLock</span><span class="p">.</span><span class="na">lock</span><span class="p">();</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">readLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">writeLock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Acquiring the read lock before releasing the write lock prevents another writer from modifying the state in between.</p>
+<p><strong>Upgrading</strong> means changing a read lock into a write lock, and a direct upgrade is not supported safely: calling <code>writeLock.lock()</code> while holding <code>readLock</code> creates a deadlock risk, because several threads may all hold read locks and wait for the write lock, which cannot be granted until all read locks are released. The usual approach is: release the read lock, acquire the write lock, recheck the state, and perform the update. The state must be rechecked because another thread may have changed it during the transition.</p>
+<p>A fair read-write lock is created with <code>new ReentrantReadWriteLock(true)</code>; the default is non-fair. A continuous flow of readers can delay a waiting writer in some access patterns (writer starvation). Fair mode generally grants access according to waiting order and can reduce starvation risk, but it usually lowers throughput. Fairness is a policy trade-off, not an absolute guarantee about operating-system scheduling.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Downgrading is allowed because the writer still holds the stronger lock; upgrading is forbidden because readers cannot force other readers to let go.</p>
+</blockquote>
+<h2 id="9-stampedlock-stamps-modes-and-optimistic-reads">9. StampedLock: Stamps, Modes and Optimistic Reads</h2>
+<p><code>StampedLock</code> is an advanced synchronization utility designed for read-heavy workloads. It supports three main modes: <code>writeLock()</code>, <code>readLock()</code> and <code>tryOptimisticRead()</code>, and its distinctive feature is optimistic reading. Lock operations return a <code>long</code> <strong>stamp</strong>, a token representing that particular lock mode and acquisition state, which must be supplied when releasing or converting the lock (<code>long stamp = lock.readLock();</code> then <code>lock.unlockRead(stamp);</code>). A stamp should not be treated as a simple application version number or thread ID.</p>
+<p>A <strong>pessimistic read lock</strong> is an ordinary read lock: several read-lock holders may proceed together, and a writer cannot acquire the write lock until pessimistic readers release their stamps. A <strong>write lock</strong> is exclusive, and no read or write lock can coexist with it. An <strong>optimistic read</strong> does not acquire a traditional read lock: the reader obtains an optimistic stamp, copies the required fields into local variables, validates the stamp, and falls back to a read lock if validation fails.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — optimistic read with validation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.StampedLock</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">Point</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StampedLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StampedLock</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">distanceFromOrigin</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">tryOptimisticRead</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">currentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">double</span><span class="w"> </span><span class="n">currentY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">lock</span><span class="p">.</span><span class="na">validate</span><span class="p">(</span><span class="n">stamp</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">stamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">readLock</span><span class="p">();</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">currentX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">                </span><span class="n">currentY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">y</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">lock</span><span class="p">.</span><span class="na">unlockRead</span><span class="p">(</span><span class="n">stamp</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">sqrt</span><span class="p">(</span><span class="n">currentX</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">currentX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">currentY</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">currentY</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The flow is: assume no writer interferes, read a local snapshot, validate; if valid use the snapshot, and if invalid reread under a read lock. <code>validate(stamp)</code> reports whether a write-lock acquisition invalidated the optimistic observation. Always copy the shared fields before validation; do not repeatedly read the shared fields after validation, because a writer may change them later.</p>
+<blockquote class="callout callout--important">
+<p>Important
+Copy the fields, then validate. Reading the shared fields again after validation reintroduces the race that the optimistic read was designed to avoid.</p>
+</blockquote>
+<h2 id="10-stampedlock-validation-non-reentrancy-conversion-and-comparison">10. StampedLock Validation, Non-Reentrancy, Conversion and Comparison</h2>
+<p>The purpose of validation becomes clearer when several related fields form one state, as in the <code>Point</code> example: the optimistic read snapshots both <code>x</code> and <code>y</code>, then validates that no writer slipped in between the two copies. Optimistic reads are useful when reads are extremely frequent, writes are rare, reading the state is quick, retrying under a real read lock is inexpensive, and profiling shows ordinary read locking is a bottleneck. They are less useful when writes are frequent, the read operation is long, the object graph is difficult to copy consistently, or implementation simplicity matters more than marginal throughput.</p>
+<p><code>StampedLock</code> is <strong>not reentrant</strong>. This is a major difference from <code>ReentrantLock</code>: a second <code>lock.writeLock()</code> while the same thread already holds a write stamp can deadlock, because the lock does not recognise the second acquisition as belonging to an existing owner in the same way a reentrant lock does. Methods using the same <code>StampedLock</code> must be designed carefully to avoid nested reacquisition. <code>StampedLock</code> also has no traditional thread ownership: it primarily manages lock state through stamps rather than monitor-style ownership checks. The stamp returned by acquisition must be preserved and used correctly, and passing an invalid stamp can result in <code>IllegalMonitorStateException</code>. Do not transfer stamps casually between unrelated operations.</p>
+<p><code>StampedLock</code> can attempt to convert a held mode without fully releasing it using <code>tryConvertToWriteLock(stamp)</code>, <code>tryConvertToReadLock(stamp)</code> and <code>tryConvertToOptimisticRead(stamp)</code>. In the common pattern, a thread holding a read stamp loops while the state is unset, tries <code>tryConvertToWriteLock(stamp)</code>, keeps the new stamp if the conversion succeeds, and otherwise releases the read lock and reacquires a write lock. Conversions are advanced APIs and require careful tracking of the current stamp mode.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>ReentrantReadWriteLock</th>
+<th>StampedLock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multiple readers</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Exclusive writer</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Optimistic reads</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Reentrant</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Condition support</td>
+<td>Write lock supports conditions</td>
+<td>No condition support</td>
+</tr>
+<tr>
+<td>Lock ownership model</td>
+<td>Thread-oriented</td>
+<td>Stamp-oriented</td>
+</tr>
+<tr>
+<td>Simpler to use</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Best fit</td>
+<td>General read-heavy protection</td>
+<td>Specialised, measured read-heavy optimisation</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Prefer <code>ReentrantReadWriteLock</code> unless optimistic reads provide a demonstrated benefit. Do not choose <code>StampedLock</code> merely because it is newer.</p>
+</blockquote>
+<h2 id="11-semaphore-permits-and-concurrency-limiting">11. Semaphore: Permits and Concurrency Limiting</h2>
+<p>A <code>Semaphore</code> maintains a number of permits. A thread must acquire a permit before entering the limited region and release it afterward. With three permits, at most three successful acquirers can proceed concurrently; an available permit lets a thread proceed, and no available permit makes it wait.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — limit concurrent access to an external service</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.Semaphore</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">ExternalServiceClient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Semaphore</span><span class="w"> </span><span class="kd">permits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Semaphore</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">callService</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">permits</span><span class="p">.</span><span class="na">acquire</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">performRequest</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">permits</span><span class="p">.</span><span class="na">release</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">performRequest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;response&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>At most ten calls execute inside <code>performRequest()</code> concurrently, while the number of application threads can be much larger than the number of permits.</p>
+<p><strong><code>acquire()</code></strong> acquires one permit, waiting if none is available. The operation is interruptible and may throw <code>InterruptedException</code>. Multiple permits can be requested with <code>semaphore.acquire(3)</code>. <strong><code>release()</code></strong> returns one permit (<code>semaphore.release()</code>) or several (<code>semaphore.release(3)</code>). A semaphore does not track ownership in the same way as a lock: any thread can call <code>release()</code>, and an incorrect extra release can increase the permit count beyond its intended level. Balanced permit management is the application's responsibility, so a permit should be released only if acquisition succeeded.</p>
+<p>A <strong>binary semaphore</strong> (<code>new Semaphore(1)</code>) has only one permit, so at most one successful acquirer proceeds at a time. This resembles mutual exclusion, but it is not identical to a lock: no owner thread is tracked, another thread may release the permit, reentrancy is not provided, and extra releases can increase permits. Use a <code>Lock</code> for ownership-based mutual exclusion; use a semaphore when the permit model is the actual requirement. A <strong>counting semaphore</strong> such as <code>new Semaphore(5)</code> allows up to five permits simultaneously and is useful for limiting access to a finite-capacity resource: database connections, external-service concurrency, file-processing slots, limited hardware devices, and bounded parallel tasks. A semaphore limits concurrent access; it is not by itself a requests-per-second rate limiter.</p>
+<p>Immediate acquisition uses <code>semaphore.tryAcquire()</code> and timed acquisition uses <code>semaphore.tryAcquire(2, TimeUnit.SECONDS)</code>, allowing fallback logic when capacity is unavailable. The default is non-fair; a fair semaphore is <code>new Semaphore(3, true)</code>. Fair mode generally serves queued blocking acquirers in arrival order, but scheduling is not a perfect strict FIFO guarantee and untimed <code>tryAcquire()</code> may barge. Fairness usually reduces throughput.</p>
+<blockquote class="callout callout--important">
+<p>Important
+Semaphore is a concurrency limiter, not a mutex. Releasing without acquiring, or releasing twice, silently corrupts the permit count because no owner is tracked.</p>
+</blockquote>
+<h2 id="12-condition-variables-await-signal-and-multiple-wait-sets">12. Condition Variables: await, signal and Multiple Wait Sets</h2>
+<p>A <code>Condition</code> is a waiting mechanism associated with a <code>Lock</code>: <code>Condition condition = lock.newCondition();</code>. It plays a role similar to <code>Object.wait()</code>, <code>Object.notify()</code> and <code>Object.notifyAll()</code>, with corresponding methods <code>await()</code>, <code>signal()</code> and <code>signalAll()</code>. A lock protects a state transition, and a condition allows a thread to wait until the protected state satisfies a particular predicate, such as "queue is not empty", "queue is not full", "account has enough balance", "resource has become available", or "task has completed". The lock and condition work together.</p>
+<p><strong><code>await()</code></strong> requires the calling thread to hold the associated lock. Conceptually it atomically releases the lock, places the thread in the condition wait set, suspends the thread, and later reacquires the lock before returning. It can throw <code>InterruptedException</code>. The flow is: hold lock, condition not satisfied, <code>await()</code>, release lock and wait, receive signal, compete to reacquire lock, return only after the lock is reacquired.</p>
+<p><strong><code>signal()</code></strong> requires the current thread to hold the associated lock. It selects one waiting thread, if one exists. The selected thread does not immediately run inside the critical section; it must first reacquire the lock after the signalling thread releases it. <strong><code>signalAll()</code></strong> signals all threads waiting on that condition, and they then compete to reacquire the lock one at a time. Use <code>signalAll()</code> when several different predicates may depend on the same condition, it is difficult to know which waiter can proceed, or missing a relevant waiter would risk indefinite waiting. Use <code>signal()</code> when one waiter is enough and the waiting design is well understood.</p>
+<p>The current thread must hold the lock before calling <code>condition.await()</code>, <code>condition.signal()</code> or <code>condition.signalAll()</code>; otherwise <code>IllegalMonitorStateException</code> is thrown. Always use a condition inside the lock's critical section. A waiting thread must always recheck the predicate in a <code>while</code> loop, never an <code>if</code>, as in <code>while (queue.isEmpty()) { notEmpty.await(); }</code>. Rechecking is required because spurious wakeups are permitted, another thread may consume the state before this thread reacquires the lock, and the signal indicates that state may have changed, not that the predicate is guaranteed to be true. The condition queue is a notification mechanism; the shared-state predicate is the source of truth.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>await</code> = wait + release lock + reacquire; <code>signal</code> = nudge one waiter; <code>signalAll</code> = nudge every waiter. The predicate, not the signal, decides whether to proceed.</p>
+</blockquote>
+<h2 id="13-bounded-buffer-and-condition-vs-waitnotify">13. Bounded Buffer and Condition vs wait/notify</h2>
+<p>A major advantage over intrinsic monitor methods is that one lock can have several conditions. Producers wait only on <code>notFull</code>; consumers wait only on <code>notEmpty</code>. This avoids waking unrelated threads unnecessarily.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — bounded buffer with two condition queues</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.ArrayDeque</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.Queue</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.Condition</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.locks.ReentrantLock</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">BoundedBuffer</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Queue</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">queue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayDeque</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="w"> </span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReentrantLock</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="n">notEmpty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">newCondition</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Condition</span><span class="w"> </span><span class="n">notFull</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="p">.</span><span class="na">newCondition</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">BoundedBuffer</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">capacity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">capacity</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">put</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lockInterruptibly</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">capacity</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notFull</span><span class="p">.</span><span class="na">await</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">queue</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+<span class="w">            </span><span class="n">notEmpty</span><span class="p">.</span><span class="na">signal</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="nf">take</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lock</span><span class="p">.</span><span class="na">lockInterruptibly</span><span class="p">();</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">queue</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">notEmpty</span><span class="p">.</span><span class="na">await</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">T</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span>
+<span class="w">            </span><span class="n">notFull</span><span class="p">.</span><span class="na">signal</span><span class="p">();</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">lock</span><span class="p">.</span><span class="na">unlock</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The flow: a producer finding the queue full awaits <code>notFull</code>, and a consumer removing an item signals <code>notFull</code>; a consumer finding the queue empty awaits <code>notEmpty</code>, and a producer adding an item signals <code>notEmpty</code>. A condition also provides timed waiting, such as <code>condition.await(2, TimeUnit.SECONDS)</code>, plus <code>awaitNanos(...)</code>, <code>awaitUntil(...)</code> and <code>awaitUninterruptibly()</code>. Timed waiting is useful when indefinite blocking is unacceptable; <code>awaitUninterruptibly()</code> delays the thread's response to cancellation and should be used carefully. In production, prefer an existing <code>BlockingQueue</code> unless implementing the mechanism for learning or requiring custom behaviour.</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Monitor methods</th>
+<th>Condition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Associated with</td>
+<td>Intrinsic monitor</td>
+<td>Explicit <code>Lock</code></td>
+</tr>
+<tr>
+<td>Wait operation</td>
+<td><code>wait()</code></td>
+<td><code>await()</code></td>
+</tr>
+<tr>
+<td>Wake one</td>
+<td><code>notify()</code></td>
+<td><code>signal()</code></td>
+</tr>
+<tr>
+<td>Wake all</td>
+<td><code>notifyAll()</code></td>
+<td><code>signalAll()</code></td>
+</tr>
+<tr>
+<td>Releases lock while waiting</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Multiple wait sets per lock</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Timed variants</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Interruptible waiting</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Reacquires before returning</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+Use the mechanism that matches the chosen locking model. Do not mix a <code>Condition</code> with a different lock, or call monitor methods as substitutes inside a <code>ReentrantLock</code> design.</p>
+</blockquote>
+<h2 id="14-choosing-the-correct-tool">14. Choosing the Correct Tool</h2>
+<p>Each tool encodes a different coordination rule:</p>
+<ul>
+<li><strong>Use <code>synchronized</code> when</strong> mutual exclusion is straightforward, no timed or interruptible acquisition is needed, one wait set is sufficient, automatic lock release is valuable, and simpler code is preferable. For many application-level critical sections, <code>synchronized</code> remains the best default.</li>
+<li><strong>Use <code>ReentrantLock</code> when</strong> <code>tryLock()</code> is required, timed acquisition is required, lock acquisition must be interruptible, optional fairness is required, multiple condition queues are needed, or lock diagnostic methods are useful.</li>
+<li><strong>Use <code>ReentrantReadWriteLock</code> when</strong> the workload is read-heavy, reads can safely overlap, writes must be exclusive, optimistic reads are unnecessary, and reentrancy is needed.</li>
+<li><strong>Use <code>StampedLock</code> when</strong> the workload is strongly read-dominated, writes are rare, optimistic reads can be validated cheaply, profiling justifies additional complexity, and reentrancy and conditions are not required. Do not choose it merely because it is newer.</li>
+<li><strong>Use <code>Semaphore</code> when</strong> the goal is to limit concurrent access, several threads may enter simultaneously, access is represented by permits, and ownership-based mutual exclusion is not required.</li>
+<li><strong>Use <code>Condition</code> when</strong> a thread must wait for a state predicate, separate groups of waiters need separate queues, producer-consumer-style coordination is required, and the state is protected by a <code>Lock</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Main purpose</th>
+<th>Key characteristic</th>
+<th>Ownership</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>synchronized</code></td>
+<td>Basic mutual exclusion</td>
+<td>Automatic acquisition and release</td>
+<td>Monitor owner</td>
+</tr>
+<tr>
+<td><code>ReentrantLock</code></td>
+<td>Flexible exclusive locking</td>
+<td>Try, timeout, interruption and fairness</td>
+<td>Thread owner with hold count</td>
+</tr>
+<tr>
+<td><code>ReentrantReadWriteLock</code></td>
+<td>Read-heavy shared state</td>
+<td>Concurrent readers, exclusive writer</td>
+<td>Thread-oriented</td>
+</tr>
+<tr>
+<td><code>StampedLock</code></td>
+<td>Optimised read-heavy access</td>
+<td>Optimistic reads with validation</td>
+<td>Stamp-oriented, not reentrant</td>
+</tr>
+<tr>
+<td><code>Semaphore</code></td>
+<td>Limit concurrency</td>
+<td>Configurable number of permits</td>
+<td>No owner tracked</td>
+</tr>
+</tbody>
+</table>
+<p>Use higher-level utilities such as <code>BlockingQueue</code>, <code>CountDownLatch</code> or <code>Semaphore</code> when they directly match the problem. Choose the simplest mechanism that accurately represents the shared-state rule; more advanced locks provide additional control, but they also increase the responsibility placed on the programmer.</p>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>ReentrantLock</code> replaces <code>synchronized</code> everywhere."</td>
+<td>It is an upgrade only when a specific explicit feature is needed; <code>synchronized</code> stays the simplest safe default.</td>
+</tr>
+<tr>
+<td>"A read lock blocks other readers."</td>
+<td>Read locks are shared: multiple readers proceed together, and the read lock coordinates readers with writers.</td>
+</tr>
+<tr>
+<td>"You can upgrade a read lock to a write lock."</td>
+<td>Direct upgrading is not supported safely; release the read lock, acquire the write lock, then recheck state.</td>
+</tr>
+<tr>
+<td>"<code>StampedLock</code> is a better <code>ReentrantReadWriteLock</code>."</td>
+<td>It is faster for validated read-heavy loads but is not reentrant and has no condition support.</td>
+</tr>
+<tr>
+<td>"A semaphore with one permit is a lock."</td>
+<td>It resembles mutual exclusion but tracks no owner, allows any thread to release, and is not reentrant.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Unlock without ownership: "I called <code>lock.unlock()</code> without acquiring. What happens?"
+<code>IllegalMonitorStateException</code>. Only the owning thread may release a <code>ReentrantLock</code>, and every acquisition needs a matching release.</p>
+<p>Trap 2 — <code>lock()</code> inside <code>try</code>: "I put <code>lock.lock()</code> as the first line inside <code>try</code> and <code>unlock()</code> in <code>finally</code>. Is that safe?"
+Not generally. If acquisition fails before the lock is obtained, <code>finally</code> still calls <code>unlock()</code> and throws. Acquire before <code>try</code>.</p>
+<p>Trap 3 — <code>isLocked()</code> check-then-act: "I checked <code>!lock.isLocked()</code> before doing the work. Why is that a bug?"
+The state can change immediately after inspection. Use <code>tryLock()</code> when the action depends on actually acquiring the lock.</p>
+<p>Trap 4 — Fairness guarantee: "With a fair lock, is order strictly FIFO?"
+Approximately arrival order, not strict scheduling order. Thread scheduling and untimed <code>tryLock()</code> can still affect the observed order.</p>
+<p>Trap 5 — Optimistic read misuse: "I called <code>tryOptimisticRead()</code>, validated, then read the fields. Is that correct?"
+No. Copy the fields into locals before <code>validate(stamp)</code>; a writer may change them after validation.</p>
+<p>Trap 6 — <code>StampedLock</code> reacquisition: "My method holding a <code>StampedLock</code> calls another method that acquires the same lock. Fine, right?"
+No. <code>StampedLock</code> is not reentrant; nested reacquisition can deadlock.</p>
+<p>Trap 7 — <code>Condition</code> without the lock: "I called <code>condition.await()</code> outside the lock. What happens?"
+<code>IllegalMonitorStateException</code>. <code>await()</code>, <code>signal()</code> and <code>signalAll()</code> require the current thread to hold the associated lock.</p>
+<p>Trap 8 — <code>if</code> instead of <code>while</code>: "I wrapped <code>await()</code> in an <code>if</code> because I only expect one signal."
+Incorrect. Spurious wakeups and competing consumers mean the predicate must be rechecked in a <code>while</code> loop.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>Intrinsic locks lack try-and-fallback, timed acquisition, interruptible acquisition, configurable fairness and multiple wait sets; explicit locks supply these.</li>
+<li>Acquire with <code>lock()</code> immediately before <code>try</code>; release in <code>finally</code>. Skipping or misplacing <code>unlock()</code> leaves the lock held indefinitely.</li>
+<li><code>ReentrantLock</code> maintains an owner thread plus a hold count; the lock frees only when the count reaches zero, matching reentrant <code>synchronized</code> semantics.</li>
+<li><code>unlock()</code> without ownership throws <code>IllegalMonitorStateException</code>; <code>getHoldCount()</code>, <code>isLocked()</code> and <code>isHeldByCurrentThread()</code> are diagnostics, not correctness checks.</li>
+<li><code>tryLock()</code> is immediate; timed <code>tryLock(time, unit)</code> can return <code>false</code>; <code>lockInterruptibly()</code> responds to interruption and should restore the interrupt flag.</li>
+<li>Fair mode approximates arrival order and reduces starvation but usually lowers throughput; the default non-fair mode permits barging.</li>
+<li><code>ReentrantReadWriteLock</code> allows many readers or one writer; a read lock coordinates readers with writers rather than protecting readers from each other.</li>
+<li>Downgrading (write to read) is safe; upgrading (read to write) is not, because the write lock waits for all readers to release.</li>
+<li><code>StampedLock</code> adds optimistic reads with <code>validate(stamp)</code>, is stamp-oriented rather than owner-oriented, is not reentrant, and supports no conditions.</li>
+<li><code>Semaphore</code> limits concurrency through permits with no ownership; <code>Condition</code> provides multiple wait sets per lock, and every wait must recheck its predicate in a <code>while</code> loop.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why use <code>Lock</code> instead of <code>synchronized</code>?</td>
+<td>To gain try-and-fallback, timed acquisition, interruptible acquisition, configurable fairness or multiple condition queues.</td>
+</tr>
+<tr>
+<td>What does reentrant mean?</td>
+<td>The owning thread can reacquire the lock, tracked by a per-thread hold count that is decremented on each <code>unlock()</code>.</td>
+</tr>
+<tr>
+<td>Is <code>synchronized</code> reentrant?</td>
+<td>Yes, intrinsic monitors are reentrant; <code>ReentrantLock</code> adds the extra acquisition, fairness and condition APIs.</td>
+</tr>
+<tr>
+<td>Difference between <code>lock()</code> and <code>lockInterruptibly()</code>?</td>
+<td><code>lock()</code> blocks until acquired; <code>lockInterruptibly()</code> can be interrupted while waiting and throws <code>InterruptedException</code>.</td>
+</tr>
+<tr>
+<td><code>tryLock()</code> vs timed <code>tryLock()</code>?</td>
+<td><code>tryLock()</code> returns immediately; <code>tryLock(timeout, unit)</code> waits up to the timeout then returns <code>false</code> or throws on interruption.</td>
+</tr>
+<tr>
+<td>What is a fair lock?</td>
+<td>A lock created with <code>true</code> that favours the longest-waiting thread, improving predictability at the cost of throughput.</td>
+</tr>
+<tr>
+<td>How does <code>ReentrantReadWriteLock</code> work?</td>
+<td>Many readers may hold the read lock together, but the write lock is exclusive and excludes all readers and writers.</td>
+</tr>
+<tr>
+<td>Can you upgrade or downgrade a read-write lock?</td>
+<td>Downgrading write to read is safe; upgrading read to write is not supported safely.</td>
+</tr>
+<tr>
+<td>How does <code>StampedLock</code> optimistic read work?</td>
+<td>Take an optimistic stamp, copy fields to locals, <code>validate(stamp)</code>, and fall back to a read lock if validation fails.</td>
+</tr>
+<tr>
+<td>Is <code>StampedLock</code> reentrant?</td>
+<td>No; nested reacquisition of the same lock can deadlock, and it has no condition support.</td>
+</tr>
+<tr>
+<td>What does a <code>Semaphore</code> provide?</td>
+<td>A bounded number of permits to limit concurrency; it tracks no owner, is not reentrant, and any thread may release.</td>
+</tr>
+<tr>
+<td><code>Condition</code> vs <code>wait()</code>/<code>notify()</code>?</td>
+<td><code>Condition</code> attaches to an explicit <code>Lock</code> and supports multiple wait sets per lock, mapping <code>await</code>/<code>signal</code>/<code>signalAll</code> to <code>wait</code>/<code>notify</code>/<code>notifyAll</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>synchronized -------&gt; intrinsic monitor ----&gt; automatic release, one wait set
+Lock ---------------&gt; lock()/unlock() in finally ----&gt; explicit acquisition
+
+ReentrantLock            -&gt; one owner + hold count, tryLock, timeout, interruptible, fair option
+ReentrantReadWriteLock   -&gt; many readers or one writer; downgrade only
+StampedLock              -&gt; optimistic read then validate; stamp-based, not reentrant
+Semaphore                -&gt; N permits, no ownership, limit concurrency
+Condition                -&gt; await/signal on a Lock; multiple wait sets per lock
+</code></pre></div>
+
+<ul>
+<li>Explicit locks -&gt; fill the five gaps left by <code>synchronized</code>: try, timeout, interruption, fairness, multiple wait sets.</li>
+<li><code>ReentrantLock</code> -&gt; owner plus hold count; <code>lock()</code> before <code>try</code>, <code>unlock()</code> in <code>finally</code>; diagnostics are observation only.</li>
+<li>Read-write locks -&gt; readers share, writers exclude; downgrade is safe, upgrade is not; continuous readers can starve writers.</li>
+<li><code>StampedLock</code> -&gt; copy, validate, fall back; never reacquire it and never trust an unvalidated snapshot.</li>
+<li><code>Semaphore</code> -&gt; permit-based concurrency limiting without ownership; <code>Condition</code> -&gt; predicate-based waiting with rechecks.</li>
+<li>Choosing -&gt; use the simplest mechanism that accurately represents the shared-state rule.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Advanced locking is not about replacing <code>synchronized</code> everywhere; it is about matching a specific coordination rule. More advanced locks buy control and charge responsibility.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> explicit locks trade automatic simplicity for control; pick <code>ReentrantLock</code> for one flexible owner, <code>ReentrantReadWriteLock</code> or <code>StampedLock</code> for read-heavy state, <code>Semaphore</code> for permit-limited concurrency, and <code>Condition</code> for predicate-based waiting.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-52.html"><span class="dir">Previous</span><span class="ttl">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</span></a><a class="next" href="doc-theory-lecture-54.html"><span class="dir">Next</span><span class="ttl">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

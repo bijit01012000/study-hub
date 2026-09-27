@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 19 — Spring Boot Filters — Spring Boot</title>
+<meta name="description" content="Lecture 19 — Spring Boot Filters">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-19">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-19.html#lecture-19">Lecture 19</a></li><li><a href="doc-theory-lecture-19.html#1-why-do-we-need-filters">1. Why Do We Need Filters?</a></li><li><a href="doc-theory-lecture-19.html#2-cross-cutting-concerns">2. Cross-Cutting Concerns</a></li><li><a href="doc-theory-lecture-19.html#3-request-response-flow-in-spring-boot">3. Request-Response Flow in Spring Boot</a></li><li><a href="doc-theory-lecture-19.html#4-what-is-a-filter">4. What Is a Filter?</a></li><li><a href="doc-theory-lecture-19.html#5-filters-come-from-the-servlet-api">5. Filters Come from the Servlet API</a></li><li><a href="doc-theory-lecture-19.html#6-creating-a-custom-filter">6. Creating a Custom Filter</a></li><li><a href="doc-theory-lecture-19.html#7-understanding-dofilter-and-filterchain">7. Understanding doFilter() and FilterChain</a></li><li><a href="doc-theory-lecture-19.html#8-request-and-response-execution-order-and-order">8. Request and Response Execution Order and @Order</a></li><li><a href="doc-theory-lecture-19.html#9-common-use-cases-of-filters">9. Common Use Cases of Filters</a></li><li><a href="doc-theory-lecture-19.html#10-blocking-a-request-and-returning-json">10. Blocking a Request and Returning JSON</a></li><li><a href="doc-theory-lecture-19.html#11-complete-logging-filter-logging-safety-and-responsibilities">11. Complete Logging Filter, Logging Safety, and Responsibilities</a></li><li><a href="doc-theory-lecture-19.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-19.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-19.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-19.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-19.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 19 — Spring Boot Filters</h1>
+<p class="readmeta">17 sections · 4,124 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-19" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-19">Lecture 19</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot Filters | FilterChain, Logging, Auth &amp; Request Flow" (playlist map, verified). Repo folder is the <code>filterDemo</code> project: a <code>filter</code> package holding <code>LoggingFilter</code> and <code>AuthenticationFilter</code>, plus <code>controller</code> (<code>StudentController</code>), <code>service</code> (<code>StudentService</code>), and <code>dto</code> (<code>Student</code>), together with the notes.</p>
+</blockquote>
+<p>Every real web application needs the same jobs done on every request: log it, authenticate it, time it, add headers to the response. Writing that logic inside each controller turns clean endpoints into plumbing. Spring Boot Filters give one reusable, Servlet-level checkpoint where request and response logic can live once and apply everywhere. This lecture shows where filters run in the request lifecycle, how <code>FilterChain</code> moves a request forward, and how a filter can stop a request cleanly and return JSON.</p>
+<h2 id="1-why-do-we-need-filters">1. Why Do We Need Filters?</h2>
+<p>A beginner imagines the request flow like this:</p>
+<div class="highlight"><pre><span></span><code>Client / Browser / Postman  -&gt;  Spring Boot Application  -&gt;  Controller Method  -&gt;  Response
+</code></pre></div>
+
+<p>In a real application the request does not go straight to the controller. Before the controller runs, the application often has to do common work:</p>
+<ul>
+<li>log the request URL;</li>
+<li>check an authentication token;</li>
+<li>block suspicious requests;</li>
+<li>measure request execution time;</li>
+<li>add common response headers;</li>
+<li>apply character encoding;</li>
+<li>create a request or trace ID.</li>
+</ul>
+<p>A naive developer writes all of that inside the controller method:</p>
+<div class="highlight"><pre><span></span><code>@GetMapping(&quot;/students&quot;)
+public List&lt;Student&gt; getStudents(HttpServletRequest request) {
+    System.out.println(&quot;Request URL: &quot; + request.getRequestURI());
+    // Authentication check
+    // Logging
+    // Timing logic
+    return studentService.getAllStudents();
+}
+</code></pre></div>
+
+<p>The code works, but it creates four design problems:</p>
+<ol>
+<li>The same infrastructure logic is repeated across multiple APIs.</li>
+<li>Controller methods become difficult to read.</li>
+<li>Developers may forget to add the logic to newly created APIs.</li>
+<li>Controllers stop focusing on their primary responsibility: handling application use cases.</li>
+</ol>
+<p>A Filter provides one common place for request-level logic that must apply to multiple endpoints.</p>
+<blockquote class="callout callout--important">
+<p>Important: A filter is a single place to write infrastructure logic once, so controllers can stay focused on business use cases.</p>
+</blockquote>
+<h2 id="2-cross-cutting-concerns">2. Cross-Cutting Concerns</h2>
+<p>Tasks that apply across many parts of an application are known as cross-cutting concerns. Common examples include request logging, authentication and authorization checks, security checks, character encoding, request timing, audit tracking, correlation or trace IDs, and rate limiting.</p>
+<p>These concerns are not part of the business logic of a particular controller, service, or repository. They operate across multiple requests, which makes Filters suitable when the work belongs to the HTTP or Servlet layer.</p>
+<div class="highlight"><pre><span></span><code>Business logic   -&gt; one controller or service (belongs there)
+Cross-cutting    -&gt; many requests at once (belongs in a Filter)
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: If the logic has to run for many endpoints, it is cross-cutting, and it belongs in a Filter, not copy-pasted into controllers.</p>
+</blockquote>
+<h2 id="3-request-response-flow-in-spring-boot">3. Request-Response Flow in Spring Boot</h2>
+<p>A simplified request flow in a Spring Boot web application is:</p>
+<div class="highlight"><pre><span></span><code>Client -&gt; Servlet Container (Tomcat) -&gt; Filters -&gt; DispatcherServlet
+       -&gt; Interceptors -&gt; Controller -&gt; Service -&gt; Repository
+</code></pre></div>
+
+<p>The response returns through the same components in reverse order:</p>
+<div class="highlight"><pre><span></span><code>Repository -&gt; Service -&gt; Controller -&gt; Interceptors
+           -&gt; DispatcherServlet -&gt; Filters -&gt; Client
+</code></pre></div>
+
+<p>Filters belong to the Servlet layer. They execute before the request reaches Spring MVC's <code>DispatcherServlet</code>. Because a Filter executes before the <code>DispatcherServlet</code>, it can reject a request before Spring MVC performs controller mapping. A Filter operates at a lower web level than a Spring MVC Interceptor.</p>
+<p>Where does a filter execute?</p>
+<div class="highlight"><pre><span></span><code>Client -&gt; Tomcat -&gt; Filter 1 -&gt; Filter 2 -&gt; DispatcherServlet -&gt; Controller
+</code></pre></div>
+
+<h2 id="4-what-is-a-filter">4. What Is a Filter?</h2>
+<p>A Filter acts like a checkpoint through which an HTTP request and response pass. It can run logic before the request continues, and logic after downstream request processing returns. Conceptually, a Filter works like this:</p>
+<div class="highlight"><pre><span></span><code>doSomethingBefore();
+chain.doFilter(request, response);
+doSomethingAfter();
+</code></pre></div>
+
+<p>The call to <code>chain.doFilter(...)</code> passes control to the next component in the request-processing chain.</p>
+<p>A Filter can inspect request headers, cookies, query parameters, and other metadata; add response headers; log request and response details; measure total request duration; validate authentication information; wrap the request or response; allow the request to continue; or stop the request immediately.</p>
+<p>Because Filters operate at the Servlet layer, they are not limited to controller endpoints. Depending on their registration, they may also apply to paths such as <code>/error</code>, <code>/favicon.ico</code>, <code>/static/logo.png</code>, Servlet endpoints, and Spring MVC endpoints.</p>
+<h2 id="5-filters-come-from-the-servlet-api">5. Filters Come from the Servlet API</h2>
+<p>Filters are not originally a Spring feature. They are defined by the Servlet specification. In Spring Boot 3 and modern Jakarta-based applications, the Filter interface is available from <code>jakarta.servlet.Filter</code>. A simplified version of the interface looks like this:</p>
+<div class="highlight"><pre><span></span><code>public interface Filter {
+
+    default void init(FilterConfig filterConfig)
+            throws ServletException {
+    }
+
+    void doFilter(
+            ServletRequest request,
+            ServletResponse response,
+            FilterChain chain
+    ) throws IOException, ServletException;
+
+    default void destroy() {
+    }
+}
+</code></pre></div>
+
+<p>The Filter lifecycle contains three methods:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>init()</code></td>
+<td>Called when the Filter is initialized</td>
+</tr>
+<tr>
+<td><code>doFilter()</code></td>
+<td>Called when a matching request passes through the Filter</td>
+</tr>
+<tr>
+<td><code>destroy()</code></td>
+<td>Called when the Filter is removed or the application shuts down</td>
+</tr>
+</tbody>
+</table>
+<p>In most Spring Boot applications, custom Filter logic is mainly written inside <code>doFilter()</code>.</p>
+<h3 id="spring-boot-2-vs-spring-boot-3-imports">Spring Boot 2 vs Spring Boot 3 Imports</h3>
+<p>Spring Boot 2 applications generally used the <code>javax.servlet</code> package; Spring Boot 3 uses <code>jakarta.servlet</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Spring Boot 2 (<code>javax</code>)</th>
+<th>Spring Boot 3 (<code>jakarta</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>import javax.servlet.Filter;</code></td>
+<td><code>import jakarta.servlet.Filter;</code></td>
+</tr>
+<tr>
+<td><code>import javax.servlet.FilterChain;</code></td>
+<td><code>import jakarta.servlet.FilterChain;</code></td>
+</tr>
+<tr>
+<td><code>import javax.servlet.ServletRequest;</code></td>
+<td><code>import jakarta.servlet.ServletRequest;</code></td>
+</tr>
+<tr>
+<td><code>import javax.servlet.ServletResponse;</code></td>
+<td><code>import jakarta.servlet.ServletResponse;</code></td>
+</tr>
+</tbody>
+</table>
+<p>For Spring Boot 3, use <code>import jakarta.servlet.Filter;</code>. Do not use <code>import javax.servlet.Filter;</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The <code>javax</code> to <code>jakarta</code> rename comes from Java EE moving to the Eclipse Foundation as Jakarta EE. Mixing the two packages in one project is a classic "why does my filter not compile or run" interview story.</p>
+</blockquote>
+<h3 id="why-filter-uses-servletrequest-and-servletresponse">Why Filter Uses ServletRequest and ServletResponse</h3>
+<p>The standard Filter interface uses generic Servlet abstractions, <code>ServletRequest</code> and <code>ServletResponse</code>. These types are not limited to HTTP-specific operations. In a normal Spring Boot web application requests are HTTP requests, so they can be cast to HTTP-specific types:</p>
+<div class="highlight"><pre><span></span><code>HttpServletRequest httpRequest = (HttpServletRequest) request;
+httpRequest.getMethod();
+httpRequest.getRequestURI();
+httpRequest.getHeader(&quot;Authorization&quot;);
+
+HttpServletResponse httpResponse = (HttpServletResponse) response;
+httpResponse.setStatus(401);
+httpResponse.setHeader(&quot;X-App-Name&quot;, &quot;Student API&quot;);
+</code></pre></div>
+
+<p>After casting, we can access HTTP-specific information. This is why the interface uses generic types: a Filter must work at the Servlet layer, before any HTTP-aware Spring MVC processing begins.</p>
+<h3 id="role-of-dispatcherservlet">Role of DispatcherServlet</h3>
+<p><code>DispatcherServlet</code> is the central Servlet of Spring MVC. It coordinates the MVC request-processing flow. Its responsibilities include finding the correct controller method, resolving controller method arguments, invoking the controller, handling controller return values, converting Java objects into JSON, coordinating exception handling, and producing the HTTP response. Filters execute before this Spring MVC processing begins:</p>
+<div class="highlight"><pre><span></span><code>Tomcat -&gt; Registered Filters -&gt; DispatcherServlet -&gt; Controller Mapping and Execution
+</code></pre></div>
+
+<p>At filter time Spring MVC has usually not yet selected the controller method. A Filter can access HTTP method, request URI, query parameters, headers, cookies, remote address, and the request body stream, but not controller metadata such as <code>StudentController.getStudentById()</code> or <code>@GetMapping("/api/students/{id}")</code>. Logic that depends on the selected handler is generally better suited to a Spring MVC Interceptor.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Filter</th>
+<th>Interceptor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Defined by</td>
+<td>Servlet API</td>
+<td>Spring MVC</td>
+</tr>
+<tr>
+<td>Runs</td>
+<td>Before <code>DispatcherServlet</code></td>
+<td>After <code>DispatcherServlet</code>, before controller</td>
+</tr>
+<tr>
+<td>Sees controller method</td>
+<td>No (not yet selected)</td>
+<td>Yes (handler is known)</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>Logging, auth, encoding, headers, blocking</td>
+<td>Handler-aware logic</td>
+</tr>
+<tr>
+<td>Level</td>
+<td>Lower, Servlet layer</td>
+<td>Higher, Spring MVC layer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="6-creating-a-custom-filter">6. Creating a Custom Filter</h2>
+<p>A basic custom Filter can be created by implementing the Filter interface and registering the class as a Spring bean.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.filterdemo.filter</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.Filter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.FilterChain</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span>
+<span class="w">            </span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Request entered the Filter&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Response passed through the Filter&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>What does the Filter receive?</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>request</code></td>
+<td>The incoming request</td>
+</tr>
+<tr>
+<td><code>response</code></td>
+<td>The outgoing response</td>
+</tr>
+<tr>
+<td><code>chain</code></td>
+<td>The remaining Filters and final target Servlet</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Before-chain logic: <code>System.out.println("Request entered the Filter");</code> runs before the request reaches the next Filter or <code>DispatcherServlet</code>.</li>
+<li>Continuing the request: <code>chain.doFilter(request, response);</code> passes the request to the next Filter, or to the <code>DispatcherServlet</code> when the current Filter is the final Filter.</li>
+<li>After-chain logic: <code>System.out.println("Response passed through the Filter");</code> runs after downstream processing returns.</li>
+</ul>
+<h2 id="7-understanding-dofilter-and-filterchain">7. Understanding doFilter() and FilterChain</h2>
+<p>The main method of a Filter is <code>doFilter(ServletRequest, ServletResponse, FilterChain)</code>.</p>
+<p>The <code>request</code> object provides general request information such as <code>getParameter("name")</code>, <code>getRemoteAddr()</code>, and <code>getContentType()</code>. For HTTP-specific information, cast it, then use methods such as <code>getMethod()</code>, <code>getRequestURI()</code>, <code>getRequestURL()</code>, <code>getHeader("Authorization")</code>, <code>getCookies()</code>, <code>getQueryString()</code>, and <code>getSession()</code>.</p>
+<p>The <code>response</code> object represents the outgoing response. It can set the status, set headers, set the content type, and write to the response body:</p>
+<div class="highlight"><pre><span></span><code>httpResponse.setStatus(401);
+httpResponse.setHeader(&quot;X-App&quot;, &quot;Demo&quot;);
+httpResponse.setContentType(&quot;application/json&quot;);
+httpResponse.getWriter().write(&quot;...&quot;);
+</code></pre></div>
+
+<p><code>FilterChain</code> represents everything that remains after the current Filter: other registered Filters, <code>DispatcherServlet</code>, controller execution, service and repository calls, and response conversion. The current Filter does not need to know which exact component comes next. It only calls:</p>
+<div class="highlight"><pre><span></span><code>chain.doFilter(request, response);
+</code></pre></div>
+
+<p>Suppose an application contains three Filters: <code>AuthenticationFilter</code>, <code>LoggingFilter</code>, and <code>TimingFilter</code>. The request-processing chain may look like this:</p>
+<div class="highlight"><pre><span></span><code>AuthenticationFilter -&gt; LoggingFilter -&gt; TimingFilter -&gt; DispatcherServlet
+</code></pre></div>
+
+<p>Every Filter has two choices.</p>
+<ul>
+<li>Continue the request: <code>chain.doFilter(request, response);</code></li>
+<li>Stop the request: <code>response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); return;</code></li>
+</ul>
+<p>If a Filter does not call <code>chain.doFilter(...)</code>, the request does not continue to the remaining Filters or the controller.</p>
+<h2 id="8-request-and-response-execution-order-and-order">8. Request and Response Execution Order and @Order</h2>
+<p>Filters surround the remaining request-processing chain. Suppose two Filters are registered:</p>
+<div class="highlight"><pre><span></span><code>AuthenticationFilter -&gt; LoggingFilter -&gt; Controller
+</code></pre></div>
+
+<p>The incoming request executes in normal order, while the response-side logic executes in reverse order.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="nd">@Order</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AuthenticationFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Authentication before&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Authentication after&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Component</span>
+<span class="nd">@Order</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoggingFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Logging before&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Logging after&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/hello&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">hello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Controller&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Hello&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>Authentication before
+Logging before
+Controller
+Logging after
+Authentication after
+</code></pre></div>
+
+<p>The execution can be visualized as:</p>
+<div class="highlight"><pre><span></span><code>AuthenticationFilter before -&gt; LoggingFilter before -&gt; Controller
+     -&gt; LoggingFilter after -&gt; AuthenticationFilter after
+</code></pre></div>
+
+<p>Mnemonic: <strong>FILO</strong> - First In, Last Out. The first filter's before-logic runs first, and its after-logic runs last.</p>
+<h3 id="filter-ordering-with-order">Filter Ordering with @Order</h3>
+<p>When multiple Filters are registered, their order affects request and response processing. Annotate each filter with <code>@Order(n)</code>; lower numbers run earlier on the incoming request.</p>
+<div class="highlight"><pre><span></span><code>@Component
+@Order(1)
+public class FirstFilter implements Filter {
+    // Filter logic
+}
+
+@Component
+@Order(2)
+public class SecondFilter implements Filter {
+    // Filter logic
+}
+</code></pre></div>
+
+<p>For an incoming request:</p>
+<div class="highlight"><pre><span></span><code>FirstFilter -&gt; SecondFilter -&gt; DispatcherServlet
+</code></pre></div>
+
+<p>For the returning response:</p>
+<div class="highlight"><pre><span></span><code>DispatcherServlet -&gt; SecondFilter -&gt; FirstFilter
+</code></pre></div>
+
+<p>What happens without <code>@Order</code>? A Filter registered as a Spring bean still executes. However, when several Filters depend on a particular sequence, the application should define their order explicitly instead of relying on an observed default order.</p>
+<h2 id="9-common-use-cases-of-filters">9. Common Use Cases of Filters</h2>
+<h3 id="request-logging">Request Logging</h3>
+<p>A Filter can log common request information for every API.</p>
+<div class="highlight"><pre><span></span><code>String method = httpRequest.getMethod();
+String uri = httpRequest.getRequestURI();
+String remoteAddress = httpRequest.getRemoteAddr();
+String userAgent = httpRequest.getHeader(&quot;User-Agent&quot;);
+</code></pre></div>
+
+<p>Example log: <code>Method: GET</code>, <code>URI: /api/students</code>, <code>Remote IP: 192.168.1.10</code>, <code>User-Agent: PostmanRuntime</code>.</p>
+<h3 id="authentication-token-inspection">Authentication Token Inspection</h3>
+<p>A Filter can inspect an authentication header:</p>
+<div class="highlight"><pre><span></span><code>String token = httpRequest.getHeader(&quot;Authorization&quot;);
+</code></pre></div>
+
+<p>It may then check whether the token exists, validate it, reject invalid requests, extract user information, and populate security-related context. Spring Security itself relies heavily on a chain of Filters. In a real secured application, authentication should normally be integrated with Spring Security rather than implemented through an unrelated custom Filter.</p>
+<h3 id="character-encoding">Character Encoding</h3>
+<p>A Filter can enforce consistent request and response encoding with <code>request.setCharacterEncoding("UTF-8")</code> and <code>response.setCharacterEncoding("UTF-8")</code>. Spring also provides built-in support such as <code>CharacterEncodingFilter</code>.</p>
+<h3 id="common-response-headers">Common Response Headers</h3>
+<p>A Filter can add headers that should appear in multiple responses:</p>
+<div class="highlight"><pre><span></span><code>httpResponse.setHeader(&quot;X-Application-Name&quot;, &quot;Student Service&quot;);
+httpResponse.setHeader(&quot;X-Content-Type-Options&quot;, &quot;nosniff&quot;);
+</code></pre></div>
+
+<p>Common purposes include security headers, request tracking, application metadata, and cache control.</p>
+<h3 id="measuring-request-duration">Measuring Request Duration</h3>
+<p>A Filter can measure the time spent in the downstream request-processing chain.</p>
+<div class="highlight"><pre><span></span><code>long startTime = System.currentTimeMillis();
+chain.doFilter(request, response);
+long duration = System.currentTimeMillis() - startTime;
+System.out.println(&quot;Duration: &quot; + duration + &quot; ms&quot;);
+</code></pre></div>
+
+<p>This generally includes processing performed by remaining Filters, <code>DispatcherServlet</code>, Interceptors, Controller, Service, Repository, and response conversion. The exact measurement depends on the position of the Filter and how the response is handled.</p>
+<h3 id="correlation-or-trace-ids">Correlation or Trace IDs</h3>
+<p>A Filter can generate a unique ID for every request:</p>
+<div class="highlight"><pre><span></span><code>String requestId = UUID.randomUUID().toString();
+httpResponse.setHeader(&quot;X-Request-Id&quot;, requestId);
+</code></pre></div>
+
+<p>The same ID can be included in application logs, response headers, downstream service calls, and error reports, making it easier to trace one request across multiple log entries or services.</p>
+<h3 id="blocking-unwanted-requests">Blocking Unwanted Requests</h3>
+<p>A Filter can reject a request before it reaches Spring MVC:</p>
+<div class="highlight"><pre><span></span><code>String apiKey = httpRequest.getHeader(&quot;X-API-KEY&quot;);
+if (apiKey == null) {
+    httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    return;
+}
+chain.doFilter(request, response);
+</code></pre></div>
+
+<p>The <code>return</code> statement stops the current Filter method. Because <code>chain.doFilter(...)</code> was not called, the controller does not execute.</p>
+<h2 id="10-blocking-a-request-and-returning-json">10. Blocking a Request and Returning JSON</h2>
+<p>A Filter can directly create an error response without allowing the request to reach the controller.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.filterdemo.filter</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.Filter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.FilterChain</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ApiKeyFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span>
+<span class="w">            </span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">httpRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">;</span>
+<span class="w">        </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">httpResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">)</span><span class="w"> </span><span class="n">response</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">apiKey</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpRequest</span><span class="p">.</span><span class="na">getHeader</span><span class="p">(</span><span class="s">&quot;X-API-KEY&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">apiKey</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">apiKey</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;secret123&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">setStatus</span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">.</span><span class="na">SC_UNAUTHORIZED</span><span class="p">);</span>
+<span class="w">            </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">setContentType</span><span class="p">(</span><span class="s">&quot;application/json&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">setCharacterEncoding</span><span class="p">(</span><span class="s">&quot;UTF-8&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">getWriter</span><span class="p">().</span><span class="na">write</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">                    {</span>
+<span class="s">                      &quot;message&quot;: &quot;Invalid or missing API key&quot;</span>
+<span class="s">                    }</span>
+<span class="s">                    &quot;&quot;&quot;</span>
+<span class="w">            </span><span class="p">);</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Request flow when the API key is valid:</p>
+<div class="highlight"><pre><span></span><code>API key is valid -&gt; chain.doFilter(...) -&gt; Request continues
+</code></pre></div>
+
+<p>Request flow when the API key is invalid:</p>
+<div class="highlight"><pre><span></span><code>API key is missing or invalid -&gt; Write a 401 response
+     -&gt; Return without calling chain.doFilter(...) -&gt; Request stops
+</code></pre></div>
+
+<p>The hard-coded key in this example is only for understanding Filter behaviour. Real authentication should use a proper security mechanism.</p>
+<h3 id="using-try-finally-for-timing-and-cleanup">Using try-finally for Timing and Cleanup</h3>
+<p>If downstream processing throws an exception, the statement after <code>chain.doFilter(...)</code> may not execute normally:</p>
+<div class="highlight"><pre><span></span><code>chain.doFilter(request, response);
+System.out.println(&quot;Request completed&quot;);
+</code></pre></div>
+
+<p>A safer pattern for timing, cleanup, or final logging is:</p>
+<div class="highlight"><pre><span></span><code>long startTime = System.currentTimeMillis();
+try {
+    chain.doFilter(request, response);
+} finally {
+    long duration = System.currentTimeMillis() - startTime;
+    System.out.println(&quot;Duration: &quot; + duration + &quot; ms&quot;);
+}
+</code></pre></div>
+
+<p>The <code>finally</code> block executes whether downstream processing completes normally or throws an exception.</p>
+<blockquote class="callout callout--important">
+<p>Important: Put timing and final logging in a <code>finally</code> block. Plain statements after <code>chain.doFilter(...)</code> are skipped when a downstream exception propagates.</p>
+</blockquote>
+<h2 id="11-complete-logging-filter-logging-safety-and-responsibilities">11. Complete Logging Filter, Logging Safety, and Responsibilities</h2>
+<h3 id="complete-request-logging-filter">Complete Request Logging Filter</h3>
+<p>The following Filter logs HTTP method, request path, query string, remote IP address, response status, and total duration.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.filterdemo.filter</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.Filter</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.FilterChain</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.ServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletRequest</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jakarta.servlet.http.HttpServletResponse</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.Logger</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.slf4j.LoggerFactory</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RequestLoggingFilter</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Filter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Logger</span><span class="w"> </span><span class="n">logger</span><span class="w"> </span><span class="o">=</span>
+<span class="w">            </span><span class="n">LoggerFactory</span><span class="p">.</span><span class="na">getLogger</span><span class="p">(</span><span class="n">RequestLoggingFilter</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">doFilter</span><span class="p">(</span>
+<span class="w">            </span><span class="n">ServletRequest</span><span class="w"> </span><span class="n">request</span><span class="p">,</span>
+<span class="w">            </span><span class="n">ServletResponse</span><span class="w"> </span><span class="n">response</span><span class="p">,</span>
+<span class="w">            </span><span class="n">FilterChain</span><span class="w"> </span><span class="n">chain</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ServletException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HttpServletRequest</span><span class="w"> </span><span class="n">httpRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletRequest</span><span class="p">)</span><span class="w"> </span><span class="n">request</span><span class="p">;</span>
+<span class="w">        </span><span class="n">HttpServletResponse</span><span class="w"> </span><span class="n">httpResponse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">HttpServletResponse</span><span class="p">)</span><span class="w"> </span><span class="n">response</span><span class="p">;</span>
+
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpRequest</span><span class="p">.</span><span class="na">getMethod</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">requestUri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpRequest</span><span class="p">.</span><span class="na">getRequestURI</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">queryString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpRequest</span><span class="p">.</span><span class="na">getQueryString</span><span class="p">();</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">remoteAddress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">httpRequest</span><span class="p">.</span><span class="na">getRemoteAddr</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">completePath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queryString</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">                </span><span class="o">?</span><span class="w"> </span><span class="n">requestUri</span>
+<span class="w">                </span><span class="p">:</span><span class="w"> </span><span class="n">requestUri</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;?&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">queryString</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">startTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">        </span><span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;Incoming request: method={}, path={}, ip={}&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">completePath</span><span class="p">,</span><span class="w"> </span><span class="n">remoteAddress</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">chain</span><span class="p">.</span><span class="na">doFilter</span><span class="p">(</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="n">response</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">long</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">startTime</span><span class="p">;</span>
+<span class="w">            </span><span class="n">logger</span><span class="p">.</span><span class="na">info</span><span class="p">(</span><span class="s">&quot;Request completed: method={}, path={}, status={}, duration={}ms&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">method</span><span class="p">,</span><span class="w"> </span><span class="n">completePath</span><span class="p">,</span><span class="w"> </span><span class="n">httpResponse</span><span class="p">.</span><span class="na">getStatus</span><span class="p">(),</span><span class="w"> </span><span class="n">duration</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Using a logging framework such as SLF4J is preferred over <code>System.out.println()</code> in real applications because logs can be configured, filtered, stored, and integrated with monitoring tools.</p>
+<h3 id="where-should-response-logic-be-placed">Where Should Response Logic Be Placed?</h3>
+<p>Adding a response header after downstream processing may work when the response has not yet been committed:</p>
+<div class="highlight"><pre><span></span><code>chain.doFilter(request, response);
+httpResponse.setHeader(&quot;X-Test&quot;, &quot;value&quot;);
+</code></pre></div>
+
+<p>However, once the response body or headers have been flushed, changing the status or headers may be too late. Headers that must definitely be present should generally be added before continuing the chain:</p>
+<div class="highlight"><pre><span></span><code>httpResponse.setHeader(&quot;X-Test&quot;, &quot;value&quot;);
+chain.doFilter(request, response);
+</code></pre></div>
+
+<ul>
+<li>Good candidates for pre-processing: request validation, authentication checks, required response headers, character encoding, request setup.</li>
+<li>Good candidates for post-processing: logging the final response status, measuring duration, metrics collection, cleanup operations.</li>
+</ul>
+<h3 id="logging-safety">Logging Safety</h3>
+<p>Filters can access sensitive request information, but not every value should be written to logs. Avoid logging authorization tokens, session cookies, API keys, passwords, credit card information, and sensitive personal information. Logging entire request headers or bodies without filtering can create serious security and privacy problems. Log only the information required for debugging, auditing, or monitoring, and mask sensitive values wherever necessary.</p>
+<h3 id="filter-responsibilities-at-a-glance">Filter Responsibilities at a Glance</h3>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Is a Filter suitable?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Log all incoming HTTP requests</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Read or validate request headers</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Add a common response header</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Block a request before Spring MVC</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Apply character encoding</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Measure overall request duration</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Work with the selected controller method</td>
+<td>Usually no; prefer an Interceptor</td>
+</tr>
+<tr>
+<td>Implement full application security manually</td>
+<td>No; prefer Spring Security</td>
+</tr>
+<tr>
+<td>Execute business logic for one API</td>
+<td>No; keep it in controller or service layers</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The strongest filter answer always includes the boundary: yes for HTTP-level, cross-cutting work; no for handler-aware logic (Interceptor) or real security (Spring Security).</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Filters are a Spring feature"</td>
+<td>Filters come from the Servlet API (<code>jakarta.servlet.Filter</code>); Spring Boot just registers and orders them.</td>
+</tr>
+<tr>
+<td>"A Filter knows which controller method will run"</td>
+<td>No; controller mapping happens later in <code>DispatcherServlet</code>. Use an Interceptor for handler-aware logic.</td>
+</tr>
+<tr>
+<td>"Filters and Interceptors are the same thing"</td>
+<td>Filters sit at the Servlet layer before <code>DispatcherServlet</code>; Interceptors sit inside Spring MVC after it.</td>
+</tr>
+<tr>
+<td>"You can return from <code>doFilter</code> and the request still continues"</td>
+<td>Returning without calling <code>chain.doFilter(...)</code> stops the request before the controller.</td>
+</tr>
+<tr>
+<td>"Statements after <code>chain.doFilter</code> always run"</td>
+<td>They can be skipped on a downstream exception; use <code>try-finally</code> for timing and cleanup.</td>
+</tr>
+<tr>
+<td>"Spring Boot 2 and Spring Boot 3 imports are interchangeable"</td>
+<td>No; Boot 2 uses <code>javax.servlet</code>, Boot 3 uses <code>jakarta.servlet</code>.</td>
+</tr>
+<tr>
+<td>"A filter can safely log all headers"</td>
+<td>No; tokens, cookies, API keys, and personal data must not be logged.</td>
+</tr>
+<tr>
+<td>"Filter order never matters"</td>
+<td>Order changes request and response processing; define it with <code>@Order</code> when sequence matters.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Filters are part of Spring MVC."</strong>
+Verdict: False. Filters are defined by the Servlet specification. They run at the Servlet layer before Spring MVC's <code>DispatcherServlet</code> even starts.</p>
+<p><strong>Trap 2 - "Skipping <code>chain.doFilter</code> just skips the next filter."</strong>
+Verdict: False. Skipping <code>chain.doFilter(...)</code> stops the whole remaining chain, including the controller, so the request never reaches it.</p>
+<p><strong>Trap 3 - "A Filter can inspect <code>@GetMapping</code> annotations and handler metadata."</strong>
+Verdict: False. At filter time the controller method has not been selected. That kind of logic belongs in a Spring MVC Interceptor.</p>
+<p><strong>Trap 4 - "The response-side code after <code>chain.doFilter</code> always executes."</strong>
+Verdict: False. If downstream processing throws, it may be skipped. Wrap the call in <code>try-finally</code> to guarantee timing and cleanup.</p>
+<p><strong>Trap 5 - "<code>javax.servlet.Filter</code> still works in Spring Boot 3."</strong>
+Verdict: False. Spring Boot 3 uses <code>jakarta.servlet.Filter</code>; mixing the old <code>javax</code> package is a compile/run failure.</p>
+<p><strong>Trap 6 - "You can add any response header after <code>chain.doFilter</code>."</strong>
+Verdict: Only if the response is not yet committed. Once headers or body are flushed, later changes are too late; add required headers before continuing the chain.</p>
+<p><strong>Trap 7 - "A custom auth filter is the right way to do real security."</strong>
+Verdict: Misleading. Custom filters are fine for learning and simple checks, but production authentication belongs in Spring Security, which is itself a filter chain.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>Filters handle cross-cutting, HTTP-level concerns that would otherwise be copy-pasted into controllers.</li>
+<li>Filters come from the Servlet API (<code>jakarta.servlet.Filter</code>), not from Spring MVC.</li>
+<li>A Filter runs before the <code>DispatcherServlet</code>, so it can reject a request before controller mapping.</li>
+<li><code>doFilter()</code> is the main method; <code>init()</code> and <code>destroy()</code> handle lifecycle only.</li>
+<li><code>chain.doFilter(request, response)</code> continues the request to the next filter or the target Servlet.</li>
+<li>Not calling <code>chain.doFilter(...)</code> stops the request immediately (short-circuit).</li>
+<li>Request-side filter logic runs in order; response-side logic runs in reverse order (FILO).</li>
+<li>Use <code>@Order</code> when the sequence of multiple filters matters instead of relying on defaults.</li>
+<li>Wrap <code>chain.doFilter(...)</code> in <code>try-finally</code> for guaranteed timing, cleanup, and final logging.</li>
+<li>Never log tokens, cookies, API keys, passwords, or personal data; prefer SLF4J over <code>System.out.println()</code>.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a Filter in Spring Boot?</td>
+<td>A Servlet-layer checkpoint that runs logic before a request reaches <code>DispatcherServlet</code> and after processing returns.</td>
+</tr>
+<tr>
+<td>Why do we need Filters?</td>
+<td>To centralize cross-cutting HTTP logic (logging, auth, timing, headers) so controllers stay focused and no endpoint is forgotten.</td>
+</tr>
+<tr>
+<td>Where does a Filter run in the request flow?</td>
+<td>In the Servlet layer, after Tomcat and before the <code>DispatcherServlet</code>; the response returns through it in reverse.</td>
+</tr>
+<tr>
+<td>What is <code>chain.doFilter()</code>?</td>
+<td>The call that passes control to the remaining filters and finally the target Servlet; without it the request stops.</td>
+</tr>
+<tr>
+<td>What are the three Filter lifecycle methods?</td>
+<td><code>init()</code> on initialization, <code>doFilter()</code> on each matching request, <code>destroy()</code> on shutdown or removal.</td>
+</tr>
+<tr>
+<td>Difference between <code>javax.servlet</code> and <code>jakarta.servlet</code>?</td>
+<td>Spring Boot 2 used <code>javax.servlet</code>; Spring Boot 3 uses <code>jakarta.servlet</code> after the Java EE to Jakarta EE rename.</td>
+</tr>
+<tr>
+<td>Why does <code>doFilter</code> use <code>ServletRequest</code>/<code>ServletResponse</code>?</td>
+<td>The Filter interface is generic to the Servlet layer, not HTTP-only; cast to <code>HttpServletRequest</code>/<code>HttpServletResponse</code> for HTTP details.</td>
+</tr>
+<tr>
+<td>Filter vs Interceptor?</td>
+<td>A Filter runs before <code>DispatcherServlet</code> at the Servlet layer; an Interceptor runs inside Spring MVC after it and can see the handler.</td>
+</tr>
+<tr>
+<td>How do you block a request in a Filter?</td>
+<td>Set the status/body and <code>return</code> without calling <code>chain.doFilter(...)</code>, so the controller never executes.</td>
+</tr>
+<tr>
+<td>Why use <code>try-finally</code> around <code>chain.doFilter</code>?</td>
+<td>Statements after the call can be skipped on an exception; <code>finally</code> guarantees timing and cleanup execute.</td>
+</tr>
+<tr>
+<td>How do you control filter order?</td>
+<td>Annotate each filter with <code>@Order(n)</code>; lower numbers run earlier on the request and later on the response.</td>
+</tr>
+<tr>
+<td>What should never be logged in a Filter?</td>
+<td>Authorization tokens, session cookies, API keys, passwords, card details, and sensitive personal data.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Client
+   |
+   v
+Servlet Container (Tomcat)
+   |
+   v
+Filter: pre-processing  (log, auth, headers, encoding, start timer)
+   |
+   +--&gt; block? write response + return (no chain.doFilter) --&gt; client
+   |
+   v
+chain.doFilter(request, response)
+   |
+   v
+DispatcherServlet -&gt; Interceptors -&gt; Controller -&gt; Service -&gt; Repository
+   |
+   v
+Response returns through the Filter chain in reverse order
+   |
+   v
+Filter: post-processing  (status, duration, metrics, cleanup)
+   |
+   v
+Client
+</code></pre></div>
+
+<ul>
+<li>Filters are Servlet-layer checkpoints, not Spring MVC components.</li>
+<li>They run before <code>DispatcherServlet</code>, so they can block a request early.</li>
+<li><code>chain.doFilter(...)</code> continues; returning without it stops the request.</li>
+<li>Request-side logic runs in order, response-side logic runs in reverse (FILO).</li>
+<li><code>ServletRequest</code>/<code>ServletResponse</code> are cast to HTTP types for headers, URI, status, and writer.</li>
+<li><code>@Order</code> defines filter sequence explicitly when it matters.</li>
+<li><code>try-finally</code> protects timing, cleanup, and final logging.</li>
+<li>Logging must never expose tokens, cookies, keys, or personal data.</li>
+<li>Real authentication belongs in Spring Security, which is itself a filter chain.</li>
+<li>A Filter is a reusable HTTP-level checkpoint placed around the remaining request-processing flow.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A Filter is a Servlet-level gate around your request flow - write cross-cutting logic once, call <code>chain.doFilter(...)</code> to pass the request through, and simply do not call it to stop the request cold.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-18.html"><span class="dir">Previous</span><span class="ttl">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</span></a><a class="next" href="doc-theory-lecture-20.html"><span class="dir">Next</span><span class="ttl">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

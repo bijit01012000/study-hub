@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linked List — DSA</title>
+<meta name="description" content="Linked List">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-a2z-05-linked-list">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="active" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>DSA</h4><details class="part" open><summary>Practice &amp; Questions <span class="count">18</span></summary><ul class="side-list"><li class="grp">a2z</li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-00-overview.html" title="A2Z DSA Sheet - Overview">A2Z DSA Sheet - Overview</a><button class="star" data-doc="practice-a2z-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-01-sorting.html" title="Sorting">Sorting</a><button class="star" data-doc="practice-a2z-01-sorting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-02-arrays.html" title="Arrays">Arrays</a><button class="star" data-doc="practice-a2z-02-arrays" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-03-binary-search.html" title="Binary Search">Binary Search</a><button class="star" data-doc="practice-a2z-03-binary-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-04-strings-i.html" title="Strings I">Strings I</a><button class="star" data-doc="practice-a2z-04-strings-i" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-a2z-05-linked-list.html" title="Linked List">Linked List</a><button class="star" data-doc="practice-a2z-05-linked-list" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-a2z-05-linked-list.html#1-reverse-linked-list">1. Reverse Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#2-middle-of-the-linked-list">2. Middle of the Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#3-linked-list-cycle">3. Linked List Cycle</a></li><li><a href="doc-practice-a2z-05-linked-list.html#4-linked-list-cycle-ii-cycle-start">4. Linked List Cycle II (Cycle Start)</a></li><li><a href="doc-practice-a2z-05-linked-list.html#5-merge-two-sorted-lists">5. Merge Two Sorted Lists</a></li><li><a href="doc-practice-a2z-05-linked-list.html#6-remove-nth-node-from-end-of-list">6. Remove Nth Node From End of List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#7-palindrome-linked-list">7. Palindrome Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#8-delete-head-of-a-doubly-linked-list">8. Delete Head of a Doubly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#9-reverse-a-doubly-linked-list">9. Reverse a Doubly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#10-reverse-linked-list-recursive">10. Reverse Linked List (Recursive)</a></li><li><a href="doc-practice-a2z-05-linked-list.html#11-find-the-length-of-the-loop-in-a-linked-list">11. Find the Length of the Loop in a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#12-odd-even-linked-list">12. Odd Even Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#13-delete-the-middle-node-of-a-linked-list">13. Delete the Middle Node of a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#14-sort-list">14. Sort List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#15-sort-a-linked-list-of-0s-1s-and-2s">15. Sort a Linked List of 0s, 1s and 2s</a></li><li><a href="doc-practice-a2z-05-linked-list.html#16-intersection-of-two-linked-lists">16. Intersection of Two Linked Lists</a></li><li><a href="doc-practice-a2z-05-linked-list.html#17-construct-linked-list-from-array">17. Construct Linked List from Array</a></li><li><a href="doc-practice-a2z-05-linked-list.html#18-add-two-numbers">18. Add Two Numbers</a></li><li><a href="doc-practice-a2z-05-linked-list.html#19-delete-all-occurrences-of-a-key-in-a-doubly-linked-list">19. Delete All Occurrences of a Key in a Doubly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#20-find-pairs-with-given-sum-in-a-doubly-linked-list">20. Find Pairs with Given Sum in a Doubly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#21-remove-duplicates-from-a-sorted-doubly-linked-list">21. Remove Duplicates from a Sorted Doubly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#22-reverse-nodes-in-k-group">22. Reverse Nodes in K-Group</a></li><li><a href="doc-practice-a2z-05-linked-list.html#23-rotate-list">23. Rotate List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#24-flatten-a-linked-list">24. Flatten a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#25-copy-list-with-random-pointer">25. Copy List with Random Pointer</a></li><li><a href="doc-practice-a2z-05-linked-list.html#26-add-one-to-a-number-represented-as-a-linked-list">26. Add One to a Number Represented as a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#27-insert-at-head-of-a-singly-linked-list">27. Insert at Head of a Singly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#28-delete-head-of-a-singly-linked-list">28. Delete Head of a Singly Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#29-find-the-length-of-a-linked-list">29. Find the Length of a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#30-search-in-a-linked-list">30. Search in a Linked List</a></li><li><a href="doc-practice-a2z-05-linked-list.html#31-construct-doubly-linked-list-from-array">31. Construct Doubly Linked List from Array</a></li><li><a href="doc-practice-a2z-05-linked-list.html#32-insert-before-head-of-a-doubly-linked-list">32. Insert Before Head of a Doubly Linked List</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-06-recursion.html" title="Recursion">Recursion</a><button class="star" data-doc="practice-a2z-06-recursion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-07-bit-manipulation.html" title="Bit Manipulation">Bit Manipulation</a><button class="star" data-doc="practice-a2z-07-bit-manipulation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-08-stacks-and-queues.html" title="Stacks and Queues">Stacks and Queues</a><button class="star" data-doc="practice-a2z-08-stacks-and-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-09-sliding-window-and-two-pointers.html" title="Sliding Window and Two Pointers">Sliding Window and Two Pointers</a><button class="star" data-doc="practice-a2z-09-sliding-window-and-two-pointers" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-10-heaps.html" title="Heaps">Heaps</a><button class="star" data-doc="practice-a2z-10-heaps" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-11-greedy.html" title="Greedy">Greedy</a><button class="star" data-doc="practice-a2z-11-greedy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-12-trees.html" title="Trees">Trees</a><button class="star" data-doc="practice-a2z-12-trees" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-13-binary-search-trees.html" title="Binary Search Trees">Binary Search Trees</a><button class="star" data-doc="practice-a2z-13-binary-search-trees" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-14-graphs.html" title="Graphs">Graphs</a><button class="star" data-doc="practice-a2z-14-graphs" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-15-dynamic-programming.html" title="Dynamic Programming">Dynamic Programming</a><button class="star" data-doc="practice-a2z-15-dynamic-programming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-16-tries.html" title="Tries">Tries</a><button class="star" data-doc="practice-a2z-16-tries" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-17-strings-ii.html" title="Strings II">Strings II</a><button class="star" data-doc="practice-a2z-17-strings-ii" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-dsa.html">DSA</a> › Practice &amp; Questions</p>
+<h1>Linked List</h1>
+<p class="readmeta">32 sections · 6,760 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-a2z-05-linked-list" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="1-reverse-linked-list">1. Reverse Linked List</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Reverse a singly linked list in place (so the last node becomes the head).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>5→4→3→2→1</code></p>
+<p><strong>Approach:</strong> Iterative Three-Pointer
+- Iterative: walk the list with three pointers - <code>prev</code> (starts null), <code>curr</code> (starts at head), and a temporary <code>next</code>. At each step, save <code>curr-&gt;next</code>, point <code>curr-&gt;next</code> to <code>prev</code>, then advance <code>prev</code> and <code>curr</code> forward. When <code>curr</code> becomes null, <code>prev</code> is the new head.
+- Recursive: recurse to the end of the list first, then on the way back, set <code>node-&gt;next-&gt;next = node</code> and <code>node-&gt;next = null</code>; the base case (single node or null) returns the new head untouched.
+- The recursive version is <code>O(n)</code> space due to the call stack, versus <code>O(1)</code> for the iterative version - prefer iterative unless recursion is specifically requested.
+- <code>O(n)</code> time either way.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">curr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr</span><span class="p">;</span>
+<span class="w">        </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="2-middle-of-the-linked-list">2. Middle of the Linked List</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Find the middle node of a singly linked list in one pass (for even length, return the second of the two middle nodes).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>3</code></p>
+<p><strong>Approach:</strong> Slow/Fast Pointer
+- Use two pointers starting at head: <code>slow</code> moves one step at a time, <code>fast</code> moves two steps at a time.
+- When <code>fast</code> reaches the end (<code>fast == null</code> or <code>fast-&gt;next == null</code>), <code>slow</code> is at the middle.
+- Avoids the naive two-pass approach (count length, then walk <code>length/2</code> steps) - this does it in a single pass.
+- <code>O(n)</code> time, <code>O(1)</code> space. This slow/fast pattern is the foundation for cycle detection and other two-pointer linked-list tricks.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">middleNode</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">slow</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="3-linked-list-cycle">3. Linked List Cycle</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Determine whether a singly linked list contains a cycle.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 3→2→0→-4, tail connects back to node with value 2</code>
+- Output: <code>true</code></p>
+<p><strong>Approach:</strong> Floyd's Cycle Detection
+- Floyd's Cycle Detection (tortoise and hare): use <code>slow</code> (1 step) and <code>fast</code> (2 steps) pointers starting at head.
+- If there's no cycle, <code>fast</code> (or <code>fast-&gt;next</code>) reaches null and you return false.
+- If there is a cycle, <code>fast</code> will eventually lap <code>slow</code> and they meet at the same node - return true when <code>slow == fast</code>.
+- <code>O(n)</code> time, <code>O(1)</code> space - beats the hash-set approach (storing visited node addresses) which is <code>O(n)</code> space, though that's a valid fallback if the pattern isn't recalled.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">hasCycle</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">slow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fast</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="4-linked-list-cycle-ii-cycle-start">4. Linked List Cycle II (Cycle Start)</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a linked list that contains a cycle, find the node where the cycle begins.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 3→2→0→-4, tail connects back to node with value 2</code>
+- Output: <code>node with value 2</code></p>
+<p><strong>Approach:</strong> Floyd's Algorithm + Reset Pointer
+- First detect the cycle using Floyd's algorithm (slow/fast pointers) until they meet inside the loop.
+- Then reset one pointer to head, keep the other at the meeting point, and advance both one step at a time - they meet exactly at the cycle's starting node.
+- Why this works: if the distance from head to cycle start is <code>L</code>, and the meeting point is <code>D</code> steps into the cycle, the math of Floyd's algorithm guarantees the remaining distance from the meeting point back around to the cycle start equals <code>L</code> (mod cycle length) - so moving both pointers one step at a time synchronizes them at the start.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">detectCycle</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">slow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fast</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">slow</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ptr</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">                </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">ptr</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="5-merge-two-sorted-lists">5. Merge Two Sorted Lists</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Merge two sorted singly linked lists into one sorted linked list by splicing existing nodes (no new node values).</p>
+<p><strong>Example:</strong>
+- Input: <code>l1 = 1→2→4, l2 = 1→3→4</code>
+- Output: <code>1→1→2→3→4→4</code></p>
+<p><strong>Approach:</strong> Dummy Head Splicing
+- Use a dummy head node to simplify edge cases (avoids special-casing which list's head becomes the result's head).
+- Maintain a <code>tail</code> pointer starting at dummy; at each step, compare the current nodes of both lists and attach the smaller one to <code>tail-&gt;next</code>, then advance that list's pointer and <code>tail</code>.
+- Once one list is exhausted, attach the remainder of the other list directly (it's already sorted).
+- <code>O(n + m)</code> time where <code>n</code>, <code>m</code> are the list lengths, <code>O(1)</code> extra space (just rewiring pointers, dummy node aside).</p>
+<p><strong>Time / Space:</strong> <code>O(n + m)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">mergeTwoLists</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">l1</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">l2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">l2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">l1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span>
+<span class="w">            </span><span class="n">l2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">l1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="6-remove-nth-node-from-end-of-list">6. Remove Nth Node From End of List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Remove the nth node from the end of a singly linked list in a single pass.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5, n = 2</code>
+- Output: <code>1→2→3→5</code></p>
+<p><strong>Approach:</strong> Two-Pointer with Dummy Node
+- Use two pointers, both starting at a dummy node placed before head (handles the edge case of removing the head itself).
+- Advance a "fast" pointer <code>n + 1</code> steps ahead of "slow" first, then move both one step at a time until <code>fast</code> reaches null - <code>slow</code> now sits just before the node to remove.
+- Unlink the target node via <code>slow-&gt;next = slow-&gt;next-&gt;next</code>.
+- The dummy node and the <code>n + 1</code> (rather than <code>n</code>) head start are both there specifically to make head-removal and off-by-one boundaries fall out naturally instead of needing special-casing.
+- <code>O(n)</code> time (one pass), <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">removeNthFromEnd</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="7-palindrome-linked-list">7. Palindrome Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Determine whether a singly linked list reads the same forwards and backwards.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→2→1</code>
+- Output: <code>true</code></p>
+<p><strong>Approach:</strong> Find Middle + Reverse Second Half
+- Find the middle of the list using slow/fast pointers, then reverse the second half in place.
+- Compare the first half and the reversed second half node-by-node; if all values match, it's a palindrome.
+- Optionally reverse the second half back afterward to restore the original list structure (good practice if the list shouldn't be mutated for callers).
+- <code>O(n)</code> time, <code>O(1)</code> extra space - this beats the simpler approach of copying values into an array and checking with two pointers, which is <code>O(n)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isPalindrome</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">slow</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">;</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">right</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="na">val</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="w">        </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">right</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="8-delete-head-of-a-doubly-linked-list">8. Delete Head of a Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Delete the head node of a doubly linked list and return the new head.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1⇄2⇄3⇄4</code>
+- Output: <code>2⇄3⇄4</code></p>
+<p><strong>Approach:</strong> Direct Pointer Reassignment
+- The new head is <code>head-&gt;next</code>; if it exists, its <code>prev</code> pointer must be set to null (it no longer has a predecessor).
+- Handle the edge cases of an empty list (return null) and a single-node list (new head is null after deletion).
+- <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">deleteHead</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">newHead</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">newHead</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="9-reverse-a-doubly-linked-list">9. Reverse a Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Reverse a doubly linked list in place.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1⇄2⇄3⇄4⇄5</code>
+- Output: <code>5⇄4⇄3⇄2⇄1</code></p>
+<p><strong>Approach:</strong> In-Place Pointer Swap
+- Walk the list one node at a time; at each node, swap its <code>next</code> and <code>prev</code> pointers (what was "forward" becomes "backward" and vice versa).
+- Save the original <code>next</code> pointer before swapping (since it's about to be overwritten) so traversal can continue to what was the next node.
+- The new head is the last node processed (the original tail) - track it as you go, or just return the final <code>prev</code> pointer since it ends up pointing at the last-swapped node.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">reverseDLL</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">nextNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="10-reverse-linked-list-recursive">10. Reverse Linked List (Recursive)</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Reverse a singly linked list using recursion (rather than the iterative three-pointer approach).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>5→4→3→2→1</code></p>
+<p><strong>Approach:</strong> Recursive Reversal
+- Recurse to the end of the list first: <code>reverseList(head-&gt;next)</code> returns the new head of the already-reversed remainder.
+- On the way back up the call stack, fix the link for the current node: <code>head-&gt;next-&gt;next = head</code> (point the next node back at the current one), then set <code>head-&gt;next = null</code> (this node is now the new tail of its local segment).
+- The base case is a null or single-node list, which is already "reversed" as-is.
+- <code>O(n)</code> time, <code>O(n)</code> space due to the recursive call stack - this is the key tradeoff versus the <code>O(1)</code>-space iterative version.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(n)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">reversedHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reverseList</span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">reversedHead</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="11-find-the-length-of-the-loop-in-a-linked-list">11. Find the Length of the Loop in a Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a linked list that contains a cycle, find the number of nodes in the cycle (the loop's length).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5, tail connects back to node with value 3</code>
+- Output: <code>3</code></p>
+<p><strong>Approach:</strong> Floyd's Detection + Fixed-Point Counting
+- First detect the cycle using Floyd's slow/fast pointers until they meet at some node inside the loop.
+- From the meeting point, keep one pointer fixed and advance a second pointer one step at a time, counting steps, until it returns to the meeting point - that count is the loop's length.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">findLength</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">fast</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">slow</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">fast</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">countNodesInLoop</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">slow</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fast</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">findLength</span><span class="p">(</span><span class="n">slow</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="12-odd-even-linked-list">12. Odd Even Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a singly linked list, group all nodes at odd positions together followed by all nodes at even positions, without changing the relative order within each group and without using extra space for node values.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>1→3→5→2→4</code></p>
+<p><strong>Approach:</strong> In-Place Relinking (Two Chains)
+- Maintain two separate chains as you traverse: one collecting nodes at odd positions (1st, 3rd, 5th...) and one collecting nodes at even positions (2nd, 4th, 6th...), relinking existing nodes rather than copying values.
+- Track a pointer to the first even node before you start rewiring, since it's needed at the end to attach the tail of the odd chain to the head of the even chain.
+- After the single pass, splice the two chains together: the last odd node's <code>next</code> points to the first even node, and the last even node's <code>next</code> is set to null.
+- <code>O(n)</code> time, <code>O(1)</code> extra space - this beats a brute-force approach that copies values into odd/even arrays first (<code>O(n)</code> space).</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">oddEvenList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">odd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">even</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">,</span><span class="w"> </span><span class="n">evenHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">even</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">even</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">even</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">odd</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">even</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">odd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">odd</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">even</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">odd</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">even</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">even</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">odd</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evenHead</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="13-delete-the-middle-node-of-a-linked-list">13. Delete the Middle Node of a Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Delete the middle node of a singly linked list (for even length, delete the second of the two middle nodes) and return the head.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>1→2→4→5</code></p>
+<p><strong>Approach:</strong> Offset Slow/Fast Pointers
+- Use slow/fast pointers, but start <code>fast</code> two steps ahead of <code>slow</code> (<code>fast = head-&gt;next-&gt;next</code>) instead of both at head - this positions <code>slow</code> just before the true middle node when <code>fast</code> reaches the end.
+- Advance <code>slow</code> one step and <code>fast</code> two steps at a time until <code>fast</code> (or <code>fast-&gt;next</code>) is null; <code>slow</code> now sits at the node right before the one to delete.
+- Unlink the middle node via <code>slow-&gt;next = slow-&gt;next-&gt;next</code>.
+- <code>O(n)</code> time, <code>O(1)</code> space. Handle single/two-node list edge cases directly.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">deleteMiddle</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="14-sort-list">14. Sort List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Sort a singly linked list in ascending order in <code>O(n log n)</code> time and <code>O(log n)</code> space (excluding the input).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 4→2→1→3</code>
+- Output: <code>1→2→3→4</code></p>
+<p><strong>Approach:</strong> Merge Sort on Linked List
+- Use merge sort adapted for linked lists: find the middle of the list (slow/fast pointers), split it into two halves, recursively sort each half, then merge the two sorted halves.
+- The merge step splices existing nodes together (using a dummy head and tail pointer) rather than allocating new nodes - the same technique as the standalone "merge two sorted linked lists" problem.
+- Unlike array merge sort, linked-list merge sort doesn't need <code>O(n)</code> auxiliary array space for merging - only the recursion stack costs <code>O(log n)</code>.
+- <code>O(n log n)</code> time, <code>O(log n)</code> space for the recursion stack.</p>
+<p><strong>Time / Space:</strong> <code>O(n log n)</code> time, <code>O(log n)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">findMiddle</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">fast</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">slow</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">l1</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">l2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">l2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">val</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l1</span><span class="p">;</span><span class="w"> </span><span class="n">l1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span><span class="w"> </span><span class="n">l2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">l1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">l2</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">sortList</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">middle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findMiddle</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">middle</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">middle</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sortList</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+<span class="w">    </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sortList</span><span class="p">(</span><span class="n">right</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="15-sort-a-linked-list-of-0s-1s-and-2s">15. Sort a Linked List of 0s, 1s and 2s</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a linked list containing only values 0, 1, and 2, sort it in a single pass by relinking nodes (not just swapping values).</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→0→2→1→0</code>
+- Output: <code>0→0→1→1→2</code></p>
+<p><strong>Approach:</strong> Three-Chain Relinking
+- Build three separate chains (using dummy heads) for 0s, 1s, and 2s, walking the original list once and appending each node to the appropriate chain based on its value.
+- After the single pass, splice the three chains together in order: the 0-chain's tail connects to the 1-chain's head (or the 2-chain's head if there are no 1s), the 1-chain's tail connects to the 2-chain's head, and the 2-chain's tail is set to null.
+- Handling an empty chain (e.g. no 1s) requires connecting the surrounding chains directly - this splicing logic is the main source of bugs.
+- <code>O(n)</code> time, <code>O(1)</code> extra space (only relinking existing nodes) - this beats a two-pass approach of counting occurrences and then overwriting node values.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">sortZeroOneTwo</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">dummy0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dummy1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">dummy2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy0</span><span class="p">,</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy1</span><span class="p">,</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy2</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">nextNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">zero</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="n">zero</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">one</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">two</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">zero</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">dummy1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">dummy1</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">dummy2</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">one</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy2</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy0</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="16-intersection-of-two-linked-lists">16. Intersection of Two Linked Lists</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Given two singly linked lists that may intersect at some node (forming a Y shape), find the node where they intersect, or null if they don't.</p>
+<p><strong>Example:</strong>
+- Input: <code>listA = 4→1→8→4→5, listB = 5→6→1→8→4→5</code> (sharing the <code>8→4→5</code> tail)
+- Output: <code>node with value 8</code></p>
+<p><strong>Approach:</strong> Two-Pointer List Switching
+- Use two pointers, one starting at each list's head. Advance both one step at a time; when a pointer reaches the end of its list, redirect it to the head of the OTHER list.
+- Because both pointers together traverse (length of list A + length of list B) nodes before potentially meeting, they arrive at the intersection point at the same time - the extra distance from switching lists exactly cancels out the difference in list lengths.
+- If the lists don't intersect, both pointers reach null (having each traversed both lists) at the same time, ending the loop with a null result.
+- <code>O(n + m)</code> time, <code>O(1)</code> space - this beats a hash-set approach (marking all nodes of one list, then scanning the other) which costs <code>O(n)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n + m)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">getIntersectionNode</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">headA</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">headB</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">headA</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">headB</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">headB</span><span class="p">;</span>
+<span class="w">        </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">headA</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="17-construct-linked-list-from-array">17. Construct Linked List from Array</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Given an array of values, construct a singly linked list from it and return its head.</p>
+<p><strong>Example:</strong>
+- Input: <code>arr = [1,2,3,4,5]</code>
+- Output: <code>head of 1→2→3→4→5</code></p>
+<p><strong>Approach:</strong> Iterative Construction
+- Create the head node from the first array element, then iterate through the rest of the array, creating a new node for each value and linking it via the previous node's <code>next</code> pointer.
+- Maintain a <code>temp</code> pointer that always points to the last node added, so each new node can be attached in <code>O(1)</code> without re-traversing the list.
+- Return null immediately if the array is empty (no head to construct).
+- <code>O(n)</code> time, <code>O(n)</code> space for the <code>n</code> new nodes created.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(n)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Node</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">constructLL</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">arr</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="n">arr</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="18-add-two-numbers">18. Add Two Numbers</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Two non-negative integers are represented as linked lists where each node holds a single digit in reverse order (least significant digit first). Add the two numbers and return the sum as a linked list in the same format.</p>
+<p><strong>Example:</strong>
+- Input: <code>l1 = 2→4→3 (342), l2 = 5→6→4 (465)</code>
+- Output: <code>7→0→8 (807)</code></p>
+<p><strong>Approach:</strong> Simultaneous Traversal with Carry
+- Since digits are already least-significant-first, no reversal is needed - walk both lists simultaneously from the head, adding corresponding digits plus any carry from the previous step.
+- Create a new node for each digit of the result (value <code>= sum % 10</code>), and carry the overflow (<code>sum / 10</code>) into the next iteration.
+- Continue as long as either list still has nodes OR there's a nonzero carry left - this naturally handles lists of different lengths and a final carry that extends the result by one digit.
+- Use a dummy head node to simplify result-list construction. <code>O(max(n, m))</code> time, <code>O(max(n, m))</code> space for the new result nodes.</p>
+<p><strong>Time / Space:</strong> <code>O(max(n, m))</code> time, <code>O(max(n, m))</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">addTwoNumbers</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">l1</span><span class="p">,</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="n">l2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">l2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">carry</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l1</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">l1</span><span class="p">.</span><span class="na">val</span><span class="p">;</span><span class="w"> </span><span class="n">l1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l1</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">l2</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">val</span><span class="p">;</span><span class="w"> </span><span class="n">l2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">l2</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="n">sum</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="19-delete-all-occurrences-of-a-key-in-a-doubly-linked-list">19. Delete All Occurrences of a Key in a Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Given a doubly linked list and a key, delete every node whose value equals the key.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 10⇄20⇄10⇄30⇄10, key = 10</code>
+- Output: <code>20⇄30</code></p>
+<p><strong>Approach:</strong> Dummy Node + In-Place Unlinking
+- Use a dummy node before the head to simplify deleting the head itself if it matches the key.
+- Walk the list once; whenever a node's value matches the key, unlink it by connecting its predecessor's <code>next</code> to its successor and the successor's <code>prev</code> back to the predecessor (checking each exists before dereferencing).
+- Because it's doubly linked, each deletion is <code>O(1)</code> once the node is found - no need to track a separate "previous" pointer manually, since <code>prev</code> is already stored on the node.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">deleteAllOccurrences</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DLLNode</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">head</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">nextNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">prevNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">prev</span><span class="p">;</span>
+<span class="w">            </span><span class="n">prevNode</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nextNode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">nextNode</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prevNode</span><span class="p">;</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="20-find-pairs-with-given-sum-in-a-doubly-linked-list">20. Find Pairs with Given Sum in a Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a sorted doubly linked list and a target sum, find all pairs of nodes whose values add up to the target.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1⇄2⇄4⇄5⇄6⇄8⇄9, target = 7</code>
+- Output: <code>(1,6), (2,5)</code></p>
+<p><strong>Approach:</strong> Two Pointers from Both Ends
+- Use two pointers: one starting at the head, one starting at the tail (found by walking to the end once).
+- If the sum of the two pointers' values equals the target, record the pair and move both pointers inward (head forward via <code>next</code>, tail backward via <code>prev</code>).
+- If the sum is less than the target, move the head pointer forward (need a larger value); if greater, move the tail pointer backward (need a smaller value).
+- Stop when the pointers cross. <code>O(n)</code> time, <code>O(1)</code> extra space - this exploits the sorted order and the DLL's backward traversal ability, avoiding the <code>O(n)</code> space of a hash-set-based pair search.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">[]&gt;</span><span class="w"> </span><span class="nf">findPairsWithGivenSum</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">[]&gt;</span><span class="w"> </span><span class="n">ans</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">tail</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">data</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ans</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="n">head</span><span class="p">.</span><span class="na">data</span><span class="p">,</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">data</span><span class="p">});</span>
+<span class="w">            </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sum</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">target</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ans</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="21-remove-duplicates-from-a-sorted-doubly-linked-list">21. Remove Duplicates from a Sorted Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Given a sorted doubly linked list, remove all duplicate values so each value appears only once.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1⇄1⇄1⇄2⇄3⇄3</code>
+- Output: <code>1⇄2⇄3</code></p>
+<p><strong>Approach:</strong> Adjacent Duplicate Skipping
+- Since the list is sorted, all duplicates of a value are guaranteed to be adjacent - walk the list once, comparing each node to its immediate successor(s).
+- For each node, keep advancing a lookahead pointer past any following nodes with the same value, then relink the current node directly to the first differing node (fixing both <code>next</code> and that node's <code>prev</code>).
+- No extra space is needed since duplicates are adjacent - this beats a hash-set approach that would work on unsorted lists too but costs <code>O(n)</code> space.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">removeDuplicates</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">nextNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">nextNode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">nextNode</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">nextNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextNode</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nextNode</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">nextNode</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="22-reverse-nodes-in-k-group">22. Reverse Nodes in K-Group</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Given a singly linked list, reverse the nodes in groups of K at a time, and return the modified list. If the number of remaining nodes is less than K, leave that final group as-is.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5, k = 2</code>
+- Output: <code>2→1→4→3→5</code></p>
+<p><strong>Approach:</strong> Group-Bounded Reversal with Reconnection
+- For each group: first check if there are at least K nodes remaining by walking ahead - if not, stop and leave the rest untouched.
+- If a full group of K exists, reverse just that segment (standard in-place reversal, bounded to K nodes), then reconnect: the previous group's tail must point to the new head of this reversed group, and this group's new tail (the original first node) must point to the start of the next group.
+- Track whether this is the first group processed, since the very first reversed group's head becomes the new overall head.
+- <code>O(n)</code> time, <code>O(1)</code> space with a careful iterative implementation (or <code>O(n/k)</code> call-stack space if written recursively).</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">findKthNode</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseKGroup</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="n">prevGroupTail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">kthNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findKthNode</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">kthNode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prevGroupTail</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">prevGroupTail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">            </span><span class="k">break</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">nextGroupHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kthNode</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">kthNode</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">curr</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ListNode</span><span class="w"> </span><span class="n">nxt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">            </span><span class="n">curr</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">            </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">curr</span><span class="p">;</span>
+<span class="w">            </span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nxt</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">first</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kthNode</span><span class="p">;</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">prevGroupTail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kthNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">prevGroupTail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nextGroupHead</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="23-rotate-list">23. Rotate List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a singly linked list and an integer K, rotate the list to the right by K places.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5, k = 2</code>
+- Output: <code>4→5→1→2→3</code></p>
+<p><strong>Approach:</strong> Find Split Point via Length
+- Find the list's length, then normalize K with <code>k = k % length</code> (rotating by the full length is a no-op).
+- Walk <code>(length - k - 1)</code> steps from the head to find the node that will become the new tail; the node after it becomes the new head.
+- Connect the original tail's <code>next</code> to the original head (temporarily forming a cycle conceptually), then break the list at the new tail by setting its <code>next</code> to null and returning the new head.
+- <code>O(n)</code> time, <code>O(1)</code> space - finding the split point via a single length calculation avoids needing separate logic for splitting and reattaching the list piece by piece.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">findLength</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">rotateRight</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findLength</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newTail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">newTail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">newTail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newTail</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">newTail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="24-flatten-a-linked-list">24. Flatten a Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> Given a linked list where each node has a <code>next</code> pointer to the next list AND a <code>bottom</code> pointer to its own sorted sub-list, flatten it into a single sorted linked list using the bottom pointers.</p>
+<p><strong>Example:</strong>
+- Input: <code>five sorted sub-lists linked via top-level next, each with its own bottom chain</code>
+- Output: <code>one fully sorted linked list along bottom pointers</code></p>
+<p><strong>Approach:</strong> Recursive Merge via Bottom Pointers
+- Process the sub-lists from right to left: recursively flatten everything to the right of the current node first, then merge the current node's bottom chain with that already-flattened result.
+- The merge step is identical to merging two sorted linked lists, except it operates on <code>bottom</code> pointers instead of <code>next</code> pointers.
+- Merging from right to left means each merge only ever combines two already-sorted lists (the current column and the accumulated flattened result), so the final output is fully sorted.
+- <code>O(N)</code> time where <code>N</code> is the total number of nodes across all sub-lists (each node is merged exactly once), <code>O(number of top-level lists)</code> space for the recursion stack.</p>
+<p><strong>Time / Space:</strong> <code>O(N)</code> time, <code>O(number of lists)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">merge</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">data</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="na">bottom</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">bottom</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">bottom</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">temp</span><span class="p">.</span><span class="na">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">bottom</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">flatten</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">root</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">root</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">root</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">root</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">mergedNext</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flatten</span><span class="p">(</span><span class="n">root</span><span class="p">.</span><span class="na">next</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">merge</span><span class="p">(</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">mergedNext</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="25-copy-list-with-random-pointer">25. Copy List with Random Pointer</h2>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Statement/Hint:</strong> Given a linked list where each node has a <code>next</code> pointer and a <code>random</code> pointer (which may point to any node in the list or null), create a deep copy of the list.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = [[7,null],[13,0],[11,4],[10,2],[1,0]] (val, random-index)</code>
+- Output: <code>a fully independent deep copy with equivalent next/random structure</code></p>
+<p><strong>Approach:</strong> Interweaving Clones (<code>O(1)</code> Space)
+- Naive approach: use a hash map from original node -&gt; cloned node. First pass creates all cloned nodes and populates the map; second pass wires each clone's <code>next</code> and <code>random</code> pointers by looking up the corresponding original node's pointers in the map. <code>O(n)</code> time, <code>O(n)</code> space.
+- Optimal <code>O(1)</code>-extra-space approach: interweave cloned nodes into the original list - for each original node, insert its clone immediately after it (<code>original1 -&gt; clone1 -&gt; original2 -&gt; clone2 -&gt; ...</code>).
+- With clones interwoven, each clone's random pointer can be set directly: <code>clone-&gt;random = original-&gt;random-&gt;next</code> (since the clone of any node is always immediately after that node). Then do a final pass to detach the interwoven clones into their own separate list, restoring the original list's structure.
+- <code>O(n)</code> time, <code>O(1)</code> extra space (excluding the output list itself) for the optimal approach - three total passes (insert clones, wire random pointers, detach).</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">copyRandomList</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">data</span><span class="p">);</span>
+<span class="w">        </span><span class="n">newNode</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">random</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">random</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">random</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">dummy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">copyTemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dummy</span><span class="p">;</span>
+<span class="w">    </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">copyTemp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">copyTemp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copyTemp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dummy</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="26-add-one-to-a-number-represented-as-a-linked-list">26. Add One to a Number Represented as a Linked List</h2>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Statement/Hint:</strong> A number is represented as a linked list where each node holds one digit (most significant digit first). Add 1 to the number and return the resulting linked list.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3</code>
+- Output: <code>1→2→4</code></p>
+<p><strong>Approach:</strong> Reverse, Add with Carry, Reverse Back
+- Reverse the linked list first, so the least significant digit is now at the head - this makes adding 1 (which starts from the least significant digit) a simple forward traversal.
+- Walk the reversed list adding a carry (starting at 1): add the carry to each digit; if the result is <code>&lt; 10</code>, the carry becomes 0 and you can stop early; otherwise set the digit to 0 and keep the carry as 1 for the next node.
+- If a carry remains after processing every node (e.g. <code>999 + 1 = 1000</code>), prepend a new node with value 1 before reversing back.
+- Reverse the list again to restore the original most-significant-digit-first order.
+- <code>O(n)</code> time, <code>O(1)</code> extra space (aside from a possible new leading node) - this avoids converting to/from a numeric type, which would overflow for very large numbers.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">reverseLL</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">        </span><span class="n">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">ListNode</span><span class="w"> </span><span class="nf">addOne</span><span class="p">(</span><span class="n">ListNode</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">reversedHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reverseLL</span><span class="p">(</span><span class="n">head</span><span class="p">);</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reversedHead</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">carry</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="n">carry</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">ListNode</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reverseLL</span><span class="p">(</span><span class="n">reversedHead</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">carry</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ListNode</span><span class="w"> </span><span class="n">newHead</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListNode</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">newHead</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">newHead</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="27-insert-at-head-of-a-singly-linked-list">27. Insert at Head of a Singly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Insert a new node with a given value at the head of a singly linked list, in <code>O(1)</code> time.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 2→3→4, insert 1</code>
+- Output: <code>1→2→3→4</code></p>
+<p><strong>Approach:</strong> Direct Pointer Reassignment
+- Create a new node whose <code>next</code> pointer points to the current head, then update the head reference to point to this new node.
+- No traversal is needed - this is the one insertion position that doesn't require finding a predecessor node.
+- <code>O(1)</code> time, <code>O(1)</code> extra space (just the new node itself).</p>
+<p><strong>Time / Space:</strong> <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">insertAtHead</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Node</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="n">newNode</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="28-delete-head-of-a-singly-linked-list">28. Delete Head of a Singly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Delete the head node of a singly linked list and return the new head.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4</code>
+- Output: <code>2→3→4</code></p>
+<p><strong>Approach:</strong> Direct Pointer Reassignment
+- The new head is simply the second node (<code>head-&gt;next</code>) - no searching or shifting is required.
+- Free/discard the old head node if the language requires manual memory management (e.g. C++); in garbage-collected languages this happens automatically once nothing references it.
+- Handle the empty-list edge case (<code>head</code> is null) by returning null.
+- <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">deleteHead</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="29-find-the-length-of-a-linked-list">29. Find the Length of a Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Find the number of nodes in a singly linked list.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4→5</code>
+- Output: <code>5</code></p>
+<p><strong>Approach:</strong> Iterative Traversal
+- Walk the list from head to tail with a single pointer, incrementing a counter once per node visited.
+- Stop when the pointer becomes null (end of list reached).
+- <code>O(n)</code> time, <code>O(1)</code> space - a purely iterative traversal, though it can also be written recursively (<code>count = 1 + length of rest</code>) at the cost of <code>O(n)</code> call-stack space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getLength</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="30-search-in-a-linked-list">30. Search in a Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Given a singly linked list and a key, determine whether the key exists in the list.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 1→2→3→4, key = 3</code>
+- Output: <code>true</code></p>
+<p><strong>Approach:</strong> Linear Traversal
+- Walk the list from head to tail, comparing each node's value to the key; return true as soon as a match is found.
+- Make sure the loop condition checks the current node itself (not just <code>node-&gt;next</code>), otherwise the last node in the list is silently skipped - a common off-by-one bug.
+- If the traversal reaches the end (null) without a match, return false.
+- <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">searchKey</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="p">.</span><span class="na">data</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">key</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="31-construct-doubly-linked-list-from-array">31. Construct Doubly Linked List from Array</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Given an array of values, construct a doubly linked list from it and return its head.</p>
+<p><strong>Example:</strong>
+- Input: <code>arr = [1,2,3,4,5]</code>
+- Output: <code>head of doubly-linked 1⇄2⇄3⇄4⇄5</code></p>
+<p><strong>Approach:</strong> Iterative Construction with Backward Links
+- Similar to constructing a singly linked list, but each new node's <code>prev</code> pointer must also be wired back to the previously created node.
+- Create the head from the first element, then for each subsequent element, create a new node, link the previous node's <code>next</code> to it, and link its own <code>prev</code> back to the previous node.
+- <code>O(n)</code> time, <code>O(n)</code> space for the <code>n</code> new nodes created.</p>
+<p><strong>Time / Space:</strong> <code>O(n)</code> time, <code>O(n)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">DLLNode</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">next</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">constructDLL</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DLLNode</span><span class="p">(</span><span class="n">arr</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">arr</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DLLNode</span><span class="p">(</span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="n">temp</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">        </span><span class="n">newNode</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="32-insert-before-head-of-a-doubly-linked-list">32. Insert Before Head of a Doubly Linked List</h2>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Statement/Hint:</strong> Insert a new node before the current head of a doubly linked list, making it the new head.</p>
+<p><strong>Example:</strong>
+- Input: <code>head = 2⇄3⇄4, insert 1 before head</code>
+- Output: <code>1⇄2⇄3⇄4</code></p>
+<p><strong>Approach:</strong> Direct Pointer Reassignment
+- Create the new node with its <code>next</code> pointer set to the current head, then set the current head's <code>prev</code> pointer to point back to the new node.
+- Update the head reference to the new node - no traversal needed since insertion happens at the very front.
+- <code>O(1)</code> time, <code>O(1)</code> extra space.</p>
+<p><strong>Time / Space:</strong> <code>O(1)</code> time, <code>O(1)</code> space.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">DLLNode</span><span class="w"> </span><span class="nf">insertBeforeHead</span><span class="p">(</span><span class="n">DLLNode</span><span class="w"> </span><span class="n">head</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">DLLNode</span><span class="w"> </span><span class="n">newNode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DLLNode</span><span class="p">(</span><span class="n">x</span><span class="p">);</span>
+<span class="w">    </span><span class="n">newNode</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">head</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">head</span><span class="p">.</span><span class="na">prev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">newNode</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="pager"><a class="prev" href="doc-practice-a2z-04-strings-i.html"><span class="dir">Previous</span><span class="ttl">Strings I</span></a><a class="next" href="doc-practice-a2z-06-recursion.html"><span class="dir">Next</span><span class="ttl">Recursion</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

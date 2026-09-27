@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface — Spring Boot</title>
+<meta name="description" content="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-10">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-10.html#lecture-10">Lecture 10</a></li><li><a href="doc-theory-lecture-10.html#1-why-do-we-need-configuration">1. Why Do We Need Configuration?</a></li><li><a href="doc-theory-lecture-10.html#2-what-is-applicationproperties">2. What Is application.properties?</a></li><li><a href="doc-theory-lecture-10.html#3-yaml-as-an-alternative-applicationyml">3. YAML as an Alternative: application.yml</a></li><li><a href="doc-theory-lecture-10.html#4-is-applicationproperties-really-external">4. Is application.properties Really External?</a></li><li><a href="doc-theory-lecture-10.html#5-externalized-configuration-across-environments">5. Externalized Configuration Across Environments</a></li><li><a href="doc-theory-lecture-10.html#6-reading-values-with-value">6. Reading Values with @Value</a></li><li><a href="doc-theory-lecture-10.html#7-default-value-with-value">7. Default Value with @Value</a></li><li><a href="doc-theory-lecture-10.html#8-problem-with-too-many-value">8. Problem with Too Many @Value</a></li><li><a href="doc-theory-lecture-10.html#9-what-is-configurationproperties">9. What Is @ConfigurationProperties?</a></li><li><a href="doc-theory-lecture-10.html#10-relaxed-binding-paymentretry-count-to-retrycount">10. Relaxed Binding: payment.retry-count to retryCount</a></li><li><a href="doc-theory-lecture-10.html#11-value-vs-configurationproperties">11. @Value vs @ConfigurationProperties</a></li><li><a href="doc-theory-lecture-10.html#12-why-do-we-need-runner-interfaces">12. Why Do We Need Runner Interfaces?</a></li><li><a href="doc-theory-lecture-10.html#13-why-not-call-the-bean-manually-from-main">13. Why Not Call the Bean Manually from main()?</a></li><li><a href="doc-theory-lecture-10.html#14-commandlinerunner-and-passing-arguments">14. CommandLineRunner and Passing Arguments</a></li><li><a href="doc-theory-lecture-10.html#15-applicationrunner">15. ApplicationRunner</a></li><li><a href="doc-theory-lecture-10.html#16-complete-startup-flow">16. Complete Startup Flow</a></li><li><a href="doc-theory-lecture-10.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-10.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-10.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-10.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-10.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</h1>
+<p class="readmeta">22 sections · 3,635 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-10" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-10">Lecture 10</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot application properties, @Value &amp; Runner Interface" (playlist map, verified). The repo lecture folder is a demo Spring Boot project whose <code>src/main/resources</code> carries <code>application.properties</code>, with <code>PaymentProperties</code>, <code>DemoRunner</code>, <code>PaymentGateway</code> and <code>DemoApplication</code> under <code>in.strikes.demo</code>, alongside the notes for this lecture.</p>
+</blockquote>
+<p>Configuration is the layer that lets one compiled application behave differently in development, testing and production. This lecture starts from the pain of hardcoded values, moves to <code>application.properties</code> and externalized configuration, then teaches two ways to read those values: <code>@Value</code> and <code>@ConfigurationProperties</code>. It closes with the runner interfaces, which give a non-web application a clean place to execute startup logic after the Spring container is ready.</p>
+<h2 id="1-why-do-we-need-configuration">1. Why Do We Need Configuration?</h2>
+<p>In real applications, not every value should be hardcoded inside Java classes. The source shows a component whose values are fixed in the source code. Simplified, it looked like this:</p>
+<div class="highlight"><pre><span></span><code>private String providerName = &quot;Razorpay&quot;;
+private int retryCount = 3;
+</code></pre></div>
+
+<p>This code works, but the values are fixed inside the Java source code. Now imagine that tomorrow we want to change the payment provider from Razorpay to Stripe. If the value is hardcoded, we would need to:</p>
+<ol>
+<li>Change the Java code.</li>
+<li>Recompile the project.</li>
+<li>Rebuild the application.</li>
+<li>Redeploy the application.</li>
+</ol>
+<p>For values that may change across environments or over time, this is not a clean approach. Examples of such values:</p>
+<ul>
+<li>payment provider name;</li>
+<li>retry count;</li>
+<li>timeout value;</li>
+<li>feature enabled/disabled flag;</li>
+<li>database URL;</li>
+<li>API key;</li>
+<li>server port;</li>
+<li>external service URL.</li>
+</ul>
+<p>These values are better kept outside the main business logic. This is where configuration files come in.</p>
+<blockquote class="callout callout--important">
+<p>Important: Configuration is not "extra settings for later." It keeps values which change outside the code which does not change.</p>
+</blockquote>
+<h2 id="2-what-is-applicationproperties">2. What Is application.properties?</h2>
+<p><code>application.properties</code> is a key-value configuration file that Spring Boot automatically reads by convention. The default location is:</p>
+<div class="highlight"><pre><span></span><code>src/main/resources/application.properties
+</code></pre></div>
+
+<p>Example from the source:</p>
+<div class="highlight"><pre><span></span><code><span class="na">payment.provider</span><span class="o">=</span><span class="s">Razorpay</span>
+<span class="na">payment.retry-count</span><span class="o">=</span><span class="s">3</span>
+<span class="na">payment.enabled</span><span class="o">=</span><span class="s">true</span>
+<span class="na">payment.timeout</span><span class="o">=</span><span class="s">5000</span>
+</code></pre></div>
+
+<p>Here, the values are no longer written directly inside the Java class. They are now configuration values. Spring Boot automatically loads this file when the application starts.</p>
+<p>The convention does the work: because the file has this exact name and sits in this exact folder, Spring Boot finds and loads it without any import or annotation.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A strong answer names both the file and the convention: "Spring Boot loads <code>application.properties</code> from the classpath root automatically, and its key-value pairs become part of the Spring <code>Environment</code>." Naming the <code>Environment</code> shows you understand where <code>@Value</code> actually reads from.</p>
+</blockquote>
+<h2 id="3-yaml-as-an-alternative-applicationyml">3. YAML as an Alternative: application.yml</h2>
+<p>Spring Boot also supports YAML configuration using <code>application.yml</code>. The same values can be written in nested form:</p>
+<div class="highlight"><pre><span></span><code>payment:
+  provider: Razorpay
+  retry-count: 3
+  enabled: true
+  timeout: 5000
+</code></pre></div>
+
+<p>Both <code>application.properties</code> and <code>application.yml</code> are used for configuration. The difference is mainly in the writing style: one is flat key-value, the other is a nested tree. The keys still mean the same thing, and the Java code that reads them does not care which file supplied them.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: The file name and the property keys matter; the file format is a matter of taste. Keep one format per project so the team reads configuration the same way.</p>
+</blockquote>
+<h2 id="4-is-applicationproperties-really-external">4. Is application.properties Really External?</h2>
+<p>This is the subtle point. When <code>application.properties</code> is placed inside <code>src/main/resources</code>, it becomes part of the application build. That means it is packaged inside the final JAR file.</p>
+<p>So technically, if we only change this internal file in the source code, we still need to rebuild the application.</p>
+<p>But Spring Boot provides externalized configuration, which means these values can also be supplied or overridden from outside the packaged application. For example, Spring Boot can read configuration from:</p>
+<ul>
+<li><code>application.properties</code>;</li>
+<li><code>application.yml</code>;</li>
+<li>environment variables;</li>
+<li>command-line arguments;</li>
+<li>system properties;</li>
+<li>external config files.</li>
+</ul>
+<p>So the main idea is: keep changeable values outside Java business logic so the code remains clean and flexible.</p>
+<blockquote class="callout callout--note">
+<p>Common trap in disguise: "If it is in a properties file, it is automatically external." Not always. A file inside <code>src/main/resources</code> travels inside the JAR; true externalization comes from the override sources listed above or from a config file placed outside the packaged artifact.</p>
+</blockquote>
+<h2 id="5-externalized-configuration-across-environments">5. Externalized Configuration Across Environments</h2>
+<p>Externalized configuration means keeping configuration values outside the Java code. Instead of hardcoding <code>private String providerName = "Razorpay";</code>, we write the value in a configuration file as <code>payment.provider=Razorpay</code>, then inject that value into the Java class.</p>
+<p>This makes the application easier to manage across different environments. For example, in development we might use <code>payment.provider=Razorpay</code> with <code>payment.retry-count=3</code>, while in production we might use <code>payment.provider=TestProvider</code> with <code>payment.retry-count=1</code>. The Java code can remain the same. Only the configuration changes.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Hardcoded value</th>
+<th>Externalized configuration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where it lives</td>
+<td>Inside the Java class</td>
+<td>properties / yml / env vars / args</td>
+</tr>
+<tr>
+<td>To change it</td>
+<td>Edit code, recompile, rebuild, redeploy</td>
+<td>Override the value, restart</td>
+</tr>
+<tr>
+<td>Environment fit</td>
+<td>One value for every environment</td>
+<td>Different value per environment</td>
+</tr>
+<tr>
+<td>Code cleanliness</td>
+<td>Business logic mixed with data</td>
+<td>Business logic stays clean</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td>Sit in source control</td>
+<td>Can be supplied from outside the build</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: The goal is not to delete values from the project. The goal is to stop shipping them glued to the business logic, so the same build can run in many environments.</p>
+</blockquote>
+<h2 id="6-reading-values-with-value">6. Reading Values with @Value</h2>
+<p>Once values are present in <code>application.properties</code>, we need a way to use them inside Java classes. One simple way is to use <code>@Value</code>. Example with constructor injection:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentGateway</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">providerName</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">retryCount</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">PaymentGateway</span><span class="p">(</span>
+<span class="w">            </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${payment.provider}&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">providerName</span><span class="p">,</span>
+<span class="w">            </span><span class="nd">@Value</span><span class="p">(</span><span class="s">&quot;${payment.retry-count}&quot;</span><span class="p">)</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">retryCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">providerName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">providerName</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">retryCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retryCount</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">pay</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Payment done using &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">providerName</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Retry count: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">retryCount</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Here <code>@Value("${payment.provider}")</code> means: go to the Spring Environment, find the property named <code>payment.provider</code>, and inject its value here. Similarly, <code>@Value("${payment.retry-count}")</code> means: find the property named <code>payment.retry-count</code> and inject it into this parameter.</p>
+<p>The <code>${...}</code> placeholder is the key detail. It is not a Java variable; it is a lookup request that Spring resolves at startup.</p>
+<h2 id="7-default-value-with-value">7. Default Value with @Value</h2>
+<p>Sometimes a property may be missing from <code>application.properties</code>. If the property is missing and no default value is provided, the application may fail during startup. To avoid this, we can provide a default value.</p>
+<div class="highlight"><pre><span></span><code>@Value(&quot;${payment.provider:DefaultProvider}&quot;)
+private String providerName;
+</code></pre></div>
+
+<p>Here <code>${payment.provider:DefaultProvider}</code> means:</p>
+<ul>
+<li>use <code>payment.provider</code> if it is available;</li>
+<li>if it is not available, use <code>DefaultProvider</code>.</li>
+</ul>
+<p>The same syntax works in a constructor parameter, and it is useful when a property is optional.</p>
+<blockquote class="callout callout--note">
+<p>Points of the syntax: the placeholder is <code>${key}</code> and the default is <code>${key:default}</code>. The colon is the separator, so a misplaced colon silently changes the key you are asking for.</p>
+</blockquote>
+<h2 id="8-problem-with-too-many-value">8. Problem with Too Many @Value</h2>
+<p><code>@Value</code> is simple and useful for small cases. But imagine we have many related properties, such as <code>payment.provider</code>, <code>payment.retry-count</code>, <code>payment.enabled</code> and <code>payment.timeout</code>. If we use <code>@Value</code>, we need to inject every value separately:</p>
+<div class="highlight"><pre><span></span><code>@Value(&quot;${payment.provider}&quot;) private String provider;
+@Value(&quot;${payment.retry-count}&quot;) private int retryCount;
+@Value(&quot;${payment.enabled}&quot;) private boolean enabled;
+@Value(&quot;${payment.timeout}&quot;) private int timeout;
+</code></pre></div>
+
+<p>This works, but it becomes messy when the number of properties increases. Every new property means another annotation, another field, and another place to keep in sync. For grouped configuration, Spring Boot provides a cleaner option: <code>@ConfigurationProperties</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: This is the "when not to use @Value" question. The expected answer is not "it is wrong" but "it does not scale for a group of related keys; the boilerplate grows and the grouping is lost."</p>
+</blockquote>
+<h2 id="9-what-is-configurationproperties">9. What Is @ConfigurationProperties?</h2>
+<p><code>@ConfigurationProperties</code> is used to bind a group of related configuration properties to a Java object. Instead of injecting every property separately, we create one configuration class:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.demo</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.context.properties.ConfigurationProperties</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="nd">@ConfigurationProperties</span><span class="p">(</span><span class="n">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;payment&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PaymentProperties</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">provider</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">retryCount</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">enabled</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getProvider</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">provider</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setProvider</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">provider</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">provider</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getRetryCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">retryCount</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setRetryCount</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">retryCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">retryCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retryCount</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isEnabled</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">enabled</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEnabled</span><span class="p">(</span><span class="kt">boolean</span><span class="w"> </span><span class="n">enabled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getTimeout</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">timeout</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setTimeout</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timeout</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The prefix is <code>@ConfigurationProperties(prefix = "payment")</code>. This means Spring Boot will look for all properties starting with <code>payment</code>, then bind them to this class:</p>
+<table>
+<thead>
+<tr>
+<th>Property key</th>
+<th>Java field</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>payment.provider</td>
+<td>provider</td>
+</tr>
+<tr>
+<td>payment.retry-count</td>
+<td>retryCount</td>
+</tr>
+<tr>
+<td>payment.enabled</td>
+<td>enabled</td>
+</tr>
+<tr>
+<td>payment.timeout</td>
+<td>timeout</td>
+</tr>
+</tbody>
+</table>
+<p>Now this configuration class can be injected wherever needed. <code>PaymentGateway</code> simply takes <code>PaymentProperties</code> in its constructor and reads <code>getProvider()</code>, <code>getRetryCount()</code>, <code>isEnabled()</code> and <code>getTimeout()</code>. This is cleaner because all payment-related configuration is stored in one object. The business class now depends on one typed object instead of four loose strings.</p>
+<h2 id="10-relaxed-binding-paymentretry-count-to-retrycount">10. Relaxed Binding: payment.retry-count to retryCount</h2>
+<p>Why does <code>payment.retry-count</code> map to <code>retryCount</code>? This happens because of relaxed binding. Spring Boot is flexible with property names, so this property:</p>
+<div class="highlight"><pre><span></span><code>payment.retry-count=3
+</code></pre></div>
+
+<p>can bind to the Java field <code>private int retryCount;</code>. Spring Boot understands different naming formats such as <code>retry-count</code>, <code>retry_count</code> and <code>RETRY_COUNT</code>. In Java, we usually write field names in camelCase: <code>retryCount</code>. In properties files, we usually write names in kebab-case: <code>retry-count</code>. Spring Boot can connect both of them. For beginners, the simplest way to explain it is: Spring Boot can automatically convert common property naming styles into Java field naming style.</p>
+<p>Mnemonic: "Kebab in the file, camel in the field, Spring bridges the two" -&gt; K-F-C (Kebab, Field, Connection).</p>
+<blockquote class="callout callout--important">
+<p>Important: Relaxed binding is a feature of <code>@ConfigurationProperties</code>. <code>@Value("${payment.retry-count}")</code> must match the exact key text; it does not get the same relaxed name conversion.</p>
+</blockquote>
+<h2 id="11-value-vs-configurationproperties">11. @Value vs @ConfigurationProperties</h2>
+<p>Use <code>@Value</code> when you need one or two simple values. Use <code>@ConfigurationProperties</code> when many related values belong to the same group.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>@Value</th>
+<th>@ConfigurationProperties</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Best for</td>
+<td>Single value, small demo</td>
+<td>Grouped configuration</td>
+</tr>
+<tr>
+<td>Binding</td>
+<td>One annotation per value</td>
+<td>One class per prefix</td>
+</tr>
+<tr>
+<td>Boilerplate</td>
+<td>Grows with each key</td>
+<td>Constant after the class exists</td>
+</tr>
+<tr>
+<td>Naming</td>
+<td>Exact key text</td>
+<td>Relaxed binding supported</td>
+</tr>
+<tr>
+<td>Type safety</td>
+<td>Field-level</td>
+<td>Typed object</td>
+</tr>
+<tr>
+<td>Readability</td>
+<td>Fine for a few keys</td>
+<td>Better for many keys</td>
+</tr>
+<tr>
+<td>Large applications</td>
+<td>Repetitive</td>
+<td>Cleaner</td>
+</tr>
+</tbody>
+</table>
+<p>Simple rule: for one or two values, <code>@Value</code> is fine. For a group of related values, prefer <code>@ConfigurationProperties</code>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: If your keys share a common prefix, that prefix is telling you to make a <code>@ConfigurationProperties</code> class.</p>
+</blockquote>
+<h2 id="12-why-do-we-need-runner-interfaces">12. Why Do We Need Runner Interfaces?</h2>
+<p>In a web application, code usually runs when an HTTP request comes:</p>
+<div class="highlight"><pre><span></span><code>Browser/Postman sends request
+        |
+        v
+Controller receives request
+        |
+        v
+Service method executes
+</code></pre></div>
+
+<p>But in this lecture we are not using <code>spring-boot-starter-web</code> with a controller endpoint, a browser request or a Postman request. So we need a way to run some code after the Spring Boot application starts. Spring Boot gives us two common interfaces for this:</p>
+<ul>
+<li><code>CommandLineRunner</code>;</li>
+<li><code>ApplicationRunner</code>.</li>
+</ul>
+<p>These interfaces allow us to run code after the Spring container is ready. That is the key phrase: after the container is ready, which means dependencies are injected and configuration is bound.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Runner" confuses people because it sounds like you start it. You do not. You register a bean; Spring Boot finds it and invokes it once after startup.</p>
+</blockquote>
+<h2 id="13-why-not-call-the-bean-manually-from-main">13. Why Not Call the Bean Manually from main()?</h2>
+<p>Technically, we can do this inside <code>main()</code>:</p>
+<div class="highlight"><pre><span></span><code>ConfigurableApplicationContext context = SpringApplication.run(DemoApplication.class, args);
+PaymentGateway paymentGateway = context.getBean(PaymentGateway.class);
+paymentGateway.pay();
+</code></pre></div>
+
+<p>This works. But this should not be the main approach in a Spring Boot application. Why? Because it brings us back to a manual style:</p>
+<ol>
+<li>start context manually;</li>
+<li>fetch bean manually;</li>
+<li>call method manually.</li>
+</ol>
+<p>A better Spring Boot style is: let Spring create a bean that runs automatically after startup. That is where runner interfaces help.</p>
+<blockquote class="callout callout--important">
+<p>Important: The runner is itself a bean. You do not call it. Spring discovers it and calls its <code>run</code> method for you, which is exactly the Inversion of Control that Spring Boot is built on.</p>
+</blockquote>
+<h2 id="14-commandlinerunner-and-passing-arguments">14. CommandLineRunner and Passing Arguments</h2>
+<p><code>CommandLineRunner</code> is a Spring Boot interface used to run code after the Spring application has started. Example:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nn">in.strikes.demo</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.boot.CommandLineRunner</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Component</span><span class="p">;</span>
+
+<span class="nd">@Component</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">DemoRunner</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">CommandLineRunner</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PaymentGateway</span><span class="w"> </span><span class="n">paymentGateway</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">DemoRunner</span><span class="p">(</span><span class="n">PaymentGateway</span><span class="w"> </span><span class="n">paymentGateway</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">paymentGateway</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">paymentGateway</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="n">String</span><span class="p">...</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">paymentGateway</span><span class="p">.</span><span class="na">pay</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>What happens here:</p>
+<div class="highlight"><pre><span></span><code>Spring creates DemoRunner as a bean
+        |
+        v
+Spring injects PaymentGateway into DemoRunner
+        |
+        v
+Spring Boot sees DemoRunner implements CommandLineRunner
+        |
+        v
+Spring Boot calls run() after startup
+        |
+        v
+paymentGateway.pay() executes
+</code></pre></div>
+
+<p>The method signature is <code>public void run(String... args)</code>. Here <code>String... args</code> means the method can receive multiple command-line arguments as strings.</p>
+<p>Suppose we run the application from the terminal as <code>java -jar app.jar hello world</code>. Then inside <code>CommandLineRunner</code>, a loop over <code>args</code> prints:</p>
+<div class="highlight"><pre><span></span><code>hello
+world
+</code></pre></div>
+
+<p><code>CommandLineRunner</code> receives arguments as a simple string array.</p>
+<h2 id="15-applicationrunner">15. ApplicationRunner</h2>
+<p><code>ApplicationRunner</code> is similar to <code>CommandLineRunner</code>. The difference is that it provides arguments in a more structured form using <code>ApplicationArguments</code>. Its method signature is <code>public void run(ApplicationArguments args)</code>. Instead of raw string arguments, Spring Boot gives us an <code>ApplicationArguments</code> object, and this object can understand option arguments more clearly.</p>
+<p>For example, if we run <code>java -jar app.jar --provider=Razorpay --retry=3</code>, <code>ApplicationRunner</code> can read these as named options using <code>args.getOptionValues("provider")</code> and <code>args.getOptionValues("retry")</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>CommandLineRunner</th>
+<th>ApplicationRunner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method</td>
+<td>run(String... args)</td>
+<td>run(ApplicationArguments args)</td>
+</tr>
+<tr>
+<td>Argument form</td>
+<td>Raw string array</td>
+<td>Structured object</td>
+</tr>
+<tr>
+<td>Option parsing</td>
+<td>Do it yourself</td>
+<td>Built into ApplicationArguments</td>
+</tr>
+<tr>
+<td>Named options</td>
+<td>Not distinguished</td>
+<td>Read via getOptionValues(name)</td>
+</tr>
+<tr>
+<td>When to use</td>
+<td>Simple arguments</td>
+<td>Options like --key=value</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>After startup</td>
+<td>After startup</td>
+</tr>
+</tbody>
+</table>
+<p>So the simple difference is: <code>CommandLineRunner</code> gives raw String arguments; <code>ApplicationRunner</code> gives structured <code>ApplicationArguments</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The expected distinction is not "they are the same." It is: both run after startup, but <code>ApplicationRunner</code> gives you parsed, named access to arguments while <code>CommandLineRunner</code> hands you the raw array.</p>
+</blockquote>
+<h2 id="16-complete-startup-flow">16. Complete Startup Flow</h2>
+<p>A simplified Spring Boot startup flow looks like this:</p>
+<div class="highlight"><pre><span></span><code>main() method starts
+        |
+        v
+SpringApplication.run() executes
+        |
+        v
+Spring Boot prepares the Environment
+        |
+        v
+Configuration values are loaded
+(application.properties, application.yml,
+ environment variables, command-line arguments, etc.)
+        |
+        v
+ApplicationContext is created
+        |
+        v
+@SpringBootApplication is processed
+        |
+        v
+@ComponentScan scans the package
+        |
+        v
+@Component / @Service / @Repository / @Controller
+classes are discovered
+        |
+        v
+@EnableAutoConfiguration checks dependencies on the classpath
+        |
+        v
+Matching auto-configurations are applied
+        |
+        v
+Beans are created
+        |
+        v
+Dependencies are injected
+        |
+        v
+Configuration values are injected or bound
+(@Value / @ConfigurationProperties)
+        |
+        v
+CommandLineRunner / ApplicationRunner executes
+        |
+        v
+Application either exits or keeps running
+depending on the type of application
+</code></pre></div>
+
+<p>In simple words: Spring Boot starts the container, loads configuration, scans classes, creates beans, injects dependencies, applies auto-configuration, and finally runs startup logic.</p>
+<blockquote class="callout callout--important">
+<p>Important: Notice the order. Configuration is loaded into the Environment before beans are created, which is why <code>@Value</code> and <code>@ConfigurationProperties</code> can be satisfied during bean creation. The runners run last, after everything is ready.</p>
+</blockquote>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Values in application.properties are automatically external."</td>
+<td>A file under <code>src/main/resources</code> is packaged in the JAR; externalization comes from override sources or an external file.</td>
+</tr>
+<tr>
+<td>"@Value and @ConfigurationProperties are interchangeable."</td>
+<td>Both read config, but <code>@Value</code> injects one key and <code>@ConfigurationProperties</code> binds a group to a typed object.</td>
+</tr>
+<tr>
+<td>"Renaming application.properties is fine."</td>
+<td>The name and location are the convention Spring Boot loads by default.</td>
+</tr>
+<tr>
+<td>"Spring Boot only supports .properties."</td>
+<td>It also supports <code>application.yml</code>; the difference is mainly writing style.</td>
+</tr>
+<tr>
+<td>"A runner is called by main()."</td>
+<td>A runner is a bean; Spring discovers it and calls <code>run</code> after startup.</td>
+</tr>
+<tr>
+<td>"CommandLineRunner and ApplicationRunner differ in timing."</td>
+<td>Both run after startup; they differ in how arguments are delivered.</td>
+</tr>
+<tr>
+<td>"@Value can leave a missing property silent."</td>
+<td>A missing property with no default may fail startup; use <code>${key:default}</code> when optional.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "A properties file is always external configuration."</strong>
+Verdict: Partly false. Placed in <code>src/main/resources</code>, it is packaged inside the JAR and still needs a rebuild when changed in source. True externalization means overriding from outside: env vars, command-line args, system properties, or an external file.</p>
+<p><strong>Trap 2 - "application.properties is the only supported format."</strong>
+Verdict: False. Spring Boot also supports <code>application.yml</code>; both hold the same configuration, differing mainly in writing style.</p>
+<p><strong>Trap 3 - "@Value is always better than @ConfigurationProperties."</strong>
+Verdict: False. <code>@Value</code> is fine for one or two simple values; for many related properties it becomes repetitive and messy.</p>
+<p><strong>Trap 4 - "payment.retry-count cannot bind to retryCount."</strong>
+Verdict: False. Relaxed binding converts kebab-case, snake_case and upper-case forms into the camelCase field name.</p>
+<p><strong>Trap 5 - "If a property is missing, @Value quietly uses null."</strong>
+Verdict: False. Without a default, a missing property may fail during startup; provide <code>${payment.provider:DefaultProvider}</code> for optional values.</p>
+<p><strong>Trap 6 - "Runners run while the container is still starting."</strong>
+Verdict: False. <code>CommandLineRunner</code> and <code>ApplicationRunner</code> run after the Spring container is ready and dependencies are injected.</p>
+<p><strong>Trap 7 - "Calling context.getBean(...) from main() is the Spring way."</strong>
+Verdict: False. It compiles and runs, but it is manual style. The Spring Boot way is to let a bean run automatically, which is what runners are for.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Hardcoding values forces change code, recompile, rebuild and redeploy cycles.</li>
+<li><code>application.properties</code> is a key-value file loaded by convention from <code>src/main/resources</code>.</li>
+<li>YAML (<code>application.yml</code>) is an equally valid format with a different writing style.</li>
+<li>A file inside <code>src/main/resources</code> is packaged in the JAR; externalization means overriding from outside.</li>
+<li>Externalized configuration keeps changeable values out of Java business logic.</li>
+<li><code>@Value("${key}")</code> injects a single value; <code>${key:default}</code> supplies a fallback.</li>
+<li>Many related properties make <code>@Value</code> repetitive and hard to maintain.</li>
+<li><code>@ConfigurationProperties(prefix = "payment")</code> binds a group of keys to a typed Java object.</li>
+<li>Relaxed binding maps kebab-case keys to camelCase fields (<code>payment.retry-count</code> to <code>retryCount</code>).</li>
+<li><code>CommandLineRunner</code> gives raw strings; <code>ApplicationRunner</code> gives structured <code>ApplicationArguments</code>, both after startup.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why do we need configuration in Spring Boot?</td>
+<td>To keep values that change (provider, timeout, flags, URLs, ports, keys) out of Java code, avoiding recompile/rebuild/redeploy for every change.</td>
+</tr>
+<tr>
+<td>What is application.properties?</td>
+<td>A key-value configuration file Spring Boot reads automatically from <code>src/main/resources</code> by convention.</td>
+</tr>
+<tr>
+<td>Is it really external?</td>
+<td>Not automatically; when packaged it lives in the JAR. True externalization overrides it from env vars, command-line args, system properties or external files.</td>
+</tr>
+<tr>
+<td>How does @Value work?</td>
+<td>It reads a property from the Spring Environment using <code>${key}</code> and injects it into a field or constructor parameter.</td>
+</tr>
+<tr>
+<td>How do you give a default with @Value?</td>
+<td>Use <code>${key:default}</code>; the value after the colon is used when the property is missing.</td>
+</tr>
+<tr>
+<td>Why not use @Value everywhere?</td>
+<td>It becomes repetitive and messy when many related properties are injected one by one.</td>
+</tr>
+<tr>
+<td>What is @ConfigurationProperties?</td>
+<td>An annotation that binds a group of related properties sharing a prefix to a Java object's fields.</td>
+</tr>
+<tr>
+<td>How does payment.retry-count map to retryCount?</td>
+<td>Relaxed binding; Spring Boot converts kebab-case, snake_case and upper-case names to camelCase fields.</td>
+</tr>
+<tr>
+<td>@Value vs @ConfigurationProperties?</td>
+<td><code>@Value</code> for one or two simple values; <code>@ConfigurationProperties</code> for a group of related values and cleaner code.</td>
+</tr>
+<tr>
+<td>Why runner interfaces?</td>
+<td>A web app runs on requests; runners let a non-web app run code after the container is ready.</td>
+</tr>
+<tr>
+<td>CommandLineRunner vs ApplicationRunner?</td>
+<td><code>CommandLineRunner</code> gives raw <code>String... args</code>; <code>ApplicationRunner</code> gives structured <code>ApplicationArguments</code> with named options.</td>
+</tr>
+<tr>
+<td>Why not call the bean manually from main()?</td>
+<td>It works but is manual style (start context, fetch bean, call method); runners let Spring invoke startup logic automatically.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Hardcoded values
+        |
+        v
+application.properties / application.yml
+        |
+        v
+Externalized configuration
+(env vars, command-line args, system properties, external files)
+        |
+        v
+@Value (single value)  |  @ConfigurationProperties (group)
+        |
+        v
+Spring loads Environment -&gt; creates beans -&gt; injects / binds values
+        |
+        v
+CommandLineRunner / ApplicationRunner run after startup
+</code></pre></div>
+
+<ul>
+<li>Hardcoding forces change, recompile, rebuild, redeploy; configuration removes that cycle.</li>
+<li><code>application.properties</code> is a key-value file loaded by convention; YAML is an alternative style.</li>
+<li>A file in <code>src/main/resources</code> is packaged in the JAR; externalization overrides it from outside.</li>
+<li><code>@Value</code> injects one value, with <code>${key:default}</code> for optional properties.</li>
+<li>Too many <code>@Value</code> annotations become repetitive; <code>@ConfigurationProperties(prefix = "payment")</code> binds the group.</li>
+<li>Relaxed binding connects kebab-case keys to camelCase fields.</li>
+<li>Runners execute startup logic after the container is ready; <code>CommandLineRunner</code> is raw, <code>ApplicationRunner</code> is structured.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> keep changeable values in configuration, inject them with <code>@Value</code> or bind them with <code>@ConfigurationProperties</code>, and let runner interfaces execute startup logic after the container is ready.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-09.html"><span class="dir">Previous</span><span class="ttl">Lecture 09 — Spring Boot Core</span></a><a class="next" href="doc-theory-lecture-11.html"><span class="dir">Next</span><span class="ttl">Lecture 11 — Spring Boot CRUD Project from Scratch</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

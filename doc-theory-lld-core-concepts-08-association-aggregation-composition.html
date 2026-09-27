@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Association, Aggregation, Composition — LLD</title>
+<meta name="description" content="Association, Aggregation, Composition">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lld-core-concepts-08-association-aggregation-composition">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#the-idea">The Idea</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#composition-in-code">Composition, In Code</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#aggregation-in-code">Aggregation, In Code</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#dont-bother-if">Don&#x27;t Bother If</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#quick-check">Quick Check</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#how-its-drawn">How It&#x27;s Drawn</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#in-the-interview">In The Interview</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#how-its-different">How It&#x27;s Different</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#watch-out-for">Watch Out For</a></li><li><a href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html#where-its-used">Where It&#x27;s Used</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Theory &amp; Notes</p>
+<h1>Association, Aggregation, Composition</h1>
+<p class="readmeta">10 sections · 747 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<blockquote class="callout callout--note">
+<p>Notation · LLD Core Concepts · Concept 08 of 09</p>
+</blockquote>
+<h2 id="the-idea">The Idea</h2>
+<p>Three arrows, three stories.</p>
+<h3 id="the-three">The Three</h3>
+<ul>
+<li><strong>Association:</strong> plain line. Two classes just know each other. A Driver knows a Car.</li>
+<li><strong>Aggregation:</strong> open diamond. A whole holds parts that outlive it. A Playlist holds Songs.</li>
+<li><strong>Composition:</strong> filled diamond. The whole owns the parts' lifetime. An Order owns its Lines.</li>
+</ul>
+<h2 id="composition-in-code">Composition, In Code</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Order</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OrderLine</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addLine</span><span class="p">(</span><span class="n">Item</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">qty</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lines</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">OrderLine</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">qty</span><span class="p">));</span>
+<span class="w">        </span><span class="c1">// Order creates its own lines</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">cancel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">lines</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// lines die when the order does</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// an OrderLine has no meaning outside an Order</span>
+</code></pre></div>
+
+<p>Owns the lifetime.</p>
+<h2 id="aggregation-in-code">Aggregation, In Code</h2>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">Playlist</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Song</span><span class="o">&gt;</span><span class="w"> </span><span class="n">songs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">Song</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">songs</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// Song already exists elsewhere</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">Song</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">songs</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// doesn&#39;t delete the Song</span>
+<span class="p">}</span>
+<span class="c1">// a Song is built and owned by a Library, only referenced here</span>
+</code></pre></div>
+
+<p>Borrows a reference.</p>
+<h2 id="dont-bother-if">Don't Bother If</h2>
+<ul>
+<li>The ownership question genuinely doesn't matter. Say "association" and move on.</li>
+<li>Multiplicity (1, 0..1, <em>, 1..</em>) usually matters more than the diamond. Get it right first.</li>
+</ul>
+<h2 id="quick-check">Quick Check</h2>
+<p>Delete the whole: do the parts get deleted too? Yes: composition. No, just orphaned: aggregation. Not even that: association.</p>
+<h2 id="how-its-drawn">How It's Drawn</h2>
+<h3 id="the-three-arrows">The Three Arrows</h3>
+<div class="highlight"><pre><span></span><code>Driver ----------- Car
+    ASSOCIATION
+
+Playlist &lt;&gt;------- Song
+    AGGREGATION: OPEN DIAMOND, PARTS OUTLIVE IT
+
+Order &lt;#&gt;--------- OrderLine
+    COMPOSITION: FILLED DIAMOND, OWNS THE LIFETIME
+
+THE DIAMOND SITS ON THE WHOLE&#39;S END, NOT THE PART&#39;S.
+</code></pre></div>
+
+<h3 id="the-move-3-steps">The Move (3 Steps)</h3>
+<ol>
+<li>Ask the lifetime question first. Does the part's existence depend on the whole? Yes means composition.</li>
+<li>If the part is borrowed and survives independently, it's aggregation.</li>
+<li>If neither owns or contains the other, and they just call each other's methods, it's a plain association.</li>
+</ol>
+<h2 id="in-the-interview">In The Interview</h2>
+<blockquote class="callout callout--note">
+<p>"OrderLines don't exist outside an Order, so that's composition, a filled diamond: the Order creates and clears them. Songs outlive any one Playlist, so that's aggregation, an open diamond: the Playlist only holds a reference it didn't create."</p>
+</blockquote>
+<h2 id="how-its-different">How It's Different</h2>
+<h3 id="the-confusion-pairs">The Confusion Pairs</h3>
+<p><strong>UML composition vs OOP composition.</strong> The OOP principle uses "composition" loosely for "holds a reference to," covering both aggregation and composition. The UML term is the stricter, lifetime-bound one.</p>
+<p><strong>Association vs dependency.</strong> Association is a structural reference held over time (a field). A dependency is used briefly inside one method (a parameter), gone after the call returns.</p>
+<p><strong>Aggregation vs shared ownership.</strong> Aggregation doesn't require exactly one owner. A Song can sit in many Playlists at once, which is exactly why deleting one can't delete it.</p>
+<p><strong>Composition vs a nested class.</strong> Composition is about object lifetime, not about whether the part happens to be a literal inner class in the code.</p>
+<h3 id="they-say-quick-on-the-whiteboard-is-a-teams-players-composition-or-aggregation">They Say: "quick, on the whiteboard: is a Team's Players composition or aggregation?"</h3>
+<ul>
+<li><strong>With it:</strong> ask if a Player still exists after being cut from the Team. Yes means aggregation, open diamond.</li>
+<li><strong>Without:</strong> guessing at the diamond without the lifetime question, and getting caught if they push on it.</li>
+</ul>
+<h2 id="watch-out-for">Watch Out For</h2>
+<ul>
+<li>The diamond sits on the whole's end of the line, not the part's. A common drawing mistake.</li>
+<li>Multiplicity labels (1, 0..1, <em>, 1..</em>) carry information the relationship type alone doesn't. Always add them.</li>
+<li>A List field alone doesn't tell you which relationship it is. The ownership question decides it, not the data structure.</li>
+<li>Association can be one-directional or bidirectional, say which; it changes what the diagram claims.</li>
+<li>Getting composition vs aggregation "wrong" rarely fails an interview alone; not being able to say why usually does.</li>
+</ul>
+<h2 id="where-its-used">Where It's Used</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>In this pack</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>06</td>
+<td>Composite the directory tree is a real composition: delete the folder, its files go with it</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Text Editor a CompoundEdit composes its Edits: undone as one, they don't exist apart from it</td>
+</tr>
+<tr>
+<td>08</td>
+<td>Snake &amp; Ladder a board's cells are a composition, no board, no cells</td>
+</tr>
+<tr>
+<td>01</td>
+<td>Coupling &amp; Cohesion a thin association is exactly what low coupling looks like on a diagram</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Approach framework step 4's vocabulary for drawing any relationship on a blank diagram</td>
+</tr>
+</tbody>
+</table>
+<div class="pager"><a class="prev" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html"><span class="dir">Previous</span><span class="ttl">Interface vs Abstract Class</span></a><a class="next" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html"><span class="dir">Next</span><span class="ttl">How to Approach Any LLD Problem</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

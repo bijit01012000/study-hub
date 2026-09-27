@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt and context engineering — AI / GenAI</title>
+<meta name="description" content="Prompt and context engineering">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-genai-questions-05-prompt-and-context-engineering">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="active" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>AI / GenAI</h4><details class="part"><summary>Theory &amp; Notes <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-00-overview.html" title="GenAI Concepts">GenAI Concepts</a><button class="star" data-doc="theory-genai-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="theory-genai-concepts-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="theory-genai-concepts-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="theory-genai-concepts-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="theory-genai-concepts-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="theory-genai-concepts-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="theory-genai-concepts-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="theory-genai-concepts-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="theory-genai-concepts-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="theory-genai-concepts-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="theory-genai-concepts-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="theory-genai-concepts-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="theory-genai-concepts-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="theory-genai-concepts-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="theory-genai-concepts-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="theory-genai-concepts-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-questions</li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-00-overview.html" title="GenAI Interview Questions">GenAI Interview Questions</a><button class="star" data-doc="practice-genai-questions-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="practice-genai-questions-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="practice-genai-questions-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="practice-genai-questions-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="practice-genai-questions-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="practice-genai-questions-05-prompt-and-context-engineering" title="Bookmark">☆</button></div><ul class="sections"></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="practice-genai-questions-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="practice-genai-questions-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="practice-genai-questions-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="practice-genai-questions-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="practice-genai-questions-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="practice-genai-questions-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="practice-genai-questions-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="practice-genai-questions-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="practice-genai-questions-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-ai.html">AI / GenAI</a> › Practice &amp; Questions</p>
+<h1>Prompt and context engineering</h1>
+<p class="readmeta">0 sections · 3,786 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-genai-questions-05-prompt-and-context-engineering" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 05 · 9 questions · 1 practical drill</p>
+<blockquote class="callout callout--note">
+<p>Treat the prompt as a versioned artefact with a contract.</p>
+</blockquote>
+<h3 id="q51-what-goes-in-your-system-prompt-and-what-deliberately-doesnt">Q5.1 — What goes in your system prompt, and what deliberately doesn't?</h3>
+<p><strong>Weak answer:</strong> "Our system prompt sets the persona, tone and JSON rule. We kept adding to it until it covered every edge case, so it is about 800 words now."</p>
+<p><strong>Why it fails:</strong>
+- It only ever grew, nothing was ever removed, so the 800 words is accretion, not design.
+- Persona and output format are treated as one instruction type, with no plan to enforce JSON in code.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name one thing deliberately kept out of the system prompt and pushed to per-request context.
+- No idea the system prompt is billed and reprocessed on every single call, whatever its length.</p>
+<p><strong>Model answer:</strong>
+1. I keep the system prompt to what is truly invariant: task definition, output contract and refusal rules, about 300 tokens for our invoice extraction service.
+2. Everything that varies by request goes in the user message, because the invariant prefix is what the provider's prompt cache keys on.
+3. My rule: behaviour goes in the system prompt, data to act on does not, so document text and locale never sit in the instruction layer.
+4. I once removed eleven accumulated edge case rules that had grown one bug at a time, two of which contradicted each other on a missing tax ID.
+5. I moved those rules into the schema as field descriptions instead, and the contradiction became obvious the moment two descriptions disagreed.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Which parts of that prompt change per request, and which are identical every call? · Tests whether the stable layer is separated from per-request content, the split that enables caching.
+2. <strong>FAILURE</strong> — When a bug came in, did you patch the prompt with a new sentence? What does that do over time? · Awareness that prompts accrete contradictions as patches pile up.
+3. <strong>TRADEOFF</strong> — What have you ever removed from the prompt, and how did you know it was safe to cut? · Whether anything is ever pruned, or the prompt only ever grows longer.
+4. <strong>MEASUREMENT</strong> — That prompt is paid for on every call. What does it cost you in a typical month? · Whether prompt length is connected to a real recurring bill, not ignored.</p>
+<p><strong>Tip:</strong> If you have kept a config file, a style guide or an onboarding doc lean by deciding what stays and what gets cut, that is the same instinct. Don't claim you have written a production system prompt. Say you have kept a shared document disciplined instead of letting it accrete.</p>
+<p><strong>Numbers worth quoting:</strong>
+- ~300 tokens, invariant only
+- Cache keys on exact prefix
+- Behaviour vs data test
+- Prune, don't just append</p>
+<h3 id="q52-you-need-reliable-structured-output-from-the-model-how-do-you-actually-get-it">Q5.2 — You need reliable structured output from the model. How do you actually get it?</h3>
+<p><strong>Weak answer:</strong> "We tell it in the prompt to respond in JSON with the fields we need, and give an example. It mostly works, and if parsing fails we retry once."</p>
+<p><strong>Why it fails:</strong>
+- Prose instruction is the only mechanism used, when stronger enforcement options exist.
+- Retry on parse failure catches malformed JSON, not JSON that parses but is wrong.</p>
+<p><strong>Instant rejection:</strong>
+- No distinction anywhere between syntactic validity and semantic correctness.
+- Never measured a parse failure rate, so "mostly works" has no number behind it.</p>
+<p><strong>Model answer:</strong>
+1. For document classification I use the provider's structured output mode with an explicit schema, not prose, since invalid tokens are never sampled.
+2. That removes syntactic failures, but nothing guarantees the evidence span actually appears in the source document.
+3. So after parsing I validate the span is a real substring and confidence sits in range, and treat a failure there as a model error.
+4. Our enum had six categories and about a twentieth of real documents were genuinely a seventh thing, forced into the nearest wrong label.
+5. Adding an explicit other category and a short reason field surfaced that gap instead of hiding it inside the six.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What is the difference between prose JSON, a function signature and constrained decoding? · Whether these are known as distinct mechanisms, not three phrasings of one idea.
+2. <strong>FAILURE</strong> — The JSON parses but the amount field has a currency symbol in it. Does your retry catch that? · Tests the gap between valid JSON and valid data, which retries do not catch.
+3. <strong>TRADEOFF</strong> — Your schema has a required enum. What happens when the right answer is not in it? · Whether schema rigidity itself has been considered as a failure source.
+4. <strong>MEASUREMENT</strong> — What is your parse failure rate, and did it change when you last switched models? · Whether reliability is measured and tracked across model changes.</p>
+<p><strong>Tip:</strong> If you have used a typed API response, a database constraint or a form validator to force a shape, you know this discipline. Don't claim you have shipped schema enforced generation. Say you would reach for a decoding guarantee over a prompt instruction.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Prose asks, decoding enforces
+- Valid JSON, still wrong data
+- ~5% forced into wrong enum
+- Track parse rate per model</p>
+<h3 id="q53-when-do-few-shot-examples-earn-their-place-and-when-do-they-stop">Q5.3 — When do few shot examples earn their place, and when do they stop?</h3>
+<p><strong>Weak answer:</strong> "Few shot helps a lot, we include five examples showing the output we want, and responses got much more consistent than zero shot."</p>
+<p><strong>Why it fails:</strong>
+- "Helps a lot" and "more consistent" are stated with nothing measured against a baseline.
+- No mention that those examples are paid for on every request, forever, at current volume.</p>
+<p><strong>Instant rejection:</strong>
+- Never re-tested whether a newer model still needs the examples at all.
+- Assumes more examples are always better, with no cost or drift check.</p>
+<p><strong>Model answer:</strong>
+1. On support ticket routing, few shot was clearly worth it at first, zero shot kept inventing category names outside our taxonomy.
+2. Four examples cut that almost to zero, but cost around 600 tokens on every call, the single largest line in our prompt budget.
+3. The examples also anchored length, the model gave a one line reason even for genuinely ambiguous tickets that deserved more.
+4. When we moved models I re-ran the eval with and without the examples, and the gap closed to within noise.
+5. We dropped them and kept the saving, since few shot is a patch with a recurring bill, re-tested on every model change.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — Those examples run on every request. What do they cost you at your current volume? · Whether the recurring token cost of examples has ever been worked out.
+2. <strong>FAILURE</strong> — When did you last check those examples against what your traffic looks like now? · Awareness that a fixed example set drifts from a changing input distribution.
+3. <strong>TRADEOFF</strong> — You upgrade to a stronger model. Do the examples still help, and how would you check? · Whether a decision made against an old model gets re-tested, not inherited.
+4. <strong>TECHNICAL</strong> — Your examples all show short inputs. What happens on a long one? · Understanding that examples anchor length and shape, not only format.</p>
+<p><strong>Tip:</strong> If you have added sample data to a form, a template or a test fixture to guide behaviour, that is the same lever. Don't claim you have tuned few shot prompts. Say you would test whether examples still earn their token cost.</p>
+<p><strong>Numbers worth quoting:</strong>
+- ~600 tokens, four examples
+- Examples anchor length too
+- Re-test on every model swap
+- Cut if gap closes to noise</p>
+<h3 id="q54-more-wants-to-fit-in-your-context-window-than-will-fit-how-do-you-decide-what-gets-in">Q5.4 — More wants to fit in your context window than will fit. How do you decide what gets in?</h3>
+<p><strong>Weak answer:</strong> "We have a large window so it is rarely a problem. We add the system prompt, retrieved chunks and history, and trim the oldest messages if needed."</p>
+<p><strong>Why it fails:</strong>
+- "Rarely a problem" answers the common case, not the contention the question actually asks about.
+- No reserve set aside for output tokens, so a long input can starve the completion.</p>
+<p><strong>Instant rejection:</strong>
+- Trims oldest-first with no reasoning about what that conversation turn actually loses.
+- Treats the advertised window size as the usable size, unaware fuller windows lose recall in the middle.</p>
+<p><strong>Model answer:</strong>
+1. I treat the window as a budget with named claimants, not a bucket that fills until something breaks.
+2. Output reserve comes first and is non-negotiable, since a truncated completion looks complete and is not.
+3. Then the fixed system prompt, then retrieved clauses capped by chunk count so one pathological chunk cannot swallow the budget.
+4. History gets whatever remains, and I evict it into a short running digest rather than dropping turns outright.
+5. Why a fuller window costs and reads worse is the KV cache mechanism, see Module 3 Q3.11, so I size against a usable window, not the advertised one.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Does filling the window to ninety percent change answer quality versus filling it to forty? · Awareness that usable context and maximum context are different numbers.
+2. <strong>FAILURE</strong> — You trim the oldest turns. What breaks when the user refers to the turn you just dropped? · Whether the cost of the chosen eviction policy is actually understood.
+3. <strong>TRADEOFF</strong> — Retrieved context and history both want the same tokens. Which wins, and who decided? · Whether a real priority order exists, or assembly order decides by accident.
+4. <strong>MEASUREMENT</strong> — What is your reserve for output tokens, and what happens when input eats into it? · Whether output space is budgeted, or a truncation bug looks like a quality problem.</p>
+<p><strong>Tip:</strong> If you have managed a fixed size cache, buffer or queue and decided what gets evicted first, that is this same skill. Don't claim you have tuned an LLM context budget. Say you have designed an eviction policy for a bounded resource before.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Reserve output tokens first
+- Usable window, not advertised
+- Cap chunks, not just tokens
+- See Module 3 Q3.11: KV cache</p>
+<h3 id="q55-how-do-you-ship-a-prompt-change-safely">Q5.5 — How do you ship a prompt change safely?</h3>
+<p><strong>Weak answer:</strong> "Prompts live in config so we can update without a deploy. We test against some examples first, and revert if something goes wrong."</p>
+<p><strong>Why it fails:</strong>
+- No deploy also means no code review or CI catches the change before it reaches users.
+- No version id, so a bad response in production cannot be traced back to the prompt that produced it.</p>
+<p><strong>Instant rejection:</strong>
+- "Some examples" is not a held out regression set, so nothing catches a case nobody thought to check.
+- No staged rollout, a change hits all traffic at once with no way to limit the blast radius.</p>
+<p><strong>Model answer:</strong>
+1. We treat a prompt like any deployable artefact, each one has a content hash and version stored with the text in the repo.
+2. That hash is written into every response log alongside the model id, so a complaint maps to an exact prompt and model.
+3. A change goes through a pull request like code, and CI runs it against a regression set of about 120 pinned cases.
+4. Assertions check properties like 'contains a citation' or 'validates against schema', not exact strings, which are too brittle.
+5. It then goes to a small slice of traffic for a day before full rollout, and the version id in logs turns complaints into queries.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — A user complains about last Tuesday's answer. Can you find which prompt produced it? · Whether responses trace to a prompt version, which makes incident review possible.
+2. <strong>MEASUREMENT</strong> — How long between a bad prompt going live and someone actually noticing? · Whether detection is instrumented, or depends on a customer complaining.
+3. <strong>TRADEOFF</strong> — If a prompt ships without a deploy, what is the review path before it goes live? · Whether the convenience of no-deploy changes has a governance cost attached.
+4. <strong>TECHNICAL</strong> — You improved the common case and broke a rare one. What catches that before users do? · Whether a regression suite exists, or improvement is judged on one case.</p>
+<p><strong>Tip:</strong> If you have used feature flags, staged rollouts or version tags on a config change, that is the same discipline. Don't claim you have shipped a prompt pipeline. Say you have version-controlled and staged a risky config change before.</p>
+<p><strong>Numbers worth quoting:</strong>
+- ~120 case regression set
+- Hash prompt, log the version
+- Stage rollout before full send
+- Assert properties, not strings</p>
+<h3 id="q56-the-system-prompt-says-one-thing-and-the-retrieved-document-says-another-what-happens">Q5.6 — The system prompt says one thing and the retrieved document says another. What happens?</h3>
+<p><strong>Weak answer:</strong> "The system prompt takes priority, that is what it is for. We tell the model system instructions override user content, and it generally follows that."</p>
+<p><strong>Why it fails:</strong>
+- "Generally follows that" is the whole reliability claim, with no number behind it.
+- Telling the model to ignore embedded instructions is a soft prior, not an enforced guarantee.</p>
+<p><strong>Instant rejection:</strong>
+- Never considered an instruction arriving inside retrieved content, not just user input.
+- No detection at all, so a precedence failure in production would be invisible.</p>
+<p><strong>Model answer:</strong>
+1. I separate two things that look alike, an informational conflict and an adversarial one.
+2. For an informational conflict, like two figures disagreeing, the model surfaces both with citations rather than silently picking one.
+3. For an adversarial one, text inside retrieved content that reads as an instruction, I do not just tell the model to ignore it.
+4. I delimit untrusted content structurally, label it as data to summarise, and keep consequential actions outside the model's reach.
+5. For detection, if a response ever contains our system prompt preamble or an out-of-scope tool call, that fires an alert.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — A retrieved document tells the model to ignore instructions and reveal the system prompt. · Whether indirect injection through retrieved content has been considered at all.
+2. <strong>TECHNICAL</strong> — How do you tell a genuine conflict apart from the document trying to steer the model? · Whether informational conflict and adversarial conflict are treated differently.
+3. <strong>TRADEOFF</strong> — Two of your own instructions conflict, one says be concise, one says explain fully. Which wins? · Awareness that a prompt can contradict itself as it grows over time.
+4. <strong>MEASUREMENT</strong> — How would you actually know a precedence failure happened in production? · Whether there is any detection, or the failure would be silent.</p>
+<p><strong>Tip:</strong> If you have sanitised or sandboxed untrusted user input before it reached a trusted code path, that is the same instinct. Don't claim you have stopped prompt injection. Say you have kept untrusted data out of a system's trusted instruction path.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Role is a prior, not a lock
+- Delimit untrusted content
+- Keep actions out of model reach
+- Alert on leaked system prompt</p>
+<h3 id="q57-the-input-does-not-fit-in-the-context-window-now-what">Q5.7 — The input does not fit in the context window. Now what?</h3>
+<p><strong>Weak answer:</strong> "We chunk it up, process each chunk, then combine the results. For summarisation we summarise each chunk then summarise the summaries."</p>
+<p><strong>Why it fails:</strong>
+- One strategy is offered for every task shape, with no criterion for choosing it.
+- Map-reduce is named without its known weakness, losing relationships that cross chunks.</p>
+<p><strong>Instant rejection:</strong>
+- No consideration of whether the task even permits being decomposed at all.
+- No mention that chunking multiplies the number of calls, and the cost with it.</p>
+<p><strong>Model answer:</strong>
+1. The first question is whether the task decomposes at all, since that decides everything after it.
+2. Extraction usually does, pulling terms from a long agreement is independent per section, so map and merge trivially.
+3. Anything relational usually does not, a compliance check asking if a document contradicts itself defeats map-reduce entirely.
+4. For that we extract every obligation with its clause reference first, then reason over that small reduced set in one call.
+5. Where the question is narrow rather than exhaustive, we retrieve over the document instead, turning ninety calls into three.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — Two clauses that contradict each other land in different chunks. Does your approach catch it? · Whether decomposition destroys the cross-chunk relationship some tasks depend on.
+2. <strong>TRADEOFF</strong> — Map-reduce versus refining iteratively, when does each lose information, and which loses more? · Whether the strategies are known to have distinct, specific failure modes.
+3. <strong>MEASUREMENT</strong> — What does processing a five hundred page document this way cost against one call? · Whether the multiplied call cost of chunking is actually accounted for.
+4. <strong>TECHNICAL</strong> — Is there a version of this where you do not process the whole document at all? · Whether retrieval is considered as an alternative to exhaustive processing.</p>
+<p><strong>Tip:</strong> If you have paginated, batched or streamed a dataset too large to hold in memory at once, that is the same shape of problem. Don't claim you have designed document chunking. Say you have chosen a decomposition strategy for a fixed size limit before.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Decompose only if task allows
+- Map-reduce loses cross-links
+- Reduce to entities, then reason
+- Retrieve narrow, not exhaustive</p>
+<h3 id="q58-when-is-fixing-the-prompt-the-wrong-fix">Q5.8 — When is fixing the prompt the wrong fix?</h3>
+<p><strong>Weak answer:</strong> "If prompting does not solve it, we would look at fine-tuning or a bigger model. Usually enough iteration gets things working."</p>
+<p><strong>Why it fails:</strong>
+- Jumps straight to fine-tuning, skipping causes that sit between wording and model capability.
+- "Usually enough iteration works" is the exact belief this question is testing, stated as fact.</p>
+<p><strong>Instant rejection:</strong>
+- No mention of retrieval, data quality, or the task being underspecified in the first place.
+- No stopping rule at all, iteration continues until someone loses patience.</p>
+<p><strong>Model answer:</strong>
+1. My rule is roughly three substantive iterations, if three genuine attempts do not move the eval number, the wording is almost certainly not the cause.
+2. The isolation step is cheap and comes first, hand the model known-good context for the failing case and see if it answers correctly.
+3. If it does, the prompt was never the problem, I was editing the wrong file while the real fault sat upstream.
+4. That is how our biggest misdiagnosis resolved, we spent a week rewording a citation instruction while the retriever returned a summary page with nothing to cite.
+5. I am also wary of patching rare cases into a shared prompt, a rule serving half a percent of traffic is paid for in tokens by all of it.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TRADEOFF</strong> — How many iterations before you stop and look elsewhere? What is the actual rule? · Whether a stopping rule exists, or iteration continues until patience runs out.
+2. <strong>FAILURE</strong> — Give me a case where the prompt looked wrong but the real problem was upstream. · Whether a real misdiagnosis has been experienced and recognised as such.
+3. <strong>TECHNICAL</strong> — How would you tell a prompt problem from a retrieval problem, without changing either? · Whether an isolation procedure exists, like feeding known-good context by hand.
+4. <strong>MEASUREMENT</strong> — Your prompt has a rule for half a percent of traffic. What did that cost the rest? · Awareness that patching rare cases in a shared prompt taxes every request.</p>
+<p><strong>Tip:</strong> If you have chased a bug for days assuming the code was wrong before checking the data feeding it, that is the same instinct. Don't claim you have diagnosed a failing prompt. Say you would isolate the cause before touching the wording at all.</p>
+<p><strong>Numbers worth quoting:</strong>
+- ~3 iterations, then stop
+- Feed known-good context first
+- Week lost to wrong diagnosis
+- Rare fix taxes all traffic</p>
+<h3 id="q59-drill-diagnose-a-failing-invoice-extraction-prompt-specify-the-fix-and-the-test-that-proves-it-practical-drill">Q5.9 — DRILL: diagnose a failing invoice extraction prompt, specify the fix and the test that proves it. <em>(practical drill)</em></h3>
+<p><strong>Weak answer:</strong> "N/A, this is a drill. A weak attempt starts rewriting the prompt at once, without separating the two failure modes described."</p>
+<p><strong>Why it fails:</strong>
+- Rewrites before reproducing, so there is no baseline and two distinct failure modes get treated as one problem.
+- Defines success as working on the cases just looked at, never asks if the model's actual input was correct.</p>
+<p><strong>Instant rejection:</strong>
+- Never inspects the raw OCR text before assuming the model itself invented the date.
+- No held-out set, so the fix's success is judged only on the failures already inspected.</p>
+<p><strong>Model answer:</strong>
+1. I treat these as two separate defects rather than one prompt problem, since they have different causes.
+2. Defect one, subtotal returned as total, is a naming ambiguity, so I rename the field to grand total including tax and add subtotal and tax as siblings.
+3. Defect two, the invented date, I check the raw OCR text for ten failing invoices before blaming the model at all.
+4. If the date is genuinely absent, I make the field nullable with a not found reason, since a required field invites fabrication.
+5. I harvest the fifteen percent of failures into a regression set, tune on half, measure on the other, and cost the schema change at roughly twenty tokens a request.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Which failure mode would a schema change fix, and which would it not touch at all? · Whether enforcement mechanisms are matched to the specific failure, not applied broadly.
+2. <strong>FAILURE</strong> — The invented date, is the model hallucinating, or is OCR handing it a date that is not there? · Whether the input is checked before the model gets blamed for the error.
+3. <strong>MEASUREMENT</strong> — You need to prove the fix worked. What is in your test set, and where did the failures go? · Whether failing cases are harvested into a regression set, not just discarded.
+4. <strong>TRADEOFF</strong> — Your fix helps some cases but taxes every request. At what volume does it stop being worth it? · Whether the fix is costed against the full traffic it taxes, not just the fix.</p>
+<p><strong>Tip:</strong> If you have debugged an issue by checking the upstream data before touching your own code, that is this same discipline. This is a drill, you are not expected to have shipped this. Say how you would diagnose it, not that you have.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Two defects, two causes
+- Check OCR before blaming model
+- Nullable field beats fabrication
+- ~20 tokens, cost the fix</p>
+<div class="pager"><a class="prev" href="doc-practice-genai-questions-04-model-selection-and-adaptation.html"><span class="dir">Previous</span><span class="ttl">Model selection and adaptation</span></a><a class="next" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html"><span class="dir">Next</span><span class="ttl">Retrieval and RAG architecture</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

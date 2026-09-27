@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC — Java</title>
+<meta name="description" content="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-45">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-45.html#lecture-45">Lecture 45</a></li><li><a href="doc-theory-lecture-45.html#1-the-runtime-data-areas-per-thread-vs-shared">1. The Runtime Data Areas: Per-Thread vs Shared</a></li><li><a href="doc-theory-lecture-45.html#2-the-stack-frames-locals-and-lifo-discipline">2. The Stack: Frames, Locals, and LIFO Discipline</a></li><li><a href="doc-theory-lecture-45.html#3-stackoverflowerror-when-the-stack-runs-out">3. StackOverflowError: When the Stack Runs Out</a></li><li><a href="doc-theory-lecture-45.html#4-the-heap-where-every-object-and-array-lives">4. The Heap: Where Every Object and Array Lives</a></li><li><a href="doc-theory-lecture-45.html#5-stack-vs-heap-ownership-size-speed-errors">5. Stack vs Heap: Ownership, Size, Speed, Errors</a></li><li><a href="doc-theory-lecture-45.html#6-the-method-area-metaspace-class-metadata-and-statics">6. The Method Area / Metaspace: Class Metadata and Statics</a></li><li><a href="doc-theory-lecture-45.html#7-permgen-vs-metaspace-the-java-8-change">7. PermGen vs Metaspace: The Java 8 Change</a></li><li><a href="doc-theory-lecture-45.html#8-the-pc-register-and-the-native-method-stack">8. The PC Register and the Native Method Stack</a></li><li><a href="doc-theory-lecture-45.html#9-references-reassignment-and-escape-analysis">9. References, Reassignment, and Escape Analysis</a></li><li><a href="doc-theory-lecture-45.html#10-pitfalls-and-common-traps">10. Pitfalls and Common Traps</a></li><li><a href="doc-theory-lecture-45.html#11-myth-vs-reality">11. Myth vs Reality</a></li><li><a href="doc-theory-lecture-45.html#12-common-trap-questions">12. Common Trap Questions</a></li><li><a href="doc-theory-lecture-45.html#13-points-to-remember">13. Points to Remember</a></li><li><a href="doc-theory-lecture-45.html#14-likely-interview-questions">14. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-45.html#15-final-summary">15. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</h1>
+<p class="readmeta">16 sections · 3,498 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-45" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-45">Lecture 45</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Memory Management Explained in Depth | Stack, Heap, Method Area &amp; PC" (playlist map, verified). Repo evidence: 2 Demo files.</p>
+</blockquote>
+<p>Every Java program runs inside a JVM whose memory is divided into well-defined runtime data areas, and the split between the stack and the heap is the most examined memory topic in Java interviews. Some areas belong to a single thread and die with it, while others are shared by every thread and live as long as the JVM. Understanding which area holds what explains recursion failures, object lifetimes, static state and garbage collection. This lecture maps the JVM runtime data areas — Heap, Method Area (Metaspace), Stack, PC Register and Native Method Stack — and follows a reference on the stack to the object it points to on the heap.</p>
+<h2 id="1-the-runtime-data-areas-per-thread-vs-shared">1. The Runtime Data Areas: Per-Thread vs Shared</h2>
+<p>The JVM specification divides runtime memory into five data areas. The first cut is ownership: three areas are created per thread, and two are created once and shared by all threads.</p>
+<ol>
+<li><strong>Per-thread areas</strong> — JVM Stack, PC (Program Counter) Register, Native Method Stack. Each thread gets its own copy, created when the thread starts and destroyed when it ends.</li>
+<li><strong>Shared areas</strong> — Heap and Method Area. Created at JVM start-up and shared by every thread.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Ownership</th>
+<th>Holds</th>
+<th>Error thrown</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Heap</td>
+<td>shared by all threads</td>
+<td>every object and array; string-pool literals</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>Method Area / Metaspace</td>
+<td>shared by all threads</td>
+<td>class metadata, field and method data, bytecode, static variables</td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>JVM Stack</td>
+<td>one per thread</td>
+<td>frames: local variables, operand stack, return address</td>
+<td><code>StackOverflowError</code></td>
+</tr>
+<tr>
+<td>PC Register</td>
+<td>one per thread</td>
+<td>address of the instruction the thread is executing</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Native Method Stack</td>
+<td>one per thread</td>
+<td>frames for native (non-Java) methods via JNI</td>
+<td><code>StackOverflowError</code> / <code>OutOfMemoryError</code></td>
+</tr>
+</tbody>
+</table>
+<p>Memory aid: <strong>two shared, three per-thread; the CPU-tracked areas are per-thread, the data areas are shared</strong>.</p>
+<h2 id="2-the-stack-frames-locals-and-lifo-discipline">2. The Stack: Frames, Locals, and LIFO Discipline</h2>
+<p>Each thread has its own <strong>JVM stack</strong>, a last-in-first-out (LIFO) region of memory. Every method call pushes one <strong>frame</strong> onto the thread's stack, and every return pops it. A frame holds three things:</p>
+<ol>
+<li><strong>Local variables</strong> — the method's parameters and locals. A primitive local (<code>int</code>, <code>double</code>, <code>boolean</code>) is stored directly in the frame. A local object variable stores a <strong>reference</strong>, not the object.</li>
+<li><strong>Operand stack</strong> — the working area where the bytecode pushes and pops intermediate values while computing an expression.</li>
+<li><strong>Return address / frame data</strong> — enough bookkeeping to resume the caller after the method returns.</li>
+</ol>
+<p>The LIFO order matches the call graph: a method that is called last must finish first. Because the stack is small and its top moves by a simple pointer, allocation and deallocation of frames are extremely fast — faster than heap allocation, which must find space and later be reclaimed.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — each call pushes a frame; each return pops it (sketch)</span>
+<span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w">      </span><span class="c1">// a, b, sum live in this frame on the stack</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span><span class="w">           </span><span class="c1">// frame popped; locals gone</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+A local statement such as <code>Object o = new Object();</code> creates the object on the shared heap and stores only the <strong>reference</strong> <code>o</code> in the frame. The stack never holds the object itself.</p>
+</blockquote>
+<h2 id="3-stackoverflowerror-when-the-stack-runs-out">3. StackOverflowError: When the Stack Runs Out</h2>
+<p>The stack has a fixed maximum size — typically a fraction of a megabyte to a couple of megabytes, tunable with <code>-Xss</code>. Because each call consumes a frame and frames are only released on return, an unbounded chain of calls exhausts the stack. The JVM then throws <strong><code>StackOverflowError</code></strong>. This is the classic outcome of recursion without a base case (cross-ref Lecture 11).</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — unbounded recursion exhausts the stack</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">recurse</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">depth</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;depth = &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">depth</span><span class="p">);</span>
+<span class="w">        </span><span class="n">recurse</span><span class="p">(</span><span class="n">depth</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">            </span><span class="c1">// no base case -&gt; frames never pop</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">recurse</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">StackOverflowError</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;caught StackOverflowError&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Two facts separate this from a heap failure:</p>
+<ol>
+<li><code>StackOverflowError</code> is thrown when the <strong>stack</strong> is full — usually deep or infinite recursion — not because the heap is full.</li>
+<li>The size is controlled by <code>-Xss</code> (for example <code>-Xss1m</code>). Increasing it delays the error but never removes the missing base case.</li>
+</ol>
+<blockquote class="callout callout--note">
+<p>Common mistake
+Catching <code>StackOverflowError</code> and continuing can leave the thread in a damaged state; the correct fix is a terminating condition or the removal of the recursion.</p>
+</blockquote>
+<h2 id="4-the-heap-where-every-object-and-array-lives">4. The Heap: Where Every Object and Array Lives</h2>
+<p>The <strong>heap</strong> is the shared region where every object and every array is allocated, whatever method or thread created it (cross-ref Lecture 10 and Lecture 12). The heap is the largest area and the one the Garbage Collector (forward-ref Lecture 46) manages: an object stays alive as long as some reachable reference points to it, and it is reclaimed once no such reference remains.</p>
+<p>The heap is sized by two flags: <code>-Xms</code> sets the initial size and <code>-Xmx</code> sets the maximum. If the collector cannot free enough space before the maximum is reached, the JVM throws <strong><code>OutOfMemoryError: Java heap space</code></strong>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — the reference is on the stack, the object is on the heap</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">StringBuilder</span><span class="w"> </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StringBuilder</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">);</span><span class="w">   </span><span class="c1">// sb (stack) -&gt; heap object</span>
+<span class="w">        </span><span class="n">StringBuilder</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sb</span><span class="p">;</span><span class="w">                          </span><span class="c1">// second reference to the SAME object</span>
+<span class="w">        </span><span class="n">ref</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="s">&quot; world&quot;</span><span class="p">);</span><span class="w">                            </span><span class="c1">// mutate the heap object</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sb</span><span class="p">);</span><span class="w">                          </span><span class="c1">// hello world</span>
+<span class="w">        </span><span class="n">sb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">                                       </span><span class="c1">// only the reference is cleared</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">ref</span><span class="p">);</span><span class="w">                         </span><span class="c1">// hello world -- object still reachable</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The last two lines are the whole point of references: clearing <code>sb</code> does not destroy the object, because <code>ref</code> still points to it. The object on the heap outlives any single reference.</p>
+<h2 id="5-stack-vs-heap-ownership-size-speed-errors">5. Stack vs Heap: Ownership, Size, Speed, Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Stack</th>
+<th>Heap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ownership</td>
+<td>one stack per thread</td>
+<td>shared by all threads</td>
+</tr>
+<tr>
+<td>Data stored</td>
+<td>primitive locals, references, operand stack, return address</td>
+<td>all objects and arrays</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>small and limited, set by <code>-Xss</code></td>
+<td>large, set by <code>-Xms</code> and <code>-Xmx</code></td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>very fast, LIFO pointer movement</td>
+<td>slower, allocation plus later GC</td>
+</tr>
+<tr>
+<td>Lifetime</td>
+<td>ends when the method returns</td>
+<td>until no reachable reference remains</td>
+</tr>
+<tr>
+<td>Error thrown</td>
+<td><code>StackOverflowError</code></td>
+<td><code>OutOfMemoryError</code></td>
+</tr>
+<tr>
+<td>Who manages it</td>
+<td>the JVM, automatically as calls enter and leave</td>
+<td>the Garbage Collector (forward-ref Lecture 46)</td>
+</tr>
+</tbody>
+</table>
+<p>The asymmetry is the lesson: <strong>the stack is automatic, tiny and fast; the heap is shared, large and GC-managed</strong>. Neither replaces the other — a program needs both the bookkeeping of calls and the long-lived storage of objects.</p>
+<h2 id="6-the-method-area-metaspace-class-metadata-and-statics">6. The Method Area / Metaspace: Class Metadata and Statics</h2>
+<p>The <strong>Method Area</strong> is the shared region that stores per-class information: the run-time constant pool, field and method data, the bytecode of methods, and all <strong>static variables</strong>. In HotSpot it is physically implemented as <strong>Metaspace</strong>, which lives in native memory outside the Java heap. One class's metadata exists once, no matter how many threads or objects use it.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — a static field lives with the class, not with any object</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ClassStats</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">classCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">   </span><span class="c1">// Method Area / Metaspace -- one copy per class</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">instanceCounter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">       </span><span class="c1">// heap -- one copy inside each object</span>
+<span class="w">    </span><span class="n">ClassStats</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">classCounter</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="n">instanceCounter</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ClassStats</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClassStats</span><span class="p">();</span>
+<span class="w">        </span><span class="n">ClassStats</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ClassStats</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">instanceCounter</span><span class="p">);</span><span class="w">    </span><span class="c1">// 1 -- per object, on the heap</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">ClassStats</span><span class="p">.</span><span class="na">classCounter</span><span class="p">);</span><span class="w">  </span><span class="c1">// 2 -- per class, in Metaspace</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Two consequences follow from statics living in the shared Method Area:</p>
+<ol>
+<li>A <code>static</code> field is shared by every thread and every object of the class — a natural place for shared state and a natural source of leaks.</li>
+<li>A <code>static</code> reference keeps the object it points to reachable for the entire life of the class, so it can never be collected while the class is loaded (forward-ref Lecture 46).</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important
+Since Java 7, string literals that used to sit in the Method Area were moved to the <strong>heap</strong> as part of the string constant pool (cross-ref Lecture 25).</p>
+</blockquote>
+<h2 id="7-permgen-vs-metaspace-the-java-8-change">7. PermGen vs Metaspace: The Java 8 Change</h2>
+<p>Before Java 8, class metadata was stored in <strong>PermGen</strong> (Permanent Generation), a fixed-size region inside the Java heap. Its small default size made <code>OutOfMemoryError: PermGen space</code> a common failure when many classes were loaded. Java 8 removed PermGen and replaced it with <strong>Metaspace</strong>, which uses native memory and grows by default.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>PermGen (Java 7 and earlier)</th>
+<th>Metaspace (Java 8 and later)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Location</td>
+<td>inside the Java heap</td>
+<td>native memory, outside the heap</td>
+</tr>
+<tr>
+<td>Size behaviour</td>
+<td>fixed at start-up</td>
+<td>grows on demand by default</td>
+</tr>
+<tr>
+<td>Default limit</td>
+<td>small; frequent <code>OutOfMemoryError</code></td>
+<td>limited only by available native memory</td>
+</tr>
+<tr>
+<td>Main tuning flags</td>
+<td><code>-XX:PermSize</code>, <code>-XX:MaxPermSize</code></td>
+<td><code>-XX:MetaspaceSize</code>, <code>-XX:MaxMetaspaceSize</code></td>
+</tr>
+<tr>
+<td>String literals</td>
+<td>PermGen up to Java 6; heap from Java 7</td>
+<td>on the heap (since Java 7)</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>removed in Java 8</td>
+<td>current implementation</td>
+</tr>
+</tbody>
+</table>
+<p>The practical difference: a bounded Metaspace can still throw <code>OutOfMemoryError: Metaspace</code>, but only when <code>-XX:MaxMetaspaceSize</code> caps it or native memory runs out — not because of a small fixed default.</p>
+<h2 id="8-the-pc-register-and-the-native-method-stack">8. The PC Register and the Native Method Stack</h2>
+<p>The last two areas are per-thread and small:</p>
+<ol>
+<li><strong>PC (Program Counter) Register</strong> — holds the address of the bytecode instruction the thread is currently executing. Because each thread has its own PC register, the JVM can suspend one thread, remember exactly where it was, switch to another, and later resume the first at the same instruction. This is the mechanism behind thread switching. For a thread executing a native method, the PC register is undefined.</li>
+<li><strong>Native Method Stack</strong> — holds frames for methods written in languages other than Java (for example C or C++) and invoked through JNI. It parallels the JVM stack but serves non-Java code; a native implementation may also throw <code>StackOverflowError</code> or <code>OutOfMemoryError</code>.</li>
+</ol>
+<p>Memory aid: <strong>the PC register is the bookmark, the stack is the call history, and the native stack is the same idea for foreign code</strong>.</p>
+<h2 id="9-references-reassignment-and-escape-analysis">9. References, Reassignment, and Escape Analysis</h2>
+<p>A reference variable on the stack holds an address, and reassigning it does not move or duplicate the object (cross-ref Lecture 14):</p>
+<div class="highlight"><pre><span></span><code><span class="n">object</span><span class="w"> </span><span class="err">→</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">   </span><span class="c1">// heap object allocated</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span><span class="w">            </span><span class="c1">// p now points to a NEW object</span>
+<span class="c1">// the first object is unchanged; it simply has no reference and becomes eligible for GC</span>
+</code></pre></div>
+
+<p>There is one deliberate exception to "objects always live on the heap": the JIT compiler can apply <strong>escape analysis</strong> with <strong>scalar replacement</strong>. If it proves that a newly created object never escapes its method — no reference to it is stored or returned — it may decompose the object into its fields and keep them on the stack, avoiding a heap allocation and the GC cost entirely.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — escape analysis can scalar-replace a non-escaping object</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EscapeDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">record</span> <span class="nc">Point</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">sum</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Point</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Point</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">   </span><span class="c1">// p never escapes sum()</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">x</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">y</span><span class="p">();</span><span class="w">        </span><span class="c1">// JIT may keep p&#39;s fields on the stack</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sum</span><span class="p">());</span><span class="w">   </span><span class="c1">// 5</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+Escape analysis is a JIT <strong>optimization</strong>, not the language rule. The specification still says objects are heap-allocated; you should never rely on stack allocation for correctness, only understand it as a performance possibility.</p>
+</blockquote>
+<h2 id="10-pitfalls-and-common-traps">10. Pitfalls and Common Traps</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Objects live on the stack because methods create them."</td>
+<td>Objects live on the heap; the method frame holds only the reference. Scalar replacement is a rare JIT exception.</td>
+</tr>
+<tr>
+<td>Confusing ownership across threads</td>
+<td>Each thread has its own stack, PC register and native stack; the heap and Method Area are shared.</td>
+</tr>
+<tr>
+<td>PermGen vs Metaspace confusion</td>
+<td>PermGen was a fixed heap region removed in Java 8; Metaspace is native, unbounded by default.</td>
+</tr>
+<tr>
+<td>Mixing up the two errors</td>
+<td><code>StackOverflowError</code> = exhausted stack (deep recursion); <code>OutOfMemoryError</code> = exhausted heap or Metaspace.</td>
+</tr>
+<tr>
+<td>"A primitive is always on the stack."</td>
+<td>A primitive local is on the stack, but a primitive <strong>field</strong> of an object lives on the heap inside that object.</td>
+</tr>
+<tr>
+<td>Memory leak through static references</td>
+<td>A <code>static</code> collection in the Method Area keeps its entries reachable forever (forward-ref Lecture 46).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-myth-vs-reality">11. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Objects are created on the stack."</td>
+<td>Objects are allocated on the heap; the stack stores a reference to the object (unless the JIT scalar-replaces a non-escaping object).</td>
+</tr>
+<tr>
+<td>"Primitives always live on the stack."</td>
+<td>A local primitive is in the frame, but a primitive field is stored on the heap as part of its object.</td>
+</tr>
+<tr>
+<td>"Each thread gets its own heap."</td>
+<td>The heap and Method Area are shared; only the stack, PC register and native stack are per-thread.</td>
+</tr>
+<tr>
+<td>"PermGen was simply renamed Metaspace."</td>
+<td>PermGen was a fixed region inside the heap; Metaspace uses native memory and grows by default.</td>
+</tr>
+<tr>
+<td>"StackOverflowError and OutOfMemoryError mean the same thing."</td>
+<td><code>StackOverflowError</code> signals an exhausted stack; <code>OutOfMemoryError</code> signals an exhausted heap or Metaspace.</td>
+</tr>
+<tr>
+<td>"Reassigning a reference moves the object."</td>
+<td>The reference changes target; the original object stays where it was until it is garbage collected.</td>
+</tr>
+<tr>
+<td>"Static variables live on the heap with the objects."</td>
+<td>Static variables belong to the class and live in the Method Area / Metaspace.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-common-trap-questions">12. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — "Since methods create objects, objects live on the stack."
+Objects are allocated on the shared heap; the frame holds only a reference. Stack allocation appears solely through JIT escape analysis, which is an optimization and not guaranteed.</p>
+<p>Trap 2 — "Every thread has its own heap, so threads cannot share objects."
+The heap and Method Area are shared. Only the JVM stack, PC register and native method stack are per-thread; shared objects are exactly why concurrency control is needed.</p>
+<p>Trap 3 — "Where do static variables live?"
+In the Method Area / Metaspace, with the class metadata — one copy per class, shared by all threads and all instances.</p>
+<p>Trap 4 — "A StackOverflowError means the heap is full."
+It means the current thread's stack is full, normally from recursion without a base case. The heap is unrelated, so raising <code>-Xmx</code> does not help.</p>
+<p>Trap 5 — "A primitive variable is always stored on the stack."
+Only a primitive <strong>local</strong> is. A primitive field is laid out inside its object on the heap, so it is collected with the object.</p>
+<p>Trap 6 — "What happened to PermGen, and can Metaspace still overflow?"
+It was removed in Java 8 and replaced by Metaspace in native memory. Metaspace can still throw <code>OutOfMemoryError</code> if <code>-XX:MaxMetaspaceSize</code> caps it or native memory is exhausted.</p>
+<p>Trap 7 — "Reassigning a reference destroys the object it used to point to."
+It only retargets the reference. The object becomes eligible for collection only when no reachable reference points to it (Lecture 46).</p>
+</blockquote>
+<h2 id="13-points-to-remember">13. Points to Remember</h2>
+<ol>
+<li>The JVM has five runtime data areas: Heap, Method Area (Metaspace), Stack, PC Register and Native Method Stack.</li>
+<li>Heap and Method Area are shared by all threads; Stack, PC Register and Native Method Stack are per-thread.</li>
+<li>One JVM stack per thread; every method call pushes a frame holding locals, operand stack and return address, and every return pops it (LIFO).</li>
+<li>Primitive locals live directly in the frame; object variables hold references whose targets live on the heap.</li>
+<li>All objects and arrays are allocated on the heap; the heap is sized by <code>-Xms</code> and <code>-Xmx</code> and cleaned by the Garbage Collector (forward-ref Lecture 46).</li>
+<li>An overly deep call chain throws <code>StackOverflowError</code>; the stack size is set by <code>-Xss</code>.</li>
+<li>The Method Area / Metaspace stores class metadata and static variables; one copy per class, shared by all threads.</li>
+<li>PermGen, a fixed region in the heap, was replaced in Java 8 by Metaspace, which uses native memory and grows by default.</li>
+<li>Each thread has a PC register holding the address of the instruction being executed, which enables thread switching; it is undefined for native methods.</li>
+<li>Native (non-Java) methods run on the per-thread Native Method Stack through JNI.</li>
+<li>Since Java 7 the string constant pool lives on the heap (cross-ref Lecture 25); reassigning a reference does not move the object (cross-ref Lecture 14).</li>
+<li>Escape analysis with scalar replacement may place a non-escaping object's fields on the stack — a JIT optimization, not a language guarantee.</li>
+</ol>
+<h2 id="14-likely-interview-questions">14. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What are the JVM runtime data areas?</td>
+<td>Heap, Method Area (Metaspace), JVM Stack, PC Register and Native Method Stack.</td>
+</tr>
+<tr>
+<td>Which areas are shared and which are per-thread?</td>
+<td>Heap and Method Area are shared; Stack, PC Register and Native Method Stack are per-thread.</td>
+</tr>
+<tr>
+<td>What does a stack frame contain?</td>
+<td>Local variables (primitives and references), the operand stack, and return/frame data.</td>
+</tr>
+<tr>
+<td>Where do objects live?</td>
+<td>On the heap. The stack stores only a reference to the object (apart from JIT scalar replacement).</td>
+</tr>
+<tr>
+<td>Where do primitives live?</td>
+<td>A primitive local lives in its stack frame; a primitive field lives on the heap inside its object.</td>
+</tr>
+<tr>
+<td>What causes StackOverflowError?</td>
+<td>The thread's stack is exhausted, usually by deep or infinite recursion; it is unrelated to the heap.</td>
+</tr>
+<tr>
+<td>What causes OutOfMemoryError?</td>
+<td>The heap or Metaspace is exhausted; sized by <code>-Xmx</code> and <code>-XX:MaxMetaspaceSize</code> respectively.</td>
+</tr>
+<tr>
+<td>What is the Method Area / Metaspace?</td>
+<td>The shared area storing class metadata, method bytecode and static variables.</td>
+</tr>
+<tr>
+<td>PermGen vs Metaspace?</td>
+<td>PermGen was a fixed heap region (Java 7 and earlier); Metaspace uses native memory and grows by default (Java 8+).</td>
+</tr>
+<tr>
+<td>What does the PC register do?</td>
+<td>Per thread, it holds the address of the instruction being executed, enabling suspend/resume and thread switching; it is undefined for native methods.</td>
+</tr>
+<tr>
+<td>What is the Native Method Stack?</td>
+<td>The per-thread stack for methods written in native code and called through JNI.</td>
+</tr>
+<tr>
+<td>What is escape analysis?</td>
+<td>A JIT optimization that can scalar-replace a non-escaping object, keeping its fields on the stack instead of the heap.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-final-summary">15. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>source → class metadata (Method Area / Metaspace, shared)
+       → static variables (Method Area, shared, one copy per class)
+       → reference in a frame (Stack, per thread) → new object (Heap, shared)
+       → method call (push frame) → return (pop frame) → deep recursion → StackOverflowError
+       → each thread also owns a PC Register (current instruction) and a Native Method Stack (JNI)
+       → no reachable reference → object eligible for GC (Lecture 46)
+</code></pre></div>
+
+<ul>
+<li>Five areas → Heap and Method Area shared; Stack, PC Register and Native Method Stack per-thread</li>
+<li>Stack → one per thread, frames hold locals, operand stack and return address, LIFO, <code>-Xss</code></li>
+<li>Heap → all objects and arrays, <code>-Xms</code>/<code>-Xmx</code>, GC-managed, <code>OutOfMemoryError</code> when full</li>
+<li>Method Area → class metadata and statics; PermGen (fixed, Java 7) became Metaspace (native, Java 8)</li>
+<li>PC Register and Native Method Stack → per-thread execution bookkeeping, including native code via JNI</li>
+<li>References → a stack variable points to a heap object; reassignment does not move the object</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+The stack is per-thread and short-lived and holds references; the heap and Method Area are shared and long-lived and hold the objects and class metadata those references name.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> memory is split into shared data areas (Heap, Method Area/Metaspace) and per-thread execution areas (Stack, PC Register, Native Method Stack), and a reference on the stack is the only bridge to an object on the heap.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-44.html"><span class="dir">Previous</span><span class="ttl">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</span></a><a class="next" href="doc-theory-lecture-46.html"><span class="dir">Next</span><span class="ttl">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

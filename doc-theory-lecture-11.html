@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 11 — Spring Boot CRUD Project from Scratch — Spring Boot</title>
+<meta name="description" content="Lecture 11 — Spring Boot CRUD Project from Scratch">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-11">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-11.html#lecture-11">Lecture 11</a></li><li><a href="doc-theory-lecture-11.html#1-what-exactly-is-a-crud-application">1. What Exactly Is a CRUD Application?</a></li><li><a href="doc-theory-lecture-11.html#2-why-crud-is-not-beginner-content">2. Why CRUD Is Not Beginner Content</a></li><li><a href="doc-theory-lecture-11.html#3-the-student-management-api-six-apis-to-build">3. The Student Management API: Six APIs to Build</a></li><li><a href="doc-theory-lecture-11.html#4-crud-mapping-with-http-methods">4. CRUD Mapping with HTTP Methods</a></li><li><a href="doc-theory-lecture-11.html#5-what-the-database-table-looks-like">5. What the Database Table Looks Like</a></li><li><a href="doc-theory-lecture-11.html#6-the-student-entity-java-object-meets-table">6. The Student Entity: Java Object Meets Table</a></li><li><a href="doc-theory-lecture-11.html#7-why-we-need-architecture">7. Why We Need Architecture</a></li><li><a href="doc-theory-lecture-11.html#8-the-final-architecture-postman-to-database">8. The Final Architecture: Postman to Database</a></li><li><a href="doc-theory-lecture-11.html#9-step-1-and-step-2-postman-sends-the-controller-receives">9. Step 1 and Step 2: Postman Sends, the Controller Receives</a></li><li><a href="doc-theory-lecture-11.html#10-step-3-the-service-layer-and-business-logic">10. Step 3: The Service Layer and Business Logic</a></li><li><a href="doc-theory-lecture-11.html#11-step-4-the-repository-talks-to-the-database">11. Step 4: The Repository Talks to the Database</a></li><li><a href="doc-theory-lecture-11.html#12-step-5-and-where-entitymodel-fits">12. Step 5 and Where Entity/Model Fits</a></li><li><a href="doc-theory-lecture-11.html#13-project-setup-and-dependencies">13. Project Setup and Dependencies</a></li><li><a href="doc-theory-lecture-11.html#14-the-empty-app-startup-failure-and-auto-configuration">14. The Empty-App Startup Failure and Auto-Configuration</a></li><li><a href="doc-theory-lecture-11.html#15-folder-structure-and-the-main-application-class">15. Folder Structure and the Main Application Class</a></li><li><a href="doc-theory-lecture-11.html#16-mysql-setup-and-creating-the-database">16. MySQL Setup and Creating the Database</a></li><li><a href="doc-theory-lecture-11.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-11.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-11.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-11.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-11.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 11 — Spring Boot CRUD Project from Scratch</h1>
+<p class="readmeta">22 sections · 4,485 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-11" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-11">Lecture 11</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot CRUD Project from Scratch | Create API &amp; Architecture" (playlist map, verified). Repo lecture folder is the <code>crudSpringBootDemo</code> Maven project: <code>entity</code>, <code>controller</code>, <code>service</code>, <code>repository</code> packages plus <code>application.properties</code>, <code>pom.xml</code>, and the cached lecture notes.</p>
+</blockquote>
+<p>This lecture stops talking about Dependency Injection in console examples and puts it to work in a real Spring Boot backend. We build a Student Management API that performs all four CRUD operations through HTTP, and we design the layered architecture that keeps the code clean as it grows. The whole value of the lecture is not the five endpoints themselves; it is the reason each layer exists and what happens to a request as it travels from Postman to MySQL and back.</p>
+<h2 id="1-what-exactly-is-a-crud-application">1. What Exactly Is a CRUD Application?</h2>
+<p>Almost every application does four basic things with data:</p>
+<ol>
+<li><strong>Create</strong> data</li>
+<li><strong>Read</strong> data</li>
+<li><strong>Update</strong> data</li>
+<li><strong>Delete</strong> data</li>
+</ol>
+<p>Those four words are the initial letters of <strong>CRUD</strong>. A CRUD application is an application whose core purpose is to manage records of some kind through those four operations.</p>
+<p>The examples are everywhere:</p>
+<table>
+<thead>
+<tr>
+<th>Application</th>
+<th>Create</th>
+<th>Read</th>
+<th>Update</th>
+<th>Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YouTube video system</td>
+<td>Create video</td>
+<td>Read video</td>
+<td>Update title/description</td>
+<td>Delete video</td>
+</tr>
+<tr>
+<td>Instagram post system</td>
+<td>Create post</td>
+<td>Read post</td>
+<td>Update caption</td>
+<td>Delete post</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>CRUD = Create + Read + Update + Delete
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: CRUD is not a database feature and not a framework feature. It is the smallest complete set of operations any data-driven system must support.</p>
+</blockquote>
+<h2 id="2-why-crud-is-not-beginner-content">2. Why CRUD Is Not Beginner Content</h2>
+<p>Many students think CRUD is basic. The source states the opposite plainly: <strong>CRUD is the foundation of most backend systems.</strong></p>
+<p>The reason is that a huge share of professional backend work is CRUD wearing different clothes. A payments service creates a charge, reads a balance, updates a status, deletes a failed attempt. A food-delivery backend creates an order, reads the menu, updates the address, deletes a cart item. The domain vocabulary changes; the skeleton does not.</p>
+<div class="highlight"><pre><span></span><code>CRUD is the basic skeleton of backend development.
+</code></pre></div>
+
+<p>If you internalize CRUD and the architecture around it now, every larger system later is just more CRUD with more rules. That is why this project is worth doing carefully rather than fast.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A candidate who calls CRUD "easy" and cannot explain where the business rules live usually has not built anything real. The depth of a CRUD answer reveals the depth of backend understanding.</p>
+</blockquote>
+<h2 id="3-the-student-management-api-six-apis-to-build">3. The Student Management API: Six APIs to Build</h2>
+<p>The project is a <strong>Student Management API</strong>. An admin manages student records. The source describes six main APIs to build:</p>
+<ol>
+<li><strong>Create Student</strong> - Admin can add a new student. <code>POST /api/students/</code></li>
+<li><strong>Get All Students</strong> - Admin can see all active students. <code>GET /api/students/</code></li>
+<li><strong>Get Student by ID</strong> - Admin can fetch one student. <code>GET /api/students/1</code></li>
+<li><strong>Update Student</strong> - Admin can update student details. <code>PUT /api/students/1</code></li>
+<li><strong>Delete Student</strong> - Admin can permanently delete a student. <code>DELETE /api/students/1</code></li>
+</ol>
+<p>The list also introduces both delete styles, which is why the project feels real-world:</p>
+<ul>
+<li><strong>Soft delete</strong> -&gt; the row remains, and <code>isDeleted</code> becomes <code>true</code>.</li>
+<li><strong>Hard delete</strong> -&gt; the row is permanently removed.</li>
+</ul>
+<p>Example request body for creating a student:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rahul Sharma&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rahul@example.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;course&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Spring Boot&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;age&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">22</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;rollNo&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Creating a resource <strong>inserts a row into the database</strong>. Fetching <code>GET /api/students/1</code> uses <code>1</code> as the student ID and is the place where <code>@PathVariable</code> is explained: the value comes from the URL.</p>
+<p>The update flow is described as a very important backend pattern, with three steps:</p>
+<ol>
+<li>First find student by ID</li>
+<li>Then update fields</li>
+<li>Then save updated student</li>
+</ol>
+<div class="highlight"><pre><span></span><code>POST   create
+GET    read
+PUT    update
+DELETE delete
+</code></pre></div>
+
+<h2 id="4-crud-mapping-with-http-methods">4. CRUD Mapping with HTTP Methods</h2>
+<p>CRUD is a data concept; HTTP methods are the web vocabulary that expresses it. This table is the bridge, and it should be memorized because it is the first thing an interviewer sketches on a whiteboard.</p>
+<table>
+<thead>
+<tr>
+<th>CRUD Operation</th>
+<th>HTTP Method</th>
+<th>Example URL</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create</td>
+<td>POST</td>
+<td><code>/api/students/</code></td>
+<td>Add new student</td>
+</tr>
+<tr>
+<td>Read All</td>
+<td>GET</td>
+<td><code>/api/students/</code></td>
+<td>Get all students</td>
+</tr>
+<tr>
+<td>Read One</td>
+<td>GET</td>
+<td><code>/api/students/{id}</code></td>
+<td>Get one student</td>
+</tr>
+<tr>
+<td>Update</td>
+<td>PUT</td>
+<td><code>/api/students/{id}</code></td>
+<td>Replace/update student details</td>
+</tr>
+<tr>
+<td>Hard Delete</td>
+<td>DELETE</td>
+<td><code>/api/students/{id}</code></td>
+<td>Remove permanently</td>
+</tr>
+</tbody>
+</table>
+<p>Two rules fall straight out of the table:</p>
+<ul>
+<li>The <strong>same URL</strong> can host different operations; the HTTP method disambiguates them. <code>POST /api/students/</code> and <code>GET /api/students/</code> share a path but create versus read.</li>
+<li>A <strong>path variable</strong> (<code>{id}</code>) appears when the operation targets one specific row, while collection operations carry no id.</li>
+</ul>
+<p>Mnemonic for the mapping: <strong>"Post Creates, Get Reads, Put Updates, Delete Deletes"</strong> - and note that both Read operations use GET, differing only by whether <code>{id}</code> is present.</p>
+<h2 id="5-what-the-database-table-looks-like">5. What the Database Table Looks Like</h2>
+<p>The data will live in a table called <code>students</code>. The columns and types are:</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>BIGINT</td>
+<td>Unique student ID</td>
+</tr>
+<tr>
+<td>name</td>
+<td>VARCHAR</td>
+<td>Student name</td>
+</tr>
+<tr>
+<td>email</td>
+<td>VARCHAR</td>
+<td>Student email</td>
+</tr>
+<tr>
+<td>course</td>
+<td>VARCHAR</td>
+<td>Student course</td>
+</tr>
+<tr>
+<td>age</td>
+<td>INT</td>
+<td>Student age</td>
+</tr>
+<tr>
+<td>roll_no</td>
+<td>INT</td>
+<td>Roll Number</td>
+</tr>
+</tbody>
+</table>
+<p>The Java class that represents this table is sketched with fields that line up with those columns:</p>
+<div class="highlight"><pre><span></span><code>public class Student {
+    private String name;
+    private String email;
+    private int rollNo;
+    private int age;
+    private String subject;
+}
+</code></pre></div>
+
+<p>This is the moment students should see the point: <strong>a Java object can connect to a database table.</strong> That sentence is the foundation of JPA. The object fields map to columns, so code can think in <code>Student</code> objects while the database thinks in rows.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: JPA is the bridge between the object world and the table world. Once you see <code>Student</code> on one side and <code>students</code> on the other, the rest of the project is plumbing that connects the two.</p>
+</blockquote>
+<h2 id="6-the-student-entity-java-object-meets-table">6. The Student Entity: Java Object Meets Table</h2>
+<p>The table row is represented by a class in the <code>entity</code> package, and the class is annotated <code>@Entity</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rollNo</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">subject</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">isDeleted</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The extra <code>isDeleted</code> field exists because the project supports soft delete: a deleted student can stay in the table with <code>isDeleted = true</code>. The source notes that entity classes represent database tables, and JPA maps this object to the <code>students</code> table.</p>
+<table>
+<thead>
+<tr>
+<th>Java field</th>
+<th>Table column</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>name</td>
+<td>student name</td>
+</tr>
+<tr>
+<td>email</td>
+<td>email</td>
+<td>student email</td>
+</tr>
+<tr>
+<td>rollNo</td>
+<td>roll_no</td>
+<td>roll number</td>
+</tr>
+<tr>
+<td>age</td>
+<td>age</td>
+<td>student age</td>
+</tr>
+<tr>
+<td>subject / course</td>
+<td>course</td>
+<td>course</td>
+</tr>
+<tr>
+<td>isDeleted</td>
+<td>(delete flag)</td>
+<td>soft-delete marker</td>
+</tr>
+</tbody>
+</table>
+<p><code>@Entity</code> is the contract that tells JPA: this class is not an ordinary Java class; treat it as a mapped table. The object then travels between the layers, carrying data.</p>
+<h2 id="7-why-we-need-architecture">7. Why We Need Architecture</h2>
+<p>Imagine writing the whole CRUD code inside one class:</p>
+<div class="highlight"><pre><span></span><code>@RestController
+public class StudentController {
+    // receive request
+    // validate data
+    // write business logic
+    // update student
+    // delete student
+    // talk to database
+}
+</code></pre></div>
+
+<p>Technically, for a very small demo, this may work. But it is not a good backend design, and the reason is that one class ends up doing everything:</p>
+<ul>
+<li>Receiving HTTP request</li>
+<li>Processing business logic</li>
+<li>Talking to database</li>
+<li>Deciding response</li>
+<li>Managing update/delete rules</li>
+</ul>
+<p>This becomes messy very quickly. As soon as the project grows - a <code>Teacher</code>, a <code>Course</code>, a <code>Batch</code>, a <code>Payment</code>, an <code>Attendance</code>, an <code>Enrollment</code> - the single class turns into a swamp. Real applications divide responsibility instead. That is the main reason we create layers.</p>
+<div class="highlight"><pre><span></span><code>One class doing everything:
+  HTTP + validation + business logic + SQL + response rules
+
+Many classes doing one thing each:
+  Controller  -&gt;  Service  -&gt;  Repository  -&gt;  Database
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: The problem is not that one class is impossible. The problem is that it mixes concerns that change for different reasons, so every new rule forces you to touch code that should have been unrelated.</p>
+</blockquote>
+<h2 id="8-the-final-architecture-postman-to-database">8. The Final Architecture: Postman to Database</h2>
+<p>The application follows one core flow:</p>
+<div class="highlight"><pre><span></span><code>Postman
+   |
+   v
+Controller
+   |
+   v
+Service
+   |
+   v
+Repository
+   |
+   v
+Database
+</code></pre></div>
+
+<p>This is the core structure of the project. Postman is acting like a client. In real life the request may come from a React frontend, an Angular frontend, a mobile app, another backend service, or Postman. All of them are just clients sending HTTP to our Spring Boot application.</p>
+<p>The response travels the same path in reverse:</p>
+<div class="highlight"><pre><span></span><code>Database
+   |
+   v
+Repository
+   |
+   v
+Service
+   |
+   v
+Controller
+   |
+   v
+Postman
+</code></pre></div>
+
+<p>Here is the layer-by-layer responsibility table the source says should definitely be shown:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Main Responsibility</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Postman</td>
+<td>Sends HTTP request</td>
+<td><code>POST /api/students</code></td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Handles API request</td>
+<td><code>StudentController</code></td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Contains business logic</td>
+<td><code>StudentService</code></td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Performs database operations</td>
+<td><code>StudentRepository</code></td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Stores actual data</td>
+<td>MySQL <code>students</code> table</td>
+</tr>
+<tr>
+<td>Entity/Model</td>
+<td>Represents table as Java object</td>
+<td><code>Student</code> class</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for the request path: <strong>P-C-S-R-D</strong> (Postman, Controller, Service, Repository, Database). Read it like a postal route: the client posts a letter, the gate receives it, the office decides, the records room files it, and the archive stores it.</p>
+<h2 id="9-step-1-and-step-2-postman-sends-the-controller-receives">9. Step 1 and Step 2: Postman Sends, the Controller Receives</h2>
+<p><strong>Step 1: Postman sends request.</strong> Postman sends data to our Spring Boot application. It is a stand-in for any client.</p>
+<p><strong>Step 2: Controller receives request.</strong> The first Java layer that handles the request is the <strong>Controller</strong>. Its job is not to write all the logic. The controller's job is mainly to:</p>
+<ul>
+<li>Receive request</li>
+<li>Read input data</li>
+<li>Call service layer</li>
+<li>Return response</li>
+</ul>
+<p>The controller is like the <strong>entry gate</strong> of the application. Its shape follows directly from that responsibility:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// controller/StudentController.java - the entry gate, only routes and delegates</span>
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/api/students&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="n">studentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentController</span><span class="p">(</span><span class="n">StudentService</span><span class="w"> </span><span class="n">studentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PostMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">createStudent</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">getById</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">getStudentById</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// @GetMapping for all, @PutMapping(&quot;/{id}&quot;), @DeleteMapping(&quot;/{id}&quot;)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@RestController</code> marks the class as an HTTP entry point, <code>@RequestMapping("/api/students")</code> fixes the base path, and the method annotations (<code>@PostMapping</code>, <code>@GetMapping</code>, <code>@PutMapping</code>, <code>@DeleteMapping</code>) map each operation. <code>@RequestBody</code> reads the JSON body into a <code>Student</code>, and <code>@PathVariable</code> takes the id from the URL. The controller delegates; it does not decide business rules.</p>
+<h2 id="10-step-3-the-service-layer-and-business-logic">10. Step 3: The Service Layer and Business Logic</h2>
+<p>The controller calls the service. In the source the call is <code>studentService.createStudent(student);</code>.</p>
+<p>The service layer contains the actual business rules. The source lists the kinds of questions a service answers:</p>
+<ul>
+<li>Should this student be saved?</li>
+<li>Should deleted students be hidden?</li>
+<li>How should update happen?</li>
+<li>What should happen if student ID does not exist?</li>
+<li>Soft delete or hard delete?</li>
+</ul>
+<p>In this first CRUD app, the business logic will be simple, but the layer still matters because that is where complexity will later live. Its shape:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// service/StudentService.java - business rules live here</span>
+<span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentService</span><span class="p">(</span><span class="n">StudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// getAllStudents(), getStudentById(Long), updateStudent(Long, Student), deleteStudent(Long)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>@Service</code> marks the class as a business-logic bean, and the constructor injection is exactly the Dependency Injection practiced earlier in the course, now inside a real application. The service depends on the repository, not on HTTP and not on SQL.</p>
+<p>The update rule from Section 3 belongs here: find the student by ID, update the fields, then save. That is the "very important backend pattern" the source highlights - and it is a service decision, which is why it is not in the controller.</p>
+<h2 id="11-step-4-the-repository-talks-to-the-database">11. Step 4: The Repository Talks to the Database</h2>
+<p>The service calls the repository with <code>studentRepository.save(student);</code>.</p>
+<p>The repository is responsible for database operations. The critical point is that <strong>we will not write SQL manually for basic operations.</strong> Spring Data JPA gives ready-made methods:</p>
+<ul>
+<li><code>save()</code></li>
+<li><code>findAll()</code></li>
+<li><code>findById()</code></li>
+<li><code>deleteById()</code></li>
+</ul>
+<p>So the repository is the layer that connects Java code with database operations. Its shape is small precisely because the framework does the heavy lifting:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// repository/StudentRepository.java - Spring Data JPA supplies the SQL</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">StudentRepository</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Student</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// save(), findAll(), findById(), deleteById() come ready-made</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Repository method</th>
+<th>CRUD operation</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>save()</code></td>
+<td>Create / Update</td>
+<td>create and update flows</td>
+</tr>
+<tr>
+<td><code>findAll()</code></td>
+<td>Read all</td>
+<td>get all students</td>
+</tr>
+<tr>
+<td><code>findById()</code></td>
+<td>Read one</td>
+<td>get student by ID</td>
+</tr>
+<tr>
+<td><code>deleteById()</code></td>
+<td>Delete</td>
+<td>delete student</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: <code>save()</code> serves both create and update. The update flow finds the existing student, changes its fields, and calls <code>save()</code> again; there is no separate update-all method to remember.</p>
+</blockquote>
+<h2 id="12-step-5-and-where-entitymodel-fits">12. Step 5 and Where Entity/Model Fits</h2>
+<p><strong>Step 5: Database stores the data.</strong> Finally the data reaches MySQL. A new row is inserted into the <code>students</code> table. Then the response travels back up the chain: Database -&gt; Repository -&gt; Service -&gt; Controller -&gt; Postman.</p>
+<p>The entity deserves its own note because it is special. In the diagram we usually write:</p>
+<div class="highlight"><pre><span></span><code>Controller -&gt; Service -&gt; Repository -&gt; Database
+</code></pre></div>
+
+<p>But there is one more important part: <strong>Entity / Model</strong>. The entity is not exactly a flow layer like controller or service. Instead, it is the <strong>object that travels between layers</strong>:</p>
+<ul>
+<li>Controller receives <code>Student</code> data.</li>
+<li>Service works with the <code>Student</code> object.</li>
+<li>Repository saves the <code>Student</code> object.</li>
+<li>JPA converts the <code>Student</code> object into a <code>students</code> table row.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>Student student  -&gt;  travels through every layer
+JPA maps it      -&gt;  students table row
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Thing</th>
+<th>Is it a flow layer?</th>
+<th>Does it do work?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller</td>
+<td>Yes</td>
+<td>routes and delegates</td>
+</tr>
+<tr>
+<td>Service</td>
+<td>Yes</td>
+<td>applies business rules</td>
+</tr>
+<tr>
+<td>Repository</td>
+<td>Yes</td>
+<td>runs database operations</td>
+</tr>
+<tr>
+<td>Entity / Model</td>
+<td>No</td>
+<td>carries and represents data</td>
+</tr>
+</tbody>
+</table>
+<p>This distinction is a favorite interview probe: naming <code>Student</code> as "the fourth layer" is imprecise. It is the payload, and JPA is the mapper.</p>
+<h2 id="13-project-setup-and-dependencies">13. Project Setup and Dependencies</h2>
+<p>For this CRUD project, add these dependencies:</p>
+<ol>
+<li><strong>Spring Web</strong></li>
+<li><strong>Spring Data JPA</strong></li>
+<li><strong>MySQL Driver</strong></li>
+</ol>
+<p><strong>Why Spring Web?</strong> Without it, our application is like a normal backend app, but it will not expose HTTP endpoints like:</p>
+<div class="highlight"><pre><span></span><code>GET /api/students
+POST /api/students
+PUT /api/students/1
+DELETE /api/students/1
+</code></pre></div>
+
+<p>Spring Web gives us the annotations: <code>@RestController</code>, <code>@RequestMapping</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PutMapping</code>, <code>@DeleteMapping</code>, <code>@PatchMapping</code>.</p>
+<p><strong>Why Spring Data JPA?</strong> It is needed because we want to perform database operations without writing basic SQL manually. It reduces boilerplate database code.</p>
+<p><strong>Why MySQL Driver?</strong> Our Spring Boot app is Java code. MySQL is a separate database. Java needs a driver to communicate with MySQL, so we add <code>mysql-connector-j</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>Purpose</th>
+<th>What it unlocks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Web</td>
+<td>Build APIs</td>
+<td>HTTP endpoint annotations</td>
+</tr>
+<tr>
+<td>Spring Data JPA</td>
+<td>Database operations without manual SQL</td>
+<td><code>save</code>, <code>findAll</code>, <code>findById</code>, <code>deleteById</code></td>
+</tr>
+<tr>
+<td>MySQL Driver</td>
+<td>Talk to MySQL</td>
+<td>the driver class Spring uses for <code>jdbc:mysql</code></td>
+</tr>
+</tbody>
+</table>
+<p>These are declared in <code>pom.xml</code>, and the database connection details (URL, username, password) live in <code>src/main/resources/application.properties</code>.</p>
+<h2 id="14-the-empty-app-startup-failure-and-auto-configuration">14. The Empty-App Startup Failure and Auto-Configuration</h2>
+<p>Before writing any code, the source runs the empty app to show what happens. The app failed because Spring Data JPA and the MySQL Driver were added, so Spring Boot assumed: "This project wants to connect to a database." During startup it tried to auto-create a <code>DataSource</code> for MySQL. But the project did not yet have database details like URL, username, and password, so it failed with:</p>
+<div class="highlight"><pre><span></span><code>Failed to configure a DataSource: &#39;url&#39; attribute is not specified
+Reason: Failed to determine a suitable driver class
+</code></pre></div>
+
+<p>This is auto-configuration working from dependencies: Spring Boot auto-configuration works based on the JAR dependencies present in your project. If a database library is present and you have not manually configured a database bean, Spring Boot tries to configure one automatically.</p>
+<table>
+<thead>
+<tr>
+<th>Dependency present</th>
+<th>Spring Boot assumes</th>
+<th>It configures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spring-boot-starter-web</code></td>
+<td>This looks like a web application</td>
+<td>Tomcat, DispatcherServlet, web MVC setup, JSON support</td>
+</tr>
+<tr>
+<td><code>spring-boot-starter-data-jpa</code> + <code>mysql-connector-j</code></td>
+<td>This looks like a database/JPA application</td>
+<td>DataSource, Hibernate, EntityManagerFactory, TransactionManager, Repository support</td>
+</tr>
+</tbody>
+</table>
+<p>The failure actually showed while creating <code>entityManagerFactory</code>, because the <code>DataSource</code> could not be created without the DB URL details. The fix is to supply <code>spring.datasource.url</code>, <code>spring.datasource.username</code>, and <code>spring.datasource.password</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Why did a brand-new app fail before you wrote any code?" The strong answer is dependency-driven auto-configuration: JPA plus a driver means Spring expects a DataSource, and a missing URL is a configuration error, not a coding bug.</p>
+</blockquote>
+<h2 id="15-folder-structure-and-the-main-application-class">15. Folder Structure and the Main Application Class</h2>
+<p>Imagine writing everything inside the main package directly:</p>
+<div class="highlight"><pre><span></span><code>com.coderarmy.studentcrud
+|-- StudentCrudApplication
+|-- StudentController
+|-- StudentService
+|-- StudentRepository
+`-- Student
+</code></pre></div>
+
+<p>This will still work. But as soon as the project grows it becomes messy. Suppose later we add <code>Teacher</code>, <code>Course</code>, <code>Batch</code>, <code>Payment</code>, <code>Attendance</code>, <code>Enrollment</code> - the package becomes crowded. So instead of keeping all classes together, we divide them based on responsibility into packages:</p>
+<div class="highlight"><pre><span></span><code>controller
+service
+repository
+entity
+</code></pre></div>
+
+<p>Each package has a clear purpose. The main application class is the starting point of the Spring Boot application, and it should stay in the root package (<code>in.strikes.crudSpringBootDemo</code> in this project, shown generically as the root package in the source). Why? Because <code>@SpringBootApplication</code> includes component scanning. By default, Spring scans the package where this class is present and its subpackages. Put the entry class in the root and every layer package under it is discovered automatically.</p>
+<div class="highlight"><pre><span></span><code>root package
+   |-- CrudSpringBootDemoApplication   (@SpringBootApplication, scans here)
+   |-- controller/  StudentController
+   |-- service/     StudentService
+   |-- repository/  StudentRepository
+   `-- entity/      Student
+</code></pre></div>
+
+<h2 id="16-mysql-setup-and-creating-the-database">16. MySQL Setup and Creating the Database</h2>
+<p>Why MySQL for this project? Because it is popular, beginner-friendly, easy to inspect using MySQL Workbench or the terminal, and commonly used with Spring Boot.</p>
+<p>First understand the difference between three things:</p>
+<ul>
+<li><strong>MySQL Server</strong> = the actual database engine.</li>
+<li><strong>MySQL Client</strong> = the terminal command used to connect to MySQL Server.</li>
+<li><strong>MySQL Workbench</strong> = the GUI application used to manage MySQL visually.</li>
+</ul>
+<p>On macOS, install and start with Homebrew:</p>
+<div class="highlight"><pre><span></span><code>brew install mysql
+brew services start mysql
+brew services list
+mysql --version
+mysql_secure_installation
+mysql -u root -p
+</code></pre></div>
+
+<p>On Windows, use the MySQL Installer, choose <strong>Developer Default</strong>, keep port <strong>3306</strong>, set the root password, and run it as a Windows Service (<code>net start MySQL80</code>).</p>
+<p>The database we create is named <code>student_crud_db</code>. Inside it, JPA will later create the table <code>students</code>:</p>
+<div class="highlight"><pre><span></span><code>MySQL Server
+   |
+   v
+student_crud_db
+   |
+   v
+students table
+   |
+   v
+student rows
+</code></pre></div>
+
+<p>The key point: at this stage we only create the database. We do <strong>not</strong> manually create the table. The table can be created automatically by JPA when we run the application with proper configuration.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Who does it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Create the <code>student_crud_db</code> schema</td>
+<td>we create it (manually)</td>
+</tr>
+<tr>
+<td>Create the <code>students</code> table</td>
+<td>JPA/Hibernate at startup</td>
+</tr>
+<tr>
+<td>Insert/update/delete rows</td>
+<td>repository methods at runtime</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"CRUD is beginner content, not real backend work"</td>
+<td>CRUD is the foundation of most backend systems; larger systems are CRUD plus rules</td>
+</tr>
+<tr>
+<td>"The controller should contain the business logic"</td>
+<td>The controller is the entry gate; business rules belong in the service layer</td>
+</tr>
+<tr>
+<td>"The repository is where we hand-write SQL"</td>
+<td>For basic operations Spring Data JPA supplies <code>save</code>, <code>findAll</code>, <code>findById</code>, <code>deleteById</code>; no manual SQL</td>
+</tr>
+<tr>
+<td>"Entity is the fourth flow layer"</td>
+<td>Entity is the object that travels between layers; JPA maps it to a table row</td>
+</tr>
+<tr>
+<td>"A new Spring Boot app never fails before you write code"</td>
+<td>Adding JPA plus a driver makes Boot auto-configure a DataSource and fail without a URL</td>
+</tr>
+<tr>
+<td>"Save and update need different repository methods"</td>
+<td><code>save()</code> handles both create and update</td>
+</tr>
+<tr>
+<td>"We must create the <code>students</code> table by hand"</td>
+<td>We create only the database; JPA creates the table at startup</td>
+</tr>
+<tr>
+<td>"Any URL change needs a new endpoint shape"</td>
+<td>The same path with a different HTTP method is a different operation</td>
+</tr>
+<tr>
+<td>"Soft delete and hard delete are the same"</td>
+<td>Soft delete keeps the row (<code>isDeleted = true</code>); hard delete removes the row permanently</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "CRUD is just beginner stuff."</strong>
+Verdict: False. CRUD is the basic skeleton of backend development and the foundation of most backend systems.</p>
+<p><strong>Trap 2 - "Put all the CRUD logic in the controller."</strong>
+Verdict: False. A single class doing HTTP, business logic, and DB work becomes messy; divide responsibility into controller, service, and repository.</p>
+<p><strong>Trap 3 - "The controller should decide soft delete versus hard delete."</strong>
+Verdict: False. That is a business rule and belongs in the service layer, which calls the repository.</p>
+<p><strong>Trap 4 - "Creating and updating use different repository methods."</strong>
+Verdict: False. <code>save()</code> serves both: insert for a new object, update for an existing one after fields are changed.</p>
+<p><strong>Trap 5 - "A brand-new Spring Boot app cannot fail before you write code."</strong>
+Verdict: False. JPA plus the MySQL driver make Boot auto-configure a DataSource, which fails without <code>spring.datasource.url</code>, username, and password.</p>
+<p><strong>Trap 6 - "The entity is the fourth layer in the flow."</strong>
+Verdict: False. The flow is Controller -&gt; Service -&gt; Repository -&gt; Database; the entity is the object that travels between the layers.</p>
+<p><strong>Trap 7 - "We must manually create the students table before running."</strong>
+Verdict: False. We create only the <code>student_crud_db</code> database; JPA creates the <code>students</code> table automatically with proper configuration.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>CRUD = Create, Read, Update, Delete, and it is the foundation of most backend systems, not beginner-only content.</li>
+<li>The mapping is POST = create, GET = read (all or one), PUT = update, DELETE = delete.</li>
+<li>The six APIs live under <code>/api/students</code>, and the single-student operations use <code>/api/students/{id}</code> with <code>@PathVariable</code>.</li>
+<li>Update follows one pattern: find by ID, update fields, then save.</li>
+<li>Layers divide responsibility: Controller (entry gate), Service (business logic), Repository (database operations), Database (storage), Entity (object between layers).</li>
+<li>The request path is Postman -&gt; Controller -&gt; Service -&gt; Repository -&gt; Database, and the response returns along the same path in reverse.</li>
+<li>Spring Data JPA provides <code>save()</code>, <code>findAll()</code>, <code>findById()</code>, and <code>deleteById()</code>, so basic operations need no manual SQL; <code>save()</code> handles both create and update.</li>
+<li>Dependencies: Spring Web (API endpoints), Spring Data JPA (database operations), MySQL Driver (Java-to-MySQL communication).</li>
+<li>Adding JPA plus a driver triggers DataSource auto-configuration, which fails until <code>spring.datasource.url</code>, username, and password are set.</li>
+<li>Packages <code>controller</code>, <code>service</code>, <code>repository</code>, <code>entity</code> keep classes organized, and the main class stays in the root package so <code>@SpringBootApplication</code> component scanning finds everything.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is CRUD?</td>
+<td>The four basic data operations: Create, Read, Update, Delete.</td>
+</tr>
+<tr>
+<td>Why is CRUD important?</td>
+<td>It is the foundation of most backend systems; the YouTube and Instagram examples are just CRUD with rules.</td>
+</tr>
+<tr>
+<td>How does CRUD map to HTTP methods?</td>
+<td>POST creates, GET reads, PUT updates, DELETE deletes.</td>
+</tr>
+<tr>
+<td>What does the controller do?</td>
+<td>Receives the request, reads input, calls the service, returns the response - the entry gate.</td>
+</tr>
+<tr>
+<td>What does the service layer do?</td>
+<td>Contains business rules such as hiding deleted students, update behavior, missing-ID handling, and soft versus hard delete.</td>
+</tr>
+<tr>
+<td>What does the repository do?</td>
+<td>Performs database operations using Spring Data JPA methods like <code>save</code>, <code>findAll</code>, <code>findById</code>, <code>deleteById</code>.</td>
+</tr>
+<tr>
+<td>Which repository method handles both create and update?</td>
+<td><code>save()</code> - insert for a new object, update for an existing one after changing fields.</td>
+</tr>
+<tr>
+<td>Where does the entity fit in the architecture?</td>
+<td>It is not a flow layer; it is the object that travels between layers and is mapped by JPA to a table row.</td>
+</tr>
+<tr>
+<td>What dependencies does the project need?</td>
+<td>Spring Web, Spring Data JPA, and MySQL Driver.</td>
+</tr>
+<tr>
+<td>Why did the empty app fail to start?</td>
+<td>JPA plus the driver made Boot auto-configure a DataSource, but <code>spring.datasource.url</code> and credentials were missing.</td>
+</tr>
+<tr>
+<td>Why keep the main class in the root package?</td>
+<td><code>@SpringBootApplication</code> component scanning covers its package and subpackages, so all layers are found.</td>
+</tr>
+<tr>
+<td>Why create only the database and not the table?</td>
+<td>JPA/Hibernate creates the <code>students</code> table automatically from the entity when the app runs with proper configuration.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Postman (client: React / Angular / mobile / another service)
+        |
+        v
+Controller   -&gt; receives HTTP request, reads input, calls service    (StudentController)
+        |
+        v
+Service      -&gt; business rules: save? hide deleted? update how? soft or hard delete?  (StudentService)
+        |
+        v
+Repository   -&gt; database operations: save / findAll / findById / deleteById  (StudentRepository)
+        |
+        v
+Database     -&gt; MySQL student_crud_db -&gt; students table -&gt; student rows
+        |
+        v
+Response     -&gt; Database -&gt; Repository -&gt; Service -&gt; Controller -&gt; Postman
+</code></pre></div>
+
+<ul>
+<li>CRUD (Create, Read, Update, Delete) is the skeleton under YouTube, Instagram, and most backend systems.</li>
+<li>HTTP mapping: POST create, GET read, PUT update, DELETE delete, all under <code>/api/students</code>.</li>
+<li>Layers divide one messy class into Controller (gate), Service (rules), Repository (data), Database (storage).</li>
+<li>The entity (<code>Student</code>) is the object travelling between layers; JPA maps it to the <code>students</code> table row.</li>
+<li>Spring Boot auto-configures from dependencies, which is exactly why the empty app failed until the DataSource details were supplied.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A CRUD project is not five endpoints glued together; it is a request that enters a gate, gets its rules applied, reaches the database through a repository, and returns as a response - and understanding each layer's job is the whole point.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-10.html"><span class="dir">Previous</span><span class="ttl">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</span></a><a class="next" href="doc-theory-lecture-12.html"><span class="dir">Next</span><span class="ttl">Lecture 12 — Spring Boot CRUD Project with MySQL</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

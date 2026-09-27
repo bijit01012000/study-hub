@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 36 — Spring Security DB Authentication &amp; Password Security — Spring Boot</title>
+<meta name="description" content="Lecture 36 — Spring Security DB Authentication &amp; Password Security">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-36">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-36.html#lecture-36">Lecture 36</a></li><li><a href="doc-theory-lecture-36.html#1-from-default-in-memory-authentication-to-database-authentication">1. From Default In-Memory Authentication to Database Authentication</a></li><li><a href="doc-theory-lecture-36.html#2-authentication-requires-a-source-of-truth">2. Authentication Requires a Source of Truth</a></li><li><a href="doc-theory-lecture-36.html#3-why-the-default-user-is-not-enough">3. Why the Default User Is Not Enough</a></li><li><a href="doc-theory-lecture-36.html#4-why-spring-security-does-not-depend-on-our-domain-entity">4. Why Spring Security Does Not Depend on Our Domain Entity</a></li><li><a href="doc-theory-lecture-36.html#5-identity-vs-credentials">5. Identity vs Credentials</a></li><li><a href="doc-theory-lecture-36.html#6-designing-the-authentication-database">6. Designing the Authentication Database</a></li><li><a href="doc-theory-lecture-36.html#7-the-userdetails-contract">7. The UserDetails Contract</a></li><li><a href="doc-theory-lecture-36.html#8-the-initial-user-entity-and-domain-vs-userdetails">8. The Initial User Entity and Domain vs UserDetails</a></li><li><a href="doc-theory-lecture-36.html#9-introducing-roles-role_user-and-role_admin">9. Introducing Roles: ROLE_USER and ROLE_ADMIN</a></li><li><a href="doc-theory-lecture-36.html#10-jpa-entity-model-for-roles-manytomany">10. JPA Entity Model for Roles (ManyToMany)</a></li><li><a href="doc-theory-lecture-36.html#11-the-repository-layer-and-the-missing-bridge">11. The Repository Layer and the Missing Bridge</a></li><li><a href="doc-theory-lecture-36.html#12-why-raw-passwords-must-never-be-stored">12. Why Raw Passwords Must Never Be Stored</a></li><li><a href="doc-theory-lecture-36.html#13-why-password-encryption-is-not-the-right-solution">13. Why Password Encryption Is Not the Right Solution</a></li><li><a href="doc-theory-lecture-36.html#14-password-hashing-and-why-fast-hashes-sha-256-are-unsuitable">14. Password Hashing and Why Fast Hashes (SHA-256) Are Unsuitable</a></li><li><a href="doc-theory-lecture-36.html#15-bcrypt-passwordencoder-and-salt">15. BCrypt, PasswordEncoder, and Salt</a></li><li><a href="doc-theory-lecture-36.html#16-registration-flow-from-first-principles">16. Registration Flow from First Principles</a></li><li><a href="doc-theory-lecture-36.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-36.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-36.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-36.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-36.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 36 — Spring Security DB Authentication &amp; Password Security</h1>
+<p class="readmeta">22 sections · 5,335 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-36" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-36">Lecture 36</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Security DB Authentication &amp; Password Security" (playlist map, verified). Repo lecture folder points at the <code>springPracticalDemo</code> project: <code>User</code>/<code>Role</code> entities, <code>UserRepository</code>/<code>RoleRepository</code>, <code>AuthService</code> registration logic, <code>SecurityConfig</code>, register request/response DTOs, plus the lecture notes on database authentication and password hashing.</p>
+</blockquote>
+<p>Spring Security ships with a working login out of the box, but that login lives in memory and evaporates on restart. Real applications need users in a database, need to distinguish identity from credentials, and need to store passwords in a form that survives a database breach. This lecture builds that story from the first principle - authentication needs a trusted source of truth - all the way to a registration service that hashes a password with BCrypt before it ever touches the database. Deep login internals (how <code>DaoAuthenticationProvider</code> runs the verification) belong to Lecture 37; here we prepare everything the login path will later consume.</p>
+<h2 id="1-from-default-in-memory-authentication-to-database-authentication">1. From Default In-Memory Authentication to Database Authentication</h2>
+<p>Adding one dependency is enough to secure a Spring Boot application:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div>
+
+<p>With no further configuration, Spring Boot:</p>
+<ul>
+<li>creates a user with the username <code>user</code>;</li>
+<li>prints a randomly generated password in the console;</li>
+<li>secures every endpoint;</li>
+<li>provides form login and HTTP Basic authentication.</li>
+</ul>
+<p>After a successful authentication, Spring Security creates an <code>Authentication</code> object that represents the currently authenticated user:</p>
+<div class="highlight"><pre><span></span><code>Authentication
+-----------------------------
+principal    = user
+credentials  = protected/erased
+authorities  = ROLE_USER
+authenticated = true
+</code></pre></div>
+
+<p>That object is what the rest of the application reads to answer "who is logged in?" and "what is that user allowed to do?" But the default setup raises the important question this lecture answers:</p>
+<div class="highlight"><pre><span></span><code>Where does Spring Security obtain the information required to verify a user?
+</code></pre></div>
+
+<p>The default answer - a user generated into memory at startup - is fine for a demo and useless for a product.</p>
+<blockquote class="callout callout--important">
+<p>Important: The generated default user is not a security feature, it is a convenience for getting started. The moment you have real accounts, the source of truth has to move out of memory.</p>
+</blockquote>
+<h2 id="2-authentication-requires-a-source-of-truth">2. Authentication Requires a Source of Truth</h2>
+<p>Suppose a client submits:</p>
+<div class="highlight"><pre><span></span><code>username = aditya
+password = secret123
+</code></pre></div>
+
+<p>Spring Security cannot automatically know whether these credentials are correct. It needs trusted information against which it can validate the claim.</p>
+<div class="highlight"><pre><span></span><code>User-submitted information
+-----------------------------
+username = aditya
+password = secret123
+
+Trusted information
+-----------------------------
+username      = aditya
+passwordHash  = ...
+roles         = ...
+accountStatus = ...
+</code></pre></div>
+
+<p>Authentication can therefore be understood as this three-step flow:</p>
+<div class="highlight"><pre><span></span><code>Claimed identity + credential
+        |
+        v
+Validation against
+        |
+        v
+Trusted user information
+</code></pre></div>
+
+<p>The trusted information can live anywhere: application memory, a relational database, MongoDB, LDAP, an external identity provider, or a separate authentication service. In this application the source of truth is a MySQL database:</p>
+<div class="highlight"><pre><span></span><code>Spring Boot Application
+        |
+        v
+MySQL Database
+</code></pre></div>
+
+<blockquote class="callout callout--golden">
+<p>Golden rule: Authentication is not about deciding what a password "should" be. It is about comparing a claim against a trusted record that the application already holds.</p>
+</blockquote>
+<h2 id="3-why-the-default-user-is-not-enough">3. Why the Default User Is Not Enough</h2>
+<p>Spring Security's generated user is useful for learning and testing, but it is not a practical user-management system.</p>
+<p>A real learning platform could have thousands of users. Every user may have their own identity, password, roles, and account status. This information must survive application restarts, server restarts, deployments, and application scaling. An in-memory user dies with the JVM; a scaled deployment would have a different random password on every instance.</p>
+<p>The users must therefore be stored in persistent storage such as a database. Persistence is not an optimization here, it is the requirement that turns a demo login into a real account system: the default user does not survive a restart, supports only one account, hard-codes its role, and has no per-user status flags.</p>
+<h2 id="4-why-spring-security-does-not-depend-on-our-domain-entity">4. Why Spring Security Does Not Depend on Our Domain Entity</h2>
+<p>Every application has a different database design.</p>
+<p>One application may use a <code>users</code> table with fields such as <code>id</code>, <code>email</code>, <code>password</code>, <code>phone</code>, <code>created_at</code>, and <code>enabled</code>. Another may use an <code>employees</code> table with <code>employee_id</code>, <code>corporate_email</code>, <code>credential_hash</code>, <code>department</code>, and <code>active</code>. Other systems may call the same concept <code>customers</code>, <code>members</code>, or <code>accounts</code> and may use a completely different database technology.</p>
+<p>Spring Security cannot require every application to use the same table name, column names, or database design. Instead, it defines common security abstractions. One of the most important is <code>UserDetails</code>, which represents the user information Spring Security needs during username-and-password authentication.</p>
+<div class="highlight"><pre><span></span><code>Application-specific database model
+        |
+        v
+Adapter
+        |
+        v
+Spring Security&#39;s UserDetails
+</code></pre></div>
+
+<p>This separation keeps Spring Security independent of the application's database structure. It is a contract, not coupling.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: If asked "why not make Spring Security read our <code>User</code> entity directly?", the strong answer is that a framework must not know thousands of different schemas. Abstractions such as <code>UserDetails</code> are exactly how a framework stays reusable across applications.</p>
+</blockquote>
+<h2 id="5-identity-vs-credentials">5. Identity vs Credentials</h2>
+<p>Authentication must answer two questions:</p>
+<div class="highlight"><pre><span></span><code>Who are you?        -&gt; Identity
+Can you prove it?   -&gt; Credential
+</code></pre></div>
+
+<p>For username-and-password authentication:</p>
+<div class="highlight"><pre><span></span><code>username or email  -&gt; identity
+password           -&gt; credential
+</code></pre></div>
+
+<p>Identity is the claim of who the user is. A credential is the secret the user presents to prove that claim. They are different concepts and are stored with different intentions: identity is safe to look up and display, a credential must never be exposed.</p>
+<h3 id="username-versus-email">Username versus email</h3>
+<p>An application does not have to use a traditional username as the login identifier. It may use a username, an email address, an employee ID, a phone number, or any other value that uniquely identifies an account. For example, an application can use:</p>
+<div class="highlight"><pre><span></span><code>findByEmail(email);
+</code></pre></div>
+
+<p>instead of:</p>
+<div class="highlight"><pre><span></span><code>findByUsername(username);
+</code></pre></div>
+
+<p>Spring Security APIs use historical names such as <code>loadUserByUsername(...)</code> and <code>getUsername()</code>. However, the value can still represent an email address if that is the application's login design. The name is a historical contract; the meaning is whatever uniquely identifies the account.</p>
+<p>The login identifier must uniquely identify exactly one account. These rows would make authentication ambiguous because the identifier is not unique:</p>
+<div class="highlight"><pre><span></span><code>ID | EMAIL
+1  | aditya@gmail.com
+2  | aditya@gmail.com
+</code></pre></div>
+
+<p>The login identifier should therefore have a unique database constraint. This example uses <code>username</code> to keep the terminology aligned with Spring Security's interfaces.</p>
+<p>Memory aid: "Identity tells us who; credential proves it." A mnemonic for the two questions is <strong>W-P</strong> - Who are you, Prove it.</p>
+<h2 id="6-designing-the-authentication-database">6. Designing the Authentication Database</h2>
+<p>The absolute minimum information required for username-and-password authentication is:</p>
+<div class="highlight"><pre><span></span><code>User
+|-- username
+`-- password
+</code></pre></div>
+
+<p>A minimal <code>users</code> table could be:</p>
+<div class="highlight"><pre><span></span><code>users
+-------------------------------
+id        BIGINT PRIMARY KEY
+username  VARCHAR UNIQUE
+password  VARCHAR
+</code></pre></div>
+
+<p>In a realistic application, account status and roles are also useful, so the table grows:</p>
+<div class="highlight"><pre><span></span><code>users
+-------------------------------
+id | username | password | enabled
+</code></pre></div>
+
+<p>Notice that <code>password</code> here really means the encoded password. The column stores a hash, never the original text.</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Purpose</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>Primary key</td>
+<td>Surrogate identity</td>
+</tr>
+<tr>
+<td><code>username</code></td>
+<td>Login identifier</td>
+<td><code>UNIQUE</code>, identifies exactly one account</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td>Encoded password</td>
+<td>Stores the hash, never the raw value</td>
+</tr>
+<tr>
+<td><code>enabled</code></td>
+<td>Account status flag</td>
+<td>Allows the account to exist but stay inactive</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-the-userdetails-contract">7. The UserDetails Contract</h2>
+<p>A simplified view of Spring Security's <code>UserDetails</code> interface is:</p>
+<div class="highlight"><pre><span></span><code>public interface UserDetails {
+    String getUsername();
+    String getPassword();
+    Collection&lt;? extends GrantedAuthority&gt; getAuthorities();
+    boolean isAccountNonLocked();
+    boolean isAccountNonExpired();
+    boolean isCredentialsNonExpired();
+    boolean isEnabled();
+}
+</code></pre></div>
+
+<p>It contains three main categories of information:</p>
+<ol>
+<li>Identity - <code>getUsername()</code></li>
+<li>Credential - <code>getPassword()</code></li>
+<li>Authorities and account status</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Category</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getUsername()</code></td>
+<td>Identity</td>
+<td>The unique login identifier</td>
+</tr>
+<tr>
+<td><code>getPassword()</code></td>
+<td>Credential</td>
+<td>The encoded password Spring Security will verify against</td>
+</tr>
+<tr>
+<td><code>getAuthorities()</code></td>
+<td>Authorization</td>
+<td>Granted roles/permissions (for example <code>ROLE_USER</code>)</td>
+</tr>
+<tr>
+<td><code>isAccountNonLocked()</code></td>
+<td>Status</td>
+<td><code>false</code> when the account is temporarily blocked</td>
+</tr>
+<tr>
+<td><code>isAccountNonExpired()</code></td>
+<td>Status</td>
+<td><code>false</code> when the account itself is no longer valid</td>
+</tr>
+<tr>
+<td><code>isCredentialsNonExpired()</code></td>
+<td>Status</td>
+<td><code>false</code> when the credential must be renewed</td>
+</tr>
+<tr>
+<td><code>isEnabled()</code></td>
+<td>Status</td>
+<td><code>false</code> when the account is inactive</td>
+</tr>
+</tbody>
+</table>
+<h3 id="enabled-and-disabled-accounts">Enabled and disabled accounts</h3>
+<p>An account may need to remain in the database even when it should no longer be allowed to authenticate:</p>
+<div class="highlight"><pre><span></span><code>User exists
+but
+User cannot authenticate
+</code></pre></div>
+
+<p>For this requirement, the user table can contain an <code>enabled</code> field:</p>
+<div class="highlight"><pre><span></span><code>users
+-------------------------------
+id | username | password | enabled
+</code></pre></div>
+
+<p><code>1 | aditya | $2a$... | true</code> is an enabled user and may continue through authentication. <code>2 | rohit | $2a$... | false</code> is a disabled user and is not eligible for successful authentication. The row still exists, so history and references survive; only the ability to log in is removed.</p>
+<h3 id="disabled-versus-locked">Disabled versus locked</h3>
+<div class="highlight"><pre><span></span><code>Disabled -&gt; The account is inactive.
+Locked   -&gt; The account exists, but authentication is temporarily blocked.
+</code></pre></div>
+
+<p>An account might be locked after repeated failed login attempts without being permanently disabled. Disabled is a deliberate, lasting state; locked is usually a temporary safety response.</p>
+<h3 id="account-and-credential-expiration">Account and credential expiration</h3>
+<p><code>isAccountNonExpired()</code> says whether the account itself is still valid (for example, a temporary employee's contract ended); <code>isCredentialsNonExpired()</code> says whether the credential is still valid (for example, a password must be changed every 90 days). Account expired means the account is no longer valid; credentials expired means the account is valid but its credential must be renewed. Spring Security provides hooks for these states, but every application does not need a separate database column for each one; an implementation that does not support account expiration can simply return <code>true</code> from <code>isAccountNonExpired()</code>.</p>
+<p>Mnemonic for the contract categories: <strong>I-C-A-S</strong> - Identity, Credential, Authorities, Status.</p>
+<h2 id="8-the-initial-user-entity-and-domain-vs-userdetails">8. The Initial User Entity and Domain vs UserDetails</h2>
+<p>The first version of the <code>User</code> entity looks like this:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+@Table(name = &quot;users&quot;)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    private boolean enabled = true;
+}
+</code></pre></div>
+
+<p>The <code>unique = true</code> constraint is important because one username must identify only one account.</p>
+<h3 id="domain-user-versus-spring-security-userdetails">Domain User versus Spring Security UserDetails</h3>
+<p>The application's <code>User</code> entity and Spring Security's <code>UserDetails</code> abstraction belong to different layers:</p>
+<div class="highlight"><pre><span></span><code>Application/domain layer - User Entity
+|-- email
+|-- profile
+|-- createdAt
+|-- password
+`-- roles
+
+        | adapt
+
+Spring Security layer - UserDetails
+|-- username
+|-- password
+|-- authorities
+`-- account status
+</code></pre></div>
+
+<p>The <code>User</code> entity models what the application wants to store. <code>UserDetails</code> models what Spring Security needs for authentication. They can be connected through an adapter without treating them as the same concept.</p>
+<blockquote class="callout callout--important">
+<p>Important: Do not make the domain <code>User</code> entity implement <code>UserDetails</code> "just to save a class" without thinking. That decision couples the persistence model to a security contract and drags security methods into every place the entity appears.</p>
+</blockquote>
+<h2 id="9-introducing-roles-role_user-and-role_admin">9. Introducing Roles: ROLE_USER and ROLE_ADMIN</h2>
+<p>Authentication establishes who the user is. Authorization determines what that authenticated user is allowed to do.</p>
+<p>A learning platform might define:</p>
+<div class="highlight"><pre><span></span><code>STUDENT -&gt; View courses
+TEACHER -&gt; Create courses
+ADMIN   -&gt; Delete users
+</code></pre></div>
+
+<p>A user may have one or more roles:</p>
+<div class="highlight"><pre><span></span><code>Aditya
+|-- ROLE_USER
+`-- ROLE_ADMIN
+
+Rohit
+`-- ROLE_USER
+</code></pre></div>
+
+<p>The database structure splits the concern into three tables:</p>
+<div class="highlight"><pre><span></span><code>users
+-----------------------------
+id | username | password | enabled
+
+roles
+-----------------------------
+id | name
+
+user_roles
+-----------------------------
+user_id | role_id
+</code></pre></div>
+
+<p>Example data:</p>
+<div class="highlight"><pre><span></span><code>users
+1 | aditya | $2a$... | true
+2 | rohit  | $2a$... | true
+
+roles
+1 | ROLE_USER
+2 | ROLE_ADMIN
+
+user_roles
+1 | 1
+1 | 2
+2 | 1
+</code></pre></div>
+
+<p>The join-table entries mean that Aditya has both roles, while Rohit has only <code>ROLE_USER</code>. Keeping the role names in their own table means a role can be reused across users without repeating strings, and the set of roles is data rather than hard-coded logic.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A frequent question is "why a join table instead of a <code>role</code> column on <code>users</code>?" The answer is the many-to-many reality: one user can hold many roles and one role can belong to many users, which is exactly what a join table models.</p>
+</blockquote>
+<h2 id="10-jpa-entity-model-for-roles-manytomany">10. JPA Entity Model for Roles (ManyToMany)</h2>
+<p>The <code>Role</code> entity:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+@Table(name = &quot;roles&quot;)
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+}
+</code></pre></div>
+
+<p>The updated <code>User</code> entity gains the role relationship:</p>
+<div class="highlight"><pre><span></span><code>@Entity
+@Table(name = &quot;users&quot;)
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    private boolean enabled = true;
+
+    @ManyToMany
+    @JoinTable(
+        name = &quot;user_roles&quot;,
+        joinColumns = @JoinColumn(name = &quot;user_id&quot;),
+        inverseJoinColumns = @JoinColumn(name = &quot;role_id&quot;)
+    )
+    private Set&lt;Role&gt; roles = new HashSet&lt;&gt;();
+}
+</code></pre></div>
+
+<p>The mapping is unidirectional because the authentication use case needs <code>user.getRoles()</code> but does not currently require <code>role.getUsers()</code>. A bidirectional relationship should be added only if the application genuinely needs navigation in both directions; otherwise it adds maintenance cost on both sides for no benefit.</p>
+<h2 id="11-the-repository-layer-and-the-missing-bridge">11. The Repository Layer and the Missing Bridge</h2>
+<p>The application needs a repository to retrieve users by their login identifier:</p>
+<div class="highlight"><pre><span></span><code>public interface UserRepository extends JpaRepository&lt;User, Long&gt; {
+    Optional&lt;User&gt; findByUsername(String username);
+    boolean existsByUsername(String username);
+}
+</code></pre></div>
+
+<p>A role repository may also be useful during registration or role management:</p>
+<div class="highlight"><pre><span></span><code>public interface RoleRepository extends JpaRepository&lt;Role, Long&gt; {
+    Optional&lt;Role&gt; findByName(String name);
+}
+</code></pre></div>
+
+<p>At this stage, Spring Security still does not directly call <code>userRepository.findByUsername(...)</code>. There is a deliberate gap:</p>
+<div class="highlight"><pre><span></span><code>Database
+   ^
+UserRepository
+   ^
+Missing bridge
+   ^
+Spring Security
+</code></pre></div>
+
+<p>The missing bridge is <code>UserDetailsService</code>. <code>DaoAuthenticationProvider</code> uses <code>UserDetailsService</code> to load the username, encoded password, authorities, and account-status information required for authentication. That bridge is the subject of Lecture 37; for now we recognize the shape of the gap.</p>
+<blockquote class="callout callout--important">
+<p>Important: The repository is an application concern; <code>UserDetailsService</code> is the adapter Spring Security recognizes. Keeping them separate is what allows the login provider to work with any database design.</p>
+</blockquote>
+<h2 id="12-why-raw-passwords-must-never-be-stored">12. Why Raw Passwords Must Never Be Stored</h2>
+<p>Consider a registration request:</p>
+<div class="highlight"><pre><span></span><code>POST /register
+Content-Type: application/json
+
+{
+  &quot;username&quot;: &quot;aditya&quot;,
+  &quot;password&quot;: &quot;secret123&quot;
+}
+</code></pre></div>
+
+<p>The simplest implementation would save the password directly:</p>
+<div class="highlight"><pre><span></span><code>User user = new User();
+user.setUsername(request.getUsername());
+user.setPassword(request.getPassword());
+userRepository.save(user);
+</code></pre></div>
+
+<p>The database would then contain:</p>
+<div class="highlight"><pre><span></span><code>id | username | password
+----------------------------
+1  | aditya   | secret123
+</code></pre></div>
+
+<p>This may work functionally, but it is extremely unsafe. If the database is compromised, every stored password is immediately exposed. The damage may extend beyond this application because users frequently reuse the same password on multiple services.</p>
+<p>An application should never intentionally store a user's raw password.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Treat the raw password as radioactive. It may exist for the few milliseconds needed to process a request, and it must never be logged, returned, or persisted.</p>
+</blockquote>
+<h2 id="13-why-password-encryption-is-not-the-right-solution">13. Why Password Encryption Is Not the Right Solution</h2>
+<p>Encryption is reversible:</p>
+<div class="highlight"><pre><span></span><code>Plaintext
+   |
+   v encryption + key
+Ciphertext
+   |
+   v decryption + key
+Plaintext
+</code></pre></div>
+
+<p>If passwords are encrypted, the application must keep a decryption key capable of recovering every original password. If an attacker obtains both the database and the key, all passwords can be recovered. Encryption moves the risk to key management but never removes the ability to reverse the secret.</p>
+<p>The more fundamental question is:</p>
+<div class="highlight"><pre><span></span><code>Does the application ever need to recover a user&#39;s original password?
+</code></pre></div>
+
+<p>No. During login, the application only needs to determine whether the password entered now matches the password registered earlier. It never needs the original text back. Therefore passwords need a one-way transformation rather than reversible encryption.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Encryption</th>
+<th>Hashing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direction</td>
+<td>Reversible (two-way)</td>
+<td>One-way</td>
+</tr>
+<tr>
+<td>Needs a key</td>
+<td>Yes, to decrypt</td>
+<td>No decryption key exists</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Hide data that must be recovered</td>
+<td>Store a secret that is only compared</td>
+</tr>
+<tr>
+<td>Breach + key</td>
+<td>All passwords recovered</td>
+<td>Passwords still hard to reverse</td>
+</tr>
+<tr>
+<td>Suitable for passwords</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>AES</td>
+<td>BCrypt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-password-hashing-and-why-fast-hashes-sha-256-are-unsuitable">14. Password Hashing and Why Fast Hashes (SHA-256) Are Unsuitable</h2>
+<p>Hashing changes the security model:</p>
+<div class="highlight"><pre><span></span><code>secret123
+   |
+   v
+One-way password function
+   |
+   v
+Encoded representation
+</code></pre></div>
+
+<p>The encoded representation is stored in the database. There should be no operation that converts it back into the original password. During login, the system performs verification:</p>
+<div class="highlight"><pre><span></span><code>Entered raw password
+        +
+Stored encoded password
+        |
+        v
+Does the entered password correspond to this stored representation?
+        |
+        v
+true / false
+</code></pre></div>
+
+<p>Spring Security expresses this operation through:</p>
+<div class="highlight"><pre><span></span><code>passwordEncoder.matches(rawPassword, encodedPassword);
+</code></pre></div>
+
+<h3 id="why-a-fast-hash-such-as-sha-256-is-not-enough">Why a fast hash such as SHA-256 is not enough</h3>
+<p>A general-purpose cryptographic hash such as SHA-256 is designed to be fast. Speed is valuable for many computing tasks, but it is dangerous for password storage.</p>
+<p>If attackers steal a password-hash database, they can perform an offline guessing attack:</p>
+<div class="highlight"><pre><span></span><code>password      -&gt; hash and compare with stolen value
+123456        -&gt; ...
+qwerty        -&gt; ...
+secret123     -&gt; ...
+welcome123    -&gt; ...
+...
+</code></pre></div>
+
+<p>For every guess they calculate a hash and compare it with the stolen value. A very fast algorithm allows attackers to test an enormous number of guesses quickly, often on powerful GPUs. Password-storage algorithms are deliberately designed to make every guess computationally expensive.</p>
+<div class="highlight"><pre><span></span><code>Fast general-purpose hash -&gt; Attackers can test guesses rapidly.
+Adaptive password hash    -&gt; Every guess requires more computation.
+</code></pre></div>
+
+<p>Spring Security supports adaptive one-way password functions such as BCrypt for this purpose.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Fast hash (SHA-256)</th>
+<th>BCrypt (adaptive)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Design goal</td>
+<td>Maximize throughput</td>
+<td>Deliberately slow per guess</td>
+</tr>
+<tr>
+<td>Speed abused by attackers</td>
+<td>Yes, billions of guesses/sec possible</td>
+<td>No, cost factor throttles guessing</td>
+</tr>
+<tr>
+<td>Salt</td>
+<td>Not built in</td>
+<td>Built into the encoded output</td>
+</tr>
+<tr>
+<td>Same password twice</td>
+<td>Same hash</td>
+<td>Different hash each time</td>
+</tr>
+<tr>
+<td>Cost tunable</td>
+<td>No</td>
+<td>Yes (work factor)</td>
+</tr>
+<tr>
+<td>Suitable for passwords</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: The problem with SHA-256 is not weakness of the function, it is its speed. For passwords you actively want the computation to be slow and repeatedly salted.</p>
+</blockquote>
+<h2 id="15-bcrypt-passwordencoder-and-salt">15. BCrypt, PasswordEncoder, and Salt</h2>
+<p>Spring Security provides <code>BCryptPasswordEncoder</code>, which implements the <code>PasswordEncoder</code> abstraction:</p>
+<div class="highlight"><pre><span></span><code>PasswordEncoder
+   | implements
+BCryptPasswordEncoder
+</code></pre></div>
+
+<p>The encoder can be registered as a Spring bean:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="nf">passwordEncoder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BCryptPasswordEncoder</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Depending on the abstraction allows the application to change the concrete password-encoding strategy without rewriting all authentication code.</p>
+<p>Core operations:</p>
+<div class="highlight"><pre><span></span><code><span class="n">String</span><span class="w"> </span><span class="n">encoded</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;secret123&quot;</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">encoded</span><span class="p">);</span><span class="w">                                        </span><span class="c1">// $2a$10$...</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="s">&quot;secret123&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">encoded</span><span class="p">));</span><span class="w">  </span><span class="c1">// true</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="s">&quot;wrongPassword&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">encoded</span><span class="p">));</span><span class="w"> </span><span class="c1">// false</span>
+</code></pre></div>
+
+<p>The application never needs to decrypt the stored value.</p>
+<h3 id="salt-and-bcrypt">Salt and BCrypt</h3>
+<p>A stolen database can also be attacked using precomputed password-hash dictionaries, commonly associated with rainbow-table attacks:</p>
+<div class="highlight"><pre><span></span><code>password   -&gt; known hash 1
+123456     -&gt; known hash 2
+secret123  -&gt; known hash 3
+admin123   -&gt; known hash 4
+</code></pre></div>
+
+<p>A salt adds unique random data to the password-hashing process:</p>
+<div class="highlight"><pre><span></span><code>Aditya
+secret123 + randomSaltA
+        |
+        v BCrypt
+encodedValueA
+
+Rohit
+secret123 + randomSaltB
+        |
+        v BCrypt
+encodedValueB
+</code></pre></div>
+
+<p>Even though both users selected the same password, their stored BCrypt values are different. That defeats precomputed tables, because an attacker cannot look up a single hash that maps to <code>secret123</code>.</p>
+<p>BCrypt includes the salt and algorithm parameters inside the encoded value stored in the database. A separate salt column is therefore not required when using the standard BCrypt representation. A quick demonstration:</p>
+<div class="highlight"><pre><span></span><code><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;secret123&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// $2a$10$A...</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="s">&quot;secret123&quot;</span><span class="p">));</span><span class="w"> </span><span class="c1">// $2a$10$B...</span>
+</code></pre></div>
+
+<p>The two results should be different.</p>
+<h3 id="how-does-matches-work-if-every-encoding-is-different">How does matches() work if every encoding is different?</h3>
+<p>A common wrong idea is that <code>matches()</code> encodes the raw password again with a new salt and compares the two strings with <code>.equals(...)</code>. That approach would fail because each new encoding normally uses a different random salt. Instead, <code>matches()</code> reads the salt and other required parameters from the stored BCrypt value and applies those parameters while verifying the submitted raw password:</p>
+<div class="highlight"><pre><span></span><code>passwordEncoder.matches(rawPassword, storedEncodedPassword);
+</code></pre></div>
+
+<p>Spring Security hides the algorithm-specific verification details behind the <code>PasswordEncoder</code> interface.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "If BCrypt salts every hash differently, how can verification ever succeed?" The answer is that the salt is not secret and travels inside the stored value. Verification reuses that stored salt instead of generating a new one, which is why <code>matches()</code> works while naive <code>encode().equals()</code> does not.</p>
+</blockquote>
+<h2 id="16-registration-flow-from-first-principles">16. Registration Flow from First Principles</h2>
+<p>The client sends:</p>
+<div class="highlight"><pre><span></span><code>POST /register
+Content-Type: application/json
+
+{
+  &quot;username&quot;: &quot;aditya&quot;,
+  &quot;password&quot;: &quot;secret123&quot;
+}
+</code></pre></div>
+
+<p>The registration flow is:</p>
+<div class="highlight"><pre><span></span><code>RegisterRequest
+|-- username = aditya
+`-- password = secret123
+        |
+        v
+PasswordEncoder
+        |
+        v
+BCrypt
+        |
+        v
+Encoded password
+        |
+        v
+User entity
+        |
+        v
+UserRepository
+        |
+        v
+Database
+</code></pre></div>
+
+<p>In short: raw password -&gt; <code>PasswordEncoder.encode()</code> -&gt; BCrypt-encoded password -&gt; database. Password encoding occurs before the user entity is saved. The raw password must never be persisted.</p>
+<h3 id="registration-dtos">Registration DTOs</h3>
+<p>A simple request DTO can validate the incoming values:</p>
+<div class="highlight"><pre><span></span><code>public class UserRegisterRequestDto {
+    @NotBlank
+    private String username;
+
+    @NotBlank
+    @Size(min = 8)
+    private String password;
+}
+</code></pre></div>
+
+<p><code>@Size(min = 8)</code> demonstrates basic length validation. A production password policy may require additional rules, but password validation and password encoding solve different problems:</p>
+<div class="highlight"><pre><span></span><code>Validation       -&gt; Decides whether the submitted password is acceptable.
+Password encoding -&gt; Protects the password representation stored in the database.
+</code></pre></div>
+
+<p>The response DTO deliberately omits the password, so the encoded value is never leaked back to the client; it carries only fields such as <code>id</code> and <code>username</code>.</p>
+<h3 id="registration-service">Registration service</h3>
+<p>The service must check whether the username already exists, encode the raw password, assign the default role on the server side, create the entity, and then save it. A minimal framing of the service:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AuthService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">RoleRepository</span><span class="w"> </span><span class="n">roleRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">AuthService</span><span class="p">(</span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepository</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">RoleRepository</span><span class="w"> </span><span class="n">roleRepository</span><span class="p">,</span>
+<span class="w">                       </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">userRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepository</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">roleRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">roleRepository</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">passwordEncoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">UserRegisterResponseDto</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="n">UserRegisterRequestDto</span><span class="w"> </span><span class="n">request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">userRepository</span><span class="p">.</span><span class="na">existsByUsername</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getUsername</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;Username is already registered&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">Role</span><span class="w"> </span><span class="n">userRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">roleRepository</span><span class="p">.</span><span class="na">findByName</span><span class="p">(</span><span class="s">&quot;ROLE_USER&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalStateException</span><span class="p">(</span><span class="s">&quot;Default role missing&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">User</span><span class="p">();</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setUsername</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getUsername</span><span class="p">());</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setPassword</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">.</span><span class="na">encode</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="na">getPassword</span><span class="p">()));</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setEnabled</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">        </span><span class="n">user</span><span class="p">.</span><span class="na">setRoles</span><span class="p">(</span><span class="n">Set</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">userRole</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">saved</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserRegisterResponseDto</span><span class="p">(</span><span class="n">saved</span><span class="p">.</span><span class="na">getId</span><span class="p">(),</span><span class="w"> </span><span class="n">saved</span><span class="p">.</span><span class="na">getUsername</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The critical line is:</p>
+<div class="highlight"><pre><span></span><code>user.setPassword(passwordEncoder.encode(request.getPassword()));
+</code></pre></div>
+
+<p>The value received in the request is raw. The value saved in the database is BCrypt-encoded:</p>
+<div class="highlight"><pre><span></span><code>Request DTO
+-----------------------------
+secret123
+raw password
+
+Database
+-----------------------------
+$2a$10$...
+encoded password
+</code></pre></div>
+
+<p>The raw password should exist only for the short time required to process the registration request. It should not be logged, returned in the response, or stored anywhere.</p>
+<p>Two server-side rules matter as much as the encoding:</p>
+<ul>
+<li>The default role is assigned by the server, not chosen by the client. Never trust a role sent in the request body; a malicious client could otherwise register as <code>ROLE_ADMIN</code>.</li>
+<li>The response DTO excludes the password entirely, so no encoded value ever travels back out.</li>
+</ul>
+<h3 id="complete-conceptual-picture">Complete conceptual picture</h3>
+<p>Registration and login use the password encoder differently:</p>
+<div class="highlight"><pre><span></span><code>During registration
+Raw password
+   |
+   v
+PasswordEncoder.encode()
+   |
+   v
+Encoded password
+   |
+   v
+Database
+
+During login (Lecture 37)
+Entered raw password + stored encoded password
+   |
+   v
+PasswordEncoder.matches()
+   |
+   v
+true / false
+</code></pre></div>
+
+<p>Registration is the encode path; login is the matches path. Both exist so that the original password is never recoverable from what is stored.</p>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"The default <code>user</code> is enough once the app is real"</td>
+<td>It lives in memory, is lost on restart, and cannot model thousands of accounts</td>
+</tr>
+<tr>
+<td>"Spring Security should read our <code>User</code> entity directly"</td>
+<td>It depends on <code>UserDetails</code>; our entity is adapted to that contract</td>
+</tr>
+<tr>
+<td>"Username and password are the same kind of data"</td>
+<td>Username is identity (safe to look up); password is a credential that must be protected</td>
+</tr>
+<tr>
+<td>"Any unique-looking email field is fine as a login id"</td>
+<td>The login identifier must have a unique constraint; duplicates make authentication ambiguous</td>
+</tr>
+<tr>
+<td>"Encryption is safer than hashing for passwords"</td>
+<td>Encryption is reversible and needs a key; hashing is one-way and needs no decryption</td>
+</tr>
+<tr>
+<td>"SHA-256 is secure enough for passwords"</td>
+<td>It is fast and unsalted, so offline guessing and rainbow tables are cheap; BCrypt is adaptive and salted</td>
+</tr>
+<tr>
+<td>"A salt column must be added to the users table"</td>
+<td>BCrypt embeds the salt and parameters in the encoded value, so no separate column is needed</td>
+</tr>
+<tr>
+<td>"<code>matches()</code> re-encodes with the same salt and compares strings"</td>
+<td>It reads the salt and parameters from the stored value, which is why every fresh encode differs</td>
+</tr>
+<tr>
+<td>"The client may send the role during registration"</td>
+<td>The server assigns the default role; trusting a client role is a privilege-escalation hole</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Spring Security should just query our <code>users</code> table."</strong>
+Verdict: False. It depends on the <code>UserDetails</code> contract. Our <code>User</code> entity is an application concern, and an adapter bridges the two so the framework stays schema-independent.</p>
+<p><strong>Trap 2 - "Username and email must be the same column."</strong>
+Verdict: False. Any unique identifier works (username, email, employee ID, phone). Only the requirement of uniqueness is fixed, and Spring Security's <code>getUsername()</code> name is historical.</p>
+<p><strong>Trap 3 - "Encrypt the password so we can decrypt it if a user forgets."</strong>
+Verdict: False. No legitimate need exists to recover the original password. Encryption keeps the risk of key compromise; use one-way hashing and a reset flow instead.</p>
+<p><strong>Trap 4 - "SHA-256 is a strong hash, so it is fine for passwords."</strong>
+Verdict: False. Strength against collisions is not the issue; speed is. A fast hash lets attackers test enormous numbers of guesses, and it is not salted by default. Use an adaptive hash such as BCrypt.</p>
+<p><strong>Trap 5 - "Two users with the same password would have the same stored hash."</strong>
+Verdict: False with a proper salted algorithm. BCrypt generates a unique salt per encoding, so the same password produces different stored values for different users.</p>
+<p><strong>Trap 6 - "<code>matches()</code> re-hashes the raw password and compares the resulting strings."</strong>
+Verdict: False. Every encode uses a fresh salt, so a new hash would never equal the stored one. <code>matches()</code> extracts the salt and parameters from the stored value and verifies against them.</p>
+<p><strong>Trap 7 - "The registration response can include the saved user with its password field."</strong>
+Verdict: False. The response DTO omits the password, and the raw password must not be logged or returned. The server also assigns the default role rather than trusting the client.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Authentication always needs a trusted source of truth; the default in-memory <code>user</code> is only a learning convenience.</li>
+<li>The source of truth can be memory, a relational database, MongoDB, LDAP, an external identity provider, or a dedicated auth service; here it is MySQL.</li>
+<li>Spring Security avoids direct coupling to application schemas by defining abstractions, the key one being <code>UserDetails</code>.</li>
+<li>Identity (who you are) and credential (proof) are different concepts; the login identifier must uniquely identify exactly one account.</li>
+<li><code>UserDetails</code> exposes identity (<code>getUsername</code>), credential (<code>getPassword</code>), authorities (<code>getAuthorities</code>), and account-status flags (<code>isEnabled</code>, <code>isAccountNonLocked</code>, <code>isAccountNonExpired</code>, <code>isCredentialsNonExpired</code>).</li>
+<li>The domain <code>User</code> entity and Spring Security's <code>UserDetails</code> live in different layers and are linked by an adapter, not identified with each other.</li>
+<li>Authorization (roles such as <code>ROLE_USER</code> and <code>ROLE_ADMIN</code>) is modeled with <code>users</code>, <code>roles</code>, and a <code>user_roles</code> join table, mapped as <code>@ManyToMany</code>.</li>
+<li><code>UserRepository</code> (<code>findByUsername</code>, <code>existsByUsername</code>) and <code>RoleRepository</code> (<code>findByName</code>) provide data access; <code>UserDetailsService</code> is the missing bridge Spring Security will use in Lecture 37.</li>
+<li>Raw passwords must never be stored, logged, or returned; encryption is reversible and therefore wrong for passwords, so use a one-way hash.</li>
+<li>Fast hashes such as SHA-256 are unsuitable; use BCrypt, which is adaptive, salted, embeds its parameters, and is used through <code>PasswordEncoder.encode()</code> and <code>matches()</code>.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why is the default Spring Security user not enough?</td>
+<td>It is an in-memory account lost on restart, with no persistence, no per-user roles or status, and no support for scaling.</td>
+</tr>
+<tr>
+<td>Where does Spring Security get the data to verify a user?</td>
+<td>From a trusted source of truth (memory, database, LDAP, or an identity provider); here it is a MySQL database.</td>
+</tr>
+<tr>
+<td>What is <code>UserDetails</code> and why does it exist?</td>
+<td>A Spring Security contract describing the identity, credential, authorities, and account status needed for authentication, so the framework stays independent of any application schema.</td>
+</tr>
+<tr>
+<td>Identity vs credential?</td>
+<td>Identity is who the user claims to be (username/email); credential is the secret proving it (password).</td>
+</tr>
+<tr>
+<td>Can the login identifier be an email?</td>
+<td>Yes, any value that uniquely identifies one account works; only uniqueness is mandatory, and <code>getUsername()</code> is a historical name.</td>
+</tr>
+<tr>
+<td>What does the <code>UserDetails</code> contract expose?</td>
+<td><code>getUsername</code>, <code>getPassword</code>, <code>getAuthorities</code>, and the four status flags for locked, expired, credentials-expired, and enabled.</td>
+</tr>
+<tr>
+<td>How are roles modeled in the database?</td>
+<td>A <code>roles</code> table, a <code>users</code> table, and a <code>user_roles</code> join table, mapped in JPA as <code>@ManyToMany</code> with a <code>@JoinTable</code>.</td>
+</tr>
+<tr>
+<td>Why not store encrypted passwords?</td>
+<td>Encryption is reversible and requires a key; if the database and key leak, all passwords are recovered. Passwords must be one-way hashed.</td>
+</tr>
+<tr>
+<td>Why is SHA-256 unsuitable for passwords?</td>
+<td>It is deliberately fast and unsalted, enabling rapid offline guessing and rainbow-table attacks; BCrypt is adaptive and salted.</td>
+</tr>
+<tr>
+<td>Why does BCrypt give different output for the same password?</td>
+<td>It uses a unique random salt per encoding and stores that salt (plus parameters) inside the encoded value.</td>
+</tr>
+<tr>
+<td>How does <code>matches()</code> work with a random salt?</td>
+<td>It reads the salt and parameters from the stored encoded value and verifies the submitted password against them, rather than re-encoding with a new salt.</td>
+</tr>
+<tr>
+<td>What must the registration service do?</td>
+<td>Validate input, reject duplicate usernames, encode the password, assign the default role on the server, save, and return a response DTO without the password.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>spring-boot-starter-security
+        |
+        v
+default in-memory user + Authentication object
+        |
+        v
+need a source of truth (MySQL)
+        |
+        v
+User entity (id, username UNIQUE, password, enabled)
+        |
+        v
+roles + user_roles join (ROLE_USER, ROLE_ADMIN)
+        |
+        v
+UserRepository / RoleRepository  -&gt;  (UserDetailsService bridge, Lecture 37)
+        |
+        v
+raw password forbidden
+        |
+        v
+encryption rejected (reversible, key risk)
+        |
+        v
+one-way hashing
+        |
+        v
+SHA-256 rejected (fast, unsalted)
+        |
+        v
+BCrypt + PasswordEncoder (adaptive, salted) -&gt; encode() / matches()
+        |
+        v
+registration: validate -&gt; duplicate check -&gt; encode -&gt; default role -&gt; save -&gt; response DTO
+</code></pre></div>
+
+<ul>
+<li>Authentication needs trusted user information; the database becomes the persistent source of truth.</li>
+<li>Identity and credential are separate; the login identifier must be unique.</li>
+<li><code>UserDetails</code> is the contract Spring Security depends on; the domain <code>User</code> is adapted to it.</li>
+<li>Raw passwords are never stored; encryption is reversible, so one-way hashing is required.</li>
+<li>Fast hashes fail against offline guessing; BCrypt is adaptive and carries its own salt.</li>
+<li>Registration must encode before saving and assign roles on the server.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Database authentication is the act of validating a claimed identity against a trusted record, and password security is the discipline of storing only an adaptive, salted, one-way hash so that a stolen database never yields a usable password.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-35.html"><span class="dir">Previous</span><span class="ttl">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</span></a><a class="next" href="doc-theory-lecture-37.html"><span class="dir">Next</span><span class="ttl">Lecture 37 — Spring Security Authentication Internals</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

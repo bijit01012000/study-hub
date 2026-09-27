@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 15 — Spring MVC Architecture — Spring Boot</title>
+<meta name="description" content="Lecture 15 — Spring MVC Architecture">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-15">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-15.html#lecture-15">Lecture 15</a></li><li><a href="doc-theory-lecture-15.html#1-what-is-spring-web-mvc">1. What Is Spring Web MVC?</a></li><li><a href="doc-theory-lecture-15.html#2-spring-boots-role-automation-not-replacement">2. Spring Boot&#x27;s Role: Automation, Not Replacement</a></li><li><a href="doc-theory-lecture-15.html#3-dispatcherservlet-the-front-controller">3. DispatcherServlet: The Front Controller</a></li><li><a href="doc-theory-lecture-15.html#4-high-level-spring-mvc-flow-and-its-components">4. High-Level Spring MVC Flow and Its Components</a></li><li><a href="doc-theory-lecture-15.html#5-handlermapping-finding-the-right-controller-method">5. HandlerMapping: Finding the Right Controller Method</a></li><li><a href="doc-theory-lecture-15.html#6-handleradapter-actually-invoking-the-method">6. HandlerAdapter: Actually Invoking the Method</a></li><li><a href="doc-theory-lecture-15.html#7-how-request-data-reaches-the-controller">7. How Request Data Reaches the Controller</a></li><li><a href="doc-theory-lecture-15.html#8-who-converts-json-to-a-java-object">8. Who Converts JSON to a Java Object?</a></li><li><a href="doc-theory-lecture-15.html#9-application-goal-and-project-structure">9. Application Goal and Project Structure</a></li><li><a href="doc-theory-lecture-15.html#10-pomxml-the-three-manual-dependencies">10. pom.xml: The Three Manual Dependencies</a></li><li><a href="doc-theory-lecture-15.html#11-the-layered-code-student-repository-service-controller">11. The Layered Code: Student, Repository, Service, Controller</a></li><li><a href="doc-theory-lecture-15.html#12-webconfig-and-appjava-wiring-spring-mvc-by-hand">12. WebConfig and App.java: Wiring Spring MVC by Hand</a></li><li><a href="doc-theory-lecture-15.html#13-running-it-and-what-spring-boot-auto-configures">13. Running It, and What Spring Boot Auto-Configures</a></li><li><a href="doc-theory-lecture-15.html#14-controller-vs-restcontroller">14. @Controller vs @RestController</a></li><li><a href="doc-theory-lecture-15.html#15-why-viewresolver-exists-and-the-jsp-flow">15. Why ViewResolver Exists and the JSP Flow</a></li><li><a href="doc-theory-lecture-15.html#16-rest-api-vs-jsp-flow-and-the-final-mvc-meaning">16. REST API vs JSP Flow, and the Final MVC Meaning</a></li><li><a href="doc-theory-lecture-15.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-15.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-15.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-15.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-15.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 15 — Spring MVC Architecture</h1>
+<p class="readmeta">22 sections · 4,900 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-15" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-15">Lecture 15</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring MVC Architecture | DispatcherServlet, HandlerMapping &amp; JSP Flow" (playlist map, verified). Repo folder contains two Maven projects: SpringMVCDemo (in.strikes.Main, config.WebConfig, controller.StudentController, entity.Student, repository.StudentRepository, service.StudentService) and JSPDemo (in.strikes.Main, config.WebConfig, controller.HelloController, webapp/WEB-INF/views/home.jsp) plus notes.</p>
+</blockquote>
+<p>Spring MVC is the web framework that receives HTTP requests, finds the right controller method, and sends a response back. This lecture opens the black box we have been treating as magic: DispatcherServlet, HandlerMapping, HandlerAdapter, argument resolvers, and Jackson. It then builds the same Student API twice, first by hand on plain Spring MVC with embedded Tomcat, then as a Spring Boot starter app, and finishes with the JSP view flow so we can see that "MVC" covers both JSON APIs and HTML pages.</p>
+<h2 id="1-what-is-spring-web-mvc">1. What Is Spring Web MVC?</h2>
+<p>Spring Web MVC, commonly called Spring MVC, is Spring's web framework used to build:</p>
+<ul>
+<li>web applications;</li>
+<li>REST APIs;</li>
+<li>backend services that handle HTTP requests.</li>
+</ul>
+<p>Officially, its module name is <code>spring-webmvc</code>. Spring MVC is built on top of the Servlet API. That means that even though we never write <code>doGet()</code> or <code>doPost()</code> directly, the application still works through servlet-based request handling internally.</p>
+<table>
+<thead>
+<tr>
+<th>Cell</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td>Spring Web MVC (Spring MVC)</td>
+</tr>
+<tr>
+<td>Artifact</td>
+<td><code>spring-webmvc</code></td>
+</tr>
+<tr>
+<td>Built on</td>
+<td>The Servlet API</td>
+</tr>
+<tr>
+<td>We write</td>
+<td><code>@GetMapping</code>, <code>@PostMapping</code>, controller methods</td>
+</tr>
+<tr>
+<td>We do not write</td>
+<td><code>doGet()</code>, <code>doPost()</code>, <code>doPut()</code>, <code>doDelete()</code></td>
+</tr>
+<tr>
+<td>Handles</td>
+<td>Web pages, REST APIs, HTTP backend services</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Spring MVC never removes servlets; it hides them. Somewhere under every <code>@GetMapping</code> a servlet is still receiving the request. The central servlet is DispatcherServlet.</p>
+</blockquote>
+<h2 id="2-spring-boots-role-automation-not-replacement">2. Spring Boot's Role: Automation, Not Replacement</h2>
+<p>Spring Boot does not replace Spring MVC. Spring Boot simply makes Spring MVC easier to use. In a traditional Spring MVC application we manually configure many things:</p>
+<ul>
+<li>Tomcat setup;</li>
+<li>Spring application context;</li>
+<li>DispatcherServlet registration;</li>
+<li>DispatcherServlet mapping;</li>
+<li>component scanning;</li>
+<li>JSON conversion.</li>
+</ul>
+<p>Spring Boot does most of this automatically. In a Spring Boot CRUD project we usually write methods like <code>@GetMapping("/{id}") public Student getStudent(@PathVariable Integer id) { return studentService.getStudent(id); }</code>. We do not write <code>doGet()</code>, <code>doPost()</code>, <code>doPut()</code>, or <code>doDelete()</code>. But internally, someone still has to receive the HTTP request from Tomcat, understand the URL and the HTTP method, and then call the correct controller method. That internal web system is Spring MVC, and its central servlet is DispatcherServlet.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Is Spring MVC separate from Spring Boot?" A strong answer: Spring MVC is the web framework (a module of the Spring Framework); Spring Boot is the automation layer that configures it. Boot wraps Spring MVC, it does not replace it.</p>
+</blockquote>
+<h2 id="3-dispatcherservlet-the-front-controller">3. DispatcherServlet: The Front Controller</h2>
+<p>DispatcherServlet is the front controller of Spring MVC. It receives incoming HTTP requests and coordinates the complete request-processing flow. A simple mental model:</p>
+<div class="highlight"><pre><span></span><code>Client
+   |
+   v
+Tomcat
+   |
+   v
+DispatcherServlet
+   |
+   v
+Controller Method
+   |
+   v
+Response
+</code></pre></div>
+
+<p>Why do we need it? In a pure Servlet application we may create a different servlet for every URL:</p>
+<div class="highlight"><pre><span></span><code>/student/create  -&gt; CreateStudentServlet
+/student/get     -&gt; GetStudentServlet
+/student/update  -&gt; UpdateStudentServlet
+/student/delete  -&gt; DeleteStudentServlet
+</code></pre></div>
+
+<p>Each servlet may handle its own URL matching, request parsing, response writing, JSON conversion, and error handling. This becomes repetitive as the project grows. Spring MVC solves this with one central servlet: all requests first come to DispatcherServlet, and it forwards each request to the correct controller method. That is why it is called DispatcherServlet: it dispatches the request to the correct handler.</p>
+<table>
+<thead>
+<tr>
+<th>Pure Servlet approach</th>
+<th>Spring MVC approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One servlet per URL family</td>
+<td>One front controller for all URLs</td>
+</tr>
+<tr>
+<td>URL matching repeated in each servlet</td>
+<td>HandlerMapping maps URLs centrally</td>
+</tr>
+<tr>
+<td>JSON conversion repeated per servlet</td>
+<td>HttpMessageConverter + Jackson centrally</td>
+</tr>
+<tr>
+<td>Error handling scattered</td>
+<td>Coordinated through the front controller</td>
+</tr>
+<tr>
+<td>Hard to scale with features</td>
+<td>Grows cleanly with controllers</td>
+</tr>
+</tbody>
+</table>
+<p>DispatcherServlet is not magic. It is still a servlet. Tomcat knows how to call servlets, so when a request comes, Tomcat sends the request to DispatcherServlet. DispatcherServlet then takes help from other Spring MVC components to process the request.</p>
+<h2 id="4-high-level-spring-mvc-flow-and-its-components">4. High-Level Spring MVC Flow and Its Components</h2>
+<p>The complete request path, end to end:</p>
+<div class="highlight"><pre><span></span><code>Client sends HTTP request
+   |
+   v
+Tomcat receives request
+   |
+   v
+Tomcat sends request to DispatcherServlet
+   |
+   v
+DispatcherServlet asks HandlerMapping:
+&quot;Which controller method should handle this request?&quot;
+   |
+   v
+HandlerMapping returns the matching controller method
+   |
+   v
+DispatcherServlet uses HandlerAdapter to call that method
+   |
+   v
+Request data is assigned to method parameters
+   |
+   v
+Controller calls Service
+   |
+   v
+Service calls Repository
+   |
+   v
+Response is returned
+   |
+   v
+Spring converts Java object to JSON
+   |
+   v
+Client receives response
+</code></pre></div>
+
+<p>DispatcherServlet is the coordinator. It does not do everything by itself; it takes help from multiple Spring MVC components.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DispatcherServlet</td>
+<td>Central servlet that receives and coordinates requests</td>
+</tr>
+<tr>
+<td>HandlerMapping</td>
+<td>Finds which controller method should handle the request</td>
+</tr>
+<tr>
+<td>HandlerAdapter</td>
+<td>Actually invokes the selected controller method</td>
+</tr>
+<tr>
+<td>HandlerMethodArgumentResolver</td>
+<td>Resolves method parameters like path variables, query parameters, request body</td>
+</tr>
+<tr>
+<td>HttpMessageConverter</td>
+<td>Converts JSON to Java object and Java object to JSON</td>
+</tr>
+<tr>
+<td>Jackson</td>
+<td>Common JSON library used for the conversion</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for the main flow: <strong>T-D-H-A-C-S-R-R</strong> - "Tommy Drives His Aston Car, Serving Real Responses" (Tomcat, DispatcherServlet, HandlerMapping, HandlerAdapter, Controller, Service, Repository, Response).</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: DispatcherServlet coordinates, HandlerMapping finds, HandlerAdapter invokes, argument resolvers fill parameters, and message converters translate. Every component has exactly one job.</p>
+</blockquote>
+<h2 id="5-handlermapping-finding-the-right-controller-method">5. HandlerMapping: Finding the Right Controller Method</h2>
+<p>DispatcherServlet receives the request, but it does not directly know which controller method to call. For example, if this request comes:</p>
+<div class="highlight"><pre><span></span><code>GET /students/1
+</code></pre></div>
+
+<p>DispatcherServlet needs to know that this should call the method <code>getStudent(Integer id)</code> mapped by <code>@GetMapping("/{id}")</code>. This matching is done by HandlerMapping. HandlerMapping is the Spring MVC component that maps an HTTP request to the correct controller method. It checks things like the URL path, the HTTP method, controller annotations, and method-level mappings.</p>
+<p>Example: a <code>StudentController</code> annotated with <code>@RestController</code> and <code>@RequestMapping("/students")</code> declares <code>@GetMapping("/{id}") public Student getStudent(@PathVariable Integer id)</code> and <code>@PostMapping public Student createStudent(@RequestBody Student student)</code>.</p>
+<p>Spring internally understands:</p>
+<div class="highlight"><pre><span></span><code>GET  /students/1  -&gt; getStudent()
+POST /students    -&gt; createStudent()
+</code></pre></div>
+
+<p>Even if two URLs look similar, the HTTP method can change the meaning:</p>
+<div class="highlight"><pre><span></span><code>GET  /students  -&gt; fetch students
+POST /students  -&gt; create student
+</code></pre></div>
+
+<h3 id="when-does-handlermapping-build-this-mapping">When Does HandlerMapping Build This Mapping?</h3>
+<p>When the Spring MVC application starts:</p>
+<ol>
+<li><code>@ComponentScan</code> finds controller classes.</li>
+<li>Spring creates controller objects as beans.</li>
+<li>HandlerMapping reads annotations like <code>@RequestMapping</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PutMapping</code>, and <code>@DeleteMapping</code>.</li>
+<li>It builds an internal mapping table.</li>
+</ol>
+<p>Example internal mapping table:</p>
+<div class="highlight"><pre><span></span><code>GET    /students/{id}  -&gt; StudentController.getStudent()
+POST   /students       -&gt; StudentController.createStudent()
+PUT    /students/{id}  -&gt; StudentController.updateStudent()
+DELETE /students/{id}  -&gt; StudentController.deleteStudent()
+</code></pre></div>
+
+<p>At runtime, HandlerMapping uses this prepared mapping table to quickly find the correct controller method. HandlerMapping only finds the correct method; it does not execute it.</p>
+<h2 id="6-handleradapter-actually-invoking-the-method">6. HandlerAdapter: Actually Invoking the Method</h2>
+<p>HandlerMapping only finds the correct method. It does not execute the method. The actual method invocation is done by another Spring MVC component called HandlerAdapter.</p>
+<p>Simple flow:</p>
+<div class="highlight"><pre><span></span><code>DispatcherServlet asks HandlerMapping:
+&quot;Which method should handle this request?&quot;
+
+HandlerMapping replies:
+&quot;StudentController.getStudent()&quot;
+
+DispatcherServlet then asks HandlerAdapter:
+&quot;Please call this method properly.&quot;
+
+HandlerAdapter then prepares method arguments and invokes the controller method.
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>HandlerMapping</th>
+<th>HandlerAdapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Job</td>
+<td>Find the matching handler method</td>
+<td>Invoke the selected handler method</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>HTTP request (URL + method)</td>
+<td>The chosen method + resolved arguments</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>The handler reference</td>
+<td>The method return value</td>
+</tr>
+<tr>
+<td>Runs argument resolvers</td>
+<td>No</td>
+<td>Yes, via argument resolvers</td>
+</tr>
+<tr>
+<td>Analogy</td>
+<td>The directory that finds the room</td>
+<td>The key that opens the door</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Confusing these two is the most common Spring MVC interview slip. HandlerMapping answers "which method?", HandlerAdapter answers "call it now".</p>
+</blockquote>
+<h2 id="7-how-request-data-reaches-the-controller">7. How Request Data Reaches the Controller</h2>
+<p>In a web API, request data usually comes from three places:</p>
+<ol>
+<li>Path variable</li>
+<li>Query parameter</li>
+<li>Request body</li>
+</ol>
+<p>Spring MVC uses argument resolvers to extract this data and assign it to controller method parameters.</p>
+<h3 id="71-path-variable">7.1 Path Variable</h3>
+<p>Example request:</p>
+<div class="highlight"><pre><span></span><code>GET /students/10
+</code></pre></div>
+
+<p>Controller method: <code>@GetMapping("/{id}") public Student getStudent(@PathVariable Integer id)</code>. Spring compares the request URL <code>/students/10</code> with the endpoint <code>/students/{id}</code> and assigns <code>id = 10</code>. This is handled by Spring MVC's argument resolution mechanism.</p>
+<h3 id="72-query-parameter">7.2 Query Parameter</h3>
+<p>Example request:</p>
+<div class="highlight"><pre><span></span><code>GET /students?name=Rohit
+</code></pre></div>
+
+<p>Controller method: <code>@GetMapping public List&lt;Student&gt; getStudents(@RequestParam String name)</code>. Here Spring extracts <code>name = Rohit</code>. Tomcat already parses the HTTP request and makes query parameters available through the servlet request object. Spring MVC then reads those values and assigns them to controller method parameters.</p>
+<h3 id="73-request-body">7.3 Request Body</h3>
+<p>Example POST request:</p>
+<div class="highlight"><pre><span></span><code>POST /students
+Content-Type: application/json
+
+{
+  &quot;name&quot;: &quot;Rohit&quot;,
+  &quot;email&quot;: &quot;rohit@example.com&quot;,
+  &quot;mobile&quot;: &quot;9999999999&quot;
+}
+</code></pre></div>
+
+<p>Controller method: <code>@PostMapping public Student createStudent(@RequestBody Student student)</code>. Here Spring MVC reads the JSON body and converts it into a Java object <code>Student student</code>. This is mainly done using <code>HttpMessageConverter</code> + Jackson.</p>
+<h2 id="8-who-converts-json-to-a-java-object">8. Who Converts JSON to a Java Object?</h2>
+<p>In most Spring MVC and Spring Boot applications, JSON conversion is handled by Jackson. Spring MVC uses <code>HttpMessageConverter</code> to convert:</p>
+<ul>
+<li>JSON -&gt; Java Object</li>
+<li>Java Object -&gt; JSON</li>
+</ul>
+<p>Example input:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;name&quot;: &quot;Rohit&quot;,
+  &quot;email&quot;: &quot;rohit@example.com&quot;
+}
+</code></pre></div>
+
+<p>gets converted into <code>Student student</code>. And when a controller returns <code>return student;</code>, Spring converts that Java object back into a JSON response.</p>
+<table>
+<thead>
+<tr>
+<th>Direction</th>
+<th>Producer</th>
+<th>Mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON to Java object</td>
+<td>Jackson</td>
+<td>HttpMessageConverter reads <code>@RequestBody</code></td>
+</tr>
+<tr>
+<td>Java object to JSON</td>
+<td>Jackson</td>
+<td>HttpMessageConverter writes the response</td>
+</tr>
+<tr>
+<td>Form/other types</td>
+<td>Other converters</td>
+<td>Same HttpMessageConverter contract</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Spring does not parse JSON by itself. <code>HttpMessageConverter</code> is the contract; Jackson is the library commonly plugged in behind it. The no-argument constructor on the model matters because Jackson needs it while converting JSON into a Java object.</p>
+</blockquote>
+<h2 id="9-application-goal-and-project-structure">9. Application Goal and Project Structure</h2>
+<p>We will create a small Student REST API. The API will support:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>URL</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/students</td>
+<td>create student</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/students</td>
+<td>get all students</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/students/{id}</td>
+<td>get student by id</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>/students/{id}</td>
+<td>update student</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>/students/{id}</td>
+<td>delete student</td>
+</tr>
+</tbody>
+</table>
+<p>Data will be stored in memory using <code>Map&lt;Integer, Student&gt;</code>. Layered flow:</p>
+<div class="highlight"><pre><span></span><code>Controller -&gt; Service -&gt; Repository
+</code></pre></div>
+
+<p>Project structure for the manual Spring MVC app:</p>
+<div class="highlight"><pre><span></span><code>src
+  main
+    java
+      in
+        strikes
+          App.java
+          config
+            WebConfig.java
+          controller
+            StudentController.java
+          model
+            Student.java
+          repository
+            StudentRepository.java
+          service
+            StudentService.java
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Notice the layering: controller, service, repository, model. Each layer has one reason to change. This is the same architecture Spring Boot uses; only the wiring differs, and that wiring is what this lecture exposes.</p>
+</blockquote>
+<h2 id="10-pomxml-the-three-manual-dependencies">10. pom.xml: The Three Manual Dependencies</h2>
+<p>Because we are not using Spring Boot, we manually add the required dependencies.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Spring MVC --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>spring-webmvc<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>6.1.6<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Embedded Tomcat --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.apache.tomcat.embed<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>tomcat-embed-core<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>10.1.20<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- JSON conversion using Jackson --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>com.fasterxml.jackson.core<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>2.17.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div>
+
+<p>Explanation of each dependency:</p>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>What it brings</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spring-webmvc</code></td>
+<td>DispatcherServlet, <code>@RestController</code>, <code>@Controller</code>, <code>@RequestMapping</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, HandlerMapping, HandlerAdapter, ViewResolver support</td>
+</tr>
+<tr>
+<td><code>tomcat-embed-core</code></td>
+<td>Lets us start Tomcat directly from <code>main()</code>; <code>tomcat.start()</code>; Tomcat embedded inside our Java application</td>
+</tr>
+<tr>
+<td><code>jackson-databind</code></td>
+<td>Converts JSON -&gt; Java object and Java object -&gt; JSON behind HttpMessageConverter</td>
+</tr>
+</tbody>
+</table>
+<p>With <code>tomcat-embed-core</code> we do not install external Tomcat or deploy a WAR file. Instead we can run <code>tomcat.start()</code>, which means Tomcat is embedded inside our Java application.</p>
+<h2 id="11-the-layered-code-student-repository-service-controller">11. The Layered Code: Student, Repository, Service, Controller</h2>
+<h3 id="studentjava">Student.java</h3>
+<p><code>Student</code> is a simple model class representing one student with <code>id</code>, <code>name</code>, <code>email</code>, and <code>mobile</code>. A no-argument constructor is important because Jackson needs it while converting JSON into a Java object.</p>
+<h3 id="studentrepositoryjava">StudentRepository.java</h3>
+<p>The repository is annotated with <code>@Repository</code>. This tells Spring that this class belongs to the repository layer and that Spring should create and manage its object inside the IoC container. Conceptually this is the database layer. Here we are not using MySQL; we use <code>Map&lt;Integer, Student&gt;</code> as an in-memory database, with a <code>currentId</code> counter. It exposes <code>save</code>, <code>findById</code>, <code>findAll</code>, <code>update</code>, and <code>delete</code>. In a real project this repository would talk to the database using JDBC, JPA, Hibernate, or Spring Data JPA.</p>
+<h3 id="studentservicejava">StudentService.java</h3>
+<p>The service is annotated with <code>@Service</code>. This tells Spring: this class belongs to the service layer, please create and manage its object inside the IoC container. The service layer contains business logic. Right now the logic is simple, but in real applications this layer may contain validation, business rules, calculations, calls to multiple repositories, and transaction handling.</p>
+<p>Constructor injection: <code>public StudentService(StudentRepository studentRepository) { this.studentRepository = studentRepository; }</code>. This is dependency injection. The service needs the repository, but it does not create the repository object manually. We do not write <code>new StudentRepository()</code>; instead we ask Spring to provide the object. This keeps the code loosely coupled and easier to test.</p>
+<h3 id="studentcontrollerjava">StudentController.java</h3>
+<div class="highlight"><pre><span></span><code><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/students&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StudentService</span><span class="w"> </span><span class="n">studentService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">StudentController</span><span class="p">(</span><span class="n">StudentService</span><span class="w"> </span><span class="n">studentService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PostMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">createStudent</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">getStudent</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">getStudent</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@GetMapping</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Collection</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllStudents</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">getAllStudents</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@PutMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">updateStudent</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<span class="w">                                 </span><span class="nd">@RequestBody</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">updateStudent</span><span class="p">(</span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@DeleteMapping</span><span class="p">(</span><span class="s">&quot;/{id}&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">deleteStudent</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">studentService</span><span class="p">.</span><span class="na">deleteStudent</span><span class="p">(</span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Explanation of <code>@RestController</code>: this class will handle REST API requests, and the return value of its methods should be written directly in the HTTP response body. So when a method returns a <code>Student</code> object, Spring converts it into JSON. <code>@RestController</code> is basically a shortcut for <code>@Controller + @ResponseBody</code>.</p>
+<p>Explanation of <code>@RequestMapping("/students")</code>: this defines the base URL for the controller, so every API inside the class starts with <code>/students</code>.</p>
+<p>Explanation of <code>@PathVariable Integer id</code>: take the value from the URL path and assign it to this variable. For <code>/students/1</code>, <code>id = 1</code>.</p>
+<p>Explanation of <code>@RequestBody</code>: read the JSON request body and convert it into a <code>Student</code> object using Jackson through HttpMessageConverter.</p>
+<h2 id="12-webconfig-and-appjava-wiring-spring-mvc-by-hand">12. WebConfig and App.java: Wiring Spring MVC by Hand</h2>
+<p>WebConfig is very important because we are not using Spring Boot, so we must manually tell Spring MVC what to do.</p>
+<ul>
+<li><code>@Configuration</code>: this class contains Spring configuration.</li>
+<li><code>@EnableWebMvc</code>: enables Spring MVC features. Without it, annotations such as <code>@RestController</code>, <code>@Controller</code>, <code>@RequestMapping</code>, <code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PathVariable</code>, and <code>@RequestBody</code> may not work fully. It also enables Spring MVC infrastructure such as HandlerMapping, HandlerAdapter, message converters, and controller handling.</li>
+<li><code>@ComponentScan(basePackages = "in.strikes")</code>: scan this package and find Spring-managed classes, so Spring finds <code>StudentController</code>, <code>StudentService</code>, and <code>StudentRepository</code> and manages them inside the IoC container.</li>
+</ul>
+<p>App.java is the main class where we manually start embedded Tomcat and register Spring MVC. Step by step:</p>
+<ol>
+<li>Create Tomcat: <code>Tomcat tomcat = new Tomcat();</code></li>
+<li>Set port: <code>tomcat.setPort(8080);</code> so the server runs at <code>http://localhost:8080</code>.</li>
+<li>Create connector: <code>tomcat.getConnector();</code> initializes the connector that listens for HTTP requests.</li>
+<li>Create web context: <code>contextPath = ""</code> and <code>docBase = src/main/webapp</code>; <code>tomcat.addContext(...)</code> creates the web application context. With an empty context path the API runs at <code>http://localhost:8080/students</code>, not under an app-name prefix.</li>
+<li>Create Spring web context: <code>new AnnotationConfigWebApplicationContext()</code> - this is where Spring manages controllers, services, repositories, and configuration classes.</li>
+<li>Register config class: <code>springContext.register(WebConfig.class);</code> tells Spring to use WebConfig, so it knows Spring MVC should be enabled, which package to scan, and which classes become beans.</li>
+<li>Create DispatcherServlet: <code>new DispatcherServlet(springContext);</code> - we pass the context because DispatcherServlet needs access to the IoC container.</li>
+<li>Register with Tomcat: <code>Tomcat.addServlet(context, "dispatcherServlet", dispatcherServlet);</code></li>
+<li>Map it: <code>context.addServletMappingDecoded("/", "dispatcherServlet");</code> tells Tomcat to send all requests to DispatcherServlet.</li>
+<li>Start server: <code>tomcat.start(); tomcat.getServer().await();</code> - <code>start()</code> starts the server, <code>await()</code> keeps it running. Without <code>await()</code>, <code>main()</code> may finish and the application may stop immediately.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important: DispatcherServlet needs the Spring context because after receiving a request it must know which controllers exist, which URL maps to which method, which services and repositories are available, and which message converters exist. All of that lives in the IoC container.</p>
+</blockquote>
+<h2 id="13-running-it-and-what-spring-boot-auto-configures">13. Running It, and What Spring Boot Auto-Configures</h2>
+<p>Run <code>App.java</code> from the IDE, then test the APIs using Postman or a browser:</p>
+<div class="highlight"><pre><span></span><code>POST   http://localhost:8080/students
+GET    http://localhost:8080/students
+GET    http://localhost:8080/students/1
+PUT    http://localhost:8080/students/1
+DELETE http://localhost:8080/students/1
+</code></pre></div>
+
+<p>In the manual Spring MVC application we configured many things ourselves: added the Spring MVC dependency, added the embedded Tomcat dependency, added the Jackson dependency, created Tomcat manually, created the Spring web context manually, registered WebConfig manually, created DispatcherServlet manually, registered DispatcherServlet with Tomcat, mapped DispatcherServlet to <code>/</code>, and started Tomcat manually. In Spring Boot, most of this is automatic. Spring Boot web applications include an embedded web server by default when we use <code>spring-boot-starter-web</code>; for servlet-based applications it brings embedded Tomcat by default.</p>
+<p>Same app in Spring Boot: <code>pom.xml</code> mainly needs <code>spring-boot-starter-web</code>, and the main class becomes:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentApplication</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SpringApplication</span><span class="p">.</span><span class="na">run</span><span class="p">(</span><span class="n">StudentApplication</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">args</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>That is it. The controller, service, repository, and model can remain almost the same.</p>
+<table>
+<thead>
+<tr>
+<th>Work</th>
+<th>Manual Spring MVC</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Add Spring MVC dependency</td>
+<td>Manually add <code>spring-webmvc</code></td>
+<td>Included in starter</td>
+</tr>
+<tr>
+<td>Add embedded Tomcat</td>
+<td>Manually add <code>tomcat-embed-core</code></td>
+<td>Included in starter</td>
+</tr>
+<tr>
+<td>Add Jackson</td>
+<td>Manually add <code>jackson-databind</code></td>
+<td>Included in starter</td>
+</tr>
+<tr>
+<td>Start Tomcat</td>
+<td>Manually in App.java</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Create Spring web context</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Register DispatcherServlet</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Map DispatcherServlet</td>
+<td>Manual</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>Enable Spring MVC</td>
+<td><code>@EnableWebMvc</code></td>
+<td>Auto-configured</td>
+</tr>
+<tr>
+<td>Component scanning</td>
+<td><code>@ComponentScan</code></td>
+<td>Via <code>@SpringBootApplication</code></td>
+</tr>
+<tr>
+<td>Run application</td>
+<td>Custom Tomcat code</td>
+<td><code>SpringApplication.run()</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring Boot is not a different web framework. It performs the exact same manual steps, in the same order, once, so you never write them again.</p>
+</blockquote>
+<h2 id="14-controller-vs-restcontroller">14. @Controller vs @RestController</h2>
+<p><code>@Controller</code> is traditionally used when we want to return web pages. Example: <code>@Controller public class HomeController { @GetMapping("/home") public String home() { return "home"; } }</code>. Here <code>return "home";</code> does not mean response body <code>"home"</code>. It means: find and return the home view page. That view page could be <code>home.jsp</code>.</p>
+<p><code>@RestController</code> is used for REST APIs. Example: <code>@RestController public class StudentController { @GetMapping("/student") public Student getStudent() { return new Student(1, "Rohit", "rohit@example.com", "9999999999"); } }</code>. Here the return value means: convert this Java object into JSON and send it in the HTTP response body. So <code>return student;</code> becomes:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;id&quot;: 1,
+  &quot;name&quot;: &quot;Rohit&quot;,
+  &quot;email&quot;: &quot;rohit@example.com&quot;,
+  &quot;mobile&quot;: &quot;9999999999&quot;
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>@Controller</th>
+<th>@RestController</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Typical purpose</td>
+<td>Return views/pages</td>
+<td>Return data/JSON</td>
+</tr>
+<tr>
+<td>Return value meaning</td>
+<td>Logical view name</td>
+<td>HTTP response body</td>
+</tr>
+<tr>
+<td>Body annotation</td>
+<td>Needs <code>@ResponseBody</code> per method</td>
+<td>Implicit <code>@ResponseBody</code></td>
+</tr>
+<tr>
+<td>Common partner</td>
+<td>ViewResolver + JSP</td>
+<td>HttpMessageConverter + Jackson</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>return "home";</code> -&gt; home.jsp</td>
+<td><code>return student;</code> -&gt; JSON</td>
+</tr>
+<tr>
+<td>Shortcut for</td>
+<td>Itself</td>
+<td><code>@Controller + @ResponseBody</code></td>
+</tr>
+</tbody>
+</table>
+<p>Simple difference: <code>@Controller</code> usually returns views/pages; <code>@RestController</code> usually returns data/JSON.</p>
+<h2 id="15-why-viewresolver-exists-and-the-jsp-flow">15. Why ViewResolver Exists and the JSP Flow</h2>
+<p>Spring MVC was not created only for REST APIs. Originally, Spring MVC was also heavily used to create full web applications where the backend returned HTML pages. In that style the controller does not return JSON; it returns the name of a view page. This job is done by ViewResolver. If the controller returns <code>return "home";</code> and the resolver is configured with <code>resolver.setPrefix("/WEB-INF/views/");</code> and <code>resolver.setSuffix(".jsp");</code>, then Spring converts <code>home</code> into <code>/WEB-INF/views/home.jsp</code>. ViewResolver maps logical view names to actual view files.</p>
+<p>JSP MVC project structure:</p>
+<div class="highlight"><pre><span></span><code>src
+  main
+    java
+      in
+        strikes
+          App.java
+          config
+            WebConfig.java
+          controller
+            HomeController.java
+    webapp
+      WEB-INF
+        views
+          home.jsp
+      resources
+        css
+          style.css
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: JSP files are kept inside <code>WEB-INF</code> so users cannot directly access them from the browser. The request should go through the controller first.</p>
+</blockquote>
+<p>For JSP support we need Tomcat's JSP engine, called Jasper. Add <code>tomcat-embed-jasper</code> because JSP pages require Tomcat's JSP engine.</p>
+<p>WebConfig for JSP adds a ViewResolver bean and resource handling:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="nd">@ComponentScan</span><span class="p">(</span><span class="n">basePackages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;in.strikes&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WebConfig</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">WebMvcConfigurer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ViewResolver</span><span class="w"> </span><span class="nf">viewResolver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">InternalResourceViewResolver</span><span class="w"> </span><span class="n">resolver</span><span class="w"> </span><span class="o">=</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">InternalResourceViewResolver</span><span class="p">();</span>
+<span class="w">        </span><span class="n">resolver</span><span class="p">.</span><span class="na">setPrefix</span><span class="p">(</span><span class="s">&quot;/WEB-INF/views/&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">resolver</span><span class="p">.</span><span class="na">setSuffix</span><span class="p">(</span><span class="s">&quot;.jsp&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">resolver</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addResourceHandlers</span><span class="p">(</span><span class="n">ResourceHandlerRegistry</span><span class="w"> </span><span class="n">registry</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">registry</span><span class="p">.</span><span class="na">addResourceHandler</span><span class="p">(</span><span class="s">&quot;/resources/**&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">addResourceLocations</span><span class="p">(</span><span class="s">&quot;/resources/&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>addResourceHandlers</code> allows the browser to access static files like CSS. For example <code>/resources/css/style.css</code> will load <code>src/main/webapp/resources/css/style.css</code>. Without this configuration, CSS may not load properly because with <code>@EnableWebMvc</code> we are manually controlling Spring MVC configuration.</p>
+<p>HomeController uses <code>@Controller</code> and a <code>Model</code> to send data to the JSP: <code>model.addAttribute("title", "Spring MVC");</code> and <code>model.addAttribute("message", "Welcome to Spring MVC with JSP");</code>, then returns <code>"home"</code>.</p>
+<p>home.jsp is the View. It receives data from the Model; <code>${title}</code> and <code>${message}</code> come from the controller:</p>
+<div class="highlight"><pre><span></span><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;${title}&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;/resources/css/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;${title}&lt;/h1&gt;
+    &lt;p&gt;${message}&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div>
+
+<p>style.css is created at <code>src/main/webapp/resources/css/style.css</code> and styles the page (font family, background color, padding, heading color, paragraph size).</p>
+<h2 id="16-rest-api-vs-jsp-flow-and-the-final-mvc-meaning">16. REST API vs JSP Flow, and the Final MVC Meaning</h2>
+<p>In the REST API example, we mainly returned JSON, so the focus was:</p>
+<div class="highlight"><pre><span></span><code>Controller -&gt; Service -&gt; Repository -&gt; JSON Response
+</code></pre></div>
+
+<p>The REST API did not really need JSP files or static web pages. But in the JSP example we return a view page, so the flow becomes:</p>
+<div class="highlight"><pre><span></span><code>Controller -&gt; Model -&gt; ViewResolver -&gt; JSP Page
+</code></pre></div>
+
+<p>The JSP example needs <code>src/main/webapp</code> because it contains JSP files, CSS files, and static resources. Here <code>docBase</code> becomes more important because Tomcat needs to find the actual web application files.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>REST API flow</th>
+<th>JSP/ViewResolver flow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller annotation</td>
+<td><code>@RestController</code></td>
+<td><code>@Controller</code></td>
+</tr>
+<tr>
+<td>Return value</td>
+<td>Java object</td>
+<td>Logical view name</td>
+</tr>
+<tr>
+<td>Conversion</td>
+<td>HttpMessageConverter + Jackson -&gt; JSON</td>
+<td>ViewResolver -&gt; JSP path</td>
+</tr>
+<tr>
+<td>Needs webapp</td>
+<td>No</td>
+<td>Yes (<code>src/main/webapp</code>)</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>JSON response body</td>
+<td>Rendered HTML page</td>
+</tr>
+<tr>
+<td>Core path</td>
+<td>Controller -&gt; Service -&gt; Repository</td>
+<td>Controller -&gt; Model -&gt; ViewResolver -&gt; JSP</td>
+</tr>
+</tbody>
+</table>
+<p>Final MVC meaning: Spring MVC stands for Model - View - Controller.</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>Data sent from controller to view</td>
+</tr>
+<tr>
+<td>View</td>
+<td>JSP page or UI page</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>Handles request and decides response/view</td>
+</tr>
+</tbody>
+</table>
+<p>Example flow for a web page:</p>
+<div class="highlight"><pre><span></span><code>User opens /home
+   |
+   v
+DispatcherServlet receives request
+   |
+   v
+HandlerMapping finds HomeController.home()
+   |
+   v
+Controller adds data to Model
+   |
+   v
+Controller returns &quot;home&quot;
+   |
+   v
+ViewResolver converts &quot;home&quot; to /WEB-INF/views/home.jsp
+   |
+   v
+JSP is rendered
+   |
+   v
+HTML response is sent to browser
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: "Is MVC old-fashioned?" No. <code>@RestController</code> is MVC too: the controller is the Controller, the returned object is the Model, and Jackson's JSON is the view. The pattern never left; only the View implementation changed from JSP to JSON.</p>
+</blockquote>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring Boot replaces Spring MVC"</td>
+<td>Boot automates Spring MVC configuration; Spring MVC still runs underneath</td>
+</tr>
+<tr>
+<td>"DispatcherServlet does everything alone"</td>
+<td>It coordinates; HandlerMapping, HandlerAdapter, resolvers, and converters do the work</td>
+</tr>
+<tr>
+<td>"HandlerMapping invokes the controller"</td>
+<td>HandlerMapping only finds the method; HandlerAdapter invokes it</td>
+</tr>
+<tr>
+<td>"<code>@RestController</code> returns web pages"</td>
+<td>It returns data/JSON written to the response body</td>
+</tr>
+<tr>
+<td>"<code>@Controller</code> returning 'home' means body 'home'"</td>
+<td>It means the logical view name for ViewResolver to resolve</td>
+</tr>
+<tr>
+<td>"Spring parses JSON by itself"</td>
+<td>HttpMessageConverter is the contract; Jackson is the common library behind it</td>
+</tr>
+<tr>
+<td>"JSP files can be opened directly by the browser"</td>
+<td>They live under WEB-INF and must be reached through the controller</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "DispatcherServlet is the controller."</strong>
+Verdict: False. DispatcherServlet is the front controller and coordinator. The actual handler is the <code>@Controller</code> / <code>@RestController</code> class and its mapped method.</p>
+<p><strong>Trap 2 - "HandlerMapping calls the controller method."</strong>
+Verdict: False. HandlerMapping only finds the matching method; HandlerAdapter prepares arguments and actually invokes it.</p>
+<p><strong>Trap 3 - "<code>@RestController</code> is just another name for <code>@Controller</code>."</strong>
+Verdict: False. <code>@RestController</code> = <code>@Controller</code> + <code>@ResponseBody</code>, so return values go straight into the response body as JSON.</p>
+<p><strong>Trap 4 - "JSON to Java conversion is done by Spring's own parser."</strong>
+Verdict: False. Spring MVC uses HttpMessageConverter as the abstraction; Jackson is the common library used behind the scenes.</p>
+<p><strong>Trap 5 - "ViewResolver generates the HTML page."</strong>
+Verdict: False. ViewResolver only maps a logical view name to a view file such as <code>/WEB-INF/views/home.jsp</code>; the JSP renders the HTML.</p>
+<p><strong>Trap 6 - "Path variable and query parameter are the same thing."</strong>
+Verdict: False. <code>/students/10</code> is a path variable (<code>@PathVariable</code>); <code>/students?name=Rohit</code> is a query parameter (<code>@RequestParam</code>).</p>
+<p><strong>Trap 7 - "You cannot build Spring MVC without Spring Boot."</strong>
+Verdict: False. You add <code>spring-webmvc</code> and <code>tomcat-embed-core</code>, write <code>@EnableWebMvc</code> + <code>@ComponentScan</code>, and start embedded Tomcat manually. Boot only removes that boilerplate.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Spring Web MVC (artifact <code>spring-webmvc</code>) is Spring's web framework, built on the Servlet API.</li>
+<li>Spring Boot does not replace Spring MVC; it auto-configures the manual setup.</li>
+<li>DispatcherServlet is the front controller: one central servlet that receives and coordinates every request.</li>
+<li>HandlerMapping maps URL and HTTP method to a controller method; it only finds, never invokes.</li>
+<li>HandlerAdapter prepares arguments (via argument resolvers) and actually invokes the controller method.</li>
+<li>Request data arrives as path variable, query parameter, or request body; Spring resolves each into method parameters.</li>
+<li>JSON &lt;-&gt; Java conversion goes through HttpMessageConverter, with Jackson as the common library.</li>
+<li><code>@RestController</code> = <code>@Controller</code> + <code>@ResponseBody</code>; <code>@Controller</code> returns views, <code>@RestController</code> returns data.</li>
+<li>ViewResolver maps a logical view name to a real file, e.g. <code>home</code> -&gt; <code>/WEB-INF/views/home.jsp</code>.</li>
+<li>JSP files live under <code>WEB-INF</code> (not directly reachable); Boot's <code>spring-boot-starter-web</code> supplies the embedded server.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is Spring MVC?</td>
+<td>Spring's web framework (module <code>spring-webmvc</code>), built on the Servlet API, for web apps, REST APIs, and HTTP backend services.</td>
+</tr>
+<tr>
+<td>What is DispatcherServlet?</td>
+<td>The front controller: one central servlet that receives every request and coordinates the Spring MVC components.</td>
+</tr>
+<tr>
+<td>Why is DispatcherServlet called a front controller?</td>
+<td>Because all requests pass through it first and it dispatches each to the correct handler method.</td>
+</tr>
+<tr>
+<td>What does HandlerMapping do?</td>
+<td>It maps an HTTP request (URL + method) to the correct controller method using a mapping table built at startup.</td>
+</tr>
+<tr>
+<td>What does HandlerAdapter do?</td>
+<td>It prepares method arguments and actually invokes the selected controller method.</td>
+</tr>
+<tr>
+<td>How does HandlerMapping know the mappings?</td>
+<td>At startup: component scan finds controllers, Spring creates beans, HandlerMapping reads <code>@RequestMapping</code>/<code>@GetMapping</code> etc., and builds a table.</td>
+</tr>
+<tr>
+<td>How does request data reach a controller method?</td>
+<td>Argument resolvers read path variables, query parameters, and the request body and assign them to parameters.</td>
+</tr>
+<tr>
+<td>Who converts JSON to a Java object?</td>
+<td>HttpMessageConverter, commonly backed by Jackson (<code>jackson-databind</code>).</td>
+</tr>
+<tr>
+<td><code>@Controller</code> vs <code>@RestController</code>?</td>
+<td><code>@Controller</code> returns views; <code>@RestController</code> (a <code>@Controller + @ResponseBody</code> shortcut) returns data/JSON in the body.</td>
+</tr>
+<tr>
+<td>Why does ViewResolver exist?</td>
+<td>To map logical view names (like <code>home</code>) to real view files (like <code>/WEB-INF/views/home.jsp</code>).</td>
+</tr>
+<tr>
+<td>Why are JSP files kept in WEB-INF?</td>
+<td>So browsers cannot access them directly; requests must go through the controller first.</td>
+</tr>
+<tr>
+<td>How does Spring Boot change this setup?</td>
+<td>It auto-configures the embedded server, DispatcherServlet, Spring MVC, scanning, and JSON via <code>spring-boot-starter-web</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Client request
+   |
+   v
+Tomcat (embedded in App.java, or auto in Boot)
+   |
+   v
+DispatcherServlet (front controller)
+   |
+   v
+HandlerMapping (finds the controller method)
+   |
+   v
+HandlerAdapter (invokes it, argument resolvers fill parameters)
+   |
+   v
+Controller -&gt; Service -&gt; Repository
+   |
+   v
+REST API: HttpMessageConverter + Jackson -&gt; Java object to JSON
+   |
+   v
+Web page: ViewResolver -&gt; view name to JSP -&gt; rendered HTML
+   |
+   v
+Response to client
+</code></pre></div>
+
+<ul>
+<li>Spring MVC = the web framework; DispatcherServlet = the single front controller that coordinates everything.</li>
+<li>HandlerMapping finds; HandlerAdapter invokes; argument resolvers fill parameters; HttpMessageConverter + Jackson handle JSON.</li>
+<li>Manual Spring MVC requires <code>spring-webmvc</code>, <code>tomcat-embed-core</code>, <code>jackson-databind</code>, <code>@EnableWebMvc</code>, <code>@ComponentScan</code>, and custom Tomcat startup in App.java.</li>
+<li>Spring Boot auto-configures all of the above via <code>spring-boot-starter-web</code>; the controller, service, repository, and model stay the same.</li>
+<li><code>@Controller</code> returns views resolved by ViewResolver; <code>@RestController</code> returns JSON written to the response body.</li>
+<li>Model = data, View = JSP/UI, Controller = request handler; JSON APIs and JSP pages are two views of the same MVC core.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> DispatcherServlet coordinates, HandlerMapping finds, HandlerAdapter invokes, and either Jackson or ViewResolver finishes the job - so Spring Boot looks like magic only until you see this pipeline.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-14.html"><span class="dir">Previous</span><span class="ttl">Lecture 14 — How Java Web Apps Actually Work</span></a><a class="next" href="doc-theory-lecture-16.html"><span class="dir">Next</span><span class="ttl">Lecture 16 — DTOs &amp; Validations in Spring Boot</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

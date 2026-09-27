@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained — Java</title>
+<meta name="description" content="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-46">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-46.html#lecture-46">Lecture 46</a></li><li><a href="doc-theory-lecture-46.html#1-what-garbage-collection-is-and-why-it-exists">1. What Garbage Collection Is and Why It Exists</a></li><li><a href="doc-theory-lecture-46.html#2-gc-roots-and-reachability">2. GC Roots and Reachability</a></li><li><a href="doc-theory-lecture-46.html#3-the-generational-hypothesis-and-heap-layout">3. The Generational Hypothesis and Heap Layout</a></li><li><a href="doc-theory-lecture-46.html#4-young-vs-old-generation">4. Young vs Old Generation</a></li><li><a href="doc-theory-lecture-46.html#5-allocation-minor-gc-and-promotion">5. Allocation, Minor GC, and Promotion</a></li><li><a href="doc-theory-lecture-46.html#6-major-gc-full-gc-and-stop-the-world-pauses">6. Major GC, Full GC, and Stop-the-World Pauses</a></li><li><a href="doc-theory-lecture-46.html#7-gc-algorithms-compared">7. GC Algorithms Compared</a></li><li><a href="doc-theory-lecture-46.html#8-garbage-collectors-compared">8. Garbage Collectors Compared</a></li><li><a href="doc-theory-lecture-46.html#9-reference-types-strong-soft-weak-phantom">9. Reference Types: Strong, Soft, Weak, Phantom</a></li><li><a href="doc-theory-lecture-46.html#10-finalize-is-deprecated-cleaner-and-try-with-resources">10. finalize() Is Deprecated: Cleaner and try-with-resources</a></li><li><a href="doc-theory-lecture-46.html#11-tuning-flags-overview">11. Tuning Flags Overview</a></li><li><a href="doc-theory-lecture-46.html#12-memory-leaks-in-a-gc-language">12. Memory Leaks in a GC Language</a></li><li><a href="doc-theory-lecture-46.html#13-major-vs-minor-collection-at-a-glance">13. Major vs Minor Collection at a Glance</a></li><li><a href="doc-theory-lecture-46.html#14-pitfalls-and-common-errors">14. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-46.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-46.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-46.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-46.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-46.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</h1>
+<p class="readmeta">20 sections · 3,919 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-46" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-46">Lecture 46</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained" (playlist map, verified). Repo evidence: code/Demo.java.</p>
+</blockquote>
+<p>Lecture 45 mapped the runtime memory areas and showed that every <code>new</code> places an object on the heap with no matching <code>free</code> in sight. This lecture answers the obvious follow-up: who reclaims that memory, and when. It defines garbage collection, GC roots and reachability, the generational heap, minor versus full collections, the classic algorithms, the modern collector families, reference types, and the flags that tune them. The governing idea is that Java guarantees memory safety, not memory economy: unreachable objects are reclaimed automatically, while reachable-but-unused objects remain a leak under any collector.</p>
+<h2 id="1-what-garbage-collection-is-and-why-it-exists">1. What Garbage Collection Is and Why It Exists</h2>
+<p><strong>Garbage Collection (GC)</strong> is the automatic process that identifies heap objects which are no longer reachable from <strong>GC roots</strong> and reclaims the space they occupy. In C and C++, the programmer pairs <code>malloc</code> with <code>free</code> and owns every mistake: a missed <code>free</code> leaks, a doubled <code>free</code> corrupts. Java removes that burden: you call <code>new</code>, and the runtime decides when the object's memory returns to a free pool.</p>
+<p>Three facts frame every later section:</p>
+<ol>
+<li><strong>The programmer never frees memory.</strong> There is no <code>delete</code>; the last reference simply goes out of scope or is overwritten, and the object becomes eligible for collection.</li>
+<li><strong>GC is not free.</strong> It consumes CPU time and, for most collectors, stops application threads briefly while it walks the object graph.</li>
+<li><strong>GC reclaims memory, not intent.</strong> It cannot know that an object is still referenced but useless; handling that is the programmer's job (Section 12).</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important
+The stack, the program counter and the method area were fixed structures in Lecture 45. The heap is the one region whose live content is decided at runtime by reachability, which is exactly why GC exists.</p>
+</blockquote>
+<h2 id="2-gc-roots-and-reachability">2. GC Roots and Reachability</h2>
+<p>An object is <strong>reachable</strong> when a chain of references leads to it from at least one <strong>GC root</strong>. Reachable objects are <strong>alive</strong> and are never collected; everything else is <strong>garbage</strong>. The root set is small and precise:</p>
+<ol>
+<li><strong>Local variables and operand-stack entries in the stack of every active thread.</strong></li>
+<li><strong>Static fields</strong> of every loaded class.</li>
+<li><strong>JNI references</strong> held by native code.</li>
+<li><strong>Class metadata</strong> — the loaded classes, their <code>Class</code> objects and constant pools.</li>
+<li><strong>Active monitors</strong> — objects locked by a <code>synchronized</code> block on any live thread.</li>
+</ol>
+<p>A subtle but important consequence: Java does <strong>not</strong> use reference counting. It uses <strong>tracing reachability</strong>, so a cycle of objects that only point at each other, with no root above them, is still collected. Reference counting would leak such cycles; tracing does not.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Ask not "does it have a reference?" but "can a live thread starting at a root walk to it?" If no walk exists, it is garbage no matter how many objects point at it.</p>
+</blockquote>
+<h2 id="3-the-generational-hypothesis-and-heap-layout">3. The Generational Hypothesis and Heap Layout</h2>
+<p>GC design is built on one empirical observation, the <strong>weak generational hypothesis</strong>: the overwhelming majority of objects die young, while the few that survive their youth tend to survive for a long time. The <strong>strong generational hypothesis</strong> adds that survivors keep surviving.</p>
+<p>The heap is therefore divided by object age:</p>
+<div class="highlight"><pre><span></span><code>Young Generation                     Old Generation (Tenured)
++-------------------+---------------+
+|  Eden  | S0 | S1  |   Old / Tenured  |
++-------------------+---------------+
+| new objects land  | long-lived and promoted objects |
++-------------------+---------------+
+</code></pre></div>
+
+<ul>
+<li><strong>Young generation</strong> holds newly created objects and is collected frequently and cheaply; it consists of <strong>Eden</strong> plus two survivor spaces, <strong>S0</strong> and <strong>S1</strong>.</li>
+<li><strong>Old (tenured) generation</strong> holds objects that survived enough young collections; it is collected rarely and at higher cost.</li>
+</ul>
+<p>The payoff is efficiency: collecting a small region that is mostly dead is fast, so the frequent collections stay cheap.</p>
+<h2 id="4-young-vs-old-generation">4. Young vs Old Generation</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Young Generation</th>
+<th>Old Generation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contents</td>
+<td>freshly allocated, short-lived objects</td>
+<td>long-lived and promoted objects</td>
+</tr>
+<tr>
+<td>Internal spaces</td>
+<td>Eden, Survivor S0, Survivor S1</td>
+<td>a single tenured space</td>
+</tr>
+<tr>
+<td>Collection name</td>
+<td>Minor GC</td>
+<td>Major GC (often Full GC)</td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td>frequent</td>
+<td>rare</td>
+</tr>
+<tr>
+<td>Typical algorithm</td>
+<td>copying</td>
+<td>mark-sweep-compact</td>
+</tr>
+<tr>
+<td>Relative pause</td>
+<td>short</td>
+<td>long</td>
+</tr>
+<tr>
+<td>Trigger</td>
+<td>Eden fills up</td>
+<td>old-occupancy threshold reached</td>
+</tr>
+<tr>
+<td>Default share</td>
+<td>smaller portion of the heap</td>
+<td>larger portion of the heap</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table: the young generation is optimized for high mortality, the old generation for low mortality and compact layout.</p>
+<h2 id="5-allocation-minor-gc-and-promotion">5. Allocation, Minor GC, and Promotion</h2>
+<p>Allocation is trivial and fast: <code>new</code> bumps a pointer inside <strong>Eden</strong>, normally inside a thread-private <strong>TLAB</strong> (Thread-Local Allocation Buffer) so threads rarely contend. Nothing is collected until Eden is full.</p>
+<p>When Eden fills, the JVM runs a <strong>Minor GC</strong>:</p>
+<ol>
+<li>Every live object in Eden is <strong>copied</strong> into the current survivor space (a copying collector).</li>
+<li>Live objects already in the other survivor space are copied across as well.</li>
+<li>S0 and S1 swap roles: the new empty space becomes the destination for the next cycle.</li>
+<li>Each survivor's <strong>age</strong> counter is incremented.</li>
+</ol>
+<p>When an object's age reaches the <strong>tenuring threshold</strong> (HotSpot default <code>15</code>), it is <strong>promoted</strong> to the Old Generation. A copy is expensive only in proportion to the number of <strong>survivors</strong>, and because most young objects are already dead, that number is small — this is why copying is ideal for the young generation.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — most allocations die immediately, so the young GC stays cheap</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1_000_000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;item-&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w">   </span><span class="c1">// a new String each iteration</span>
+<span class="w">            </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">length</span><span class="p">();</span><span class="w">      </span><span class="c1">// s dies as the loop advances</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why does the young generation use a copying collector rather than mark-and-sweep?" Because nearly everything there is garbage, so the collector copies only the small live remainder and can use one free pointer for allocation. Marking everything to find that small remainder would do far more work than the copy itself.</p>
+</blockquote>
+<h2 id="6-major-gc-full-gc-and-stop-the-world-pauses">6. Major GC, Full GC, and Stop-the-World Pauses</h2>
+<p>A <strong>Major GC</strong> reclaims the Old Generation once its occupancy crosses a threshold. A <strong>Full GC</strong> is the broadest case: it collects young and old (and can include metaspace cleanup) and is the most expensive operation the collector performs.</p>
+<p>Most collectors stop every application thread during parts of a collection. Such a <strong>Stop-The-World (STW) pause</strong> freezes the program so that the object graph cannot change while it is being traced. Two metrics describe the cost:</p>
+<ul>
+<li><strong>Throughput</strong> — the fraction of time spent doing application work rather than GC.</li>
+<li><strong>Latency</strong> — the length of an individual pause; users feel this directly.</li>
+</ul>
+<p>The trade-off is real: a larger young generation produces fewer but longer pauses and better throughput; a smaller one produces more frequent but shorter pauses and better latency.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A "concurrent" collector does not eliminate pauses; it moves most work off the application threads and leaves only short STW phases. Pauses are reduced, never removed entirely.</p>
+</blockquote>
+<h2 id="7-gc-algorithms-compared">7. GC Algorithms Compared</h2>
+<table>
+<thead>
+<tr>
+<th>Algorithm</th>
+<th>How it works</th>
+<th>Strength</th>
+<th>Weakness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mark-and-Sweep</td>
+<td>mark all reachable objects, then sweep unreachable ones</td>
+<td>simple; no object copying</td>
+<td>free space becomes fragmented; pause scales with live set</td>
+</tr>
+<tr>
+<td>Mark-Sweep-Compact</td>
+<td>mark, sweep, then slide live objects together</td>
+<td>no fragmentation; fast bump allocation afterwards</td>
+<td>extra moving cost; longer pauses</td>
+</tr>
+<tr>
+<td>Copying</td>
+<td>split space into from and to; copy live objects into the empty half</td>
+<td>very cheap when few objects survive; no fragmentation</td>
+<td>wastes half the space; costly if many survive</td>
+</tr>
+<tr>
+<td>Generational</td>
+<td>divide the heap by age; copying for young, mark-sweep-compact for old</td>
+<td>exploits the generational hypothesis; balanced</td>
+<td>more complex; requires promotion tuning</td>
+</tr>
+</tbody>
+</table>
+<p>The generational design is the synthesis: it applies copying where survival is low (Section 5) and compaction where survival is high, which is why it underpins every production collector.</p>
+<h2 id="8-garbage-collectors-compared">8. Garbage Collectors Compared</h2>
+<p>Modern JVMs ship several collectors. They share the algorithms above but differ in threading and concurrency, which is what decides the throughput-versus-latency result.</p>
+<table>
+<thead>
+<tr>
+<th>Collector</th>
+<th>Selection flag</th>
+<th>Primary focus</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Serial</td>
+<td><code>-XX:+UseSerialGC</code></td>
+<td>smallest footprint</td>
+<td>single-threaded, STW; best for tiny heaps and clients</td>
+</tr>
+<tr>
+<td>Parallel</td>
+<td><code>-XX:+UseParallelGC</code></td>
+<td>throughput</td>
+<td>multi-threaded; the default in JDK 8</td>
+</tr>
+<tr>
+<td>CMS</td>
+<td><code>-XX:+UseConcMarkSweepGC</code></td>
+<td>low pause</td>
+<td>concurrent mark-sweep; deprecated in Java 9, removed in Java 14</td>
+</tr>
+<tr>
+<td>G1</td>
+<td><code>-XX:+UseG1GC</code></td>
+<td>balanced latency and throughput</td>
+<td>region-based with a soft pause target; default since Java 9</td>
+</tr>
+<tr>
+<td>ZGC</td>
+<td><code>-XX:+UseZGC</code></td>
+<td>ultra-low latency</td>
+<td>concurrent and highly scalable; suited to very large heaps</td>
+</tr>
+<tr>
+<td>Shenandoah</td>
+<td><code>-XX:+UseShenandoahGC</code></td>
+<td>ultra-low latency</td>
+<td>concurrent compaction; originated with Red Hat</td>
+</tr>
+</tbody>
+</table>
+<p>G1 (Garbage-First) is the modern default because it treats the heap as many equal <strong>regions</strong> rather than two fixed generations, prioritizes the regions with the most garbage, and honors a <strong>pause target</strong> (<code>-XX:MaxGCPauseMillis</code>) as a goal rather than a guarantee.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+There is no best collector, only a best collector for a stated goal. Parallel maximizes throughput, G1 balances it with predictable pauses, and ZGC or Shenandoah chase latency for large heaps.</p>
+</blockquote>
+<h2 id="9-reference-types-strong-soft-weak-phantom">9. Reference Types: Strong, Soft, Weak, Phantom</h2>
+<p>Reachability has strengths, and Java exposes four reference types that let a program express how eagerly an object may be reclaimed.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Class</th>
+<th>When collected</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strong</td>
+<td>default reference</td>
+<td>never while any strong reference exists</td>
+<td>ordinary object references</td>
+</tr>
+<tr>
+<td>Soft</td>
+<td><code>SoftReference</code></td>
+<td>only when memory is under pressure</td>
+<td>memory-sensitive caches</td>
+</tr>
+<tr>
+<td>Weak</td>
+<td><code>WeakReference</code></td>
+<td>as soon as only weak references remain</td>
+<td><code>WeakHashMap</code> keys, canonicalizing maps</td>
+</tr>
+<tr>
+<td>Phantom</td>
+<td><code>PhantomReference</code></td>
+<td>after the object has been finalized</td>
+<td>post-mortem cleanup; <code>get()</code> always returns <code>null</code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — a weak reference does not keep its referent alive</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.ref.WeakReference</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Object</span><span class="w"> </span><span class="n">strong</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Object</span><span class="p">();</span>
+<span class="w">        </span><span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="n">weak</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WeakReference</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">strong</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">weak</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">   </span><span class="c1">// reference is reachable here</span>
+
+<span class="w">        </span><span class="n">strong</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">                     </span><span class="c1">// now only weakly reachable</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">gc</span><span class="p">();</span><span class="w">                       </span><span class="c1">// a request, not a command</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">weak</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">    </span><span class="c1">// usually null, but not guaranteed</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>System.gc()</code> merely suggests a collection; the JVM is free to ignore it, and good code never depends on it.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Survival strength falls left to right: <strong>Strong &gt; Soft &gt; Weak &gt; Phantom</strong>, while the eagerness to reclaim rises in the same direction.</p>
+</blockquote>
+<h2 id="10-finalize-is-deprecated-cleaner-and-try-with-resources">10. finalize() Is Deprecated: Cleaner and try-with-resources</h2>
+<p><code>Object.finalize()</code> was once the advertised cleanup hook. In practice it is unreliable: it runs on a GC-owned thread at an unpredictable time, may never run at all if GC never occurs, can be delayed arbitrarily, and can even resurrect an object by re-publishing <code>this</code>. It was deprecated in Java 9 and marked for removal.</p>
+<p>Prefer deterministic mechanisms:</p>
+<ol>
+<li><strong><code>try-with-resources</code></strong> for anything implementing <code>AutoCloseable</code> — the resource closes at the end of the block, on the normal path and on exceptions alike (cross-ref Lecture 43).</li>
+<li><strong><code>java.lang.ref.Cleaner</code></strong> for cleanup triggered when an object becomes phantom-reachable, without overriding <code>finalize</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — deterministic cleanup with a Cleaner instead of finalize()</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.lang.ref.Cleaner</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">AutoCloseable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Cleaner</span><span class="w"> </span><span class="n">CLEANER</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Cleaner</span><span class="p">.</span><span class="na">create</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Cleaner</span><span class="p">.</span><span class="na">Cleanable</span><span class="w"> </span><span class="n">cleanable</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">Demo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">cleanable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CLEANER</span><span class="p">.</span><span class="na">register</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;released&quot;</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">close</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cleanable</span><span class="p">.</span><span class="na">clean</span><span class="p">();</span><span class="w">   </span><span class="c1">// runs exactly once, eagerly</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="11-tuning-flags-overview">11. Tuning Flags Overview</h2>
+<p>These flags shape the heap and the collector. Treat them as instruments to be adjusted after measurement, not as defaults to copy from a blog.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-Xms</code></td>
+<td>initial heap size</td>
+</tr>
+<tr>
+<td><code>-Xmx</code></td>
+<td>maximum heap size</td>
+</tr>
+<tr>
+<td><code>-Xmn</code></td>
+<td>size of the young generation</td>
+</tr>
+<tr>
+<td><code>-XX:MaxTenuringThreshold</code></td>
+<td>survivor age at which an object is promoted</td>
+</tr>
+<tr>
+<td><code>-XX:+UseG1GC</code></td>
+<td>select the G1 collector</td>
+</tr>
+<tr>
+<td><code>-XX:MaxGCPauseMillis</code></td>
+<td>G1's soft target for a single pause</td>
+</tr>
+<tr>
+<td><code>-XX:+HeapDumpOnOutOfMemoryError</code></td>
+<td>write a heap dump when an OOM occurs</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>-Xmx</code> should generally equal <code>-Xms</code> in a server so the heap does not repeatedly grow and shrink. Beyond that, tune only against a measured problem: enabling GC logging and reading it beats guessing flags.</p>
+</blockquote>
+<h2 id="12-memory-leaks-in-a-gc-language">12. Memory Leaks in a GC Language</h2>
+<p>A <strong>memory leak</strong> here is a <strong>reachable but unused object</strong>: something the program will never read again, yet a root still points at it, so no collector may touch it. Classic sources:</p>
+<ul>
+<li><strong>Static collections that only grow</strong> — a <code>static Map</code> used as a registry and never pruned.</li>
+<li><strong>Caches without eviction</strong> — unbounded maps where entries are added but never removed.</li>
+<li><strong><code>ThreadLocal</code> leaks</strong> — values left on long-lived pool threads (cross-ref Lecture 57).</li>
+<li><strong>Listeners and callbacks</strong> — registered but never unregistered, holding the listener's enclosing object alive.</li>
+<li><strong>Class loader leaks</strong> — in application servers, a discarded class loader kept reachable prevents every class it loaded from being collected.</li>
+<li><strong>Unclosed resources</strong> — streams and connections that keep buffers and native handles reachable.</li>
+</ul>
+<p>The fix is ownership discipline: null out references you are done with, bound caches and evict, remove listeners, and call <code>remove()</code> on <code>ThreadLocal</code>. GC handles unreachability; it cannot infer disuse.</p>
+<blockquote class="callout callout--trap">
+<p>Trap
+"It is garbage collected, so it cannot leak" is the single most expensive misconception in this lecture. Reachability and usefulness are different properties, and only the first is automatic.</p>
+</blockquote>
+<h2 id="13-major-vs-minor-collection-at-a-glance">13. Major vs Minor Collection at a Glance</h2>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Minor GC</th>
+<th>Major / Full GC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Region collected</td>
+<td>young generation (Eden plus survivors)</td>
+<td>old generation, and the whole heap for Full GC</td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td>high</td>
+<td>low</td>
+</tr>
+<tr>
+<td>Relative duration</td>
+<td>short</td>
+<td>long</td>
+</tr>
+<tr>
+<td>Typical cause</td>
+<td>Eden exhausted</td>
+<td>old-occupancy threshold or a metadata/commit request</td>
+</tr>
+<tr>
+<td>Effect on latency</td>
+<td>small, frequent pauses</td>
+<td>large, rarer pauses</td>
+</tr>
+<tr>
+<td>Algorithm</td>
+<td>copying</td>
+<td>mark-sweep-compact</td>
+</tr>
+</tbody>
+</table>
+<p>Keeping allocation rates modest and object lifetimes short keeps collections in the cheap Minor column, which is the single most effective GC optimization available to application code.</p>
+<h2 id="14-pitfalls-and-common-errors">14. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calling <code>System.gc()</code> to force a collection</td>
+<td>it is only a hint and may be ignored</td>
+<td>fix ownership and reference leaks instead</td>
+</tr>
+<tr>
+<td>Relying on <code>finalize()</code> for cleanup</td>
+<td>timing is unpredictable and it may never run</td>
+<td>use <code>try-with-resources</code> or a <code>Cleaner</code></td>
+</tr>
+<tr>
+<td>Believing GC prevents all leaks</td>
+<td>reachable-but-unused objects survive collection</td>
+<td>null references, evict caches, remove listeners</td>
+</tr>
+<tr>
+<td>Confusing <code>StackOverflowError</code> with heap OOM</td>
+<td>different regions and causes</td>
+<td>stack: deep recursion; heap: allocation shortfall</td>
+</tr>
+<tr>
+<td>Assuming one algorithm fits all</td>
+<td>wrong throughput or latency result</td>
+<td>choose per workload and measure</td>
+</tr>
+<tr>
+<td>Mixing up survivors and promotion</td>
+<td>objects promoted prematurely; old-gen pressure</td>
+<td>size survivor spaces and the tenuring threshold correctly</td>
+</tr>
+<tr>
+<td>Tuning flags without measuring</td>
+<td>random changes, worse pauses</td>
+<td>enable GC logs, read them, then adjust</td>
+</tr>
+<tr>
+<td>Ignoring allocation rate</td>
+<td>constant Minor GCs and CPU burn</td>
+<td>reduce short-lived allocations where it matters</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"<code>System.gc()</code> forces immediate collection."</td>
+<td>It is a request; the JVM may ignore it, and code must not depend on it.</td>
+</tr>
+<tr>
+<td>"<code>finalize()</code> reliably cleans up resources."</td>
+<td>It is deprecated, timing is unpredictable, and it may never run; prefer <code>try-with-resources</code> or <code>Cleaner</code>.</td>
+</tr>
+<tr>
+<td>"A garbage-collected language cannot leak memory."</td>
+<td>Reachable-but-unused objects leak; GC only removes unreachable ones.</td>
+</tr>
+<tr>
+<td>"GC eliminates all pauses."</td>
+<td>Every collector has Stop-The-World phases; concurrency reduces them, never removes them.</td>
+</tr>
+<tr>
+<td>"G1 is always the fastest collector."</td>
+<td>G1 trades throughput for predictable pauses; Parallel wins raw throughput and ZGC wins latency.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — <code>System.gc()</code>: "I called <code>System.gc()</code> and the object was freed, so it is a command, right?"
+No. It is a hint. The JVM may ignore it, may defer it, or may collect unrelated objects; any behavior that depends on it is broken.</p>
+<p>Trap 2 — <code>finalize()</code>: "My resource is closed in <code>finalize()</code>, so it is safe."
+No. <code>finalize()</code> runs on a GC-owned thread at an unpredictable time and may never run; <code>try-with-resources</code> or <code>Cleaner</code> is required.</p>
+<p>Trap 3 — Leak definition: "Java has GC, so memory leaks are impossible."
+No. An object still reachable from a root but never used again is a leak; static collections, unbounded caches and <code>ThreadLocal</code> values are common sources.</p>
+<p>Trap 4 — Error type: "My program throws <code>StackOverflowError</code>, so the heap ran out."
+No. <code>StackOverflowError</code> means the thread stack was exhausted, typically by deep recursion; heap exhaustion produces <code>OutOfMemoryError</code>.</p>
+<p>Trap 5 — Promotion: "Survivor spaces and the young generation are the same thing."
+No. Eden and the two survivor spaces together form the young generation; survivors are copied between S0 and S1 and promoted to the old generation at the tenuring threshold.</p>
+<p>Trap 6 — Default collector: "Parallel GC is always the default."
+No. Parallel was the JDK 8 default; G1 has been the default since Java 9. The right choice depends on the throughput-versus-latency requirement.</p>
+<p>Trap 7 — Cyclic garbage: "Objects that reference each other can never be collected."
+No. Java traces reachability from roots, not reference counts, so an unreachable cycle is collected in full.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li>GC automatically reclaims heap memory of objects unreachable from GC roots; the programmer never frees memory (cross-ref Lecture 45).</li>
+<li>GC roots are active thread stacks and local references, static fields, JNI references, class metadata, and active monitors.</li>
+<li>Reachability is traced from roots, so unreachable cycles are collected despite pointing at each other.</li>
+<li>The generational hypothesis — most objects die young — drives the Young (Eden plus S0 and S1) and Old design.</li>
+<li>Allocation happens in Eden; a Minor GC copies survivors between S0 and S1 and promotes them at the tenuring threshold.</li>
+<li>Minor GCs are frequent and cheap; Major and Full GCs are rarer and expensive, and cause longer Stop-The-World pauses.</li>
+<li>Algorithms: mark-and-sweep fragments, mark-sweep-compact moves, copying duplicates-space but is ideal when few survive, and generational combines them.</li>
+<li>Collectors: Serial (footprint), Parallel (throughput), CMS (deprecated), G1 (default since Java 9, pause target), ZGC or Shenandoah (ultra-low latency).</li>
+<li>Reference types run Strong, Soft, Weak, Phantom by survival; <code>finalize()</code> is deprecated in favor of <code>Cleaner</code> and <code>try-with-resources</code>.</li>
+<li>Tune with <code>-Xms</code>, <code>-Xmx</code>, <code>-Xmn</code>, <code>-XX:+UseG1GC</code> and <code>-XX:MaxGCPauseMillis</code> only after measuring, and hunt reachable-but-unused objects for leaks.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is garbage collection?</td>
+<td>The automatic reclamation of heap memory occupied by objects no longer reachable from GC roots; the programmer never frees memory explicitly.</td>
+</tr>
+<tr>
+<td>What are GC roots?</td>
+<td>Thread stacks and local references, static fields, JNI references, class metadata, and active monitors; reachable objects are alive.</td>
+</tr>
+<tr>
+<td>What is the generational hypothesis?</td>
+<td>Most objects die young and the few survivors tend to keep surviving, which justifies splitting the heap into young and old generations.</td>
+</tr>
+<tr>
+<td>What is the difference between Minor and Major GC?</td>
+<td>Minor GC collects the young generation frequently and cheaply; Major or Full GC collects the old generation (or the whole heap) rarely and expensively.</td>
+</tr>
+<tr>
+<td>What is promotion and the tenuring threshold?</td>
+<td>A survivor is promoted to the old generation once its age reaches the tenuring threshold (HotSpot default 15); Eden plus S0 and S1 form the young generation.</td>
+</tr>
+<tr>
+<td>What causes Stop-The-World pauses?</td>
+<td>Most collectors must freeze application threads while tracing the object graph, so references cannot change mid-collection.</td>
+</tr>
+<tr>
+<td>Which collector is the default in modern Java?</td>
+<td>G1 since Java 9; siblings are Serial, Parallel, CMS (removed), ZGC and Shenandoah, each trading throughput against latency.</td>
+</tr>
+<tr>
+<td>What is the difference between Mark-and-Sweep and Mark-Sweep-Compact?</td>
+<td>Mark-and-Sweep leaves fragmented free space; Mark-Sweep-Compact slides live objects together so allocation stays fast.</td>
+</tr>
+<tr>
+<td>What are the four reference types?</td>
+<td>Strong, Soft (memory-pressure caches), Weak (weakly reachable), and Phantom (post-mortem cleanup); strengths fall in that order.</td>
+</tr>
+<tr>
+<td>Can a GC language leak memory?</td>
+<td>Yes: a reachable-but-unused object is never collected; static collections, unbounded caches and <code>ThreadLocal</code> values are common causes.</td>
+</tr>
+<tr>
+<td>Why is <code>finalize()</code> discouraged?</td>
+<td>It is deprecated, runs at an unpredictable time and may never run; use <code>try-with-resources</code> or <code>Cleaner</code> instead.</td>
+</tr>
+<tr>
+<td>Does <code>System.gc()</code> force collection?</td>
+<td>No. It is a hint the JVM may ignore; correctness must never depend on it.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>new Object() --&gt; Eden (allocation)
+      Eden full --&gt; Minor GC --&gt; copy live survivors into S0 or S1
+      age reaches tenuring threshold --&gt; promote to Old Generation
+      Old full --&gt; Major / Full GC (mark -&gt; sweep -&gt; compact) --&gt; memory reclaimed
+
+roots        : thread stacks · static fields · JNI refs · class metadata · monitors
+algorithms   : mark-sweep · mark-sweep-compact · copying · generational
+collectors   : Serial · Parallel · CMS (deprecated) · G1 (default) · ZGC / Shenandoah
+references   : Strong &gt; Soft &gt; Weak &gt; Phantom
+pauses       : Stop-The-World ; throughput vs latency trade-off
+leaks        : reachable but unused (static maps · caches · ThreadLocal · listeners)
+</code></pre></div>
+
+<ul>
+<li>Roots and reachability → decide what is alive; tracing collects unreachable cycles that reference counting would keep.</li>
+<li>Generational heap → Eden plus S0 and S1 for the young, a tenured space for the old; Minor GC is cheap, Major or Full GC is not.</li>
+<li>Algorithms → mark-and-sweep fragments, mark-sweep-compact moves, copying duplicates space but suits low survival, generational combines them.</li>
+<li>Collectors → Serial for footprint, Parallel for throughput, G1 for balanced predictable pauses, ZGC or Shenandoah for ultra-low latency.</li>
+<li>Pauses → concurrency reduces Stop-The-World time but never removes it; the goal is a chosen throughput-versus-latency point.</li>
+<li>References and cleanup → Soft, Weak and Phantom tune reclamation eagerness; <code>finalize()</code> is deprecated in favor of <code>Cleaner</code> and <code>try-with-resources</code>.</li>
+<li>Leaks → reachable-but-unused objects survive every collector, so ownership and eviction remain the programmer's responsibility.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Garbage collection reclaims what is unreachable, not what is unwanted; write code that drops references you no longer need and let the collector do the rest.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> the collector traces roots through a generational heap — copying live young survivors into the old generation, reclaiming the rest under a chosen throughput-versus-latency trade-off — while reachable-but-unused objects remain a leak you alone must fix.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-45.html"><span class="dir">Previous</span><span class="ttl">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</span></a><a class="next" href="doc-theory-lecture-47.html"><span class="dir">Next</span><span class="ttl">Introduction to Multithreading in Java | Process vs Thread</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

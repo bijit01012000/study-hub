@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retrieval and RAG architecture — AI / GenAI</title>
+<meta name="description" content="Retrieval and RAG architecture">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-genai-questions-06-retrieval-and-rag-architecture">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="active" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>AI / GenAI</h4><details class="part"><summary>Theory &amp; Notes <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-00-overview.html" title="GenAI Concepts">GenAI Concepts</a><button class="star" data-doc="theory-genai-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="theory-genai-concepts-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="theory-genai-concepts-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="theory-genai-concepts-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="theory-genai-concepts-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="theory-genai-concepts-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="theory-genai-concepts-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="theory-genai-concepts-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="theory-genai-concepts-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="theory-genai-concepts-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="theory-genai-concepts-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="theory-genai-concepts-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="theory-genai-concepts-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="theory-genai-concepts-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="theory-genai-concepts-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="theory-genai-concepts-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-questions</li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-00-overview.html" title="GenAI Interview Questions">GenAI Interview Questions</a><button class="star" data-doc="practice-genai-questions-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="practice-genai-questions-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="practice-genai-questions-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="practice-genai-questions-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="practice-genai-questions-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="practice-genai-questions-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="practice-genai-questions-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div><ul class="sections"></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="practice-genai-questions-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="practice-genai-questions-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="practice-genai-questions-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="practice-genai-questions-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="practice-genai-questions-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="practice-genai-questions-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="practice-genai-questions-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="practice-genai-questions-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-ai.html">AI / GenAI</a> › Practice &amp; Questions</p>
+<h1>Retrieval and RAG architecture</h1>
+<p class="readmeta">0 sections · 6,810 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-genai-questions-06-retrieval-and-rag-architecture" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 06 · 15 questions · 1 practical drill</p>
+<blockquote class="callout callout--note">
+<p>Design retrieval deliberately instead of wiring a tutorial.</p>
+</blockquote>
+<h3 id="q61-draw-a-production-rag-pipeline-end-to-end-from-a-document-landing-in-storage-to-the-final-answer">Q6.1 — Draw a production RAG pipeline end to end, from a document landing in storage to the final answer.</h3>
+<p><strong>Weak answer:</strong> "We embed the user's question, run similarity search, take the top-k chunks, and pass them into the prompt for the model to answer from."</p>
+<p><strong>Why it fails:</strong>
+- Skips ingestion, parsing and chunking entirely, as if documents arrive pre-chunked and ready to embed.
+- No query rewriting, no reranking, and no evaluation loop. Stuffing chunks into the prompt has no ordering logic.</p>
+<p><strong>Instant rejection:</strong>
+- Describes the whole pipeline as what a framework's default chain does, with no decision attributed to them.
+- Cannot say what happens when retrieved chunks contradict each other before generation runs.</p>
+<p><strong>Model answer:</strong>
+1. Documents get parsed by type, PDFs through a layout-aware parser that keeps tables and headings intact, then split by a structure-aware chunker before embedding.
+2. At query time I don't embed the raw question. A rewrite step expands fragments like "refund policy eu" into a fuller query, which measurably lifted recall.
+3. Retrieval is hybrid, BM25 plus dense HNSW search, fused with reciprocal rank fusion, because dense-only search missed exact terms like ticket IDs.
+4. I take the fused top 25, rerank down to 6 with a small cross-encoder, and order them highest-ranked closest to the question in the prompt.
+5. The loop closes with a weekly run against a 150-question golden set, which flags any pipeline change against a fixed baseline before it ships.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Walk me through every step from a document landing in storage to it becoming a searchable chunk. · Whether ingestion and chunking are owned decisions or an invisible assumption.
+2. <strong>TRADEOFF</strong> — Why rerank after retrieval instead of just retrieving fewer, higher-confidence candidates? · Whether retrieve-then-rerank is a reasoned shape or copied wholesale.
+3. <strong>FAILURE</strong> — Retrieval returns eight chunks and three contradict each other. What happens next? · Whether context assembly defends against noisy or conflicting input.
+4. <strong>MEASUREMENT</strong> — Where did you actually measure the biggest quality loss when you first built this? · Real production diagnosis versus a pipeline recited from memory.</p>
+<p><strong>Tip:</strong> If you have built any multi-stage data pipeline, ingest, transform, index, serve, describe that shape and map each stage to its RAG equivalent. Don't claim you've run a RAG pipeline in production. Say you understand why each stage exists and which one you'd build and measure first.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Hybrid beats dense-only on IDs
+- Rerank top 25 down to 6
+- Weekly eval against golden set
+- Order chunks, best nearest
+- question</p>
+<h3 id="q62-what-chunking-strategy-did-you-use-and-how-did-you-actually-land-on-that-size">Q6.2 — What chunking strategy did you use, and how did you actually land on that size?</h3>
+<p><strong>Weak answer:</strong> "We used a fixed 500 tokens with 50 tokens of overlap, since that's what most RAG guides recommend, and it seemed to work fine."</p>
+<p><strong>Why it fails:</strong>
+- 500 tokens traces to what guides recommend, not to anything measured. No recall or precision number was compared across sizes.
+- Treats every document the same. A short FAQ entry and a long policy PDF get no different handling at all.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot say what's actually inside a 500 token chunk for this corpus, a full answer, half a table, part of a procedure.
+- The 10% overlap figure has no reasoning behind it, a round number nobody tested against another value.</p>
+<p><strong>Model answer:</strong>
+1. I used a recursive splitter that tries paragraph breaks first, then sentence breaks, rather than cutting at a raw token count. That stopped mid-sentence slicing.
+2. I ran retrieval on a 120-question eval set at 200, 400 and 800 tokens with a fixed embedding model and measured recall at 10 for each.
+3. 400 tokens won on our policy corpus. 200 fragmented multi-sentence clauses, 800 diluted the embedding with unrelated surrounding text.
+4. I used 15% overlap, not a round 10%, because I traced a real failure where a clause referencing "the above exception" lost its antecedent at a boundary.
+5. Tables were the one exception to the fixed size. I extract each as its own chunk regardless of token count, since a splitter has no concept of a row.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What's actually inside 500 tokens of your documents, a paragraph, a sentence, or part of a table? · Whether chunk size was chosen against the corpus's real structure.
+2. <strong>MEASUREMENT</strong> — How did you compare 500 tokens against 250 or 1,000? What metric moved, and by how much? · Whether the size was eval-driven rather than copied.
+3. <strong>TRADEOFF</strong> — What do you gain and lose shrinking that chunk size from 500 down to 200? · Understanding of the precision/context trade-off chunk size controls.
+4. <strong>FAILURE</strong> — Your corpus has a 40-page PDF and a three-line FAQ answer. Same fixed size for both? · Awareness a single fixed size rarely fits a mixed corpus.</p>
+<p><strong>Tip:</strong> If you've tuned a page size, batch size or window size against a measured metric instead of a default, that's the same instinct this question wants. Don't claim you've tuned chunk size on a real corpus. Say you'd test a few sizes against a labelled set rather than trust a guide's default.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Test 200, 400, 800 tokens
+- 15% overlap, not a round 10%
+- Tables kept as their own chunk
+- Recursive split, not raw cut</p>
+<h3 id="q63-what-actually-breaks-when-a-document-gets-split-at-a-chunk-boundary">Q6.3 — What actually breaks when a document gets split at a chunk boundary?</h3>
+<p><strong>Weak answer:</strong> "We added overlap between chunks, usually 10 to 20% of the chunk size, so we wouldn't lose context at the boundaries."</p>
+<p><strong>Why it fails:</strong>
+- Overlap is offered as the complete fix, but it only helps when the lost content falls inside the overlapping window.
+- No real example from their own corpus, and no detection method described beyond assuming overlap prevents the problem.</p>
+<p><strong>Instant rejection:</strong>
+- Doesn't mention the cost of overlap: near-duplicate chunks that compete for the same top-k slots and crowd out distinct ones.
+- Cannot name a structural break beyond prose, a split table, a split code block, a split numbered step.</p>
+<p><strong>Model answer:</strong>
+1. The clearest failure: a sentence ended "unless one of the following exceptions applies" and the list was the next chunk, meaningless retrieved alone.
+2. That list chunk kept outranking the chunk naming the actual policy. Overlap at 15% didn't fix it, the intervening list was longer than the window.
+3. What fixed it was prepending a short generated summary of where the chunk sits before embedding, so the list got a prefix naming its section.
+4. That measurably cut orphaned-fragment retrievals in a manual audit of 50 flagged low-quality answers.
+5. I also capped overlap rather than raising it, since higher overlap put near-duplicate chunks in the same top 10 and pushed out a genuinely relevant one.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Give me a real example from your corpus where a chunk boundary broke something. · Real debugging experience versus a memorised answer.
+2. <strong>FAILURE</strong> — A numbered procedure gets split mid-step across two chunks. What does the user actually see? · Awareness of structural splits overlap cannot fix.
+3. <strong>TRADEOFF</strong> — What does increasing overlap cost you, beyond extra storage? · Understanding overlap creates near-duplicates competing in top-k.
+4. <strong>MEASUREMENT</strong> — How did you actually detect boundary breakage, versus some other retrieval failure? · A real diagnosis method, not an assumption the fix worked.</p>
+<p><strong>Tip:</strong> If you've debugged a bug caused by data split across pages or batches losing shared context, that's the same class of failure. Don't claim you've fixed a chunk boundary bug. Say you understand why overlap alone doesn't cover structural splits like tables or lists.</p>
+<p><strong>Numbers worth quoting:</strong>
+- 50-case audit of bad answers
+- Overlap capped, not maximised
+- Prefix names the chunk's section
+- List chunk needs its lead sentence</p>
+<h3 id="q64-how-did-you-choose-your-embedding-model-and-what-would-changing-it-later-actually-cost">Q6.4 — How did you choose your embedding model, and what would changing it later actually cost?</h3>
+<p><strong>Weak answer:</strong> "We picked the model with the highest score on the MTEB leaderboard, since that's the standard benchmark, and it had reasonable dimensionality."</p>
+<p><strong>Why it fails:</strong>
+- MTEB's average blends retrieval, classification and clustering, so a model can rank high overall and be mediocre at retrieval.
+- No domain validation. A public benchmark score doesn't guarantee anything about this specific corpus.</p>
+<p><strong>Instant rejection:</strong>
+- Doesn't know two models produce geometrically incompatible vector spaces, so old and new embeddings can't sit in one index.
+- Treats changing models as a config swap, not a full re-embedding job with its own cost and timeline.</p>
+<p><strong>Model answer:</strong>
+1. I filtered candidates by the MTEB retrieval sub-score specifically, not the overall average, since that's the number that predicts RAG performance.
+2. I validated the top two against our own 200-pair labelled eval set built from real queries and their correct chunk. The second-ranked model won on our data.
+3. On dimensionality I chose 768 over 1536, trading a small measured recall drop for roughly half the storage and faster search at our query volume.
+4. Changing models later isn't a config change. It means re-embedding the full corpus, since old and new vectors live in incompatible spaces.
+5. That re-embed took about four days of compute across roughly 400,000 chunks last time, which is the real cost I weigh before proposing a switch.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Can you mix embeddings from an old and new model in the same index? · Understanding that different models' vectors aren't comparable.
+2. <strong>MEASUREMENT</strong> — How did you validate the model on your own corpus, not just the public benchmark? · Domain-specific evaluation versus trusting a leaderboard rank.
+3. <strong>TRADEOFF</strong> — What would switching models actually cost you, in compute, time and risk? · Real cost modelling of a migration, not a hand-wave.
+4. <strong>FAILURE</strong> — A cheaper, better multilingual model ships a year later. What is the real barrier to moving? · Whether they see model choice as a decision with real switching cost.</p>
+<p><strong>Tip:</strong> If you've picked a database, cache or serialisation format knowing a later switch meant a real migration, not a flag flip, that's the same judgement. Don't claim you've picked an embedding model. Say you'd check the retrieval sub-score and validate on your own data before trusting a leaderboard.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Check retrieval score, not average
+- 768 dims: half the storage cost
+- Old, new vectors are incompatible
+- Full re-embed, not a config flip</p>
+<h3 id="q65-how-did-you-choose-your-vector-database-and-what-trade-off-did-you-actually-make">Q6.5 — How did you choose your vector database, and what trade-off did you actually make?</h3>
+<p><strong>Weak answer:</strong> "We went with Pinecone because it's a managed vector database built for this workload, it's fast, and it scales well."</p>
+<p><strong>Why it fails:</strong>
+- "Built for this" and "fast" are marketing language, not a reasoned trade-off. No alternative was named or compared.
+- No corpus size, query volume or latency target stated, so the decision was never tested against anything real.</p>
+<p><strong>Instant rejection:</strong>
+- Doesn't know or mention the ANN index type underlying the vendor's engine, so there's no way to reason about its behaviour.
+- The team's existing infrastructure and ops headcount never enters the reasoning at all.</p>
+<p><strong>Model answer:</strong>
+1. Our corpus was around 2 million chunks and the team already ran Postgres with a two-person infra team, so I started from pgvector with an HNSW index.
+2. That avoided adding a new service, a new failure domain, and a new on-call surface for a small team to carry, for a corpus that size.
+3. I documented a migration trigger explicitly: past roughly 4 million vectors or p95 latency past 300ms, we move to a dedicated engine, not before.
+4. It also meant our metadata filters, tenant ID, document type, access control, lived as ordinary Postgres columns combined in one query.
+5. I rejected Pinecone specifically because per-vector pricing at our projected scale cost more, and it moved ACL filtering outside the source of truth.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What ANN index type does it use under the hood, and did that matter to your decision? · Reasoning from index mechanics rather than a vendor name.
+2. <strong>TRADEOFF</strong> — Your team already ran Postgres. What did you give up by not just using pgvector? · Whether the boring, already-present option was seriously weighed.
+3. <strong>MEASUREMENT</strong> — At what corpus size or query volume did this decision actually get tested? · Whether the choice is grounded in real numbers or picked before scale was known.
+4. <strong>FAILURE</strong> — The vendor has an outage. What does your retrieval path do? · Operational resilience thinking beyond the happy path.</p>
+<p><strong>Tip:</strong> If you've chosen the simpler, already-present tool over a specialised one because your team and scale didn't justify a new dependency, say that. Don't claim you've picked a vector database in production. Say how you'd weigh corpus size, ops capacity and an existing stack before adding one.</p>
+<p><strong>Numbers worth quoting:</strong>
+- pgvector fine under ~1M vectors
+- Migration trigger set in advance
+- Filters live in the same database
+- Per-vector pricing scales badly</p>
+<h3 id="q66-how-do-you-combine-metadata-filtering-with-vector-search-and-where-does-hybrid-search-fit-in">Q6.6 — How do you combine metadata filtering with vector search, and where does hybrid search fit in?</h3>
+<p><strong>Weak answer:</strong> "We added metadata fields like document type and date, and filtered the vector search results down to the ones matching before returning them."</p>
+<p><strong>Why it fails:</strong>
+- ""Filtered the results" hides whether you filter before or after the ANN search, and that changes correctness and speed.
+- No hybrid search at all, despite dense embeddings being a known weak point for exact terms like error codes, SKUs and IDs.</p>
+<p><strong>Instant rejection:</strong>
+- Unaware that a selective filter with naive post-filtering can return fewer than k results, or collapse to a linear scan.
+- Names a fusion step with no actual mechanism, just "we combined the scores" with nothing underneath it.</p>
+<p><strong>Model answer:</strong>
+1. Tenant isolation is a hard, security filter, so I always pre-filter on tenant ID before the ANN search runs. A tenant must never see another's chunk.
+2. Document type and recency are softer relevance filters, so those ride as post-filters on the ANN candidates, since they exclude only a small slice.
+3. Dense retrieval alone regularly missed queries with exact error codes. The embedding treats "ERR_4092" as roughly similar to any other token.
+4. I added a BM25 index alongside the dense one and fused the two rankings with reciprocal rank fusion at k=60, not by averaging incomparable raw scores.
+5. On a 50-query slice built from tickets with IDs, recall at 10 went from about 58% dense-only to 91% with hybrid, which justified keeping BM25 permanently.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Your filter matches only 0.1% of the corpus. What happens to the ANN search? · Understanding pre-filter cost collapsing toward a linear scan on selective filters.
+2. <strong>FAILURE</strong> — A user searches an exact error code like ERR_4092. Does dense-only retrieval find it? · Awareness of dense embeddings' weakness on literal, exact-match terms.
+3. <strong>TRADEOFF</strong> — What do you give up choosing post-filtering over a stricter pre-filter for speed? · Whether the correctness cost of post-filtering under selectivity is understood.
+4. <strong>MEASUREMENT</strong> — How did you verify hybrid search beat dense-only, and on which query slice? · Measured improvement on the affected query type, not an assumption.</p>
+<p><strong>Tip:</strong> If you've combined a keyword search and a structured filter in any search feature, and know the difference between filtering before or after, say that. Don't claim you've built hybrid search. Say you understand why dense embeddings miss exact terms and how you'd test a fix against a labelled slice.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Pre-filter tenant, post-filter type
+- RRF fusion, k=60 constant
+- 58% to 91% recall with hybrid
+- Dense misses exact-match terms</p>
+<h3 id="q67-when-does-adding-a-reranker-actually-earn-its-latency-in-a-rag-pipeline">Q6.7 — When does adding a reranker actually earn its latency in a RAG pipeline?</h3>
+<p><strong>Weak answer:</strong> "We added a cross-encoder reranker after retrieval because it's best practice, retrieving the top 20 and reranking down to the top 5."</p>
+<p><strong>Why it fails:</strong>
+- ""Best practice" is the whole justification, with no diagnosis of whether reranking fixes this system's actual failure.
+- No latency number anywhere, despite reranking being a real cost on the critical path, and no model or hosting choice named.</p>
+<p><strong>Instant rejection:</strong>
+- Never checked whether the problem was recall, the right chunk never reaching the candidate set, which no reranker fixes.
+- Cannot explain mechanically why a cross-encoder outranks plain cosine similarity at ranking.</p>
+<p><strong>Model answer:</strong>
+1. Before adding anything I checked recall at 20 against our eval set, it was fine at 92%, but precision at 5 was poor, the right chunk sat at rank 8 to 12.
+2. That told me it was a ranking problem, not a recall problem, so a reranker was the right tool rather than retrieving more or changing the embedding model.
+3. I chose a small MiniLM-class cross-encoder on CPU, not a larger model, because our latency budget only had about 150ms of headroom before generation.
+4. I retrieve the fused top 25 and rerank down to the top 6 that reach the prompt. That added roughly 120ms to p95, and MRR moved from 0.61 to 0.79.
+5. I kept it because the budget had room. On an earlier, tighter-latency system I'd have cut it and leaned on the fusion ranking alone instead.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — How do you know it was a ranking problem, and the right chunk was even in your top 20? · Whether diagnosis precedes the fix, since reranking can't recover a chunk never retrieved.
+2. <strong>MEASUREMENT</strong> — What did adding the reranker cost in p95 latency, against what budget? · Real latency accounting rather than an unmeasured 'a bit slower'.
+3. <strong>TRADEOFF</strong> — Why a cross-encoder, rather than retrieving more and trusting embedding similarity? · Understanding why joint attention beats cosine similarity, and its cost.
+4. <strong>FAILURE</strong> — Your latency budget is 300ms and the reranker adds 200ms on CPU. What do you do? · Practical prioritisation under a real constraint.</p>
+<p><strong>Tip:</strong> If you've added a second-pass filter or sort step to a search feature after measuring the first pass ranked things poorly, that's the same diagnosis. Don't claim you've tuned a reranker. Say you'd check recall versus precision first, since a reranker only fixes one of those two problems.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Recall 92%, precision poor at 5
+- MiniLM-class, CPU, ~150ms budget
+- MRR 0.61 to 0.79 after rerank
+- Cut reranker first under pressure</p>
+<h3 id="q68-how-do-you-keep-your-index-fresh-as-the-underlying-documents-keep-changing">Q6.8 — How do you keep your index fresh as the underlying documents keep changing?</h3>
+<p><strong>Weak answer:</strong> "We run a nightly batch job that re-embeds and reindexes the whole corpus, so the index is never more than a day out of date."</p>
+<p><strong>Why it fails:</strong>
+- A nightly reindex costs the same whatever changed, and most of that compute re-embeds content that did not.
+- No deletion handling described. A removed document can stay retrievable until the next nightly run picks it up, or forever.</p>
+<p><strong>Instant rejection:</strong>
+- No content-hash-based change detection, so there's no way to know what fraction of the nightly job was wasted work.
+- States a freshness number with no actual requirement from the use case behind it.</p>
+<p><strong>Model answer:</strong>
+1. I hash every source chunk's content, and on each sync only chunks whose hash changed, plus new documents, get re-embedded.
+2. On a 50,000-document corpus a typical daily sync touches maybe 1,000 to 1,500 changed chunks out of several hundred thousand total.
+3. Deletions are immediate. A soft-delete flag flips synchronously and retrieval always excludes it, so removal takes effect within the same request.
+4. Updates write a new embedding under a new version ID and flip a pointer atomically, avoiding a window where a query sees a half-updated chunk.
+5. HNSW's incremental insert is cheap enough that I only run a full reindex monthly, purely to reclaim space from soft-deletes, as a scheduled event.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — A document gets deleted from the source. How fast does it stop being retrievable? · Whether deletion is handled explicitly, or lingers until the next rebuild.
+2. <strong>MEASUREMENT</strong> — How much of that nightly batch is genuinely new or changed, versus re-embedded for no reason? · Awareness of content-hash change detection and its absence.
+3. <strong>TRADEOFF</strong> — What is the real cost difference between incremental inserts and a full index rebuild? · Understanding that update cost depends on the specific index type chosen.
+4. <strong>FAILURE</strong> — Two updates to the same document land seconds apart. How do you avoid both versions being live? · Concurrency and versioning discipline at ingest.</p>
+<p><strong>Tip:</strong> If you've built an incremental sync job that hashes content to skip unchanged rows instead of a full nightly rebuild, that's the same discipline. Don't claim you've kept a vector index fresh. Say you'd hash content to detect real changes and handle deletion immediately, not on the next batch.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Hash content, skip the unchanged
+- ~1-2k changed chunks a day
+- Deletion takes effect same request
+- Full reindex monthly, not nightly</p>
+<h3 id="q69-drill-50000-documents-a-2-second-retrieval-and-generation-budget-design-the-retrieval-side-practical-drill">Q6.9 — DRILL: 50,000 documents, a 2-second retrieval-and-generation budget. Design the retrieval side. <em>(practical drill)</em></h3>
+<p><strong>Weak answer:</strong> "N/A, this is a drill. A weak attempt picks dense-only search and the biggest reranker, with no stage-by-stage latency breakdown at all."</p>
+<p><strong>Why it fails:</strong>
+- Corpus size is never turned into a vector count, and the 2 second budget is never broken down by stage.
+- Picks a reranker without checking what's left after generation's share, and no fallback for what degrades first under load.</p>
+<p><strong>Instant rejection:</strong>
+- Treats 50,000 documents as small enough that index choice doesn't matter, with no index type named at all.
+- No eval check named that would verify a budget cut didn't quietly hurt answer quality before shipping.</p>
+<p><strong>Model answer:</strong>
+1. 50,000 documents at roughly 6-8 chunks each puts the index around 350,000 vectors, comfortably inside HNSW's range, no need for IVF-style scale.
+2. Budget: query embedding ~20ms, hybrid retrieval fused with RRF over 350,000 vectors ~80ms for a top-30 set, a CPU cross-encoder reranking to 6 ~130ms.
+3. That's about 230ms before generation starts, leaving roughly 1.7 seconds for the LLM call, mostly outside my control beyond streaming the response.
+4. I'd keep the reranker, 130ms is cheap against a 1.7-second generation share, but skip a query-rewrite call and validate that's safe on recall@10.
+5. Under p99 pressure the first thing I'd cut is the reranker, not hybrid retrieval, since losing it costs precision, not recall, the smaller quality hit.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Where exactly does your 2 seconds go, stage by stage? · Whether the budget is genuinely allocated or just asserted to fit.
+2. <strong>FAILURE</strong> — P99 latency regularly lands at 2.4 seconds under real traffic. What's cut first? · A real prioritisation order for graceful degradation, decided in advance.
+3. <strong>TRADEOFF</strong> — What did you cut to make reranking fit inside the budget? · A real trade-off under a hard constraint, not every technique bolted on.
+4. <strong>MEASUREMENT</strong> — How would you verify a budget cut didn't quietly hurt answer quality? · Measurement discipline attached to the trade-off, not an assumption.</p>
+<p><strong>Tip:</strong> If you've allocated a latency or memory budget stage by stage for any pipeline, an API call chain or a batch job, that's the same skill in a new shape. Don't invent production numbers you don't have. Say how you'd size the index and split the budget, then name the eval check before shipping the cut.</p>
+<p><strong>Numbers worth quoting:</strong>
+- ~350k vectors, HNSW is fine
+- 230ms retrieval, 1.7s generation
+- Cut reranker first under p99
+- Skip query rewrite at this scale</p>
+<h3 id="q610-how-does-your-ingestion-pipeline-turn-a-real-pdf-into-clean-text-without-losing-tables-or-layout">Q6.10 — How does your ingestion pipeline turn a real PDF into clean text without losing tables or layout?</h3>
+<p><strong>Weak answer:</strong> "We used a PDF library to pull the text out of each file, chunked that text, and embedded it, same as any other document."</p>
+<p><strong>Why it fails:</strong>
+- Raw PDF text extraction flattens tables into unstructured rows, so a number loses which column and header it belonged to.
+- Multi-column layouts get read left to right across columns, splicing unrelated sentences from separate columns together.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot describe what actually happens to a table in their corpus once it gets parsed.
+- No mention of scanned pages, OCR, or documents that are just images of text.</p>
+<p><strong>Model answer:</strong>
+1. I route by document type first. Native PDFs go through a layout-aware parser that keeps table structure and reading order. Scanned pages go through OCR.
+2. I never flatten tables into prose. Each becomes its own structured chunk, row per line, so the model still sees which value belongs to which column.
+3. Multi-column layouts taught me this. A naive extractor read two columns as one paragraph, and answers cited sentences stitched from unrelated columns.
+4. Repeating headers were another problem. I strip anything identical across most pages before chunking, so it is not embedded into every chunk.
+5. Ingestion is idempotent. Each chunk is keyed on a hash of the source and its content, so re-running a file updates chunks in place rather than duplicating.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — A two-column PDF report gets parsed. What stops sentences from two columns merging into one? · Layout-aware parsing versus naive top-to-bottom extraction that ignores column boundaries.
+2. <strong>FAILURE</strong> — A scanned, image-only PDF lands in the pipeline. What happens to it right now? · Whether OCR is a designed stage or a silent gap that produces empty or garbage chunks.
+3. <strong>TRADEOFF</strong> — Layout-aware parsing is slower and costs more per document. When do you skip it? · Whether parsing effort is matched to document type instead of applied uniformly.
+4. <strong>MEASUREMENT</strong> — How do you know a table parsed correctly, rather than just not crashing the pipeline? · A real check on parsed structure, not just the absence of an exception.</p>
+<p><strong>Tip:</strong> If you have built an ETL pipeline that parsed varied source files into a clean schema, describe that discipline honestly, even without PDFs or OCR. Do not claim you have handled scanned documents or tables if you have only parsed clean text files. Say what you actually parsed and what you'd test first.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Chunks keyed by content hash
+- Tables kept as their own chunk
+- Headers stripped before
+- embedding
+- OCR only for scanned pages</p>
+<h3 id="q611-walk-me-through-what-happens-to-a-users-raw-query-before-it-ever-reaches-your-retriever">Q6.11 — Walk me through what happens to a user's raw query before it ever reaches your retriever.</h3>
+<p><strong>Weak answer:</strong> "We just embed whatever the user typed and search with that, since the embedding model should understand the intent anyway."</p>
+<p><strong>Why it fails:</strong>
+- Assumes the embedding model can fix a vague, fragment-like query with no rewriting step at all.
+- No distinction drawn between query rewriting, query expansion and HyDE, or when each actually helps.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name a real query that failed retrieval until it was rewritten.
+- Treats rewriting as always beneficial, with no cost or failure case ever considered.</p>
+<p><strong>Model answer:</strong>
+1. Our users typed short fragments like "refund eu customer" rather than full questions, so I added a rewrite step that expands the fragment before embedding it.
+2. For ambiguous or broad questions I use query expansion: generate two or three phrasings of the same intent, retrieve for all of them, then merge the candidates before ranking.
+3. Where the answer's wording differs a lot from the question's wording, I tried HyDE: generate a hypothetical answer first, embed that, and retrieve against it instead.
+4. HyDE helped most on our long, explanatory policy documents, because the hypothetical answer's vocabulary was closer to the document's own language than the short question was.
+5. I measured this on a 60-query slice of real short queries, and rewriting lifted recall at 10 by a clear margin over embedding the raw fragment, which justified the extra call.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — How does HyDE work, and why does a hypothetical answer retrieve better than the raw question? · Understanding that HyDE embeds a generated answer, closer in style to target chunks than a short question.
+2. <strong>FAILURE</strong> — Your rewrite step confidently reformulates a query into the wrong intent. What happens next? · Awareness that rewriting can introduce a new failure mode, not just fix the old one.
+3. <strong>TRADEOFF</strong> — Rewriting adds an LLM call before retrieval even starts. When is that latency not worth it? · Weighing rewrite quality gains against added latency for a given corpus and query style.
+4. <strong>MEASUREMENT</strong> — How did you prove rewriting actually improved recall, rather than just seeming more thorough? · A measured lift on a specific query slice, not an assumed improvement.</p>
+<p><strong>Tip:</strong> If you have written search or autocomplete that expanded a short user query before hitting a database, name that and be honest about the similarity. Do not claim you have used HyDE if you haven't. Say you understand the idea and would test it against a rewrite baseline first.</p>
+<p><strong>Numbers worth quoting:</strong>
+- One extra LLM call, before search
+- HyDE helps most on long
+- documents
+- Expansion: 2-3 phrasings merged
+- Measured on a real query slice</p>
+<h3 id="q612-what-do-you-add-to-a-chunk-before-embedding-it-beyond-the-raw-text-itself">Q6.12 — What do you add to a chunk before embedding it, beyond the raw text itself?</h3>
+<p><strong>Weak answer:</strong> "We just embedded the chunk text as it was split, since the model should be able to work out the context from what's there."</p>
+<p><strong>Why it fails:</strong>
+- Assumes a chunk that has lost its heading, document title or surrounding context can still be understood alone.
+- No enrichment technique is mentioned, so every orphaned fragment stays orphaned after embedding.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot describe a specific chunk that made no sense once retrieved on its own.
+- Unaware that prepending context before embedding is a known, named technique with measured results.</p>
+<p><strong>Model answer:</strong>
+1. Before embedding, I prepend a short, generated line describing where the chunk sits in its source document, its section heading, and what the surrounding document covers.
+2. This came from a real failure: a three-bullet exceptions list retrieved well on its own but meant nothing without the sentence above naming which policy it belonged to.
+3. I generate that context with a cheap, small model call per chunk at ingestion time, and cache it against the chunk's content hash, so re-ingesting unchanged content costs nothing extra.
+4. I also enrich tables specifically, prepending the table's caption and column headers to every row-chunk, since a bare row of numbers has no meaning without them.
+5. On a set of previously flagged orphaned-fragment failures, enrichment cut that failure rate substantially, which is what justified the extra ingestion cost.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — How do you generate the context you prepend to a chunk, and what does it actually contain? · A concrete mechanism, a short summary of the chunk's place in the document, not a vague gesture.
+2. <strong>FAILURE</strong> — A chunk saying 'the above exceptions apply' is embedded alone. What does the retriever do with it? · Recognising dangling references as a concrete enrichment failure case.
+3. <strong>TRADEOFF</strong> — Generating context per chunk costs an extra call at ingestion. How do you keep that affordable? · Awareness of batching or caching the enrichment cost rather than treating it as free.
+4. <strong>MEASUREMENT</strong> — How did you measure that enrichment actually reduced retrieval failures, not just added cost? · A before/after comparison on a labelled failure category, not an assumed improvement.</p>
+<p><strong>Tip:</strong> If you have denormalised a database table to keep a foreign key's meaning attached to a row, that instinct is the same one behind chunk enrichment. Do not claim you have run this in production. Say you understand why an orphaned fragment fails and how you would test enrichment against it.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Context cached by content hash
+- One small model call per chunk
+- Cuts orphaned-fragment failures
+- Tables get captions prepended</p>
+<h3 id="q613-how-do-you-stop-retrieval-from-ever-returning-a-chunk-the-current-user-isnt-allowed-to-see">Q6.13 — How do you stop retrieval from ever returning a chunk the current user isn't allowed to see?</h3>
+<p><strong>Weak answer:</strong> "We tag each chunk with the ID of the user who uploaded it, and the frontend only displays results matching the logged-in user."</p>
+<p><strong>Why it fails:</strong>
+- Filtering happens in the frontend, so the backend still returns other users' chunks over the wire.
+- Tagging by uploader ignores groups, roles and documents shared with more than one person or team.</p>
+<p><strong>Instant rejection:</strong>
+- Any filtering happens after retrieval instead of being part of the search itself.
+- Trusts a client-supplied filter or user ID rather than deriving permissions server-side.</p>
+<p><strong>Model answer:</strong>
+1. I derive the requesting user's allowed document and group IDs server-side from the session, never from anything the client sends, and never trust a filter in the request.
+2. That access list is applied as a pre-filter before the ANN search runs, the same way I treat tenant isolation, so a chunk outside the user's access never enters the ranked candidates.
+3. For documents shared with a group, each chunk carries the group and role IDs allowed to see it, resolved from the same source of truth as the rest of the app's authorisation.
+4. I never rely on filtering results after retrieval and trusting the caller not to look further, because a post-filter still means the excluded chunk was briefly held in memory.
+5. I wrote a specific test suite for this: log in as user A, attempt to retrieve a document only user B has access to by ID and content, and assert it never appears, ranked or not.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Where exactly does the permission check happen: before the ANN search, after it, or as part of it? · Pre-filtering or native filtered search enforced server-side, not a post-hoc frontend filter.
+2. <strong>FAILURE</strong> — A user crafts a request with someone else's document ID in it. What stops that returning data? · Never trusting a client-supplied filter as the sole permission boundary.
+3. <strong>TRADEOFF</strong> — Permission checks add a filter to every single query. What did that actually cost you? · Real latency or complexity cost of enforcing ACLs at query time, not treated as free.
+4. <strong>MEASUREMENT</strong> — How did you test a user can't retrieve a document outside their access, not just the UI hiding it? · A real access-control test at the API or retrieval layer, not a UI-level check.</p>
+<p><strong>Tip:</strong> If you have enforced row-level access in an API, so a user only sees their own organisation's rows, say that, it's the same discipline applied here. Do not claim you have secured a real multi-tenant RAG system if you haven't. Say how you'd apply row-level access control to retrieval and what you'd test first.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Filter before search, not after
+- Never trust a client-sent filter
+- Access derived server-side only
+- Test: cross-user ID probing</p>
+<h3 id="q614-a-users-access-to-a-document-gets-revoked-how-long-before-your-index-actually-stops-returning-it-to-them">Q6.14 — A user's access to a document gets revoked. How long before your index actually stops returning it to them?</h3>
+<p><strong>Weak answer:</strong> "Access changes get picked up the next time we run our nightly reindex job, so it's reflected within a day."</p>
+<p><strong>Why it fails:</strong>
+- A day-long window for revoked access is a real security gap, not a minor freshness delay.
+- Treats access revocation the same as ordinary content freshness, when it has a much tighter requirement.</p>
+<p><strong>Instant rejection:</strong>
+- No distinction made between routine content updates and security-sensitive access changes.
+- Cannot state any actual bound on how long revoked access stays live in the index.</p>
+<p><strong>Model answer:</strong>
+1. I separate two different things: the chunk's content in the index, and the access list that governs who can retrieve it, and I never make revocation wait for a reindex.
+2. The access list is checked live at query time from the same authorisation source the rest of the product uses, so revocation is enforced on the very next request, not the next sync.
+3. The vector index itself can lag by content, but never by access, because access isn't baked into the embedding, it's applied as a filter resolved fresh on every query.
+4. I do cache access decisions briefly for latency, a few seconds at most, chosen specifically because it was short enough that a real revocation-to-enforcement test still passed.
+5. I have a scheduled test that revokes a test user's access to a seeded document, then immediately queries as that user and asserts the document no longer appears.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Does revocation update the index directly, or only a permissions table the query joins against? · Whether revocation is enforced at query time immediately, independent of when the index updates.
+2. <strong>FAILURE</strong> — Access is revoked, but a request already mid-flight retrieves the chunk anyway. Acceptable? · Awareness of the real window between a revocation event and it taking effect everywhere.
+3. <strong>TRADEOFF</strong> — Immediate per-query permission checks cost more than caching decisions. How do you balance that? · Trading query-time cost against how tight the revocation window needs to be.
+4. <strong>MEASUREMENT</strong> — How do you verify revocation actually took effect, rather than assuming the job ran? · A real check or test that confirms revoked access is enforced, not just scheduled.</p>
+<p><strong>Tip:</strong> If you have maintained a permissions system where revoking a role had to take effect immediately, describe that, it's the same problem with a search index attached. Do not claim your revocation is instant if you've never tested it. Say what bound you'd set and how you would actually verify it holds.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Access checked fresh, not daily
+- Revocation enforced next request
+- Cache access for seconds, not a
+- day
+- Scheduled revoke-then-query test</p>
+<h3 id="q615-how-do-you-move-the-whole-corpus-to-a-new-embedding-model-without-taking-retrieval-offline">Q6.15 — How do you move the whole corpus to a new embedding model without taking retrieval offline?</h3>
+<p><strong>Weak answer:</strong> "We'd re-embed everything with the new model over a weekend, then point the app at the new index once it's done."</p>
+<p><strong>Why it fails:</strong>
+- No shadow comparison before cutover, so there's no evidence the new model is actually better before users see it.
+- A single hard cutover has no described rollback if the new model performs worse once it's live.</p>
+<p><strong>Instant rejection:</strong>
+- Old and new embeddings get mixed in one index, which produces meaningless similarity scores.
+- No plan for what serves live traffic while re-embedding is still in progress.</p>
+<p><strong>Model answer:</strong>
+1. This maps directly onto a database migration I've done before: dual-write, backfill, shadow read, then cut over, and I use the same shape rather than inventing something new.
+2. New documents get embedded into both the old and new index going forward, while a backfill job re-embeds the existing corpus into the new index with no user-facing change yet.
+3. Once backfill finishes, I shadow-read: every real query runs against both indexes, but only the old index's results are served, so I compare quality with zero user risk.
+4. I only cut traffic over once the new index matches or beats the old one on the eval set for a defined comparison window, not the moment the backfill job finishes.
+5. I keep the old index live and queryable for a further period purely as a rollback path, so if the new model regresses, reverting is a config change, not a re-embed.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Can queries be compared against both the old and new index before you commit to either? · A shadow-read setup that compares both indexes without serving the new one to users yet.
+2. <strong>FAILURE</strong> — Halfway through re-embedding, the new model turns out worse on your eval set. What's the rollback? · A reversible migration path, not a one-way commitment already serving users.
+3. <strong>TRADEOFF</strong> — Running two full indexes in parallel costs real storage and compute. How long do you keep both? · Weighing dual-running cost against the safety of a comparison window before cutover.
+4. <strong>MEASUREMENT</strong> — What has to be true on your eval set before you actually flip traffic to the new index? · A defined, measured threshold that gates cutover, not a gut call once backfill finishes.</p>
+<p><strong>Tip:</strong> If you have ever migrated a production database using dual-write and backfill, or done a blue-green deploy, say that plainly, the shape here is the same. Do not claim you have re-embedded a live corpus if you haven't. Say you'd model it as a migration with a shadow-read and rollback step, not a single swap.</p>
+<p><strong>Numbers worth quoting:</strong>
+- Dual-write, backfill, shadow, cut
+- Old index kept live as rollback
+- Shadow read before serving new
+- one
+- Cutover gated by an eval threshold</p>
+<div class="pager"><a class="prev" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html"><span class="dir">Previous</span><span class="ttl">Prompt and context engineering</span></a><a class="next" href="doc-practice-genai-questions-07-rag-quality-and-failure-diagnosis.html"><span class="dir">Next</span><span class="ttl">RAG quality and failure diagnosis</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

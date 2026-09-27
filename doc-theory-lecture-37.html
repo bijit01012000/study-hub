@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 37 — Spring Security Authentication Internals — Spring Boot</title>
+<meta name="description" content="Lecture 37 — Spring Security Authentication Internals">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-37">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-37.html#lecture-37">Lecture 37</a></li><li><a href="doc-theory-lecture-37.html#1-where-spring-security-works">1. Where Spring Security Works</a></li><li><a href="doc-theory-lecture-37.html#2-delegatingfilterproxy-the-bridge">2. DelegatingFilterProxy: The Bridge</a></li><li><a href="doc-theory-lecture-37.html#3-filterchainproxy-and-securityfilterchain">3. FilterChainProxy and SecurityFilterChain</a></li><li><a href="doc-theory-lecture-37.html#4-securityfilterchain-matching-and-ordering">4. SecurityFilterChain Matching and Ordering</a></li><li><a href="doc-theory-lecture-37.html#5-httpsecurity-the-chain-builder">5. HttpSecurity: The Chain Builder</a></li><li><a href="doc-theory-lecture-37.html#6-authentication-filters-form-login-vs-http-basic">6. Authentication Filters: Form Login vs HTTP Basic</a></li><li><a href="doc-theory-lecture-37.html#7-authentication-and-the-request-token">7. Authentication and the Request Token</a></li><li><a href="doc-theory-lecture-37.html#8-authenticationmanager-entry-point">8. AuthenticationManager: Entry Point</a></li><li><a href="doc-theory-lecture-37.html#9-providermanager-and-authenticationprovider">9. ProviderManager and AuthenticationProvider</a></li><li><a href="doc-theory-lecture-37.html#10-userdetails-and-userdetailsservice">10. UserDetails and UserDetailsService</a></li><li><a href="doc-theory-lecture-37.html#11-customuserdetails-vs-springs-built-in-user">11. CustomUserDetails vs Spring&#x27;s Built-in User</a></li><li><a href="doc-theory-lecture-37.html#12-daoauthenticationprovider">12. DaoAuthenticationProvider</a></li><li><a href="doc-theory-lecture-37.html#13-the-complete-internal-login-flow">13. The Complete Internal Login Flow</a></li><li><a href="doc-theory-lecture-37.html#14-what-happens-when-authentication-fails">14. What Happens When Authentication Fails</a></li><li><a href="doc-theory-lecture-37.html#15-form-login-http-basic-and-registration-shared-vs-separate-flows">15. Form Login, HTTP Basic, and Registration: Shared vs Separate Flows</a></li><li><a href="doc-theory-lecture-37.html#16-project-structure-csrf-testing-and-the-final-mental-model">16. Project Structure, CSRF, Testing, and the Final Mental Model</a></li><li><a href="doc-theory-lecture-37.html#17-myth-vs-reality">17. Myth vs Reality</a></li><li><a href="doc-theory-lecture-37.html#18-common-trap-questions">18. Common Trap Questions</a></li><li><a href="doc-theory-lecture-37.html#19-points-to-remember">19. Points to Remember</a></li><li><a href="doc-theory-lecture-37.html#20-likely-interview-questions">20. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-37.html#21-final-summary">21. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 37 — Spring Security Authentication Internals</h1>
+<p class="readmeta">22 sections · 3,831 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-37" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-37">Lecture 37</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Security Authentication Internals | Complete Login Flow" (playlist map, verified). Repo folder is the springPracticalDemo project: config.SecurityConfig, entity.CustomUserDetails, service.CustomUserDetailsService, service.AuthService, service.RoleService, entity.User, entity.Role, repository.UserRepository, repository.RoleRepository, dto.UserRegisterRequestDto/UserRegisterResponseDto, controller.UserController/controller.RoleController, and application.properties.</p>
+</blockquote>
+<p>Authentication turns a plain HTTP request into a trusted identity, and Spring Security does it
+inside servlet filters before <code>DispatcherServlet</code> ever runs. This lecture opens the hood: how
+filters get into Tomcat, how a chain is selected, how an unverified username/password claim becomes
+a verified <code>Authentication</code>, and how that result is stored for authorization. Everything below is
+the database-backed username-and-password path.</p>
+<h2 id="1-where-spring-security-works">1. Where Spring Security Works</h2>
+<p>Spring Security's servlet support is built on servlet filters:</p>
+<div class="highlight"><pre><span></span><code>HTTP Request -&gt; Servlet Filters -&gt; Spring Security Filters -&gt; DispatcherServlet -&gt; Controller
+</code></pre></div>
+
+<p>Security runs before the controller to establish who is sending the request, whether the identity is
+valid, what authorities it holds, and whether access is allowed. The key principle is <code>Protection -&gt;
+Authentication -&gt; Exception Handling -&gt; Authorization</code>. A simplified order:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Concern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Exploit protection</td>
+<td>CSRF and similar protections</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>form login (<code>UsernamePasswordAuthenticationFilter</code>), HTTP Basic (<code>BasicAuthenticationFilter</code>)</td>
+</tr>
+<tr>
+<td>Anonymous authentication</td>
+<td>attach an anonymous identity when no credentials exist</td>
+</tr>
+<tr>
+<td>Security context handling</td>
+<td>load and later store the <code>SecurityContext</code></td>
+</tr>
+<tr>
+<td>Exception translation</td>
+<td>turn auth errors into HTTP responses</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>decide whether the authenticated user may proceed</td>
+</tr>
+</tbody>
+</table>
+<p>Authentication must happen before authorization: Spring Security cannot decide whether a user has
+<code>ROLE_ADMIN</code> until it has established who that user is.</p>
+<blockquote class="callout callout--important">
+<p>Important: The controller never sees an unauthenticated request for a protected path. Security either produces an authenticated identity or stops the request in the filter layer, so business code can assume "there is a user".</p>
+</blockquote>
+<h2 id="2-delegatingfilterproxy-the-bridge">2. DelegatingFilterProxy: The Bridge</h2>
+<p><code>DelegatingFilterProxy</code> is a real servlet filter known to Tomcat. It does not implement all of
+Spring Security; it finds a filter bean managed by Spring and delegates to it:</p>
+<div class="highlight"><pre><span></span><code>doFilter(request, response, chain):
+    Filter springFilter = findFilterBeanInSpring();
+    springFilter.doFilter(request, response, chain);
+
+Tomcat -&gt; DelegatingFilterProxy -&gt; FilterChainProxy
+</code></pre></div>
+
+<p>It bridges the servlet-container lifecycle with Spring-managed filter beans. Tomcat only knows
+servlet filters; the security work lives in Spring beans, and this class is the adapter between
+them.</p>
+<h2 id="3-filterchainproxy-and-securityfilterchain">3. FilterChainProxy and SecurityFilterChain</h2>
+<p><code>FilterChainProxy</code> is the central filter of Spring Security's servlet architecture, standing in
+front of one or more <code>SecurityFilterChain</code> objects:</p>
+<div class="highlight"><pre><span></span><code>FilterChainProxy
+|-- SecurityFilterChain for /api/**
+|-- SecurityFilterChain for /admin/**
++-- SecurityFilterChain for every other request
+</code></pre></div>
+
+<p>For every request it asks which <code>SecurityFilterChain</code> should process it, then runs that chain's
+filters. A <code>SecurityFilterChain</code> is a request matcher plus an ordered list of security filters:</p>
+<div class="highlight"><pre><span></span><code>interface SecurityFilterChain:
+    boolean matches(HttpServletRequest request);
+    List&lt;Filter&gt; getFilters();
+</code></pre></div>
+
+<p>Example chains:</p>
+<div class="highlight"><pre><span></span><code>Chain 1: /api/**
+    Filters: SecurityContextHolderFilter, BearerTokenAuthenticationFilter,
+             ExceptionTranslationFilter, AuthorizationFilter
+
+Chain 2: every request
+    Filters: SecurityContextHolderFilter, CsrfFilter,
+             UsernamePasswordAuthenticationFilter, BasicAuthenticationFilter,
+             AnonymousAuthenticationFilter, ExceptionTranslationFilter,
+             AuthorizationFilter
+</code></pre></div>
+
+<p>The precise list depends on the features enabled through <code>HttpSecurity</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The two names are easy to confuse. <code>FilterChainProxy</code> is the single dispatcher; <code>SecurityFilterChain</code> is one of the routes it can pick. One proxy, many chains.</p>
+</blockquote>
+<h2 id="4-securityfilterchain-matching-and-ordering">4. SecurityFilterChain Matching and Ordering</h2>
+<p>A <code>RequestMatcher</code> decides whether a chain applies by inspecting request path, HTTP method, headers,
+servlet path, parameters, and dispatcher type. For <code>GET /api/users</code>, the matcher <code>/api/**</code> returns
+<code>true</code> and <code>/admin/**</code> returns <code>false</code>.</p>
+<p>First matching chain wins: <code>FilterChainProxy</code> invokes only the first matching <code>SecurityFilterChain</code>.
+With <code>Chain 1: /api/**</code> then <code>Chain 2: /**</code>, both match <code>/api/users</code>, but Spring Security selects
+Chain 1 and stops; it never combines filters from two chains. So chains run most specific to most
+general:</p>
+<div class="highlight"><pre><span></span><code>1. /api/**
+2. /admin/**
+3. /**
+</code></pre></div>
+
+<p>If no chain matches, the request is unprotected, so a fallback chain is useful:</p>
+<div class="highlight"><pre><span></span><code>@Bean
+SecurityFilterChain fallback(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(auth -&gt; auth.anyRequest().authenticated());
+    return http.build();
+}
+</code></pre></div>
+
+<p>If no <code>securityMatcher(...)</code> is configured, the chain normally applies to every request.</p>
+<blockquote class="callout callout--important">
+<p>Important: "First matching chain wins" is what makes ordering matter. A broad <code>/**</code> chain declared first swallows every request, and the specific chains below it never run.</p>
+</blockquote>
+<h2 id="5-httpsecurity-the-chain-builder">5. HttpSecurity: The Chain Builder</h2>
+<p><code>HttpSecurity</code> is a builder that describes and constructs a <code>SecurityFilterChain</code>:</p>
+<div class="highlight"><pre><span></span><code>http
+    .csrf(Customizer.withDefaults())
+    .formLogin(Customizer.withDefaults())
+    .httpBasic(Customizer.withDefaults())
+    .authorizeHttpRequests(auth -&gt; auth.anyRequest().authenticated());
+
+http.csrf(...)                  -&gt; CSRF protection
+http.formLogin(...)             -&gt; form-login filters and handlers
+http.httpBasic(...)             -&gt; HTTP Basic authentication
+http.authorizeHttpRequests(...) -&gt; authorization rules
+</code></pre></div>
+
+<p>It describes which features are enabled, which filters are required and in what order, which
+providers they use, and which authorization rules apply; <code>return http.build();</code> produces the
+concrete <code>SecurityFilterChain</code>.</p>
+<h2 id="6-authentication-filters-form-login-vs-http-basic">6. Authentication Filters: Form Login vs HTTP Basic</h2>
+<p>Different mechanisms receive credentials in different forms. Form login arrives as <code>POST /login</code>
+with <code>Content-Type: application/x-www-form-urlencoded</code> and body
+<code>username=aditya&amp;password=secret123</code>, handled by <code>UsernamePasswordAuthenticationFilter</code>. HTTP Basic
+arrives as <code>Authorization: Basic YWRpdHlhOnNlY3JldDEyMw==</code>, handled by <code>BasicAuthenticationFilter</code>.</p>
+<p>A filter does not authenticate every request. <code>UsernamePasswordAuthenticationFilter</code> looks for a
+form-login request such as <code>POST /login</code>; for an ordinary <code>GET /courses</code> it just continues the chain
+(<code>chain.doFilter(request, response);</code>). So the filter's presence does not mean an attempt happens on
+every request; it first checks whether the request carries the mechanism it understands.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Form login</th>
+<th>HTTP Basic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filter</td>
+<td><code>UsernamePasswordAuthenticationFilter</code></td>
+<td><code>BasicAuthenticationFilter</code></td>
+</tr>
+<tr>
+<td>Credential location</td>
+<td>Request body, form-encoded</td>
+<td><code>Authorization</code> header, Base64</td>
+</tr>
+<tr>
+<td>Trigger request</td>
+<td><code>POST /login</code></td>
+<td>Any request carrying the header</td>
+</tr>
+<tr>
+<td>Backend after the filter</td>
+<td>Same <code>AuthenticationManager</code> + provider</td>
+<td>Same <code>AuthenticationManager</code> + provider</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: Seeing <code>UsernamePasswordAuthenticationFilter</code> in the chain does not mean every call re-authenticates. The filter only acts when the request carries its mechanism; otherwise it steps aside and the chain continues.</p>
+</blockquote>
+<h2 id="7-authentication-and-the-request-token">7. Authentication and the Request Token</h2>
+<p>The request holds plain values <code>username = aditya</code> and <code>password = secret123</code>. Spring Security
+converts them into a standard object, commonly a <code>UsernamePasswordAuthenticationToken</code>. Before
+verification:</p>
+<div class="highlight"><pre><span></span><code>UsernamePasswordAuthenticationToken
+|-- principal = &quot;aditya&quot;
+|-- credentials = &quot;secret123&quot;
+|-- authorities = []
++-- authenticated = false
+</code></pre></div>
+
+<p>At this stage the token is only a claim: someone says they are Aditya and offers secret123 as proof,
+but Spring Security has not accepted it. The unauthenticated token is created as:</p>
+<div class="highlight"><pre><span></span><code>UsernamePasswordAuthenticationToken token =
+    UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+</code></pre></div>
+
+<p><code>principal</code> is the claimed identity and <code>credentials</code> is the claimed proof. The filter must not
+contain database or password logic; its job is to extract credentials, create an <code>Authentication</code>,
+and send it to the engine.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The same class, <code>UsernamePasswordAuthenticationToken</code>, represents both the unverified claim and the verified result. The difference is the three fields: <code>authenticated</code>, <code>authorities</code>, and whether credentials are still present.</p>
+</blockquote>
+<h2 id="8-authenticationmanager-entry-point">8. AuthenticationManager: Entry Point</h2>
+<p><code>AuthenticationManager</code> is the entry point into Spring Security's authentication engine:</p>
+<div class="highlight"><pre><span></span><code>interface AuthenticationManager:
+    Authentication authenticate(Authentication authentication)
+            throws AuthenticationException;
+</code></pre></div>
+
+<p>It receives an unauthenticated token and produces one of two outcomes:</p>
+<div class="highlight"><pre><span></span><code>Unauthenticated Authentication
+    -&gt; AuthenticationManager.authenticate(...)
+        +-- Success -&gt; Authenticated Authentication
+        +-- Failure -&gt; AuthenticationException
+</code></pre></div>
+
+<p>The interface says nothing about databases or BCrypt: it only turns one <code>Authentication</code> into
+another or throws, which lets Spring Security swap mechanisms without changing the caller.</p>
+<h2 id="9-providermanager-and-authenticationprovider">9. ProviderManager and AuthenticationProvider</h2>
+<p><code>AuthenticationManager</code> is an interface; its most common implementation is <code>ProviderManager</code>. An app
+can support many mechanisms -- database username/password, JWT, OTP, LDAP, SAML, remember-me, custom
+-- and <code>ProviderManager</code> coordinates the available <code>AuthenticationProvider</code> objects:</p>
+<div class="highlight"><pre><span></span><code>ProviderManager
+|-- DaoAuthenticationProvider
+|-- JwtAuthenticationProvider
+|-- RememberMeAuthenticationProvider
++-- CustomOtpAuthenticationProvider
+</code></pre></div>
+
+<p>Each provider understands a particular token type via <code>boolean supports(Class&lt;?&gt;
+authenticationType);</code>. <code>DaoAuthenticationProvider</code> supports <code>UsernamePasswordAuthenticationToken</code>;
+<code>JwtAuthenticationProvider</code> supports a JWT token. When <code>ProviderManager</code> receives a
+<code>UsernamePasswordAuthenticationToken</code>, it finds a supporting provider, which does the verification.
+For database username/password this is <code>DaoAuthenticationProvider</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Provider</th>
+<th>Token it consumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Database username/password</td>
+<td><code>DaoAuthenticationProvider</code></td>
+<td><code>UsernamePasswordAuthenticationToken</code></td>
+</tr>
+<tr>
+<td>JWT</td>
+<td><code>JwtAuthenticationProvider</code></td>
+<td>JWT authentication token</td>
+</tr>
+<tr>
+<td>Remember-me</td>
+<td><code>RememberMeAuthenticationProvider</code></td>
+<td>remember-me token</td>
+</tr>
+<tr>
+<td>One-time password</td>
+<td><code>CustomOtpAuthenticationProvider</code></td>
+<td>custom OTP token</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-userdetails-and-userdetailsservice">10. UserDetails and UserDetailsService</h2>
+<p>Our app has its own <code>User</code> entity, but Spring Security does not know its structure and should not
+depend on our persistence model. It uses two contracts:</p>
+<div class="highlight"><pre><span></span><code>UserDetails        -&gt; Spring Security&#39;s view of one user
+UserDetailsService -&gt; Strategy for finding that user
+</code></pre></div>
+
+<p>Our entity may carry id, username, password, email, name, createdAt, preferences, and roles; Spring
+Security mainly needs username, stored password, authorities, enabled state, and account/credential
+expiration and lock state. <code>UserDetails</code> is its view of one user:</p>
+<div class="highlight"><pre><span></span><code>interface UserDetails:
+    String getUsername();
+    String getPassword();
+    Collection&lt;? extends GrantedAuthority&gt; getAuthorities();
+    boolean isAccountNonExpired();
+    boolean isAccountNonLocked();
+    boolean isCredentialsNonExpired();
+    boolean isEnabled();
+</code></pre></div>
+
+<p>Spring Security is effectively saying: store users however you want, but give me an object
+satisfying this contract. <code>UserDetailsService</code> answers the other question via <code>UserDetails
+loadUserByUsername(String username);</code> -- given a username, how should Spring Security load that
+user? So <code>UserDetails</code> is one user (the result) and <code>UserDetailsService</code> is the finder.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>UserDetails</code></th>
+<th><code>UserDetailsService</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role</td>
+<td>One loaded user (the result)</td>
+<td>The strategy that loads a user (the finder)</td>
+</tr>
+<tr>
+<td>Key method</td>
+<td><code>getUsername()</code>, <code>getPassword()</code>, <code>getAuthorities()</code></td>
+<td><code>loadUserByUsername(String username)</code></td>
+</tr>
+<tr>
+<td>Count</td>
+<td>Represents a single user</td>
+<td>Can load any user by username</td>
+</tr>
+<tr>
+<td>Example</td>
+<td><code>CustomUserDetails</code></td>
+<td><code>CustomUserDetailsService</code></td>
+</tr>
+<tr>
+<td>Failure</td>
+<td>none (it is data)</td>
+<td>throws <code>UsernameNotFoundException</code> if absent</td>
+</tr>
+</tbody>
+</table>
+<p>The service is where our repository meets Spring Security:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CustomUserDetailsService</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">UserDetailsService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">UserRepository</span><span class="w"> </span><span class="n">userRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">UserDetails</span><span class="w"> </span><span class="nf">loadUserByUsername</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userRepository</span>
+<span class="w">            </span><span class="p">.</span><span class="na">findByUsername</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">orElseThrow</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UsernameNotFoundException</span><span class="p">(</span><span class="s">&quot;User not found&quot;</span><span class="p">));</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CustomUserDetails</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The final line converts our application's <code>User</code> into Spring Security's <code>UserDetails</code> view. If email
+is the login identity, the same contract can query by email with <code>findByEmail(email)</code>.</p>
+<h2 id="11-customuserdetails-vs-springs-built-in-user">11. CustomUserDetails vs Spring's Built-in User</h2>
+<p>An app may contain <code>com.coderarmy.entity.User</code>, and Spring Security also provides
+<code>org.springframework.security.core.userdetails.User</code>. They are not the same class: the application
+<code>User</code> is a database entity and domain model, while Spring Security's <code>User</code> is a built-in
+<code>UserDetails</code> implementation. We do not have to use that concrete class; a custom adapter often
+makes the bridge clearer:</p>
+<div class="highlight"><pre><span></span><code>class CustomUserDetails implements UserDetails:
+    private final User user;
+    getUsername()    -&gt; user.getUsername();
+    getPassword()    -&gt; user.getPassword();
+    getAuthorities() -&gt; user.getRoles().stream()
+                            .map(role -&gt; new SimpleGrantedAuthority(role.getName()))
+                            .toList();
+    isEnabled()      -&gt; user.isEnabled();
+</code></pre></div>
+
+<p>This adapts our database entity to the interface Spring Security understands. The custom class is
+not compulsory: we can instead build Spring Security's <code>User</code> directly with
+<code>withUsername(...).password(...).authorities(...).disabled(!user.isEnabled()).build()</code>. The custom
+class is useful when the mapping should be explicit or when we need extra domain-user properties.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: <code>UserDetails</code> is a contract, not a class. Our entity is the truth; <code>CustomUserDetails</code> (or the built-in <code>User</code>) is the read-only view Spring Security consumes.</p>
+</blockquote>
+<h2 id="12-daoauthenticationprovider">12. DaoAuthenticationProvider</h2>
+<p>We now have a user-loading flow: <code>Spring Security -&gt; username -&gt; UserDetailsService -&gt;
+UserRepository -&gt; Database User -&gt; CustomUserDetails -&gt; UserDetails</code>. We still need one component
+that can receive the request, load the user, obtain the stored encoded password, compare it, check
+account state, and return a trusted result. That component is <code>DaoAuthenticationProvider</code>, an
+<code>AuthenticationProvider</code> designed for username/password authentication using a <code>UserDetailsService</code>
+and a <code>PasswordEncoder</code>:</p>
+<div class="highlight"><pre><span></span><code>DaoAuthenticationProvider -&gt; UserDetailsService -&gt; UserRepository -&gt; Database
+                          -&gt; PasswordEncoder -&gt; BCryptPasswordEncoder -&gt; verification
+</code></pre></div>
+
+<p>DAO stands for Data Access Object: user information is retrieved from a user-data source before
+credentials are verified.</p>
+<h2 id="13-the-complete-internal-login-flow">13. The Complete Internal Login Flow</h2>
+<p>The full flow is one sequence:</p>
+<div class="highlight"><pre><span></span><code>HTTP Request -&gt; Authentication Filter
+    -&gt; Unauthenticated UsernamePasswordAuthenticationToken
+    -&gt; AuthenticationManager -&gt; ProviderManager -&gt; DaoAuthenticationProvider
+         |-- UserDetailsService -&gt; Repository -&gt; Database
+         +-- PasswordEncoder -&gt; Password verification
+    -&gt; Authenticated UsernamePasswordAuthenticationToken
+    -&gt; SecurityContext -&gt; SecurityContextHolder -&gt; Authorization -&gt; Controller
+</code></pre></div>
+
+<p><strong>Mnemonic for the login steps: C-T-P-L-A-P-S-C-A-C</strong> -- Credentials, Token, Provider selected, Load
+user, Account status, Password, Success token, Context, Authorization, Controller.</p>
+<ol>
+<li>The filter extracts credentials: <code>UsernamePasswordAuthenticationFilter</code> for form login, <code>BasicAuthenticationFilter</code> for HTTP Basic.</li>
+<li>It creates an unauthenticated token (<code>principal="aditya"</code>, <code>credentials="secret123"</code>, <code>authorities=[]</code>, <code>authenticated=false</code>) and calls <code>authenticationManager.authenticate(token);</code>.</li>
+<li><code>ProviderManager</code> picks the provider supporting <code>UsernamePasswordAuthenticationToken</code>: <code>DaoAuthenticationProvider</code>.</li>
+<li>The provider reads the claimed username and calls <code>userDetailsService.loadUserByUsername("aditya");</code>.</li>
+<li><code>CustomUserDetailsService</code> runs <code>findByUsername</code>, throwing <code>UsernameNotFoundException</code> if absent, else returning <code>new CustomUserDetails(user)</code>.</li>
+<li>Account state is checked: <code>isEnabled()</code>, <code>isAccountNonLocked()</code>, <code>isAccountNonExpired()</code>, <code>isCredentialsNonExpired()</code>; a disabled account fails even with the right password.</li>
+<li>The password is verified with <code>passwordEncoder.matches(rawPassword, userDetails.getPassword());</code>, which checks the stored BCrypt representation; the raw password is never re-encoded and string-compared.</li>
+<li>On success the provider returns a trusted token: <code>principal=CustomUserDetails</code>, <code>credentials</code> erased/<code>null</code>, <code>authorities=ROLE_USER</code>, <code>authenticated=true</code>.</li>
+<li>The result is stored: <code>Authentication -&gt; SecurityContext -&gt; SecurityContextHolder</code>.</li>
+<li>Authorization runs rules like <code>.requestMatchers("/admin/**").hasRole("ADMIN")</code> and <code>.anyRequest().authenticated()</code>; the controller then executes and never re-checks the password.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Unauthenticated token</th>
+<th>Authenticated token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>When</td>
+<td>Created by the filter before verification</td>
+<td>Returned by the provider after verification</td>
+</tr>
+<tr>
+<td>principal</td>
+<td>The claimed username string</td>
+<td>A <code>UserDetails</code> / <code>CustomUserDetails</code> object</td>
+</tr>
+<tr>
+<td>credentials</td>
+<td>The raw password</td>
+<td>Erased or <code>null</code></td>
+</tr>
+<tr>
+<td>authorities</td>
+<td>Empty list <code>[]</code></td>
+<td>Populated, e.g. <code>ROLE_USER</code></td>
+</tr>
+<tr>
+<td>authenticated flag</td>
+<td><code>false</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>Meaning</td>
+<td>A claim, not yet trusted</td>
+<td>A verified identity</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-what-happens-when-authentication-fails">14. What Happens When Authentication Fails</h2>
+<p>User not found throws <code>UsernameNotFoundException("User not found")</code>. A wrong password makes
+<code>passwordEncoder.matches("wrongPassword", storedEncodedPassword)</code> return <code>false</code>, so authentication
+fails, commonly through a <code>BadCredentialsException</code>. It can also fail on invalid account state:
+disabled, locked, expired, or expired credentials. In every case nothing trusted is stored in the
+security context.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>BadCredentialsException</code> is deliberately vague about which half failed. Spring Security avoids revealing whether the username existed, a small but real protection against account enumeration.</p>
+</blockquote>
+<h2 id="15-form-login-http-basic-and-registration-shared-vs-separate-flows">15. Form Login, HTTP Basic, and Registration: Shared vs Separate Flows</h2>
+<p>Form login and HTTP Basic receive credentials differently but share the same database-authentication
+engine:</p>
+<div class="highlight"><pre><span></span><code>Form Login  -&gt; UsernamePasswordAuthenticationFilter
+HTTP Basic  -&gt; BasicAuthenticationFilter
+Both        -&gt; UsernamePasswordAuthenticationToken -&gt; AuthenticationManager
+            -&gt; DaoAuthenticationProvider -&gt; Database authentication
+</code></pre></div>
+
+<p>The filters differ only in HTTP credential format; the verification is identical. Registration
+stores a new user while login verifies an existing one:</p>
+<div class="highlight"><pre><span></span><code>Registration: Client -&gt; AuthService -&gt; PasswordEncoder.encode(...)
+    -&gt; BCrypt hash -&gt; UserRepository -&gt; Database
+
+Login: Client -&gt; Authentication filter -&gt; AuthenticationManager
+    -&gt; DaoAuthenticationProvider -&gt; PasswordEncoder.matches(...) -&gt; Authenticated
+</code></pre></div>
+
+<p>Registration uses <code>passwordEncoder.encode(rawPassword);</code>; login uses
+<code>passwordEncoder.matches(rawPassword, storedEncodedPassword);</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Registration</th>
+<th>Login</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Goal</td>
+<td>Store a new user</td>
+<td>Verify an existing user</td>
+</tr>
+<tr>
+<td>Encoder method</td>
+<td><code>encode(rawPassword)</code></td>
+<td><code>matches(rawPassword, storedEncodedPassword)</code></td>
+</tr>
+<tr>
+<td>Who runs it</td>
+<td><code>AuthService</code> (a normal service)</td>
+<td>Filters + <code>AuthenticationManager</code> + provider</td>
+</tr>
+<tr>
+<td>Password in DB</td>
+<td>Stored as a BCrypt hash</td>
+<td>Read and compared, never re-encoded for comparison</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Saved user + response DTO</td>
+<td>Authenticated <code>Authentication</code></td>
+</tr>
+<tr>
+<td>Role selection</td>
+<td>Server assigns the default role</td>
+<td>Roles are read from the loaded user</td>
+</tr>
+</tbody>
+</table>
+<p>The server should assign the default role: a normal registration request must not choose an
+administrative role, so a payload like <code>{"username": "hacker", "password": "123", "role":
+"ROLE_ADMIN"}</code> is rejected by design. Instead the server runs
+<code>roleRepository.findByName("ROLE_USER").orElseThrow()</code> and adds that role. The endpoint should also
+return a response DTO rather than the entity containing the stored password.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: <code>encode</code> when you create, <code>matches</code> when you verify. Never <code>encode</code> the login password and compare hashes as strings; BCrypt is salted, so the same password encodes differently every time.</p>
+</blockquote>
+<h2 id="16-project-structure-csrf-testing-and-the-final-mental-model">16. Project Structure, CSRF, Testing, and the Final Mental Model</h2>
+<p>A possible structure:</p>
+<div class="highlight"><pre><span></span><code>entity/ User.java, Role.java          repository/ UserRepository.java, RoleRepository.java
+dto/ RegisterRequest.java, UserResponse.java
+security/ CustomUserDetails.java, CustomUserDetailsService.java
+service/ AuthService.java             controller/ AuthController.java, TestController.java
+config/ SecurityConfig.java
+</code></pre></div>
+
+<p>Spring Security can auto-build much of this when the required beans exist, but creating the provider
+explicitly makes the dependencies visible:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Configuration</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SecurityConfig</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="nf">passwordEncoder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BCryptPasswordEncoder</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">DaoAuthenticationProvider</span><span class="w"> </span><span class="nf">authenticationProvider</span><span class="p">(</span>
+<span class="w">            </span><span class="n">CustomUserDetailsService</span><span class="w"> </span><span class="n">userDetailsService</span><span class="p">,</span>
+<span class="w">            </span><span class="n">PasswordEncoder</span><span class="w"> </span><span class="n">passwordEncoder</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">DaoAuthenticationProvider</span><span class="w"> </span><span class="n">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DaoAuthenticationProvider</span><span class="p">(</span><span class="n">userDetailsService</span><span class="p">);</span>
+<span class="w">        </span><span class="n">provider</span><span class="p">.</span><span class="na">setPasswordEncoder</span><span class="p">(</span><span class="n">passwordEncoder</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">provider</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Bean</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span>
+<span class="w">            </span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">,</span><span class="w"> </span><span class="n">DaoAuthenticationProvider</span><span class="w"> </span><span class="n">provider</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">http</span>
+<span class="w">            </span><span class="p">.</span><span class="na">csrf</span><span class="p">(</span><span class="n">csrf</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">csrf</span><span class="p">.</span><span class="na">disable</span><span class="p">())</span><span class="w"> </span><span class="c1">// classroom demo only</span>
+<span class="w">            </span><span class="p">.</span><span class="na">authenticationProvider</span><span class="p">(</span><span class="n">provider</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">auth</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">auth</span>
+<span class="w">                </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="s">&quot;/register&quot;</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="s">&quot;/admin/**&quot;</span><span class="p">).</span><span class="na">hasRole</span><span class="p">(</span><span class="s">&quot;ADMIN&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">formLogin</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">httpBasic</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">());</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>CSRF and the Postman demo: with CSRF enabled, <code>POST /register</code> can be rejected if Postman sends no
+valid token, so the classroom demo temporarily disables it with <code>.csrf(csrf -&gt; csrf.disable())</code>.
+That is a demo decision, not a production recommendation.</p>
+<p>Testing an authenticated endpoint: because of <code>.anyRequest().authenticated()</code>, <code>/profile</code> requires
+authentication, and <code>/me</code> displays the current <code>Authentication</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">&quot;/me&quot;</span><span class="p">)</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Object</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">me</span><span class="p">(</span><span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">SecurityContext</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SecurityContextHolder</span><span class="p">.</span><span class="na">getContext</span><span class="p">();</span>
+<span class="w">    </span><span class="n">Authentication</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getAuthentication</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Map</span><span class="p">.</span><span class="na">of</span><span class="p">(</span>
+<span class="w">        </span><span class="s">&quot;username&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span>
+<span class="w">        </span><span class="s">&quot;authorities&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">.</span><span class="na">getAuthorities</span><span class="p">(),</span>
+<span class="w">        </span><span class="s">&quot;authenticated&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">current</span><span class="p">.</span><span class="na">isAuthenticated</span><span class="p">()</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Suggested demonstration sequence:</p>
+<ol>
+<li>Create the default <code>ROLE_USER</code> role in the roles table.</li>
+<li>Register via <code>POST /register</code> with <code>{"username":"aditya","password":"secret123"}</code> and show the DB stores an encoded password, not the raw one.</li>
+<li><code>GET /me</code> without credentials returns no protected data.</li>
+<li><code>GET /me</code> with HTTP Basic (aditya / secret123) returns the authenticated username and authorities.</li>
+<li>A wrong password fails even though the user exists.</li>
+<li>A disabled account (<code>enabled = false</code>) fails even with the correct password, proving account state is part of the decision.</li>
+</ol>
+<p>Final mental model, four layers: receive credentials (<code>UsernamePasswordAuthenticationFilter</code> or
+<code>BasicAuthenticationFilter</code>), represent the request (<code>UsernamePasswordAuthenticationToken</code>),
+authenticate it (<code>AuthenticationManager -&gt; ProviderManager -&gt; DaoAuthenticationProvider</code>), and
+load/verify the user (<code>UserDetailsService -&gt; UserRepository -&gt; Database</code>, plus <code>PasswordEncoder</code>).
+After success: <code>Authenticated Authentication -&gt; SecurityContext -&gt; SecurityContextHolder -&gt;
+Authorization -&gt; Controller</code>.</p>
+<h2 id="17-myth-vs-reality">17. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring Security checks authentication inside the controller"</td>
+<td>It runs in servlet filters before <code>DispatcherServlet</code>; the controller sees an already-decided request.</td>
+</tr>
+<tr>
+<td>"Every request with an authentication filter re-authenticates"</td>
+<td>A filter acts only when the request carries its mechanism; otherwise it continues the chain.</td>
+</tr>
+<tr>
+<td>"All matching <code>SecurityFilterChain</code>s are combined"</td>
+<td>Only the first matching chain runs; the rest are never consulted.</td>
+</tr>
+<tr>
+<td>"<code>UserDetailsService</code> returns the database entity"</td>
+<td>It returns a <code>UserDetails</code>; <code>CustomUserDetails</code> converts the entity into that contract.</td>
+</tr>
+<tr>
+<td>"<code>DaoAuthenticationProvider</code> compares passwords as strings"</td>
+<td>It delegates to <code>PasswordEncoder.matches(...)</code>, which verifies against the salted BCrypt hash.</td>
+</tr>
+<tr>
+<td>"The authenticated token still keeps the raw password"</td>
+<td>Credentials are erased or set to <code>null</code> after success so the raw password is not retained.</td>
+</tr>
+<tr>
+<td>"<code>ROLE_ADMIN</code> may be chosen by the client at signup"</td>
+<td>The server assigns the default role; registration must not pick an admin role.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-common-trap-questions">18. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "The controller should verify the password again."</strong>
+Verdict: False. By the time the request reaches the controller, authentication is done and the result is in the <code>SecurityContext</code>; re-checking duplicates work and re-opens the risk of leaks.</p>
+<p><strong>Trap 2 - "If <code>/api/**</code> and <code>/**</code> both match, both chains run."</strong>
+Verdict: False. The first matching chain wins; Spring Security does not merge filters from later chains, which is why specific matchers must be declared first.</p>
+<p><strong>Trap 3 - "<code>UsernamePasswordAuthenticationToken</code> is only the verified result."</strong>
+Verdict: False. The same class carries both states. Before verification it has <code>authenticated=false</code>, empty authorities, and raw credentials; after success those fields change.</p>
+<p><strong>Trap 4 - "<code>AuthenticationManager</code> knows about the database."</strong>
+Verdict: False. It only promises <code>authenticate(...)</code> -&gt; result or <code>AuthenticationException</code>; its <code>ProviderManager</code> implementation delegates to a supporting <code>AuthenticationProvider</code> such as <code>DaoAuthenticationProvider</code>.</p>
+<p><strong>Trap 5 - "A disabled account still authenticates if the password is right."</strong>
+Verdict: False. Account state (<code>isEnabled</code>, lock, expiry) is checked and can fail authentication even with a correct password.</p>
+<p><strong>Trap 6 - "CSRF being disabled in the demo is production guidance."</strong>
+Verdict: False. Disabling CSRF was a temporary classroom decision for a short Postman demo; the right production setting depends on how clients authenticate.</p>
+</blockquote>
+<h2 id="19-points-to-remember">19. Points to Remember</h2>
+<ol>
+<li>Spring Security runs in servlet filters before <code>DispatcherServlet</code>, in the order Protection -&gt; Authentication -&gt; Exception Handling -&gt; Authorization.</li>
+<li><code>DelegatingFilterProxy</code> bridges the servlet container (Tomcat) and Spring-managed filter beans.</li>
+<li><code>FilterChainProxy</code> chooses the first matching <code>SecurityFilterChain</code>; chains run most specific to most general, with a <code>/**</code> fallback.</li>
+<li><code>HttpSecurity</code> is the builder; <code>http.build()</code> produces the concrete <code>SecurityFilterChain</code>.</li>
+<li>Authentication filters extract credentials and create a token; they never query the database, and their presence does not mean every request is authenticated.</li>
+<li><code>UsernamePasswordAuthenticationToken</code> starts as an unverified claim (<code>authenticated=false</code>, empty authorities) and later becomes the verified identity.</li>
+<li><code>AuthenticationManager</code> (usually <code>ProviderManager</code>) routes the token to the <code>AuthenticationProvider</code> that <code>supports(...)</code> it; <code>DaoAuthenticationProvider</code> handles username/password.</li>
+<li><code>UserDetails</code> is one user (the result); <code>UserDetailsService.loadUserByUsername</code> is the finder; <code>CustomUserDetails</code> adapts our entity.</li>
+<li><code>DaoAuthenticationProvider</code> combines <code>UserDetailsService</code> with <code>PasswordEncoder</code>; registration uses <code>encode(...)</code>, login uses <code>matches(...)</code>.</li>
+<li>On success the authenticated object is stored in the <code>SecurityContext</code> via <code>SecurityContextHolder</code>, then authorization runs and the controller executes; credentials are erased.</li>
+</ol>
+<h2 id="20-likely-interview-questions">20. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the security filter order?</td>
+<td>Protection -&gt; Authentication -&gt; Exception Handling -&gt; Authorization, with anonymous/context handling around them.</td>
+</tr>
+<tr>
+<td>What does <code>DelegatingFilterProxy</code> do?</td>
+<td>It is a servlet filter that finds a Spring-managed filter bean and delegates to it, bridging Tomcat and Spring.</td>
+</tr>
+<tr>
+<td>What does <code>FilterChainProxy</code> do?</td>
+<td>It picks the first matching <code>SecurityFilterChain</code> and runs that chain's filters.</td>
+</tr>
+<tr>
+<td>What does <code>HttpSecurity</code> do?</td>
+<td>It is a builder describing enabled features, filters, providers, and authorization rules; <code>build()</code> creates the chain.</td>
+</tr>
+<tr>
+<td>Does <code>UsernamePasswordAuthenticationFilter</code> authenticate every request?</td>
+<td>No; it only acts on a form-login request it recognizes, otherwise it continues the chain.</td>
+</tr>
+<tr>
+<td>What is <code>UsernamePasswordAuthenticationToken</code>?</td>
+<td>Spring Security's <code>Authentication</code> for username/password; unauthenticated first, authenticated after provider verification.</td>
+</tr>
+<tr>
+<td>What is <code>AuthenticationManager</code>?</td>
+<td>The authentication entry point (<code>authenticate</code> returns a result or throws); its common implementation is <code>ProviderManager</code>.</td>
+</tr>
+<tr>
+<td><code>UserDetails</code> vs <code>UserDetailsService</code>?</td>
+<td><code>UserDetails</code> is one user (the result); <code>UserDetailsService</code> is how to find that user (the finder).</td>
+</tr>
+<tr>
+<td>What does <code>DaoAuthenticationProvider</code> combine?</td>
+<td>A <code>UserDetailsService</code> (load the user) and a <code>PasswordEncoder</code> (verify the password), then checks account state.</td>
+</tr>
+<tr>
+<td>Why <code>encode</code> for registration and <code>matches</code> for login?</td>
+<td><code>encode</code> stores a salted hash; <code>matches</code> verifies a raw password against that hash, since BCrypt hashes differ per call.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-final-summary">21. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>HTTP Request
+    -&gt; DelegatingFilterProxy -&gt; FilterChainProxy -&gt; SecurityFilterChain
+    -&gt; Authentication Filter -&gt; token (authenticated = false)
+    -&gt; AuthenticationManager -&gt; ProviderManager -&gt; DaoAuthenticationProvider
+         |-- UserDetailsService -&gt; UserRepository -&gt; Database -&gt; CustomUserDetails
+         +-- PasswordEncoder.matches(raw, encoded)
+    -&gt; Authenticated Authentication -&gt; SecurityContext -&gt; SecurityContextHolder
+    -&gt; Authorization -&gt; Controller
+</code></pre></div>
+
+<ul>
+<li>Security is a filter-layer concern: Protection -&gt; Authentication -&gt; Exception Handling -&gt; Authorization.</li>
+<li><code>DelegatingFilterProxy</code> bridges the container; <code>FilterChainProxy</code> selects the first matching <code>SecurityFilterChain</code>.</li>
+<li>Authentication filters extract credentials and build a token; they never touch the database.</li>
+<li><code>ProviderManager</code> routes by token type to <code>DaoAuthenticationProvider</code>, pairing <code>UserDetailsService</code> with <code>PasswordEncoder</code>.</li>
+<li>Success stores a verified <code>Authentication</code> in the <code>SecurityContextHolder</code>; failure raises an <code>AuthenticationException</code>.</li>
+<li>Registration (<code>encode</code>) and login (<code>matches</code>) are separate flows; the server assigns roles and returns a DTO.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Security turns a plain request into a trusted identity by extracting
+credentials into a token, letting the right provider verify it against the database and encoder, and
+storing the verified result in the <code>SecurityContextHolder</code> so authorization and the controller can
+trust it.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-36.html"><span class="dir">Previous</span><span class="ttl">Lecture 36 — Spring Security DB Authentication &amp; Password Security</span></a><a class="next" href="doc-theory-lecture-38.html"><span class="dir">Next</span><span class="ttl">Lecture 38 - Spring JWT Authentication</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

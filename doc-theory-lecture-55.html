@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem — Java</title>
+<meta name="description" content="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-55">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-55.html#lecture-55">Lecture 55</a></li><li><a href="doc-theory-lecture-55.html#1-compare-and-set-cas-one-atomic-step">1. Compare-And-Set (CAS): One Atomic Step</a></li><li><a href="doc-theory-lecture-55.html#2-cas-as-optimistic-concurrency-the-lock-free-recipe">2. CAS as Optimistic Concurrency — The Lock-Free Recipe</a></li><li><a href="doc-theory-lecture-55.html#3-lock-vs-cas">3. Lock vs CAS</a></li><li><a href="doc-theory-lecture-55.html#4-how-cas-is-implemented">4. How CAS Is Implemented</a></li><li><a href="doc-theory-lecture-55.html#5-the-cas-retry-loop">5. The CAS Retry Loop</a></li><li><a href="doc-theory-lecture-55.html#6-coordination-why-not-threadsleep">6. Coordination: Why Not Thread.sleep()</a></li><li><a href="doc-theory-lecture-55.html#7-cas-contention-spinning-and-starvation">7. CAS Contention, Spinning and Starvation</a></li><li><a href="doc-theory-lecture-55.html#8-backoff-in-retry-loops">8. Backoff in Retry Loops</a></li><li><a href="doc-theory-lecture-55.html#9-atomic-arrays">9. Atomic Arrays</a></li><li><a href="doc-theory-lecture-55.html#10-volatile-vs-atomic-variables">10. volatile vs Atomic Variables</a></li><li><a href="doc-theory-lecture-55.html#11-memory-visibility-happens-before-and-the-atomic-barrier">11. Memory Visibility, Happens-Before and the Atomic Barrier</a></li><li><a href="doc-theory-lecture-55.html#12-the-aba-problem">12. The ABA Problem</a></li><li><a href="doc-theory-lecture-55.html#13-aba-solutions-atomicstampedreference-and-atomicmarkablereference">13. ABA Solutions: AtomicStampedReference and AtomicMarkableReference</a></li><li><a href="doc-theory-lecture-55.html#14-high-contention-counters-longadder-doubleadder-longaccumulator">14. High-Contention Counters: LongAdder, DoubleAdder, LongAccumulator</a></li><li><a href="doc-theory-lecture-55.html#15-when-not-to-go-lock-free">15. When NOT to Go Lock-Free</a></li><li><a href="doc-theory-lecture-55.html#16-myth-vs-reality">16. Myth vs Reality</a></li><li><a href="doc-theory-lecture-55.html#17-common-trap-questions">17. Common Trap Questions</a></li><li><a href="doc-theory-lecture-55.html#18-points-to-remember">18. Points to Remember</a></li><li><a href="doc-theory-lecture-55.html#19-likely-interview-questions">19. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-55.html#20-final-summary">20. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</h1>
+<p class="readmeta">21 sections · 4,542 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-55" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-55">Lecture 55</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem" plus the lecture's own repo notes (CAS retry, contention, atomic arrays, ABA, high-contention counters), playlist map, verified. Repo evidence: code/Demo.java.</p>
+</blockquote>
+<p>Lecture 54 introduced atomic variables and the idea of updating a single value without a traditional lock. This lecture opens the mechanism that makes those updates possible: Compare-And-Set. It covers the CAS retry loop that every lock-free algorithm is built on, what happens under contention, atomic arrays for independently updated slots, the memory-visibility role of atomic classes, the ABA problem and its fixes, and high-contention counters. The central recipe is simple: read the current state, calculate the desired state, and update it only if no other thread changed it in the meantime.</p>
+<h2 id="1-compare-and-set-cas-one-atomic-step">1. Compare-And-Set (CAS): One Atomic Step</h2>
+<p>CAS stands for <strong>Compare-And-Set</strong> or <strong>Compare-And-Swap</strong>. The Java method is named:</p>
+<div class="highlight"><pre><span></span><code>compareAndSet(expectedValue, newValue)
+</code></pre></div>
+
+<p>Its meaning is exact:</p>
+<ul>
+<li>If the current value equals the expected value: replace it with the new value and return <code>true</code>.</li>
+<li>Otherwise: leave the value unchanged and return <code>false</code>.</li>
+</ul>
+<p>CAS combines the comparison and the update into <strong>one atomic operation</strong>. No thread can observe or interleave a half-finished compare-and-set, which is precisely what makes it usable as the primitive for lock-free code.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — the CAS contract: success and failure</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CasBasics</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">changed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">changed</span><span class="p">);</span><span class="w">      </span><span class="c1">// true</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">number</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w"> </span><span class="c1">// 20</span>
+
+<span class="w">        </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">other</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">failed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">other</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">failed</span><span class="p">);</span><span class="w">       </span><span class="c1">// false</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">other</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">  </span><span class="c1">// 30</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Current value</th>
+<th>Expected value</th>
+<th>Result</th>
+<th>Return value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Match</td>
+<td>10</td>
+<td>10</td>
+<td>replaced with 20</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>Mismatch</td>
+<td>30</td>
+<td>10</td>
+<td>left at 30</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+CAS cannot "force" a write. It is a conditional update: it succeeds only when the value is still exactly what the caller assumed, which is why a failed CAS always means "someone else got there first, reread and try again".</p>
+</blockquote>
+<h2 id="2-cas-as-optimistic-concurrency-the-lock-free-recipe">2. CAS as Optimistic Concurrency — The Lock-Free Recipe</h2>
+<p>CAS uses an <strong>optimistic</strong> strategy: assume nothing will change, and detect the violation at update time rather than preventing it up front.</p>
+<div class="highlight"><pre><span></span><code>I read state X
+   →
+I calculate a new state Y
+   →
+I assume nobody changed X
+   →
+I attempt CAS(X, Y)
+   |-- assumption correct  → update succeeds
+   `-- someone changed X   → update fails → reread and retry
+</code></pre></div>
+
+<p>This is the opposite of <strong>pessimistic locking</strong>, which prevents interference before it can happen:</p>
+<div class="highlight"><pre><span></span><code>Lock first → prevent others from entering → read and update → unlock
+</code></pre></div>
+
+<p>The lock-free recipe in three words: <strong>read → compute → CAS</strong>. If the assumption behind the computed value is still true, the update lands; if not, the thread discards its stale calculation and starts over. That retry capability is what allows a lock-free algorithm to keep making progress without any thread ever owning a lock.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+CAS is a friendly transaction: "I believe the value is X; here is the Y I computed from X." If the clerk says the value is still X, the trade goes through; if the value moved, the whole computation is thrown away and recomputed.</p>
+</blockquote>
+<h2 id="3-lock-vs-cas">3. Lock vs CAS</h2>
+<p>Both approaches can be correct. The difference is <em>where</em> the coordination happens.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Lock-based update</th>
+<th>CAS-based update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coordination point</td>
+<td>Before the critical section (acquire lock)</td>
+<td>At the update itself (conditional replacement)</td>
+</tr>
+<tr>
+<td>Strategy</td>
+<td>Pessimistic: prevent interference</td>
+<td>Optimistic: detect interference</td>
+</tr>
+<tr>
+<td>Flow</td>
+<td>Acquire lock → read → modify → release</td>
+<td>Read → compute → CAS → success or retry</td>
+</tr>
+<tr>
+<td>Other threads</td>
+<td>May block while waiting</td>
+<td>May proceed and simply fail their CAS</td>
+</tr>
+<tr>
+<td>Progress guarantee</td>
+<td>Blocking: a stalled owner stalls others</td>
+<td>System-wide progress without ownership</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Multi-variable invariants, awaited conditions</td>
+<td>Small, single-value atomic transitions</td>
+</tr>
+<tr>
+<td>Failure mode</td>
+<td>Deadlock, long blocking, convoying</td>
+<td>Retry storms, starvation, wasted CPU</td>
+</tr>
+</tbody>
+</table>
+<p>Several threads may race, but only an update based on the current expected value succeeds. CAS avoids lock ownership, but it does <strong>not</strong> eliminate contention (Section 7).</p>
+<h2 id="4-how-cas-is-implemented">4. How CAS Is Implemented</h2>
+<p>At the Java level, atomic classes expose operations such as <code>compareAndSet()</code>, <code>getAndAdd()</code>, and <code>getAndSet()</code>. The JVM usually maps these operations to platform-specific atomic instructions, or intrinsics. On modern x86 processors a CAS operation may use an instruction such as <code>locked CMPXCHG</code>.</p>
+<p>The important points are:</p>
+<ul>
+<li>comparison and update are performed <strong>atomically</strong>;</li>
+<li>the operation participates in the processor's <strong>cache-coherence protocol</strong>;</li>
+<li>competing cores cannot both successfully update the same memory location from the same expected state;</li>
+<li>the JVM provides the Java Memory Model guarantees required by the atomic API.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important
+It is usually inaccurate to imagine that every CAS locks the entire system bus. Modern processors commonly coordinate atomic updates at the cache-line and coherence-protocol level. Application code should rely on Java's documented atomicity and memory-ordering guarantees, never on one specific CPU implementation.</p>
+</blockquote>
+<h2 id="5-the-cas-retry-loop">5. The CAS Retry Loop</h2>
+<p>A CAS can fail when another thread changes the value after it was read. The retry loop handles exactly that situation:</p>
+<div class="highlight"><pre><span></span><code>while (true) {
+    int current = value.get();
+    int updated = calculate(current);
+    if (value.compareAndSet(current, updated)) {
+        break;
+    }
+}
+</code></pre></div>
+
+<p>On failure the flow is always the same:</p>
+<div class="highlight"><pre><span></span><code>previously read state is stale
+   →
+read the latest state
+   →
+recalculate the update
+   →
+try again
+</code></pre></div>
+
+<p>This pattern is the foundation of many lock-free algorithms. It terminates because every failed attempt re-reads a <strong>fresh</strong> state and recomputes against it. If interference stops, the next CAS compares against an unchanged value and succeeds. Only continuous interference from other threads keeps a particular thread looping.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — a counter built from a manual CAS loop</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicInteger</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">LikeCounter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="w"> </span><span class="n">totalLikes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicInteger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">like</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">totalLikes</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">updated</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">totalLikes</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="n">current</span><span class="p">,</span><span class="w"> </span><span class="n">updated</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getTotalLikes</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">totalLikes</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LikeCounterDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">LikeCounter</span><span class="w"> </span><span class="n">counter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LikeCounter</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="o">[]</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="o">[</span><span class="mi">7</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">threads</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">counter</span><span class="p">::</span><span class="n">like</span><span class="p">);</span>
+<span class="w">            </span><span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Thread</span><span class="w"> </span><span class="n">thread</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">threads</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">thread</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Total likes: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">counter</span><span class="p">.</span><span class="na">getTotalLikes</span><span class="p">());</span><span class="w"> </span><span class="c1">// 7</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>For this exact operation, prefer <code>totalLikes.incrementAndGet()</code>: it is clearer and lets the JVM choose the most efficient supported atomic operation. The manual loop is shown because it exposes the algorithm.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+A CAS loop is safe only when the whole operation can be recomputed from the freshly read state. If the computation has side effects, the side effect may run more than once across retries.</p>
+</blockquote>
+<h2 id="6-coordination-why-not-threadsleep">6. Coordination: Why Not <code>Thread.sleep()</code></h2>
+<p>Using <code>Thread.sleep()</code> to sequence threads is unreliable:</p>
+<div class="highlight"><pre><span></span><code>firstThread.start();
+Thread.sleep(3000);   // three seconds may be enough ... or not
+secondThread.start();
+System.out.println(counter.get());
+</code></pre></div>
+
+<p>Three seconds may be more than necessary, less than necessary, and is affected by machine load and scheduling. It is a guess, not coordination.</p>
+<p>Use <code>join()</code> when waiting for threads:</p>
+<div class="highlight"><pre><span></span><code>firstThread.join();
+secondThread.join();
+</code></pre></div>
+
+<p>For executor tasks, prefer:</p>
+<ul>
+<li><code>Future.get()</code></li>
+<li><code>CompletableFuture.join()</code></li>
+<li><code>ExecutorService.awaitTermination()</code></li>
+<li>coordination utilities such as <code>CountDownLatch</code></li>
+</ul>
+<h2 id="7-cas-contention-spinning-and-starvation">7. CAS Contention, Spinning and Starvation</h2>
+<p>Under <strong>low contention</strong> a CAS update can complete quickly. Under <strong>high contention</strong> the picture changes:</p>
+<div class="highlight"><pre><span></span><code>many threads read the same old state
+   →
+one update succeeds, many updates fail
+   →
+losers retry
+   →
+CPU time is spent recalculating and retrying
+</code></pre></div>
+
+<p>Lock-free code removes lock ownership, but contention remains. Possible effects include:</p>
+<ul>
+<li>wasted CPU cycles;</li>
+<li>cache-line bouncing between cores;</li>
+<li>increased latency;</li>
+<li>starvation of unlucky threads;</li>
+<li>reduced throughput under extreme contention.</li>
+</ul>
+<p>Lock-free is <strong>not automatically faster</strong> than a well-designed lock.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A lock-free algorithm guarantees <strong>system-wide progress</strong>, not progress for every thread. Thread A may succeed repeatedly while Thread B repeatedly loses its CAS and retries many times. This is why lock-free does <strong>not</strong> mean wait-free. When fairness is a requirement, an explicit fair lock or another coordination mechanism may be more suitable.</p>
+</blockquote>
+<h2 id="8-backoff-in-retry-loops">8. Backoff in Retry Loops</h2>
+<p>A tight retry loop can consume significant CPU during contention. A common mitigation is to hint the CPU that the thread is spinning:</p>
+<div class="highlight"><pre><span></span><code>while (true) {
+    State current = state.get();
+    State updated = calculate(current);
+    if (state.compareAndSet(current, updated)) {
+        return;
+    }
+    Thread.onSpinWait();   // &quot;I am spinning&quot;, not &quot;sleep&quot;
+}
+</code></pre></div>
+
+<p>For custom low-level algorithms, techniques include:</p>
+<ul>
+<li>rereading the latest value;</li>
+<li><code>Thread.onSpinWait()</code>;</li>
+<li>bounded spinning;</li>
+<li>yielding (for example <code>Thread.yield()</code>);</li>
+<li>exponential backoff;</li>
+<li>eventually falling back to a lock.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important
+Do not add spinning mechanically. Backoff must be justified by measurement and by the expected contention duration; otherwise it adds latency without removing work.</p>
+</blockquote>
+<h2 id="9-atomic-arrays">9. Atomic Arrays</h2>
+<p>A normal array does <strong>not</strong> make updates to its elements safely composable across threads:</p>
+<div class="highlight"><pre><span></span><code>int[] counters = new int[10];
+counters[0]++;   // still a non-atomic read-modify-write
+</code></pre></div>
+
+<p>Java therefore provides:</p>
+<ul>
+<li><code>AtomicIntegerArray</code></li>
+<li><code>AtomicLongArray</code></li>
+<li><code>AtomicReferenceArray&lt;E&gt;</code></li>
+</ul>
+<p>Each element can be accessed and updated atomically, and <strong>each index behaves like an independent atomic value</strong>.</p>
+<div class="highlight"><pre><span></span><code>// Demo.java — per-index atomic integer operations
+import java.util.concurrent.atomic.AtomicIntegerArray;
+
+public class AtomicArrayDemo {
+    public static void main(String[] args) {
+        AtomicIntegerArray counters = new AtomicIntegerArray(3);
+        counters.incrementAndGet(0);
+        counters.addAndGet(1, 5);
+        System.out.println(counters.get(0)); // 1
+        System.out.println(counters.get(1)); // 5
+    }
+}
+</code></pre></div>
+
+<p>For references, <code>AtomicReferenceArray&lt;E&gt;</code> adds conditional replacement by index:</p>
+<div class="highlight"><pre><span></span><code>boolean changed = values.compareAndSet(1, &quot;B&quot;, &quot;X&quot;);
+// if index 1 currently contains the expected reference,
+// replace it with X
+</code></pre></div>
+
+<p>As with <code>AtomicReference</code>, expected object values are matched by <strong>reference identity</strong>.</p>
+<p>The theatre-seat example shows the pattern in use — each seat is updated independently:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — independently bookable seats</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicReferenceArray</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">MovieTheatre</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AtomicReferenceArray</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">seats</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">MovieTheatre</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">totalSeats</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">seats</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicReferenceArray</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">totalSeats</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">bookSeat</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">seatNumber</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">userName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">validateSeatNumber</span><span class="p">(</span><span class="n">seatNumber</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">seats</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="n">seatNumber</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="n">userName</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getBookedBy</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">seatNumber</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">validateSeatNumber</span><span class="p">(</span><span class="n">seatNumber</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">seats</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">seatNumber</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">validateSeatNumber</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">seatNumber</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">seatNumber</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">seatNumber</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">seats</span><span class="p">.</span><span class="na">length</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;Invalid seat number: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">seatNumber</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+Each seat can be updated independently. Booking <strong>several</strong> seats as one indivisible transaction would require a broader coordination strategy — an array of atomics gives atomicity per slot, not across slots.</p>
+</blockquote>
+<h2 id="10-volatile-vs-atomic-variables">10. volatile vs Atomic Variables</h2>
+<p>A <code>volatile</code> field provides <strong>visibility</strong> and <strong>ordering</strong> guarantees:</p>
+<div class="highlight"><pre><span></span><code>private volatile boolean running = true;
+</code></pre></div>
+
+<p>When one thread writes <code>running = false</code>, other threads reading the field are guaranteed to observe that update according to the Java Memory Model. A volatile read and write of the field itself is atomic for supported field types.</p>
+<p>What <code>volatile</code> does <strong>not</strong> provide is atomicity for a compound read-modify-write:</p>
+<div class="highlight"><pre><span></span><code>private volatile int count = 0;
+public void increment() {
+    count++;   // read → modify → write, still non-atomic
+}
+</code></pre></div>
+
+<p>Two threads can still lose an update, because <code>count++</code> is conceptually read, modify, write.</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>volatile</th>
+<th>Atomic class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Latest value is visible across threads</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomic plain read/write</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomic increment</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomic compare-and-set</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Atomic functional update</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Supports compound state transition</td>
+<td>No</td>
+<td>For one atomic value</td>
+</tr>
+</tbody>
+</table>
+<p>Use <code>volatile</code> for a visibility-based state flag when no compound atomic transition is required. Use an atomic class for operations such as <code>increment</code>, <code>decrement</code>, <code>get-and-set</code>, <code>compare-and-set</code>, and <code>update based on the current value</code>.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>volatile</code> is a <strong>window</strong> — everyone sees the latest value. An atomic class is a <strong>turnstile</strong> — one thread passes through a read-modify-write at a time, atomically.</p>
+</blockquote>
+<h2 id="11-memory-visibility-happens-before-and-the-atomic-barrier">11. Memory Visibility, Happens-Before and the Atomic Barrier</h2>
+<p>Atomic variables provide more than indivisible updates: their reads and writes have <strong>volatile-like memory effects</strong>. A write to a volatile or atomic variable <em>happens-before</em> a subsequent read of that same variable. A successful CAS therefore acts as a barrier: state written before the update is safely published to any thread that later reads the updated value, provided the design follows the Java Memory Model correctly.</p>
+<div class="highlight"><pre><span></span><code>// Demo.java — an atomic flag publishes the configuration set before it
+import java.util.concurrent.atomic.AtomicBoolean;
+
+class ConfigurationHolder {
+    private String configuration;
+    private final AtomicBoolean ready = new AtomicBoolean(false);
+
+    public void initialize() {
+        configuration = &quot;production&quot;;   // ordinary write
+        ready.set(true);                // atomic write publishes it
+    }
+
+    public String getConfiguration() {
+        if (!ready.get()) {             // atomic read acquires it
+            throw new IllegalStateException(&quot;Not ready&quot;);
+        }
+        return configuration;
+    }
+}
+</code></pre></div>
+
+<p>The atomic flag supplies visibility, but this design still needs careful lifecycle control to ensure initialization happens only once (for example, a <code>compareAndSet(false, true)</code> guard, as seen in Lecture 54).</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Does an atomic variable only give atomicity?" No — it also supplies the memory-ordering effects of <code>volatile</code>. That is why publishing immutable state through an atomic reference is a common safe-publication idiom.</p>
+</blockquote>
+<h2 id="12-the-aba-problem">12. The ABA Problem</h2>
+<p>CAS asks only one question:</p>
+<div class="highlight"><pre><span></span><code>Is the current value equal to my expected value now?
+</code></pre></div>
+
+<p>It does <strong>not</strong> automatically record whether the value changed earlier, how many times it changed, or which intermediate values existed. That omission creates the <strong>ABA problem</strong>.</p>
+<div class="highlight"><pre><span></span><code>Initial state:                        A
+Thread A reads:                       A
+Before Thread A updates, Thread B changes:   A → B → A
+Thread A performs:                    CAS(A → X)
+Result:                               succeeds, because the current value is again A
+</code></pre></div>
+
+<p>Thread A cannot tell that the state changed temporarily. In a simple counter, 10 → 11 → 10 may not matter. In a <strong>lock-free data structure</strong>, the intermediate changes may represent important history. Consider a stack:</p>
+<div class="highlight"><pre><span></span><code>Node A is at the top of the stack
+   →
+Node A is removed
+   →
+the node or its memory is reused
+   →
+a reference resembling the old state appears again
+</code></pre></div>
+
+<p>A thread may then incorrectly assume the structure is unchanged because the reference looks identical, and its CAS corrupts the structure.</p>
+<blockquote class="callout callout--important">
+<p>Important
+ABA is about <strong>identity versus history</strong>. CAS compares the current appearance; it does not know what happened in between. A reused node can make a changed structure look unchanged.</p>
+</blockquote>
+<h2 id="13-aba-solutions-atomicstampedreference-and-atomicmarkablereference">13. ABA Solutions: <code>AtomicStampedReference</code> and <code>AtomicMarkableReference</code></h2>
+<p>The classic fix is <strong>versioning</strong>: store the value together with a version (a stamp), and increment the version on every change.</p>
+<div class="highlight"><pre><span></span><code>(A, 1)  →  (B, 2)  →  (A, 3)
+
+Thread A expects:  (A, 1)
+Current state is:  (A, 3)
+CAS fails even though the visible value is again A.
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — an ABA sequence, then the AtomicStampedReference fix</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.AtomicStampedReference</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AbaDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AtomicStampedReference</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ref</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">AtomicStampedReference</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="w">        </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">stampHolder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ref</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">stampHolder</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">expectedStamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stampHolder</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">        </span><span class="c1">// Thread B performs A -&gt; B -&gt; A, bumping the stamp each time.</span>
+<span class="w">        </span><span class="n">ref</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ref</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="s">&quot;B&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Thread A&#39;s stale snapshot expects (A, 0), but the stamp is now 2.</span>
+<span class="w">        </span><span class="kt">boolean</span><span class="w"> </span><span class="n">changed</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">ref</span><span class="p">.</span><span class="na">compareAndSet</span><span class="p">(</span><span class="n">expected</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="p">,</span><span class="w"> </span><span class="n">expectedStamp</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Value: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ref</span><span class="p">.</span><span class="na">getReference</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;, stamp: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ref</span><span class="p">.</span><span class="na">getStamp</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Changed from stale snapshot? &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">changed</span><span class="p">);</span><span class="w"> </span><span class="c1">// false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>AtomicMarkableReference</code> is the lighter variant: it pairs the reference with a single <code>boolean</code> mark instead of an integer version, useful when the only question is "has this been touched".</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Tool</th>
+<th>What it adds</th>
+<th>Use when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plain CAS</td>
+<td><code>AtomicReference</code></td>
+<td>reference only, no history</td>
+<td>the referenced object is never reused or mutated</td>
+</tr>
+<tr>
+<td>ABA risk</td>
+<td><code>AtomicStampedReference</code></td>
+<td>reference + integer version</td>
+<td>the full change history must be detected</td>
+</tr>
+<tr>
+<td>ABA (lighter)</td>
+<td><code>AtomicMarkableReference</code></td>
+<td>reference + boolean mark</td>
+<td>only a touched/untouched flag is needed</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-high-contention-counters-longadder-doubleadder-longaccumulator">14. High-Contention Counters: <code>LongAdder</code>, <code>DoubleAdder</code>, <code>LongAccumulator</code></h2>
+<p>When many threads increment a single <code>AtomicLong</code>, every increment CASes the <strong>same</strong> cell. Under heavy contention most attempts fail and retry, and throughput collapses. <code>LongAdder</code> solves this by keeping <strong>one or more cells</strong> and letting threads update different cells, then combining them on <code>sum()</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — a striped adder under many threads</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.atomic.LongAdder</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LongAdderDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">LongAdder</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LongAdder</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Thread</span><span class="o">[]</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="o">[</span><span class="mi">8</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">threads</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">total</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">});</span>
+<span class="w">            </span><span class="n">threads</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Thread</span><span class="w"> </span><span class="n">thread</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">threads</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">thread</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Total: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">total</span><span class="p">.</span><span class="na">sum</span><span class="p">());</span><span class="w"> </span><span class="c1">// 800000</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>DoubleAdder</code> is the same idea for doubles. <code>LongAccumulator</code> generalizes it: it holds an associative combination function (for example <code>Long::sum</code>, or <code>Math::max</code>) and a running accumulated value.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>AtomicLong</code></th>
+<th><code>LongAdder</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Internal structure</td>
+<td>one value</td>
+<td>one or more striped cells</td>
+</tr>
+<tr>
+<td>Read exact value</td>
+<td><code>get()</code> is atomic</td>
+<td><code>sum()</code> is <strong>not</strong> an atomic snapshot</td>
+</tr>
+<tr>
+<td>Write under contention</td>
+<td>CAS retries on one cell</td>
+<td>threads spread across cells</td>
+</tr>
+<tr>
+<td>Throughput (high contention)</td>
+<td>lower</td>
+<td>higher</td>
+</tr>
+<tr>
+<td>Memory footprint</td>
+<td>smaller</td>
+<td>larger</td>
+</tr>
+<tr>
+<td>Update returns result</td>
+<td>yes (<code>incrementAndGet</code>)</td>
+<td>no (<code>increment</code> returns void)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>exact current value, CAS, sequencing</td>
+<td>high-throughput statistics and monitoring</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>sum()</code> walks the cells and is not a single atomic read. Concurrent updates during the summation may or may not be included, so <code>sum()</code> is suitable for statistics, not for a value that must be an exact instantaneous snapshot. Prefer <code>AtomicLong</code> when you need an exact current value or a CAS.</p>
+</blockquote>
+<h2 id="15-when-not-to-go-lock-free">15. When NOT to Go Lock-Free</h2>
+<p>CAS works best for small, clearly defined state transitions. It becomes less attractive when several mutable objects, external side effects, or complex business rules must be coordinated together.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Prefer</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>One independent value, one atomic transition</td>
+<td>Atomic variable / CAS</td>
+<td>Exactly what CAS models well</td>
+</tr>
+<tr>
+<td>Several fields must change together</td>
+<td>Lock or concurrent collection</td>
+<td>No single atomic value expresses the invariant</td>
+</tr>
+<tr>
+<td>Multiple steps form one invariant</td>
+<td>Lock (critical section)</td>
+<td>Individual atomics do not compose across calls</td>
+</tr>
+<tr>
+<td>A condition must be awaited</td>
+<td>Lock / <code>Condition</code></td>
+<td>CAS cannot park and wait</td>
+</tr>
+<tr>
+<td>External side effects involved</td>
+<td>Lock or immutable publication</td>
+<td>CAS may recompute and replay effects</td>
+</tr>
+</tbody>
+</table>
+<p>A concrete warning: individual atomic methods do not make a <strong>sequence</strong> atomic.</p>
+<div class="highlight"><pre><span></span><code>if (count.get() &gt; 0) {
+    count.decrementAndGet();
+}
+</code></pre></div>
+
+<p>The check and the decrement are two independent operations; two threads can both pass the check before either decrements, and the count becomes negative. The atomicity of each method is real, but the compound rule is not.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+The right question is not "Can this be written without a lock?" but "Which concurrency mechanism makes the invariant correct, understandable and efficient?" Correctness is more important than avoiding locks.</p>
+</blockquote>
+<h2 id="16-myth-vs-reality">16. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Lock-free is always faster than locks."</td>
+<td>Under high contention CAS retries waste CPU and bounce cache lines; a well-designed lock can win. Lock-free is a tool, not a speed guarantee.</td>
+</tr>
+<tr>
+<td>"CAS checks whether the value changed since I read it."</td>
+<td>CAS checks only whether the current value equals the expected value now; earlier A → B → A changes are invisible (ABA).</td>
+</tr>
+<tr>
+<td>"A <code>volatile int</code> makes <code>count++</code> thread-safe."</td>
+<td><code>volatile</code> gives visibility and ordering, not atomicity; <code>count++</code> is still a non-atomic read-modify-write.</td>
+</tr>
+<tr>
+<td>"Atomic methods make every sequence of operations atomic."</td>
+<td>Each method is atomic on its own; a check-then-act spanning two calls is not.</td>
+</tr>
+<tr>
+<td>"<code>LongAdder.sum()</code> gives an exact instantaneous count."</td>
+<td><code>sum()</code> traverses cells and is not a single atomic snapshot; concurrent updates may not all be reflected.</td>
+</tr>
+<tr>
+<td>"Every CAS locks the entire system bus."</td>
+<td>Modern processors coordinate atomic updates at the cache-line and coherence-protocol level; the JVM hides the exact instruction.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-common-trap-questions">17. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Retry termination: "Can a CAS retry loop spin forever?"
+For a given thread, yes, if it repeatedly loses the race — that is starvation. The loop guarantees system-wide progress, not per-thread progress, which is why lock-free is not wait-free.</p>
+<p>Trap 2 — ABA in a counter: "Does ABA matter for an <code>AtomicInteger</code> counter?"
+Usually not, because only the final numeric value matters. It matters when intermediate states carry meaning, as when nodes are removed and reused in a lock-free stack.</p>
+<p>Trap 3 — Reference equality: "Does <code>AtomicReference.compareAndSet</code> use <code>equals()</code>?"
+No. It compares references by identity (<code>==</code>). Pass the exact reference previously obtained from <code>get()</code>, or pass <code>null</code> as the expected value when appropriate.</p>
+<p>Trap 4 — Per-slot atomicity: "Can I book two seats in one <code>AtomicReferenceArray</code> CAS?"
+No. Each index is an independent atomic value; a multi-seat transaction needs broader coordination.</p>
+<p>Trap 5 — Visibility versus atomicity: "If a <code>volatile</code> flag is set, is a following compound update safe?"
+Setting the flag publishes prior writes, but any read-modify-write or check-then-act after it still needs an atomic class or a lock.</p>
+<p>Trap 6 — Adder exactness: "Is <code>LongAdder</code> a drop-in replacement for <code>AtomicLong</code>?"
+Not for exact reads or CAS. <code>LongAdder</code> has no CAS and its <code>sum()</code> is not an atomic snapshot; use it for write-mostly counters.</p>
+<p>Trap 7 — Spin hint: "Does <code>Thread.onSpinWait()</code> pause the thread?"
+No. It is a CPU hint that the thread is spinning; it does not sleep, yield, or release anything.</p>
+</blockquote>
+<h2 id="18-points-to-remember">18. Points to Remember</h2>
+<ol>
+<li>CAS means compare-and-set (compare-and-swap): <code>compareAndSet(expected, new)</code> atomically replaces the value only when it still equals the expected value, returning a boolean.</li>
+<li>The lock-free recipe is read current state, compute the desired state, CAS, and retry on failure.</li>
+<li>A CAS retry loop terminates once interference stops; it guarantees system-wide progress, not per-thread progress.</li>
+<li>High contention causes retries, cache-line bouncing, latency, starvation, and lower throughput; lock-free is not automatically faster.</li>
+<li>Backoff (reread, <code>Thread.onSpinWait()</code>, bounded spinning, yielding, exponential backoff, fallback to a lock) must be measurement-driven.</li>
+<li>Atomic arrays (<code>AtomicIntegerArray</code>, <code>AtomicLongArray</code>, <code>AtomicReferenceArray</code>) give each index independent atomic access; <code>AtomicReferenceArray</code> compares by reference identity.</li>
+<li><code>volatile</code> gives visibility and ordering but not compound atomicity; atomic classes give indivisible read-modify-write for one value.</li>
+<li>Atomic reads and writes have volatile-like memory effects: a successful update can publish prior state (happens-before) when the JMM is respected.</li>
+<li>ABA exists because CAS compares the current value only; fix it with a version via <code>AtomicStampedReference</code> or a mark via <code>AtomicMarkableReference</code>.</li>
+<li><code>LongAdder</code>, <code>DoubleAdder</code>, and <code>LongAccumulator</code> reduce contention with striped cells, but <code>sum()</code> is not an atomic snapshot; use locks or concurrent collections when an invariant spans multiple variables or steps.</li>
+</ol>
+<h2 id="19-likely-interview-questions">19. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is CAS?</td>
+<td>Compare-And-Set (or Compare-And-Swap): an atomic conditional update that replaces the value only if it still equals the expected value, returning a boolean.</td>
+</tr>
+<tr>
+<td>What does <code>compareAndSet(expected, new)</code> return?</td>
+<td><code>true</code> if the current value equaled <code>expected</code> and was replaced; <code>false</code> if it did not and the value was left unchanged.</td>
+</tr>
+<tr>
+<td>Why is CAS called optimistic?</td>
+<td>It assumes no interference, computes the update, and detects any interference at update time instead of blocking other threads first.</td>
+</tr>
+<tr>
+<td>What is the lock-free recipe?</td>
+<td>Read the current state, compute the desired state, attempt CAS, and retry after re-reading if the CAS fails.</td>
+</tr>
+<tr>
+<td>Why does a CAS retry loop terminate?</td>
+<td>Each failure re-reads a fresh state; once interference stops, the next CAS compares against an unchanged value and succeeds.</td>
+</tr>
+<tr>
+<td>How is CAS implemented?</td>
+<td>The JVM maps it to platform atomic instructions or intrinsics (for example <code>locked CMPXCHG</code> on x86), coordinated at the cache-line/coherence level with JMM guarantees.</td>
+</tr>
+<tr>
+<td>Does CAS eliminate contention?</td>
+<td>No. It removes lock ownership, but concurrent CAS attempts on the same value still fail and retry, wasting CPU under high contention.</td>
+</tr>
+<tr>
+<td>What is starvation in a lock-free algorithm?</td>
+<td>An unlucky thread repeatedly loses the race while others make progress; lock-free guarantees system-wide, not per-thread, progress.</td>
+</tr>
+<tr>
+<td>What is the ABA problem?</td>
+<td>A value changes A → B → A between a thread's read and its CAS, so the CAS succeeds even though the state changed, potentially corrupting a reused-node structure.</td>
+</tr>
+<tr>
+<td>How do you fix ABA?</td>
+<td>Add a version or mark: <code>AtomicStampedReference</code> (reference + integer version) or <code>AtomicMarkableReference</code> (reference + boolean mark).</td>
+</tr>
+<tr>
+<td>Why use atomic arrays?</td>
+<td>They make each array element independently atomic, unlike a plain array where <code>array[i]++</code> is a non-atomic read-modify-write.</td>
+</tr>
+<tr>
+<td>What do <code>LongAdder</code> and friends solve?</td>
+<td>Single-cell counters suffer under high contention; striped cells spread writes across threads, and <code>sum()</code> combines them, though it is not an atomic snapshot.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="20-final-summary">20. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>read X  →  compute Y  →  compareAndSet(X, Y)
+                                |-- true  →  done
+                                `-- false →  reread (backoff) → retry
+
+versioned CAS :  (A, 1) → (B, 2) → (A, 3)
+                 expected (A, 1)  ≠  current (A, 3)   →  ABA detected, CAS fails
+
+contention  →  retries, cache-line bouncing, starvation   (lock-free ≠ wait-free)
+
+LongAdder : many threads  →  striped cells  →  sum() combines  (not a snapshot)
+</code></pre></div>
+
+<ul>
+<li>CAS → one atomic conditional update; the primitive behind lock-free code.</li>
+<li>Recipe → read, compute, compare-and-set; on failure reread and retry.</li>
+<li>Guarantees → system-wide progress; not wait-free, and not automatically faster under contention.</li>
+<li>Atomic arrays → independent atomic slot per index; multi-slot transactions need broader coordination.</li>
+<li>Visibility → atomic reads/writes behave like <code>volatile</code>; a successful update publishes prior writes (happens-before).</li>
+<li>ABA → equal-looking value with changed history; fix with <code>AtomicStampedReference</code> or <code>AtomicMarkableReference</code>.</li>
+<li>High contention → <code>LongAdder</code>/<code>DoubleAdder</code>/<code>LongAccumulator</code> with striped cells; <code>sum()</code> is not atomic.</li>
+<li>Boundaries → multi-variable or multi-step invariants belong in locks or concurrent collections.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Reach for CAS only when the invariant fits one small, recomputable atomic transition; otherwise choose the mechanism that keeps the invariant correct, understandable, and efficient.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> CAS makes a conditional single-value update atomic, the read → compute → CAS retry loop turns that into lock-free progress, and versioning, atomic arrays, and striped adders handle the cases where the simple value alone is not enough.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-54.html"><span class="dir">Previous</span><span class="ttl">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</span></a><a class="next" href="doc-theory-lecture-56.html"><span class="dir">Next</span><span class="ttl">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 33 — Spring Transactions — Spring Boot</title>
+<meta name="description" content="Lecture 33 — Spring Transactions">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-33">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-33.html#lecture-33">Lecture 33</a></li><li><a href="doc-theory-lecture-33.html#1-what-is-a-database-transaction">1. What Is a Database Transaction?</a></li><li><a href="doc-theory-lecture-33.html#2-acid-properties-the-four-guarantees">2. ACID Properties: The Four Guarantees</a></li><li><a href="doc-theory-lecture-33.html#3-atomicity-consistency-isolation-durability">3. Atomicity, Consistency, Isolation, Durability</a></li><li><a href="doc-theory-lecture-33.html#4-acid-as-one-combined-guarantee">4. ACID as One Combined Guarantee</a></li><li><a href="doc-theory-lecture-33.html#5-transaction-boundary">5. Transaction Boundary</a></li><li><a href="doc-theory-lecture-33.html#6-begin-commit-and-rollback">6. Begin, Commit and Rollback</a></li><li><a href="doc-theory-lecture-33.html#7-transaction-layers-jdbc-jpa-hibernate-and-spring">7. Transaction Layers: JDBC, JPA, Hibernate and Spring</a></li><li><a href="doc-theory-lecture-33.html#8-springs-transactional">8. Spring&#x27;s @Transactional</a></li><li><a href="doc-theory-lecture-33.html#9-rollback-rules-runtime-vs-checked-exceptions">9. Rollback Rules: Runtime vs Checked Exceptions</a></li><li><a href="doc-theory-lecture-33.html#10-proxy-interception-and-the-self-invocation-problem">10. Proxy Interception and the Self-Invocation Problem</a></li><li><a href="doc-theory-lecture-33.html#11-complete-mental-model">11. Complete Mental Model</a></li><li><a href="doc-theory-lecture-33.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-33.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-33.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-33.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-33.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 33 — Spring Transactions</h1>
+<p class="readmeta">17 sections · 3,722 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-33" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-33">Lecture 33</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Transactions | ACID, @Transactional, Commit &amp; Rollback" (playlist map, verified). Repo lecture folder contains the transactionDemo project: Account and TransferRecord entities, a TransferService with an @Transactional transfer method, repositories (AccountRepository, TransferRepository), controllers (AccountController, TransferController) and application.properties.</p>
+</blockquote>
+<p>A bank transfer looks like one action to the user but touches the database as several separate SQL statements. If the debit succeeds and the credit fails, money quietly disappears unless the whole thing is treated as one indivisible unit of work. This lecture builds that idea: what a database transaction is, what ACID guarantees, how begin/commit/rollback work, how JDBC, JPA, Hibernate and Spring layer over the same transaction, and how @Transactional marks a declarative boundary.</p>
+<h2 id="1-what-is-a-database-transaction">1. What Is a Database Transaction?</h2>
+<p>A database transaction is a group of database operations that the database treats as one logical unit of work. Consider a bank transfer. The initial state is:</p>
+<div class="highlight"><pre><span></span><code>Account A = Rs. 10,000
+Account B = Rs. 5,000
+</code></pre></div>
+
+<p>To transfer Rs. 1,000 from Account A to Account B, the application executes two updates:</p>
+<div class="highlight"><pre><span></span><code><span class="k">UPDATE</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9000</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="k">UPDATE</span><span class="w"> </span><span class="n">account</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">6000</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+
+<p>Technically these are two separate SQL statements. From the business perspective they represent one operation: transfer Rs. 1,000 from Account A to Account B. The complete operation should move the database from one valid state to another:</p>
+<div class="highlight"><pre><span></span><code>Before:  Account A = Rs. 10,000   Account B = Rs. 5,000   Total = Rs. 15,000
+After:   Account A = Rs.  9,000   Account B = Rs. 6,000   Total = Rs. 15,000
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: A transaction is not defined by the number of SQL statements. It is defined by the business operation whose steps must succeed or fail together. A transaction is a unit of work that must be completed fully or not applied at all.</p>
+</blockquote>
+<h2 id="2-acid-properties-the-four-guarantees">2. ACID Properties: The Four Guarantees</h2>
+<p>ACID describes the guarantees required for reliable transaction processing:</p>
+<table>
+<thead>
+<tr>
+<th>Letter</th>
+<th>Property</th>
+<th>One-line meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Atomicity</td>
+<td>All operations succeed together or are all discarded together.</td>
+</tr>
+<tr>
+<td>C</td>
+<td>Consistency</td>
+<td>The database moves from one valid state to another valid state.</td>
+</tr>
+<tr>
+<td>I</td>
+<td>Isolation</td>
+<td>Concurrent transactions do not corrupt each other's work.</td>
+</tr>
+<tr>
+<td>D</td>
+<td>Durability</td>
+<td>A committed transaction survives later failures.</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic for ACID: <strong>"All Changes In Database"</strong> -- <strong>A</strong>ll-or-nothing (Atomicity), <strong>C</strong>onsistent state (Consistency), <strong>I</strong>solated from others (Isolation), <strong>D</strong>urable after commit (Durability).</p>
+<p>These are not unrelated definitions: together they describe whether a database can safely execute a business operation despite failures and concurrency. Each is examined below through the same money-transfer example.</p>
+<h2 id="3-atomicity-consistency-isolation-durability">3. Atomicity, Consistency, Isolation, Durability</h2>
+<h3 id="31-atomicity">3.1 Atomicity</h3>
+<p>Atomicity means that all operations inside a transaction succeed together or all of them are discarded together. In the transfer example the atomic unit is a debit of Account A and a credit of Account B. Both operations must succeed. If Account A is debited but Account B cannot be credited, the debit must also be rolled back. Both balances change, or neither balance changes.</p>
+<blockquote class="callout callout--important">
+<p>Important: Without atomicity, a failure between the two updates could cause money to disappear. Atomicity is what makes "all or nothing" true for a multi-step business operation.</p>
+</blockquote>
+<h3 id="32-consistency">3.2 Consistency</h3>
+<p>Consistency means that a transaction should move the database from one valid state to another valid state. Suppose the business rule is that an account balance cannot be negative. The current balance is Account A = Rs. 500, and the application attempts to transfer Rs. 1,000. If the operation leaves the account at Rs. -500, the business rule has been violated and the database is now in an invalid state.</p>
+<p>Consistency depends on correctly defined rules and their enforcement through application logic, database constraints, or both. A transaction does not invent these rules; it ensures that the committed result does not contain only part of the intended operation. In the transfer example, consistency can include rules such as:</p>
+<ul>
+<li>account balances must remain valid;</li>
+<li>the total amount of money must not change because of an internal transfer;</li>
+<li>the sender and the receiver must both exist.</li>
+</ul>
+<h3 id="33-isolation">3.3 Isolation</h3>
+<p>Isolation deals with transactions executing concurrently. Suppose Account A contains Rs. 10,000 and two transactions run at approximately the same time: T1 withdraws Rs. 1,000 and T2 withdraws Rs. 8,000. Without sufficient isolation both may read the same initial balance of Rs. 10,000, then write different values: T1 writes Rs. 9,000 and T2 writes Rs. 2,000. Depending on the order, one update may overwrite the other and the final balance may not reflect both withdrawals correctly.</p>
+<p>Isolation answers one question: what is one transaction allowed to observe while another transaction is still executing? It does not necessarily mean that only one transaction can execute at a time. Databases allow concurrency, but they control how concurrent operations interact.</p>
+<h3 id="34-durability">3.4 Durability</h3>
+<p>Durability means that once a transaction has committed successfully, its changes should survive later failures. Suppose the database confirms "transfer completed successfully", then the application crashes, the server loses power, and the database restarts. After recovery the committed transfer should still exist. Commit is a promise that the database has accepted the transaction as a permanent result.</p>
+<h2 id="4-acid-as-one-combined-guarantee">4. ACID as One Combined Guarantee</h2>
+<p>The four ACID properties are not unrelated definitions. Together, they describe whether a database can safely execute a business operation despite failures and concurrency. For the bank transfer:</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Guarantee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Atomicity</td>
+<td>Both balances change, or neither changes.</td>
+</tr>
+<tr>
+<td>Consistency</td>
+<td>Money is not created or destroyed, and all business rules remain valid.</td>
+</tr>
+<tr>
+<td>Isolation</td>
+<td>Concurrent operations do not corrupt the transfer.</td>
+</tr>
+<tr>
+<td>Durability</td>
+<td>Once committed, the transfer survives subsequent failures.</td>
+</tr>
+</tbody>
+</table>
+<p>Together, ACID answers one central question: can the database safely move from one valid state to another despite failures and concurrent activity?</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Atomicity controls the <em>grouping</em> of the statements, Consistency controls the <em>meaning</em> of the resulting state, Isolation controls the <em>interaction</em> between concurrent transactions, and Durability controls the <em>fate</em> of the result after a crash. No single property is sufficient on its own.</p>
+</blockquote>
+<h2 id="5-transaction-boundary">5. Transaction Boundary</h2>
+<p>A transaction boundary defines where a transaction begins and where it ends. In Spring, a service method can represent the boundary of a business transaction:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">transfer</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">debitAccount</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">   </span><span class="c1">// UPDATE account ...</span>
+<span class="w">    </span><span class="n">creditAccount</span><span class="p">(</span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">    </span><span class="c1">// UPDATE account ...</span>
+<span class="w">    </span><span class="n">recordTransfer</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Conceptually, the successful execution is:</p>
+<div class="highlight"><pre><span></span><code>Begin transaction -&gt; Debit sender -&gt; Credit receiver -&gt; Record transfer -&gt; Commit transaction
+</code></pre></div>
+
+<p>If an eligible failure occurs before successful completion:</p>
+<div class="highlight"><pre><span></span><code>Begin transaction -&gt; Perform database operations -&gt; Exception -&gt; Rollback transaction
+</code></pre></div>
+
+<p>The transaction normally begins before the annotated method executes. It commits after the method completes successfully, or rolls back when a qualifying exception leaves the method.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The boundary is a business decision, not a technical accident. If two repository calls belong to one use case, they belong inside one service method and therefore inside one transaction. Splitting the boundary wrongly is how partial writes become possible.</p>
+</blockquote>
+<h2 id="6-begin-commit-and-rollback">6. Begin, Commit and Rollback</h2>
+<p>Every transaction has the same three-part lifecycle.</p>
+<ul>
+<li><strong>Begin</strong> -- start the transaction. At the JDBC level this is <code>connection.setAutoCommit(false);</code>, which corresponds to starting a database transaction. With autocommit disabled, individual SQL statements are not committed automatically; the application must explicitly commit or roll back.</li>
+<li><strong>Commit</strong> -- accept the transaction's changes as its final result via <code>connection.commit();</code>. After a successful commit the changes become durable according to the guarantees of the database.</li>
+<li><strong>Rollback</strong> -- discard the changes made by the current uncommitted transaction via <code>connection.rollback();</code>.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: Rollback does not mean manually executing another UPDATE statement to restore every previous value. The database maintains the information required to undo or discard the uncommitted work. That is why rollback is cheap to express and safe to rely on.</p>
+</blockquote>
+<h2 id="7-transaction-layers-jdbc-jpa-hibernate-and-spring">7. Transaction Layers: JDBC, JPA, Hibernate and Spring</h2>
+<p>JDBC, JPA, Hibernate and Spring are often presented as four different transaction systems. In a Spring application they are different APIs and abstraction layers coordinating the same underlying database transaction:</p>
+<div class="highlight"><pre><span></span><code>Service Method
+    |
+    v
+Spring Transaction Management
+    |
+    v
+JPA EntityManager / Hibernate Session
+    |
+    v
+JDBC Connection
+    |
+    v
+Database Transaction
+</code></pre></div>
+
+<p>Each layer exposes its own API for the same destination:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>API used</th>
+<th>What it hides</th>
+<th>Who commits/rolls back</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JDBC</td>
+<td>Connection, setAutoCommit, commit, rollback</td>
+<td>Raw low-level control</td>
+<td>The developer, manually</td>
+</tr>
+<tr>
+<td>JPA</td>
+<td>EntityTransaction (begin, commit, rollback)</td>
+<td>Direct JDBC connection handling</td>
+<td>The application (still boilerplate)</td>
+</tr>
+<tr>
+<td>Hibernate</td>
+<td>Session and its Transaction (beginTransaction, commit)</td>
+<td>JPA operations and JDBC</td>
+<td>The application (native API)</td>
+</tr>
+<tr>
+<td>Spring</td>
+<td>@Transactional</td>
+<td>All of the above boilerplate</td>
+<td>Spring, on the method's behalf</td>
+</tr>
+</tbody>
+</table>
+<p>The lower layers still exist and still contain boilerplate: JDBC needs the connection opened, autocommit disabled, commit on success, rollback on failure and safe closing; JPA hides JDBC but keeps its own manual boilerplate; Hibernate exposes its native <code>session.beginTransaction()</code>. As the JPA provider, Hibernate ultimately implements the JPA operations and drives JDBC and the database.</p>
+<p>Spring removes that boilerplate from business methods. The method contains only business logic, and Spring handles the surrounding workflow:</p>
+<div class="highlight"><pre><span></span><code>Open or obtain required resources
+    |
+    v
+Begin transaction
+    |
+    v
+Execute business method
+    |
+    v
+Commit on success
+    |
+    v
+Roll back on eligible failure
+    |
+    v
+Release resources
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Spring does not replace the database transaction. It manages the lower-level transaction API on behalf of the application. All four layers ultimately drive one database transaction.</p>
+</blockquote>
+<h2 id="8-springs-transactional">8. Spring's @Transactional</h2>
+<p>In a Spring Boot application the commonly used annotation is <code>org.springframework.transaction.annotation.Transactional</code>. It tells Spring that the method or class should execute within a Spring-managed transaction.</p>
+<ul>
+<li><strong>Method-level</strong> -- annotate a specific method when only selected operations require transaction management. The transaction applies to that method.</li>
+<li><strong>Class-level</strong> -- annotate the class when all relevant public methods should use transactional behavior. The class-level annotation provides a default transactional configuration that a method-level annotation can refine.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Method-level</th>
+<th>Class-level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where it is written</td>
+<td>On one method</td>
+<td>On the class</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>Only that method</td>
+<td>All public methods by default</td>
+</tr>
+<tr>
+<td>Typical use</td>
+<td>One transaction-sensitive operation</td>
+<td>A whole transactional service</td>
+</tr>
+<tr>
+<td>Override</td>
+<td>--</td>
+<td>A method-level annotation refines it</td>
+</tr>
+</tbody>
+</table>
+<p>@Transactional also carries behavioral hints such as <code>readOnly</code>. Marking a method readOnly tells Spring and the provider that the unit of work does not modify data, which lets the provider skip dirty-checking work and may help the database optimize the transaction.</p>
+<div class="highlight"><pre><span></span><code>@Transactional(readOnly = true)
+public Account getAccount(Long id) {
+    return accountRepository.findById(id).orElseThrow();
+}
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: readOnly is a hint about intent, not a security fence. It is most useful on query methods and should not be used to "protect" a method that actually writes.</p>
+</blockquote>
+<p>Transaction boundaries are generally placed in the service layer because a service method represents a complete business use case and may coordinate multiple repository operations. In the transactionDemo project, TransferService owns the @Transactional transfer method, uses AccountRepository to move money, and TransferRepository to record the TransferRecord.</p>
+<h2 id="9-rollback-rules-runtime-vs-checked-exceptions">9. Rollback Rules: Runtime vs Checked Exceptions</h2>
+<p>@Transactional does not roll back for every possible failure. By default it rolls back only for unchecked failures -- RuntimeException and Error -- while checked exceptions do not trigger a rollback unless you ask for one.</p>
+<table>
+<thead>
+<tr>
+<th>Exception type</th>
+<th>Example</th>
+<th>Default behavior</th>
+<th>How to change it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RuntimeException (unchecked)</td>
+<td>IllegalArgumentException, custom business exception</td>
+<td>Roll back</td>
+<td>noRollbackFor to exclude</td>
+</tr>
+<tr>
+<td>Error</td>
+<td>OutOfMemoryError, AssertionError</td>
+<td>Roll back</td>
+<td>noRollbackFor to exclude</td>
+</tr>
+<tr>
+<td>Checked exception</td>
+<td>IOException, custom checked exception</td>
+<td>Commit (no rollback)</td>
+<td>rollbackFor to include</td>
+</tr>
+</tbody>
+</table>
+<p>The three controls an interviewer expects:</p>
+<ul>
+<li><strong>rollbackFor</strong> -- also roll back for the listed exception types (commonly used to include a checked exception).</li>
+<li><strong>noRollbackFor</strong> -- do not roll back for the listed exception types, even though they would normally qualify.</li>
+<li><strong>Default</strong> -- RuntimeException and Error roll back; checked exceptions do not.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span><span class="p">(</span><span class="n">rollbackFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">InsufficientFundsException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w">  </span><span class="c1">// checked -&gt; now rolls back</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">transfer</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">throws</span><span class="w"> </span><span class="n">InsufficientFundsException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">debit</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">credit</span><span class="p">(</span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">recordTransfer</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nd">@Transactional</span><span class="p">(</span><span class="n">noRollbackFor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AuditWriteException</span><span class="p">.</span><span class="na">class</span><span class="p">)</span><span class="w">        </span><span class="c1">// logged, still commits</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">transferAudited</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">debit</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">credit</span><span class="p">(</span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: The rollback decision is made by Spring's transaction interceptor using the exception that leaves the method. If your checked exception should undo the work, you must say so with rollbackFor -- the default will not do it for you.</p>
+</blockquote>
+<h2 id="10-proxy-interception-and-the-self-invocation-problem">10. Proxy Interception and the Self-Invocation Problem</h2>
+<p>@Transactional is declarative: Spring applies it through a proxy that wraps the bean and intercepts calls into transactional methods. The proxy opens the transaction before the method runs and commits or rolls it back after the method returns or throws.</p>
+<p>A direct consequence: the annotation only takes effect when the call passes through the proxy. When one method of the bean calls another method of the same bean, the call never leaves the object, so the proxy is skipped.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TransferService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">transfer</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">debit</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">    </span><span class="c1">// BUG: self-invocation, proxy skipped</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">credit</span><span class="p">(</span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">     </span><span class="c1">// @Transactional on debit() never fires</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">debit</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// runs with NO transaction because it was called internally</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The fix is to keep the transactional method as the entry point external callers invoke, or to split it into a separate bean so the call crosses a proxy boundary.</p>
+<blockquote class="callout callout--important">
+<p>Important: The method must be called through the proxy. A transactional annotation on a method that is only ever invoked internally by the same bean is silently ignored -- no exception, no warning, just the missing transaction.</p>
+</blockquote>
+<h2 id="11-complete-mental-model">11. Complete Mental Model</h2>
+<p>When Spring executes a transactional service method, the process can be understood as follows:</p>
+<div class="highlight"><pre><span></span><code>Caller invokes service method
+    |
+    v
+Spring starts or joins a transaction
+    |
+    v
+Repository operations use resources participating in that transaction
+    |
+    v
+Method completes successfully -&gt; Commit
+        or
+Method fails with a rollback-eligible exception -&gt; Rollback
+</code></pre></div>
+
+<p>The key idea is: @Transactional defines the boundary of a business operation, while Spring coordinates the underlying persistence and database transaction APIs needed to execute it safely. A full worked transfer reads like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Service</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TransferService</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">AccountRepository</span><span class="w"> </span><span class="n">accountRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">TransferRepository</span><span class="w"> </span><span class="n">transferRepository</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">TransferService</span><span class="p">(</span><span class="n">AccountRepository</span><span class="w"> </span><span class="n">accountRepository</span><span class="p">,</span>
+<span class="w">                           </span><span class="n">TransferRepository</span><span class="w"> </span><span class="n">transferRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">accountRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">accountRepository</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">transferRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transferRepository</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Transactional</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">transfer</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">Long</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">debit</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">          </span><span class="c1">// UPDATE account SET balance = ...</span>
+<span class="w">        </span><span class="n">credit</span><span class="p">(</span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">           </span><span class="c1">// UPDATE account SET balance = ...</span>
+<span class="w">        </span><span class="n">transferRepository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="w">        </span><span class="c1">// INSERT INTO transfer_record ...</span>
+<span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">TransferRecord</span><span class="p">(</span><span class="n">fromId</span><span class="p">,</span><span class="w"> </span><span class="n">toId</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">));</span>
+
+<span class="w">        </span><span class="c1">// success -&gt; Spring commits after this method returns</span>
+<span class="w">        </span><span class="c1">// failure -&gt; Spring rolls back when RuntimeException/Error leaves</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">debit</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">credit</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">,</span><span class="w"> </span><span class="n">BigDecimal</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* ... */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The debit, the credit and the transfer record all participate in one transaction. Either all three are committed together, or none of them are.</p>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"A transaction means a single SQL statement."</td>
+<td>A transaction can wrap many statements; it is defined by the business operation, not the statement count.</td>
+</tr>
+<tr>
+<td>"ACID is four separate features you enable one by one."</td>
+<td>ACID is one combined guarantee about surviving failures and concurrency.</td>
+</tr>
+<tr>
+<td>"Rollback means running reverse UPDATE statements."</td>
+<td>The database keeps undo information for uncommitted work; rollback discards it, it does not rewrite rows.</td>
+</tr>
+<tr>
+<td>"JDBC, JPA, Hibernate and Spring have separate transactions."</td>
+<td>They are different APIs over the same underlying database transaction.</td>
+</tr>
+<tr>
+<td>"@Transactional rolls back for any exception."</td>
+<td>By default only RuntimeException and Error roll back; checked exceptions commit unless rollbackFor is set.</td>
+</tr>
+<tr>
+<td>"Spring replaces the database's transaction."</td>
+<td>Spring manages the lower-level transaction API; the actual transaction is the database's.</td>
+</tr>
+<tr>
+<td>"Adding @Transactional to a private method makes it transactional."</td>
+<td>Interception is proxy-based; self-invocation and non-public entry points bypass the proxy.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Two UPDATE statements are automatically one transaction."</strong>
+Verdict: False. Two separate SQL statements are two separate units unless a transaction boundary groups them. The bank transfer is one logical unit of work, not two.</p>
+<p><strong>Trap 2 - "Rollback undoes work by running the opposite SQL."</strong>
+Verdict: False. Rollback discards the current uncommitted transaction; the database maintains the information required to undo the work.</p>
+<p><strong>Trap 3 - "ACID means only one transaction can run at a time."</strong>
+Verdict: False. Isolation controls how concurrent transactions interact; it does not force serial execution.</p>
+<p><strong>Trap 4 - "@Transactional rolls back on a checked exception by default."</strong>
+Verdict: False. By default RuntimeException and Error roll back; a checked exception commits unless rollbackFor includes it.</p>
+<p><strong>Trap 5 - "Putting @Transactional on a method always starts a transaction when it runs."</strong>
+Verdict: False. The call must pass through Spring's proxy. Self-invocation from the same bean silently skips the transaction.</p>
+<p><strong>Trap 6 - "Spring transactions are a different transaction than the database's."</strong>
+Verdict: False. Spring coordinates JDBC/JPA/Hibernate, which all drive the same database transaction.</p>
+<p><strong>Trap 7 - "Once committed, a change can still be lost on a crash."</strong>
+Verdict: False. Durability guarantees that a successfully committed transaction survives later failures -- that is the promise commit makes.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>A database transaction is a group of operations the database treats as one logical unit of work.</li>
+<li>A transaction is defined by the business operation, not by the number of SQL statements.</li>
+<li>Atomicity: all operations succeed together or are all discarded together.</li>
+<li>Consistency: the database moves from one valid state to another, respecting rules and constraints.</li>
+<li>Isolation: it controls what one transaction may observe while another is still executing, without forbidding concurrency.</li>
+<li>Durability: once committed, changes survive crashes, restarts and power loss.</li>
+<li>Lifecycle: begin (setAutoCommit(false)), commit, rollback; rollback discards uncommitted work rather than rewriting rows.</li>
+<li>JDBC, JPA and Hibernate expose different transaction APIs over the same underlying database transaction; Spring removes the boilerplate.</li>
+<li>@Transactional is declarative and proxy-based; by default it rolls back on RuntimeException and Error, and rollbackFor/noRollbackFor adjust that behavior.</li>
+<li>Transaction boundaries belong in the service layer, and the method must be called through the proxy -- self-invocation bypasses it.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a database transaction?</td>
+<td>A group of operations the database treats as one logical unit of work, completed fully or not applied at all.</td>
+</tr>
+<tr>
+<td>What does ACID stand for?</td>
+<td>Atomicity, Consistency, Isolation, Durability.</td>
+</tr>
+<tr>
+<td>Explain Atomicity with the transfer example.</td>
+<td>Debit A and credit B both happen, or both are rolled back -- both balances change or neither does.</td>
+</tr>
+<tr>
+<td>Explain Consistency.</td>
+<td>The transaction moves the database from one valid state to another, honoring rules such as "balance cannot be negative".</td>
+</tr>
+<tr>
+<td>Explain Isolation.</td>
+<td>It controls what a transaction may observe while another runs concurrently, preventing lost updates.</td>
+</tr>
+<tr>
+<td>Explain Durability.</td>
+<td>A committed transaction survives later failures such as crashes or power loss.</td>
+</tr>
+<tr>
+<td>Why are ACID properties described together?</td>
+<td>Together they answer whether the database can move between valid states safely despite failures and concurrency.</td>
+</tr>
+<tr>
+<td>What is a transaction boundary?</td>
+<td>The point where a transaction begins and ends; in Spring it is usually a @Transactional service method.</td>
+</tr>
+<tr>
+<td>What do begin, commit and rollback do?</td>
+<td>Begin starts the transaction; commit accepts changes as final and durable; rollback discards uncommitted changes.</td>
+</tr>
+<tr>
+<td>How do JDBC, JPA, Hibernate and Spring relate?</td>
+<td>They are different APIs and abstraction layers coordinating the same underlying database transaction.</td>
+</tr>
+<tr>
+<td>Which exceptions trigger rollback by default?</td>
+<td>RuntimeException and Error; checked exceptions do not unless rollbackFor is specified.</td>
+</tr>
+<tr>
+<td>Why must a @Transactional method be called through the proxy?</td>
+<td>Spring applies transactions via a proxy; self-invocation never leaves the object, so the proxy and its transaction are skipped.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Business operation (bank transfer)
+        |
+        v
+Database transaction = one logical unit of work
+        |
+        v
+ACID guarantee
+   A: all operations succeed together or none apply
+   C: one valid state -&gt; another valid state
+   I: concurrent transactions do not corrupt each other
+   D: committed changes survive later failures
+        |
+        v
+Lifecycle: Begin -&gt; work -&gt; Commit (success) | Rollback (eligible failure)
+        |
+        v
+Layers: JDBC -&gt; JPA -&gt; Hibernate -&gt; Spring (same underlying DB transaction)
+        |
+        v
+@Transactional: service-layer boundary, proxy-based interception
+   default rollback: RuntimeException / Error
+   rollbackFor / noRollbackFor adjust it
+        |
+        v
+Called through the proxy -&gt; commit or rollback coordinated by Spring
+</code></pre></div>
+
+<ul>
+<li>A transaction is a unit of work that must be completed fully or not applied at all.</li>
+<li>ACID is one combined guarantee about failures and concurrency, not four separate switches.</li>
+<li>Begin, commit and rollback define the lifecycle; rollback discards uncommitted work.</li>
+<li>JDBC, JPA, Hibernate and Spring are layers over the same database transaction.</li>
+<li>@Transactional marks a service-layer boundary; default rollback is for RuntimeException and Error.</li>
+<li>Proxy interception means the transactional method must be entered through the proxy.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring's @Transactional does not create magic -- it simply marks a service method as the boundary of one business operation, then coordinates the same JDBC/JPA/Hibernate database transaction so that the whole operation commits or rolls back as an ACID unit.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-32.html"><span class="dir">Previous</span><span class="ttl">Lecture 32 — Master Spring Data JPA</span></a><a class="next" href="doc-theory-lecture-34.html"><span class="dir">Next</span><span class="ttl">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Exception Handling from Scratch | Exceptions vs Errors — Java</title>
+<meta name="description" content="Java Exception Handling from Scratch | Exceptions vs Errors">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-43">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-43.html#lecture-43">Lecture 43</a></li><li><a href="doc-theory-lecture-43.html#1-what-an-exception-is-and-what-an-error-is">1. What an Exception Is and What an Error Is</a></li><li><a href="doc-theory-lecture-43.html#2-the-throwable-hierarchy-everything-is-an-object">2. The Throwable Hierarchy: Everything Is an Object</a></li><li><a href="doc-theory-lecture-43.html#3-exception-vs-error">3. Exception vs Error</a></li><li><a href="doc-theory-lecture-43.html#4-checked-vs-unchecked-exceptions">4. Checked vs Unchecked Exceptions</a></li><li><a href="doc-theory-lecture-43.html#5-the-mechanics-of-try-catch-and-finally">5. The Mechanics of try, catch and finally</a></li><li><a href="doc-theory-lecture-43.html#6-try-with-resources-automatic-ordered-cleanup">6. try-with-resources: Automatic, Ordered Cleanup</a></li><li><a href="doc-theory-lecture-43.html#7-multiple-catch-blocks-multi-catch-and-catch-order">7. Multiple Catch Blocks, Multi-catch and Catch Order</a></li><li><a href="doc-theory-lecture-43.html#8-useful-throwable-methods-and-exception-chaining">8. Useful Throwable Methods and Exception Chaining</a></li><li><a href="doc-theory-lecture-43.html#9-throw-and-throws">9. throw and throws</a></li><li><a href="doc-theory-lecture-43.html#10-best-practices-for-exception-handling">10. Best Practices for Exception Handling</a></li><li><a href="doc-theory-lecture-43.html#11-the-pitfall-catalogue">11. The Pitfall Catalogue</a></li><li><a href="doc-theory-lecture-43.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-43.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-43.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-43.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-43.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Exception Handling from Scratch | Exceptions vs Errors</h1>
+<p class="readmeta">17 sections · 3,951 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-43" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-43">Lecture 43</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Exception Handling from Scratch | Exceptions vs Errors" (playlist map, verified). Repo evidence: 4 Demo files.</p>
+</blockquote>
+<p>An exception is a recoverable, abnormal condition that arises while a program runs and that the application is expected to detect, handle and recover from. An error is a serious, JVM-level failure that the application is not expected to handle: memory is exhausted, the call stack has overflowed, or a class could not be linked. Both are objects, both descend from <code>Throwable</code>, and both can be thrown, yet they occupy opposite ends of the recoverable/unrecoverable divide. This lecture builds exception handling from that distinction: the <code>Throwable</code> hierarchy, checked versus unchecked exceptions, the mechanics of <code>try</code>/<code>catch</code>/<code>finally</code>, try-with-resources, catch ordering and multi-catch, exception chaining, and the pitfalls that turn good error handling into silent failure.</p>
+<h2 id="1-what-an-exception-is-and-what-an-error-is">1. What an Exception Is and What an Error Is</h2>
+<p>An <strong>exception</strong> is a runtime event that disrupts the normal instruction flow but which a well-written program can anticipate and survive. Reading a file that does not exist, parsing text that is not a number, or opening a network socket that is unreachable are all ordinary conditions: the program can catch the problem, inform the user, retry, or fall back. Handling them is part of the program's contract.</p>
+<p>An <strong>error</strong> is a fault in the runtime itself, not in the application's logic. When the heap is full (<code>OutOfMemoryError</code>), when a recursive call never terminates (<code>StackOverflowError</code>), or when a class references code that cannot be linked (<code>LinkageError</code>), there is no sensible recovery for the application. The correct response is to let the error propagate, log it, and terminate the affected thread or process — not to swallow it and continue.</p>
+<p>The central design consequence: both can be caught mechanically, because both are <code>Throwable</code> objects, but the judgment of whether one <em>should</em> be caught is what separates a professional handler from a dangerous one. Catch exceptions; report and stop on errors.</p>
+<h2 id="2-the-throwable-hierarchy-everything-is-an-object">2. The Throwable Hierarchy: Everything Is an Object</h2>
+<p>Java models every abnormal outcome as an instance of a class rooted at <code>java.lang.Throwable</code>. The hierarchy splits into exactly two branches:</p>
+<div class="highlight"><pre><span></span><code>Throwable
+|-- Error                                   (unrecoverable, JVM-level)
+|     |-- OutOfMemoryError
+|     |-- StackOverflowError
+|     +-- LinkageError
++-- Exception                               (recoverable, application-level)
+      |-- RuntimeException  (unchecked)
+      |     |-- NullPointerException
+      |     |-- ArithmeticException
+      |     |-- ArrayIndexOutOfBoundsException
+      |     +-- IllegalArgumentException
+      +-- checked exceptions
+            |-- IOException
+            |-- SQLException
+            +-- ClassNotFoundException
+</code></pre></div>
+
+<p>Three facts follow from the tree:</p>
+<ol>
+<li><strong>Every throwable is an object.</strong> A thrown exception is an instance carrying a message, a stack trace, an optional cause, and possibly suppressed exceptions. It can be stored, passed, logged and inspected.</li>
+<li><strong><code>Error</code> and <code>Exception</code> are siblings, not parent and child.</strong> <code>RuntimeException</code> sits under <code>Exception</code>, so unchecked exceptions are still exceptions, not errors.</li>
+<li><strong><code>Throwable</code> is the common catch-all.</strong> Catching <code>Throwable</code> catches errors too and is almost always a mistake; catching <code>Exception</code> still misses errors.</li>
+</ol>
+<blockquote class="callout callout--important">
+<p>Important
+Only instances of <code>Throwable</code> (and its subclasses) may be used with <code>throw</code> and may appear in a <code>catch</code> clause. You cannot throw an arbitrary object.</p>
+</blockquote>
+<h2 id="3-exception-vs-error">3. Exception vs Error</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>Exception</code></th>
+<th><code>Error</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meaning</td>
+<td>Recoverable, abnormal application condition</td>
+<td>Serious JVM-level failure</td>
+</tr>
+<tr>
+<td>Origin</td>
+<td>Application logic or an external resource</td>
+<td>The runtime/environment itself</td>
+</tr>
+<tr>
+<td>Recoverable</td>
+<td>Yes — handle, retry, or report</td>
+<td>Normally no — stop the affected work</td>
+</tr>
+<tr>
+<td>Declared checked</td>
+<td>Some are (checked)</td>
+<td>Never checked</td>
+</tr>
+<tr>
+<td>Root branch</td>
+<td><code>Exception</code></td>
+<td><code>Error</code></td>
+</tr>
+<tr>
+<td>Typical classes</td>
+<td><code>IOException</code>, <code>SQLException</code>, <code>NullPointerException</code></td>
+<td><code>OutOfMemoryError</code>, <code>StackOverflowError</code>, <code>LinkageError</code></td>
+</tr>
+<tr>
+<td>Should an app catch it?</td>
+<td>Yes, the ones it can act on</td>
+<td>No — let it propagate and log</td>
+</tr>
+<tr>
+<td>Recoverable stance</td>
+<td>Part of robust control flow</td>
+<td>A signal to terminate, not to continue</td>
+</tr>
+</tbody>
+</table>
+<p>Reading the table by rows: the two branches answer the same question — <em>can the application do anything meaningful about this?</em> — with opposite answers. The tree shape (Section 2) and the handling policy (this table) are the two halves of the same design.</p>
+<h2 id="4-checked-vs-unchecked-exceptions">4. Checked vs Unchecked Exceptions</h2>
+<p>A <strong>checked</strong> exception must be either caught or declared in the method's <code>throws</code> clause; the compiler refuses to compile otherwise. An <strong>unchecked</strong> exception (every <code>RuntimeException</code> and <code>Error</code>) carries no such obligation — the compiler does not track it at all.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Checked exceptions</th>
+<th>Unchecked exceptions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root</td>
+<td><code>Exception</code> (excluding <code>RuntimeException</code>)</td>
+<td><code>RuntimeException</code> (and <code>Error</code>)</td>
+</tr>
+<tr>
+<td>Compiler enforcement</td>
+<td>Declare with <code>throws</code> or catch, or compile error</td>
+<td>None — no declaration required</td>
+</tr>
+<tr>
+<td>Typical examples</td>
+<td><code>IOException</code>, <code>SQLException</code>, <code>ClassNotFoundException</code>, <code>InterruptedException</code></td>
+<td><code>NullPointerException</code>, <code>ArithmeticException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>NumberFormatException</code>, <code>ClassCastException</code></td>
+</tr>
+<tr>
+<td>Signals</td>
+<td>A recoverable condition the caller can act on (I/O, network, DB)</td>
+<td>A programming bug or an invariant violation</td>
+</tr>
+<tr>
+<td>When to use</td>
+<td>For conditions outside the program's control that a caller can reasonably handle</td>
+<td>For defects that should be fixed, not handled</td>
+</tr>
+<tr>
+<td>Typical handling</td>
+<td>Catch, wrap, retry, or declare and let a higher layer decide</td>
+<td>Validate inputs first; fix the code path</td>
+</tr>
+</tbody>
+</table>
+<p>The design guidance is the useful part: use a checked exception when the caller genuinely has a reasonable recovery path and the language should force it to acknowledge that path; use an unchecked exception when the caller could not have done anything sensible, because the code itself is wrong.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why are some exceptions checked?" Checked exceptions encode a recoverable obligation in the type system: the compiler forces every caller either to handle the condition or to declare it upward, so an external failure (a file, a socket, a database) cannot be silently ignored. Unchecked exceptions are reserved for programmer errors, where forcing a declaration on every method would add noise without adding safety.</p>
+</blockquote>
+<h2 id="5-the-mechanics-of-try-catch-and-finally">5. The Mechanics of try, catch and finally</h2>
+<p>The <code>try</code> block contains the code that may fail; one or more <code>catch</code> blocks handle specific failure types; an optional <code>finally</code> block runs cleanup <strong>whether or not</strong> an exception is thrown. <code>finally</code> executes on the normal path, on the exception path, and even when a <code>return</code>, <code>break</code> or <code>continue</code> leaves the <code>try</code> — the only things that prevent it are <code>System.exit()</code> and a JVM crash.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — try/catch/finally: the finally block always runs</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                 </span><span class="c1">// throws ArithmeticException</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w">          </span><span class="c1">// never reached</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ArithmeticException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Caught: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span><span class="w">   </span><span class="c1">// / by zero</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;finally always runs&quot;</span><span class="p">);</span><span class="w">         </span><span class="c1">// cleanup lives here</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The execution model in four steps:</p>
+<ol>
+<li>The JVM enters the <code>try</code> block and executes statements in order.</li>
+<li>A statement throws; the JVM constructs the throwable object and immediately abandons the rest of the <code>try</code>.</li>
+<li>The JVM searches the <code>catch</code> clauses top to bottom for the first matching type and runs that handler.</li>
+<li>Whether a handler ran or not, the <code>finally</code> block executes before control leaves the construct.</li>
+</ol>
+<p><code>finally</code> is the pre-try-with-resources idiom for releasing resources (closing files, sockets, locks). It is correct but verbose, which is precisely the problem try-with-resources solves.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A <code>finally</code> block that executes <code>return</code> overrides any earlier <code>return</code> and can even discard an in-flight exception. Avoid <code>return</code> inside <code>finally</code>.</p>
+</blockquote>
+<h2 id="6-try-with-resources-automatic-ordered-cleanup">6. try-with-resources: Automatic, Ordered Cleanup</h2>
+<p>Since Java 7, <strong>try-with-resources</strong> declares resources in the <code>try</code> header and closes them automatically. Any object implementing <code>AutoCloseable</code> (directly, or through <code>Closeable</code>) qualifies: streams, readers, writers, database connections, sockets. The compiler generates the closing calls, and they run in <strong>reverse order</strong> of declaration — the last resource opened is the first one closed, mirroring the dependency order of nested wrappers.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — try-with-resources closes the reader even if an exception is thrown</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.BufferedReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.FileReader</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">br</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">&quot;data.txt&quot;</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">line</span><span class="p">;</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">br</span><span class="p">.</span><span class="na">readLine</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">line</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">              </span><span class="c1">// IOException is checked</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;I/O error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span><span class="w">                                      </span><span class="c1">// br.close() runs here automatically</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The comparison with the manual idiom is decisive:</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>try/catch/finally</th>
+<th>try-with-resources</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Closing code</td>
+<td>Written by hand in <code>finally</code></td>
+<td>Generated by the compiler</td>
+</tr>
+<tr>
+<td>Null-safety</td>
+<td>Must null-check before <code>close()</code></td>
+<td>Handled automatically</td>
+</tr>
+<tr>
+<td>Suppressed exceptions</td>
+<td>Easily lost or clobbered by hand</td>
+<td>Preserved as suppressed exceptions</td>
+</tr>
+<tr>
+<td>Resource order</td>
+<td>Programmer's responsibility</td>
+<td>Guaranteed reverse order</td>
+</tr>
+<tr>
+<td>Verbosity</td>
+<td>High for several resources</td>
+<td>One declaration per resource</td>
+</tr>
+<tr>
+<td>Prone to leaks</td>
+<td>Yes, if a branch forgets to close</td>
+<td>No — every declared resource closes</td>
+</tr>
+<tr>
+<td>Preferred since</td>
+<td>Pre-Java 7</td>
+<td>Java 7 onward</td>
+</tr>
+</tbody>
+</table>
+<p>With multiple resources, declare them separated by semicolons and they close right-to-left, so a wrapper is closed before the stream it wraps.</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+"Open left to right, close right to left" — the resource declared last is the one finalized first, so a wrapper is closed before the stream it wraps.</p>
+</blockquote>
+<h2 id="7-multiple-catch-blocks-multi-catch-and-catch-order">7. Multiple Catch Blocks, Multi-catch and Catch Order</h2>
+<p>A single <code>try</code> may have several <code>catch</code> blocks so that different failure types get different responses. When several handlers share identical code, Java 7's <strong>multi-catch</strong> merges them into one clause: <code>catch (IOException | SQLException e)</code>. The parameter of a multi-catch is implicitly <code>final</code> and its static type is the nearest common supertype, so only members shared by all alternatives are visible on <code>e</code>.</p>
+<p>Order matters. The JVM selects the <strong>first</strong> matching clause, so a subclass must be caught before its superclass. Catching <code>Exception</code> first and <code>IOException</code> second is a compile-time error, because the later clause is unreachable.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — multi-catch handles unrelated checked types in one clause</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.io.IOException</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.SQLException</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">work</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mode</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IOException</span><span class="p">(</span><span class="s">&quot;disk failed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SQLException</span><span class="p">(</span><span class="s">&quot;query failed&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">work</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="c1">// e is effectively final</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The two ordering rules to memorize:</p>
+<ol>
+<li><strong>Specific before general.</strong> <code>catch (FileNotFoundException e)</code> must precede <code>catch (IOException e)</code>, which must precede <code>catch (Exception e)</code>.</li>
+<li><strong>Multi-catch cannot combine a type with its own subclass.</strong> <code>catch (IOException | FileNotFoundException e)</code> does not compile; one is redundant and the compiler rejects it.</li>
+</ol>
+<h2 id="8-useful-throwable-methods-and-exception-chaining">8. Useful Throwable Methods and Exception Chaining</h2>
+<p>Every throwable carries diagnostic state. Four methods are used constantly:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getMessage()</code></td>
+<td><code>String</code></td>
+<td>The human-readable description passed to the constructor</td>
+</tr>
+<tr>
+<td><code>printStackTrace()</code></td>
+<td><code>void</code></td>
+<td>Writes the full stack trace to <code>System.err</code></td>
+</tr>
+<tr>
+<td><code>getCause()</code></td>
+<td><code>Throwable</code></td>
+<td>The wrapped original exception, or <code>null</code></td>
+</tr>
+<tr>
+<td><code>getStackTrace()</code></td>
+<td><code>StackTraceElement[]</code></td>
+<td>The frame array, for programmatic inspection</td>
+</tr>
+<tr>
+<td><code>toString()</code></td>
+<td><code>String</code></td>
+<td>Class name plus message, e.g. <code>java.io.IOException: disk failed</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Exception chaining</strong> is the practice of wrapping a low-level exception in a higher-level one while preserving the original as the <strong>cause</strong>. Because the cause is retained, a log shows both the business-level message and the true root cause; when the cause is dropped, the original failure is lost forever.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// wrap-and-rethrow: preserve the original cause so the root cause is never lost</span>
+<span class="kd">class</span> <span class="nc">DataAccessException</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">DataAccessException</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">Throwable</span><span class="w"> </span><span class="n">cause</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="w"> </span><span class="n">cause</span><span class="p">);</span><span class="w">                 </span><span class="c1">// cause is stored for later getCause()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Service</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">load</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">DataAccessException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">IOException</span><span class="p">(</span><span class="s">&quot;config file missing&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DataAccessException</span><span class="p">(</span><span class="s">&quot;Could not start service&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">);</span><span class="w">   </span><span class="c1">// keep the cause</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"What is exception chaining?" Wrapping a caught exception inside a new exception while passing the original as the <code>cause</code> argument, so no diagnostic information is lost. Without the cause, the new exception tells you what failed at a high level but not why.</p>
+</blockquote>
+<h2 id="9-throw-and-throws">9. throw and throws</h2>
+<p>The two keywords are distinct and easily confused:</p>
+<ol>
+<li><strong><code>throw</code></strong> is a statement used inside a method to actually raise a throwable: <code>throw new IllegalArgumentException("age must be positive");</code>. It takes exactly one <code>Throwable</code> object. (Statement-level detail is expanded in Lecture 44.)</li>
+<li><strong><code>throws</code></strong> is a clause in a method signature that declares which checked exceptions the method may let escape: <code>void read() throws IOException</code>. It documents the recoverable obligations the caller must meet.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">parseAge</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">text</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">NumberFormatException</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="c1">// unchecked: declaration optional</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">text</span><span class="p">);</span><span class="w">                            </span><span class="c1">// may throw NumberFormatException</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">age</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">&quot;age must be positive&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// raise it yourself</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Checked exceptions must be declared; unchecked ones may be declared for documentation but the compiler does not require it.</p>
+<h2 id="10-best-practices-for-exception-handling">10. Best Practices for Exception Handling</h2>
+<ol>
+<li><strong>Catch the most specific type</strong> you can actually handle, not <code>Exception</code> or <code>Throwable</code>.</li>
+<li><strong>Never swallow an exception.</strong> An empty <code>catch</code> block hides failure and makes bugs invisible; at minimum log it.</li>
+<li><strong>Log with context</strong> — the operation, the inputs, and the exception object — not just the message string.</li>
+<li><strong>Do not use exceptions for normal control flow.</strong> Exceptions are for exceptional conditions, and they are far more expensive than ordinary branches.</li>
+<li><strong>Fail fast.</strong> Validate arguments at the boundary and reject bad input immediately with a precise exception.</li>
+<li><strong>Close resources</strong> — prefer try-with-resources over manual <code>finally</code> cleanup.</li>
+<li><strong>Preserve the cause</strong> when wrapping; never replace a low-level exception with a vague one.</li>
+<li><strong>Restore interrupted status</strong> in <code>catch (InterruptedException e)</code> by calling <code>Thread.currentThread().interrupt()</code> and then handling the abort.</li>
+<li><strong>Document declared exceptions</strong> in Javadoc <code>@throws</code> tags so callers know the obligations.</li>
+<li><strong>Keep handlers honest:</strong> if you catch and continue, the program state must still be valid.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Handle what you can fix, wrap what you cannot, and never hide what you do not understand.</p>
+</blockquote>
+<h2 id="11-the-pitfall-catalogue">11. The Pitfall Catalogue</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>Example</th>
+<th>What happens</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Catching too broadly</td>
+<td><code>catch (Exception e)</code></td>
+<td>Masks bugs and unrelated failures in one handler</td>
+<td>Catch the specific types you can handle</td>
+</tr>
+<tr>
+<td>Catching <code>Throwable</code></td>
+<td><code>catch (Throwable t)</code></td>
+<td>Catches <code>Error</code>s such as <code>OutOfMemoryError</code> and continues in a broken state</td>
+<td>Catch <code>Exception</code>, not <code>Throwable</code></td>
+</tr>
+<tr>
+<td>Empty catch (swallow)</td>
+<td><code>catch (IOException e) {}</code></td>
+<td>Failure disappears; later state is corrupt</td>
+<td>Log, wrap, or rethrow</td>
+</tr>
+<tr>
+<td><code>finally</code> returns</td>
+<td><code>finally { return x; }</code></td>
+<td>Overrides an earlier <code>return</code> and discards a pending exception</td>
+<td>Never <code>return</code> from <code>finally</code></td>
+</tr>
+<tr>
+<td>Losing the cause</td>
+<td><code>throw new ServiceException("failed")</code></td>
+<td>Root cause is gone</td>
+<td>Pass the caught exception as the cause</td>
+</tr>
+<tr>
+<td>Out-of-bounds access</td>
+<td><code>arr[arr.length]</code></td>
+<td><code>ArrayIndexOutOfBoundsException</code> at runtime</td>
+<td>Check bounds or iterate the array safely</td>
+</tr>
+<tr>
+<td>Divide by zero</td>
+<td><code>a / b</code> with <code>b == 0</code></td>
+<td><code>ArithmeticException</code> for integers</td>
+<td>Validate the divisor before dividing</td>
+</tr>
+<tr>
+<td>Resource leak</td>
+<td><code>FileReader</code> with no close</td>
+<td>File handles leak until the process ends</td>
+<td>Use try-with-resources</td>
+</tr>
+<tr>
+<td>Checked exception in a lambda</td>
+<td><code>list.forEach(s -&gt; read(s))</code> where the body throws <code>IOException</code></td>
+<td>Lambda cannot throw checked exceptions; compile error</td>
+<td>Wrap in a <code>try</code>/<code>catch</code> inside the lambda and rethrow unchecked</td>
+</tr>
+<tr>
+<td>Wrong catch order</td>
+<td><code>catch (Exception e)</code> before <code>catch (IOException e)</code></td>
+<td>Compile error: unreachable second clause</td>
+<td>Put specific types before general ones</td>
+</tr>
+</tbody>
+</table>
+<p>The common thread: every pitfall either hides a failure or leaks a resource, and both are cured by being specific — about the type, the cause, and the closure.</p>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Errors and exceptions are the same thing"</td>
+<td>Both extend <code>Throwable</code>, but <code>Error</code> is an unrecoverable JVM failure and <code>Exception</code> is a recoverable application condition.</td>
+</tr>
+<tr>
+<td>"Catching <code>Exception</code> is a safe catch-all"</td>
+<td>It hides bugs and still misses <code>Error</code>s; catching it broadly is an anti-pattern, not safety.</td>
+</tr>
+<tr>
+<td>"The <code>finally</code> block runs only when an exception is thrown"</td>
+<td>It runs on every exit from the <code>try</code> — normal, exceptional, <code>return</code>, or <code>break</code> (<code>System.exit</code> and JVM crash excepted).</td>
+</tr>
+<tr>
+<td>"<code>finally</code> is as good as try-with-resources"</td>
+<td>try-with-resources closes in reverse order, is null-safe, and preserves suppressed exceptions; hand-written <code>finally</code> is error-prone.</td>
+</tr>
+<tr>
+<td>"Unchecked exceptions do not need to be handled at all"</td>
+<td>They compile without handling, but they still crash the thread if nothing handles them; they should be prevented or handled deliberately.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Catching the wrong root: "Which of these is an <code>Exception</code> and which an <code>Error</code>: <code>OutOfMemoryError</code>, <code>IOException</code>, <code>StackOverflowError</code>, <code>SQLException</code>?"
+<code>IOException</code> and <code>SQLException</code> are exceptions (recoverable, and checked). <code>OutOfMemoryError</code> and <code>StackOverflowError</code> are errors (unrecoverable). An application should not try to handle either error.</p>
+<p>Trap 2 — finally and return: "A <code>try</code> returns 1 and its <code>finally</code> returns 2. What does the method return?"
+2. A <code>return</code> in <code>finally</code> overrides any previous <code>return</code> and even discards an in-flight exception; it is a well-known trap and a reason never to <code>return</code> from <code>finally</code>.</p>
+<p>Trap 3 — Unreachable catch: "Why does <code>try { ... } catch (Exception e) { } catch (IOException e) { }</code> fail to compile?"
+Because <code>Exception</code> is a supertype of <code>IOException</code>, the first clause always matches, so the second is unreachable — a compile-time error. Order handlers from the most specific type to the most general.</p>
+<p>Trap 4 — Swallowed exception: "A method catches <code>NumberFormatException</code> and returns 0. What is the bug?"
+Returning 0 hides malformed input and lets the program continue with a wrong value. That is exception swallowing; the handler should at least log and communicate the failure.</p>
+<p>Trap 5 — Losing the cause: "A service wraps an <code>IOException</code> as <code>ServiceException</code> but logs only 'service failed'. What went wrong?"
+The original <code>IOException</code> was not passed as the <code>cause</code>, so the root cause is lost. Construct the wrapper with <code>super(message, cause)</code> and surface <code>getCause()</code>.</p>
+<p>Trap 6 — <code>finally</code> versus try-with-resources: "Two resources are opened in a try-with-resources. In what order do they close?"
+In reverse order of declaration — the last opened is the first closed. The same discipline applies to hand-written <code>finally</code>, which is why try-with-resources is preferred.</p>
+<p>Trap 7 — Checked inside a lambda: "Why does <code>names.forEach(n -&gt; Files.readAllBytes(Path.of(n)))</code> not compile?"
+<code>readAllBytes</code> throws the checked <code>IOException</code>, but the <code>Consumer</code> contract does not declare checked exceptions, so the lambda cannot propagate it. Wrap the call in a <code>try</code>/<code>catch</code> inside the lambda (and rethrow as unchecked) or restructure the code.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li><code>Throwable</code> is the root; <code>Error</code> and <code>Exception</code> are its two branches, and <code>RuntimeException</code> sits under <code>Exception</code>.</li>
+<li>An exception is recoverable and should be handled; an error is an unrecoverable JVM failure and should not be caught.</li>
+<li>Checked exceptions must be caught or declared with <code>throws</code>; unchecked exceptions (all <code>RuntimeException</code>s) carry no compiler obligation.</li>
+<li><code>finally</code> runs whether or not an exception is thrown — including on <code>return</code> — except for <code>System.exit()</code> and a JVM crash.</li>
+<li>try-with-resources closes any <code>AutoCloseable</code> automatically, in reverse declaration order, and preserves suppressed exceptions.</li>
+<li>Catch the most specific type first; a subclass after its superclass is a compile error because the clause is unreachable.</li>
+<li>Multi-catch (<code>catch (A | B e)</code>) merges handlers with identical bodies; its parameter is implicitly <code>final</code>.</li>
+<li><code>getMessage()</code>, <code>printStackTrace()</code>, <code>getCause()</code> and <code>getStackTrace()</code> are the standard diagnostic methods.</li>
+<li>Wrap-and-rethrow with the original as the cause to preserve the root cause; never drop it.</li>
+<li>Best practices: catch specifically, never swallow, log with context, fail fast, close resources, and never use exceptions for ordinary control flow.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Difference between <code>Exception</code> and <code>Error</code>?</td>
+<td><code>Exception</code> is a recoverable application condition an app can handle; <code>Error</code> is a serious JVM-level failure (<code>OutOfMemoryError</code>, <code>StackOverflowError</code>) that apps should not attempt to handle.</td>
+</tr>
+<tr>
+<td>What is the <code>Throwable</code> hierarchy?</td>
+<td><code>Throwable</code> is the root; <code>Error</code> and <code>Exception</code> are its subclasses; <code>RuntimeException</code> extends <code>Exception</code>, and unchecked exceptions are <code>RuntimeException</code> plus <code>Error</code>.</td>
+</tr>
+<tr>
+<td>Checked vs unchecked exceptions?</td>
+<td>Checked must be caught or declared in <code>throws</code>; unchecked (<code>RuntimeException</code>) need no declaration and typically signal programming bugs.</td>
+</tr>
+<tr>
+<td>Does <code>finally</code> always run?</td>
+<td>Yes — on normal exit, on exception, and on <code>return</code>/<code>break</code> — except when <code>System.exit()</code> is called or the JVM crashes.</td>
+</tr>
+<tr>
+<td>Why is try-with-resources preferred?</td>
+<td>It closes every <code>AutoCloseable</code> automatically in reverse order, is null-safe, and preserves suppressed exceptions, avoiding resource leaks.</td>
+</tr>
+<tr>
+<td>What is multi-catch?</td>
+<td>A single <code>catch (A \| B e)</code> clause that handles several unrelated exception types with identical handling; <code>e</code> is implicitly <code>final</code>.</td>
+</tr>
+<tr>
+<td>Why must specific <code>catch</code> blocks precede general ones?</td>
+<td>The first matching clause is selected; a general clause before a specific one makes the later clause unreachable and fails compilation.</td>
+</tr>
+<tr>
+<td>What is exception chaining?</td>
+<td>Wrapping a caught exception inside a new one while passing the original as the cause, so no diagnostic information is lost.</td>
+</tr>
+<tr>
+<td><code>throw</code> vs <code>throws</code>?</td>
+<td><code>throw</code> raises a throwable inside a method; <code>throws</code> declares in the signature which checked exceptions the method may let escape.</td>
+</tr>
+<tr>
+<td>Why not catch <code>Throwable</code>?</td>
+<td>It catches <code>Error</code>s too, and continuing after an unrecoverable JVM failure leaves the application in an undefined state.</td>
+</tr>
+<tr>
+<td>What is exception swallowing?</td>
+<td>An empty or silent <code>catch</code> block that discards the failure without logging, wrapping, or rethrowing it, hiding the bug.</td>
+</tr>
+<tr>
+<td>Why can a lambda not throw a checked exception?</td>
+<td>The functional interface (<code>Consumer</code>, <code>Function</code>) does not declare checked exceptions, so the lambda body must handle them internally.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>throw statement --&gt; JVM builds a Throwable object (message + stack trace + cause)
+      |
+      v
+search enclosing try blocks for the first matching catch (specific before general)
+      |
+      +--&gt; match found    --&gt; run the handler
+      +--&gt; no match       --&gt; run finally, then propagate to the caller
+                                  |
+                                  +--&gt; still uncaught --&gt; default handler logs it, thread dies
+
+Throwable ⊃ Error (unrecoverable)  and  Exception ⊃ RuntimeException (unchecked) + checked
+</code></pre></div>
+
+<ul>
+<li>Definitions -&gt; exception = recoverable and handled; error = unrecoverable JVM failure.</li>
+<li>Hierarchy -&gt; <code>Throwable</code> roots both <code>Error</code> and <code>Exception</code>; <code>RuntimeException</code> marks unchecked.</li>
+<li>Checked vs unchecked -&gt; the compiler forces declaration or catch for checked; unchecked signals bugs.</li>
+<li>Control flow -&gt; <code>try</code> guards, <code>catch</code> handles, <code>finally</code> always cleans up (<code>System.exit</code> excepted).</li>
+<li>Resources -&gt; try-with-resources closes <code>AutoCloseable</code> objects in reverse order; preferred over manual <code>finally</code>.</li>
+<li>Handlers -&gt; specific before general; multi-catch merges like handlers; never swallow or catch <code>Throwable</code>.</li>
+<li>Diagnostics -&gt; preserve the cause with wrap-and-rethrow so the root cause survives.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Catch what you can recover from, declare what you cannot, clean up in every path, and never let a failure vanish without a trace.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> exceptions are recoverable and yours to handle, errors are the JVM's to crash on, and disciplined handling means catching specific types, closing resources automatically, and always preserving the cause.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-42.html"><span class="dir">Previous</span><span class="ttl">Parallel Streams in Java Explained | Primitive Optional Classes</span></a><a class="next" href="doc-theory-lecture-44.html"><span class="dir">Next</span><span class="ttl">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

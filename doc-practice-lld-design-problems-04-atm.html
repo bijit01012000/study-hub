@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design an ATM — LLD</title>
+<meta name="description" content="Design an ATM">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-04-atm">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-04-atm.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#breaking-the-amount-into-notes">Breaking the Amount into Notes</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-04-atm.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design an ATM</h1>
+<p class="readmeta">15 sections · 1,942 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-04-atm" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 04 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>Insert a card, read it, take a PIN, the bank authenticates.</li>
+<li>Pick one: withdraw, deposit, balance, transfer.</li>
+<li>Withdraw breaks the amount into notes from what the cassettes hold.</li>
+<li>Money is integer minor units, never a float.</li>
+<li>A withdrawal holds on the account, dispenses, then commits.</li>
+<li>One <code>BankService</code> seam: authenticate, hold, commit, credit, balance.</li>
+<li>Wrong PIN a few times, then the card is kept.</li>
+<li>Card kept if the session times out mid-transaction.</li>
+<li>Eject the card at the end.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Real EMV chip and PIN crypto.</li>
+<li>The interbank network.</li>
+<li>Receipt printer, cassette hardware.</li>
+<li>Multi-currency.</li>
+<li>Anti-skimming, cameras.</li>
+<li>A database, login.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>One ATM, a Session for the live request, one cassette per note value. The ATM is a context; every screen delegates to the current state.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Cardholder</strong> — <code>card: Card</code>, <code>atm: ATM</code>; insert card, enter pin, pick txn, take card, calling <code>atm.insertCard(card)</code> and <code>atm.withdraw(amount)</code>.</li>
+<li><strong>ATM</strong> (singleton) — <code>cassettes: List&lt;CashCassette&gt;</code>, <code>bank: BankService</code>, <code>dispenser: NoteDispenser</code>, <code>state: ATMState</code>, <code>session: Session</code>; <code>insertCard(Card c)</code>, <code>authenticate(int pin): boolean</code>, <code>withdraw(int amount): Cash</code>, <code>deposit(Cash c)</code>, <code>balance(): Money</code>, <code>ejectCard()</code>, <code>setState(s)</code>. Every call delegates to state.</li>
+<li><strong>Session</strong> — <code>card: Card</code>, <code>acct: String</code>, <code>pinTries: int</code>, <code>startedAt: Instant</code>, <code>chosen: TxnKind</code>, <code>amount: int</code>. Wiped on eject or timeout.</li>
+<li><strong>BankService</strong> (interface) — <code>authenticate(Card c, int pin): AuthResult</code>, <code>hold(String acct, int amt): HoldId</code>, <code>commit(HoldId h)</code>, <code>release(HoldId h)</code>, <code>credit(String acct, int amt)</code>, <code>balance(String acct)</code>. Wraps the ISO-8583 host; retries, timeouts, idempotency keys.</li>
+<li><strong>CoreBankingAdapter</strong> — the adapter that implements <code>BankService</code>.</li>
+<li><strong>ATMState</strong> (abstract) — <code>insertCard(Card c)</code>, <code>authenticate(int pin): boolean</code>, <code>selectTxn(TxnKind k, int amt)</code>, <code>confirm(): Cash</code>. Each state answers all four; wrong state throws.</li>
+<li><strong>Transaction</strong> — <code>acct: String</code>, <code>amount: int</code>; <code>execute(BankService bank)</code>. Kinds: <code>Withdrawal</code>, <code>Deposit</code>, <code>BalanceInquiry</code>, <code>Transfer</code>.</li>
+<li><strong>CashCassette</strong> — <code>denom: int</code>, <code>count: int</code>; <code>canDispense(int n): boolean</code>, <code>take(int n)</code>, <code>refill(int n)</code>. One cassette per denomination.</li>
+<li><strong>NoteDispenser</strong> (interface) — <code>dispense(int amount): List&lt;Note&gt;</code>. Head of the chain.</li>
+<li><strong>DenominationHandler</strong> — <code>denom: int</code>, <code>next: DenominationHandler</code>, <code>box: CashCassette</code>. Chained Rs 2000 -&gt; Rs 500 -&gt; Rs 100, high note first.</li>
+<li><strong>Card</strong> — <code>number</code>, <code>bankId</code>, <code>expiry</code>. The PIN is never stored on the card.</li>
+</ul>
+<h3 id="the-states">The states</h3>
+<p>Idle -&gt; card in -&gt; CardInserted. CardInserted -&gt; PIN ok -&gt; Authenticated. Authenticated -&gt; pick -&gt; SelectingTxn. SelectingTxn -&gt; confirm -&gt; Dispensing -&gt; Idle. Three wrong PINs or a timeout -&gt; CardRetained.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>insertCard(Card c): void</code> — only Idle takes it. Reads the card, opens a Session, moves to CardInserted. A second card is refused until this one ejects.</li>
+<li><code>authenticate(int pin): boolean</code> — legal only in CardInserted. The bank checks the PIN, never the card or the ATM. A wrong PIN bumps <code>pinTries</code>; at three the card is retained. Success moves to Authenticated.</li>
+<li><code>withdraw(int amount): Cash</code> — two-phase. <code>bank.hold</code> escrows the amount, <code>dispenser.dispense</code> counts the notes, then <code>bank.commit</code>. Any failure calls <code>bank.release</code> and nothing leaves the ATM.</li>
+<li><code>dispense(int amount): List&lt;Note&gt;</code> — walks the handlers high note to low. Each takes <code>min(left / denom, stock)</code>. Returns the notes when left hits zero, else throws <code>CannotDispense</code> with no cassette touched.</li>
+</ol>
+<p>The chain: <code>serve</code> when left reaches 0 down the chain; <code>atomic</code> when <code>box.take</code> runs after next returns. <code>n = min(left/denom, box.count)</code>, <code>left -= n*denom</code>, <code>rest = left == 0 ? [] : next.dispense(left)</code>, <code>box.take(n)</code> only after next returns. The tail handler with <code>left &gt; 0</code> and no next throws <code>CannotDispense</code>, no cassette touched.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>Balance Rs 8,000. The card asks for Rs 3,600. Cassettes hold one Rs 2000, five Rs 500, twenty Rs 100. What notes come out, which state is the ATM in at each step, and which objects touch the request?</p>
+<p><code>min(3600/2000, 1) = 1</code> note, 1600 left. <code>min(1600/500, 5) = 3</code> notes, 100 left. <code>min(100/100, 20) = 1</code> note, 0 left. So <code>1 x Rs 2000 + 3 x Rs 500 + 1 x Rs 100 = Rs 3600</code>.</p>
+<h2 id="the-change">The Change</h2>
+<p>The bank caps a card at Rs 25,000 a day, a premium card at Rs 1,00,000. Pull the limit check out of the withdraw path into a <code>WithdrawalLimitPolicy</code> the ATM asks before it holds. Per-card, per-bank caps drop in, the withdraw path never reopens. Strategy, the seam this pattern is built for.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The two-phase withdrawal. <code>bank.hold</code> puts the amount in escrow, the chain counts the notes, then <code>bank.commit</code> settles it. A cassette jam between the two calls triggers <code>bank.release</code>, so the account is never short.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>The withdraw path plus one handler:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">ATM</span><span class="w"> </span><span class="p">{</span><span class="w">                                          </span><span class="c1">// one per machine</span>
+<span class="w">    </span><span class="n">BankService</span><span class="w"> </span><span class="n">bank</span><span class="p">;</span><span class="w"> </span><span class="n">NoteDispenser</span><span class="w"> </span><span class="n">dispenser</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ATMState</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IdleState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Session</span><span class="w"> </span><span class="n">session</span><span class="p">;</span><span class="w">                                 </span><span class="c1">// the live request</span>
+
+<span class="w">    </span><span class="n">Cash</span><span class="w"> </span><span class="nf">withdraw</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">require</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">isSelectingTxn</span><span class="p">());</span><span class="w">             </span><span class="c1">// wrong screen throws</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">acct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">session</span><span class="p">.</span><span class="na">acct</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">amount</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BadAmount</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span>
+<span class="w">        </span><span class="n">HoldId</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bank</span><span class="p">.</span><span class="na">hold</span><span class="p">(</span><span class="n">acct</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">);</span><span class="w">          </span><span class="c1">// phase 1: escrow</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Note</span><span class="o">&gt;</span><span class="w"> </span><span class="n">notes</span><span class="p">;</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">notes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dispenser</span><span class="p">.</span><span class="na">dispense</span><span class="p">(</span><span class="n">amount</span><span class="p">);</span><span class="w">      </span><span class="c1">// walk the chain</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">CannotDispense</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">bank</span><span class="p">.</span><span class="na">release</span><span class="p">(</span><span class="n">h</span><span class="p">);</span><span class="w">                         </span><span class="c1">// roll the hold back</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">e</span><span class="p">;</span><span class="w">                                 </span><span class="c1">// account untouched</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">bank</span><span class="p">.</span><span class="na">commit</span><span class="p">(</span><span class="n">h</span><span class="p">);</span><span class="w">                              </span><span class="c1">// phase 2: settle</span>
+<span class="w">        </span><span class="n">session</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span><span class="w"> </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IdleState</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Cash</span><span class="p">(</span><span class="n">notes</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Rs500Handler</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">NoteDispenser</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">denom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span><span class="w"> </span><span class="n">NoteDispenser</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="n">CashCassette</span><span class="w"> </span><span class="n">box</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Note</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">dispense</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">left</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">min</span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">denom</span><span class="p">,</span><span class="w"> </span><span class="n">box</span><span class="p">.</span><span class="na">count</span><span class="p">());</span>
+<span class="w">        </span><span class="n">left</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">denom</span><span class="p">;</span><span class="w">                           </span><span class="c1">// this handler&#39;s share</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">left</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w">                </span><span class="c1">// the tail</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CannotDispense</span><span class="p">(</span><span class="n">left</span><span class="p">);</span><span class="w">          </span><span class="c1">// no box touched</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Note</span><span class="o">&gt;</span><span class="w"> </span><span class="n">rest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">left</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">next</span><span class="p">.</span><span class="na">dispense</span><span class="p">(</span><span class="n">left</span><span class="p">);</span>
+<span class="w">        </span><span class="n">box</span><span class="p">.</span><span class="na">take</span><span class="p">(</span><span class="n">n</span><span class="p">);</span><span class="w">                                 </span><span class="c1">// commit only after next ok</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">concat</span><span class="p">(</span><span class="n">notesOf</span><span class="p">(</span><span class="n">denom</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">rest</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>Debited, then the cassette jams.</strong> Debit first, dispense second: the account is short and the cash never left the machine. There is no undo. Hold on the account, dispense, commit; release the hold on any dispense failure.</li>
+<li><strong>Card left in mid-session.</strong> A user keys the PIN, then walks away. The next person finds a live Authenticated session. A watchdog times out the session, captures the card, wipes the Session, state = Idle.</li>
+<li><strong>Amount the notes can't form.</strong> Rs 3,650 with only Rs 500 and Rs 100 loaded, or a cassette runs dry mid-count. The chain drives left to 0 or throws before phase 1; the ATM asks for a multiple of the smallest note.</li>
+<li><strong>Same account, ATM and app at once.</strong> A withdrawal here and a transfer in the mobile app race the same balance. The bank serialises holds per account; the ATM trusts <code>hold</code> and <code>commit</code>, never reads then writes the balance itself.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>bank.hold(acct, amount)</code> before a note moves, <code>bank.release(h)</code> on a jam — the account never debits for cash still in the machine.</li>
+<li><code>dispenser.dispense(amount)</code> throws instead of paying part — the chain is all or nothing.</li>
+<li><code>box.take(n)</code> runs only after <code>next.dispense</code> returns — a downstream shortfall unwinds with no cassette touched.</li>
+</ol>
+<h2 id="breaking-the-amount-into-notes">Breaking the Amount into Notes</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>New note value</th>
+<th>Per-cassette rule</th>
+<th>On a shortfall</th>
+<th>Read at a glance</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Greedy while-loop (the default)</td>
+<td>edit the loop</td>
+<td>tangled in the loop</td>
+<td>silently under-pays</td>
+<td>one dense loop</td>
+<td>fine for two notes</td>
+</tr>
+<tr>
+<td>Chain of handlers</td>
+<td>insert one handler</td>
+<td>each handler owns its own</td>
+<td>throws, nothing taken</td>
+<td>one handler, one denom</td>
+<td>a class per denomination</td>
+</tr>
+<tr>
+<td>DP / exact split</td>
+<td>re-run with a new set</td>
+<td>hard to express</td>
+<td>reports impossible</td>
+<td>a DP table</td>
+<td>build and test the DP</td>
+</tr>
+</tbody>
+</table>
+<p>The chain of handlers. Each denomination is one handler that knows its cassette and its rule, so a new Rs 200 note is one insert and nothing else moves. But know the limit you are accepting: the chain is greedy, and greedy can refuse a split that exists. Rs 600 from one Rs 500 and three Rs 200s takes the Rs 500, is left with Rs 100 and no Rs 100s, while 3 x Rs 200 would have worked. Reach for DP when the note set stops being canonical, or when you must minimise the count.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Debiting the account before the notes are counted — a jam and the cash is gone with no way back.</li>
+<li>The ATM branches on a mode with if / switch in every method — a new screen edits five places.</li>
+<li>One dispense loop that hard-codes Rs 2000, Rs 500, Rs 100 — a new note is a rewrite and per-cassette rules tangle.</li>
+<li>Money as a double — rounding drift across a million withdrawals.</li>
+<li>Reading the balance in the ATM and writing it back — the mobile app withdraws in the gap.</li>
+<li>PIN checked on the card or in the ATM instead of by the bank — a cloned card sets its own PIN.</li>
+<li><code>while (left &gt; 0) give the biggest note inline in withdraw</code> instead of a handler chain.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>State — one class per screen, transitions inside it. Chain of Responsibility — the note dispenser, one handler per denomination. Strategy — the withdrawal-limit policy on page 2. Adapter — <code>BankService</code> wraps the ISO-8583 host.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"One ATM, a Session for the live request, one cassette per note value. The ATM is a context: every screen delegates to the current state — Idle to CardInserted on a card, to Authenticated when the bank clears the PIN, to SelectingTxn, then Dispensing. Withdrawal is two-phase: hold on the account, count notes down a chain of denomination handlers, commit, or release if a cassette jams. Money is integer paise."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>Account debited, then the cassette jams. Walk it.</strong> Hold, dispense, commit; release on any failure, nothing leaves.</li>
+<li><strong>The amount can't be made from the notes on hand.</strong> The chain throws before commit; ask for a multiple of Rs 100.</li>
+<li><strong>Card left in the slot mid-transaction.</strong> A watchdog times out, captures the card, wipes the session.</li>
+<li><strong>Same account hit from the mobile app at once.</strong> The bank serialises holds per account; the ATM never touches the balance.</li>
+<li><strong>Wrong PIN three times.</strong> <code>pinTries</code> on the Session, card retained; the real lockout is the bank's, across every ATM.</li>
+<li><strong>Add a Rs 200 note.</strong> One link in the chain, but note that it breaks greedy, and DP is the fix.</li>
+<li><strong>The bank host is slow or down.</strong> The Adapter times out; no hold means no cash, the card is ejected.</li>
+<li><strong>Cap a card at Rs 25,000 a day.</strong> A <code>WithdrawalLimitPolicy</code> the ATM asks before it holds.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Real EMV / PIN crypto</strong> — chip auth, the PIN block, key ceremony. Mocked behind <code>BankService.authenticate</code>.</li>
+<li><strong>The interbank network</strong> — ISO-8583 to the switch, settlement files. That is the HLD version.</li>
+<li><strong>Receipt printer and cassette hardware</strong> — jams, low-paper, note-thickness sensors. Named, mocked.</li>
+<li><strong>Multi-currency</strong> — money carries an amount only. A currency field and a rate table drop in later.</li>
+<li><strong>Anti-skimming, cameras</strong> — physical security, not the object model.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>Making change from a till</li>
+<li>Tiered discount rules</li>
+<li>A middleware / filter pipeline</li>
+<li>Event handler chains</li>
+<li>Log-level routing</li>
+<li>Expense approval chains</li>
+<li>Any request passed along until something handles it</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-03-elevator-system.html"><span class="dir">Previous</span><span class="ttl">Design an Elevator System</span></a><a class="next" href="doc-practice-lld-design-problems-05-coffee-machine.html"><span class="dir">Next</span><span class="ttl">Design a Coffee Machine</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads — Java</title>
+<meta name="description" content="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-57">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-57.html#lecture-57">Lecture 57</a></li><li><a href="doc-theory-lecture-57.html#1-four-concurrency-tools-four-different-problems">1. Four Concurrency Tools, Four Different Problems</a></li><li><a href="doc-theory-lecture-57.html#2-future-revisited-what-a-future-represents">2. Future, Revisited — What a Future Represents</a></li><li><a href="doc-theory-lecture-57.html#3-the-three-common-forms-of-submit">3. The Three Common Forms of submit()</a></li><li><a href="doc-theory-lecture-57.html#4-core-methods-of-future">4. Core Methods of Future</a></li><li><a href="doc-theory-lecture-57.html#5-why-future-is-not-enough">5. Why Future Is Not Enough</a></li><li><a href="doc-theory-lecture-57.html#6-creating-a-completablefuture">6. Creating a CompletableFuture</a></li><li><a href="doc-theory-lecture-57.html#7-chaining-completion-stages">7. Chaining Completion Stages</a></li><li><a href="doc-theory-lecture-57.html#8-sync-vs-async-continuations">8. Sync vs Async Continuations</a></li><li><a href="doc-theory-lecture-57.html#9-combining-futures-thencombine-allof-anyof">9. Combining Futures: thenCombine, allOf, anyOf</a></li><li><a href="doc-theory-lecture-57.html#10-handling-completion-and-failure">10. Handling Completion and Failure</a></li><li><a href="doc-theory-lecture-57.html#11-blocking-vs-non-blocking-composition">11. Blocking vs Non-Blocking Composition</a></li><li><a href="doc-theory-lecture-57.html#12-forkjoinpool-divide-and-conquer-parallelism">12. ForkJoinPool: Divide-and-Conquer Parallelism</a></li><li><a href="doc-theory-lecture-57.html#13-fork-join-and-work-stealing">13. Fork, Join and Work Stealing</a></li><li><a href="doc-theory-lecture-57.html#14-forkjointask-types-and-a-parallel-sum">14. ForkJoinTask Types and a Parallel Sum</a></li><li><a href="doc-theory-lecture-57.html#15-the-common-pool-and-when-to-use-forkjoinpool">15. The Common Pool and When to Use ForkJoinPool</a></li><li><a href="doc-theory-lecture-57.html#16-threadlocal-a-separate-value-per-thread">16. ThreadLocal: A Separate Value Per Thread</a></li><li><a href="doc-theory-lecture-57.html#17-threadlocal-in-pools-leaks-and-remove">17. ThreadLocal in Pools: Leaks and remove()</a></li><li><a href="doc-theory-lecture-57.html#18-platform-threads-vs-virtual-threads">18. Platform Threads vs Virtual Threads</a></li><li><a href="doc-theory-lecture-57.html#19-what-is-a-virtual-thread-mount-unmount-carrier">19. What Is a Virtual Thread: Mount, Unmount, Carrier</a></li><li><a href="doc-theory-lecture-57.html#20-creating-virtual-threads-and-the-per-task-executor">20. Creating Virtual Threads and the Per-Task Executor</a></li><li><a href="doc-theory-lecture-57.html#21-virtual-threads-are-not-a-license-for-unlimited-work">21. Virtual Threads Are Not a License for Unlimited Work</a></li><li><a href="doc-theory-lecture-57.html#22-choosing-the-correct-tool">22. Choosing the Correct Tool</a></li><li><a href="doc-theory-lecture-57.html#23-myth-vs-reality">23. Myth vs Reality</a></li><li><a href="doc-theory-lecture-57.html#24-common-trap-questions">24. Common Trap Questions</a></li><li><a href="doc-theory-lecture-57.html#25-points-to-remember">25. Points to Remember</a></li><li><a href="doc-theory-lecture-57.html#26-likely-interview-questions">26. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-57.html#27-final-summary">27. Final Summary</a></li></ul></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</h1>
+<p class="readmeta">28 sections · 5,855 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-57" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-57">Lecture 57</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "CompletableFuture, ForkJoinPool and Virtual Threads in Java" plus the lecture's own repo notes (each tool solves a different problem), playlist map, verified. Repo evidence: notes.pdf only.</p>
+</blockquote>
+<p>Java ships several concurrency tools, and their real value is not in their method names but in the distinct problems they solve: <code>Future</code> represents the eventual result of one asynchronous task, <code>CompletableFuture</code> lets asynchronous operations be chained, transformed and combined, <code>ForkJoinPool</code> is built for divide-and-conquer computations, and virtual threads make thread-per-task programming practical when there are large numbers of blocking operations. This lecture revisits <code>Future</code>, builds the full <code>CompletableFuture</code> pipeline model, explains the fork-join work-stealing engine, covers <code>ThreadLocal</code> and its request-context role, and closes with virtual threads. The governing idea, stated in the notes themselves, is that understanding the distinction between these tools matters more than memorising their methods.</p>
+<h2 id="1-four-concurrency-tools-four-different-problems">1. Four Concurrency Tools, Four Different Problems</h2>
+<p>The lecture opens by mapping each tool to the problem it was designed to solve. Reusing one tool for another tool's job is the most common source of concurrency confusion.</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Problem it solves</th>
+<th>Core idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Future&lt;T&gt;</code></td>
+<td>Represent the eventual completion of one asynchronous task</td>
+<td>A placeholder returned by <code>submit()</code></td>
+</tr>
+<tr>
+<td><code>CompletableFuture&lt;T&gt;</code></td>
+<td>Chain, transform and combine asynchronous operations</td>
+<td>Composable completion stages</td>
+</tr>
+<tr>
+<td><code>ForkJoinPool</code></td>
+<td>Parallelise a divisible, CPU-bound computation</td>
+<td>Divide and conquer with work stealing</td>
+</tr>
+<tr>
+<td>Virtual threads</td>
+<td>Handle many concurrent blocking tasks cheaply</td>
+<td>Many virtual threads over few carrier threads</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Result that arrives later → <code>Future</code>; pipeline around completion → <code>CompletableFuture</code>; divisible CPU-bound work → <code>ForkJoinPool</code>; many waiting tasks → virtual threads.</p>
+</blockquote>
+<h2 id="2-future-revisited-what-a-future-represents">2. Future, Revisited — What a Future Represents</h2>
+<p>A <code>Future&lt;T&gt;</code> represents the pending result of an asynchronous task. The lifecycle is simple: the task is submitted now, it executes separately, its result may become available later, and the <code>Future</code> represents that pending result in the meantime.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// FutureDemo.java — submit an asynchronous task and read its result later</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">FutureDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="p">,</span><span class="w"> </span><span class="n">ExecutionException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newSingleThreadExecutor</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Future</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">future</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Independent work can happen here before the result is required</span>
+<span class="w">        </span><span class="n">Integer</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">future</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Result: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">        </span><span class="n">executor</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The task may still be running when <code>submit()</code> returns. The returned <code>Future</code> gives the caller a way to wait for the result, check whether the task has completed, cancel the task, and observe an exception raised by the task.</p>
+<h2 id="3-the-three-common-forms-of-submit">3. The Three Common Forms of <code>submit()</code></h2>
+<p><code>ExecutorService.submit()</code> returns a <code>Future</code> in three common shapes.</p>
+<ol>
+<li><strong>Submit a <code>Callable</code></strong> — use it when the task must return a value. The value is later retrieved with <code>future.get()</code>.</li>
+<li><strong>Submit a <code>Runnable</code></strong> — it returns no value, but <code>submit()</code> still returns a <code>Future&lt;?&gt;</code>. After successful completion, <code>future.get()</code> returns <code>null</code>.</li>
+<li><strong>Submit a <code>Runnable</code> with a predefined result</strong> — a result can be supplied separately while submitting a <code>Runnable</code>. The <code>Runnable</code> still returns nothing, but the executor returns the predefined value after successful completion.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>Future&lt;String&gt; future = executor.submit(
+        () -&gt; System.out.println(&quot;Task running&quot;),
+        &quot;SUCCESS&quot;
+);                       // future.get() -&gt; &quot;SUCCESS&quot;
+</code></pre></div>
+
+<p>A <code>Future</code> can be used to track completion, failure and cancellation regardless of which form produced it.</p>
+<h2 id="4-core-methods-of-future">4. Core Methods of <code>Future</code></h2>
+<ul>
+<li><strong><code>get()</code></strong> is a blocking operation. If the result is ready it returns immediately; if not, the calling thread waits. It can throw <code>InterruptedException</code> (the waiting thread was interrupted), <code>ExecutionException</code> (the task failed — the original exception is available through <code>exception.getCause()</code>), or <code>CancellationException</code> (the task was cancelled before its result could be returned).</li>
+<li><strong><code>get(timeout, unit)</code></strong> waits only for the specified duration, throwing <code>TimeoutException</code> if the task does not complete in time. A timeout prevents the calling thread from waiting indefinitely.</li>
+<li><strong><code>isDone()</code></strong> is non-blocking and reports whether the task has reached a terminal state — successful completion, exceptional completion or cancellation. Therefore <code>isDone() == true</code> does not necessarily mean the task succeeded.</li>
+<li><strong><code>cancel(boolean mayInterruptIfRunning)</code></strong> is a request, not a guaranteed forceful termination. If the task has not started, cancellation can prevent it from starting. If it is already running, the argument controls whether interruption may be attempted; for interruption to stop a running task, the task must cooperate (<code>while (!Thread.currentThread().isInterrupted())</code>).</li>
+<li><strong><code>isCancelled()</code></strong> reports whether the task was cancelled before completing normally.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isDone()</code></td>
+<td>Performs a non-blocking status check</td>
+</tr>
+<tr>
+<td><code>get()</code></td>
+<td>Waits when the result is not ready</td>
+</tr>
+<tr>
+<td><code>isCancelled()</code></td>
+<td>Checks whether cancellation occurred</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>isDone()</code> asks "has execution finished in any way?" while <code>get()</code> asks "give me the result, or report failure/cancellation". A failed task reports <code>isDone() == true</code> and then <code>get()</code> throws <code>ExecutionException</code>.</p>
+</blockquote>
+<h2 id="5-why-future-is-not-enough">5. Why <code>Future</code> Is Not Enough</h2>
+<p>A traditional <code>Future</code> only lets the caller wait, poll, cancel and retrieve. It does not directly provide a fluent way to declare: when this task completes, transform its result, run another operation, combine it with another result, and handle failure. That gap pushes callers toward blocking code such as <code>Integer result = future.get();</code> between every step.</p>
+<p><code>CompletableFuture&lt;T&gt;</code> implements both <code>Future&lt;T&gt;</code> and <code>CompletionStage&lt;T&gt;</code>. This gives it two roles: as a <code>Future</code> it represents a pending result, and as a <code>CompletionStage</code> it represents one stage in a larger asynchronous pipeline. The result of one stage can automatically trigger another, so the caller does not have to block between every step.</p>
+<div class="highlight"><pre><span></span><code>Fetch data → Transform data → Validate data → Save data → Send response
+</code></pre></div>
+
+<h2 id="6-creating-a-completablefuture">6. Creating a <code>CompletableFuture</code></h2>
+<p><code>runAsync()</code> is used when the task does not return a value; its result type is <code>CompletableFuture&lt;Void&gt;</code>. <code>supplyAsync()</code> is used when the task returns a value.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Functional interface</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>runAsync()</code></td>
+<td><code>Runnable</code></td>
+<td>No value (<code>CompletableFuture&lt;Void&gt;</code>)</td>
+</tr>
+<tr>
+<td><code>supplyAsync()</code></td>
+<td><code>Supplier&lt;T&gt;</code></td>
+<td>Returns a value</td>
+</tr>
+</tbody>
+</table>
+<p>A future can also be created already completed with <code>CompletableFuture.completedFuture(value)</code>, useful for tests and for short-circuiting a stage that needs no asynchronous work.</p>
+<p>When no executor is supplied, asynchronous <code>CompletableFuture</code> methods normally use <code>ForkJoinPool.commonPool()</code>. A custom executor can be supplied explicitly with <code>supplyAsync(supplier, executor)</code>. Using a custom executor is useful when the common pool should not be shared with the workload, when a specific concurrency limit is needed, when tasks perform blocking I/O, when thread naming or monitoring is required, or when different task categories need isolation.</p>
+<h2 id="7-chaining-completion-stages">7. Chaining Completion Stages</h2>
+<p>Each chaining method answers a slightly different question.</p>
+<ul>
+<li><strong><code>thenApply()</code></strong> receives the previous result and returns a transformed value; it behaves like a <code>Function&lt;T,R&gt;</code>. Type transformation is possible (for example <code>CompletableFuture&lt;Integer&gt;</code> becomes <code>CompletableFuture&lt;String&gt;</code>).</li>
+<li><strong><code>thenAccept()</code></strong> receives the previous result but produces no new value; it behaves like a <code>Consumer&lt;T&gt;</code>. It is used to print, save, send a notification or write to an external system.</li>
+<li><strong><code>thenRun()</code></strong> does not receive the previous result and does not return a new value. Use it when only completion matters.</li>
+<li><strong><code>thenCompose()</code></strong> flattens a dependency where the next stage is itself asynchronous: a function returning <code>CompletableFuture&lt;R&gt;</code> is joined into a single stage rather than nested. Use it instead of <code>thenApply()</code> whenever the mapping function itself returns a <code>CompletableFuture</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Receives previous result?</th>
+<th>Produces a new result?</th>
+<th>Main purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>thenApply()</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Transform</td>
+</tr>
+<tr>
+<td><code>thenAccept()</code></td>
+<td>Yes</td>
+<td>No</td>
+<td>Consume</td>
+</tr>
+<tr>
+<td><code>thenRun()</code></td>
+<td>No</td>
+<td>No</td>
+<td>Run after completion</td>
+</tr>
+</tbody>
+</table>
+<h2 id="8-sync-vs-async-continuations">8. Sync vs Async Continuations</h2>
+<p>A non-<code>Async</code> continuation does not promise a new thread. It may run in the thread that completes the previous stage, or in the thread attaching the continuation if the stage is already complete. Therefore the statement "<code>thenApply()</code> always runs in the same thread" is incorrect. The accurate rule is: a non-<code>Async</code> stage may run in a thread involved in completing or registering the stage.</p>
+<p>An <code>Async</code> continuation schedules the continuation using the stage's default asynchronous executor, which for a normal <code>CompletableFuture</code> is usually the common ForkJoin pool. A specific executor can also be provided with <code>thenApplyAsync(fn, executor)</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Execution policy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>thenApply()</code></td>
+<td>May execute in a thread involved in completion</td>
+</tr>
+<tr>
+<td><code>thenApplyAsync()</code></td>
+<td>Scheduled using the default async executor</td>
+</tr>
+<tr>
+<td><code>thenApplyAsync(fn, executor)</code></td>
+<td>Scheduled using the supplied executor</td>
+</tr>
+</tbody>
+</table>
+<p>The same pattern exists for <code>thenAccept()</code>/<code>thenAcceptAsync()</code> and <code>thenRun()</code>/<code>thenRunAsync()</code>.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Does <code>thenApply</code> guarantee a new thread?" No. Only the <code>Async</code> variants guarantee scheduling on an executor; the plain variants may run on whichever thread completes or attaches the stage.</p>
+</blockquote>
+<h2 id="9-combining-futures-thencombine-allof-anyof">9. Combining Futures: <code>thenCombine</code>, <code>allOf</code>, <code>anyOf</code></h2>
+<p><code>thenCombine()</code> combines the successful results of two independent futures. The combining function runs after both stages complete normally — the two independent operations can run concurrently while the caller waits on the combined stage.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// CombineDemo.java — wait for many independent futures with allOf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CombineDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">fetchUser</span><span class="p">()</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;User&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">fetchOrders</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Orders&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">fetchInvoice</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;Invoice&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(</span><span class="n">CombineDemo</span><span class="p">::</span><span class="n">fetchUser</span><span class="p">);</span>
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">orders</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(</span><span class="n">CombineDemo</span><span class="p">::</span><span class="n">fetchOrders</span><span class="p">);</span>
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">invoice</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(</span><span class="n">CombineDemo</span><span class="p">::</span><span class="n">fetchInvoice</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">all</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">CompletableFuture</span><span class="p">.</span><span class="na">allOf</span><span class="p">(</span><span class="n">user</span><span class="p">,</span><span class="w"> </span><span class="n">orders</span><span class="p">,</span><span class="w"> </span><span class="n">invoice</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">report</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">all</span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">ignored</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                </span><span class="n">user</span><span class="p">.</span><span class="na">join</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; | &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">orders</span><span class="p">.</span><span class="na">join</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; | &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">invoice</span><span class="p">.</span><span class="na">join</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">report</span><span class="p">.</span><span class="na">join</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>allOf()</code> completes when every supplied future completes; the individual results are then read from the component futures. <code>anyOf()</code> completes when the first future completes and returns that result. <code>thenCombine()</code> is for exactly two futures, <code>allOf</code>/<code>anyOf</code> for many.</p>
+<h2 id="10-handling-completion-and-failure">10. Handling Completion and Failure</h2>
+<ul>
+<li><strong><code>exceptionally()</code></strong> provides a recovery value when a previous stage fails; it is similar to a fallback operation and runs only on failure.</li>
+<li><strong><code>whenComplete()</code></strong> observes success or failure without normally changing the result. It is used for logging, metrics, cleanup and observing the final outcome.</li>
+<li><strong><code>handle()</code></strong> receives both the result and the exception and can produce a new result in either case, so it transforms both the success and failure paths.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// PipelineDemo.java — a chain with a failure-recovery stage</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PipelineDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">loadUser</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;harshita&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">enrich</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Empty user&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;@example.com&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CompletableFuture</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pipeline</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="n">CompletableFuture</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">supplyAsync</span><span class="p">(</span><span class="n">PipelineDemo</span><span class="p">::</span><span class="n">loadUser</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">String</span><span class="p">::</span><span class="n">toUpperCase</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">thenApply</span><span class="p">(</span><span class="n">PipelineDemo</span><span class="p">::</span><span class="n">enrich</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">exceptionally</span><span class="p">(</span><span class="n">exception</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">                                    </span><span class="s">&quot;Recovering: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">exception</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">                            </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;FALLBACK&quot;</span><span class="p">;</span>
+<span class="w">                        </span><span class="p">})</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">thenAccept</span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Result: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">pipeline</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Runs on success</th>
+<th>Runs on failure</th>
+<th>Can transform result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>exceptionally()</code></td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>whenComplete()</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Normally observes only</td>
+</tr>
+<tr>
+<td><code>handle()</code></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-blocking-vs-non-blocking-composition">11. Blocking vs Non-Blocking Composition</h2>
+<p>A <code>CompletableFuture</code> can still be waited on. <code>get()</code> and <code>join()</code> both block when the result is not ready; the main difference is exception handling. <code>get()</code> wraps failures in the checked <code>ExecutionException</code> (and requires handling <code>InterruptedException</code>), while <code>join()</code> uses the unchecked <code>CompletionException</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Failure wrapper</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get()</code></td>
+<td><code>ExecutionException</code> (checked)</td>
+</tr>
+<tr>
+<td><code>join()</code></td>
+<td><code>CompletionException</code> (unchecked)</td>
+</tr>
+</tbody>
+</table>
+<p>Avoid blocking between every stage — <code>firstResult = firstFuture.get(); secondResult = secondFuture.get(); total = firstResult + secondResult;</code> defeats the purpose of composition. Prefer declaring the relationship with <code>firstFuture.thenCombine(secondFuture, Integer::sum)</code> so the pipeline proceeds automatically.</p>
+<p>Three design points matter:</p>
+<ol>
+<li><strong>Asynchronous does not mean non-blocking work.</strong> A task is asynchronous when the caller does not execute the work directly, but the worker thread executing it may still block during a database call. Asynchronous and non-blocking are different ideas.</li>
+<li><strong>Be careful with blocking work in the common pool.</strong> The common ForkJoin pool is shared by different APIs and components; long blocking operations can occupy its workers and reduce progress for unrelated tasks. For blocking I/O, consider a dedicated executor, a bounded I/O pool, or virtual threads.</li>
+<li><strong>Do not ignore the final stage.</strong> In a short <code>main()</code> method the JVM may terminate before asynchronous work visibly finishes; for demonstrations, wait with <code>pipeline.join()</code>. In server applications the lifecycle normally stays active independently.</li>
+</ol>
+<h2 id="12-forkjoinpool-divide-and-conquer-parallelism">12. ForkJoinPool: Divide-and-Conquer Parallelism</h2>
+<p>A normal thread pool works well when independent tasks are submitted to a shared executor: workers take tasks from a queue and execute them. Some computations instead have a recursive structure — a large problem splits into smaller problems, each smaller problem splits again, and all partial results are combined. Summing a large array, merge sort, recursive search, image processing, tree traversal and mathematical divide-and-conquer algorithms are examples. <code>ForkJoinPool</code> is designed for this pattern.</p>
+<p>The strategy is:</p>
+<ol>
+<li>Check whether the problem is small enough.</li>
+<li>If yes, solve it directly.</li>
+<li>Otherwise, split it into subtasks.</li>
+<li>Execute subtasks in parallel.</li>
+<li>Combine their results.</li>
+</ol>
+<p>This requires a threshold: a problem size <code>&lt;= threshold</code> is solved directly, while a size above it is split again. Without a threshold, recursive splitting would continue unnecessarily and create excessive overhead — too small creates too many tasks, too large reduces parallelism.</p>
+<h2 id="13-fork-join-and-work-stealing">13. Fork, Join and Work Stealing</h2>
+<p><strong>Fork</strong> schedules a subtask for asynchronous execution (<code>leftTask.fork()</code>); <strong>join</strong> waits for a subtask to finish and obtains its result (<code>leftTask.join()</code>). In a divide-and-conquer computation different workers may generate different amounts of work: one worker may have many pending subtasks while another finishes early. Leaving the idle worker waiting wastes available CPU.</p>
+<p>ForkJoinPool workers maintain worker-local queues. A worker generally processes tasks from its own queue; when it runs out of work it looks for work in another worker's queue, steals an available task, and both workers continue processing. This is <strong>work stealing</strong>, and it balances irregular recursive workloads without requiring every worker to compete constantly for one central queue.</p>
+<div class="highlight"><pre><span></span><code>Main task submitted → splits into subtasks → subtasks enter worker-local queues
+→ worker starts computation → idle workers steal available subtasks
+→ small tasks are solved directly → partial results are joined → final result returned
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pool.invoke(task)</code></td>
+<td>Submit a top-level task and wait for its result</td>
+</tr>
+<tr>
+<td><code>task.fork()</code></td>
+<td>Schedule a subtask asynchronously</td>
+</tr>
+<tr>
+<td><code>task.join()</code></td>
+<td>Wait for a subtask and obtain its result</td>
+</tr>
+<tr>
+<td><code>task.compute()</code></td>
+<td>Execute the task logic directly in the current worker</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-forkjointask-types-and-a-parallel-sum">14. ForkJoinTask Types and a Parallel Sum</h2>
+<p><code>RecursiveTask&lt;V&gt;</code> is used when the computation returns a result; <code>RecursiveAction</code> is used when it does not. Both extend <code>ForkJoinTask</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RecursiveTask&lt;V&gt;</code></td>
+<td>Returns a value</td>
+</tr>
+<tr>
+<td><code>RecursiveAction</code></td>
+<td>Returns no value</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1">// ForkJoinDemo.java — sum an array in parallel with RecursiveTask</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.*</span><span class="p">;</span>
+
+<span class="kd">class</span> <span class="nc">SumTask</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">RecursiveTask</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">THRESHOLD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">numbers</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">end</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">SumTask</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">numbers</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">end</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numbers</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="nf">compute</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">length</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">THRESHOLD</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">calculateDirectly</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">middle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<span class="w">        </span><span class="n">SumTask</span><span class="w"> </span><span class="n">leftTask</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SumTask</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">middle</span><span class="p">);</span>
+<span class="w">        </span><span class="n">SumTask</span><span class="w"> </span><span class="n">rightTask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SumTask</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="w"> </span><span class="n">middle</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">);</span>
+<span class="w">        </span><span class="n">leftTask</span><span class="p">.</span><span class="na">fork</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">rightResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rightTask</span><span class="p">.</span><span class="na">compute</span><span class="p">();</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">leftResult</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">leftTask</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">leftResult</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rightResult</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">calculateDirectly</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">end</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">numbers</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">sum</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ForkJoinDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">numbers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">8</span><span class="p">};</span>
+<span class="w">        </span><span class="n">ForkJoinPool</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ForkJoinPool</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SumTask</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SumTask</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">numbers</span><span class="p">.</span><span class="na">length</span><span class="p">);</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pool</span><span class="p">.</span><span class="na">invoke</span><span class="p">(</span><span class="n">task</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Final sum: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">result</span><span class="p">);</span>
+<span class="w">        </span><span class="n">pool</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The base case (<code>length &lt;= THRESHOLD</code>) prevents further splitting when the problem becomes small. The standard fork-join pattern forks one subtask, directly computes the other with <code>compute()</code>, then joins the forked task and combines both results. This is generally better than immediately forking both tasks and waiting, because it keeps the current worker productive and reduces scheduling overhead.</p>
+<h2 id="15-the-common-pool-and-when-to-use-forkjoinpool">15. The Common Pool and When to Use ForkJoinPool</h2>
+<p>Java maintains a shared pool, <code>ForkJoinPool.commonPool()</code>, used by many <code>CompletableFuture</code> async methods, parallel streams, and <code>ForkJoinTask.fork()</code> when called outside another ForkJoinPool. Because it is shared, long-running blocking tasks should not occupy it carelessly. A work-stealing executor can also be created with <code>Executors.newWorkStealingPool()</code> (optionally with a target parallelism, <code>newWorkStealingPool(4)</code>); it is useful for many small independent or recursively generated tasks but does not guarantee task execution order.</p>
+<p>ForkJoinPool is best suited to workloads that are CPU-bound, divisible into independent subtasks, recursive or naturally decomposable, composed of many relatively small computations, and capable of combining partial results. It is usually <strong>not</strong> the best choice when tasks spend most of their time waiting for network I/O, block on database calls, hold locks for long durations, depend heavily on task ordering, or cannot be divided into independent computations. Blocking a worker can reduce the pool's ability to process other tasks — for blocking workloads a dedicated executor or virtual threads are often more appropriate.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+ForkJoinPool is a CPU-bound divide-and-conquer engine, not a universal executor. Do not park its workers on blocking I/O.</p>
+</blockquote>
+<h2 id="16-threadlocal-a-separate-value-per-thread">16. ThreadLocal: A Separate Value Per Thread</h2>
+<p>A <code>ThreadLocal&lt;T&gt;</code> associates a separate value with each thread. One <code>ThreadLocal</code> object is shared, but every thread sees its own stored value — for example, thread 1 sees <code>userName = "Harshita"</code> while thread 2 sees <code>userName = "Aditya"</code>. The three core operations are <code>get()</code> (read the current thread's value), <code>set(value)</code> (store it) and <code>remove()</code> (erase it).</p>
+<p>A normal local variable is ideal when the value is needed inside one method or can be passed explicitly. <code>ThreadLocal</code> becomes useful when contextual information must be available across several method calls without being passed through every method — request identifiers, tracing information, security context, transaction context or tenant information flowing from Controller to Service to Repository. Because this creates hidden data flow, it must be used carefully.</p>
+<p><code>ThreadLocal.withInitial(supplier)</code> provides a default value so <code>get()</code> never returns <code>null</code> for an unset thread.</p>
+<h2 id="17-threadlocal-in-pools-leaks-and-remove">17. ThreadLocal in Pools: Leaks and <code>remove()</code></h2>
+<p>Worker threads in a pool are reused: Task A uses worker 1, Task A completes, and Task B later uses worker 1. If Task A leaves a <code>ThreadLocal</code> value behind, Task B may observe stale data — and because the worker thread is long-lived, the value also stays reachable and cannot be collected. Values must always be cleaned up in a <code>finally</code> block.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// RequestContextDemo.java — always remove() in a finally block</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">RequestContextDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">REQUEST_ID</span><span class="w"> </span><span class="o">=</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadLocal</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">REQUEST_ID</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">&quot;REQ-&quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">());</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">()</span>
+<span class="w">                                </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; -&gt; &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">REQUEST_ID</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">REQUEST_ID</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">first</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Thread-1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Thread-2&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">first</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">second</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">first</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">second</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+<code>CONTEXT.set(value); try { performWork(); } finally { CONTEXT.remove(); }</code> — cleanup is not optional on pooled threads.</p>
+</blockquote>
+<p>Two related facts belong here. <code>InheritableThreadLocal</code> passes the parent thread's value to a child thread created afterwards, but this caveat matters: inheritance happens at thread creation, so it is unreliable with reused pool threads and is not the mechanism for propagating context across a virtual-thread-per-task executor. Java's forward-looking alternative is <code>ScopedValue</code> (preview), which binds an immutable value for a bounded scope, is inherited naturally by child scopes and structured-concurrency subtasks, and needs no <code>remove()</code>.</p>
+<h2 id="18-platform-threads-vs-virtual-threads">18. Platform Threads vs Virtual Threads</h2>
+<p>Traditional Java threads are called platform threads. They are typically mapped closely to operating-system threads: Java platform thread → operating-system thread → CPU. Operating-system threads are relatively expensive resources, so a server that creates one platform thread for every concurrent blocking request may eventually face high memory consumption, thread-creation overhead, excessive context switching and operating-system thread limits.</p>
+<p>Consider a server request: receive request → call database → wait for database → call another API → wait for response → return result. The thread may spend most of its lifetime waiting rather than using the CPU. With platform threads, high concurrency requires many operating-system threads merely to represent all those waiting tasks; virtual threads reduce the cost of representing that concurrency.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Platform threads</th>
+<th>Virtual threads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backing</td>
+<td>Closely mapped to OS threads</td>
+<td>Scheduled by the JVM over carrier threads</td>
+</tr>
+<tr>
+<td>Cost per thread</td>
+<td>Relatively expensive</td>
+<td>Very cheap</td>
+</tr>
+<tr>
+<td>Pooling</td>
+<td>Often pooled to avoid creation cost</td>
+<td>Not pooled; one new thread per task</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Moderate concurrency, CPU-bound work</td>
+<td>High-concurrency blocking work</td>
+</tr>
+<tr>
+<td>Blocking cost</td>
+<td>Occupies an OS thread while blocked</td>
+<td>Normally unmounts and releases the carrier</td>
+</tr>
+<tr>
+<td>Default count</td>
+<td>Bounded by OS thread limits</td>
+<td>Can be millions, limited by memory</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-what-is-a-virtual-thread-mount-unmount-carrier">19. What Is a Virtual Thread: Mount, Unmount, Carrier</h2>
+<p>A virtual thread is a lightweight Java thread scheduled by the Java runtime rather than directly by the operating system: virtual threads → JVM scheduler → carrier platform threads → operating system and CPU. Many virtual threads can be scheduled over a much smaller number of platform threads. The platform thread temporarily running a virtual thread is called its <strong>carrier thread</strong>.</p>
+<p>When a virtual thread is ready it is <strong>mounted</strong> on a carrier and executes Java code. When it reaches a supported blocking operation such as waiting for I/O, the runtime can normally <strong>unmount</strong> it: the carrier becomes available and another virtual thread can run. When the operation becomes ready, the virtual thread later resumes on the same or a different carrier. Application code still sees the virtual thread — <code>Thread.currentThread()</code> returns the virtual thread, not the carrier. <code>Thread.currentThread().isVirtual()</code> reports <code>true</code> inside a virtual thread.</p>
+<p>Virtual threads do <strong>not</strong> create more CPU. They improve scalability for tasks that spend significant time waiting; a CPU-bound task remains limited by available CPU. Creating thousands of virtual threads for a CPU-intensive calculation does not make the CPU execute thousands of calculations simultaneously. For CPU-bound divide-and-conquer work, ForkJoinPool is generally more suitable.</p>
+<h2 id="20-creating-virtual-threads-and-the-per-task-executor">20. Creating Virtual Threads and the Per-Task Executor</h2>
+<p>Virtual threads became a permanent Java feature in Java 21, so the following APIs can be used without preview features: <code>Thread.ofVirtual()</code>, <code>Thread.startVirtualThread(...)</code>, and <code>Executors.newVirtualThreadPerTaskExecutor()</code>. <code>Thread.startVirtualThread(task)</code> creates and starts a virtual thread and is equivalent to <code>Thread.ofVirtual().start(task)</code>. The builder also supports <code>.name("order-task")</code> and <code>.unstarted(task)</code> followed by <code>thread.start()</code>.</p>
+<p><code>Executors.newVirtualThreadPerTaskExecutor()</code> starts a new virtual thread for each submitted task. It is <strong>not</strong> a traditional thread pool — virtual threads are cheap enough that each task receives its own thread, and the executor does not reuse virtual threads after tasks finish.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// VirtualThreadExecutorDemo.java — one virtual thread per task</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.ExecutorService</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.Executors</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">VirtualThreadExecutorDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                     </span><span class="n">Executors</span><span class="p">.</span><span class="na">newVirtualThreadPerTaskExecutor</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kt">int</span><span class="w"> </span><span class="n">taskId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">                </span><span class="n">executor</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">                                </span><span class="s">&quot;Task &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">taskId</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                                        </span><span class="s">&quot; executed by &quot;</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                                        </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">()));</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The <code>try</code>-with-resources block closes the executor and waits for submitted tasks to finish. A blocking-I/O example can submit ten thousand tasks that each <code>Thread.sleep(Duration.ofSeconds(1))</code>; while a virtual thread waits, its carrier can normally execute another virtual thread, so the whole set completes in roughly one second rather than ten thousand.</p>
+<h2 id="21-virtual-threads-are-not-a-license-for-unlimited-work">21. Virtual Threads Are Not a License for Unlimited Work</h2>
+<p>Virtual threads work especially well for web requests, REST API calls, database operations, file and network I/O, blocking queues, message processing, request-per-thread server designs and workloads with many concurrent waiting tasks. They allow straightforward blocking code to scale without expressing every operation as a callback chain. They do not provide a major advantage when work is long-running and CPU-intensive, dominated by calculations rather than waiting, limited by a small downstream resource, or already naturally handled as data parallelism (video encoding, image rendering, large numerical computations, encryption, recursive array processing).</p>
+<ul>
+<li><strong>Threads may be cheap, dependencies are not.</strong> Even when virtual threads are inexpensive, the resources they use may remain limited: database connection pools, external API rate limits, memory, file descriptors, sockets and downstream service capacity. Creating 100,000 virtual threads does not safely create 100,000 database connections; concurrency should be limited around the scarce resource, for example with <code>new Semaphore(50)</code>. Virtual threads make waiting threads cheap, not every system limit disappear.</li>
+<li><strong>Do not pool virtual threads.</strong> With platform threads, pooling avoids expensive creation; with virtual threads the intended model is one task → one new virtual thread → the thread terminates with the task. Do not build a small fixed pool of virtual threads; use <code>Executors.newVirtualThreadPerTaskExecutor()</code> and limit the constrained resource instead.</li>
+<li><strong>Virtual threads and <code>synchronized</code>.</strong> Modern JDKs have reduced important sources of virtual-thread pinning, including monitor-related improvements introduced after virtual threads first became permanent. However, long blocking operations while executing native or foreign code can still occupy a carrier thread. The practical rule remains: keep critical sections small, do not hold locks while performing long external I/O, and measure real applications rather than assuming every blocking operation scales perfectly. Pinning does not make code incorrect, but excessive carrier blocking reduces scalability.</li>
+<li><strong>Structured concurrency preview.</strong> <code>StructuredTaskScope</code> (preview) lets a group of subtasks be treated as one unit with clear lifetimes and failure propagation, pairing naturally with virtual threads so that sequential-looking code can fan out and join safely.</li>
+</ul>
+<blockquote class="callout callout--note">
+<p>Memory aid
+Virtual threads remove the <em>thread</em> bottleneck, not the <em>resource</em> bottleneck. The limit moves to the database, the API or the socket — so guard those, not the thread count.</p>
+</blockquote>
+<h2 id="22-choosing-the-correct-tool">22. Choosing the Correct Tool</h2>
+<p>The tools are complementary, not interchangeable replacements.</p>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Better choice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Track one task's result</td>
+<td><code>Future</code></td>
+</tr>
+<tr>
+<td>Wait or cancel one task</td>
+<td><code>Future</code></td>
+</tr>
+<tr>
+<td>Build a chain of dependent operations</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+<tr>
+<td>Transform a result automatically</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+<tr>
+<td>Combine independent async results</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+<tr>
+<td>Handle a completion pipeline declaratively</td>
+<td><code>CompletableFuture</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>ForkJoinPool</th>
+<th>Virtual threads</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primarily suited to</td>
+<td>CPU-bound parallel work</td>
+<td>High-concurrency blocking work</td>
+</tr>
+<tr>
+<td>Unit of work</td>
+<td>Subtasks of one computation</td>
+<td>One lightweight thread per task</td>
+</tr>
+<tr>
+<td>Scheduling</td>
+<td>Work stealing</td>
+<td>JVM scheduling over carrier threads</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Divide and conquer</td>
+<td>Thread-per-request/task</td>
+</tr>
+<tr>
+<td>Parallelism</td>
+<td>Limited by useful CPU capacity</td>
+<td>Concurrency may far exceed CPU count</td>
+</tr>
+<tr>
+<td>Blocking</td>
+<td>Avoid long blocking operations</td>
+<td>Blocking is the primary use case</td>
+</tr>
+</tbody>
+</table>
+<p><code>CompletableFuture</code> represents work as completion stages, attaches callbacks, and composes results declaratively — useful when asynchronous pipelines are natural, several independent results must be combined, a framework already works with completion stages, or callback-style composition is desirable. Virtual threads let normal sequential blocking code run on one thread per task while the JVM handles large concurrency — useful when the workflow is naturally sequential, code makes blocking I/O calls, imperative readability matters, or thread-per-request programming is preferred.</p>
+<blockquote class="callout callout--important">
+<p>Important
+A virtual-thread version <code>String user = fetchUser(); String orders = fetchOrders();</code> is easier to read but performs the two calls sequentially unless separate virtual threads or structured concurrency are used; the <code>CompletableFuture</code> <code>thenCombine</code> version runs them concurrently.</p>
+</blockquote>
+<h2 id="23-myth-vs-reality">23. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"One tool fits all concurrency needs."</td>
+<td>Each tool solves a different problem: <code>Future</code> for a single pending result, <code>CompletableFuture</code> for pipelines, ForkJoinPool for CPU-bound divide and conquer, virtual threads for blocking concurrency.</td>
+</tr>
+<tr>
+<td>"<code>thenApply()</code> always runs on a new thread."</td>
+<td>Plain continuations may run in the thread that completes or attaches the stage; only the <code>Async</code> variants are scheduled on an executor.</td>
+</tr>
+<tr>
+<td>"<code>isDone()</code> means the task succeeded."</td>
+<td>It only means a terminal state was reached; the task may have completed exceptionally or been cancelled.</td>
+</tr>
+<tr>
+<td>"Virtual threads make CPU-bound work faster."</td>
+<td>They do not add CPU cores; they help tasks that spend time waiting. CPU-bound work belongs to ForkJoinPool.</td>
+</tr>
+<tr>
+<td>"ForkJoinPool is a universal executor."</td>
+<td>It is for CPU-bound, decomposable work; blocking its workers on I/O reduces throughput for unrelated tasks.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="24-common-trap-questions">24. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — "Does creating 100,000 virtual threads create 100,000 database connections?"
+No. Threads are cheap, dependencies are not. Limit the scarce resource (for example with a <code>Semaphore</code>) rather than the virtual-thread count.</p>
+<p>Trap 2 — "I called <code>future.cancel(true)</code> while the task is running — it has definitely stopped, right?"
+No. <code>cancel</code> is a request, not a guarantee. For a running task to stop, the task must cooperate by checking interruption or a flag.</p>
+<p>Trap 3 — "Should I pool virtual threads like platform threads?"
+No. The intended model is one new virtual thread per task; use <code>newVirtualThreadPerTaskExecutor()</code> and do not reuse virtual threads.</p>
+<p>Trap 4 — "I set a <code>ThreadLocal</code> in a pool task and never removed it. Is that fine?"
+No. Pooled worker threads are reused, so the next task can observe stale data and the value stays reachable; always call <code>remove()</code> in a <code>finally</code> block.</p>
+<p>Trap 5 — "Can I use <code>InheritableThreadLocal</code> to pass context to virtual-thread executor tasks?"
+Not reliably. Inheritance occurs at thread creation; pooled and per-task threads do not guarantee the intended parent. Prefer explicit parameters or <code>ScopedValue</code> (preview).</p>
+<p>Trap 6 — "Should I use ForkJoinPool for a task that blocks on a database call?"
+No. Blocking a fork-join worker reduces the pool's ability to process other tasks; use a dedicated executor or virtual threads.</p>
+<p>Trap 7 — "<code>get()</code> and <code>join()</code> are the same, aren't they?"
+Both block, but <code>get()</code> throws checked <code>ExecutionException</code> while <code>join()</code> throws unchecked <code>CompletionException</code>.</p>
+</blockquote>
+<h2 id="25-points-to-remember">25. Points to Remember</h2>
+<ol>
+<li><code>Future&lt;T&gt;</code> represents the eventual result of one asynchronous task and supports waiting, polling, cancellation and exception observation.</li>
+<li><code>get()</code> blocks and can throw <code>InterruptedException</code>, <code>ExecutionException</code> and <code>CancellationException</code>; <code>isDone()</code> is non-blocking and does not imply success.</li>
+<li><code>CompletableFuture</code> implements both <code>Future</code> and <code>CompletionStage</code>, so it is both a pending result and a composable stage.</li>
+<li><code>runAsync()</code> uses a <code>Runnable</code> and yields <code>CompletableFuture&lt;Void&gt;</code>; <code>supplyAsync()</code> uses a <code>Supplier</code> and returns a value; <code>completedFuture(v)</code> creates an already-complete future.</li>
+<li><code>thenApply</code> transforms, <code>thenAccept</code> consumes, <code>thenRun</code> ignores the result, and <code>thenCompose</code> flattens nested asynchronous stages.</li>
+<li>Plain continuations may run on a completing/attaching thread; <code>Async</code> variants use the common pool or a supplied executor.</li>
+<li>Combine two futures with <code>thenCombine</code>, many with <code>allOf</code> (all complete) or <code>anyOf</code> (first completes); recover with <code>exceptionally</code>, observe with <code>whenComplete</code>, transform either path with <code>handle</code>.</li>
+<li>ForkJoinPool targets CPU-bound recursive work: <code>RecursiveTask&lt;V&gt;</code> returns a result, <code>RecursiveAction</code> does not; <code>fork()</code> schedules, <code>join()</code> waits, <code>invoke()</code> runs a top-level task, and idle workers steal work from busy workers' local queues.</li>
+<li><code>ThreadLocal</code> stores a separate value per thread for requested context; on pooled threads always <code>remove()</code> in a <code>finally</code>, and use <code>ThreadLocal.withInitial</code> for defaults.</li>
+<li>Virtual threads (permanent in Java 21) run many-to-one over carrier threads, unmount on supported blocking operations, are not for CPU-bound work, should not be pooled, and must respect scarce downstream resources.</li>
+</ol>
+<h2 id="26-likely-interview-questions">26. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is a <code>Future</code>?</td>
+<td>A placeholder for the pending result of an asynchronous task; it lets the caller wait, check completion, cancel and observe exceptions.</td>
+</tr>
+<tr>
+<td>What does <code>isDone()</code> guarantee?</td>
+<td>Only that a terminal state was reached — success, failure or cancellation — not that the task succeeded.</td>
+</tr>
+<tr>
+<td>Difference between <code>isDone()</code> and <code>get()</code>?</td>
+<td><code>isDone()</code> is a non-blocking status check; <code>get()</code> blocks until the result is available or an exception/cancellation is reported.</td>
+</tr>
+<tr>
+<td>What problems does <code>Future</code> have that <code>CompletableFuture</code> fixes?</td>
+<td><code>Future</code> cannot declaratively chain, transform, combine or handle failure; <code>CompletableFuture</code> adds composable completion stages.</td>
+</tr>
+<tr>
+<td>How do you create a <code>CompletableFuture</code>?</td>
+<td><code>runAsync()</code> for no result, <code>supplyAsync()</code> for a result, or <code>completedFuture(v)</code> for an already-complete one, with the common pool or a custom executor.</td>
+</tr>
+<tr>
+<td>Difference between <code>thenApply</code>, <code>thenAccept</code> and <code>thenRun</code>?</td>
+<td><code>thenApply</code> transforms and returns; <code>thenAccept</code> consumes and returns nothing; <code>thenRun</code> ignores the previous result and only runs after completion.</td>
+</tr>
+<tr>
+<td>Difference between <code>thenApply</code> and <code>thenApplyAsync</code>?</td>
+<td><code>thenApply</code> may run on a completing/attaching thread; <code>thenApplyAsync</code> schedules the continuation on the default or supplied executor.</td>
+</tr>
+<tr>
+<td>What do <code>allOf</code> and <code>anyOf</code> do?</td>
+<td><code>allOf</code> completes when every future completes; <code>anyOf</code> completes with the first future to complete.</td>
+</tr>
+<tr>
+<td>Difference between <code>get()</code> and <code>join()</code>?</td>
+<td>Both block; <code>get()</code> throws checked <code>ExecutionException</code>, <code>join()</code> throws unchecked <code>CompletionException</code>.</td>
+</tr>
+<tr>
+<td>What is <code>ForkJoinPool</code> for and what is work stealing?</td>
+<td>It parallelises divisible CPU-bound computations; idle workers steal queued subtasks from busy workers' local queues.</td>
+</tr>
+<tr>
+<td><code>RecursiveTask</code> vs <code>RecursiveAction</code>?</td>
+<td><code>RecursiveTask&lt;V&gt;</code> returns a result; <code>RecursiveAction</code> performs work without returning one.</td>
+</tr>
+<tr>
+<td>What is a virtual thread and when should it not be used?</td>
+<td>A JVM-scheduled lightweight thread for high-concurrency blocking work; it should not be used for CPU-bound computation and should not be pooled.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="27-final-summary">27. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Future&lt;T&gt;            submit one task → receive a placeholder → wait / check / cancel
+CompletableFuture&lt;T&gt; represent a stage → transform &amp; combine stages → react to completion/failure
+ForkJoinPool         split CPU-bound problem → workers process subtasks → steal work → join partial results
+Virtual threads      one lightweight thread per task → blocking releases the carrier → many waiting tasks become practical
+</code></pre></div>
+
+<ul>
+<li><code>Future</code> → represents the eventual result of one task; <code>get()</code> blocks, <code>isDone()</code> checks, <code>cancel()</code> requests.</li>
+<li><code>CompletableFuture</code> → <code>Future</code> + <code>CompletionStage</code>; create with <code>runAsync</code>/<code>supplyAsync</code>/<code>completedFuture</code>, chain with <code>thenApply</code>/<code>thenAccept</code>/<code>thenRun</code>/<code>thenCompose</code>, combine with <code>thenCombine</code>/<code>allOf</code>/<code>anyOf</code>, recover with <code>exceptionally</code>/<code>whenComplete</code>/<code>handle</code>.</li>
+<li>ForkJoinPool → CPU-bound divide and conquer; fork one side, compute the other, join; workers steal from peers' local queues.</li>
+<li>ThreadLocal → one value per thread for request context; always <code>remove()</code> on pooled threads; <code>withInitial</code> for defaults; <code>InheritableThreadLocal</code> is unreliable across pools; <code>ScopedValue</code> is the preview alternative.</li>
+<li>Virtual threads → Java 21, many over few carrier threads, unmount on blocking, not for CPU-bound work, never pooled, limited by downstream resources.</li>
+<li>Choosing → match the tool to the workload: result placeholder (<code>Future</code>), pipeline (<code>CompletableFuture</code>), divisible CPU work (<code>ForkJoinPool</code>), many blocking tasks (virtual threads).</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+The correct tool depends on the nature of the workload — not simply on which API looks more modern.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> <code>Future</code> answers "what result will arrive later?", <code>CompletableFuture</code> answers "how do I build a pipeline around completion?", ForkJoinPool answers "how do I parallelise a divisible CPU-bound computation?", and virtual threads answer "how do I handle many concurrent blocking tasks without the same number of OS threads?"</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-56.html"><span class="dir">Previous</span><span class="ttl">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</span></a><a class="next" href="doc-practice-01-core-java-level-1.html"><span class="dir">Next</span><span class="ttl">Core Java Interview Q&amp;A — Level I</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Databases and transactions — Projects</title>
+<meta name="description" content="Databases and transactions">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="backend-playbook-03-databases-and-transactions">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="active" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Projects</h4><details class="part" open><summary>Backend Playbook <span class="count">13</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-backend-playbook-00-overview.html" title="Backend Interview Playbook">Backend Interview Playbook</a><button class="star" data-doc="backend-playbook-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-01-project-and-ownership-deep-dives.html" title="Project and ownership deep dives">Project and ownership deep dives</a><button class="star" data-doc="backend-playbook-01-project-and-ownership-deep-dives" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-02-api-design-and-integration.html" title="API design and integration">API design and integration</a><button class="star" data-doc="backend-playbook-02-api-design-and-integration" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-backend-playbook-03-databases-and-transactions.html" title="Databases and transactions">Databases and transactions</a><button class="star" data-doc="backend-playbook-03-databases-and-transactions" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q31-explain-a-transaction-you-had-to-get-exactly-right-and-what-would-have-broken-without-it">Q3.1 - Explain a transaction you had to get exactly right, and what would have broken without it.</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q32-walk-me-through-the-isolation-levels-and-which-anomaly-each-one-lets-through">Q3.2 - Walk me through the isolation levels and which anomaly each one lets through.</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q33-optimistic-or-pessimistic-locking-which-did-you-use-and-why">Q3.3 - Optimistic or pessimistic locking - which did you use and why?</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q34-youre-getting-deadlocks-in-production-how-do-you-diagnose-and-fix-them">Q3.4 - You&#x27;re getting deadlocks in production. How do you diagnose and fix them?</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q35-how-did-you-decide-between-a-relational-database-and-a-nosql-store-for-a-given-feature">Q3.5 - How did you decide between a relational database and a NoSQL store for a given feature?</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q36-a-query-got-slow-as-the-table-grew-walk-me-through-how-youd-fix-it">Q3.6 - A query got slow as the table grew. Walk me through how you&#x27;d fix it.</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q37-how-did-you-run-a-schema-migration-on-a-large-table-without-downtime">Q3.7 - How did you run a schema migration on a large table without downtime?</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q38-how-did-you-handle-the-read-load-when-a-single-database-couldnt-keep-up">Q3.8 - How did you handle the read load when a single database couldn&#x27;t keep up?</a></li><li><a href="doc-backend-playbook-03-databases-and-transactions.html#q39-drill-given-a-transferfrom-to-amount-between-two-accounts-write-the-transaction-and-name-every-failure-mode-youre-guarding-against">Q3.9 - [DRILL] Given a transfer(from, to, amount) between two accounts, write the transaction and name every failure mode you&#x27;re guarding against.</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html" title="Kafka, queues and asynchronous processing">Kafka, queues and asynchronous processing</a><button class="star" data-doc="backend-playbook-04-kafka-queues-and-asynchronous-processing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-05-redis-and-caching.html" title="Redis and caching">Redis and caching</a><button class="star" data-doc="backend-playbook-05-redis-and-caching" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-06-distributed-systems-and-microservices.html" title="Distributed systems and microservices">Distributed systems and microservices</a><button class="star" data-doc="backend-playbook-06-distributed-systems-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-07-reliability-and-resilience.html" title="Reliability and resilience">Reliability and resilience</a><button class="star" data-doc="backend-playbook-07-reliability-and-resilience" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-08-production-incidents-and-debugging.html" title="Production incidents and debugging">Production incidents and debugging</a><button class="star" data-doc="backend-playbook-08-production-incidents-and-debugging" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-09-observability-and-deployment.html" title="Observability and deployment">Observability and deployment</a><button class="star" data-doc="backend-playbook-09-observability-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-10-security-and-data-protection.html" title="Security and data protection">Security and data protection</a><button class="star" data-doc="backend-playbook-10-security-and-data-protection" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-11-system-design-the-blank-page-round.html" title="System design (the blank-page round)">System design (the blank-page round)</a><button class="star" data-doc="backend-playbook-11-system-design-the-blank-page-round" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-backend-playbook-12-behavioural-and-managerial-rounds.html" title="Behavioural and managerial rounds">Behavioural and managerial rounds</a><button class="star" data-doc="backend-playbook-12-behavioural-and-managerial-rounds" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Resume <span class="count">1</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-resume-01-resume.html" title="Resume — Bijit Sahu">Resume — Bijit Sahu</a><button class="star" data-doc="resume-01-resume" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve Interview Qa <span class="count">22</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-00-overview.html" title="Tixolve Interview Q&amp;A — Complete">Tixolve Interview Q&amp;A — Complete</a><button class="star" data-doc="tixolve-interview-qa-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-01-project-elevator-pitch.html" title="Project &amp; Elevator Pitch">Project &amp; Elevator Pitch</a><button class="star" data-doc="tixolve-interview-qa-01-project-elevator-pitch" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-02-architecture-microservices.html" title="Architecture &amp; Microservices">Architecture &amp; Microservices</a><button class="star" data-doc="tixolve-interview-qa-02-architecture-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-03-api-gateway.html" title="API Gateway">API Gateway</a><button class="star" data-doc="tixolve-interview-qa-03-api-gateway" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-04-auth-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-interview-qa-04-auth-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-05-data-persistence.html" title="Data &amp; Persistence">Data &amp; Persistence</a><button class="star" data-doc="tixolve-interview-qa-05-data-persistence" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-06-outbox-pattern-dual-write.html" title="Outbox Pattern &amp; Dual-Write">Outbox Pattern &amp; Dual-Write</a><button class="star" data-doc="tixolve-interview-qa-06-outbox-pattern-dual-write" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-07-kafka-event-driven.html" title="Kafka &amp; Event-Driven">Kafka &amp; Event-Driven</a><button class="star" data-doc="tixolve-interview-qa-07-kafka-event-driven" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-08-ai-rag-ingestion.html" title="AI / RAG — Ingestion">AI / RAG — Ingestion</a><button class="star" data-doc="tixolve-interview-qa-08-ai-rag-ingestion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search.html" title="AI / RAG — Retrieval &amp; Hybrid Search">AI / RAG — Retrieval &amp; Hybrid Search</a><button class="star" data-doc="tixolve-interview-qa-09-ai-rag-retrieval-hybrid-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-10-ai-rag-generation-prompting-escalation.html" title="AI / RAG — Generation, Prompting &amp; Escalation">AI / RAG — Generation, Prompting &amp; Escalation</a><button class="star" data-doc="tixolve-interview-qa-10-ai-rag-generation-prompting-escalation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-11-chat-service-sse-streaming.html" title="Chat Service &amp; SSE Streaming">Chat Service &amp; SSE Streaming</a><button class="star" data-doc="tixolve-interview-qa-11-chat-service-sse-streaming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-12-ticket-service-state-machine.html" title="Ticket Service &amp; State Machine">Ticket Service &amp; State Machine</a><button class="star" data-doc="tixolve-interview-qa-12-ticket-service-state-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-13-notification-service-websocket.html" title="Notification Service &amp; WebSocket">Notification Service &amp; WebSocket</a><button class="star" data-doc="tixolve-interview-qa-13-notification-service-websocket" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-14-frontend.html" title="Frontend">Frontend</a><button class="star" data-doc="tixolve-interview-qa-14-frontend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-15-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-interview-qa-15-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-16-docker-infra-deployment.html" title="Docker, Infra &amp; Deployment">Docker, Infra &amp; Deployment</a><button class="star" data-doc="tixolve-interview-qa-16-docker-infra-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-17-testing-quality.html" title="Testing &amp; Quality (Honest Gaps)">Testing &amp; Quality (Honest Gaps)</a><button class="star" data-doc="tixolve-interview-qa-17-testing-quality" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-18-scaling-production-readiness.html" title="Scaling &amp; Production-Readiness">Scaling &amp; Production-Readiness</a><button class="star" data-doc="tixolve-interview-qa-18-scaling-production-readiness" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-19-trade-offs-what-would-you-do-differently.html" title="Trade-offs &amp; &quot;What Would You Do Differently&quot;">Trade-offs &amp; &quot;What Would You Do Differently&quot;</a><button class="star" data-doc="tixolve-interview-qa-19-trade-offs-what-would-you-do-differently" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-20-behavioral-project-level.html" title="Behavioral / Project-Level">Behavioral / Project-Level</a><button class="star" data-doc="tixolve-interview-qa-20-behavioral-project-level" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-interview-qa-21-rapid-fire-concept-check.html" title="Rapid-Fire Concept Check">Rapid-Fire Concept Check</a><button class="star" data-doc="tixolve-interview-qa-21-rapid-fire-concept-check" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Tixolve System Design <span class="count">12</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-00-overview.html" title="Tixolve — System Design &amp; Engineering Reference">Tixolve — System Design &amp; Engineering Reference</a><button class="star" data-doc="tixolve-system-design-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-01-architecture-overview.html" title="Architecture Overview">Architecture Overview</a><button class="star" data-doc="tixolve-system-design-01-architecture-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-02-application-flow.html" title="Application Flow">Application Flow</a><button class="star" data-doc="tixolve-system-design-02-application-flow" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-03-data-architecture.html" title="Data Architecture">Data Architecture</a><button class="star" data-doc="tixolve-system-design-03-data-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-04-auth-and-security.html" title="Auth &amp; Security">Auth &amp; Security</a><button class="star" data-doc="tixolve-system-design-04-auth-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-05-kafka-and-events.html" title="Kafka &amp; Event-Driven Design">Kafka &amp; Event-Driven Design</a><button class="star" data-doc="tixolve-system-design-05-kafka-and-events" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-06-ai-rag-pipeline.html" title="AI / RAG Pipeline">AI / RAG Pipeline</a><button class="star" data-doc="tixolve-system-design-06-ai-rag-pipeline" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-07-frontend-architecture.html" title="Frontend Architecture">Frontend Architecture</a><button class="star" data-doc="tixolve-system-design-07-frontend-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-08-observability.html" title="Observability">Observability</a><button class="star" data-doc="tixolve-system-design-08-observability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-09-tradeoffs-and-decisions.html" title="Trade-offs &amp; Decisions">Trade-offs &amp; Decisions</a><button class="star" data-doc="tixolve-system-design-09-tradeoffs-and-decisions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-10-codebase-walkthrough.html" title="Codebase Walkthrough">Codebase Walkthrough</a><button class="star" data-doc="tixolve-system-design-10-codebase-walkthrough" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-tixolve-system-design-11-build-log.html" title="Build Log">Build Log</a><button class="star" data-doc="tixolve-system-design-11-build-log" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-projects.html">Projects</a> › Backend Playbook</p>
+<h1>Databases and transactions</h1>
+<p class="readmeta">9 sections · 3,487 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="backend-playbook-03-databases-and-transactions" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 03 - 9 questions - 1 practical drill</p>
+<p>Reason about what the database does when real transactions collide.</p>
+<p>This round separates people who use an ORM from people who understand what the database does under concurrency. Follow-ups drive straight at isolation anomalies, locking, and what happens when two transactions collide in production.</p>
+<p><strong>Inside this module:</strong> Isolation &amp; locking - Index design - Schema evolution - Replication</p>
+<h2 id="q31-explain-a-transaction-you-had-to-get-exactly-right-and-what-would-have-broken-without-it">Q3.1 - Explain a transaction you had to get exactly right, and what would have broken without it.</h2>
+<p><strong>What it really tests:</strong> Whether you reach for transactions deliberately around a real invariant, or wrap everything in BEGIN out of habit.</p>
+<p><strong>Weak answer:</strong> "We used transactions to make sure our database operations were atomic. If something failed it would roll back, which kept the data consistent."</p>
+<p><strong>Why it fails:</strong>
+- Textbook definition of atomicity, no actual scenario.
+- No named invariant that a transaction protected.
+- No concurrency angle - atomicity alone isn't the interesting part.
+- Cannot say what specifically would corrupt without it.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What invariant were you protecting, exactly? - A concrete correctness rule.
+2. <strong>TRADEOFF</strong> - What isolation level did you run it at, and why? - Beyond default settings.
+3. <strong>FAILURE</strong> - Two of these run concurrently - what anomaly could occur? - Concurrency reasoning.
+4. <strong>MEASUREMENT</strong> - How did you keep the transaction short? - Lock-hold discipline.</p>
+<p><strong>Answer framework:</strong>
+1. The invariant
+2. Operations that must be atomic
+3. Isolation level chosen
+4. Concurrency anomaly guarded against
+5. How locks were held
+6. Keeping it short
+7. What would corrupt without it</p>
+<p><strong>Rejection signals:</strong>
+- Only recites ACID, no scenario.
+- Doesn't know what isolation level they ran at.
+- Cannot describe a concurrency anomaly.
+- Wraps unrelated work in one long transaction.</p>
+<p><strong>Model answer skeleton:</strong>
+The invariant was 'an account balance never goes negative' in our wallet service.</p>
+<p>A debit was two steps - check the balance, then write the new balance and a ledger row - and without a transaction two concurrent debits could both read the same balance and both succeed, overdrawing the account.</p>
+<p>I ran it at READ COMMITTED but took an explicit SELECT balance ... FOR UPDATE on the account row, which serialises debits on the same account while letting different accounts proceed in parallel.</p>
+<p>I kept the transaction tight - no external HTTP calls inside it, just the read, the check, and two writes - because holding that row lock across a slow call would have serialised the whole service.</p>
+<p>Without it, our load test reliably produced negative balances; with it, zero.</p>
+<h2 id="q32-walk-me-through-the-isolation-levels-and-which-anomaly-each-one-lets-through">Q3.2 - Walk me through the isolation levels and which anomaly each one lets through.</h2>
+<p><strong>What it really tests:</strong> Precise knowledge of READ COMMITTED / REPEATABLE READ / SERIALIZABLE and dirty/non-repeatable/phantom reads.</p>
+<p><strong>Weak answer:</strong> "There are a few isolation levels - read committed, repeatable read, serializable. Higher levels are safer but slower. We mostly used the default."</p>
+<p><strong>Why it fails:</strong>
+- Names the levels but not the anomalies each prevents.
+- "Safer but slower" without the mechanism.
+- Doesn't know which anomaly their default actually allows.
+- No mention of dirty/non-repeatable/phantom reads or write skew.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What's a non-repeatable read versus a phantom read? - Precise anomaly definitions.
+2. <strong>TECHNICAL</strong> - What's the default in your database, and what does it allow? - Knows their own stack.
+3. <strong>TRADEOFF</strong> - What is write skew and which level stops it? - The subtle SERIALIZABLE case.
+4. <strong>FAILURE</strong> - When did a default isolation level bite you in production? - Lived experience.</p>
+<p><strong>Answer framework:</strong>
+1. READ UNCOMMITTED
+2. READ COMMITTED
+3. dirty reads
+4. non-repeatable reads remain
+5. REPEATABLE READ / snapshot
+6. phantoms and write skew remain
+7. SERIALIZABLE
+8. cost of each
+9. your default and its exposure</p>
+<p><strong>Rejection signals:</strong>
+- Lists levels without mapping to anomalies.
+- Doesn't know their DB's default.
+- Never heard of write skew.
+- Thinks REPEATABLE READ prevents everything.</p>
+<p><strong>Model answer skeleton:</strong>
+READ UNCOMMITTED allows dirty reads - seeing another transaction's uncommitted writes - and almost nobody uses it.</p>
+<p>READ COMMITTED, which is Postgres's default, prevents dirty reads but allows non-repeatable reads: read a row twice in one transaction and it can change because another commit landed in between.</p>
+<p>REPEATABLE READ - snapshot isolation in Postgres - gives you a stable snapshot so re-reads are consistent, but it still allows write skew, where two transactions each read a set, each decide their write is fine, and together they violate an invariant.</p>
+<p>SERIALIZABLE is the only level that stops write skew, at the cost of serialization failures you must retry.</p>
+<p>This bit me once: an on-call scheduling check ran at READ COMMITTED and two people got approved for the last on-call-free slot via write skew; moving that specific check to SERIALIZABLE with a retry loop fixed it.</p>
+<h2 id="q33-optimistic-or-pessimistic-locking-which-did-you-use-and-why">Q3.3 - Optimistic or pessimistic locking - which did you use and why?</h2>
+<p><strong>What it really tests:</strong> Whether the choice was matched to contention level, or picked by default.</p>
+<p><strong>Weak answer:</strong> "We used optimistic locking with a version column. If the version didn't match we'd throw an error and the user could retry."</p>
+<p><strong>Why it fails:</strong>
+- Describes the mechanism but not why it fit the workload.
+- No mention of contention rate driving the choice.
+- No handling story for the retry storm under high contention.
+- Doesn't contrast with the pessimistic case where it would've been wrong.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TRADEOFF</strong> - At what contention level does optimistic locking fall apart? - Knows the crossover point.
+2. <strong>FAILURE</strong> - What does the user experience on a version conflict? - UX of the failure path.
+3. <strong>TECHNICAL</strong> - Where would pessimistic locking have been the right call instead? - Understands both sides.
+4. <strong>MEASUREMENT</strong> - How did you avoid a retry storm? - Backoff and contention control.</p>
+<p><strong>Answer framework:</strong>
+1. Workload contention profile
+2. Optimistic mechanism (version/CAS)
+3. When conflicts are rare
+4. Retry/backoff on conflict
+5. When pessimistic wins
+6. Lock-hold cost of pessimistic
+7. Choice justified by data</p>
+<p><strong>Rejection signals:</strong>
+- Picks one without referencing contention.
+- No conflict-handling UX.
+- Can't say when the other approach wins.
+- Ignores retry storms.</p>
+<p><strong>Model answer skeleton:</strong>
+For editing a user profile I used optimistic locking with a version column, because two people editing the same profile at the same second is genuinely rare - conflicts were well under 1% - so paying for a lock on every read would be waste. On the update I did UPDATE ... WHERE id=? AND version=?; zero rows affected meant someone else won, and I surfaced a 'this was changed, reload' message rather than silently clobbering.</p>
+<p>Where I went the other way was the wallet debit path from earlier - there, contention on a hot account is high and a lost update is money, so I used pessimistic SELECT ... FOR UPDATE, accepting that debits on one account serialise. The rule I follow is: optimistic when conflicts are rare and retryable, pessimistic when conflicts are likely or the cost of a lost update is severe.</p>
+<p>To avoid retry storms on the optimistic path I capped retries and added jitter.</p>
+<h2 id="q34-youre-getting-deadlocks-in-production-how-do-you-diagnose-and-fix-them">Q3.4 - You're getting deadlocks in production. How do you diagnose and fix them?</h2>
+<p><strong>What it really tests:</strong> Whether you understand deadlock mechanics (lock ordering) and the standard fixes, or just increase timeouts.</p>
+<p><strong>Weak answer:</strong> "We'd see deadlock errors in the logs. We increased the timeout and added retries so the transaction would just try again, which mostly solved it."</p>
+<p><strong>Why it fails:</strong>
+- Retrying masks the deadlock instead of removing the cause.
+- No mention of lock-ordering, the actual root cause.
+- Never inspected the deadlock graph to see which locks collided.
+- "Mostly solved" - the deadlocks are still happening.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What's the root cause of a two-transaction deadlock? - Lock-ordering understanding.
+2. <strong>MEASUREMENT</strong> - How did you see which two statements deadlocked? - Uses the deadlock log/graph.
+3. <strong>TRADEOFF</strong> - How does consistent lock ordering prevent it? - The real fix.
+4. <strong>FAILURE</strong> - Why can retries alone be dangerous here? - Understands masking vs fixing.</p>
+<p><strong>Answer framework:</strong>
+1. Reproduce/observe the deadlock
+2. Read the deadlock graph
+3. Identify the two lock-acquisition orders
+4. Impose a consistent order
+5. Shorten transactions / reduce lock scope
+6. Add bounded retry as a safety net
+7. Verify frequency dropped</p>
+<p><strong>Rejection signals:</strong>
+- Only solution is retry + timeout.
+- Never looked at what actually deadlocked.
+- Doesn't know lock ordering causes it.
+- Thinks a bigger timeout is a fix.</p>
+<p><strong>Model answer skeleton:</strong>
+Deadlocks in production almost always mean two transactions acquire the same locks in opposite orders - transaction A locks row 1 then waits on row 2, B locks row 2 then waits on row 1. First I read the database's deadlock log, which in Postgres tells you the two statements and the rows involved.</p>
+<p>In one case we had a transfer that locked the two accounts in the order they appeared in the request, so A-&gt;B and B-&gt;A transfers deadlocked.</p>
+<p>The fix wasn't a bigger timeout - it was to always lock accounts in a deterministic order, e.g. ascending by account id, so both transactions grab them in the same sequence and one simply waits instead of deadlocking.</p>
+<p>I also shortened the transactions to reduce the window.</p>
+<p>I kept a bounded retry with backoff as a safety net for the rare residual case, but retries were the seatbelt, not the fix - the lock ordering was.</p>
+<h2 id="q35-how-did-you-decide-between-a-relational-database-and-a-nosql-store-for-a-given-feature">Q3.5 - How did you decide between a relational database and a NoSQL store for a given feature?</h2>
+<p><strong>What it really tests:</strong> Whether the choice was driven by access patterns and consistency needs, or by hype.</p>
+<p><strong>Weak answer:</strong> "NoSQL scales better and is more flexible, so for anything that needed to scale we used something like MongoDB, and relational for the rest."</p>
+<p><strong>Why it fails:</strong>
+- "Scales better" as a blanket claim ignores relational scaling options.
+- No access pattern named.
+- Ignores transactional and join requirements.
+- "Flexible" schema stated as pure upside, no downside.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - What access pattern made NoSQL the right fit? - Pattern-driven modelling.
+2. <strong>TRADEOFF</strong> - What did you give up on consistency or joins? - Honest trade-offs.
+3. <strong>TECHNICAL</strong> - How would you model a many-to-many relationship in that store? - Data-modelling depth.
+4. <strong>FAILURE</strong> - When did the flexible schema cause you a problem? - Schema-on-read pain.</p>
+<p><strong>Answer framework:</strong>
+1. Access patterns and query shapes
+2. Consistency and transaction needs
+3. Relationship complexity
+4. Scale and write pattern
+5. What each store gives up
+6. Choice justified
+7. What the flexible schema cost later</p>
+<p><strong>Rejection signals:</strong>
+- "NoSQL scales, SQL doesn't."
+- No access pattern mentioned.
+- Unaware of relational sharding/read-replicas.
+- Treats schemaless as free.</p>
+<p><strong>Model answer skeleton:</strong>
+I chose based on the access pattern and the shape of the relationships.</p>
+<p>For our core orders - which had strong invariants, needed multi-row transactions, and got queried by lots of ad-hoc reporting joins - I kept Postgres, because relational is exactly what 'joins plus transactions' wants and we were nowhere near a scale it couldn't handle.</p>
+<p>For a high-write event/audit log that was only ever queried by a single partition key and time range, I used DynamoDB, because the access pattern was fixed and known, and it scaled writes horizontally without me babysitting shards.</p>
+<p>What I gave up there was ad-hoc querying - you can't just JOIN in Dynamo - and I designed the partition and sort keys up front around the exact queries.</p>
+<p>The flexible schema did bite once: an optional field drifted across three shapes over time, and a consumer choked on the old shape, so I learned to validate at the write boundary even in a schemaless store.</p>
+<h2 id="q36-a-query-got-slow-as-the-table-grew-walk-me-through-how-youd-fix-it">Q3.6 - A query got slow as the table grew. Walk me through how you'd fix it.</h2>
+<p><strong>What it really tests:</strong> Systematic query optimisation via EXPLAIN, indexing, and understanding why a plan changed.</p>
+<p><strong>Weak answer:</strong> "We added an index on the column we were filtering by, and that made it fast again. Indexes speed up queries so we just made sure the important columns had them."</p>
+<p><strong>Why it fails:</strong>
+- "Just index the important columns" ignores composite/covering indexes and write cost.
+- Never mentions EXPLAIN to confirm the plan.
+- No awareness that indexes slow writes and cost storage.
+- Doesn't consider selectivity or index-not-used cases.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>MEASUREMENT</strong> - How did you confirm the index was actually used? - EXPLAIN over assumption.
+2. <strong>TECHNICAL</strong> - Why might Postgres ignore an index you added? - Selectivity/planner understanding.
+3. <strong>TRADEOFF</strong> - What's a covering index and when does it help? - Depth beyond single-column indexes.
+4. <strong>FAILURE</strong> - What did adding that index cost you? - Write amplification / storage awareness.</p>
+<p><strong>Answer framework:</strong>
+1. Confirm the slow query
+2. EXPLAIN ANALYZE the plan
+3. Identify the scan
+4. Choose index type/columns/order
+5. Verify plan changed
+6. Measure before/after
+7. Weigh write and storage cost
+8. Add regression guard</p>
+<p><strong>Rejection signals:</strong>
+- Adds indexes without EXPLAIN.
+- Doesn't know why an index might be ignored.
+- Ignores write-side cost of indexes.
+- No before/after measurement.</p>
+<p><strong>Model answer skeleton:</strong>
+I start with EXPLAIN ANALYZE, not guesses. On one slow report the plan showed a sequential scan of a 20M-row table filtering on (tenant_id, status) and sorting by created_at.</p>
+<p>A single-column index on tenant_id barely helped because within a big tenant it was still scanning and sorting, so I built a composite index on (tenant_id, status, created_at) - column order matters, equality columns first, then the sort column - which let the planner satisfy filter and sort from the index.</p>
+<p>I confirmed the new plan actually used it, because Postgres will ignore an index if it thinks a scan is cheaper, e.g. on a low-selectivity predicate.</p>
+<p>The query went from ~3s to ~30ms.</p>
+<p>The cost I accepted was slightly slower writes and extra storage from the index, which was fine here because this table was read-heavy; on a write-heavy table I'd have thought harder before adding it.</p>
+<h2 id="q37-how-did-you-run-a-schema-migration-on-a-large-table-without-downtime">Q3.7 - How did you run a schema migration on a large table without downtime?</h2>
+<p><strong>What it really tests:</strong> Whether you know that naive ALTER TABLE locks, and the expand/contract pattern.</p>
+<p><strong>Weak answer:</strong> "We wrote a migration script and ran it during a low-traffic window. It added the column and we deployed the new code afterwards."</p>
+<p><strong>Why it fails:</strong>
+- "Low-traffic window" implies accepting downtime rather than avoiding a lock.
+- No awareness that some ALTERs take a long exclusive lock.
+- Single-step migration couples schema and code deploy.
+- No backfill strategy for a new NOT NULL column.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - Adding a NOT NULL column with a default on a huge table - what's the risk? - Lock/rewrite awareness.
+2. <strong>TRADEOFF</strong> - Describe the expand/contract (parallel change) pattern. - Safe migration methodology.
+3. <strong>MEASUREMENT</strong> - How do you backfill millions of rows without locking? - Batched backfill.
+4. <strong>FAILURE</strong> - How do you make the migration reversible? - Rollback planning.</p>
+<p><strong>Answer framework:</strong>
+1. Assess lock behaviour of the change
+2. Expand: add nullable column / new structure
+3. Deploy code that writes both
+4. Backfill in batches
+5. Switch reads
+6. Contract: drop old
+7. Keep each step reversible</p>
+<p><strong>Rejection signals:</strong>
+- Relies on a maintenance window instead of avoiding locks.
+- Doesn't know NOT NULL + default can rewrite the table.
+- Single big-bang migration.
+- No batched backfill, no rollback.</p>
+<p><strong>Model answer skeleton:</strong>
+I use expand/contract so there's never a moment the old and new code can't both run. Say I'm splitting full_name into first_name / last_name: first I add the new nullable columns - on Postgres this is a fast metadata-only change, whereas adding a NOT NULL column with a volatile default on old versions would rewrite the whole table under an exclusive lock.</p>
+<p>Then I deploy code that writes both the old and new columns.</p>
+<p>Next I backfill existing rows in batches - a few thousand at a time in separate transactions with a short sleep - so I never hold a long lock or blow up replication lag.</p>
+<p>Once the backfill is done and verified, I switch reads to the new columns, and only in a later, separate deploy do I contract by dropping the old column.</p>
+<p>Every step is independently reversible, so if the new code misbehaves I roll back the deploy without touching the schema.</p>
+<h2 id="q38-how-did-you-handle-the-read-load-when-a-single-database-couldnt-keep-up">Q3.8 - How did you handle the read load when a single database couldn't keep up?</h2>
+<p><strong>What it really tests:</strong> Understanding of read replicas, replication lag, and when sharding becomes necessary.</p>
+<p><strong>Weak answer:</strong> "We added read replicas and sent read queries to them. That spread the load and the primary only handled writes."</p>
+<p><strong>Why it fails:</strong>
+- Ignores replication lag and read-your-writes issues.
+- No mention of which reads are safe to send to a replica.
+- Doesn't address the write-scaling ceiling.
+- No monitoring of lag.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>FAILURE</strong> - A user writes then immediately reads from a replica - what can go wrong? - Read-your-writes / replication lag.
+2. <strong>TRADEOFF</strong> - Which queries did you keep on the primary? - Routing judgement.
+3. <strong>TECHNICAL</strong> - Replicas help reads - what about write scaling? - Knows the ceiling / sharding.
+4. <strong>MEASUREMENT</strong> - How did you monitor replication lag? - Operational awareness.</p>
+<p><strong>Answer framework:</strong>
+1. Read/write split
+2. Route reads to replicas
+3. Handle replication lag / read-your-writes
+4. Keep critical reads on primary
+5. Monitor lag
+6. When writes still bottleneck
+7. Sharding or partitioning as the next step</p>
+<p><strong>Rejection signals:</strong>
+- Ignores replication lag entirely.
+- Sends read-after-write to a replica blindly.
+- Thinks replicas scale writes.
+- No lag monitoring.</p>
+<p><strong>Model answer skeleton:</strong>
+We were read-heavy, so I added read replicas and routed most reads there while the primary took all writes.</p>
+<p>The catch is replication lag - a user who just placed an order and immediately loaded their order list could hit a replica that hadn't caught up and see an empty list.</p>
+<p>So I routed read-your-writes cases and anything on a critical consistency path to the primary, and sent only lag-tolerant reads like search and browse to replicas.</p>
+<p>I monitored replica lag as a first-class metric and alerted if it crossed a couple of seconds, because rising lag was an early warning of primary write pressure.</p>
+<p>Replicas bought us a lot of headroom on reads, but they do nothing for write throughput - so I noted that if writes became the ceiling the next step was partitioning by tenant, which we hadn't yet needed.</p>
+<h2 id="q39-drill-given-a-transferfrom-to-amount-between-two-accounts-write-the-transaction-and-name-every-failure-mode-youre-guarding-against">Q3.9 - [DRILL] Given a transfer(from, to, amount) between two accounts, write the transaction and name every failure mode you're guarding against.</h2>
+<p><strong>What it really tests:</strong> Whether the candidate can reason about atomicity, locking order, isolation, and overdraw all at once.</p>
+<p><strong>Weak answer:</strong> N/A - drill. A weak attempt wraps two UPDATEs in a transaction and stops.</p>
+<p><strong>Why it fails:</strong>
+- Two blind UPDATEs with no balance check.
+- No lock ordering, so concurrent opposite transfers deadlock.
+- No overdraw guard.
+- No idempotency, so a retried transfer runs twice.</p>
+<p><strong>Follow-up ladder:</strong>
+1. <strong>TECHNICAL</strong> - How do you stop A-&gt;B and B-&gt;A deadlocking? - Deterministic lock ordering.
+2. <strong>FAILURE</strong> - Where's the overdraw check and is it race-safe? - Invariant under concurrency.
+3. <strong>MEASUREMENT</strong> - If the client retries the transfer, does it run twice? - Idempotency of money movement.</p>
+<p><strong>Answer framework:</strong>
+1. Begin transaction
+2. Lock both accounts in deterministic order
+3. Record idempotency key
+4. Check overdraw
+5. Debit and credit
+6. Insert ledger rows
+7. Re-read balances under lock
+8. Commit; on serialization failure retry</p>
+<p><strong>Rejection signals:</strong>
+- No balance check or a check outside the lock.
+- Locks in request order (deadlock-prone).
+- No idempotency.
+- Does external calls inside the transaction.</p>
+<p><strong>Model answer skeleton:</strong>
+Drill output: I begin a transaction, then SELECT ... FOR UPDATE both account rows ordered by ascending account id - deterministic ordering is what stops A-&gt;B and B-&gt;A deadlocking, because both transactions grab the lower id first.</p>
+<p>Under the lock I re-read the source balance and check balance &gt;= amount; doing the check after taking the lock is what makes the overdraw guard race-safe.</p>
+<p>Then I decrement the source, increment the destination, and insert two ledger rows in the same transaction so the money-moved record is atomic with the balances. I record a client-supplied idempotency key in a unique-constrained table inside the same transaction, so a retried transfer hits the constraint and returns the original result instead of moving money twice.</p>
+<p>No HTTP or external calls happen inside the transaction - those would hold the row locks across network latency.</p>
+<p>On a serialization failure I retry the whole thing with backoff.</p>
+<div class="pager"><a class="prev" href="doc-backend-playbook-02-api-design-and-integration.html"><span class="dir">Previous</span><span class="ttl">API design and integration</span></a><a class="next" href="doc-backend-playbook-04-kafka-queues-and-asynchronous-processing.html"><span class="dir">Next</span><span class="ttl">Kafka, queues and asynchronous processing</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

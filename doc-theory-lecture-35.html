@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext) — Spring Boot</title>
+<meta name="description" content="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-35">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-35.html#lecture-35">Lecture 35</a></li><li><a href="doc-theory-lecture-35.html#1-what-application-security-means">1. What Application Security Means</a></li><li><a href="doc-theory-lecture-35.html#2-assets-threats-and-trust-boundaries">2. Assets, Threats, and Trust Boundaries</a></li><li><a href="doc-theory-lecture-35.html#3-security-foundations-the-questions-before-an-operation">3. Security Foundations: The Questions Before an Operation</a></li><li><a href="doc-theory-lecture-35.html#4-authentication-verifying-an-identity-claim">4. Authentication: Verifying an Identity Claim</a></li><li><a href="doc-theory-lecture-35.html#5-authentication-failures-vs-security-attacks">5. Authentication Failures vs Security Attacks</a></li><li><a href="doc-theory-lecture-35.html#6-authorization-what-an-identity-may-do">6. Authorization: What an Identity May Do</a></li><li><a href="doc-theory-lecture-35.html#7-the-spring-security-identity-model">7. The Spring Security Identity Model</a></li><li><a href="doc-theory-lecture-35.html#8-authentication-securitycontext-and-securitycontextholder">8. Authentication, SecurityContext, and SecurityContextHolder</a></li><li><a href="doc-theory-lecture-35.html#9-authentication-state-tokens-and-session-policy">9. Authentication State, Tokens, and Session Policy</a></li><li><a href="doc-theory-lecture-35.html#10-spring-boot-security-auto-configuration-default-user-and-the-csrf-403">10. Spring Boot Security Auto-Configuration, Default User, and the CSRF 403</a></li><li><a href="doc-theory-lecture-35.html#11-first-customization-securityfilterchain">11. First Customization: SecurityFilterChain</a></li><li><a href="doc-theory-lecture-35.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-35.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-35.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-35.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-35.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</h1>
+<p class="readmeta">17 sections · 6,563 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-35" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-35">Lecture 35</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Security | Authentication, Authorization &amp; SecurityContext" (playlist map, verified). The repo folder contains the <code>springSecurityDemo</code> project (<code>SpringSecurityDemoApplication</code>, <code>controller.StudentController</code>) secured only by the Security starter plus <code>application.properties</code>, and this lecture's notes. Coverage below = what application security means, assets/threats/trust boundaries, authentication vs authorization, the identity model, authentication state, mechanism vs session policy, Spring Boot auto-configuration, the default user and generated password, the CSRF 403 surprise, SecurityContext/SecurityContextHolder, and a first SecurityFilterChain customization. Deeper flows belong to Lectures 36-37.</p>
+</blockquote>
+<p>Security is the part of a backend that decides whether a request may do anything at all. This lecture builds the model behind Spring Security: what we protect, how a request proves an identity, how that identity is authorized, where it is stored during a request, and why one dependency puts a login page and a random password in front of every endpoint. The default behavior - including the surprising 403 on a POST - stops being magic and becomes explainable.</p>
+<h2 id="1-what-application-security-means">1. What Application Security Means</h2>
+<p>Application security means protecting the application's valuable resources and operations from unauthorized access, modification, destruction, disclosure, or misuse. It is not limited to protecting data: an application may need to protect information, business operations, user identities, system availability, financial transactions, administrative capabilities, secrets and credentials, and application reputation.</p>
+<p>Consider a banking application. Its assets are not only rows in a table: account balance, transaction history, the transfer-money operation, customer identity, bank availability, and administrative access. An attacker may not need to steal information - making the bank unavailable through excessive requests is also a security problem.</p>
+<p><strong>Security is not one feature. Security is a collection of controls:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Control</th>
+<th>What it guards</th>
+<th>Why it is separate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Authentication</td>
+<td>Who the actor is</td>
+<td>Identity must be established first</td>
+</tr>
+<tr>
+<td>Authorization</td>
+<td>What the actor may do</td>
+<td>Identity does not imply permission</td>
+</tr>
+<tr>
+<td>Input validation</td>
+<td>Data entering the system</td>
+<td>Blocks malformed or hostile input</td>
+</tr>
+<tr>
+<td>Session protection</td>
+<td>The authenticated session</td>
+<td>Stops theft and fixation</td>
+</tr>
+<tr>
+<td>Password protection</td>
+<td>Stored credentials</td>
+<td>Keeps credentials from leaking</td>
+</tr>
+<tr>
+<td>CSRF protection</td>
+<td>State-changing browser requests</td>
+<td>Stops forged authenticated requests</td>
+</tr>
+<tr>
+<td>CORS policies</td>
+<td>Which origins may call the API</td>
+<td>Controls cross-origin access</td>
+</tr>
+<tr>
+<td>Secure communication</td>
+<td>Data in transit</td>
+<td>Protects credentials and tokens on the wire</td>
+</tr>
+<tr>
+<td>Rate limiting</td>
+<td>Request volume</td>
+<td>Protects availability</td>
+</tr>
+<tr>
+<td>Audit logging</td>
+<td>What happened</td>
+<td>Enables detection and accountability</td>
+</tr>
+<tr>
+<td>Error handling</td>
+<td>Failure information</td>
+<td>Avoids leaking internal details</td>
+</tr>
+<tr>
+<td>Secret management</td>
+<td>Keys and secrets</td>
+<td>Keeps signing keys safe</td>
+</tr>
+</tbody>
+</table>
+<p>Spring Security primarily helps with authentication, authorization, security-context management, session security, protection against several common web attacks, and integration with security protocols.</p>
+<blockquote class="callout callout--important">
+<p>Important: Spring Security does not magically make all application code secure. It will not automatically fix SQL injection from unsafe queries, insecure file uploads, weak business rules, secrets committed to Git, vulnerable dependencies, incorrect database permissions, or sensitive information written into logs.</p>
+</blockquote>
+<p>Therefore: security is not something added only to the login page. It must exist wherever an untrusted actor can affect a valuable resource.</p>
+<h2 id="2-assets-threats-and-trust-boundaries">2. Assets, Threats, and Trust Boundaries</h2>
+<p>Before deciding how to secure an application, understand three concepts.</p>
+<p><strong>Assets.</strong> An asset is anything valuable that should be protected: data assets (passwords, email addresses, phone numbers, health records, payment information, source code, API keys, business documents); operational assets (creating an order, transferring money, approving a refund, changing another user's password, deleting an account, publishing content); infrastructure assets (database, server, cloud account, message broker, file storage, deployment pipeline); and security assets (session IDs, JWT signing keys, encryption keys, OAuth client secrets, password-reset tokens, CSRF tokens).</p>
+<p><strong>Availability as an asset.</strong> Even when an attacker cannot access data, they might prevent legitimate users from reaching the application: thousands of expensive requests, repeated login attempts, resource exhaustion, database connection exhaustion. Availability itself is an asset.</p>
+<p><strong>Threats.</strong> A threat is something that could harm an asset: an attacker stealing credentials, a malicious employee reading restricted data, a bot repeatedly guessing passwords, a user changing another user's order, a script flooding an endpoint, or a browser sending an unwanted authenticated request. A threat is not the same thing as a vulnerability; a vulnerability is a weakness that makes an attack possible.</p>
+<div class="highlight"><pre><span></span><code>Threat:          An attacker wants to access an administrator account.
+Vulnerability:   The application allows unlimited password attempts.
+Attack:          The attacker runs an automated password-guessing tool.
+Impact:          The administrator account is compromised.
+
+Threat + Vulnerability -&gt; Possible Attack
+</code></pre></div>
+
+<p><strong>Trust boundaries.</strong> A trust boundary is a point where information moves from one trust level to another:</p>
+<div class="highlight"><pre><span></span><code>Browser -&gt; Internet -&gt; Spring Boot application -&gt; Database
+</code></pre></div>
+
+<p>Every transition is a possible trust boundary: Browser -&gt; Server, Server -&gt; Database, Service A -&gt; Service B, Mobile application -&gt; API gateway, Public network -&gt; Internal network, External identity provider -&gt; Application.</p>
+<p><strong>Why is the browser untrusted?</strong> A common beginner assumption is: "The frontend only shows the delete button to admins, so normal users cannot delete anything." But users control their browsers. They can change JavaScript, modify HTML, use Postman, use curl, manually call hidden endpoints, manipulate request parameters, and replay old requests. Suppose the frontend contains <code>if (user.role === "ADMIN") { showDeleteButton(); }</code> - this improves the interface but does not provide security, because a non-admin can still send <code>DELETE /api/users/57</code>. Therefore, authorization must be enforced on the server.</p>
+<p><strong>Trust-boundary rule.</strong> Whenever data crosses a trust boundary, ask: Who produced this data? Can it be modified? Should it be authenticated? Should it be authorized? Should it be validated? Should it be encrypted?</p>
+<h2 id="3-security-foundations-the-questions-before-an-operation">3. Security Foundations: The Questions Before an Operation</h2>
+<p>Suppose we have an endpoint: <code>DELETE /api/users/57</code>. From a normal Spring MVC perspective, we think <code>Request -&gt; Controller -&gt; Service -&gt; Repository -&gt; Database</code>.</p>
+<p>From a security perspective, several questions must be answered before the business operation is allowed:</p>
+<ul>
+<li>Who is sending this request?</li>
+<li>Has that identity been verified?</li>
+<li>Is that identity allowed to delete users?</li>
+<li>Is that identity allowed to delete this particular user?</li>
+<li>Has the request been manipulated?</li>
+<li>Was the request genuinely created by the user?</li>
+<li>Could an attacker repeat or forge this request?</li>
+</ul>
+<p><strong>Authentication usually comes before authorization.</strong> A typical flow is:</p>
+<div class="highlight"><pre><span></span><code>Request -&gt; Extract credentials -&gt; Authenticate identity -&gt; Determine authorities
+        -&gt; Evaluate authorization rule -&gt; Allow or deny
+</code></pre></div>
+
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The two famous questions are "who are you?" (authentication) and "what are you allowed to do?" (authorization). Every other control here - sessions, tokens, CSRF, context - exists to answer those two questions reliably on every request.</p>
+</blockquote>
+<p>Mnemonic for the pre-operation questions: <strong>W-I-A-W-R</strong> (Who sends it, Is the identity verified, is the identity Allowed, is this operation allowed, was the Request manipulated).</p>
+<h2 id="4-authentication-verifying-an-identity-claim">4. Authentication: Verifying an Identity Claim</h2>
+<p>Authentication answers: <strong>Who are you, and what evidence proves that claim?</strong> If someone enters a company office and says, "I am Aditya," that is only an identity claim. The security guard may ask for an employee card:</p>
+<div class="highlight"><pre><span></span><code>Claimed identity:  Aditya
+Evidence:          Employee card
+Verification:      Card is checked
+Result:            Identity accepted or rejected
+</code></pre></div>
+
+<p>That process is authentication - the process of verifying an identity claim.</p>
+<p><strong>Username and password example.</strong> Claim: "My username is aditya." Credential: "My password is secret123." Verification: compare the supplied password with the stored encoded password. Result: authentication succeeds or fails. The username usually identifies the account; the password provides evidence that the requester is entitled to use that account.</p>
+<p><strong>Authentication factors</strong> commonly fall into three categories:</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Meaning</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Something you know</td>
+<td>Knowledge held by the user</td>
+<td>Password, PIN, security answer</td>
+</tr>
+<tr>
+<td>Something you have</td>
+<td>An object the user possesses</td>
+<td>Smart card, authenticator application, private key</td>
+</tr>
+<tr>
+<td>Something you are</td>
+<td>A physical trait</td>
+<td>Fingerprint, face, iris</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Multi-Factor Authentication (MFA).</strong> Using two credentials from the same category is not necessarily strong multifactor authentication. Password + authenticator application OTP uses knowledge and possession.</p>
+<blockquote class="callout callout--important">
+<p>Important: In Spring Security, the authenticated representation is usually stored in an <code>Authentication</code> object. Authentication is a process that produces an object; the object is then carried through the rest of the request.</p>
+</blockquote>
+<h2 id="5-authentication-failures-vs-security-attacks">5. Authentication Failures vs Security Attacks</h2>
+<p>An authentication failure and a security attack are not necessarily the same thing.</p>
+<p><strong>Authentication failure</strong> means the presented evidence could not establish an acceptable identity: wrong password, unknown username, expired token, invalid token signature, malformed Authorization header, disabled account, expired account, expired session, incorrect OTP.</p>
+<p><strong>Security attack</strong> involves intentional attempts to defeat, misuse, bypass, or exploit security controls.</p>
+<ul>
+<li><strong>Brute-force attack:</strong> an attacker tries many passwords for one account (<code>aditya / password1</code>, <code>password2</code>, <code>password3</code>, ...). Each individual request produces an authentication failure; the pattern across thousands of requests reveals an attack.</li>
+<li><strong>Credential stuffing:</strong> an attacker uses username-password combinations stolen from another website (<code>user@example.com / reusedPassword123</code>). The password may even be correct, so authentication could succeed even though the request is malicious.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Successful authentication does not prove that the human behind the request is legitimate. It proves only that acceptable credentials were presented.</p>
+</blockquote>
+<p>Additional controls may be needed: MFA, anomaly detection, login notifications, device verification, rate limiting, credential-breach detection.</p>
+<p><strong>Do not reveal unnecessary failure details.</strong> If the application responds "Username exists, but password is incorrect," an attacker now knows the account exists. A safer external response is often <code>Invalid username or password.</code> Internally, the application may log more precise information (password mismatch, account disabled, token expired, user not found). The external message and internal diagnostic information need not be identical.</p>
+<h2 id="6-authorization-what-an-identity-may-do">6. Authorization: What an Identity May Do</h2>
+<p>Authorization answers: <strong>What is this identity allowed to do?</strong> Authentication establishes identity; authorization evaluates access. Suppose the guard has verified that a person is Aditya - that does not mean Aditya can enter every room:</p>
+<div class="highlight"><pre><span></span><code>Authentication:  You are Aditya.
+Authorization:   Aditya may enter the training room,
+                 but may not enter the finance department.
+</code></pre></div>
+
+<p><strong>Authorization as a decision</strong> usually needs four pieces of information:</p>
+<table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>Question</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Subject</td>
+<td>Who is acting?</td>
+<td>User 51, Administrator, Manager, Service account, Anonymous visitor</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>What are they doing?</td>
+<td>Read, Create, Update, Delete, Approve, Transfer, Download</td>
+</tr>
+<tr>
+<td>Resource</td>
+<td>What are they accessing?</td>
+<td>Order 101, Employee record 57, Bank account 9001, Admin dashboard</td>
+</tr>
+<tr>
+<td>Context</td>
+<td>Under what conditions?</td>
+<td>Owner? Business hours? Account active? Below limit? MFA done?</td>
+</tr>
+</tbody>
+</table>
+<p>Therefore, authorization can be thought of as: can subject S perform action A on resource R under context C? Example: can employee 27 update leave request 91 when employee 27 owns leave request 91?</p>
+<p><strong>Public access is also an authorization decision.</strong> For <code>GET /api/courses/public</code>, the application may allow everyone access; that is still a policy: "Permit all requests."</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Authentication</th>
+<th>Authorization</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question</td>
+<td>Who are you?</td>
+<td>What may you do?</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>Verify an identity claim</td>
+<td>Evaluate access for that identity</td>
+</tr>
+<tr>
+<td>Inputs</td>
+<td>Credentials (password, token, certificate)</td>
+<td>Subject, action, resource, context</td>
+</tr>
+<tr>
+<td>When</td>
+<td>Usually first</td>
+<td>Usually after authentication succeeds</td>
+</tr>
+<tr>
+<td>Result</td>
+<td>Identity accepted or rejected</td>
+<td>Access allowed or denied</td>
+</tr>
+<tr>
+<td>Example</td>
+<td>Password matches the stored hash</td>
+<td>Aditya may read the course, not delete the user</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-the-spring-security-identity-model">7. The Spring Security Identity Model</h2>
+<p>Spring Security's identity model uses a specific vocabulary. The concepts are related but not interchangeable.</p>
+<p><strong>Identity</strong> means the entity whose actions the system wants to recognize: a human user, an administrator, a customer, another application, a microservice, a scheduled job, or an IoT device. It is broader than a database row; an <strong>account</strong> is a stored application record that represents and manages an identity.</p>
+<div class="highlight"><pre><span></span><code>users table
+------------------------------------------------
+id | username | password_hash | enabled
+42 | aditya   | ...           | true
+</code></pre></div>
+
+<p>A person may have multiple accounts, an employee identity, a customer identity, and an administrator identity.</p>
+<p><strong>Credentials</strong> are evidence used to prove an identity claim: password, OTP, private key, certificate, API key, bearer token.</p>
+<p><strong>Principal</strong> is the identity currently represented inside the security system.</p>
+<p><strong>Authorities</strong> represent a capability or high-level security attribute granted to a principal: <code>COURSE_READ</code>, <code>COURSE_WRITE</code>, <code>USER_DELETE</code>, <code>PAYMENT_REFUND</code>, <code>ROLE_ADMIN</code>, <code>SCOPE_orders.read</code>. They are represented through <code>GrantedAuthority</code> objects stored inside the current <code>Authentication</code>. Spring describes authorities as high-level permissions such as roles and scopes.</p>
+<p><strong>Granted versus claimed authority.</strong> An authority should be trusted only when assigned by a trusted authentication process. A client should not be able to send:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;username&quot;: &quot;aditya&quot;,
+  &quot;role&quot;: &quot;ADMIN&quot;
+}
+</code></pre></div>
+
+<p>and become an administrator merely because it claimed that role. The role or authority must be loaded from a trusted database, derived from a verified token, supplied by a trusted identity provider, or assigned by a trusted <code>AuthenticationProvider</code>. The <code>Authentication</code> API treats its authorities as values granted by the <code>AuthenticationManager</code>, not arbitrary client claims.</p>
+<p><strong>Roles</strong> are a named grouping of responsibilities or access privileges (USER, INSTRUCTOR, MANAGER, ADMIN, SUPER_ADMIN) and are usually broader than an individual permission:</p>
+<div class="highlight"><pre><span></span><code>ROLE_INSTRUCTOR
+  +-- COURSE_READ
+  +-- COURSE_CREATE
+  +-- COURSE_UPDATE
+  +-- STUDENT_PROGRESS_READ
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>One-line meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Identity</td>
+<td>The conceptual subject the system recognizes</td>
+</tr>
+<tr>
+<td>Account</td>
+<td>A stored record representing an identity</td>
+</tr>
+<tr>
+<td>Credentials</td>
+<td>Evidence proving an identity claim</td>
+</tr>
+<tr>
+<td>Principal</td>
+<td>The identity currently inside the security system</td>
+</tr>
+<tr>
+<td>Authority</td>
+<td>A capability granted to a principal (<code>GrantedAuthority</code>)</td>
+</tr>
+<tr>
+<td>Role</td>
+<td>A named grouping of privileges, usually broader than one permission</td>
+</tr>
+<tr>
+<td>Permission</td>
+<td>A specific allowed operation</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important: A role name is <code>USER</code>; the granted authority is <code>ROLE_USER</code>. The <code>ROLE_</code> prefix is what the default role-based checks expect, so the two strings are not interchangeable.</p>
+</blockquote>
+<h2 id="8-authentication-securitycontext-and-securitycontextholder">8. Authentication, SecurityContext, and SecurityContextHolder</h2>
+<p><code>Authentication</code> is one of the most important Spring Security interfaces, and it has two different roles.</p>
+<p><strong>Role 1 - authentication request.</strong> Before credentials are verified, an <code>Authentication</code> object can represent an attempt (for example <code>UsernamePasswordAuthenticationToken</code>): <code>principal = "aditya"</code>, <code>credentials = "raw-password"</code>, <code>authorities = []</code>, <code>authenticated = false</code>. Someone claims to be Aditya and has supplied this password; the claim is not yet accepted.</p>
+<p><strong>Role 2 - authenticated principal.</strong> After successful verification, another <code>Authentication</code> object represents the accepted identity: <code>principal = UserDetails("aditya")</code>, <code>credentials = null</code>, <code>authorities = [ROLE_USER, COURSE_READ]</code>, <code>authenticated = true</code>. Spring Security formally defines <code>Authentication</code> as both the token for an authentication request and the representation of an authenticated principal after processing.</p>
+<p><strong>Important Authentication information.</strong> Conceptually it contains:</p>
+<ul>
+<li><code>principal</code> - the identity; before authentication it may be <code>"aditya"</code>, afterward a <code>UserDetails</code> object.</li>
+<li><code>credentials</code> - the evidence (password, bearer token, certificate, API key); may be removed after successful authentication.</li>
+<li><code>authorities</code> - the capabilities granted to the principal, used later during authorization.</li>
+<li><code>details</code> - additional information such as remote address or session identifier.</li>
+<li><code>isAuthenticated()</code> - whether the token has been accepted; <code>false</code> before verification, <code>true</code> after trusted verification.</li>
+</ul>
+<p>Application code should not simply mark arbitrary client-created authentication objects as trusted; the authenticated result should normally come from the trusted authentication infrastructure.</p>
+<p><strong>Authentication transformation:</strong></p>
+<div class="highlight"><pre><span></span><code>Unauthenticated Authentication            Authenticated Authentication
++---------------------------+             +---------------------------+
+| principal   = &quot;aditya&quot;    |             | principal   = UserDetails |
+| credentials = &quot;raw-pass&quot;  |  --------&gt;  | credentials = null        |
+| authorities = []          |  AuthManager| authorities = [ROLE_USER] |
+| authenticated = false     |  verifies   | authenticated = true      |
++---------------------------+             +---------------------------+
+</code></pre></div>
+
+<p>That authenticated object becomes the security identity used for the current request.</p>
+<p><strong>SecurityContext.</strong> The <code>SecurityContext</code> is a container that holds the current <code>Authentication</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">SecurityContext</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Authentication</span><span class="w"> </span><span class="nf">getAuthentication</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">setAuthentication</span><span class="p">(</span><span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Why a wrapper at all?</strong> Instead of passing the current user manually (<code>courseService.createCourse(courseRequest, currentUser)</code>) through every method, Spring Security establishes a request-associated security context that can be loaded at the start of a request, updated after authentication, stored for future requests, and cleared after request completion.</p>
+<p><strong>SecurityContextHolder.</strong> It provides access to the current <code>SecurityContext</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">SecurityContext</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SecurityContextHolder</span><span class="p">.</span><span class="na">getContext</span><span class="p">();</span>
+<span class="n">Authentication</span><span class="w"> </span><span class="n">authentication</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getAuthentication</span><span class="p">();</span>
+
+<span class="n">String</span><span class="w"> </span><span class="n">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getName</span><span class="p">();</span>
+<span class="n">Object</span><span class="w"> </span><span class="n">principal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getPrincipal</span><span class="p">();</span>
+<span class="n">Collection</span><span class="o">&lt;?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">GrantedAuthority</span><span class="o">&gt;</span><span class="w"> </span><span class="n">authorities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authentication</span><span class="p">.</span><span class="na">getAuthorities</span><span class="p">();</span>
+</code></pre></div>
+
+<p>Spring Security describes <code>SecurityContextHolder</code> as the central location where the framework stores details about the currently authenticated user.</p>
+<p><strong>Why a holder is necessary.</strong> The authentication filter learns the user's identity, and later components still need it: the authorization component asks "who is the current user?", the controller asks "who submitted this request?", the audit service asks "which user performed this action?" The holder gives them access to the current security context without manually passing the user through every method.</p>
+<p><strong>Default ThreadLocal strategy.</strong> In servlet applications, one request is commonly processed by one thread at a time, so Spring Security uses a <code>ThreadLocal</code> strategy by default. Each thread sees its own current context. The context is also cleared after request processing to prevent one request's identity from leaking into another request handled by a reused server thread.</p>
+<p><strong>Why clearing matters.</strong> Application servers reuse threads. Without clearing, request 1 on thread 7 as ADMIN could leave the old context behind, and request 2 on the same thread 7 as anonymous might incorrectly inherit the administrator identity. Therefore:</p>
+<div class="highlight"><pre><span></span><code>Request begins -&gt; Load or create SecurityContext -&gt; Process security and application logic
+-&gt; Thread returns to pool -&gt; Clear SecurityContextHolder
+</code></pre></div>
+
+<h2 id="9-authentication-state-tokens-and-session-policy">9. Authentication State, Tokens, and Session Policy</h2>
+<p>By default HTTP requests are independent (<code>POST /login</code>, <code>GET /profile</code>, <code>GET /orders</code>, <code>POST /logout</code>). The server must decide how request 2 knows that the user authenticated during request 1. There are two broad models.</p>
+<p><strong>Stateful authentication.</strong> The server retains authentication-related state between requests - commonly session-based:</p>
+<div class="highlight"><pre><span></span><code>User logs in once -&gt; Server verifies credentials -&gt; Server stores authentication in session
+-&gt; Client receives session identifier -&gt; Client sends it on later requests
+-&gt; Server retrieves stored authentication
+</code></pre></div>
+
+<p>First request:</p>
+<div class="highlight"><pre><span></span><code>POST /login
+Content-Type: application/x-www-form-urlencoded
+
+username=aditya&amp;password=secret
+</code></pre></div>
+
+<p>The application verifies the credentials and stores information representing the authenticated user in server-side session state:</p>
+<div class="highlight"><pre><span></span><code>Session ID: ABC123
+Session data:
+  SecurityContext / Authentication
+  principal = aditya
+  authorities = [ROLE_USER]
+</code></pre></div>
+
+<p>The response sends the identifier to the browser, commonly as a cookie (<code>Set-Cookie: JSESSIONID=ABC123</code>). A later request sends <code>Cookie: JSESSIONID=ABC123</code>; the server uses the identifier to retrieve the session and the <code>Authentication</code> for Aditya, so the user does not send the password again.</p>
+<p><strong>Stateful does not mean all data is in the cookie.</strong> In ordinary server-side session authentication the cookie normally contains only a session identifier; the important authentication state is held server-side, and the cookie lets the server locate it. Session state may live in application memory, a distributed cache, a database, or an external session store such as Redis.</p>
+<p>Advantages: authenticate once without resending the password; immediate server-side invalidation (delete session ABC123 and further requests using it fail); the server controls session state (last access time, expiry, concurrent sessions, security context, extra attributes). Costs: each active session consumes server resources, and several servers need shared session storage, sticky sessions, or another consistent strategy.</p>
+<p><strong>Cookie does not necessarily mean session.</strong> Cookies may store a session identifier, language preference, theme preference, analytics identifier, CSRF token, or authentication token; a token-based system can also place an access token inside a cookie.</p>
+<p><strong>Session cookie as a bearer credential.</strong> If an attacker steals <code>JSESSIONID=ABC123</code>, the attacker may not know the password but the identifier may be enough to retrieve the authenticated session. Possession of the session cookie can grant access, so it must be protected like a credential: HTTPS, Secure cookie attribute, HttpOnly, SameSite policy, session expiration, session invalidation, and session ID rotation.</p>
+<p><strong>Session fixation.</strong> An attacker somehow causes a victim to use a session identifier known to the attacker:</p>
+<div class="highlight"><pre><span></span><code>Attacker knows session ID = XYZ -&gt; Victim logs in using session XYZ
+-&gt; Session XYZ becomes authenticated -&gt; Attacker reuses XYZ
+</code></pre></div>
+
+<p>To reduce this risk, the application can change the session identifier on successful authentication (<code>XYZ</code> -&gt; <code>NEW-789</code>). Spring Security includes session-fixation protection and can change the session ID after authentication.</p>
+<p><strong>Stateless authentication.</strong> The server does not rely on a stored login session on later requests; each request carries the information needed for authentication (<code>Authorization: Bearer TOKEN</code>). For every request: extract credential -&gt; validate credential -&gt; create <code>Authentication</code> -&gt; place it in <code>SecurityContext</code> -&gt; authorize -&gt; clear request context. The next request starts again.</p>
+<p><strong>Stateless does not mean no data exists anywhere.</strong> The application may still store users, passwords, permissions, roles, business data, refresh tokens, revoked token records, audit logs, rate-limit counters, and signing keys. Stateless specifically means the server does not depend on a previously stored HTTP login session to reconstruct authentication for the next request.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Stateful session</th>
+<th>Stateless token</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Where auth state lives</td>
+<td>Server-side session store</td>
+<td>In the credential carried by each request</td>
+</tr>
+<tr>
+<td>What the client sends</td>
+<td>Session ID cookie (JSESSIONID)</td>
+<td>Token (for example Bearer token)</td>
+</tr>
+<tr>
+<td>Server storage</td>
+<td>Per-session memory/resources</td>
+<td>No HTTP login session required</td>
+</tr>
+<tr>
+<td>Invalidation</td>
+<td>Immediate server-side invalidation</td>
+<td>Harder; needs revocation or short expiry</td>
+</tr>
+<tr>
+<td>Scaling across servers</td>
+<td>Needs shared store or sticky sessions</td>
+<td>Naturally fits multiple servers</td>
+</tr>
+<tr>
+<td>Typical shape</td>
+<td>Traditional web application</td>
+<td>REST/mobile API</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Authentication mechanism vs session policy.</strong> The mechanism answers how credentials are obtained and verified; the session policy answers whether, after success, the resulting <code>SecurityContext</code> is persisted in an HTTP session. Form login describes how username and password are submitted (<code>POST /login</code>, <code>username=aditya&amp;password=secret</code>). The application may then create a session (authenticate, store the <code>SecurityContext</code> in the session, send a cookie - the traditional stateful app) or issue a token (authenticate, generate an access token, do not create a login session - stateless API). HTTP Basic is likewise a credential transport mechanism: it sends credentials through the Authorization header (<code>Authorization: Basic YWRpdHlhOnNlY3JldA==</code>) and the client usually presents it repeatedly.</p>
+<div class="highlight"><pre><span></span><code>HTTP Basic = credential transport mechanism
+STATELESS  = session persistence decision
+</code></pre></div>
+
+<p><strong>JWT is not automatically stateless.</strong> A JWT is a token format; statelessness depends on how it is used.</p>
+<table>
+<thead>
+<tr>
+<th>Usage</th>
+<th>Stateless use</th>
+<th>Session-backed use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JWT sent every request</td>
+<td>Yes</td>
+<td>No (validated once)</td>
+</tr>
+<tr>
+<td>JWT validated every request</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>HTTP-session authentication used</td>
+<td>No</td>
+<td>Yes, afterward</td>
+</tr>
+<tr>
+<td>Later requests identified by</td>
+<td>The token</td>
+<td>Session cookie</td>
+</tr>
+</tbody>
+</table>
+<p>The session-backed design uses a JWT during authentication but becomes session-based afterward, so token format does not determine session policy. Conversely, a non-JWT opaque token can be processed every request without creating an HTTP session.</p>
+<p><strong>Cookie does not automatically mean stateful.</strong> A stateless application may store a bearer token in a secure cookie (<code>Cookie: access_token=eyJhbGciOi...</code>): on every request read the token, validate it, create <code>Authentication</code>, with no server-side login session. This is still stateless regarding authentication persistence, although automatically submitted cookies introduce CSRF concerns that must be addressed separately.</p>
+<p><strong>Tokens and bearer credentials.</strong> A token is a credential presented by the client:</p>
+<div class="highlight"><pre><span></span><code>GET /api/profile
+Authorization: Bearer eyJhbGciOi...
+</code></pre></div>
+
+<p>The server extracts and validates it (check signature, expiry, issuer, audience, read subject, determine authorities) and may then create <code>Authentication</code> (principal = user 42, authorities = <code>[SCOPE_profile.read]</code>, authenticated = true), used only for the current request unless explicitly persisted.</p>
+<ul>
+<li>A <strong>self-contained token</strong> contains signed information the server validates locally; a JWT may carry claims such as <code>sub</code>, <code>scope</code>, <code>iat</code>, <code>exp</code>, and the server needs no HTTP session lookup.</li>
+<li>An <strong>opaque token</strong> looks like a random identifier (<code>a8f2b9137c45d...</code>) and reveals nothing to the application; the application asks an authorization server or token store whether it is active, which user it represents, and what scopes it contains. Opaque-token authentication can still be stateless from the application's HTTP-session perspective, even though a token service maintains token state.</li>
+</ul>
+<p><strong>Bearer token</strong> means whoever possesses the token may present it - possession is enough, like cash. The same applies to an ordinary session cookie: someone with a valid <code>JSESSIONID</code> may be able to act as the user. Bearer tokens must be protected from network interception, accidental sharing, browser storage attacks, logging, URL leakage, and source-code commits. A valid token is not safe merely because it is a JWT; security still depends on strong signing keys, correct signature verification, expiry, issuer and audience validation, secure transport, safe client storage, and appropriate scopes. JWT stands for <strong>JSON Web Token</strong> - a token format; access tokens are self-contained (often JWT) or opaque, and either is often used as a bearer token.</p>
+<p><strong>Per-request flow:</strong></p>
+<div class="highlight"><pre><span></span><code>HTTP Request --Authorization: Bearer TOKEN--&gt; Authentication filter --extracts--&gt; Token validator
+--validates--&gt; Authenticated Authentication --&gt; SecurityContext --&gt; SecurityContextHolder
+--&gt; Authorization --&gt; Controller --&gt; SecurityContextHolder cleared
+</code></pre></div>
+
+<p>On the next request, the token must be presented and processed again.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The trap is to treat the token format as the answer. Statefulness is a decision about where authentication state lives between requests, not about whether the credential is a JWT, an opaque token, or a cookie.</p>
+</blockquote>
+<h2 id="10-spring-boot-security-auto-configuration-default-user-and-the-csrf-403">10. Spring Boot Security Auto-Configuration, Default User, and the CSRF 403</h2>
+<p>Spring Boot's job is not to implement authentication itself. Spring Security provides the framework; Spring Boot observes what is available and creates a sensible initial configuration:</p>
+<div class="highlight"><pre><span></span><code>Dependency added -&gt; Spring Security classes found on classpath -&gt; auto-configuration activates
+-&gt; Security beans created -&gt; Security filter chain registered -&gt; every matching request passes through security
+</code></pre></div>
+
+<p>The servlet defaults are primarily coordinated through <code>SecurityAutoConfiguration</code> (default web-security setup) and <code>UserDetailsServiceAutoConfiguration</code> (default username-password user). Spring Boot is solving two problems: which requests should be protected and which mechanisms should be available; and which user can authenticate and where that user is loaded from. These correspond conceptually to a default <code>SecurityFilterChain</code> plus a default <code>UserDetailsService</code>. The effective default configuration can be understood approximately as:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">http</span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">authorize</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">authorize</span>
+<span class="w">            </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">formLogin</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">())</span>
+<span class="w">        </span><span class="p">.</span><span class="na">httpBasic</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This means <code>anyRequest().authenticated()</code> (every request requires authentication), <code>formLogin()</code> (username-password through an HTML login form), and <code>httpBasic()</code> (username-password through the Authorization header). Spring Security documents this as the default filter-chain configuration.</p>
+<blockquote class="callout callout--important">
+<p>Important: Adding the security starter secures everything by default. No endpoint is left open unless you say so.</p>
+</blockquote>
+<p><strong>Auto-configuration is conditional:</strong> provide defaults only when the developer has not provided their own configuration. If no <code>SecurityFilterChain</code> bean exists, Spring Boot creates the default web-security configuration; if one exists, it backs off and lets the developer control web security. But a custom <code>SecurityFilterChain</code> replaces the default <em>access</em> rules without removing the generated default user; to replace the user setup too, provide one of <code>UserDetailsService</code>, <code>AuthenticationProvider</code>, or <code>AuthenticationManager</code>. These are independent:</p>
+<div class="highlight"><pre><span></span><code>SecurityFilterChain                          -&gt; How requests are secured
+UserDetailsService / AuthenticationProvider  -&gt; How users are authenticated
+</code></pre></div>
+
+<p><strong>Default user.</strong> Spring Boot needs at least one identity that can authenticate; without a user, the application would present a login page but no credentials could ever succeed. It therefore creates a default in-memory user with username <code>user</code>, stored through <code>UserDetailsService</code> rather than a database:</p>
+<div class="highlight"><pre><span></span><code>InMemoryUserDetailsManager
+   +-- UserDetails
+       +-- username    = &quot;user&quot;
+       +-- password    = generated password
+       +-- authorities = [&quot;ROLE_USER&quot;]
+       +-- enabled     = true
+</code></pre></div>
+
+<p>This user is not created by your controller, saved through JPA or MySQL, a permanent production account, or related to registration; it exists only because Spring Boot needs a development-time identity for testing its default security configuration.</p>
+<p><strong>What happens when we enter <code>user</code>?</strong> The login request provides a principal claim (<code>user</code>) and a credential (the form password). Spring Security asks the user store to load the user whose username is <code>user</code>; the in-memory store returns a <code>UserDetails</code> with an encoded stored password and <code>ROLE_USER</code>. The submitted password is checked against the stored representation. If it matches, Spring Security creates an authenticated <code>Authentication</code> object (<code>principal = UserDetails("user")</code>, <code>credentials = cleared</code>, <code>authorities = [ROLE_USER]</code>, <code>authenticated = true</code>) and places it in the <code>SecurityContext</code>.</p>
+<p><strong>Default role.</strong> The default user normally has <code>ROLE_USER</code>; remember role name <code>USER</code> versus granted authority <code>ROLE_USER</code>. For the default rule <code>anyRequest().authenticated()</code>, the actual role does not matter - Spring Security only asks whether there is an accepted authenticated identity, not whether the user has <code>ROLE_ADMIN</code>. Therefore the default user can access every endpoint after authentication, because the default rule requires authentication, not a particular authority.</p>
+<p><strong>Configuring the default user through properties.</strong> For demonstration purposes we can replace the generated credentials:</p>
+<div class="highlight"><pre><span></span><code>spring.security.user.name=aditya
+spring.security.user.password=secret123
+spring.security.user.roles=USER,ADMIN
+</code></pre></div>
+
+<p>Now the user becomes conceptually: username <code>aditya</code>, password <code>secret123</code>, authorities <code>ROLE_USER, ROLE_ADMIN</code>.</p>
+<p><strong>Generated password.</strong> When the application starts, the console displays something similar to:</p>
+<div class="highlight"><pre><span></span><code>Using generated security password:
+78fa095d-3f4c-48b1-ad50-e24c31d5cf35
+
+This generated password is for development use only.
+Your security configuration must be updated before
+running your application in production.
+</code></pre></div>
+
+<p>The generated value is the password entered with username <code>user</code>. Spring Boot generates a random default password and logs it at WARN level during startup; the documentation explicitly describes it as development-only.</p>
+<p><strong>The CSRF 403 Forbidden surprise.</strong> Suppose a user successfully logs in and then sends <code>POST /api/courses</code>. They may receive <code>403 Forbidden</code> and conclude that the user does not have permission - but that is not necessarily the reason. Spring Security enables CSRF protection by default for servlet web applications, so a state-changing request (<code>POST</code>, <code>PUT</code>, <code>PATCH</code>, <code>DELETE</code>) may be rejected when it lacks the expected CSRF token. The request may have a valid authenticated user, a valid <code>ROLE_USER</code>, and the correct endpoint, but still fail because the required CSRF proof is missing.</p>
+<blockquote class="callout callout--important">
+<p>Important: Why does GET usually work? CSRF protection targets state-changing methods, so a plain GET is not blocked by a missing CSRF token the way a POST is, even though both pass through the same authenticated session.</p>
+</blockquote>
+<p><strong>Key takeaway:</strong> <code>401 Unauthorized</code> usually means acceptable authentication is missing or has failed; <code>403 Forbidden</code> means the request was understood but rejected. With Spring Security, a 403 on a state-changing request may be caused by a missing CSRF token, not only by insufficient roles or authorities.</p>
+<h2 id="11-first-customization-securityfilterchain">11. First Customization: SecurityFilterChain</h2>
+<p>The first customization is to provide our own <code>SecurityFilterChain</code>. Because Spring Boot backs off when it sees a developer-supplied chain, this bean replaces the default web-security rules. A minimal chain can open a public endpoint while keeping everything else authenticated:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Bean</span>
+<span class="n">SecurityFilterChain</span><span class="w"> </span><span class="nf">securityFilterChain</span><span class="p">(</span><span class="n">HttpSecurity</span><span class="w"> </span><span class="n">http</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">http</span><span class="p">.</span><span class="na">authorizeHttpRequests</span><span class="p">(</span><span class="n">authorize</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">authorize</span>
+<span class="w">            </span><span class="p">.</span><span class="na">requestMatchers</span><span class="p">(</span><span class="s">&quot;/api/courses/public/**&quot;</span><span class="p">).</span><span class="na">permitAll</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">anyRequest</span><span class="p">().</span><span class="na">authenticated</span><span class="p">()</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">formLogin</span><span class="p">(</span><span class="n">Customizer</span><span class="p">.</span><span class="na">withDefaults</span><span class="p">());</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">http</span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><code>permitAll()</code> expresses the "permit all requests" authorization policy for that matcher; <code>anyRequest().authenticated()</code> requires an accepted authenticated identity for everything else. Providing this bean removes the default access rules, but the generated default user still exists until a custom <code>UserDetailsService</code>, <code>AuthenticationProvider</code>, or <code>AuthenticationManager</code> is supplied.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Write your own <code>SecurityFilterChain</code> to control which requests are secured; supply your own user source to control who can authenticate. They are separate back-off conditions, so fixing one does not fix the other.</p>
+</blockquote>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Security is only about protecting data"</td>
+<td>Security protects resources and operations too, including availability, identities, and administrative actions.</td>
+</tr>
+<tr>
+<td>"Authorization is the frontend hiding buttons"</td>
+<td>Users control the browser; authorization must be enforced on the server.</td>
+</tr>
+<tr>
+<td>"Authentication and authorization are the same"</td>
+<td>Authentication verifies who you are; authorization decides what you may do.</td>
+</tr>
+<tr>
+<td>"The cookie contains the logged-in user"</td>
+<td>Server-side session cookies normally hold only a session identifier; the state lives server-side.</td>
+</tr>
+<tr>
+<td>"A token is stateless because it is a JWT"</td>
+<td>Token format does not determine session policy; a JWT can be used in a session-backed design.</td>
+</tr>
+<tr>
+<td>"Stateless means no data is stored anywhere"</td>
+<td>Stateless only means no stored HTTP login session is needed to identify the user.</td>
+</tr>
+<tr>
+<td>"A 403 always means the user lacks a role"</td>
+<td>A 403 on a state-changing request may be a missing CSRF token, not insufficient authority.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "Authentication and authorization are the same thing."</strong>
+Verdict: False. Authentication verifies an identity claim ("who are you?"); authorization evaluates what that identity may do. Authorization normally follows authentication.</p>
+<p><strong>Trap 2 - "The frontend only shows the delete button to admins, so normal users cannot delete."</strong>
+Verdict: False. Users control their browsers and can call hidden endpoints with Postman or curl. Authorization must be enforced on the server, not the UI.</p>
+<p><strong>Trap 3 - "The session cookie contains the complete logged-in user."</strong>
+Verdict: False in ordinary server-side sessions. The cookie usually holds only a session identifier; the <code>SecurityContext</code> lives server-side and is looked up using that identifier.</p>
+<p><strong>Trap 4 - "JWT means the application is stateless."</strong>
+Verdict: Not necessarily. A JWT is a token format; statelessness depends on whether the server persists the resulting <code>SecurityContext</code> in an HTTP session.</p>
+<p><strong>Trap 5 - "A 403 Forbidden means the user has no permission."</strong>
+Verdict: Not always. <code>401</code> means authentication is missing or failed; <code>403</code> means the request was understood but rejected. With Spring Security, a 403 on POST/PUT/PATCH/DELETE may be a missing CSRF token.</p>
+<p><strong>Trap 6 - "Adding my own SecurityFilterChain also removes the generated default user."</strong>
+Verdict: False. A custom <code>SecurityFilterChain</code> replaces the default web-security rules, but the generated user remains until you provide your own <code>UserDetailsService</code>, <code>AuthenticationProvider</code>, or <code>AuthenticationManager</code>.</p>
+<p><strong>Trap 7 - "The default user is privileged and can do everything because it has a role."</strong>
+Verdict: Misleading. The default user has <code>ROLE_USER</code>, and the default rule <code>anyRequest().authenticated()</code> only checks that an identity is authenticated - not that it holds any particular role.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li>Application security protects valuable resources and operations, not only data; availability itself is an asset.</li>
+<li>Security is a collection of controls (authentication, authorization, validation, sessions, passwords, CSRF, CORS, transport), and Spring Security does not fix insecure queries, uploads, secrets, or dependencies.</li>
+<li>A threat is not a vulnerability; <code>Threat + Vulnerability -&gt; Possible Attack</code>.</li>
+<li>A trust boundary is where data moves between trust levels; the browser is untrusted, so authorization must be enforced server-side.</li>
+<li>Authentication verifies an identity claim; authorization decides access from subject, action, resource, and context.</li>
+<li>In the identity model, identity is the concept and account is the record; credentials are evidence; principal is the current identity; authorities/roles are granted capabilities that must be trusted, never claimed.</li>
+<li><code>Authentication</code> is both an unverified request token (<code>authenticated = false</code>) and the accepted principal after verification (<code>authenticated = true</code>).</li>
+<li><code>SecurityContext</code> holds the current <code>Authentication</code>; <code>SecurityContextHolder</code> exposes it via <code>ThreadLocal</code> by default and clears it after each request to prevent identity leakage.</li>
+<li>Stateful authentication keeps state server-side (session cookie, invalidatable); stateless authentication relies on a per-request credential; mechanism (form login, HTTP Basic) and session policy are separate, and token format does not decide statelessness.</li>
+<li>Adding the Security starter secures everything by default; auto-configuration backs off when you provide your own <code>SecurityFilterChain</code>, the default user <code>user</code> gets a generated development-only password logged at WARN, and a CSRF-protected POST can return 403 even for a valid authenticated user.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is application security?</td>
+<td>Protecting valuable resources and operations from unauthorized access, modification, destruction, disclosure, or misuse; it is a collection of controls, not one feature.</td>
+</tr>
+<tr>
+<td>Authentication vs authorization?</td>
+<td>Authentication verifies an identity claim ("who are you?"); authorization evaluates whether that identity may perform an action on a resource in a context.</td>
+</tr>
+<tr>
+<td>What is a trust boundary?</td>
+<td>A point where information moves from one trust level to another (browser -&gt; server -&gt; database); data crossing it must be questioned, authenticated, authorized, validated, and possibly encrypted.</td>
+</tr>
+<tr>
+<td>Why can we not trust the frontend for security?</td>
+<td>Users control the browser and can modify JS/HTML, call hidden endpoints with Postman or curl, and replay requests; authorization must run on the server.</td>
+</tr>
+<tr>
+<td>Threat vs vulnerability?</td>
+<td>A threat is something that could harm an asset; a vulnerability is a weakness that makes the attack possible; together they enable a possible attack.</td>
+</tr>
+<tr>
+<td>What is the Spring Security identity model?</td>
+<td>Identity (concept) vs account (record), credentials (evidence), principal (current identity), authorities/roles (granted capabilities), Authentication, SecurityContext, and SecurityContextHolder.</td>
+</tr>
+<tr>
+<td>What is the Authentication interface?</td>
+<td>It represents both an authentication request (unverified, <code>authenticated = false</code>) and the authenticated principal after verification, exposing principal, credentials, authorities, details, and status.</td>
+</tr>
+<tr>
+<td>What is SecurityContext and SecurityContextHolder?</td>
+<td><code>SecurityContext</code> holds the current <code>Authentication</code>; <code>SecurityContextHolder</code> exposes it via a <code>ThreadLocal</code> strategy and is cleared after each request, because reused threads would otherwise leak a previous identity.</td>
+</tr>
+<tr>
+<td>Stateful vs stateless authentication?</td>
+<td>Stateful keeps authentication state in a server-side session (cookie carries a session ID); stateless makes each request carry its own credential and needs no stored HTTP login session.</td>
+</tr>
+<tr>
+<td>Is a JWT always stateless?</td>
+<td>No. A JWT is a token format; statelessness depends on whether the server persists the resulting context in an HTTP session.</td>
+</tr>
+<tr>
+<td>Why does the default Spring Boot app show a generated password?</td>
+<td>Auto-configuration creates an in-memory development user <code>user</code>; Spring Boot generates a random password (logged at WARN, development-only) so the default security config works immediately.</td>
+</tr>
+<tr>
+<td>Why can a POST return 403 after a successful login?</td>
+<td>Spring Security enables CSRF protection by default for servlet apps; a state-changing request without the expected CSRF token is rejected with 403, even for a valid authenticated user.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Application security
+   |
+   v
+Assets + Threats + Trust boundaries
+   |
+   v
+Authentication (who are you?) --evidence--&gt; Authentication object
+   |
+   v
+Authorization (what may you do?) --subject + action + resource + context--&gt;
+Identity model (identity / credentials / principal / authorities / roles)
+   |
+   v
+SecurityContext  &lt;-- holds current Authentication
+   |
+   v
+SecurityContextHolder (ThreadLocal, cleared per request)
+   |
+   v
+Authentication state: stateful session cookie  vs  stateless per-request token
+   |
+   v
+Mechanism (form login / HTTP Basic)  !=  Session policy (stateful / stateless)
+   |
+   v
+Spring Boot auto-configuration: SecurityFilterChain + UserDetailsService
+   |   default user &quot;user&quot; + generated password
+   |   CSRF enabled -&gt; 403 on POST/PUT/PATCH/DELETE without token
+   v
+First customization: your own SecurityFilterChain (permitAll / authenticated)
+</code></pre></div>
+
+<ul>
+<li>Security is a collection of controls, not one feature; protect resources and operations, and remember that availability is itself an asset.</li>
+<li>Authentication verifies identity; authorization evaluates access; authentication normally comes first.</li>
+<li>The identity model separates concept (identity) from record (account), evidence (credentials), current identity (principal), and granted capabilities (authorities/roles).</li>
+<li><code>SecurityContext</code> holds the current <code>Authentication</code>; <code>SecurityContextHolder</code> exposes it via <code>ThreadLocal</code> and clears it after each request to prevent leakage.</li>
+<li>Stateful keeps state server-side; stateless carries the credential per request; mechanism and session policy are independent, and token format does not determine statelessness.</li>
+<li>Spring Boot secures everything by default, generates a development <code>user</code> with a logged password, and its CSRF default can turn a valid POST into a 403.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Security answers "who are you?" (authentication) and "what may you do?" (authorization) on every request, keeps the verified identity in the request-scoped <code>SecurityContext</code>, and - once you add the starter - protects every endpoint by default until you supply your own <code>SecurityFilterChain</code>.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-34.html"><span class="dir">Previous</span><span class="ttl">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</span></a><a class="next" href="doc-theory-lecture-36.html"><span class="dir">Next</span><span class="ttl">Lecture 36 — Spring Security DB Authentication &amp; Password Security</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bit Manipulation — DSA</title>
+<meta name="description" content="Bit Manipulation">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-a2z-07-bit-manipulation">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="active" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>DSA</h4><details class="part" open><summary>Practice &amp; Questions <span class="count">18</span></summary><ul class="side-list"><li class="grp">a2z</li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-00-overview.html" title="A2Z DSA Sheet - Overview">A2Z DSA Sheet - Overview</a><button class="star" data-doc="practice-a2z-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-01-sorting.html" title="Sorting">Sorting</a><button class="star" data-doc="practice-a2z-01-sorting" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-02-arrays.html" title="Arrays">Arrays</a><button class="star" data-doc="practice-a2z-02-arrays" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-03-binary-search.html" title="Binary Search">Binary Search</a><button class="star" data-doc="practice-a2z-03-binary-search" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-04-strings-i.html" title="Strings I">Strings I</a><button class="star" data-doc="practice-a2z-04-strings-i" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-05-linked-list.html" title="Linked List">Linked List</a><button class="star" data-doc="practice-a2z-05-linked-list" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-06-recursion.html" title="Recursion">Recursion</a><button class="star" data-doc="practice-a2z-06-recursion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-a2z-07-bit-manipulation.html" title="Bit Manipulation">Bit Manipulation</a><button class="star" data-doc="practice-a2z-07-bit-manipulation" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-a2z-07-bit-manipulation.html#1-odd-or-even-bitwise">1. Odd or Even (Bitwise)</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#2-power-of-two">2. Power of Two</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#3-count-set-bits">3. Count Set Bits</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#4-set-rightmost-unset-bit">4. Set Rightmost Unset Bit</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#5-swap-two-numbers-xor">5. Swap Two Numbers (XOR)</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#6-check-i-th-bit">6. Check i-th Bit</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#7-divide-two-integers">7. Divide Two Integers</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#8-minimum-bit-flips-to-convert-number">8. Minimum Bit Flips to Convert Number</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#9-single-number">9. Single Number</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#10-subsets-power-set">10. Subsets (Power Set)</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#11-xor-of-range-l-r">11. XOR of Range [L, R]</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#12-single-number-iii">12. Single Number III</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#13-prime-factors">13. Prime Factors</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#14-count-primes-in-range">14. Count Primes in Range</a></li><li><a href="doc-practice-a2z-07-bit-manipulation.html#15-smallest-prime-factor-sieve">15. Smallest Prime Factor Sieve</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-08-stacks-and-queues.html" title="Stacks and Queues">Stacks and Queues</a><button class="star" data-doc="practice-a2z-08-stacks-and-queues" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-09-sliding-window-and-two-pointers.html" title="Sliding Window and Two Pointers">Sliding Window and Two Pointers</a><button class="star" data-doc="practice-a2z-09-sliding-window-and-two-pointers" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-10-heaps.html" title="Heaps">Heaps</a><button class="star" data-doc="practice-a2z-10-heaps" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-11-greedy.html" title="Greedy">Greedy</a><button class="star" data-doc="practice-a2z-11-greedy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-12-trees.html" title="Trees">Trees</a><button class="star" data-doc="practice-a2z-12-trees" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-13-binary-search-trees.html" title="Binary Search Trees">Binary Search Trees</a><button class="star" data-doc="practice-a2z-13-binary-search-trees" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-14-graphs.html" title="Graphs">Graphs</a><button class="star" data-doc="practice-a2z-14-graphs" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-15-dynamic-programming.html" title="Dynamic Programming">Dynamic Programming</a><button class="star" data-doc="practice-a2z-15-dynamic-programming" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-16-tries.html" title="Tries">Tries</a><button class="star" data-doc="practice-a2z-16-tries" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-a2z-17-strings-ii.html" title="Strings II">Strings II</a><button class="star" data-doc="practice-a2z-17-strings-ii" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-dsa.html">DSA</a> › Practice &amp; Questions</p>
+<h1>Bit Manipulation</h1>
+<p class="readmeta">15 sections · 2,762 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-a2z-07-bit-manipulation" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="1-odd-or-even-bitwise">1. Odd or Even (Bitwise)</h2>
+<p><strong>Problem.</strong> Check whether a given integer n is odd, using a bitwise operation instead of the modulo operator.</p>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Input:</strong> n = 7</p>
+<p><strong>Output:</strong> true (odd)</p>
+<ul>
+<li>The LSB of a number's binary representation is 1 if and only if the number is odd (every power of 2 above bit 0 contributes an even value).</li>
+<li>Mask with 1 using AND: n &amp; 1 - result is 1 for odd, 0 for even.</li>
+<li>O(1) time, O(1) space - faster than n % 2 on some architectures since it avoids a division instruction.</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="lsb-mask">LSB Mask</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isOdd</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="2-power-of-two">2. Power of Two</h2>
+<p><strong>Problem.</strong> Check whether a positive integer n is a power of 2 (1, 2, 4, 8, 16, ...).</p>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Input:</strong> n = 16</p>
+<p><strong>Output:</strong> true</p>
+<ul>
+<li>A power of 2 has exactly one set bit (e.g. 8 = 1000). Subtracting 1 flips that single set bit to 0 and all bits below it to 1 (8-1 = 7 = 0111) - so n &amp; (n-1) clears the lowest set bit and equals 0 only when n had exactly one set bit.</li>
+<li>Must also check n &gt; 0, since n = 0 gives n &amp; (n-1) = 0 &amp; -1 which is nonzero, but 0 is not a power of 2 anyway - and the check should reject negative n.</li>
+<li>O(1) time, O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="clear-lowest-set-bit">Clear Lowest Set Bit</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isPowerOfTwo</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="3-count-set-bits">3. Count Set Bits</h2>
+<p><strong>Problem.</strong> Count the number of set bits (1s) in the binary representation of a non-negative integer n.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> n = 11 (binary 1011)</p>
+<p><strong>Output:</strong> 3</p>
+<ul>
+<li>Brian Kernighan's algorithm: repeatedly clear the lowest set bit with n = n &amp; (n-1) and increment a counter, until n becomes 0 - each iteration removes exactly one set bit.</li>
+<li>This runs in time proportional to the number of set bits (at most 32 for a 32-bit int), rather than iterating over all 32 bit positions regardless of how many are set.</li>
+<li>O(number of set bits) ~ O(log n) time, O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(log n) | <strong>Space:</strong> O(1)</p>
+<h3 id="brian-kernighans-algorithm">Brian Kernighan's Algorithm</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">countSetBits</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="4-set-rightmost-unset-bit">4. Set Rightmost Unset Bit</h2>
+<p><strong>Problem.</strong> Given a number n, set its rightmost unset bit (the lowest-order 0 bit) to 1, leaving all other bits unchanged.</p>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Input:</strong> n = 5 (binary 101)</p>
+<p><strong>Output:</strong> 7 (binary 111)</p>
+<ul>
+<li>Adding 1 to n flips every trailing 1 bit to 0 and the first 0 bit it encounters to 1 (standard binary increment carry behavior).</li>
+<li>OR-ing n with (n+1) restores all the trailing 1 bits that the increment zeroed out, while keeping the newly-set bit - net effect: only the rightmost unset bit changes, from 0 to 1.</li>
+<li>O(1) time, O(1) space - no loop needed.</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="or-with-n1">OR with n+1</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">setRightmostUnsetBit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="5-swap-two-numbers-xor">5. Swap Two Numbers (XOR)</h2>
+<p><strong>Problem.</strong> Swap the values of two integer variables a and b without using a temporary variable.</p>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Input:</strong> a = 5, b = 9</p>
+<p><strong>Output:</strong> a = 9, b = 5</p>
+<ul>
+<li>XOR swap: a ^= b (a now holds a^b); b ^= a (b becomes b^(a^b) = a, since b^b cancels); a ^= b (a becomes (a^b)^a = b, since a^a cancels).</li>
+<li>Relies on XOR's self-inverse property (x^x = 0) and identity property (x^0 = x) to reconstruct each original value from the combined a^b.</li>
+<li>O(1) time, O(1) space - but only safe when a and b are distinct memory locations (XOR-swapping a variable with itself zeroes it out).</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="xor-swap">XOR Swap</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">swapXOR</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">arr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="n">arr</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">arr</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="6-check-i-th-bit">6. Check i-th Bit</h2>
+<p><strong>Problem.</strong> Given a number n and an index i (0-indexed from the LSB), check whether the i-th bit of n is set (1) or not (0).</p>
+<p><strong>Difficulty:</strong> LOW</p>
+<p><strong>Input:</strong> n = 13 (binary 1101), i = 2</p>
+<p><strong>Output:</strong> true (bit at index 2 is 1)</p>
+<ul>
+<li>Right-shift n by i positions so the target bit lands in the LSB position, then mask with 1 using AND: (n &gt;&gt; i) &amp; 1.</li>
+<li>Equivalently, build a mask with a single 1 at position i (1 &lt;&lt; i) and AND it with n - the bit is set if the result is nonzero.</li>
+<li>O(1) time, O(1) space - a single shift and mask.</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="right-shift-mask">Right Shift + Mask</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">checkIthBit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">((</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="7-divide-two-integers">7. Divide Two Integers</h2>
+<p><strong>Problem.</strong> Divide two integers dividend and divisor without using multiplication, division, or the mod operator. Return the quotient, truncated toward zero, clamped to the 32-bit signed integer range.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> dividend = 22, divisor = 3</p>
+<p><strong>Output:</strong> 7</p>
+<ul>
+<li>Work with the absolute values as longs (to avoid overflow when negating INT_MIN), and track the sign of the result separately from the XOR of the two original signs.</li>
+<li>Binary long division: repeatedly find the largest value divisor &lt;&lt; k such that (divisor &lt;&lt; k) &lt;= remaining dividend, subtract it out, and add (1 &lt;&lt; k) to the quotient - this is like doubling-and-subtracting instead of one-at-a-time subtraction, giving O(log^2 n) instead of O(n).</li>
+<li>Clamp the final signed result to [INT_MIN, INT_MAX] since dividing INT_MIN by -1 would otherwise overflow.</li>
+<li>O(log^2 n) time (log n outer iterations, each doing an O(log n) shift-search), O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(log^2 n) | <strong>Space:</strong> O(1)</p>
+<h3 id="binary-long-division-shift-subtract">Binary Long Division (Shift + Subtract)</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">dividend</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">divisor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">dividend</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">MIN_VALUE</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">divisor</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">((</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">dividend</span><span class="p">),</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">abs</span><span class="p">((</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">divisor</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">dividend</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="p">(</span><span class="n">divisor</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">quotient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">long</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">multiple</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">temp</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">            </span><span class="n">multiple</span><span class="w"> </span><span class="o">&lt;&lt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">a</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">temp</span><span class="p">;</span>
+<span class="w">        </span><span class="n">quotient</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">multiple</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">sign</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">quotient</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="8-minimum-bit-flips-to-convert-number">8. Minimum Bit Flips to Convert Number</h2>
+<p><strong>Problem.</strong> Given two integers start and goal, find the minimum number of bit flips required to convert start into goal.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> start = 10, goal = 7</p>
+<p><strong>Output:</strong> 3</p>
+<ul>
+<li>XOR-ing start and goal produces a number whose set bits are exactly the positions where the two numbers differ - every differing bit needs exactly one flip.</li>
+<li>So the answer is simply the count of set bits in (start ^ goal), computed with Brian Kernighan's algorithm (n &amp; (n-1) repeatedly).</li>
+<li>O(log n) time, O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(log n) | <strong>Space:</strong> O(1)</p>
+<h3 id="xor-popcount">XOR + Popcount</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">minBitFlips</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">goal</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">goal</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">diff</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="p">(</span><span class="n">diff</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="9-single-number">9. Single Number</h2>
+<p><strong>Problem.</strong> Given an array where every element appears exactly twice except for one element that appears exactly once, find that single element in O(n) time and O(1) extra space.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> nums = [4, 1, 2, 1, 2]</p>
+<p><strong>Output:</strong> 4</p>
+<ul>
+<li>XOR is commutative, associative, self-inverse (x^x=0), and has identity 0 (x^0=x) - XOR-ing every element together cancels all the pairs (each pair XORs to 0), leaving only the unpaired element.</li>
+<li>No sorting or hash set needed, which is what makes it O(n) time and O(1) space instead of O(n) space for a frequency map.</li>
+<li>O(n) time, O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(n) | <strong>Space:</strong> O(1)</p>
+<h3 id="xor-all-elements">XOR All Elements</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">singleNumber</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="10-subsets-power-set">10. Subsets (Power Set)</h2>
+<p><strong>Problem.</strong> Given an array nums of n distinct integers, return all possible subsets (the power set) using bitmasking instead of recursion.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> nums = [1, 2, 3]</p>
+<p><strong>Output:</strong> [[], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]]</p>
+<ul>
+<li>Every subset corresponds to a unique bitmask from 0 to 2^n - 1: bit j of the mask being 1 means nums[j] is included in that subset.</li>
+<li>Iterate mask from 0 to (1&lt;&lt;n)-1, and for each mask, iterate its bits j from 0 to n-1, appending nums[j] to the current subset whenever bit j is set.</li>
+<li>Avoids recursive call overhead entirely - iterative and easy to reason about since each mask deterministically maps to one subset.</li>
+<li>O(n * 2^n) time (2^n subsets, O(n) to build each), O(n) extra space per subset excluding output storage.</li>
+</ul>
+<p><strong>Time:</strong> O(n * 2^n) | <strong>Space:</strong> O(n)</p>
+<h3 id="bitmask-enumeration">Bitmask Enumeration</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="nf">subsets</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nums</span><span class="p">.</span><span class="na">length</span><span class="p">;</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">mask</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">);</span><span class="w"> </span><span class="n">mask</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">subset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">mask</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">j</span><span class="p">))</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">subset</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">result</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">subset</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="11-xor-of-range-l-r">11. XOR of Range [L, R]</h2>
+<p><strong>Problem.</strong> Given two integers L and R, find the XOR of all integers from L to R (inclusive) without iterating over the whole range.</p>
+<p><strong>Difficulty:</strong> MEDIUM</p>
+<p><strong>Input:</strong> L = 3, R = 9</p>
+<p><strong>Output:</strong> 2</p>
+<ul>
+<li>Define xorUpto(n) = XOR of all integers from 1 to n. This follows a repeating pattern based on n mod 4: n -&gt; n, n -&gt; 1, n+1 -&gt; 0, based on n%4 == 0, 1, 2, 3 respectively (derived from how consecutive XORs telescope in groups of 4).</li>
+<li>The XOR of the range [L, R] equals xorUpto(R) ^ xorUpto(L-1), since XOR-ing xorUpto(L-1) again cancels out the 1..L-1 portion that xorUpto(R) included.</li>
+<li>O(1) time, O(1) space - versus O(R-L) for a naive loop.</li>
+</ul>
+<p><strong>Time:</strong> O(1) | <strong>Space:</strong> O(1)</p>
+<h3 id="xor-from-1-to-n-pattern-mod-4">XOR-from-1-to-n Pattern (mod 4)</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">xorUpto</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">0</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">1</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">case</span><span class="w"> </span><span class="mi">2</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">default</span><span class="p">:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">xorInRange</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">xorUpto</span><span class="p">(</span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">xorUpto</span><span class="p">(</span><span class="n">L</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="12-single-number-iii">12. Single Number III</h2>
+<p><strong>Problem.</strong> Given an array where exactly two elements appear once and every other element appears exactly twice, find the two unique elements in O(n) time and O(1) extra space.</p>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Input:</strong> nums = [1, 2, 1, 3, 2, 5]</p>
+<p><strong>Output:</strong> [3, 5] (order may vary)</p>
+<ul>
+<li>XOR-ing every element gives xorAll = a ^ b (the two unique elements), since all paired elements cancel out.</li>
+<li>Since a != b, xorAll is nonzero, so it has at least one set bit; isolate the lowest set bit with diffBit = xorAll &amp; (- xorAll) (two's-complement negation flips bits below and including the lowest set bit, so ANDing with the original isolates just that bit).</li>
+<li>That bit is guaranteed to differ between a and b (since it's set in their XOR), so partition all array elements into two groups by whether they have that bit set, and XOR within each group - pairs stay together in the same group and cancel, leaving exactly one unique element per group.</li>
+<li>O(n) time, O(1) space.</li>
+</ul>
+<p><strong>Time:</strong> O(n) | <strong>Space:</strong> O(1)</p>
+<h3 id="xor-all-partition-by-lowest-differing-bit">XOR All + Partition by Lowest Differing Bit</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">singleNumberIII</span><span class="p">(</span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">xorAll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="n">xorAll</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">diffBit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xorAll</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="n">xorAll</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">nums</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">x</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">diffBit</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">^=</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="p">{</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="13-prime-factors">13. Prime Factors</h2>
+<p><strong>Problem.</strong> Print all prime factors of a number n, with repetition (e.g. 12 = 2 * 2 * 3).</p>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Input:</strong> n = 100</p>
+<p><strong>Output:</strong> [2, 2, 5, 5]</p>
+<ul>
+<li>Trial-divide n by every integer i from 2 up to sqrt(n): while n is divisible by i, repeatedly divide n by i and record i as a factor - this strips out all copies of each small prime factor before moving to the next i.</li>
+<li>Once i exceeds sqrt(n), whatever remains of n (if &gt; 1) must itself be a single remaining prime factor, since any composite remainder would have already been reduced by a smaller factor.</li>
+<li>Only needing to check up to sqrt(n) - instead of up to n - is what keeps this efficient: n can have at most one prime factor greater than sqrt(n).</li>
+<li>O(sqrt(n)) time, O(1) extra space (excluding output).</li>
+</ul>
+<p><strong>Time:</strong> O(sqrt(n)) | <strong>Space:</strong> O(1)</p>
+<h3 id="trial-division-up-to-sqrtn">Trial Division up to sqrt(n)</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">primeFactors</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">factors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">n</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">factors</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">            </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">factors</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">factors</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="14-count-primes-in-range">14. Count Primes in Range</h2>
+<p><strong>Problem.</strong> Given a range [L, R], count how many primes lie within it, where multiple such range queries may need answering efficiently.</p>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Input:</strong> L = 10, R = 20</p>
+<p><strong>Output:</strong> 4 (primes: 11, 13, 17, 19)</p>
+<ul>
+<li>Build a Sieve of Eratosthenes up to R once: start with all numbers marked prime, then for each prime p starting from 2, mark all multiples of p (starting from p*p, since smaller multiples were already marked by smaller primes) as composite.</li>
+<li>After sieving, counting primes in [L, R] is a simple linear scan over the precomputed boolean array (or a prefixcount array for O(1) per query across many queries).</li>
+<li>O(R log log R) time to build the sieve, O(R) space for the boolean array.</li>
+</ul>
+<p><strong>Time:</strong> O(R log log R) | <strong>Space:</strong> O(R)</p>
+<h3 id="sieve-of-eratosthenes">Sieve of Eratosthenes</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">countPrimesInRange</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">L</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">R</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="o">[]</span><span class="w"> </span><span class="n">isComposite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">boolean</span><span class="o">[</span><span class="n">R</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">R</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">isComposite</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">L</span><span class="p">)</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">R</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">isComposite</span><span class="o">[</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="15-smallest-prime-factor-sieve">15. Smallest Prime Factor Sieve</h2>
+<p><strong>Problem.</strong> Given many numbers up to N to factorize, precompute a structure so each number's prime factorization can be produced in O(log n) instead of O(sqrt(n)) per query.</p>
+<p><strong>Difficulty:</strong> HIGH</p>
+<p><strong>Input:</strong> N = 360 (SPF table built up to N, then factorize 360)</p>
+<p><strong>Output:</strong> [2, 2, 2, 3, 3, 5]</p>
+<ul>
+<li>Precompute a Smallest Prime Factor (SPF) array via a modified sieve: for each prime p (found when spf[p] is still unset), mark spf[multiple] = p for every unmarked multiple of p starting from p*p - each composite ends up storing the smallest prime that divides it.</li>
+<li>To factorize a number n using the SPF table: repeatedly take factor = spf[n], record it, and divide n by it (n /= spf[n]) until n == 1 - since dividing by the smallest prime factor each time still takes only O(log n) steps (n at least halves every 1-2 steps).</li>
+<li>Building the SPF table costs O(N log log N) once; each subsequent factorization query then costs only O(log n), which is why this beats plain trial division when factorizing many numbers.</li>
+<li>O(N log log N) preprocessing, O(log n) per query, O(N) space for the SPF table.</li>
+</ul>
+<p><strong>Time:</strong> O(N log log N) build, O(log n) per query | <strong>Space:</strong> O(N)</p>
+<h3 id="smallest-prime-factor-spf-sieve">Smallest Prime Factor (SPF) Sieve</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="nf">buildSPF</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">spf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">int</span><span class="o">[</span><span class="n">N</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">spf</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spf</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">N</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">spf</span><span class="o">[</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="n">spf</span><span class="o">[</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="n">j</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">spf</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">factorizeWithSPF</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="o">[]</span><span class="w"> </span><span class="n">spf</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">factors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">factors</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">spf</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">spf</span><span class="o">[</span><span class="n">n</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">factors</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="pager"><a class="prev" href="doc-practice-a2z-06-recursion.html"><span class="dir">Previous</span><span class="ttl">Recursion</span></a><a class="next" href="doc-practice-a2z-08-stacks-and-queues.html"><span class="dir">Next</span><span class="ttl">Stacks and Queues</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

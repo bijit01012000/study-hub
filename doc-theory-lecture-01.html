@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 01 — Introduction to Spring &amp; Spring Boot — Spring Boot</title>
+<meta name="description" content="Lecture 01 — Introduction to Spring &amp; Spring Boot">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-01">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-01.html#lecture-01">Lecture 01</a></li><li><a href="doc-theory-lecture-01.html#1-client-server-architecture-the-starting-point">1. Client-Server Architecture: The Starting Point</a></li><li><a href="doc-theory-lecture-01.html#2-http-the-language-of-the-web">2. HTTP: The Language of the Web</a></li><li><a href="doc-theory-lecture-01.html#3-anatomy-of-an-http-request">3. Anatomy of an HTTP Request</a></li><li><a href="doc-theory-lecture-01.html#4-anatomy-of-an-http-response-and-status-codes">4. Anatomy of an HTTP Response and Status Codes</a></li><li><a href="doc-theory-lecture-01.html#5-normal-java-program-vs-web-application">5. Normal Java Program vs Web Application</a></li><li><a href="doc-theory-lecture-01.html#6-why-core-java-alone-is-not-enough">6. Why Core Java Alone Is Not Enough</a></li><li><a href="doc-theory-lecture-01.html#7-servlets-and-the-servlet-container">7. Servlets and the Servlet Container</a></li><li><a href="doc-theory-lecture-01.html#8-why-spring-was-needed">8. Why Spring Was Needed</a></li><li><a href="doc-theory-lecture-01.html#9-the-spring-ecosystem-projects-map">9. The Spring Ecosystem: Projects Map</a></li><li><a href="doc-theory-lecture-01.html#10-jdbc-to-hibernate-to-jpa-to-spring-data-jpa">10. JDBC to Hibernate to JPA to Spring Data JPA</a></li><li><a href="doc-theory-lecture-01.html#11-what-spring-boot-is-and-is-not">11. What Spring Boot Is (and Is Not)</a></li><li><a href="doc-theory-lecture-01.html#12-spring-vs-spring-boot-and-where-microservices-fit">12. Spring vs Spring Boot, and Where Microservices Fit</a></li><li><a href="doc-theory-lecture-01.html#13-myth-vs-reality">13. Myth vs Reality</a></li><li><a href="doc-theory-lecture-01.html#14-common-trap-questions">14. Common Trap Questions</a></li><li><a href="doc-theory-lecture-01.html#15-points-to-remember">15. Points to Remember</a></li><li><a href="doc-theory-lecture-01.html#16-likely-interview-questions">16. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-01.html#17-final-summary">17. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 01 — Introduction to Spring &amp; Spring Boot</h1>
+<p class="readmeta">18 sections · 2,797 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-01" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-01">Lecture 01</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Spring Boot &amp; Spring Framework Full Course | Spring Boot Full Course #1" (playlist map, verified). Repo lecture folder contains notes only (no code folder). Coverage below = client-server basics, HTTP request/response, why Core Java is not a web framework, Servlets + containers, Spring ecosystem, Spring Boot vs Spring, microservices. Deeper topics referenced forward to their own lectures.</p>
+</blockquote>
+<p>Modern backend development is a layered story. A browser talks HTTP, a container translates HTTP into Java calls, Spring organizes the Java objects, and Spring Boot automates the setup. This lecture builds that whole mental model so every later lecture has a "why" attached. Understanding this history removes the magic from Spring Boot before we write the first line of code.</p>
+<h2 id="1-client-server-architecture-the-starting-point">1. Client-Server Architecture: The Starting Point</h2>
+<p>Every web interaction starts with one structural idea:</p>
+<div class="highlight"><pre><span></span><code>Your Browser (client)  ---- talks to ----  Amazon Server
+</code></pre></div>
+
+<ul>
+<li>Client = the side that asks. Examples: browser, mobile app, React frontend, Postman.</li>
+<li>Server = the side that listens, processes, and responds. Examples: Amazon, YouTube, a bank server, your own Spring Boot application.</li>
+</ul>
+<p>A server typically performs real work before answering: checking login details, fetching database rows, applying business rules, and saving data.</p>
+<div class="highlight"><pre><span></span><code>Client asks.
+Server responds.
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: A Spring Boot application is itself a server. Once we run our JAR, our program becomes the "server side" of the same architecture.</p>
+</blockquote>
+<h2 id="2-http-the-language-of-the-web">2. HTTP: The Language of the Web</h2>
+<p>Both sides need a common language to communicate. That language is HTTP: HyperText Transfer Protocol.</p>
+<p>HTTP is the rulebook that defines:</p>
+<ul>
+<li>how a request should look;</li>
+<li>how a response should look;</li>
+<li>which method is used;</li>
+<li>which URL is called;</li>
+<li>what data is sent;</li>
+<li>which status code is returned.</li>
+</ul>
+<p>HTTP is an application-layer protocol that works on top of TCP/IP. Client and server never exchange text randomly; they follow this format strictly.</p>
+<h2 id="3-anatomy-of-an-http-request">3. Anatomy of an HTTP Request</h2>
+<p>An HTTP request contains four main parts:</p>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Method</td>
+<td>The action wanted</td>
+<td>POST</td>
+</tr>
+<tr>
+<td>URL / path</td>
+<td>Target functionality</td>
+<td>/login</td>
+</tr>
+<tr>
+<td>Headers</td>
+<td>Metadata about the request</td>
+<td>Content-Type: application/json</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>Actual data being sent</td>
+<td>{"email": "abc@gmail.com"}</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>POST /login
+Content-Type: application/json
+
+{
+  &quot;email&quot;: &quot;abc@gmail.com&quot;,
+  &quot;password&quot;: &quot;12345&quot;
+}
+</code></pre></div>
+
+<p>Mnemonic for the four parts: <strong>M-U-H-B</strong> (Method, URL, Headers, Body).</p>
+<h3 id="http-methods">HTTP Methods</h3>
+<p>The first line is the request line: method, path, and HTTP version.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Meaning</th>
+<th>Example use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>Read data</td>
+<td>Fetch a list of orders</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>Create data</td>
+<td>Place a new order</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>Replace data completely</td>
+<td>Update an entire user profile</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>Update data partially</td>
+<td>Change only the phone number</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>Remove data</td>
+<td>Cancel an order</td>
+</tr>
+</tbody>
+</table>
+<p>GET requests usually carry no body; they mainly fetch data. POST, PUT, and PATCH carry bodies.</p>
+<h3 id="http-headers">HTTP Headers</h3>
+<p>Headers are key-value pairs that describe the request:</p>
+<div class="highlight"><pre><span></span><code>Accept: application/json
+Content-Type: application/json
+Authorization: Bearer &lt;token&gt;
+Host: www.coderarmy.in
+</code></pre></div>
+
+<p>Headers matter constantly in real Spring work: authentication, JSON handling, API communication, and request metadata all travel through headers.</p>
+<h2 id="4-anatomy-of-an-http-response-and-status-codes">4. Anatomy of an HTTP Response and Status Codes</h2>
+<p>An HTTP response contains three parts: status code, headers, and body.</p>
+<div class="highlight"><pre><span></span><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  &quot;message&quot;: &quot;Login successful&quot;
+}
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Status code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Request successful</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Resource created</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Bad request (client-side problem)</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Resource not found</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal server error (server-side problem)</td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: Expect questions like "compare GET vs POST" or "what does 404 mean exactly." These basics decide whether you look like someone who has actually built APIs or just copied them.</p>
+</blockquote>
+<h2 id="5-normal-java-program-vs-web-application">5. Normal Java Program vs Web Application</h2>
+<p>A normal Java program runs inside the JVM, the Java Virtual Machine. <code>javac</code> compiles <code>.java</code> source into <code>.class</code> bytecode; the JVM loads and executes it. The result is "write once, run anywhere" (WORA): the same bytecode runs on Windows, macOS, or Linux wherever a JVM exists.</p>
+<p>But the two life cycles differ completely:</p>
+<div class="highlight"><pre><span></span><code>Normal Java program          Web application
+Start                        Start
+Run instructions             Keep running
+Finish                       Wait for requests
+Exit                         Process requests
+                             Send responses
+</code></pre></div>
+
+<p>A web server is a program that stays alive continuously and listens for incoming requests. It never simply "runs once and exits."</p>
+<h2 id="6-why-core-java-alone-is-not-enough">6. Why Core Java Alone Is Not Enough</h2>
+<p>Core Java gives us classes, objects, inheritance, collections, threads, and files. It does not give us web concepts: HTTP requests, URLs, headers, cookies, sessions, or REST APIs.</p>
+<p>Java can do networking since Java 1.0 via <code>java.net</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ServerSocket</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+</code></pre></div>
+
+<p>This listens on port 8080. But what arrives is only a raw TCP stream of bytes:</p>
+<div class="highlight"><pre><span></span><code>GET /users HTTP/1.1
+Host: localhost:8080
+</code></pre></div>
+
+<p>To the JVM this is just data. Nothing in the language knows that GET means "fetch", that <code>/users</code> is an endpoint, or that Host is a header.</p>
+<p>Building a web app in bare Core Java would mean handling all of this ourselves:</p>
+<ol>
+<li>Open a port using ServerSocket.</li>
+<li>Read raw input streams.</li>
+<li>Parse the HTTP request manually.</li>
+<li>Extract the method, URL, headers, and body.</li>
+<li>Route the request to the correct Java logic.</li>
+<li>Create the HTTP response in the correct format.</li>
+<li>Manage multiple users using threads.</li>
+<li>Handle errors, malformed requests, and connection behavior.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Incorrect: routing as if-else soup mixed with plumbing</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;/users&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// user logic</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">url</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;/orders&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// order logic</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">// Correct: standard layer that converts HTTP into Java method calls</span>
+<span class="c1">// This layer already exists: the Servlet container. See Section 7.</span>
+</code></pre></div>
+
+<p>This translation gap needed a standard solution.</p>
+<h2 id="7-servlets-and-the-servlet-container">7. Servlets and the Servlet Container</h2>
+<p>A Servlet is a Java object that can handle HTTP requests: a special Java class designed for web applications. It runs inside a Servlet Container that sits between the web world and our Java code.</p>
+<div class="highlight"><pre><span></span><code>Browser          Servlet Container         Java Servlet
+HTTP request --&gt; opens port, parses HTTP --&gt; doGet()/doPost() call
+</code></pre></div>
+
+<p>What the container handles for us:</p>
+<ul>
+<li>opening a port such as 8080 and listening for requests;</li>
+<li>reading TCP bytes and parsing HTTP;</li>
+<li>creating request and response objects;</li>
+<li>managing threads and calling servlet methods;</li>
+<li>sending HTTP responses and handling connections.</li>
+</ul>
+<p>Container examples: Apache Tomcat, Jetty, Undertow. We meet all three again as embedded containers in Lecture 09.</p>
+<blockquote class="callout callout--important">
+<p>Important: The container converts "GET /hello" from HTTP text into Java method calls. That single sentence is what Servlet technology is for. Full servlet internals arrive in Lecture 14.</p>
+</blockquote>
+<h2 id="8-why-spring-was-needed">8. Why Spring Was Needed</h2>
+<p>Servlets closed the "Java does not understand HTTP" gap. But large enterprise apps built directly on Servlets still hurt:</p>
+<ul>
+<li>too much boilerplate code;</li>
+<li>too many configurations;</li>
+<li>tight coupling between classes;</li>
+<li>difficult testing and maintenance;</li>
+<li>repeated plumbing across projects.</li>
+</ul>
+<p>The missing piece was a system that organizes objects, wires dependencies, and centralizes configuration. That is the Spring Framework: it introduced IoC (Inversion of Control), Dependency Injection, and Bean management. We go deep on IoC/DI in Lectures 04-05.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring does not manage our business logic. It manages our objects and the wires between them, so business logic can stay clean.</p>
+</blockquote>
+<h2 id="9-the-spring-ecosystem-projects-map">9. The Spring Ecosystem: Projects Map</h2>
+<p>Spring is not one library. It is an ecosystem, and each project solves one specific problem:</p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Problem it solves</th>
+<th>In this series</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Core</td>
+<td>IoC, DI, beans, configuration</td>
+<td>L04-L08</td>
+</tr>
+<tr>
+<td>Spring MVC</td>
+<td>Web layer: controllers, REST APIs</td>
+<td>L14-L21</td>
+</tr>
+<tr>
+<td>Spring Data</td>
+<td>Database access with less boilerplate</td>
+<td>L26-L32</td>
+</tr>
+<tr>
+<td>Spring Security</td>
+<td>Authentication, authorization, JWT, OAuth</td>
+<td>L35-L39</td>
+</tr>
+<tr>
+<td>Spring AOP</td>
+<td>Cross-cutting concerns: logging, transactions</td>
+<td>L22-L25</td>
+</tr>
+<tr>
+<td>Spring Boot</td>
+<td>Auto-configuration and embedded server</td>
+<td>L09 onward</td>
+</tr>
+<tr>
+<td>Spring AI</td>
+<td>AI model integration: OpenAI, Gemini, RAG</td>
+<td>(modern addition)</td>
+</tr>
+</tbody>
+</table>
+<p>Without Spring Core, none of the other projects would exist; it is the base of the ecosystem.</p>
+<h2 id="10-jdbc-to-hibernate-to-jpa-to-spring-data-jpa">10. JDBC to Hibernate to JPA to Spring Data JPA</h2>
+<p>The data story has one evolution line worth memorizing:</p>
+<div class="highlight"><pre><span></span><code>JDBC -&gt; Hibernate -&gt; JPA -&gt; Spring Data JPA
+</code></pre></div>
+
+<p>JDBC forced us to write SQL by hand, open connections, execute queries, handle result sets, and close resources. Hibernate introduced ORM: it maps Java objects to database tables. JPA is the standard specification that defines how ORM should work; Hibernate is one of its implementations. Spring Data JPA then reduces the remaining repository boilerplate.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it is</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JDBC</td>
+<td>Low-level API</td>
+<td>Raw SQL + connections, all manual</td>
+</tr>
+<tr>
+<td>Hibernate</td>
+<td>ORM implementation</td>
+<td>Maps objects to tables</td>
+</tr>
+<tr>
+<td>JPA</td>
+<td>Specification</td>
+<td>Defines the ORM contract</td>
+</tr>
+<tr>
+<td>Spring Data JPA</td>
+<td>Spring abstraction</td>
+<td>Repository-style data access</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>Spring Data JPA -&gt; Hibernate -&gt; JDBC -&gt; Database
+</code></pre></div>
+
+<p>Mnemonic: "JDBC crawled so Hibernate could walk, Hibernate walked so Spring Data JPA could fly."</p>
+<blockquote class="callout callout--important">
+<p>Important: JPA tells what should be done. Hibernate actually does it. Asked as "JPA vs Hibernate," the answer is spec vs implementation.</p>
+</blockquote>
+<h2 id="11-what-spring-boot-is-and-is-not">11. What Spring Boot Is (and Is Not)</h2>
+<p>Spring Boot is not a replacement for Spring. It is an automation layer on top of Spring that speeds up application creation:</p>
+<ul>
+<li>starter dependencies;</li>
+<li>embedded servers;</li>
+<li>auto-configuration;</li>
+<li>sensible defaults;</li>
+<li>production-ready features;</li>
+<li>far less manual configuration.</li>
+</ul>
+<p>Spring Boot is opinionated: it makes default assumptions called opinions. Add the web starter and it assumes a web application, then configures embedded Tomcat, Spring MVC setup, an application structure, JSON support, and basic error handling automatically.</p>
+<p>The trade-off is worth stating plainly: Boot hides fundamentals; it does not replace them. Real skill still lives in Spring Core, Spring MVC, DI, beans, HTTP, servlets, databases, and security concepts.</p>
+<h2 id="12-spring-vs-spring-boot-and-where-microservices-fit">12. Spring vs Spring Boot, and Where Microservices Fit</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Spring Framework</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Role</td>
+<td>Core features and modules</td>
+<td>Auto-configuration and quick setup</td>
+</tr>
+<tr>
+<td>Configuration</td>
+<td>Manual</td>
+<td>Sensible defaults</td>
+</tr>
+<tr>
+<td>Flexibility</td>
+<td>Full control</td>
+<td>Opinionated, overridable</td>
+</tr>
+<tr>
+<td>Position</td>
+<td>Foundation of the ecosystem</td>
+<td>Built on top of Spring</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>Spring Boot uses Spring.
+Spring Boot does not replace Spring.
+</code></pre></div>
+
+<p>Microservices are not a Spring module. They are an architecture style: a large application split into independent services (User, Order, Payment, Notification) that are developed, deployed, and scaled separately. Spring Boot is the tool usually chosen to build them because each Boot app is an independent, production-ready unit.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: A strong answer separates concept from tool: "Microservices = architecture; Spring Boot = one common way of building them."</p>
+</blockquote>
+<h2 id="13-myth-vs-reality">13. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Spring Boot replaces Spring"</td>
+<td>Boot automates Spring on top of it; the framework remains</td>
+</tr>
+<tr>
+<td>"JPA is an implementation"</td>
+<td>JPA is a specification; Hibernate implements it</td>
+</tr>
+<tr>
+<td>"Core Java cannot do networking"</td>
+<td>It can (java.net/ServerSocket); it just lacks HTTP semantics</td>
+</tr>
+<tr>
+<td>"A web app is a normal program that exits"</td>
+<td>Web servers start, listen, and keep running</td>
+</tr>
+<tr>
+<td>"HTTP can only carry HTML"</td>
+<td>HTTP carries any content type: JSON, XML, files</td>
+</tr>
+<tr>
+<td>"Microservices need Spring Boot"</td>
+<td>Microservices are style; Boot is a common tool, not a requirement</td>
+</tr>
+<tr>
+<td>"GET requests can carry a body"</td>
+<td>GET is for fetching; bodies belong to POST/PUT/PATCH</td>
+</tr>
+</tbody>
+</table>
+<h2 id="14-common-trap-questions">14. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 — "Spring Boot is a replacement for Spring."</strong>
+Verdict: False. Boot is an opinionated automation layer; under every Boot app there is the full Spring Framework.</p>
+<p><strong>Trap 2 — "Hibernate and JPA are the same thing."</strong>
+Verdict: False. JPA is the specification, Hibernate is the implementation. Spring Data JPA rides on top of both.</p>
+<p><strong>Trap 3 — "Spring Boot makes Spring fundamentals unnecessary."</strong>
+Verdict: False. Boot defaults fail the moment you need real configuration, debugging, or security work; fundamentals decide employability.</p>
+<p><strong>Trap 4 — "Java cannot be a server."</strong>
+Verdict: False. ServerSocket proves Java canlisten on a port; what Java lacks is built-in HTTP parsing, which the servlet container supplies.</p>
+<p><strong>Trap 5 — "The servlet container and the servlet are the same."</strong>
+Verdict: False. The servlet is our Java class handling requests; the container (Tomcat) owns ports, threads, parsing, and lifecycle around it.</p>
+<p><strong>Trap 6 — "A web application stops when startup finishes."</strong>
+Verdict: False. Unlike a normal program, a server starts and then blocks forever waiting for requests.</p>
+<p><strong>Trap 7 — "Spring Boot is a microservices framework."</strong>
+Verdict: Misleading. Boot builds independent apps conveniently; microservices are an architecture style that may even exist without Boot.</p>
+</blockquote>
+<h2 id="15-points-to-remember">15. Points to Remember</h2>
+<ol>
+<li>Client asks, server responds; browser, Postman, and mobile apps are all clients.</li>
+<li>HTTP is the rulebook: how methods, URLs, headers, bodies, and status codes look on both sides.</li>
+<li>Request parts: Method, URL, Headers, Body (remember MUHB).</li>
+<li>GET reads, POST creates, PUT replaces, PATCH updates partially, DELETE removes.</li>
+<li>Status codes divide into 2xx success, 4xx client error, 5xx server error.</li>
+<li>javac compiles to bytecode; the JVM runs it anywhere: "write once, run anywhere."</li>
+<li>Normal programs exit; web servers start and keep listening for requests.</li>
+<li>Core Java can open ports but cannot parse HTTP; servlet containers close that gap.</li>
+<li>Spring = IoC + DI + beans for clean, testable, loosely coupled enterprise code.</li>
+<li>Spring Boot = automation on top of Spring: starters, embedded Tomcat, auto-config.</li>
+<li>JPA is the contract, Hibernate is the implementation, Spring Data JPA is the convenience.</li>
+<li>Microservices are an architecture style; Spring Boot is the usual tool that builds them.</li>
+</ol>
+<h2 id="16-likely-interview-questions">16. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is client-server architecture?</td>
+<td>Clients request; servers process and respond over the network.</td>
+</tr>
+<tr>
+<td>What is HTTP and why do we need it?</td>
+<td>The request/response rulebook of the web, defining format, methods, headers, and status codes on top of TCP/IP.</td>
+</tr>
+<tr>
+<td>GET vs POST?</td>
+<td>GET reads data via the URL with no body; POST sends data in the body, typically to create.</td>
+</tr>
+<tr>
+<td>What do 404 and 500 mean?</td>
+<td>404: requested resource not found (client side); 500: server-side failure.</td>
+</tr>
+<tr>
+<td>Why is Core Java insufficient for web apps?</td>
+<td>Java can open sockets but has no HTTP parsing, routing, threading-per-request, or request/response objects.</td>
+</tr>
+<tr>
+<td>What is a Servlet?</td>
+<td>A Java class that handles HTTP requests, managed by a container that calls doGet/doPost.</td>
+</tr>
+<tr>
+<td>What does a servlet container do?</td>
+<td>Listens on a port, parses HTTP, builds request/response objects, manages threads, and invokes servlets (Tomcat, Jetty, Undertow).</td>
+</tr>
+<tr>
+<td>What is the Spring Framework?</td>
+<td>The Java framework providing IoC, DI, and bean management for loosely coupled, testable applications.</td>
+</tr>
+<tr>
+<td>Difference between Spring and Spring Boot?</td>
+<td>Spring = core features and modules; Spring Boot = opinionated auto-configuration layer on top of Spring.</td>
+</tr>
+<tr>
+<td>What is opinionated about Boot?</td>
+<td>It sets sensible defaults (embedded Tomcat, JSON, error handling) that you can still override.</td>
+</tr>
+<tr>
+<td>JPA vs Hibernate?</td>
+<td>JPA = specification defining ORM rules; Hibernate = the implementation that executes them.</td>
+</tr>
+<tr>
+<td>Are microservices a Spring module?</td>
+<td>No; they are an architecture style. Spring Boot is just a common tool used to build them.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="17-final-summary">17. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Client-Server architecture
+        |
+        v
+HTTP communication rules
+        |
+        v
+Core Java: JVM + sockets, but no HTTP understanding
+        |
+        v
+Servlets + Servlet Container (Tomcat)
+        |
+        v
+Spring Framework: IoC, DI, beans
+        |
+        v
+Spring ecosystem: MVC, Data, Security, AOP
+        |
+        v
+Spring Boot: auto-configuration + embedded server
+        |
+        v
+Microservices: architecture style Boot is built for
+</code></pre></div>
+
+<ul>
+<li>Browser/Postman/mobile apps are clients; our Boot application is the server.</li>
+<li>HTTP defines every request and response; methods and status codes are its vocabulary.</li>
+<li>Servlet containers translate HTTP text into Java method calls.</li>
+<li>Spring organizes objects and dependencies; Spring Boot automates configuration.</li>
+<li>JPA is the spec, Hibernate the implementation, Spring Data JPA the convenience.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Spring Boot is not magic; it is the top layer of a stack whose every layer (HTTP, servlets, Spring Core) you now understand, so nothing in that stack feels mysterious.</p>
+<div class="pager"><span style="flex:1"></span><a class="next" href="doc-theory-lecture-02.html"><span class="dir">Next</span><span class="ttl">Lecture 02 — Build Your First Spring Boot Application</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

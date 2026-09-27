@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java Thread Creation &amp; Lifecycle Explained from Scratch — Java</title>
+<meta name="description" content="Java Thread Creation &amp; Lifecycle Explained from Scratch">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-48">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="active" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Java</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">57</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Introduction to Java">Introduction to Java</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Write Your First Java Program — JVM, JDK &amp; JRE Explained">Write Your First Java Program — JVM, JDK &amp; JRE Explained</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords">Java Variables &amp; Data Types — Identifiers, Literals &amp; Keywords</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="How Java Stores Negative &amp; Floating Point Numbers">How Java Stores Negative &amp; Floating Point Numbers</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Java Type Conversions &amp; Type Promotions Explained — Casting in Java">Java Type Conversions &amp; Type Promotions Explained — Casting in Java</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment">Java Operators — Arithmetic, Unary, Logical, Bitwise &amp; Assignment</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch">Java Conditional Statements — If, If-Else, If-Else-If Ladder &amp; Switch</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue">Java Loops &amp; Jump Statements Explained — for, while, do-while, break, continue</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String">Java Arrays Explained — Declaration, Initialization, Traversal &amp; a First Look at String</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access">How Arrays Work in Java — Heap, Contiguous Storage &amp; Random Access</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Java Functions Deep Dive | Recursion | Method Overloading">Java Functions Deep Dive | Recursion | Method Overloading</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword">Object Oriented Programming in Java — Classes, Objects &amp; the new Keyword</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword">Constructors in Java Explained — Constructor Chaining, Overloading &amp; the this Keyword</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy">Objects Deep Dive — Object Size, Call by Value vs Reference, Shallow vs Deep Copy</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args">Static &amp; Final in Java — Static Methods, Blocks &amp; String[] args</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword">Encapsulation &amp; Inheritance in Java | Java Packages &amp; Super Keyword</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces">Abstraction &amp; Polymorphism in Depth | Abstract Class vs Interfaces</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file">AutoBoxing, Abstract classes &amp; POJOs | Why only one public class in java file</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes">Java Nested Classes | Static Nested, Inner, Local &amp; Anonymous Classes</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader">Java I/O Deep Dive | InputStreams, System.in, Scanner vs BufferedReader</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Immutable Classes in Java | How to Create Immutable Objects">Immutable Classes in Java | How to Create Immutable Objects</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Most Important Class in Java — Object Class (equals, hashCode, toString)">Most Important Class in Java — Object Class (equals, hashCode, toString)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Java Enums — Why Not Use int/String for Constants?">Java Enums — Why Not Use int/String for Constants?</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces">Java Interfaces Deep Dive | Default Methods, Functional, Marker Interfaces</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Java Strings | String Pool, Immutability, Internals">Java Strings | String Pool, Immutability, Internals</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer">Java Strings Part 2 | All String Methods + StringBuilder vs StringBuffer</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Java Generics Deep Dive | Bounded Types using extends">Java Generics Deep Dive | Bounded Types using extends</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Wildcards in Generics | ?, ? extends, ? super">Wildcards in Generics | ?, ? extends, ? super</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Java Collection Framework Explained | Data Structures + Complete Hierarchy">Java Collection Framework Explained | Data Structures + Complete Hierarchy</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Iterable Interface in Java | Why Iterator Exists? | For-Each Loop">Iterable Interface in Java | Why Iterator Exists? | For-Each Loop</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Java Collection Interface Deep Dive | Methods &amp; Internals">Java Collection Interface Deep Dive | Methods &amp; Internals</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack">Java List Interface Deep Dive | ArrayList, LinkedList, Vector, Stack</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap">Set &amp; Map Interface in Java | Internal Working of HashMap, HashSet &amp; TreeMap</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More">Set &amp; Map Methods Explained | EnumMaps, IdentityHashMaps &amp; More</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained">Java Queue Interface Deep Dive | PriorityQueue &amp; Heap Explained</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Comparable Interface in Java | Collections class | Comparing Objects">Comparable Interface in Java | Collections class | Comparing Objects</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Java Lambdas &amp; Functional Interfaces | Comparator Interface">Java Lambdas &amp; Functional Interfaces | Comparator Interface</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition">Lambdas &amp; Functional Interface Deep Dive | Method References &amp; Composition</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Introduction to Java Streams | Creation &amp; Architecture">Introduction to Java Streams | Creation &amp; Architecture</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations">Java Stream Methods Deep Dive | All Intermediate &amp; Terminal Operations</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-41.html" title="Java Optional Explained from Scratch | All Methods + Streams Integration">Java Optional Explained from Scratch | All Methods + Streams Integration</a><button class="star" data-doc="theory-lecture-41" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-42.html" title="Parallel Streams in Java Explained | Primitive Optional Classes">Parallel Streams in Java Explained | Primitive Optional Classes</a><button class="star" data-doc="theory-lecture-42" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-43.html" title="Java Exception Handling from Scratch | Exceptions vs Errors">Java Exception Handling from Scratch | Exceptions vs Errors</a><button class="star" data-doc="theory-lecture-43" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-44.html" title="Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions">Exception Hierarchy Deep Dive | throw vs throws | Custom Exceptions</a><button class="star" data-doc="theory-lecture-44" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-45.html" title="Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC">Java Memory Management Explained in Depth — Stack, Heap, Method Area &amp; PC</a><button class="star" data-doc="theory-lecture-45" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-46.html" title="Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained">Java Heap Memory Deep Dive | Garbage Collection Algorithms Explained</a><button class="star" data-doc="theory-lecture-46" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-47.html" title="Introduction to Multithreading in Java | Process vs Thread">Introduction to Multithreading in Java | Process vs Thread</a><button class="star" data-doc="theory-lecture-47" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-48.html" title="Java Thread Creation &amp; Lifecycle Explained from Scratch">Java Thread Creation &amp; Lifecycle Explained from Scratch</a><button class="star" data-doc="theory-lecture-48" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-48.html#lecture-48">Lecture 48</a></li><li><a href="doc-theory-lecture-48.html#1-the-thread-class-an-object-that-controls-a-thread-of-execution">1. The Thread Class — an Object That Controls a Thread of Execution</a></li><li><a href="doc-theory-lecture-48.html#2-two-foundational-ways-to-create-a-thread">2. Two Foundational Ways to Create a Thread</a></li><li><a href="doc-theory-lecture-48.html#3-runnable-is-a-functional-interface-the-lambda-form-lecture-37">3. Runnable Is a Functional Interface — the Lambda Form (Lecture 37)</a></li><li><a href="doc-theory-lecture-48.html#4-extending-thread-vs-implementing-runnable">4. Extending Thread vs Implementing Runnable</a></li><li><a href="doc-theory-lecture-48.html#5-start-vs-run-the-classic-trap">5. start() vs run() — The Classic Trap</a></li><li><a href="doc-theory-lecture-48.html#6-the-thread-lifecycle-threadstate">6. The Thread Lifecycle — Thread.State</a></li><li><a href="doc-theory-lecture-48.html#7-thread-identity-names-ids-and-currentthread">7. Thread Identity — Names, IDs and currentThread()</a></li><li><a href="doc-theory-lecture-48.html#8-priorities-and-daemon-threads">8. Priorities and Daemon Threads</a></li><li><a href="doc-theory-lecture-48.html#9-start-once-then-coordinate">9. Start Once, Then Coordinate</a></li><li><a href="doc-theory-lecture-48.html#10-higher-level-mechanisms-forward-references">10. Higher-Level Mechanisms (Forward References)</a></li><li><a href="doc-theory-lecture-48.html#11-pitfalls-and-common-errors">11. Pitfalls and Common Errors</a></li><li><a href="doc-theory-lecture-48.html#12-myth-vs-reality">12. Myth vs Reality</a></li><li><a href="doc-theory-lecture-48.html#13-common-trap-questions">13. Common Trap Questions</a></li><li><a href="doc-theory-lecture-48.html#14-points-to-remember">14. Points to Remember</a></li><li><a href="doc-theory-lecture-48.html#15-likely-interview-questions">15. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-48.html#16-final-summary">16. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-49.html" title="Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</a><button class="star" data-doc="theory-lecture-49" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-50.html" title="Problems in Multithreading | Race Condition, Visibility, Ordering Explained">Problems in Multithreading | Race Condition, Visibility, Ordering Explained</a><button class="star" data-doc="theory-lecture-50" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-51.html" title="Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks">Monitor Locks in Java | Synchronized Keyword, Static Sync &amp; Custom Locks</a><button class="star" data-doc="theory-lecture-51" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-52.html" title="Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive">Inter Thread Communication in Java | wait(), notify(), notifyAll() Deep Dive</a><button class="star" data-doc="theory-lecture-52" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-53.html" title="Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition">Java Locks | ReentrantLock, ReadWriteLock, StampedLock, Semaphore &amp; Condition</a><button class="star" data-doc="theory-lecture-53" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-54.html" title="Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained">Lock-Free Concurrency in Java | AtomicVariables &amp; CAS Explained</a><button class="star" data-doc="theory-lecture-54" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-55.html" title="Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem">Lock-Free Concurrency in Java - 2 | CAS Retry, Compare-and-Swap &amp; ABA Problem</a><button class="star" data-doc="theory-lecture-55" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-56.html" title="Executor Framework Deep Dive | ThreadPool, Future &amp; Callable">Executor Framework Deep Dive | ThreadPool, Future &amp; Callable</a><button class="star" data-doc="theory-lecture-56" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-57.html" title="CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads">CompletableFuture, Fork-Join Pool, ThreadLocal &amp; Virtual Threads</a><button class="star" data-doc="theory-lecture-57" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">30</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-core-java-level-1.html" title="Core Java Interview Q&amp;A — Level I">Core Java Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-core-java-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-core-java-level-2.html" title="Core Java Interview Q&amp;A — Level II">Core Java Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-core-java-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-core-java-level-3.html" title="Core Java Interview Q&amp;A — Level III">Core Java Interview Q&amp;A — Level III</a><button class="star" data-doc="practice-03-core-java-level-3" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-core-java-level-4.html" title="Core Java Interview Q&amp;A — Level IV (Advanced)">Core Java Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-04-core-java-level-4" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-java-design-patterns.html" title="Java Design Patterns — Interview Q&amp;A">Java Design Patterns — Interview Q&amp;A</a><button class="star" data-doc="practice-05-java-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-java-coding-problems.html" title="Java Coding Problems">Java Coding Problems</a><button class="star" data-doc="practice-06-java-coding-problems" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-stream-api-level-1.html" title="Java Stream API Coding — Level I">Java Stream API Coding — Level I</a><button class="star" data-doc="practice-07-stream-api-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-stream-api-level-2.html" title="Java Stream API Coding — Level II">Java Stream API Coding — Level II</a><button class="star" data-doc="practice-08-stream-api-level-2" title="Bookmark">☆</button></div></li><li class="grp">top-200</li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-00-overview-frequency-heatmap.html" title="Top 200 Java Questions — Overview &amp; Frequency Heatmap">Top 200 Java Questions — Overview &amp; Frequency Heatmap</a><button class="star" data-doc="practice-top-200-00-overview-frequency-heatmap" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-01-tier-s-core-java-and-collections.html" title="Top 200 Java Questions — Tier S: Core Java &amp; Collections">Top 200 Java Questions — Tier S: Core Java &amp; Collections</a><button class="star" data-doc="practice-top-200-01-tier-s-core-java-and-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-02-tier-s-concurrency.html" title="Top 200 Java Questions — Tier S: Concurrency">Top 200 Java Questions — Tier S: Concurrency</a><button class="star" data-doc="practice-top-200-02-tier-s-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-03-tier-s-streams-and-functional.html" title="Top 200 Java Questions — Tier S: Streams &amp; Functional Java">Top 200 Java Questions — Tier S: Streams &amp; Functional Java</a><button class="star" data-doc="practice-top-200-03-tier-s-streams-and-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-04-tier-s-modern-java-and-spring.html" title="Top 200 Java Questions — Tier S: Modern Java &amp; Spring">Top 200 Java Questions — Tier S: Modern Java &amp; Spring</a><button class="star" data-doc="practice-top-200-04-tier-s-modern-java-and-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-05-tier-a-collections.html" title="Top 200 Java Questions — Tier A: Collections">Top 200 Java Questions — Tier A: Collections</a><button class="star" data-doc="practice-top-200-05-tier-a-collections" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-06-tier-a-concurrency.html" title="Top 200 Java Questions — Tier A: Concurrency">Top 200 Java Questions — Tier A: Concurrency</a><button class="star" data-doc="practice-top-200-06-tier-a-concurrency" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-07-tier-a-java-8-functional.html" title="Top 200 Java Questions — Tier A: Java 8 Functional">Top 200 Java Questions — Tier A: Java 8 Functional</a><button class="star" data-doc="practice-top-200-07-tier-a-java-8-functional" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-08-tier-a-spring.html" title="Top 200 Java Questions — Tier A: Spring">Top 200 Java Questions — Tier A: Spring</a><button class="star" data-doc="practice-top-200-08-tier-a-spring" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-09-tier-a-jvm-internals.html" title="Top 200 Java Questions — Tier A: JVM Internals">Top 200 Java Questions — Tier A: JVM Internals</a><button class="star" data-doc="practice-top-200-09-tier-a-jvm-internals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-10-tier-a-oop-and-exceptions.html" title="Top 200 Java Questions — Tier A: OOP &amp; Exception Handling">Top 200 Java Questions — Tier A: OOP &amp; Exception Handling</a><button class="star" data-doc="practice-top-200-10-tier-a-oop-and-exceptions" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-11-tier-a-modern-java.html" title="Top 200 Java Questions — Tier A: Java 17/21 Modern Features">Top 200 Java Questions — Tier A: Java 17/21 Modern Features</a><button class="star" data-doc="practice-top-200-11-tier-a-modern-java" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-12-tier-a-hibernate-and-rest.html" title="Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST">Top 200 Java Questions — Tier A: Hibernate/JPA &amp; REST</a><button class="star" data-doc="practice-top-200-12-tier-a-hibernate-and-rest" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-13-tier-a-core-mixed-and-generics.html" title="Top 200 Java Questions — Tier A: Core Java &amp; Generics">Top 200 Java Questions — Tier A: Core Java &amp; Generics</a><button class="star" data-doc="practice-top-200-13-tier-a-core-mixed-and-generics" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-14-tier-a-spring-reflection-and-signal.html" title="Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal">Top 200 Java Questions — Tier A: Spring, Reflection &amp; Signal</a><button class="star" data-doc="practice-top-200-14-tier-a-spring-reflection-and-signal" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-15-tier-b-concurrency-advanced.html" title="Top 200 Java Questions — Tier B: Concurrency Advanced">Top 200 Java Questions — Tier B: Concurrency Advanced</a><button class="star" data-doc="practice-top-200-15-tier-b-concurrency-advanced" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-16-tier-b-jvm-tuning-and-gc.html" title="Top 200 Java Questions — Tier B: JVM Tuning &amp; GC">Top 200 Java Questions — Tier B: JVM Tuning &amp; GC</a><button class="star" data-doc="practice-top-200-16-tier-b-jvm-tuning-and-gc" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-17-tier-b-spring-deep-and-security.html" title="Top 200 Java Questions — Tier B: Spring Deep &amp; Security">Top 200 Java Questions — Tier B: Spring Deep &amp; Security</a><button class="star" data-doc="practice-top-200-17-tier-b-spring-deep-and-security" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-18-tier-b-hibernate-and-microservices.html" title="Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices">Top 200 Java Questions — Tier B: Hibernate Advanced &amp; Microservices</a><button class="star" data-doc="practice-top-200-18-tier-b-hibernate-and-microservices" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-19-tier-b-reflection-and-design-patterns.html" title="Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns">Top 200 Java Questions — Tier B: Reflection, Bytecode &amp; Design Patterns</a><button class="star" data-doc="practice-top-200-19-tier-b-reflection-and-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-20-tier-b-java-21-and-testing.html" title="Top 200 Java Questions — Tier B: Java 21+ &amp; Testing">Top 200 Java Questions — Tier B: Java 21+ &amp; Testing</a><button class="star" data-doc="practice-top-200-20-tier-b-java-21-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-top-200-21-tier-b-build-tooling.html" title="Top 200 Java Questions — Tier B: Build &amp; Tooling">Top 200 Java Questions — Tier B: Build &amp; Tooling</a><button class="star" data-doc="practice-top-200-21-tier-b-build-tooling" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-java.html">Java</a> › Theory &amp; Notes</p>
+<h1>Java Thread Creation &amp; Lifecycle Explained from Scratch</h1>
+<p class="readmeta">17 sections · 3,895 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-48" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-48">Lecture 48</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Java Thread Creation &amp; Lifecycle Explained from Scratch" plus the lecture's own notes terms (extend Thread, implement Runnable, start vs run, lifecycle), playlist map, verified. Repo evidence: 6 Demo files.</p>
+</blockquote>
+<p>Lecture 47 built the conceptual model: a thread is the smallest independently executable sequence of instructions, every process starts with one main thread, and threads share the heap while owning their own stack and program counter. This lecture turns that model into code. It covers the <code>Thread</code> class itself, the difference between a Thread object and the thread of execution it controls, the two foundational creation techniques, the <code>start()</code> versus <code>run()</code> trap that catches almost every beginner, and the six states a Java thread passes through. The governing idea is that a thread is not the work, it is the mechanism that executes work, and the work is carried by a <code>Runnable</code> task.</p>
+<h2 id="1-the-thread-class-an-object-that-controls-a-thread-of-execution">1. The Thread Class — an Object That Controls a Thread of Execution</h2>
+<p>Java is object-oriented, so even concurrency is expressed through classes and objects. The unit of concurrency is the class <code>Thread</code>, declared as:</p>
+<div class="highlight"><pre><span></span><code>public class Thread extends Object implements Runnable
+</code></pre></div>
+
+<p>Two ideas must be kept separate, because confusing them causes most thread bugs:</p>
+<ol>
+<li>A <strong>Thread object</strong> is a Java object used to <strong>configure and control</strong> a thread.</li>
+<li>A <strong>thread of execution</strong> is an independent sequence of instructions executed by the JVM.</li>
+</ol>
+<p>Creating a Thread object does <strong>not</strong> start a thread of execution. The thread starts only when <code>start()</code> is called.</p>
+<table>
+<thead>
+<tr>
+<th>Idea</th>
+<th>What it is</th>
+<th>Lifetime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thread object</td>
+<td>A Java object created with <code>new</code>, carrying name, priority and state</td>
+<td>Lives on the heap while referenced</td>
+</tr>
+<tr>
+<td>Thread of execution</td>
+<td>An independent instruction stream scheduled by the JVM and OS</td>
+<td>Exists only between <code>start()</code> and termination</td>
+</tr>
+</tbody>
+</table>
+<p>Each running thread owns its <strong>program counter</strong>, its <strong>Java stack</strong> (stack frames, local variables, current execution position). Threads in the same process normally share <strong>heap objects</strong>, <strong>static variables</strong>, <strong>class metadata</strong> and open process resources. This split — separate execution stacks plus a shared heap — is what makes threads useful and, at the same time, what creates concurrency problems (Lectures 45, 47).</p>
+<blockquote class="callout callout--note">
+<p>Memory aid
+The Thread object is the <strong>remote control</strong>; the thread of execution is the <strong>program being watched</strong>. Buying the remote (the <code>new</code>) does not turn on the television (<code>start()</code> does).</p>
+</blockquote>
+<h2 id="2-two-foundational-ways-to-create-a-thread">2. Two Foundational Ways to Create a Thread</h2>
+<p>The <code>Thread</code> API offers two foundational ways to create a platform thread.</p>
+<ol>
+<li><strong>Extend <code>Thread</code></strong> — create a subclass and override <code>run()</code>.</li>
+<li><strong>Implement <code>Runnable</code></strong> — create a task and hand it to a Thread.</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo.java — creation way 1: extend Thread and override run()</span>
+<span class="kd">class</span> <span class="nc">MyThread</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread is running&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MyThread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyThread</span><span class="p">();</span><span class="w">   </span><span class="c1">// only a Java object; state = NEW</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">                      </span><span class="c1">// schedules the new thread of execution</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo2.java — creation way 2: implement Runnable, hand the task to a Thread</span>
+<span class="kd">class</span> <span class="nc">MyRunnable</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread is running using Runnable&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MyRunnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyRunnable</span><span class="p">();</span><span class="w">     </span><span class="c1">// represents the task</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Worker-1&quot;</span><span class="p">);</span><span class="w"> </span><span class="c1">// represents the execution mechanism</span>
+<span class="w">        </span><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The internal flow of the Runnable form matters: <code>new Thread(task)</code> stores the task; <code>t1.start()</code> begins a new thread; the default <code>Thread.run()</code> invokes <code>task.run()</code>.</p>
+<div class="highlight"><pre><span></span><code>Thread t1 = new Thread(task) → Thread stores the Runnable task
+   → t1.start() → new thread begins execution → Thread.run() → task.run()
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+The reason <code>Thread</code> has a <code>run()</code> method at all is that <code>Thread</code> itself implements <code>Runnable</code>. When you extend <code>Thread</code>, your subclass overrides that inherited <code>run()</code>. When you pass a <code>Runnable</code>, the thread's default <code>run()</code> delegates to the supplied task.</p>
+</blockquote>
+<h2 id="3-runnable-is-a-functional-interface-the-lambda-form-lecture-37">3. Runnable Is a Functional Interface — the Lambda Form (Lecture 37)</h2>
+<p><code>Runnable</code> declares exactly one abstract method:</p>
+<div class="highlight"><pre><span></span><code>@FunctionalInterface
+public interface Runnable {
+    void run();
+}
+</code></pre></div>
+
+<p>Because it is a functional interface (Lecture 37), a lambda can supply the single abstract method, and the task class disappears entirely.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo3.java — the Runnable lambda is the modern concise form (Lecture 37)</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo3</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Thread is running&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Worker-1&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">worker</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// The shortest form installs the lambda inline:</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;Worker-2&quot;</span><span class="p">).</span><span class="na">start</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The lambda form works because the compiler target-types the lambda against <code>Runnable</code>. A block-bodied lambda with several statements is equally valid when the task needs more than one line.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why can a lambda replace a <code>Runnable</code> class?" Because <code>Runnable</code> is a SAM type — one abstract method — which is precisely the target a lambda requires. Method references and function composition were covered in Lecture 38.</p>
+</blockquote>
+<h2 id="4-extending-thread-vs-implementing-runnable">4. Extending Thread vs Implementing Runnable</h2>
+<p>The task-oriented design is generally preferred. <code>Runnable</code> answers <strong>what work should be performed</strong>; <code>Thread</code> answers <strong>which thread executes that work</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Extending Thread</th>
+<th>Implementing Runnable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Main role</td>
+<td>Combines task and thread lifecycle</td>
+<td>Defines only the task</td>
+</tr>
+<tr>
+<td>Inheritance</td>
+<td>Consumes the class's single class inheritance</td>
+<td>Class can still extend another class</td>
+</tr>
+<tr>
+<td>Reusability</td>
+<td>Task is tied to the Thread object</td>
+<td>Same task can be submitted to many threads</td>
+</tr>
+<tr>
+<td>Separation of concerns</td>
+<td>Lower</td>
+<td>Better: task is separated from execution</td>
+</tr>
+<tr>
+<td>Works with executors</td>
+<td>Not the natural design</td>
+<td>Designed for task-based execution</td>
+</tr>
+<tr>
+<td>Lambda support</td>
+<td>Not applicable</td>
+<td>Direct, since <code>Runnable</code> is functional</td>
+</tr>
+<tr>
+<td>Preferred for normal code</td>
+<td>Less common</td>
+<td>Usually preferred</td>
+</tr>
+</tbody>
+</table>
+<p>The two strongest arguments for <code>Runnable</code>:</p>
+<ol>
+<li><strong>Preserves inheritance.</strong> A class can extend only one class. <code>class X extends Thread</code> ends the ability to extend anything else; <code>class X extends Base implements Runnable</code> keeps it. This is not multiple class inheritance, only the freedom to <em>also</em> extend a class.</li>
+<li><strong>Separation, reuse and executor fit.</strong> One task object can be run by <code>Worker-1</code> and <code>Worker-2</code>; the same task can later be submitted to a thread pool without rewriting it. If the shared task holds mutable fields, those fields may need synchronization.</li>
+</ol>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+If a class only needs to describe work, have it implement <code>Runnable</code>. Extend <code>Thread</code> only when the class genuinely <em>is</em> a thread and must alter thread behaviour.</p>
+</blockquote>
+<h2 id="5-start-vs-run-the-classic-trap">5. start() vs run() — The Classic Trap</h2>
+<p><code>start()</code> creates a <strong>new</strong> thread of execution which then calls <code>run()</code>. Calling <code>run()</code> <strong>directly</strong> executes the method on the <strong>current</strong> thread, exactly like any other method call, and produces no concurrency at all.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo4.java — run() runs on the calling thread; start() spawns a new thread</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo4</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Runnable</span><span class="w"> </span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span>
+<span class="w">                </span><span class="s">&quot;Executed by: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">first</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Worker-run&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Worker-start&quot;</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">first</span><span class="p">.</span><span class="na">run</span><span class="p">();</span><span class="w">      </span><span class="c1">// normal call on main  -&gt; &quot;Executed by: main&quot;</span>
+<span class="w">        </span><span class="n">second</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">   </span><span class="c1">// new thread           -&gt; &quot;Executed by: Worker-start&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The thread name in the output is the proof: <code>run()</code> reports <code>main</code>, while <code>start()</code> reports <code>Worker-start</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th><code>run()</code></th>
+<th><code>start()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kind of call</td>
+<td>Ordinary method call</td>
+<td>Starts independent thread execution</td>
+</tr>
+<tr>
+<td>Thread it runs on</td>
+<td>The calling thread</td>
+<td>A newly created thread</td>
+</tr>
+<tr>
+<td>New execution stack</td>
+<td>No</td>
+<td>Yes; the new thread gets its own stack and PC</td>
+</tr>
+<tr>
+<td>Concurrent with caller</td>
+<td>No, by itself</td>
+<td>Yes, becomes eligible for scheduling</td>
+</tr>
+<tr>
+<td>How many times</td>
+<td>Can be invoked repeatedly as a method</td>
+<td>A Thread object can be started only once</td>
+</tr>
+<tr>
+<td>Internal effect</td>
+<td>Executes the task body inline</td>
+<td>Schedules the thread, which then invokes <code>run()</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote class="callout callout--important">
+<p>Important
+<code>start()</code> does not run <code>run()</code> on the current thread. It asks the JVM to create a new thread of execution; that new thread eventually calls <code>run()</code>. The current thread continues immediately afterward.</p>
+</blockquote>
+<h2 id="6-the-thread-lifecycle-threadstate">6. The Thread Lifecycle — Thread.State</h2>
+<p>A Java thread passes through a defined set of states, modelled by the enum <code>Thread.State</code>. There are six states: <code>NEW</code>, <code>RUNNABLE</code>, <code>BLOCKED</code>, <code>WAITING</code>, <code>TIMED_WAITING</code>, <code>TERMINATED</code>.</p>
+<div class="highlight"><pre><span></span><code>                          start()                 run() completes
+   [ NEW ] ───────────────────────────► [ RUNNABLE ] ──────────────► [ TERMINATED ]
+                                            │    ▲                    (normal end
+                                            │    │                     or exception)
+              waiting for a monitor ────────┤    │──── monitor acquired
+              indefinite wait ──────────────┤    │──── notified / target ends
+              timed wait ───────────────────┘    └──── timeout expires
+                    │
+                    ├──► [ BLOCKED ]        (waiting for a monitor lock)
+                    ├──► [ WAITING ]        (indefinite wait)
+                    └──► [ TIMED_WAITING ]  (wait with a timeout)
+</code></pre></div>
+
+<p>This diagram is simplified: a thread may move between <code>RUNNABLE</code>, <code>BLOCKED</code>, <code>WAITING</code> and <code>TIMED_WAITING</code> many times before it terminates.</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Entered by</th>
+<th>Returns to RUNNABLE when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NEW</td>
+<td>Object created, <code>start()</code> not yet called</td>
+<td><code>new Thread(...)</code></td>
+<td><code>start()</code> is called</td>
+</tr>
+<tr>
+<td>RUNNABLE</td>
+<td>Ready to receive CPU time, or executing in the JVM</td>
+<td><code>start()</code></td>
+<td>n/a (it is the running state)</td>
+</tr>
+<tr>
+<td>BLOCKED</td>
+<td>Waiting to acquire an intrinsic monitor</td>
+<td>Entering occupied <code>synchronized</code> code</td>
+<td>The monitor is acquired</td>
+</tr>
+<tr>
+<td>WAITING</td>
+<td>Waiting indefinitely for another thread's action</td>
+<td><code>wait()</code>, <code>join()</code>, <code>LockSupport.park()</code></td>
+<td>Notified, target terminates, unparked</td>
+</tr>
+<tr>
+<td>TIMED_WAITING</td>
+<td>Waiting for an action with a time limit</td>
+<td><code>sleep()</code>, timed <code>wait()</code>/<code>join()</code>, <code>parkNanos()</code></td>
+<td>Timeout, event, or interruption</td>
+</tr>
+<tr>
+<td>TERMINATED</td>
+<td><code>run()</code> finished normally or abruptly</td>
+<td>End of <code>run()</code></td>
+<td>n/a (terminal state)</td>
+</tr>
+</tbody>
+</table>
+<p>A few rules are worth stating precisely:</p>
+<ul>
+<li><code>NEW</code> means the Thread object exists but independent execution has not begun. Calling <code>run()</code> directly does not move the thread through its lifecycle, because <code>start()</code> was never called.</li>
+<li><code>RUNNABLE</code> combines two situations the JVM does not distinguish publicly: <em>ready to receive processor time</em> and <em>currently executing</em>. Java exposes no separate <code>RUNNING</code> state.</li>
+<li><code>BLOCKED</code> is specifically a <strong>monitor-lock acquisition</strong> problem — waiting to enter or re-enter <code>synchronized</code> code.</li>
+<li><code>WAITING</code> does not always mean waiting for <code>notify()</code>; <code>join()</code> wakes on target termination, and <code>park()</code> wakes on unpark.</li>
+<li><code>TERMINATED</code> is reached when <code>run()</code> completes normally or exits with an uncaught exception.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Demo5.java — observing the lifecycle through getState()</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Demo5</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">InterruptedException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Thread</span><span class="w"> </span><span class="n">worker</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Running...&quot;</span><span class="p">));</span>
+
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Before start: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="na">getState</span><span class="p">());</span><span class="w"> </span><span class="c1">// NEW</span>
+<span class="w">        </span><span class="n">worker</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;After start:  &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="na">getState</span><span class="p">());</span><span class="w"> </span><span class="c1">// RUNNABLE (timing-sensitive)</span>
+<span class="w">        </span><span class="n">worker</span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;After join:   &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">worker</span><span class="p">.</span><span class="na">getState</span><span class="p">());</span><span class="w"> </span><span class="c1">// TERMINATED</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important
+<code>getState()</code> returns a momentary snapshot that can change the instant after it is read. If a task completes very quickly, the state printed immediately after <code>start()</code> may already read <code>TERMINATED</code>.</p>
+</blockquote>
+<h2 id="7-thread-identity-names-ids-and-currentthread">7. Thread Identity — Names, IDs and currentThread()</h2>
+<p>Every thread carries identity properties that help inspection and debugging: name, thread ID, state, priority, daemon status and interrupted status. The static method <code>Thread.currentThread()</code> returns the Thread object for the currently executing thread; inside <code>main()</code> it is normally named <code>main</code>.</p>
+<div class="highlight"><pre><span></span><code>Thread current = Thread.currentThread();
+System.out.println(current.getName());   // &quot;main&quot;
+</code></pre></div>
+
+<ul>
+<li><strong>Name</strong> — read with <code>getName()</code>, changed with <code>setName()</code>. Passing the name to the constructor is usually cleaner: <code>new Thread(task, "Worker-1")</code>.</li>
+<li><strong>ID</strong> — use <code>Thread.currentThread().threadId()</code> in modern Java. The older <code>getId()</code> has been deprecated since Java 19.</li>
+<li>A meaningful name (<code>payment-worker-2</code>) is more useful in logs and thread dumps than an opaque <code>Thread-8</code>.</li>
+</ul>
+<blockquote class="callout callout--note">
+<p>Memory aid
+<code>getName()</code> is a non-static method, so it needs an object. That is exactly why <code>Thread.currentThread()</code> exists: it supplies the object for the thread you are already running on.</p>
+</blockquote>
+<h2 id="8-priorities-and-daemon-threads">8. Priorities and Daemon Threads</h2>
+<p>Two configuration knobs are commonly asked about:</p>
+<ul>
+<li><strong>Priority</strong> — <code>setPriority(int)</code> accepts 1 (lowest) to 10 (highest); the default is 5. Priority is only a <strong>hint</strong> to the scheduler, not a guarantee. The operating system may ignore it, so code must never depend on priority for correctness or ordering.</li>
+<li><strong>Daemon status</strong> — <code>setDaemon(true)</code> marks a thread as a background thread. The JVM exits when only daemon threads remain; a live <strong>non-daemon</strong> thread keeps the JVM alive. <code>setDaemon</code> (and <code>setPriority</code>) must be called <strong>before</strong> <code>start()</code>.</li>
+</ul>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective
+"Why does my program not exit?" A non-daemon worker thread is usually still running. Either let it finish, interrupt it, or create it as a daemon if its work should not keep the JVM alive.</p>
+</blockquote>
+<h2 id="9-start-once-then-coordinate">9. Start Once, Then Coordinate</h2>
+<p>A Thread object represents exactly one lifecycle and can be <strong>started only once</strong>. A second <code>start()</code> — whether the thread is running, finished, or terminated by an exception — throws <code>IllegalThreadStateException</code>.</p>
+<div class="highlight"><pre><span></span><code>Thread worker = new Thread(() -&gt; System.out.println(&quot;Running&quot;));
+worker.start();
+worker.start();   // java.lang.IllegalThreadStateException
+</code></pre></div>
+
+<p>To run the same work again, reuse the <strong>task</strong> and create a fresh Thread object:</p>
+<div class="highlight"><pre><span></span><code>Runnable task = () -&gt; System.out.println(&quot;Running&quot;);
+Thread first = new Thread(task);
+first.start();
+first.join();
+Thread second = new Thread(task);   // new Thread object for a new lifecycle
+second.start();
+</code></pre></div>
+
+<p>Coordination methods are introduced here and detailed in Lecture 49:</p>
+<ul>
+<li><code>join()</code> — the calling thread waits until the target thread terminates.</li>
+<li><code>sleep(ms)</code> — pauses the current thread for a bounded interval; the thread enters <code>TIMED_WAITING</code> and does not release monitors.</li>
+<li><code>interrupt()</code> — requests that a blocked or waiting thread stop waiting; the target typically sees an <code>InterruptedException</code>.</li>
+</ul>
+<p>Execution order is <strong>not</strong> guaranteed. <code>t1.start(); t2.start();</code> makes <code>t1</code> eligible for scheduling first, but does not promise that <code>t1</code> runs or prints before <code>t2</code>. The OS scheduler, JVM decisions, core count, system load and lock contention all influence the observed order. Multi-threaded execution is non-deterministic, and application code should never depend on accidental ordering.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+Treat the order of output from two threads as unknowable. When an order is genuinely required, enforce it with coordination such as <code>join()</code>, locks or latches — never with the sequence of <code>start()</code> calls.</p>
+</blockquote>
+<h2 id="10-higher-level-mechanisms-forward-references">10. Higher-Level Mechanisms (Forward References)</h2>
+<p>This lecture deliberately teaches <code>Thread</code> and <code>Runnable</code> first because the higher-level APIs build on the same separation of task from execution.</p>
+<ul>
+<li><strong>Executor services and thread pools</strong>, plus <strong><code>Callable</code> and <code>Future</code></strong>, replace hand-created threads for most production work (Lecture 56). <code>ExecutorService</code> runs submitted tasks on pooled threads; the task does not need to know which thread executes it.</li>
+<li><strong><code>CompletableFuture</code>, Fork/Join, <code>ThreadLocal</code>, virtual threads and structured concurrency</strong> are covered in Lecture 57.</li>
+</ul>
+<p>In production, tasks are generally submitted to executors rather than creating a new platform thread for every task. Understanding <code>Thread</code> and <code>Runnable</code> first is still essential, because executors schedule <code>Runnable</code> and <code>Callable</code> tasks on threads that obey the same lifecycle.</p>
+<h2 id="11-pitfalls-and-common-errors">11. Pitfalls and Common Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Pitfall</th>
+<th>What goes wrong</th>
+<th>Correct approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Calling <code>run()</code> instead of <code>start()</code></td>
+<td>No new thread; the task runs on the current (often main) thread</td>
+<td>Call <code>start()</code> to create a new thread of execution</td>
+</tr>
+<tr>
+<td>Starting the same Thread twice</td>
+<td><code>IllegalThreadStateException</code></td>
+<td>Create a new Thread object; reuse the <code>Runnable</code> task</td>
+</tr>
+<tr>
+<td>Assuming priority guarantees order</td>
+<td>The OS may ignore the hint; output order varies</td>
+<td>Use coordination (<code>join()</code>, locks) when order matters</td>
+</tr>
+<tr>
+<td>Non-daemon thread keeps the JVM alive</td>
+<td>The program never exits after <code>main</code> returns</td>
+<td>Let it finish, interrupt it, or mark it daemon before <code>start()</code></td>
+</tr>
+<tr>
+<td>Extending Thread when Runnable suffices</td>
+<td>The class loses its single inheritance opportunity</td>
+<td>Implement <code>Runnable</code></td>
+</tr>
+<tr>
+<td>Ignoring <code>InterruptedException</code></td>
+<td>The interrupt request is swallowed</td>
+<td>Catch it, restore the flag with <code>Thread.currentThread().interrupt()</code>, or propagate</td>
+</tr>
+<tr>
+<td>Assuming run order is deterministic</td>
+<td>Same program can print different order each run</td>
+<td>Never rely on scheduling order</td>
+</tr>
+<tr>
+<td>Blocking the main thread</td>
+<td>The UI or caller stalls while it waits</td>
+<td>Hand long work to a worker thread; coordinate explicitly</td>
+</tr>
+<tr>
+<td>Reading <code>getState()</code> as permanent</td>
+<td>A snapshot can change immediately</td>
+<td>Use it for observation and debugging only</td>
+</tr>
+<tr>
+<td>Sharing one mutable Runnable</td>
+<td>Fields are read and written by several threads</td>
+<td>Synchronize access to shared mutable state</td>
+</tr>
+</tbody>
+</table>
+<h2 id="12-myth-vs-reality">12. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Creating a Thread object starts a thread."</td>
+<td>Only <code>start()</code> starts a new thread of execution; <code>new Thread(...)</code> leaves it in NEW.</td>
+</tr>
+<tr>
+<td>"Calling <code>run()</code> runs the code on a new thread."</td>
+<td><code>run()</code> is an ordinary method call and executes on the calling thread.</td>
+</tr>
+<tr>
+<td>"A finished thread can be started again."</td>
+<td>A Thread object has one lifecycle; a second <code>start()</code> throws <code>IllegalThreadStateException</code>.</td>
+</tr>
+<tr>
+<td>"Higher priority always runs first."</td>
+<td>Priority (1-10) is a hint, not a guarantee; scheduling order is not controlled by code.</td>
+</tr>
+<tr>
+<td>"Extending Thread is the standard way to make a task."</td>
+<td>Implementing <code>Runnable</code> is generally preferred: it separates task from execution and preserves inheritance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="13-common-trap-questions">13. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p>Trap 1 — Direct call: "I called <code>worker.run()</code> instead of <code>worker.start()</code>. Did a new thread run?"
+No. <code>run()</code> executed on the calling thread, typically <code>main</code>. No new execution stack was created and no concurrency occurred.</p>
+<p>Trap 2 — Double start: "What happens on the second <code>worker.start()</code>?"
+<code>IllegalThreadStateException</code> is thrown. A Thread object can be started only once; create a new Thread object to run the task again.</p>
+<p>Trap 3 — The RUNNING state: "Which <code>Thread.State</code> value means the thread is running?"
+There is none. Java folds "ready" and "executing" into <code>RUNNABLE</code>; the separate <code>RUNNING</code> state is not exposed publicly.</p>
+<p>Trap 4 — BLOCKED versus WAITING: "Is a thread waiting for <code>notify()</code> BLOCKED?"
+No. Waiting to acquire a monitor is <code>BLOCKED</code>; waiting indefinitely for another thread's action (as with <code>wait()</code>) is <code>WAITING</code>.</p>
+<p>Trap 5 — Order: "<code>t1.start()</code> was called before <code>t2.start()</code>, so <code>t1</code> prints first, right?"
+Not necessarily. The calls only affect eligibility for scheduling; the actual order is non-deterministic.</p>
+<p>Trap 6 — Runnable identity: "If I pass the same <code>Runnable</code> to two threads, do they each get their own copy?"
+No. Both threads share the same task object; any mutable fields in it are shared and may need synchronization.</p>
+<p>Trap 7 — Daemon timing: "Can I mark a running thread as a daemon?"
+No. <code>setDaemon()</code> must be called before <code>start()</code>; calling it later throws <code>IllegalThreadStateException</code>.</p>
+</blockquote>
+<h2 id="14-points-to-remember">14. Points to Remember</h2>
+<ol>
+<li><code>Thread</code> is declared <code>public class Thread extends Object implements Runnable</code>; a Thread object controls a thread of execution.</li>
+<li>Constructing a Thread object does not start anything; <code>start()</code> schedules the new thread, which then invokes <code>run()</code>.</li>
+<li>The two foundational creation ways are extending <code>Thread</code> (override <code>run()</code>) and implementing <code>Runnable</code> (pass the task to a Thread).</li>
+<li><code>Runnable</code> is a functional interface, so a lambda is the modern concise form (Lecture 37).</li>
+<li><code>start()</code> creates a new execution stack and runs on a new thread; calling <code>run()</code> directly runs on the current thread.</li>
+<li><code>Thread.State</code> has six values: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED.</li>
+<li>RUNNABLE combines ready-to-run and currently-executing; Java exposes no separate RUNNING state.</li>
+<li>BLOCKED is specifically monitor-lock acquisition; WAITING and TIMED_WAITING are coordination and delay states.</li>
+<li>A Thread object can be started only once; to run the work again, reuse the task with a new Thread object.</li>
+<li>Priority is only a hint, execution order is non-deterministic, and non-daemon threads keep the JVM alive.</li>
+</ol>
+<h2 id="15-likely-interview-questions">15. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the declaration of the Thread class?</td>
+<td><code>public class Thread extends Object implements Runnable</code> — Thread is itself a Runnable.</td>
+</tr>
+<tr>
+<td>Thread object vs thread of execution?</td>
+<td>The Thread object is the Java object that configures and controls execution; the thread of execution is the independent instruction stream the JVM schedules.</td>
+</tr>
+<tr>
+<td>How do you create a thread in Java?</td>
+<td>Extend <code>Thread</code> and override <code>run()</code>, or implement <code>Runnable</code> and pass the task to a <code>Thread</code>.</td>
+</tr>
+<tr>
+<td>Why is <code>Runnable</code> generally preferred?</td>
+<td>It separates the task from the execution mechanism, allows the class to extend another class, supports reuse across threads, and works naturally with executors.</td>
+</tr>
+<tr>
+<td>What does <code>start()</code> actually do?</td>
+<td>It asks the JVM to create a new thread of execution; that thread then calls <code>run()</code>.</td>
+</tr>
+<tr>
+<td>What happens if you call <code>run()</code> directly?</td>
+<td>It executes like a normal method on the current thread; no new thread is created.</td>
+</tr>
+<tr>
+<td>Difference between <code>start()</code> and <code>run()</code>?</td>
+<td><code>start()</code> starts a new thread and schedules <code>run()</code>; <code>run()</code> is an ordinary method call on the calling thread.</td>
+</tr>
+<tr>
+<td>What happens if you call <code>start()</code> twice?</td>
+<td>The second call throws <code>IllegalThreadStateException</code>; a Thread object can be started only once.</td>
+</tr>
+<tr>
+<td>Name the six thread states.</td>
+<td>NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED.</td>
+</tr>
+<tr>
+<td>BLOCKED vs WAITING vs TIMED_WAITING?</td>
+<td>BLOCKED waits for an intrinsic monitor; WAITING waits indefinitely for another thread's action; TIMED_WAITING waits with a timeout.</td>
+</tr>
+<tr>
+<td>Why is there no RUNNING state?</td>
+<td>Java groups "ready for CPU" and "executing on CPU" into <code>RUNNABLE</code>; the OS decides when the thread actually runs.</td>
+</tr>
+<tr>
+<td>Are priority and execution order guaranteed?</td>
+<td>No. Priority is a scheduler hint (1-10), and the order the OS runs threads is not deterministic.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-final-summary">16. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>new Thread(task)  →  NEW
+      │  start()
+      ▼
+   RUNNABLE  ────────────►  run() executes
+      │  ▲
+      │  └── BLOCKED / WAITING / TIMED_WAITING ──┘ (lock / signal / timeout)
+      ▼
+   run() completes or throws  →  TERMINATED
+
+create : extend Thread (combines task + lifecycle)
+       | implement Runnable (task only, preferred)
+       | Runnable lambda  () -&gt; ...  (Lecture 37)
+
+start() : new thread of execution  →  calls run()          (concurrency)
+run()   : ordinary method call on the current thread        (no concurrency)
+</code></pre></div>
+
+<ul>
+<li>Thread class → <code>extends Object implements Runnable</code>; the object controls a thread of execution, constructing it does not start it.</li>
+<li>Creation → extend <code>Thread</code>, implement <code>Runnable</code>, or use a <code>Runnable</code> lambda; the Runnable form is preferred.</li>
+<li><code>start()</code> vs <code>run()</code> → <code>start()</code> creates a new thread and invokes <code>run()</code>; <code>run()</code> called directly stays on the current thread.</li>
+<li>Lifecycle → NEW to RUNNABLE, with possible BLOCKED, WAITING and TIMED_WAITING round-trips, ending in TERMINATED.</li>
+<li>Rules → start a Thread object only once; priority is a hint; execution order is non-deterministic; non-daemon threads keep the JVM alive.</li>
+<li>Forward → executors, pools, <code>Callable</code>/<code>Future</code> (Lecture 56); <code>CompletableFuture</code>, Fork/Join, <code>ThreadLocal</code>, virtual threads, structured concurrency (Lecture 57).</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule
+The Thread is the mechanism, the Runnable is the work. Create the object, call <code>start()</code> (never <code>run()</code>), and let the JVM and OS own the scheduling and lifecycle.</p>
+</blockquote>
+<p><strong>One-line takeaway:</strong> a Thread object controls a thread of execution, <code>start()</code> is what actually creates that thread, <code>run()</code> is only the method it calls, and every Java thread moves from NEW through RUNNABLE to TERMINATED.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-47.html"><span class="dir">Previous</span><span class="ttl">Introduction to Multithreading in Java | Process vs Thread</span></a><a class="next" href="doc-theory-lecture-49.html"><span class="dir">Next</span><span class="ttl">Thread Methods | sleep, join, yield, interrupt, isAlive, priority &amp; more</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

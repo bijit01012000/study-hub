@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design an In-Memory File System — LLD</title>
+<meta name="description" content="Design an In-Memory File System">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-16-in-memory-file-system">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#how-to-represent-the-tree">How to Represent the Tree</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-16-in-memory-file-system.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design an In-Memory File System</h1>
+<p class="readmeta">15 sections · 1,958 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-16-in-memory-file-system" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 16 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>A tree of nodes rooted at <code>/</code>.</li>
+<li>Two kinds: a File (bytes, a size) and a Directory (named children).</li>
+<li><code>mkdir(path)</code> — makes the missing parents too.</li>
+<li><code>writeFile(path, s)</code> creates or appends; <code>readFile(path)</code> returns content.</li>
+<li><code>ls(path)</code>: a file gives its name, a dir gives child names sorted.</li>
+<li><code>rm(path)</code>, <code>mv(src, dst)</code>, <code>find(dir, name)</code>.</li>
+<li>Paths: split on <code>/</code>, handle <code>.</code>, <code>..</code>, a trailing slash, absolute vs relative.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Real disk blocks, inodes, a block allocator.</li>
+<li>POSIX permission bits and ACLs.</li>
+<li>Symlinks and hard links.</li>
+<li>Concurrency and locking.</li>
+<li>Persistence to disk, mmap.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>One root, all in memory. A <code>FileSystem</code> facade holds a Composite tree of <code>FsNode</code>s: a <code>File</code> carries bytes, a <code>Directory</code> carries a sorted map of children. A <code>Path</code> is split once and folded from the root.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>Shell</strong> — <code>fs: FileSystem</code>, <code>cwd: Directory</code>; <code>run("mkdir /a/b")</code>, <code>run("ls /a")</code> call <code>fs.mkdir(abs(cwd, arg))</code>. <code>cwd</code> only matters for a relative path.</li>
+<li><strong>FsNode</strong> (abstract) — <code>name: String</code>, <code>parent: Directory</code>; <code>isDir(): boolean</code>, <code>size(): long</code>, <code>path(): String</code> (walks parent to <code>/</code>), <code>accept(FsVisitor v)</code>.</li>
+<li><strong>File</strong> — <code>data: StringBuilder</code>; <code>read(): String</code>, <code>append(String s)</code>, <code>size(): long</code> (<code>data.length()</code>).</li>
+<li><strong>Directory</strong> — <code>children: TreeMap&lt;String, FsNode&gt;</code>; <code>child(name): FsNode</code>, <code>link(n)</code>, <code>unlink(name)</code>, <code>names(): List&lt;String&gt;</code> (keys already sorted).</li>
+<li><strong>Path</strong> (value) — <code>raw: String</code>, <code>absolute: boolean</code>, <code>parts: List&lt;String&gt;</code>. Split on <code>/</code>, drop <code>""</code> and <code>.</code>; <code>..</code> stays a part, popped on the walk.</li>
+<li><strong>Resolver</strong> — <code>walk(Directory from, Path p): FsNode</code>; <code>parent(Path): Directory</code> (for create ops). <code>.</code> stays on <code>cur</code>, <code>..</code> sets <code>cur = cur.parent ?? root</code>, else <code>cur = dir.child(part)</code>. A File mid-path -&gt; <code>NotADirectory</code>, a missing name -&gt; <code>NoSuchPath</code>.</li>
+<li><strong>FileSystem</strong> (singleton, factory) — <code>root: Directory</code> (the <code>/</code> node), <code>quota: QuotaPolicy</code>; <code>resolve(String path): FsNode</code>, <code>mkdir(String path): void</code>, <code>ls(String path): List&lt;String&gt;</code>, <code>writeFile(String path, String content): void</code>, <code>readFile(path): String</code>, <code>rm(path, recursive): void</code>, <code>mv(src, dst): void</code>, <code>find(dir, name): List&lt;FsNode&gt;</code>. Every op calls <code>resolve</code> first; builds File / Directory by kind.</li>
+<li><strong>NodeRef</strong> (value) — <code>parent: Directory</code>, <code>name</code>, <code>node</code>; so <code>rm</code> / <code>mv</code> re-link in O(1).</li>
+<li><strong>FsVisitor</strong> (interface) — <code>visitFile(File f)</code>, <code>visitDir(Directory d)</code>. A new traversal, node classes untouched. <code>FindByName</code>, <code>DiskUsage</code>, <code>TreePrinter</code>.</li>
+<li><strong>QuotaPolicy</strong> (interface) — <code>checkWrite(Directory dir, int addBytes)</code>; called inside <code>writeFile</code> / <code>mkdir</code>, throws when over. <code>NoQuota</code>, <code>PerDirByteCap</code>, <code>MaxDepth</code>, <code>MaxChildren</code>.</li>
+<li><strong>FsError</strong> — fail loud, a bad path never returns null: <code>NoSuchPathException</code> (name gone), <code>NotADirectoryException</code> (file mid-path), <code>DirectoryNotEmptyException</code> (rm, no -r), <code>InvalidMoveException</code> (dst inside src).</li>
+</ul>
+<h3 id="relationships">Relationships</h3>
+<p>A Directory owns 0..* children; a File and a Directory are both an <code>FsNode</code>. <code>FileSystem</code> owns one root.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>resolve(String path): FsNode</code> — splits on <code>/</code>, folds from the root. <code>.</code> stays put, <code>..</code> goes to the parent clamped at <code>/</code>. Throws <code>NoSuchPathException</code> for a missing name, <code>NotADirectoryException</code> when a File sits mid-path.</li>
+<li><code>mkdir(String path): void</code> — the same walk, but it creates every missing directory (mkdir -p). A name already held by a File is a collision, so it throws. Idempotent on a directory that exists.</li>
+<li><code>ls(String path): List&lt;String&gt;</code> — a file path returns just its own name. A directory path returns its child names sorted. O(children) — the TreeMap is already ordered.</li>
+<li><code>writeFile(String path, String content): void</code> — resolves the parent, creating it if missing, then creates the File or appends to it. <code>size</code> grows by the bytes added.</li>
+</ol>
+<h3 id="the-path-walk">The path walk</h3>
+<ul>
+<li><code>part ""</code> -&gt; <code>cur = /</code> (root); <code>part "a"</code> -&gt; <code>cur = /a</code> child; <code>part "b"</code> -&gt; <code>cur = /a/b</code> child; <code>part "file.txt"</code> -&gt; File, return.</li>
+<li><code>at /a/b part ".."</code> -&gt; <code>cur = /a</code> (parent).</li>
+<li><code>ls "/a"</code> -&gt; <code>[ "b", "c" ]</code> sorted keys.</li>
+<li><code>ls "/x.txt"</code> -&gt; <code>[ "x.txt" ]</code> for a File path.</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Most people forget <code>ls</code> on a file path returns a one-element list, not the file's content.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>Resolve <code>/a/b/../c/note.md</code> from the root. Walk it: root, then <code>a</code>, then <code>b</code>, then <code>..</code> pops back to <code>a</code>, into <code>c</code>, then the file. Which nodes did you touch, and what does <code>ls /a/c</code> return?</p>
+<h2 id="the-change">The Change</h2>
+<p>They ask for <code>ln -s</code>. Add a <code>SymlinkNode</code>, a third <code>FsNode</code> kind holding a target path. When <code>resolve</code> meets one it restarts the walk from the target and counts hops — past 40, throw ELOOP. File and Directory do not change. Composite absorbs the new kind.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>The cost of <code>mv</code>. In a Composite tree it re-links one pointer and every path underneath is still right, because a node's path is computed by walking parent, never stored. Key a flat map by full path instead and the same <code>mv</code> rewrites every descendant key.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Resolve, mkdir and ls, the whole thing:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">FileSystem</span><span class="w"> </span><span class="p">{</span><span class="w">                                   </span><span class="c1">// one root, all in memory</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">Directory</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Directory</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">FsNode</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Directory</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">root</span><span class="p">;</span><span class="w">                        </span><span class="c1">// path is absolute</span>
+<span class="w">        </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="na">split</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">parts</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">parts</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">))</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;..&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">                    </span><span class="c1">// clamp at /</span>
+<span class="w">                </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">parent</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">parent</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">root</span><span class="p">;</span>
+<span class="w">                </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">FsNode</span><span class="w"> </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">children</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">next</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">NoSuchPathException</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">parts</span><span class="p">.</span><span class="na">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w">  </span><span class="c1">// leaf node</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">next</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Directory</span><span class="p">))</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">NotADirectoryException</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="c1">// mid-path</span>
+<span class="w">            </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Directory</span><span class="p">)</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">cur</span><span class="p">;</span><span class="w">                                  </span><span class="c1">// path was &quot;/&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">mkdir</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">                        </span><span class="c1">// mkdir -p</span>
+<span class="w">        </span><span class="n">Directory</span><span class="w"> </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">root</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">path</span><span class="p">.</span><span class="na">split</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">))</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">&quot;..&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">parent</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">parent</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">root</span><span class="p">;</span><span class="w"> </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="n">FsNode</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cur</span><span class="p">.</span><span class="na">children</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">                </span><span class="n">cur</span><span class="p">.</span><span class="na">children</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Directory</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">cur</span><span class="p">));</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Directory</span><span class="p">))</span>
+<span class="w">                </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">NotADirectoryException</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">            </span><span class="n">cur</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Directory</span><span class="p">)</span><span class="w"> </span><span class="n">n</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">ls</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">path</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">FsNode</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">resolve</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">File</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="n">n</span><span class="p">.</span><span class="na">name</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span>
+<span class="w">            </span><span class="p">((</span><span class="n">Directory</span><span class="p">)</span><span class="w"> </span><span class="n">n</span><span class="p">).</span><span class="na">children</span><span class="p">.</span><span class="na">keySet</span><span class="p">());</span><span class="w">      </span><span class="c1">// sorted</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>rm on a non-empty directory.</strong> Recurse and free the subtree, or refuse without -r. State the choice: <code>rm(path, recursive)</code>. One unlink from the parent map drops everything below. Plain <code>rm</code> on a dir with children throws <code>DirectoryNotEmptyException</code>; <code>rm -r</code> unlinks the node.</li>
+<li><strong>mv a dir into its own subtree.</strong> <code>mv /a /a/b/c</code> makes a cycle and orphans the tree from the root. Walk dst's parent links up; if you pass src, throw <code>InvalidMoveException</code>. Also block <code>mv</code> onto a name that is a non-empty dir.</li>
+<li><strong>".." at the root.</strong> <code>/..</code>, <code>/../..</code>, <code>../x</code> from <code>/</code>. Clamp every <code>..</code> to <code>cur.parent ?? root</code>. Never let <code>cur</code> go null, never model a parent-of-root.</li>
+<li><strong>Trailing slash / empty component.</strong> <code>/a//b</code>, <code>/a/b/</code>, <code>""</code>, <code>/</code>. Normalise once in the splitter: drop <code>""</code> and <code>.</code>. Then <code>ls("/a/")</code> equals <code>ls("/a")</code>; a name that is already a File mid-path is a <code>NotADirectoryException</code>.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>p.isEmpty() || p.equals(".")</code> — a trailing slash, <code>//</code> and <code>/./</code> all collapse to nothing, never a blank child name.</li>
+<li><code>..</code> sets <code>cur</code> to parent or root — you never walk above <code>/</code> and never null-deref.</li>
+<li><code>!(next instanceof Directory)</code> mid-path throws — you cannot descend through a File.</li>
+</ol>
+<h2 id="how-to-represent-the-tree">How to Represent the Tree</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Lookup /a/b/c</th>
+<th>ls a dir</th>
+<th>mv / rename a subtree</th>
+<th>A node's own path</th>
+<th>Hard links</th>
+<th>Extra memory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Composite tree of nodes (the default)</td>
+<td>O(depth) walk</td>
+<td>O(children)</td>
+<td>re-link one pointer</td>
+<td>walk parent up</td>
+<td>refcount by hand</td>
+<td>one object per node</td>
+</tr>
+<tr>
+<td>Flat map by full path</td>
+<td>O(1) get</td>
+<td>O(all keys) + prefix filter</td>
+<td>rewrite every descendant key</td>
+<td>it is the key already</td>
+<td>awkward</td>
+<td>a full path string per node</td>
+</tr>
+<tr>
+<td>Inode + dirent tables</td>
+<td>O(depth) over dirents</td>
+<td>O(children) dirents</td>
+<td>re-link one dirent</td>
+<td>walk dirents up</td>
+<td>fall out for free</td>
+<td>an inode + a dirent per name</td>
+</tr>
+</tbody>
+</table>
+<p>A Composite tree of node objects. <code>mv</code> and rename are one pointer swap, <code>ls</code> is local, and a node never stores its own path so nothing goes stale. Reach for inode + dirent only when the brief adds hard links or on-disk layout.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>One Node class with an <code>isFile</code> flag plus both a children map and a content field — a file can sprout children.</li>
+<li><code>ls</code> hands back children in insertion or hash order — the spec asks for sorted names.</li>
+<li><code>resolve</code> splits on <code>/</code> but never handles <code>.</code>, <code>..</code>, <code>//</code> or a trailing slash.</li>
+<li><code>..</code> at the root null-derefs parent instead of clamping to <code>/</code>.</li>
+<li><code>mv /a</code> into <code>/a/b</code> is allowed — the subtree becomes a cycle, unreachable from the root.</li>
+<li>Walking through a File mid-path returns null silently instead of raising <code>NotADirectoryException</code>.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Composite — the File / Directory tree; a Directory treats every child as an <code>FsNode</code>. Iterator / Visitor — find, du and a tree print walk the tree without touching the node classes. Strategy — a swappable <code>QuotaPolicy</code>, or a pluggable path-resolution rule. Factory — <code>FileSystem</code> builds a File or Directory from a kind.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"One root Directory, held by a <code>FileSystem</code> facade. Every node is an <code>FsNode</code> with a name and a parent; a File carries bytes, a Directory carries a sorted map of children — that is Composite. <code>resolve</code> splits the path and folds from the root: <code>.</code> stays put, <code>..</code> is the parent clamped at <code>/</code>, anything else descends one child, and a File mid-path is an error. <code>mkdir</code> is the same walk that creates what is missing. <code>mv</code> and rename re-link one pointer; <code>find</code> and du are Visitors over the tree."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>Resolve <code>/a/./b/../c</code>. Walk it.</strong> <code>.</code> stays, <code>..</code> pops <code>b</code>, land on <code>/a/c</code>.</li>
+<li><strong><code>mkdir /x/y/z</code> with <code>/x</code> missing.</strong> Creates <code>x</code>, <code>y</code>, <code>z</code> in one walk — mkdir -p.</li>
+<li><strong><code>ls</code> a file path vs a directory path.</strong> File -&gt; <code>[name]</code>; dir -&gt; child names, sorted.</li>
+<li><strong>rm a directory that still has children.</strong> <code>-r</code> unlinks it and drops the subtree, else <code>DirectoryNotEmptyException</code>.</li>
+<li><strong><code>mv /a /a/b/c</code>.</strong> Reject: dst sits under src, found by walking parent up.</li>
+<li><strong>".." from <code>/</code>.</strong> Clamp to <code>/</code>; never null-deref the root's parent.</li>
+<li><strong><code>find /a "*.txt"</code> over a deep tree.</strong> A Visitor / Iterator; the node classes do not change.</li>
+<li><strong>"Add a per-directory byte quota."</strong> A <code>QuotaPolicy</code> checked in <code>writeFile</code>; the tree is untouched.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Real blocks / inodes / an allocator</strong> — <code>content</code> is a <code>StringBuilder</code>, <code>size()</code> is its length. Name the on-disk layout and move on.</li>
+<li><strong>POSIX permission bits and ACLs</strong> — an owner plus a mode checked on every op. One of the two ghosts.</li>
+<li><strong>Symlinks and hard links</strong> — a third <code>FsNode</code> kind, or a shared child pointer with a refcount. The other ghost; needs a loop guard.</li>
+<li><strong>Concurrency and locking</strong> — one lock on the tree, or a lock per directory. A different question.</li>
+<li><strong>Persistence</strong> — serialise the tree, replay it on start. Name it, move on.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>An org chart</li>
+<li>The DOM / an XML tree</li>
+<li>A nested menu or scene graph</li>
+<li>A threaded comment tree</li>
+<li>An S3 key-prefix listing</li>
+<li>A package-dependency tree</li>
+<li>A Trie of path strings</li>
+<li>A JSON document tree</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-15-lru-cache.html"><span class="dir">Previous</span><span class="ttl">Design an LRU Cache</span></a><a class="next" href="doc-practice-lld-design-problems-17-text-editor.html"><span class="dir">Next</span><span class="ttl">Design a Text Editor</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

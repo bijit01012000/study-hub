@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design a Notification Service — LLD</title>
+<meta name="description" content="Design a Notification Service">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-lld-design-problems-19-notification-service">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="active" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>LLD</h4><details class="part"><summary>Theory &amp; Notes <span class="count">22</span></summary><ul class="side-list"><li class="grp">lld-core-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-00-overview.html" title="LLD Core Concepts">LLD Core Concepts</a><button class="star" data-doc="theory-lld-core-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-01-coupling-and-cohesion.html" title="Coupling &amp; Cohesion">Coupling &amp; Cohesion</a><button class="star" data-doc="theory-lld-core-concepts-01-coupling-and-cohesion" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-02-solid-principles.html" title="SOLID Principles">SOLID Principles</a><button class="star" data-doc="theory-lld-core-concepts-02-solid-principles" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-03-dry.html" title="DRY">DRY</a><button class="star" data-doc="theory-lld-core-concepts-03-dry" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-04-yagni.html" title="YAGNI">YAGNI</a><button class="star" data-doc="theory-lld-core-concepts-04-yagni" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-05-kiss.html" title="KISS">KISS</a><button class="star" data-doc="theory-lld-core-concepts-05-kiss" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-06-composition-vs-inheritance.html" title="Composition vs Inheritance">Composition vs Inheritance</a><button class="star" data-doc="theory-lld-core-concepts-06-composition-vs-inheritance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-07-interface-vs-abstract-class.html" title="Interface vs Abstract Class">Interface vs Abstract Class</a><button class="star" data-doc="theory-lld-core-concepts-07-interface-vs-abstract-class" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-08-association-aggregation-composition.html" title="Association, Aggregation, Composition">Association, Aggregation, Composition</a><button class="star" data-doc="theory-lld-core-concepts-08-association-aggregation-composition" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-09-how-to-approach-any-lld-problem.html" title="How to Approach Any LLD Problem">How to Approach Any LLD Problem</a><button class="star" data-doc="theory-lld-core-concepts-09-how-to-approach-any-lld-problem" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-10-factory-method.html" title="Factory Method">Factory Method</a><button class="star" data-doc="theory-lld-core-concepts-10-factory-method" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-11-builder.html" title="Builder">Builder</a><button class="star" data-doc="theory-lld-core-concepts-11-builder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-12-singleton.html" title="Singleton">Singleton</a><button class="star" data-doc="theory-lld-core-concepts-12-singleton" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-13-adapter.html" title="Adapter">Adapter</a><button class="star" data-doc="theory-lld-core-concepts-13-adapter" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-14-decorator.html" title="Decorator">Decorator</a><button class="star" data-doc="theory-lld-core-concepts-14-decorator" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-15-composite.html" title="Composite">Composite</a><button class="star" data-doc="theory-lld-core-concepts-15-composite" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-16-strategy.html" title="Strategy">Strategy</a><button class="star" data-doc="theory-lld-core-concepts-16-strategy" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-17-observer.html" title="Observer">Observer</a><button class="star" data-doc="theory-lld-core-concepts-17-observer" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-18-state.html" title="State">State</a><button class="star" data-doc="theory-lld-core-concepts-18-state" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-19-command.html" title="Command">Command</a><button class="star" data-doc="theory-lld-core-concepts-19-command" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-20-chain-of-responsibility.html" title="Chain of Responsibility">Chain of Responsibility</a><button class="star" data-doc="theory-lld-core-concepts-20-chain-of-responsibility" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lld-core-concepts-21-template-method.html" title="Template Method">Template Method</a><button class="star" data-doc="theory-lld-core-concepts-21-template-method" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">21</span></summary><ul class="side-list"><li class="grp">lld-design-problems</li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-00-overview.html" title="LLD Design Problems">LLD Design Problems</a><button class="star" data-doc="practice-lld-design-problems-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-01-parking-lot.html" title="Design a Parking Lot">Design a Parking Lot</a><button class="star" data-doc="practice-lld-design-problems-01-parking-lot" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-02-vending-machine.html" title="Design a Vending Machine">Design a Vending Machine</a><button class="star" data-doc="practice-lld-design-problems-02-vending-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-03-elevator-system.html" title="Design an Elevator System">Design an Elevator System</a><button class="star" data-doc="practice-lld-design-problems-03-elevator-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-04-atm.html" title="Design an ATM">Design an ATM</a><button class="star" data-doc="practice-lld-design-problems-04-atm" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-05-coffee-machine.html" title="Design a Coffee Machine">Design a Coffee Machine</a><button class="star" data-doc="practice-lld-design-problems-05-coffee-machine" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-06-chess.html" title="Design a Chess Game">Design a Chess Game</a><button class="star" data-doc="practice-lld-design-problems-06-chess" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-07-tic-tac-toe.html" title="Design a Tic-Tac-Toe Game">Design a Tic-Tac-Toe Game</a><button class="star" data-doc="practice-lld-design-problems-07-tic-tac-toe" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-08-snake-and-ladder.html" title="Design a Snake and Ladder Game">Design a Snake and Ladder Game</a><button class="star" data-doc="practice-lld-design-problems-08-snake-and-ladder" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-09-movie-ticket-booking.html" title="Design a Movie Ticket Booking System">Design a Movie Ticket Booking System</a><button class="star" data-doc="practice-lld-design-problems-09-movie-ticket-booking" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-10-hotel-management.html" title="Design a Hotel Management System">Design a Hotel Management System</a><button class="star" data-doc="practice-lld-design-problems-10-hotel-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-11-car-rental.html" title="Design a Car Rental System">Design a Car Rental System</a><button class="star" data-doc="practice-lld-design-problems-11-car-rental" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-12-library-management.html" title="Design a Library Management System">Design a Library Management System</a><button class="star" data-doc="practice-lld-design-problems-12-library-management" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-13-splitwise.html" title="Design a Splitwise">Design a Splitwise</a><button class="star" data-doc="practice-lld-design-problems-13-splitwise" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-14-digital-wallet.html" title="Design a Digital Wallet">Design a Digital Wallet</a><button class="star" data-doc="practice-lld-design-problems-14-digital-wallet" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-15-lru-cache.html" title="Design an LRU Cache">Design an LRU Cache</a><button class="star" data-doc="practice-lld-design-problems-15-lru-cache" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-16-in-memory-file-system.html" title="Design an In-Memory File System">Design an In-Memory File System</a><button class="star" data-doc="practice-lld-design-problems-16-in-memory-file-system" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-17-text-editor.html" title="Design a Text Editor">Design a Text Editor</a><button class="star" data-doc="practice-lld-design-problems-17-text-editor" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-18-logging-framework.html" title="Design a Logging Framework">Design a Logging Framework</a><button class="star" data-doc="practice-lld-design-problems-18-logging-framework" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-lld-design-problems-19-notification-service.html" title="Design a Notification Service">Design a Notification Service</a><button class="star" data-doc="practice-lld-design-problems-19-notification-service" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-ask">The Ask</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#our-model">Our Model</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-change">The Change</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#what-the-picture-cant-show">What the Picture Can&#x27;t Show</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#if-they-make-you-code-it">If They Make You Code It</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-four-hazards">The Four Hazards</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-three-lines-they-are-watching">The Three Lines They Are Watching</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#running-the-fan-out">Running the Fan-Out</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#rejection-signals">Rejection Signals</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#patterns-used">Patterns Used</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#say-it-like-this">Say It Like This</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#the-follow-ups-that-decide-it">The Follow-ups That Decide It</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#deliberately-not-built">Deliberately Not Built</a></li><li><a href="doc-practice-lld-design-problems-19-notification-service.html#this-sheet-also-answers">This Sheet Also Answers</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-lld-design-problems-20-pub-sub.html" title="Design a Pub-Sub System">Design a Pub-Sub System</a><button class="star" data-doc="practice-lld-design-problems-20-pub-sub" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-lld.html">LLD</a> › Practice &amp; Questions</p>
+<h1>Design a Notification Service</h1>
+<p class="readmeta">15 sections · 1,960 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-lld-design-problems-19-notification-service" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p><em>LLD Design Problems, problem 19 of 20.</em></p>
+<h2 id="the-ask">The Ask</h2>
+<h3 id="build">Build</h3>
+<ul>
+<li>Notify a user across EMAIL, SMS, PUSH, IN_APP.</li>
+<li>Fired by a domain event: "order shipped", "password changed".</li>
+<li>Per-user channel preferences decide where it goes.</li>
+<li>A do-not-disturb window skips channels — unless the notification is CRITICAL.</li>
+<li>Dedup: same key inside a window is dropped.</li>
+<li>Rate-limit per user.</li>
+<li>Render the body per channel from a Template.</li>
+<li>Fan out: each channel sends independently.</li>
+<li>Each send: retry, exponential backoff, jitter; after N -&gt; dead-letter.</li>
+</ul>
+<h3 id="skip">Skip</h3>
+<ul>
+<li>Provider SDKs (SES / Twilio / FCM).</li>
+<li>A template-authoring UI.</li>
+<li>Open / click analytics.</li>
+<li>User management, a preference UI.</li>
+<li>A real message broker (name it).</li>
+<li>Localisation detail.</li>
+</ul>
+<h2 id="our-model">Our Model</h2>
+<p>A domain event is published, a listener calls <code>notify</code>, a filter chain trims the channel set, a Template renders one Message per channel, and each channel is sent on its own task wrapped in retry.</p>
+<h3 id="actors-and-classes">Actors and classes</h3>
+<ul>
+<li><strong>OrderService</strong> — <code>ship(o)</code>, <code>changePassword(u)</code>; calls <code>bus.publish(new OrderShipped(userId))</code>.</li>
+<li><strong>EventBus</strong> (singleton) — <code>subscribe(Class, Listener)</code>, <code>publish(DomainEvent): void</code>. In-process; a broker swaps in here.</li>
+<li><strong>NotificationListener</strong> (subscriber) — <code>svc: NotificationService</code>; <code>onEvent(DomainEvent e)</code> calls <code>svc.notify(e)</code>. Maps event to userId, type, key.</li>
+<li><strong>NotificationService</strong> — <code>chain: Filter</code> (prefs &gt; DND &gt; dedup &gt; rate), <code>templates: TemplateRegistry</code>, <code>channels: ChannelFactory</code>, <code>pool: ExecutorService</code> (one task per channel), <code>dlq: DeadLetterStore</code>; <code>notify(Event e): void</code>, <code>resolveChannels(User u, Event e): List&lt;Channel&gt;</code>, <code>send(Message m, Channel c): Result</code>, <code>retry(Message m, int attempt): void</code>.</li>
+<li><strong>Filter</strong> (interface, strategy) — <code>handle(FilterCtx c): void</code>; a chain of responsibility, drop a channel or <code>dropAll</code> and stop. <code>PreferenceFilter</code>, <code>DndFilter</code>, <code>DedupFilter</code>, <code>RateLimitFilter</code>.</li>
+<li><strong>FilterCtx</strong> — <code>user: User</code>, <code>event: DomainEvent</code>, <code>dedupKey: String</code>, <code>priority: Priority</code>, <code>channels: Set&lt;ChannelType&gt;</code> (mutable); <code>drop(ChannelType t)</code>, <code>dropAll(String reason)</code>. CRITICAL skips <code>DndFilter</code> + <code>RateLimitFilter</code>.</li>
+<li><strong>Template</strong> (interface) — <code>render(ChannelType c, Map model): Message</code>; one per event type, a body per channel. <code>OrderShippedTemplate</code>, <code>PasswordChangedTemplate</code>. <strong>TemplateRegistry</strong> — <code>forEvent(String type): Template</code>; unknown type -&gt; skip + log, never crash the fan-out.</li>
+<li><strong>Message</strong> (value, one per channel) — <code>to: String</code>, <code>channel: ChannelType</code>, <code>subject</code>, <code>body: String</code>, <code>notifId: String</code>, <code>idempotencyKey: String</code>. <code>key = hash(notifId + channel)</code>, built by the Template.</li>
+<li><strong>NotificationChannel</strong> (interface) — <code>send(Message m): SendResult</code>, <code>type(): ChannelType</code>. SES / Twilio / FCM sit behind this as a thin seam. <code>EmailChannel</code>, <code>SmsChannel</code>, <code>PushChannel</code>, <code>InAppChannel</code>.</li>
+<li><strong>RetryingChannel</strong> (decorator) — <code>inner: NotificationChannel</code>, <code>max</code>, <code>base</code>, <code>cap</code>, <code>jitter</code>; <code>send(m)</code> tries <code>inner.send(m)</code>; on TRANSIENT, schedules attempt + 1 after <code>backoff(n)</code>. <code>backoff(n) = min(base * 2^n, cap) + rand(jitter)</code>. <code>RateLimitedChannel</code>, <code>MetricsChannel</code> wrap the same way.</li>
+<li><strong>SendResult</strong> (value) — <code>status: SENT | TRANSIENT | PERMANENT</code>, <code>providerId</code>, <code>error: String</code>. TRANSIENT -&gt; retry; PERMANENT -&gt; DLQ now.</li>
+<li><strong>DeadLetterStore</strong> — <code>save(FailedSend f): void</code> (message + channel + attempts + lastError). A job or a human drains it.</li>
+</ul>
+<h3 id="relationships">Relationships</h3>
+<p>An event publishes on the bus; the listener maps it; the service runs the filter chain, looks up a Template, renders per channel, and fans out to channels. A <code>RetryingChannel</code> decorates any channel.</p>
+<h3 id="key-operations">Key operations</h3>
+<ol>
+<li><code>notify(Event e): void</code> — loads the user, builds a <code>FilterCtx</code>, runs the chain, renders one Message per surviving channel, then submits one task per channel. Returns at once; it never waits on a provider.</li>
+<li><code>resolveChannels(User u, Event e): List&lt;Channel&gt;</code> — preferences minus the DND window, unless priority is CRITICAL. Then dedup on the key and the per-user rate limit. Empty list -&gt; nothing sends, no error.</li>
+<li><code>send(Message m, Channel c): Result</code> — one provider call behind the channel Strategy. Idempotent on <code>m.idempotencyKey</code>. Returns SENT, TRANSIENT (retry) or PERMANENT (straight to the DLQ).</li>
+<li><code>retry(Message m, int attempt): void</code> — re-runs <code>send</code> after <code>backoff(attempt)</code> — base times 2^n plus jitter, capped. After MAX_ATTEMPTS it writes to the dead-letter store. Never a tight loop.</li>
+</ol>
+<h3 id="the-invariants">The invariants</h3>
+<ul>
+<li><code>send c</code> when c in prefs, not in DND (or CRITICAL), key not seen.</li>
+<li>Each surviving channel is its own task, so a slow provider never blocks the others.</li>
+<li>To DLQ when attempts == MAX or the result is PERMANENT.</li>
+</ul>
+<p>Recall drill: cover the operations column, write the four with their guarantee. Most people forget <code>notify</code> returns before any provider is called.</p>
+<h2 id="the-one-run-to-hold-in-your-head">The One Run to Hold in Your Head</h2>
+<p>"Order shipped" fires for a user at 02:30. She wants EMAIL + PUSH, DND is 22:00-07:00, nothing critical. The same event is redelivered a minute later. What goes out, on which channel, and when does EMAIL's retry give up?</p>
+<p>Preferences give EMAIL + PUSH; DND drops PUSH, so only EMAIL sends (DND skips channels unless CRITICAL). The redelivery is dropped by <code>DedupFilter</code> on the key. EMAIL's transient failure backs off 1s, 2s, then dead-letters after 3 tries.</p>
+<h2 id="the-change">The Change</h2>
+<p>They ask to "stop hammering users — roll low-priority notifications into one 9am digest". A <code>DigestBatcher</code> coalesces non-critical messages per user into a scheduled bucket; a timer flushes the bucket as one send. CRITICAL still goes straight through. Chain of Responsibility gains a link, the channels never change.</p>
+<h2 id="what-the-picture-cant-show">What the Picture Can't Show</h2>
+<p>Two races. A retry can fire after the first attempt already delivered (a slow provider ACK) — the fix is an <code>idempotencyKey</code> per notification + channel, deduped at the provider or a sent-log. And a crash mid fan-out loses the rest — persist the intent first (an outbox), a worker resumes it.</p>
+<h2 id="if-they-make-you-code-it">If They Make You Code It</h2>
+<p>Notify and sendWithRetry, the whole thing:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span> <span class="nc">NotificationService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Filter</span><span class="w"> </span><span class="n">chain</span><span class="p">;</span><span class="w">                           </span><span class="c1">// prefs &gt; DND &gt; dedup &gt; rate</span>
+<span class="w">    </span><span class="n">TemplateRegistry</span><span class="w"> </span><span class="n">templates</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ChannelFactory</span><span class="w"> </span><span class="n">channels</span><span class="p">;</span>
+<span class="w">    </span><span class="n">ExecutorService</span><span class="w"> </span><span class="n">pool</span><span class="p">;</span><span class="w">                   </span><span class="c1">// fan-out, one task per channel</span>
+<span class="w">    </span><span class="n">ScheduledExecutorService</span><span class="w"> </span><span class="n">clock</span><span class="p">;</span>
+<span class="w">    </span><span class="n">DeadLetterStore</span><span class="w"> </span><span class="n">dlq</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">notify</span><span class="p">(</span><span class="n">DomainEvent</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">User</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="na">load</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">userId</span><span class="p">());</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FilterCtx</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">key</span><span class="p">(),</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">priority</span><span class="p">());</span>
+<span class="w">        </span><span class="n">chain</span><span class="p">.</span><span class="na">handle</span><span class="p">(</span><span class="n">c</span><span class="p">);</span><span class="w">                    </span><span class="c1">// drops channels, or all</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">channels</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="n">Template</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">templates</span><span class="p">.</span><span class="na">forEvent</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">type</span><span class="p">());</span><span class="w">   </span><span class="c1">// or skip</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">ChannelType</span><span class="w"> </span><span class="n">ct</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">channels</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Message</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">render</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">model</span><span class="p">());</span><span class="w">     </span><span class="c1">// one per channel</span>
+<span class="w">            </span><span class="n">Channel</span><span class="w"> </span><span class="n">ch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">channels</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">ct</span><span class="p">);</span>
+<span class="w">            </span><span class="n">pool</span><span class="p">.</span><span class="na">submit</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sendWithRetry</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendWithRetry</span><span class="p">(</span><span class="n">Message</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">Channel</span><span class="w"> </span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">attempt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SendResult</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ch</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">m</span><span class="p">);</span><span class="w">          </span><span class="c1">// m carries an idempotencyKey</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="na">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">SENT</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">attempt</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="na">status</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">PERMANENT</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAX_ATTEMPTS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">dlq</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FailedSend</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">.</span><span class="na">type</span><span class="p">(),</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="na">error</span><span class="p">()));</span>
+<span class="w">            </span><span class="k">return</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backoff</span><span class="p">(</span><span class="n">attempt</span><span class="p">);</span><span class="w">      </span><span class="c1">// base*2^n + jitter, capped</span>
+<span class="w">        </span><span class="n">clock</span><span class="p">.</span><span class="na">schedule</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">sendWithRetry</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">),</span><span class="w"> </span><span class="n">d</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h2 id="the-four-hazards">The Four Hazards</h2>
+<ol>
+<li><strong>One provider blocks the fan-out.</strong> If channels send in a loop on one thread, a hung EMAIL provider stalls PUSH, SMS and the caller behind it. Submit one task per channel, each with a timeout, so SMS must not wait on PUSH.</li>
+<li><strong>Retry storm.</strong> A provider 500s and every worker retries at once, on a tight loop — the provider and the queue both fall over. Exponential backoff + jitter + a max-attempts cap, then dead-letter; never a spin.</li>
+<li><strong>Duplicate send on retry.</strong> The first attempt actually delivered, but the ACK was slow, so a retry fired and the user gets two SMS. An <code>idempotencyKey</code> per notification + channel, deduped at the provider or a sent-log.</li>
+<li><strong>DND silences a critical alert.</strong> Quiet hours are respected, but a password-changed security alert still has to go out at 2am. A priority flag — CRITICAL bypasses <code>DndFilter</code> and <code>RateLimitFilter</code>, nothing else.</li>
+</ol>
+<p>Name them before they are asked.</p>
+<h2 id="the-three-lines-they-are-watching">The Three Lines They Are Watching</h2>
+<ol>
+<li><code>pool.submit(() -&gt; sendWithRetry(...))</code> — each channel is its own task. A hung SMS provider never blocks PUSH.</li>
+<li><code>ch.send(m)</code> with <code>m.idempotencyKey</code> — a retry after a slow success is dropped at the provider, not sent twice.</li>
+<li><code>backoff(attempt)</code> + MAX_ATTEMPTS then <code>dlq.save</code> — bounded backoff with jitter, never a tight loop.</li>
+</ol>
+<h2 id="running-the-fan-out">Running the Fan-Out</h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Caller waits</th>
+<th>A crash means</th>
+<th>Retry home</th>
+<th>Back-pressure</th>
+<th>Reach for it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inline send (the default)</td>
+<td>on the slowest provider</td>
+<td>the notification is lost</td>
+<td>the caller's loop</td>
+<td>none, threads pile up</td>
+<td>a script, low volume</td>
+</tr>
+<tr>
+<td>Queue + worker pool per channel</td>
+<td>returns at once</td>
+<td>resumes if the intent was persisted</td>
+<td>a delayed executor / delay queue</td>
+<td>a bounded queue per channel</td>
+<td>a service, real traffic</td>
+</tr>
+<tr>
+<td>External broker + consumers (the HLD build)</td>
+<td>returns at once</td>
+<td>broker replays</td>
+<td>consumer redelivery</td>
+<td>consumer lag</td>
+<td>cross-service, huge fan-out</td>
+</tr>
+</tbody>
+</table>
+<p>A bounded queue with a per-channel worker pool, retries on an in-process delayed executor (a delay queue if it must survive a restart). Persist the intent first — an outbox — so a crash resumes mid fan-out. A real broker is the same shape in another process: the HLD answer.</p>
+<h2 id="rejection-signals">Rejection Signals</h2>
+<p>These end the interview:</p>
+<ul>
+<li>Fanning out on the caller's thread — one slow provider stalls every other channel and the request.</li>
+<li>Retrying in a tight loop with no cap — a dead provider becomes a self-inflicted DoS.</li>
+<li>No idempotency key — a retry after a slow success sends the same SMS twice.</li>
+<li>A DND window that also silences a CRITICAL security alert — quiet hours need a bypass.</li>
+<li>A switch on channel type inside the service instead of a <code>NotificationChannel</code> strategy.</li>
+<li>Checking the rate limit before preferences — burning tokens on a user who opted out.</li>
+</ul>
+<h2 id="patterns-used">Patterns Used</h2>
+<p>Strategy — a <code>NotificationChannel</code> per channel, and a Template per event. Observer — the service subscribes to domain events on the bus. Decorator — retry / rate-limit / metrics wrap a channel. Chain of Responsibility — prefs -&gt; DND -&gt; dedup -&gt; rate-limit.</p>
+<h2 id="say-it-like-this">Say It Like This</h2>
+<blockquote class="callout callout--note">
+<p>"An event is published on a bus; a listener calls <code>notify</code>. A chain of filters — preferences, DND, dedup, rate-limit — trims the channel set; CRITICAL skips DND and rate-limit. A Template renders one Message per surviving channel. Each channel is a Strategy; the service submits one task per channel so they never block each other. Every send is wrapped by a decorator that retries with backoff and jitter, then dead-letters after N."</p>
+</blockquote>
+<h2 id="the-follow-ups-that-decide-it">The Follow-ups That Decide It</h2>
+<ol>
+<li><strong>One provider hangs 30s. The other channels?</strong> Each channel is its own task; a timeout fails it, others unaffected.</li>
+<li><strong>A retry fires but the first attempt delivered.</strong> <code>idempotencyKey</code> per notif + channel, deduped at the provider.</li>
+<li><strong>2am, a password-changed alert must go.</strong> CRITICAL priority bypasses <code>DndFilter</code> and <code>RateLimitFilter</code>.</li>
+<li><strong>The same event is delivered to the listener twice.</strong> <code>DedupFilter</code> on the key within a window drops the second.</li>
+<li><strong>A provider is down for an hour.</strong> Transient fails back off to MAX, then the DLQ; a job drains it.</li>
+<li><strong>"Roll 3am emails into a morning digest."</strong> A <code>DigestBatcher</code> link in the chain; critical still goes straight through.</li>
+<li><strong>Add WhatsApp as a channel.</strong> A new <code>NotificationChannel</code> impl + a factory line; nothing else.</li>
+<li><strong>The process dies mid fan-out.</strong> Persist the intent first (outbox); a worker picks up the unfinished sends.</li>
+</ol>
+<h2 id="deliberately-not-built">Deliberately Not Built</h2>
+<ul>
+<li><strong>Provider SDK integration</strong> — SES / Twilio / FCM behind the channel seam. The seam is the point; the integration is not.</li>
+<li><strong>A template-authoring UI</strong> — how a Template is written and stored. Assume it is registered.</li>
+<li><strong>Open / click analytics</strong> — a separate pipeline reading delivery events. A different question.</li>
+<li><strong>A real message broker</strong> — Kafka / SQS behind <code>EventBus</code>. Named, not built — the HLD version.</li>
+<li><strong>The outbox / no-lost-sends</strong> — persist the intent, a worker resumes it. Name it and move on.</li>
+</ul>
+<h2 id="this-sheet-also-answers">This Sheet Also Answers</h2>
+<ul>
+<li>A multi-channel dispatcher</li>
+<li>PagerDuty-style alerting</li>
+<li>Webhook delivery with retries</li>
+<li>The outbox pattern</li>
+<li>A fan-out worker pool</li>
+<li>An email campaign sender</li>
+<li>An IoT command dispatcher</li>
+</ul>
+<div class="pager"><a class="prev" href="doc-practice-lld-design-problems-18-logging-framework.html"><span class="dir">Previous</span><span class="ttl">Design a Logging Framework</span></a><a class="next" href="doc-practice-lld-design-problems-20-pub-sub.html"><span class="dir">Next</span><span class="ttl">Design a Pub-Sub System</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

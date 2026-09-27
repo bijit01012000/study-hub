@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 29 — Hibernate Internals — Spring Boot</title>
+<meta name="description" content="Lecture 29 — Hibernate Internals">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-29">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-29.html#lecture-29">Lecture 29</a></li><li><a href="doc-theory-lecture-29.html#1-the-core-hibernate-components">1. The Core Hibernate Components</a></li><li><a href="doc-theory-lecture-29.html#2-jpa-hibernate-and-spring-boot">2. JPA, Hibernate, and Spring Boot</a></li><li><a href="doc-theory-lecture-29.html#3-the-persistence-context">3. The Persistence Context</a></li><li><a href="doc-theory-lecture-29.html#4-persistencecontext-in-spring">4. @PersistenceContext in Spring</a></li><li><a href="doc-theory-lecture-29.html#5-transactions-from-first-principles">5. Transactions from First Principles</a></li><li><a href="doc-theory-lecture-29.html#6-how-transactional-works">6. How @Transactional Works</a></li><li><a href="doc-theory-lecture-29.html#7-complete-transaction-and-persistence-context-flow">7. Complete Transaction and Persistence Context Flow</a></li><li><a href="doc-theory-lecture-29.html#8-why-transactions-belong-in-the-service-layer-and-which-operations-need-one">8. Why Transactions Belong in the Service Layer, and Which Operations Need One</a></li><li><a href="doc-theory-lecture-29.html#9-entity-lifecycle-states">9. Entity Lifecycle States</a></li><li><a href="doc-theory-lecture-29.html#10-the-entity-lifecycle-diagram-and-merge">10. The Entity Lifecycle Diagram and merge()</a></li><li><a href="doc-theory-lecture-29.html#11-managed-identity-and-the-first-level-cache">11. Managed Identity and the First-Level Cache</a></li><li><a href="doc-theory-lecture-29.html#12-dirty-checking-and-flushing">12. Dirty Checking and Flushing</a></li><li><a href="doc-theory-lecture-29.html#13-transactional-write-behind-and-batch-processing">13. Transactional Write-Behind and Batch Processing</a></li><li><a href="doc-theory-lecture-29.html#14-clear-detach-refresh-and-the-entitymanager-method-reference">14. clear(), detach(), refresh(), and the EntityManager Method Reference</a></li><li><a href="doc-theory-lecture-29.html#15-myth-vs-reality">15. Myth vs Reality</a></li><li><a href="doc-theory-lecture-29.html#16-common-trap-questions">16. Common Trap Questions</a></li><li><a href="doc-theory-lecture-29.html#17-points-to-remember">17. Points to Remember</a></li><li><a href="doc-theory-lecture-29.html#18-likely-interview-questions">18. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-29.html#19-final-summary">19. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 29 — Hibernate Internals</h1>
+<p class="readmeta">20 sections · 4,770 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-29" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-29">Lecture 29</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Hibernate Internals | Persistence Context, L1 Cache &amp; Transactions" (playlist map, verified). Repo folder is the <code>hibernateInternalsDemo</code> project: entity <code>model.Student</code>, repository <code>repository.StudentRepository</code>, service <code>service.StudentService</code> with <code>@Transactional</code>, controller <code>controller.StudentController</code>, plus <code>HibernateInternalsDemoApplication</code> and <code>application.properties</code>. Coverage below = core components, the persistence context, <code>@PersistenceContext</code>, transactions and <code>@Transactional</code>, lifecycle states, dirty checking, flushing and write-behind, the first-level cache, and <code>EntityManager</code> methods.</p>
+</blockquote>
+<p>Hibernate becomes far easier to reason about once we stop seeing it as a SQL generator. Internally it owns an in-memory workspace called the persistence context, tracks the entity objects placed inside it, detects changes, and synchronizes them with the database inside a transaction. This lecture builds that mental model, which every later Spring Data lecture assumes.</p>
+<h2 id="1-the-core-hibernate-components">1. The Core Hibernate Components</h2>
+<p>Four components form the backbone, each with a different job and lifetime. Confusing them is the source of most beginner bugs.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Responsibility</th>
+<th>Typical lifetime</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EntityManagerFactory</code></td>
+<td>Creates <code>EntityManager</code> instances and stores shared ORM metadata</td>
+<td>Entire application</td>
+</tr>
+<tr>
+<td><code>EntityManager</code></td>
+<td>Provides operations for interacting with entities and the persistence context</td>
+<td>One unit of work or transaction</td>
+</tr>
+<tr>
+<td>Persistence Context</td>
+<td>Stores and tracks managed entity instances</td>
+<td>Usually one transaction</td>
+</tr>
+<tr>
+<td>Database Transaction</td>
+<td>Ensures a group of database operations succeeds or fails as one unit</td>
+<td>One business operation</td>
+</tr>
+</tbody>
+</table>
+<p>The relationship is a straight chain:</p>
+<div class="highlight"><pre><span></span><code>EntityManagerFactory -&gt; creates -&gt; EntityManager
+EntityManager -&gt; interacts with -&gt; Persistence Context
+Persistence Context -&gt; synchronizes through Hibernate -&gt; Database
+</code></pre></div>
+
+<p>Two lifetime facts matter in interviews:</p>
+<ul>
+<li>The <code>EntityManagerFactory</code> is expensive to create and is normally shared for the application's lifetime (one per persistence unit).</li>
+<li>An actual <code>EntityManager</code> is short-lived and must not be shared concurrently between threads; it is one unit of work, not an application-wide service.</li>
+</ul>
+<blockquote class="callout callout--important">
+<p>Important: The factory is heavy and long-lived; the manager is light and short-lived. Reading this the other way around explains almost every "why is my entity stale" question.</p>
+</blockquote>
+<h2 id="2-jpa-hibernate-and-spring-boot">2. JPA, Hibernate, and Spring Boot</h2>
+<p>Three layers cooperate, and each answers a different question.</p>
+<p><strong>JPA is the specification.</strong> Jakarta Persistence, commonly called JPA, defines a standard contract for object-relational mapping in Java. It provides interfaces, annotations, and rules such as <code>EntityManagerFactory</code>, <code>EntityManager</code>, <code>@Entity</code>, <code>@Id</code>, and <code>@GeneratedValue</code>. JPA defines what persistence operations should do; it does not contain the ORM engine that performs them.</p>
+<p><strong>Hibernate is the provider.</strong> Hibernate implements the JPA contract and does the actual work: mapping entities to tables, generating SQL, interacting with JDBC, tracking entity state, performing dirty checking, managing the persistence context, and coordinating synchronization with the database. Hibernate also offers its own native API, which mirrors the JPA types:</p>
+<table>
+<thead>
+<tr>
+<th>JPA API</th>
+<th>Hibernate native API</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EntityManagerFactory</code></td>
+<td><code>SessionFactory</code></td>
+</tr>
+<tr>
+<td><code>EntityManager</code></td>
+<td><code>Session</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>SessionFactory</code> extends <code>EntityManagerFactory</code> and <code>Session</code> extends <code>EntityManager</code>, so Hibernate supports the standard JPA API while exposing Hibernate-specific features too.</p>
+<p><strong>Spring Boot's role.</strong> Our code normally uses JPA types (<code>jakarta.persistence.Entity</code>, <code>jakarta.persistence.EntityManager</code>, <code>jakarta.persistence.Id</code>) while Hibernate works underneath as the provider. Coding against JPA keeps persistence code provider-independent, so Hibernate could be swapped for another provider with fewer changes than if the code depended on Hibernate-specific APIs.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: Spring Boot configures, JPA specifies, Hibernate implements. Keep those three verbs in that order and the stack stops being mysterious.</p>
+</blockquote>
+<p>Mnemonic: <strong>Spring Sits, JPA Says, Hibernate Does</strong> (S-S-D) - configuration, contract, execution.</p>
+<h2 id="3-the-persistence-context">3. The Persistence Context</h2>
+<p>A persistence context is Hibernate's in-memory workspace for managed entities. Picture it as a map keyed by entity identity, pointing at live Java objects:</p>
+<div class="highlight"><pre><span></span><code>Persistence Context
++----------------------------------+
+| Student#1 -&gt; Student object      |
+| Student#2 -&gt; Student object      |
+| Student#7 -&gt; Student object      |
+| Tracks identity and state        |
++----------------------------------+
+</code></pre></div>
+
+<p>Suppose we execute <code>Student student = entityManager.find(Student.class, 1L);</code>. If the entity is not already available in the current persistence context, Hibernate may:</p>
+<ol>
+<li>execute a <code>SELECT</code>;</li>
+<li>create a <code>Student</code> object from the returned row;</li>
+<li>place that object in the persistence context;</li>
+<li>begin managing its state.</li>
+</ol>
+<p>The context is responsible for much more than storage. It supports:</p>
+<ul>
+<li>entity identity;</li>
+<li>lifecycle state management;</li>
+<li>automatic change detection;</li>
+<li>first-level caching;</li>
+<li>transactional write-behind;</li>
+<li>synchronization with the database.</li>
+</ul>
+<p><code>EntityManager</code> is the main JPA interface for interacting with that context. Its operations (<code>persist</code>, <code>find</code>, <code>remove</code>, <code>flush</code>, <code>detach</code>, <code>clear</code>, <code>refresh</code>) touch an entity, the context, or the synchronization between them.</p>
+<h2 id="4-persistencecontext-in-spring">4. @PersistenceContext in Spring</h2>
+<p>An <code>EntityManager</code> can be injected into a Spring repository using <code>@PersistenceContext</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Repository</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StudentRepository</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="nd">@PersistenceContext</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EntityManager</span><span class="w"> </span><span class="n">entityManager</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Student</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">entityManager</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">Student</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The name is meaningful: we ask Spring for an <code>EntityManager</code> connected to the persistence context appropriate for the current operation.</p>
+<p><strong>Why Spring does not inject one permanent <code>EntityManager</code>.</strong> Repositories are singleton beans by default, so one repository object serves many request threads. A real JPA <code>EntityManager</code>, like a Hibernate <code>Session</code>, is not thread-safe, so sharing one physical instance would be unsafe. Spring injects a shared proxy instead, routing each call to the transaction-associated <code>EntityManager</code> and then to the persistence context. Two concurrent transactions can use the same repository with different persistence contexts.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The killer detail is "proxy, not a single instance." Candidates who say "Spring injects one EntityManager" fail the thread-safety follow-up immediately.</p>
+</blockquote>
+<h2 id="5-transactions-from-first-principles">5. Transactions from First Principles</h2>
+<p>Consider a bank transfer that debits one account and credits another. If the first statement succeeds and the second fails, money is deducted but never added. A transaction treats both as one logical operation, <code>BEGIN ... COMMIT</code>, and on failure runs <code>ROLLBACK</code>. The region between beginning and completing is the <strong>transaction boundary</strong>.</p>
+<p><strong>Unit of work.</strong> A unit of work is the complete set of persistence actions needed for one business operation. Changing a student's email may involve:</p>
+<ol>
+<li>retrieving the student;</li>
+<li>checking business rules;</li>
+<li>modifying the entity;</li>
+<li>detecting the change;</li>
+<li>generating SQL;</li>
+<li>executing SQL;</li>
+<li>committing the transaction.</li>
+</ol>
+<p>All belong to one logical unit. The transaction decides whether the database changes succeed together; the persistence context tracks the entities involved.</p>
+<p><strong>Database, Hibernate, and Spring transactions</strong> are three layers around the same work:</p>
+<ul>
+<li>Database: understands <code>BEGIN; UPDATE ...; COMMIT;</code>.</li>
+<li>Hibernate native API: open a <code>Session</code>, call <code>session.beginTransaction()</code>, <code>session.persist(student)</code>, then <code>transaction.commit()</code>, catching exceptions to <code>transaction.rollback()</code> and closing the session in <code>finally</code>.</li>
+<li>Spring: removes that repetitive code.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">createStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">entityManager</span><span class="p">.</span><span class="na">persist</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Conceptually Spring begins a transaction, executes the method, flushes pending changes, then commits; if a rollback-triggering exception occurs, it rolls back instead:</p>
+<div class="highlight"><pre><span></span><code>Begin transaction
+        |
+        v
+Execute method
+        |
+        v
+Flush pending changes
+        |
+        v
+Commit
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Begin transaction
+        |
+        v
+Execute method
+        |
+        v
+Exception
+        |
+        v
+Rollback
+</code></pre></div>
+
+<p>By default Spring rolls back for unchecked exceptions such as <code>RuntimeException</code> and <code>Error</code>; checked-exception behavior can be configured with attributes such as <code>rollbackFor</code>.</p>
+<h2 id="6-how-transactional-works">6. How @Transactional Works</h2>
+<p>Spring applies <code>@Transactional</code> through an AOP proxy. The annotated method is not called directly; a generated proxy intercepts the call, opens the transaction, invokes the real method, then commits or rolls back. A <code>StudentService</code> with an <code>@Transactional updateStudent(Long id)</code> method is wrapped this way:</p>
+<ul>
+<li>the controller calls the <code>StudentService</code> proxy;</li>
+<li>the <code>TransactionInterceptor</code> begins a transaction (or joins one per propagation rules);</li>
+<li><code>StudentService.updateStudent()</code> runs;</li>
+<li>after the method completes or throws, the proxy commits or rolls back.</li>
+</ul>
+<p>Because the proxy owns the transaction boundary, a call from one method to another method <strong>on the same object</strong> may bypass the proxy. This is the usual self-invocation limitation of proxy-based AOP: a same-class call never passes through the interceptor, so no new transaction is applied.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>@Transactional</code> is proxy-based. Self-invocation (<code>this.otherMethod()</code>) skips the proxy, so the annotation on the inner method does nothing.</p>
+</blockquote>
+<h2 id="7-complete-transaction-and-persistence-context-flow">7. Complete Transaction and Persistence Context Flow</h2>
+<p>Put everything together with this service method:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@Transactional</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">updateStudent</span><span class="p">(</span><span class="n">Long</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entityManager</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">Student</span><span class="p">.</span><span class="na">class</span><span class="p">,</span><span class="w"> </span><span class="n">id</span><span class="p">);</span>
+<span class="w">    </span><span class="n">student</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">&quot;Rohan&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p><strong>Step 1: The call reaches the service proxy</strong> (controller -&gt; <code>StudentService</code> proxy).</p>
+<p><strong>Step 2: Spring starts the transaction.</strong> The interceptor creates or joins a transaction per the propagation rules.</p>
+<p><strong>Step 3: An <code>EntityManager</code> is associated with the transaction</strong> (transaction -&gt; <code>EntityManager</code> -&gt; persistence context).</p>
+<p><strong>Step 4: Hibernate executes <code>find()</code>.</strong> It first checks the persistence context for <code>Student#id</code>; if present it returns the managed instance, otherwise it queries the database, creates the entity, and manages it.</p>
+<p><strong>Step 5: The managed entity is modified.</strong> <code>student.setName("Rohan");</code> needs no explicit update method, because Hibernate tracks the managed object.</p>
+<p><strong>Step 6: Hibernate flushes.</strong> Before commit it synchronizes pending changes by running <code>UPDATE students SET name = 'Rohan' WHERE id = ?;</code>.</p>
+<p><strong>Step 7: The database transaction commits.</strong> After a successful commit the changes are durable. When the transaction-scoped context ends, its entities are no longer managed.</p>
+<blockquote class="callout callout--important">
+<p>Important: In step 5 there is no <code>update()</code> call and no SQL. The <code>UPDATE</code> appears only at flush in step 6. That gap is dirty checking plus write-behind working together.</p>
+</blockquote>
+<h2 id="8-why-transactions-belong-in-the-service-layer-and-which-operations-need-one">8. Why Transactions Belong in the Service Layer, and Which Operations Need One</h2>
+<p>A repository method is often one database action, while a business operation may span several calls - enrolling a student may fetch a student and course, create an enrollment, and record a payment. If each call had its own transaction, part of the operation could commit while a later part failed. The service layer is normally the better boundary because it represents the complete use case:</p>
+<ul>
+<li>repository methods perform persistence operations;</li>
+<li>service methods define which operations must succeed or fail together.</li>
+</ul>
+<p>Repository-level <code>@Transactional</code> can be useful, but it should not divide one business operation into unrelated transaction boundaries.</p>
+<p><strong>Which operations require a transaction?</strong> For a normal transaction-scoped JPA persistence context:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Transaction required?</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>find()</code></td>
+<td>Not normally required without locking</td>
+<td>Retrieve an entity by primary key</td>
+</tr>
+<tr>
+<td><code>persist()</code></td>
+<td>Yes</td>
+<td>Make a new entity managed and schedule its insertion</td>
+</tr>
+<tr>
+<td><code>merge()</code></td>
+<td>Yes</td>
+<td>Copy state into a managed instance</td>
+</tr>
+<tr>
+<td><code>remove()</code></td>
+<td>Yes</td>
+<td>Mark a managed entity for deletion</td>
+</tr>
+<tr>
+<td><code>flush()</code></td>
+<td>Yes</td>
+<td>Synchronize pending changes with the database</td>
+</tr>
+<tr>
+<td><code>refresh()</code></td>
+<td>Yes in normal application usage</td>
+<td>Reload an entity's state from the database</td>
+</tr>
+</tbody>
+</table>
+<p>A basic <code>find()</code> may work without <code>@Transactional</code>, but modifying data belongs inside a clearly defined transaction.</p>
+<blockquote class="callout callout--interviewer">
+<p>Interviewer's perspective: The expected nuance is "reads can work transactionless, writes must not." "Every operation needs a transaction" and "none do" both miss the persistence context's scope.</p>
+</blockquote>
+<h2 id="9-entity-lifecycle-states">9. Entity Lifecycle States</h2>
+<p>An entity instance moves through four main lifecycle states:</p>
+<ol>
+<li><strong>Transient</strong> - a new Java object not yet known to Hibernate.</li>
+<li><strong>Managed</strong> - associated with the current persistence context.</li>
+<li><strong>Detached</strong> - was managed, no longer associated with its context.</li>
+<li><strong>Removed</strong> - managed but scheduled for deletion.</li>
+</ol>
+<p>Managed is central because dirty checking, automatic updates, first-level caching, relationship synchronization, and flushing all depend on it.</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Associated with context?</th>
+<th>Tracked/dirty-checked?</th>
+<th>Represents a row?</th>
+<th>Typical entry</th>
+<th>Typical exit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transient</td>
+<td>No</td>
+<td>No</td>
+<td>Not yet</td>
+<td><code>new Student()</code></td>
+<td><code>persist()</code> -&gt; Managed</td>
+</tr>
+<tr>
+<td>Managed</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes (if from DB)</td>
+<td><code>persist()</code>, <code>find()</code></td>
+<td><code>detach()</code>, <code>clear()</code>, context ends -&gt; Detached; <code>remove()</code> -&gt; Removed</td>
+</tr>
+<tr>
+<td>Detached</td>
+<td>No</td>
+<td>No</td>
+<td>May still</td>
+<td>context ends, <code>detach()</code>, <code>clear()</code></td>
+<td><code>merge()</code> -&gt; Managed copy returned</td>
+</tr>
+<tr>
+<td>Removed</td>
+<td>Yes (as scheduled deletion)</td>
+<td>Deletion is dirty-checked</td>
+<td>Scheduled for deletion</td>
+<td><code>remove()</code></td>
+<td>flush -&gt; row deleted</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Transient.</strong> <code>new Student()</code> creates an object that exists in Java memory, is not associated with a context, is not tracked by Hibernate, and normally does not yet represent a stored row. <code>@Entity</code> makes instances eligible for persistence; it does not make every <code>new</code> object managed automatically.</p>
+<p><strong>Managed.</strong> An entity is managed when it is associated with the current context. A new entity becomes managed through <code>persist()</code>; an entity returned by <code>find()</code> is managed too. Hibernate does not create a second copy on <code>persist()</code> - the same Java object becomes managed.</p>
+<blockquote class="callout callout--important">
+<p>Important: Managed does not mean "already written to the database." <code>persist()</code> makes the entity managed, but the <code>INSERT</code> may be delayed until a flush; timing can depend on identifier generation. Managed describes the relationship with the context, not whether SQL has executed.</p>
+</blockquote>
+<p><strong>Detached.</strong> A detached entity was previously managed, still exists as a Java object, may still represent a row, but is no longer associated with its original context. It becomes detached when the context ends, when <code>detach()</code> removes one entity, or when <code>clear()</code> detaches every managed entity and empties the context. Changes after detachment are not automatically detected.</p>
+<p><strong>Removed.</strong> Calling <code>remove(student)</code> on a managed entity tells Hibernate the row should be deleted at flush. <code>remove()</code> is primarily a lifecycle transition: it does not necessarily execute <code>DELETE</code> at that exact line.</p>
+<p><strong>Removed vs detached:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Detached Entity</th>
+<th>Removed Entity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hibernate has stopped managing it</td>
+<td>Hibernate is managing its deletion</td>
+</tr>
+<tr>
+<td>Its database row should remain</td>
+<td>Its database row is scheduled for deletion</td>
+</tr>
+<tr>
+<td>Later field changes are not dirty-checked</td>
+<td>Deletion is synchronized during flush</td>
+</tr>
+</tbody>
+</table>
+<p><code>detach(student)</code> does not delete the student; <code>remove(student)</code> does.</p>
+<h2 id="10-the-entity-lifecycle-diagram-and-merge">10. The Entity Lifecycle Diagram and merge()</h2>
+<p>The full set of transitions, in one picture:</p>
+<div class="highlight"><pre><span></span><code>new Student()
+        |
+        v
+    TRANSIENT
+        |
+        | persist()
+        v
+     MANAGED
+      /     \
+ remove()    detach()
+    |          \
+    v           v
+ REMOVED      DETACHED
+                 ^
+                 | context ends
+                 |
+             (managed objects become detached)
+
+ DETACHED --merge()--&gt; Managed copy returned
+</code></pre></div>
+
+<p><strong>Important rule about <code>merge()</code>.</strong> <code>merge()</code> does not reattach the same detached Java object. Calling <code>Student managedStudent = entityManager.merge(detachedStudent);</code> copies the detached object's state into a managed instance and returns that instance. So <code>detachedStudent</code> stays detached while <code>managedStudent</code> is the managed value. Always use the returned object for further managed operations; the supplied object is left untouched, and many bugs come from reusing the detached reference after a merge.</p>
+<h2 id="11-managed-identity-and-the-first-level-cache">11. Managed Identity and the First-Level Cache</h2>
+<p>Within one persistence context, Hibernate keeps one managed object per entity type and primary key. Calling <code>find(Student.class, 1L)</code> twice in the same context normally satisfies <code>first == second</code>, because both references point to the same managed Java object. This is the <strong>identity map principle</strong>: one database identity is represented by one managed instance within a context. Without it, two objects for the same row could hold conflicting values in one unit of work.</p>
+<p><strong>First-level cache.</strong> The context provides Hibernate's first-level cache, keyed conceptually by entity type plus primary key. It is:</p>
+<ul>
+<li>enabled by default;</li>
+<li>impossible to disable like an optional external cache;</li>
+<li>local to one persistence context;</li>
+<li>normally transaction-scoped in a Spring application;</li>
+<li>the guarantee behind managed entity identity.</li>
+</ul>
+<p>Lookup behavior:</p>
+<ul>
+<li>first lookup (miss): Hibernate runs a <code>SELECT</code>, creates the object, and stores and manages it;</li>
+<li>second lookup (hit): it returns the already-managed object with no second <code>SELECT</code>.</li>
+</ul>
+<p>Inside one transaction, repeated <code>find()</code> calls hit the cache; in a later independent transaction, <code>find()</code> issues a fresh <code>SELECT</code> because that transaction uses a different context. The first-level cache is not application-wide.</p>
+<blockquote class="callout callout--important">
+<p>Important Query Limitation: Primary-key lookups such as <code>find()</code> can be satisfied from the context. A JPQL or Criteria query may still execute SQL even if matching entities are already managed; Hibernate preserves identity by returning existing managed instances where applicable, but the query is not automatically skipped in every case.</p>
+</blockquote>
+<h2 id="12-dirty-checking-and-flushing">12. Dirty Checking and Flushing</h2>
+<p><strong>Dirty checking.</strong> Dirty does not mean invalid. An entity is dirty when its current managed state differs from the state Hibernate previously knew - a snapshot of <code>name = "Rahul"</code> against the current <code>name = "Rohan"</code>.</p>
+<p>This is visible in <code>updateStudent</code> above: there is no <code>entityManager.update(student)</code> call, and JPA defines no <code>EntityManager.update()</code> method. The object from <code>find()</code> is managed, so Hibernate detects its changed state and generates the <code>UPDATE</code>. The sequence is:</p>
+<ul>
+<li><code>find()</code> runs and the entity becomes managed;</li>
+<li>a field value changes;</li>
+<li>a flush occurs;</li>
+<li>dirty checking detects the change;</li>
+<li>the <code>UPDATE</code> is generated.</li>
+</ul>
+<p><strong>When it happens.</strong> A setter does not normally execute SQL immediately: the Java object changes, the entity stays managed in memory, and only at flush does Hibernate detect the changes and execute SQL. Hibernate compares current state with an earlier snapshot during flushing; depending on configuration and enhancement it may use more optimized techniques.</p>
+<p><strong>Only for managed entities.</strong> If you <code>find()</code> an entity, <code>detach()</code> it, then call a setter, the change is not written automatically because the entity is detached. Setting the same value again - <code>setName("Rahul")</code> when it was already <code>"Rahul"</code> - normally produces no state change, so no update is needed for that field.</p>
+<p><strong>Flushing</strong> synchronizes the changes represented by the context with the database by executing the required <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code> statements. <strong>Flush is not commit:</strong></p>
+<table>
+<thead>
+<tr>
+<th><code>flush()</code></th>
+<th><code>commit()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sends pending SQL to the database</td>
+<td>Successfully completes the transaction</td>
+</tr>
+<tr>
+<td>Changes are still part of the current transaction</td>
+<td>Changes become durable</td>
+</tr>
+<tr>
+<td>Can be followed by rollback</td>
+<td>Ends the transaction successfully</td>
+</tr>
+</tbody>
+</table>
+<p>A flushed <code>UPDATE</code> can still be undone by a later <code>ROLLBACK</code>; SQL execution does not mean commit.</p>
+<p><strong>Automatic flush.</strong> With the common <code>AUTO</code> flush mode, Hibernate flushes before commit and before certain queries whose results could be affected by pending changes. The typical flow is:</p>
+<ul>
+<li>transaction begins;</li>
+<li><code>SELECT</code> runs;</li>
+<li>the student becomes managed;</li>
+<li><code>setName("Rohan")</code> is called;</li>
+<li>the method returns;</li>
+<li>flush issues the <code>UPDATE</code>;</li>
+<li>commit completes the transaction.</li>
+</ul>
+<p><strong>Manual flush.</strong> <code>entityManager.flush();</code> is useful when SQL must run before the method ends - to surface a constraint violation earlier, to synchronize before later database work, or to control memory during batch processing with <code>clear()</code>.</p>
+<blockquote class="callout callout--golden">
+<p>Golden rule: flush talks to the database; commit makes the outcome final. Every rollback test exists because those are not the same event.</p>
+</blockquote>
+<h2 id="13-transactional-write-behind-and-batch-processing">13. Transactional Write-Behind and Batch Processing</h2>
+<p>Hibernate calls the persistence context a <strong>transactional write-behind cache</strong>. In a write-through approach each change would immediately cause SQL; with write-behind, changes accumulate and are sent later at a flush. Delaying synchronization lets Hibernate:</p>
+<ul>
+<li>avoid unnecessary work;</li>
+<li>order SQL statements;</li>
+<li>group operations;</li>
+<li>support JDBC batching;</li>
+<li>synchronize at a suitable point in the transaction.</li>
+</ul>
+<p>Write-behind does not remove the need for transactions; it works inside one so the database can still commit or roll back the resulting SQL as a unit.</p>
+<p><strong>Batch processing with <code>flush()</code> and <code>clear()</code>.</strong> Persisting 100,000 entities in one loop keeps every entity managed, so the context grows very large and memory plus management work explode. A common pattern flushes and clears every 100 inserts:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100_000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createStudent</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="n">entityManager</span><span class="p">.</span><span class="na">persist</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">entityManager</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+<span class="w">        </span><span class="n">entityManager</span><span class="p">.</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The two operations differ:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>flush()</code></td>
+<td>Executes pending SQL; entities remain managed</td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>Detaches all managed entities and empties the persistence context</td>
+</tr>
+</tbody>
+</table>
+<p>This controls persistence-context memory; actual JDBC batching also depends on Hibernate's batch configuration.</p>
+<blockquote class="callout callout--important">
+<p>Important: <code>flush()</code> alone does not free memory because entities stay managed; <code>clear()</code> frees them but does not write SQL. You need both, in that order, for a memory-safe batch.</p>
+</blockquote>
+<h2 id="14-clear-detach-refresh-and-the-entitymanager-method-reference">14. clear(), detach(), refresh(), and the EntityManager Method Reference</h2>
+<p><strong>How <code>clear()</code> and <code>detach()</code> affect the cache.</strong> If you <code>find()</code> an entity, call <code>entityManager.clear()</code>, then <code>find()</code> again, the second lookup may run another <code>SELECT</code>, and <code>first == second</code> is normally false: <code>first</code> is the old detached object, <code>second</code> a new managed one. The two differ in scope: <code>detach()</code> detaches one entity, <code>clear()</code> detaches every managed entity. A later lookup after either may need to load and manage the entity again.</p>
+<p><strong>Refreshing an entity.</strong> The cache can hold values older than the database if another transaction or external process changed the row. If a managed entity holds <code>name = "Rahul"</code> and the database becomes <code>name = "Aman"</code>, the Java object does not update automatically; reload it with <code>entityManager.refresh(student)</code>, which replaces the current managed state with the latest database state. <code>refresh()</code> discards unsynchronized in-memory changes, so use it deliberately.</p>
+<p><strong>Quick reference of important <code>EntityManager</code> methods:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Main effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>persist(entity)</code></td>
+<td>Makes a new entity managed and schedules insertion</td>
+</tr>
+<tr>
+<td><code>find(Type.class, id)</code></td>
+<td>Finds by primary key and returns a managed entity</td>
+</tr>
+<tr>
+<td><code>merge(entity)</code></td>
+<td>Copies state into a managed instance and returns it</td>
+</tr>
+<tr>
+<td><code>remove(entity)</code></td>
+<td>Marks a managed entity for deletion</td>
+</tr>
+<tr>
+<td><code>contains(entity)</code></td>
+<td>Checks whether the instance is managed</td>
+</tr>
+<tr>
+<td><code>detach(entity)</code></td>
+<td>Detaches one entity</td>
+</tr>
+<tr>
+<td><code>clear()</code></td>
+<td>Detaches all entities</td>
+</tr>
+<tr>
+<td><code>flush()</code></td>
+<td>Synchronizes pending changes with the database</td>
+</tr>
+<tr>
+<td><code>refresh(entity)</code></td>
+<td>Replaces current entity state with database state</td>
+</tr>
+</tbody>
+</table>
+<p>Mnemonic: <strong>P-F-M-R</strong> (Persist, Find, Merge, Remove) are entity operations; <strong>F-C-D-R</strong> (Flush, Clear, Detach, Refresh) are context and synchronization operations.</p>
+<h2 id="15-myth-vs-reality">15. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"An <code>@Entity</code> object is automatically managed"</td>
+<td>No. <code>new Student()</code> is transient until it is associated with a persistence context</td>
+</tr>
+<tr>
+<td>"Calling a setter immediately executes an <code>UPDATE</code>"</td>
+<td>No. A setter changes the Java object; Hibernate detects the change during flush</td>
+</tr>
+<tr>
+<td>"Managed means the SQL has already executed"</td>
+<td>No. Managed describes the entity's relationship with the persistence context</td>
+</tr>
+<tr>
+<td>"<code>flush()</code> and <code>commit()</code> are the same"</td>
+<td>No. Flush executes pending SQL inside the transaction; commit completes it</td>
+</tr>
+<tr>
+<td>"<code>detach()</code> deletes the database row"</td>
+<td>No. It only stops the current context from managing that object</td>
+</tr>
+<tr>
+<td>"<code>merge()</code> makes the same detached object managed"</td>
+<td>No. It returns a managed instance with copied state; the supplied object stays detached</td>
+</tr>
+<tr>
+<td>"The first-level cache is shared across the application"</td>
+<td>No. It belongs to a single persistence context</td>
+</tr>
+<tr>
+<td>"A singleton repository shares one physical <code>EntityManager</code>"</td>
+<td>Normally no. Spring injects a proxy routing calls to the transaction-associated <code>EntityManager</code></td>
+</tr>
+<tr>
+<td>"Dirty checking works on detached objects"</td>
+<td>No. Dirty checking applies only to managed entities</td>
+</tr>
+</tbody>
+</table>
+<h2 id="16-common-trap-questions">16. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 - "I called <code>persist()</code>, so the row exists in the database."</strong>
+Verdict: False. <code>persist()</code> makes the entity managed and schedules the insertion. The <code>INSERT</code> may be delayed until a flush, and it only becomes durable at commit.</p>
+<p><strong>Trap 2 - "<code>flush()</code> and <code>commit()</code> are interchangeable."</strong>
+Verdict: False. Flush executes pending SQL inside the transaction and can still be rolled back; commit ends the transaction and makes the changes durable.</p>
+<p><strong>Trap 3 - "The first-level cache is a global application cache."</strong>
+Verdict: False. It is the persistence context itself, local to one context, normally one transaction. A later transaction issues a fresh <code>SELECT</code>.</p>
+<p><strong>Trap 4 - "<code>merge()</code> reattaches my detached entity."</strong>
+Verdict: False. <code>merge()</code> copies state into a managed instance and returns it. The detached object you passed in stays detached, so keep and use the return value.</p>
+<p><strong>Trap 5 - "Changing a detached entity will be saved automatically."</strong>
+Verdict: False. Dirty checking only applies to managed entities. After <code>detach()</code>, <code>clear()</code>, or the transaction ending, changes are not automatically detected.</p>
+<p><strong>Trap 6 - "<code>detach()</code> deletes the row."</strong>
+Verdict: False. <code>detach()</code> only removes the entity from the context. <code>remove()</code> marks a managed entity for deletion, and even that sends <code>DELETE</code> at flush.</p>
+<p><strong>Trap 7 - "A singleton repository must share one <code>EntityManager</code>."</strong>
+Verdict: False. Spring injects a shared proxy routing each call to the <code>EntityManager</code> bound to the current transaction, so concurrent requests use different persistence contexts.</p>
+</blockquote>
+<h2 id="17-points-to-remember">17. Points to Remember</h2>
+<ol>
+<li><code>EntityManagerFactory</code> is heavy and application-scoped; <code>EntityManager</code> is light and transaction-scoped, and is not thread-safe.</li>
+<li>Spring Boot configures, JPA specifies, and Hibernate implements; <code>SessionFactory</code> extends <code>EntityManagerFactory</code> and <code>Session</code> extends <code>EntityManager</code>.</li>
+<li>The persistence context is the in-memory workspace; the first <code>SELECT</code> result is created as an object, placed in the context, and managed.</li>
+<li><code>@PersistenceContext</code> injects a shared proxy, not one physical <code>EntityManager</code>, because repositories are singletons.</li>
+<li>A transaction is a boundary around a unit of work: <code>BEGIN ... COMMIT</code>, with <code>ROLLBACK</code> on failure; Spring rolls back by default on unchecked exceptions and <code>Error</code>.</li>
+<li><code>@Transactional</code> works through an AOP proxy, so self-invocation bypasses it and propagation rules decide whether a transaction is created or joined.</li>
+<li>Transactions usually belong in the service layer because one business operation may span several repository calls that must succeed or fail together.</li>
+<li>Lifecycle states are Transient, Managed, Detached, Removed; only managed entities are dirty-checked, and <code>merge()</code> returns a managed copy.</li>
+<li>Dirty checking compares current managed state with Hibernate's earlier snapshot, and flushing converts changes into <code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> SQL.</li>
+<li><code>flush()</code> sends SQL but does not commit; <code>clear()</code> empties the context for batching; the first-level cache is per context and <code>refresh()</code> reloads database state.</li>
+</ol>
+<h2 id="18-likely-interview-questions">18. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the persistence context?</td>
+<td>Hibernate's in-memory workspace storing and tracking managed entities, keyed by type and primary key, synchronizing changes with the database.</td>
+</tr>
+<tr>
+<td><code>EntityManagerFactory</code> vs <code>EntityManager</code>?</td>
+<td>The factory is heavy, application-scoped, and creates managers; the manager is a short-lived, non-thread-safe unit-of-work API.</td>
+</tr>
+<tr>
+<td>JPA vs Hibernate vs Spring Boot?</td>
+<td>JPA is the specification, Hibernate the provider implementing it, Spring Boot the layer configuring the persistence infrastructure.</td>
+</tr>
+<tr>
+<td>Why does Spring inject a proxy for <code>EntityManager</code>?</td>
+<td>Repositories are singletons across threads and a real <code>EntityManager</code> is not thread-safe; the proxy routes to the transaction-bound manager.</td>
+</tr>
+<tr>
+<td>What does <code>@Transactional</code> do?</td>
+<td>An AOP proxy opens a transaction around the method, flushes, then commits or rolls back for exceptions per its attributes.</td>
+</tr>
+<tr>
+<td>Why do transactions belong in the service layer?</td>
+<td>A business operation may call several repositories; the service boundary makes them commit or roll back as one unit.</td>
+</tr>
+<tr>
+<td>Which operations require a transaction?</td>
+<td>Writes (<code>persist</code>, <code>merge</code>, <code>remove</code>, <code>flush</code>, normally <code>refresh</code>); a plain <code>find()</code> usually works without one.</td>
+</tr>
+<tr>
+<td>Name the four lifecycle states.</td>
+<td>Transient, Managed, Detached, Removed.</td>
+</tr>
+<tr>
+<td>Does <code>merge()</code> make the passed object managed?</td>
+<td>No. It copies state into a managed instance and returns it; the argument stays detached.</td>
+</tr>
+<tr>
+<td>What is dirty checking?</td>
+<td>Comparing a managed entity's current state with its earlier snapshot during flush to decide which <code>UPDATE</code>s to generate.</td>
+</tr>
+<tr>
+<td><code>flush()</code> vs <code>commit()</code>?</td>
+<td>Flush executes pending SQL within the transaction and can be rolled back; commit finalizes the transaction and makes changes durable.</td>
+</tr>
+<tr>
+<td>What is the first-level cache?</td>
+<td>The persistence context: per-transaction, always on, keyed by type and primary key, guaranteeing one managed instance per row.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="19-final-summary">19. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>EntityManagerFactory (application scope) creates EntityManager (unit of work)
+        |
+        v
+@Transactional service method -&gt; AOP proxy begins transaction
+        |
+        v
+EntityManager bound to transaction -&gt; Persistence Context
+        |
+        v
+find() : miss -&gt; SELECT -&gt; create object -&gt; manage  |  hit -&gt; return managed object
+        |
+        v
+Business code mutates managed entities (no explicit update call)
+        |
+        v
+Dirty checking compares current state to snapshot
+        |
+        v
+Flush converts changes into INSERT / UPDATE / DELETE
+        |
+        v
+Commit makes changes durable (or rollback undoes them)
+        |
+        v
+Transaction-scoped persistence context ends -&gt; entities become detached
+</code></pre></div>
+
+<ul>
+<li>Factory is application-scoped; manager and persistence context are transaction-scoped.</li>
+<li>JPA specifies, Hibernate implements, Spring Boot configures - and injects a proxy, not a physical manager.</li>
+<li>The persistence context is the first-level cache, identity map, and transactional write-behind buffer at once.</li>
+<li>Four lifecycle states - Transient, Managed, Detached, Removed - and only managed entities are dirty-checked.</li>
+<li>Setters never execute SQL directly; flushing generates SQL, and committing makes it durable.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> Hibernate does not translate individual method calls into SQL - it manages entity state inside a persistence context and synchronizes that state with the database within a transaction boundary, which is why dirty checking, the first-level cache, flushing, and <code>@Transactional</code> are one idea seen from four angles.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-28.html"><span class="dir">Previous</span><span class="ttl">Lecture 28 — Hibernate Fundamentals with Spring Boot</span></a><a class="next" href="doc-theory-lecture-30.html"><span class="dir">Next</span><span class="ttl">Lecture 30 — JPA Relationships</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model selection and adaptation — AI / GenAI</title>
+<meta name="description" content="Model selection and adaptation">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="practice-genai-questions-04-model-selection-and-adaptation">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="active" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>AI / GenAI</h4><details class="part"><summary>Theory &amp; Notes <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-concepts</li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-00-overview.html" title="GenAI Concepts">GenAI Concepts</a><button class="star" data-doc="theory-genai-concepts-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="theory-genai-concepts-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="theory-genai-concepts-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="theory-genai-concepts-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="theory-genai-concepts-04-model-selection-and-adaptation" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="theory-genai-concepts-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="theory-genai-concepts-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="theory-genai-concepts-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="theory-genai-concepts-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="theory-genai-concepts-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="theory-genai-concepts-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="theory-genai-concepts-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="theory-genai-concepts-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="theory-genai-concepts-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="theory-genai-concepts-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-genai-concepts-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="theory-genai-concepts-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details><details class="part" open><summary>Practice &amp; Questions <span class="count">16</span></summary><ul class="side-list"><li class="grp">genai-questions</li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-00-overview.html" title="GenAI Interview Questions">GenAI Interview Questions</a><button class="star" data-doc="practice-genai-questions-00-overview" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-01-making-the-switch-credible.html" title="Making the switch credible">Making the switch credible</a><button class="star" data-doc="practice-genai-questions-01-making-the-switch-credible" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-02-the-project-you-can-defend.html" title="The project you can defend">The project you can defend</a><button class="star" data-doc="practice-genai-questions-02-the-project-you-can-defend" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-03-llm-fundamentals.html" title="LLM fundamentals">LLM fundamentals</a><button class="star" data-doc="practice-genai-questions-03-llm-fundamentals" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-practice-genai-questions-04-model-selection-and-adaptation.html" title="Model selection and adaptation">Model selection and adaptation</a><button class="star" data-doc="practice-genai-questions-04-model-selection-and-adaptation" title="Bookmark">☆</button></div><ul class="sections"></ul></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html" title="Prompt and context engineering">Prompt and context engineering</a><button class="star" data-doc="practice-genai-questions-05-prompt-and-context-engineering" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-06-retrieval-and-rag-architecture.html" title="Retrieval and RAG architecture">Retrieval and RAG architecture</a><button class="star" data-doc="practice-genai-questions-06-retrieval-and-rag-architecture" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-07-rag-quality-and-failure-diagnosis.html" title="RAG quality and failure diagnosis">RAG quality and failure diagnosis</a><button class="star" data-doc="practice-genai-questions-07-rag-quality-and-failure-diagnosis" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-08-evaluation-and-testing.html" title="Evaluation and testing">Evaluation and testing</a><button class="star" data-doc="practice-genai-questions-08-evaluation-and-testing" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-09-agents-and-tool-use.html" title="Agents and tool use">Agents and tool use</a><button class="star" data-doc="practice-genai-questions-09-agents-and-tool-use" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-10-ai-product-reliability-and-human-oversight.html" title="AI product reliability and human oversight">AI product reliability and human oversight</a><button class="star" data-doc="practice-genai-questions-10-ai-product-reliability-and-human-oversight" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-11-voice-ai.html" title="Voice AI">Voice AI</a><button class="star" data-doc="practice-genai-questions-11-voice-ai" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-12-cost-latency-and-scalability.html" title="Cost, latency and scalability">Cost, latency and scalability</a><button class="star" data-doc="practice-genai-questions-12-cost-latency-and-scalability" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-13-security-privacy-and-safety.html" title="Security, privacy and safety">Security, privacy and safety</a><button class="star" data-doc="practice-genai-questions-13-security-privacy-and-safety" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-14-llmops-monitoring-and-deployment.html" title="LLMOps, monitoring and deployment">LLMOps, monitoring and deployment</a><button class="star" data-doc="practice-genai-questions-14-llmops-monitoring-and-deployment" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-genai-questions-15-genai-system-design-exercises.html" title="GenAI system-design exercises">GenAI system-design exercises</a><button class="star" data-doc="practice-genai-questions-15-genai-system-design-exercises" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-ai.html">AI / GenAI</a> › Practice &amp; Questions</p>
+<h1>Model selection and adaptation</h1>
+<p class="readmeta">0 sections · 5,854 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="practice-genai-questions-04-model-selection-and-adaptation" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<p>Module 04 · 13 questions · 1 practical drill</p>
+<blockquote class="callout callout--note">
+<p>Pick a model on evidence you gathered, not a leaderboard.</p>
+</blockquote>
+<h3 id="q41-base-model-instruction-tuned-model-reasoning-model-what-changes-for-you-as-an-engineer">Q4.1 — Base model, instruction-tuned model, reasoning model: what changes for you as an engineer?</h3>
+<p><strong>Weak answer:</strong> "Instruction-tuned models follow instructions, so that's what we use. Reasoning models are newer and smarter, so we reach for those on anything hard."</p>
+<p><strong>Why it fails:</strong>
+- "Newer and smarter so we use it when hard" has no actual decision boundary in it.
+- No mention that reasoning tokens are billed, often hidden, and can make simple tasks slower.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name a task where the reasoning model performs worse than the plain one.
+- Picks model class by reputation or release date, not by an evaluated comparison.</p>
+<p><strong>Model answer:</strong>
+1. A base model continues text with no notion of stopping or following instructions, so I never ship one directly, though it is what a heavier model was itself tuned from.
+2. Instruction-tuned is my default: it follows a request and stops, which is what an application needs, and it is the cheapest and fastest of the three classes.
+3. A reasoning model spends extra tokens working through the problem before answering, and those tokens are billed and usually invisible to me in the response.
+4. On a document-classification call I tested, the reasoning model gained a couple of points of accuracy but ran several times slower and dearer, a clear loss for something running on every upload.
+5. It was also worse on a strict-JSON extraction task, where it reasoned itself into adding commentary around the object I wanted, so I run the same eval set across two or three candidates before choosing.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — A reasoning model on a one-line classification call: what happens to latency and cost? · Whether hidden reasoning-token cost and added latency are treated as real, not theoretical.
+2. <strong>TRADEOFF</strong> — Give me a task where the reasoning model does worse than the plain instruct model. · Whether 'more capable' is known to not be monotonic across task shapes.
+3. <strong>TECHNICAL</strong> — Would you ever reach for a base model, not instruction-tuned, in an application? · Whether the distinction is understood beyond 'always use instruction-tuned'.
+4. <strong>MEASUREMENT</strong> — How would you actually decide between these three for a new feature? · Whether the choice is an evaluated decision or a vibe based on model class.</p>
+<p><strong>Tip:</strong> Talk about choosing a library or service on real constraints: speed against features against cost, not just "the newest one". Don't claim to have compared reasoning models in production. Say you would run the same eval set across classes before picking one.</p>
+<p><strong>Numbers worth quoting:</strong>
+- reasoning: several x slower
+- reasoning tokens: billed, hidden
+- 2-3 candidates per eval
+- accuracy gap 1pt, cost gap 10x</p>
+<h3 id="q42-what-does-quantising-a-model-to-int8-or-fp16-for-inference-actually-cost-you">Q4.2 — What does quantising a model to INT8 or FP16 for inference actually cost you?</h3>
+<p><strong>Weak answer:</strong> "Quantisation makes the model smaller and faster using fewer bits per weight. INT8 is more aggressive than FP16 but modern models handle it fine."</p>
+<p><strong>Why it fails:</strong>
+- "Handle it fine" is stated as a universal fact rather than something you measure per task.
+- No mention of which operations stay at higher precision, or why that choice matters.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name a task type sensitive to quantisation, such as close numeric reasoning.
+- Treats quantisation as purely a deployment setting with no evaluation step attached.</p>
+<p><strong>Model answer:</strong>
+1. Quantisation stores weights, and sometimes activations, in fewer bits: FP16 halves memory against FP32, INT8 halves it again, each step trading precision for size and speed.
+2. Decode is memory-bandwidth bound, since it rereads the growing KV cache at every step, so a smaller footprint from quantisation speeds up generation even though compute itself got no cheaper.
+3. The cost is accuracy, and it is not spread evenly: tasks needing close numeric or multi-step reasoning degrade first, while classification and loose generation barely move.
+4. On a summarisation feature I quantised to INT8, fluency held up but a numeric-extraction sibling task on the same endpoint started dropping a digit occasionally, caught by the private eval set.
+5. So I treat quantisation as a change that needs its own evaluation pass on the actual task, the same as a model swap, not a deployment setting I flip and move on from.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Why does memory bandwidth, not raw compute, make quantisation help decode speed? · Whether decode being memory-bandwidth bound, not compute bound, is understood.
+2. <strong>FAILURE</strong> — You quantise to INT8 and accuracy drops only on long numeric extractions. Why there? · Whether precision-sensitive operations are known as where quantisation bites first.
+3. <strong>TRADEOFF</strong> — FP16 against INT8 against INT4: where do you personally draw the line? · Whether the candidate has an actual criterion rather than defaulting to the smallest option.
+4. <strong>MEASUREMENT</strong> — How would you confirm a quantised model is still good enough before shipping it? · Whether quantisation is followed by a real eval against the private set, not assumed safe.</p>
+<p><strong>Tip:</strong> Talk about trading precision or fidelity for speed elsewhere, like caching a stale value or downsampling data, and how you checked it stayed safe. Don't claim to have quantised a model yourself. Say you would re-run the eval set after any precision change before trusting it.</p>
+<p><strong>Numbers worth quoting:</strong>
+- FP16: half of FP32 size
+- INT8: quarter of FP32 size
+- decode: bandwidth bound
+- re-eval after any precision cut</p>
+<h3 id="q43-prompting-retrieval-fine-tuning-how-do-you-actually-decide-between-them">Q4.3 — Prompting, retrieval, fine-tuning: how do you actually decide between them?</h3>
+<p><strong>Weak answer:</strong> "We start with prompting since it's cheapest. If the model lacks knowledge we add RAG. If that's still not enough, we fine-tune to teach it our domain."</p>
+<p><strong>Why it fails:</strong>
+- The escalation ladder is the standard recital and stops exactly where the question gets interesting.
+- "Fine-tune to teach it our domain" is the core misconception: fine-tuning rarely adds reliable facts.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name a case where fine-tuning is clearly right and retrieval clearly is not.
+- No awareness that a fine-tune must be redone every time the base model is upgraded.</p>
+<p><strong>Model answer:</strong>
+1. I classify the gap first, because the three tools answer different questions rather than sitting on one ladder.
+2. A knowledge gap, facts about our data or customers, is retrieval, and fine-tuning is nearly the wrong tool for it, since it teaches form far more reliably than recall and goes stale the moment source documents change.
+3. A behaviour gap, a consistent output format or tone that prompting cannot hold across long or varied outputs, is where fine-tuning genuinely earns its place.
+4. On a support-assistant feature the real gap was instruction, not knowledge or behaviour, so a better prompt and two exemplar replies closed it in a day, no retrieval or training needed.
+5. The one time I argued for fine-tuning was a structured extraction format with conventions no prompt held consistently, and we already had a few thousand corrected examples, which made it affordable.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — You fine-tune on your documentation so the model 'knows' it. What goes wrong? · Whether fine-tuning is known to teach form, not reliable recall, and goes stale on doc changes.
+2. <strong>TRADEOFF</strong> — Name a problem where fine-tuning is right and RAG clearly is not. · Whether a genuine boundary exists: format, tone, a task shape absent from pretraining.
+3. <strong>FAILURE</strong> — A better base model ships. What happens to your fine-tune? · Awareness that a fine-tune is a maintenance commitment redone on every model change.
+4. <strong>MEASUREMENT</strong> — How many labelled examples before fine-tuning is even worth attempting? · Whether the labelled-data cost is understood as the real cost of this option.</p>
+<p><strong>Tip:</strong> Talk about choosing between a config change, a new service and a schema migration for a real problem, and how you matched the fix to the actual gap. Don't claim to have fine-tuned anything. Say you would classify the gap as knowledge, behaviour or instruction before picking a tool.</p>
+<p><strong>Numbers worth quoting:</strong>
+- few thousand corrected examples
+- fine-tune: form, not facts
+- upgrade: fine-tune not free
+- prompt fix: a day's work</p>
+<h3 id="q44-what-are-lora-and-qlora-actually-doing-when-you-fine-tune-with-them">Q4.4 — What are LoRA and QLoRA actually doing when you fine-tune with them?</h3>
+<p><strong>Weak answer:</strong> "LoRA trains a small number of parameters instead of all of them, so it's cheaper. QLoRA adds quantisation so you fit bigger models on smaller GPUs."</p>
+<p><strong>Why it fails:</strong>
+- States the benefit and skips the mechanism: what is actually trained is never named.
+- No mention of what rank controls, or that QLoRA quantises the frozen base, not the adapter.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot say what is trained beyond "fewer parameters", with no low-rank matrices mentioned.
+- Believes QLoRA quantises the part being learned rather than the frozen base weights.</p>
+<p><strong>Model answer:</strong>
+1. Full fine-tuning updates every weight and holds optimiser state for all of them, which is why it needs serious hardware.
+2. LoRA freezes the base weights and injects small trainable matrices next to chosen layers, usually the attention projections, so the base never moves.
+3. The update is represented as two thin matrices, d by r and r by d, instead of one dense d by d matrix, and rank r is the capacity dial: too low and it cannot learn the behaviour, too high and you lose the efficiency.
+4. QLoRA quantises the frozen base to a lower precision to fit it in memory, while the small adapter still trains at higher precision, so compression lands on the part not being learned.
+5. What actually decides it for me operationally is that adapters are small and swappable, so one base model in memory can serve several per-customer adapters instead of several full copies.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What's actually being trained, and how does it relate to the frozen weights? · Whether the low-rank update alongside frozen weights is understood, not just the headline.
+2. <strong>TRADEOFF</strong> — What does rank control, and what happens if you set it too low or too high? · Whether rank is a capacity-versus-overfitting dial, not a fixed magic number.
+3. <strong>TECHNICAL</strong> — In QLoRA, what gets quantised, and what stays at higher precision? · Whether the base is quantised while the adapter trains at higher precision is known.
+4. <strong>TECHNICAL</strong> — One base model, five customers who each want different behaviour: how does this help? · Whether swappable adapters over one shared base is known as the operational payoff.</p>
+<p><strong>Tip:</strong> Talk about a config or plugin layered on top of a shared system rather than forking the whole thing, and why that kept costs down. Don't claim to have trained a LoRA adapter. Say you understand it as a small trainable layer next to a frozen base, not a full retrain.</p>
+<p><strong>Numbers worth quoting:</strong>
+- LoRA: ~1000x fewer params
+- rank: capacity dial
+- QLoRA quantises the base
+- 1 base model, N adapters</p>
+<h3 id="q45-youre-picking-a-model-for-a-new-production-feature-walk-me-through-how">Q4.5 — You're picking a model for a new production feature. Walk me through how.</h3>
+<p><strong>Weak answer:</strong> "We used the best model available and it worked fine. If something better comes out we can always switch to it."</p>
+<p><strong>Why it fails:</strong>
+- "Best model available" names no criteria: best at what, measured how, against which alternative.
+- "Worked fine" has no evaluation behind it, and "switch later" ignores what a swap actually costs.</p>
+<p><strong>Instant rejection:</strong>
+- No private evaluation set at all, only impressions from trying a few prompts.
+- Chooses on capability alone, with no mention of cost, latency or operational burden.</p>
+<p><strong>Model answer:</strong>
+1. I start from a quality bar, not a leaderboard: a private set of real production-shaped examples, labelled properly, that the feature has to clear before anything else matters.
+2. I run two or three realistic candidates against that set and look at the actual failures, not just the aggregate score, because two models at the same score fail differently.
+3. Past the quality bar it becomes a weighing exercise: latency for the feature's own budget, cost at expected volume, privacy if data cannot leave a boundary, and operational burden.
+4. On a support-assistant feature the top scorer needed a dedicated deployment we did not want to operate, so we shipped the second-best scorer, which cleared the bar and cost far less to run.
+5. I also check what a rollback looks like before committing, because the model that wins today is not permanent, and I want swapping it later to be a config change, not a rewrite.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — What does your private eval set for this feature actually look like? · Whether a real evaluation set exists, sized and sourced from production, not assumed.
+2. <strong>TRADEOFF</strong> — Two models pass your quality bar. How do you pick between them? · Whether cost, latency, privacy and operational burden break the tie, not a coin flip.
+3. <strong>FAILURE</strong> — The model you picked gets deprecated in six months. What does that cost you? · Whether rollback and portability were part of the original decision, not an afterthought.
+4. <strong>TECHNICAL</strong> — How do you keep this decision from being whichever model you personally know best? · Whether the process resists the engineer's own familiarity bias.</p>
+<p><strong>Tip:</strong> Talk about choosing a database, queue or library: what quality bar you set, what you compared it against, and what tipped the decision. Don't claim to have run a model bake-off. Say what a real evaluation set for this feature would need to contain before you would trust a choice.</p>
+<p><strong>Numbers worth quoting:</strong>
+- private set: 100-500 examples
+- 2-3 candidates evaluated
+- quality bar before cost/latency
+- rollback: config, not rewrite</p>
+<h3 id="q46-why-arent-public-benchmark-scores-enough-to-choose-a-model-for-your-feature">Q4.6 — Why aren't public benchmark scores enough to choose a model for your feature?</h3>
+<p><strong>Weak answer:</strong> "Model X is number two on the leaderboard, ahead of what we're using, so that's a strong argument for switching to it."</p>
+<p><strong>Why it fails:</strong>
+- Treats a leaderboard rank as settling the question, with nothing about that model on this task.
+- No awareness that many public benchmarks are contaminated, so the ranking may not reflect real capability.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot explain what benchmark contamination is or why it inflates scores.
+- Has never built or used a private evaluation set of the actual task.</p>
+<p><strong>Model answer:</strong>
+1. Most public benchmarks are contaminated: their test data has likely leaked into pretraining or fine-tuning sets somewhere, so a high score can reflect memorisation rather than capability.
+2. Even uncontaminated, a public benchmark tests a distribution someone else chose, and it is rarely the distribution my feature actually sees.
+3. Chasing benchmark rank is its own failure mode, benchmark overfitting, where you optimise for a number that is not the thing you are shipping.
+4. What I actually trust is a private set of maybe a hundred to a few hundred real examples from our own traffic, labelled by someone who understands the task.
+5. I still glance at two or three public benchmarks as a coarse first filter to narrow candidates, but the private set is what makes the final call, not the leaderboard position.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What is benchmark contamination, mechanically, and why does it inflate scores? · Whether contamination via pretraining or fine-tuning data overlap is understood.
+2. <strong>FAILURE</strong> — A model tops three public benchmarks but underperforms on your task. How? · Whether the gap between public benchmark distribution and the real task is understood.
+3. <strong>TRADEOFF</strong> — If public benchmarks are unreliable, do you ignore them entirely? · Whether the candidate knows to use two or three as a coarse filter, not the deciding signal.
+4. <strong>MEASUREMENT</strong> — What would you actually build instead, and how big does it need to be? · Whether a private set of roughly 100 to 500 real, properly labelled examples is named.</p>
+<p><strong>Tip:</strong> Talk about a time a vendor's published benchmark or spec didn't match what you measured on your own workload, and what you did about it. Don't claim to have built a private eval set. Say what one for your target feature would need: real inputs, proper labels, enough of them to trust.</p>
+<p><strong>Numbers worth quoting:</strong>
+- private set: 100-500 examples
+- public benchmarks: 2-3 max
+- contamination inflates scores
+- rank is not task performance</p>
+<h3 id="q47-hosted-model-against-open-weight-model-how-do-you-actually-decide">Q4.7 — Hosted model against open-weight model: how do you actually decide?</h3>
+<p><strong>Weak answer:</strong> "Open-weight gives you full control and is cheaper since there's no per-token bill, so we prefer it whenever we can self-host."</p>
+<p><strong>Why it fails:</strong>
+- "Cheaper since no per-token bill" ignores hosting, scaling and GPU costs, which are real and ongoing.
+- "Prefer it whenever we can" treats this as a default rather than a decision tied to volume and team capacity.</p>
+<p><strong>Instant rejection:</strong>
+- No mention of who operates the serving stack, or what happens when it needs scaling or patching.
+- Assumes self-hosting is free of latency or reliability engineering compared to a hosted API.</p>
+<p><strong>Model answer:</strong>
+1. I do not treat this as a philosophy, it is a cost and capability trade that depends on volume, team size and what the data is allowed to touch.
+2. A hosted model is close to zero operational burden: no GPU capacity planning, no serving stack to patch, and usually the stronger ceiling on raw capability.
+3. Open-weight earns its keep at high, steady volume where the hosting cost beats the per-call bill, or when privacy rules out sending anything off our infrastructure.
+4. On an extraction pipeline processing a high steady volume of internal documents, self-hosting an open-weight model paid for its GPU cost within a couple of months.
+5. For a low-volume, customer-facing summarisation feature I would take the hosted option every time, since running our own serving stack for that traffic would dwarf the API bill.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — At what call volume does self-hosting start to actually pay off over a hosted API? · Whether the crossover depends on volume and utilisation, not a fixed rule.
+2. <strong>TRADEOFF</strong> — Your data cannot leave a specific boundary. Does that settle it for open-weight? · Whether privacy constraints are weighed against hosted providers offering isolated deployments too.
+3. <strong>FAILURE</strong> — Who patches, scales and monitors the serving stack if you self-host? · Whether the operational burden of self-hosting is treated as a real, staffed cost.
+4. <strong>FAILURE</strong> — A hosted provider deprecates your model version. What's your exposure versus open-weight? · Whether portability and version control are understood as a real difference between the two.</p>
+<p><strong>Tip:</strong> Talk about a build-versus-buy decision on infrastructure: a managed database against self-hosting, and what volume or constraint tipped it. Don't claim to have run your own model serving stack. Say what would make you consider it: steady high volume, or data that cannot leave your infrastructure.</p>
+<p><strong>Numbers worth quoting:</strong>
+- hosting pays off at high volume
+- self-host: GPU + ops cost
+- hosted: near-zero ops burden
+- privacy can force the choice</p>
+<h3 id="q48-how-would-you-build-a-model-gateway-without-papering-over-real-provider-differences">Q4.8 — How would you build a model gateway without papering over real provider differences?</h3>
+<p><strong>Weak answer:</strong> "We'd build a gateway with one unified API, so any part of the app can call any model the same way and switch providers freely."</p>
+<p><strong>Why it fails:</strong>
+- "Switch providers freely" ignores that tokenisation, context limits and formatting behaviour differ underneath.
+- A single unified interface tends to hide exactly the differences an engineer needs to see before trusting a swap.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name a single behaviour that differs across providers behind a unified call.
+- No mention of per-model logging, cost tracking or eval results surfaced through the gateway.</p>
+<p><strong>Model answer:</strong>
+1. I build the gateway to standardise the boring parts, authentication, retries, timeouts and cost logging, and leave the interesting parts visible rather than smoothed over.
+2. Every response carries which provider and model actually served it, along with token counts split by input and output, since that is what debugging a bad answer needs.
+3. I do not promise identical behaviour behind the shared call: two providers' structured-output modes differ in how strictly they hold to a schema, and hiding that just moves the failure downstream.
+4. For a code-assistant feature I kept per-model prompt variants behind the gateway, because a prompt tuned for one model's instruction-following underperformed unchanged on another.
+5. Any routing change, including a silent fallback to a second provider, re-runs against the private eval set before it goes live, since routing can silently swap quality too.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Two providers both support 'JSON mode'. What actually differs underneath that name? · Whether formatting and schema-adherence differences behind a shared label are known.
+2. <strong>FAILURE</strong> — A request behind the gateway fails. How do you know which provider and model handled it? · Whether per-call attribution and logging survive the abstraction, or are lost in it.
+3. <strong>TRADEOFF</strong> — What do you standardise across providers, and what do you deliberately leave provider-specific? · Whether the candidate can say where abstraction helps and where it actively hurts.
+4. <strong>MEASUREMENT</strong> — How do you know a routing change through the gateway didn't quietly degrade quality? · Whether the private eval set is re-run against routing changes, not just new model launches.</p>
+<p><strong>Tip:</strong> Talk about an internal abstraction you built over multiple external services, like payment providers, and what you deliberately did not paper over. Don't claim to have built a model gateway. Say what you would standardise, like auth and logging, against what you would leave provider-specific.</p>
+<p><strong>Numbers worth quoting:</strong>
+- log: provider + model per call
+- input vs output tokens tracked
+- routing change: re-run eval
+- schema strictness varies</p>
+<h3 id="q49-how-do-you-actually-build-a-fine-tuning-dataset-thats-worth-training-on">Q4.9 — How do you actually build a fine-tuning dataset that's worth training on?</h3>
+<p><strong>Weak answer:</strong> "We'd collect as many examples as possible from production logs, since more data generally makes fine-tuning work better."</p>
+<p><strong>Why it fails:</strong>
+- "More data generally works better" is backwards for fine-tuning, where quality and diversity matter more.
+- Pulling straight from logs with no dedup or curation risks the model learning noise or a narrow slice of cases.</p>
+<p><strong>Instant rejection:</strong>
+- No plan to keep evaluation examples out of the training set.
+- No mention of deduplication, so the same handful of patterns get massively over-represented.</p>
+<p><strong>Model answer:</strong>
+1. I care about quality and coverage first, and treat size as a distant third concern, since fine-tuning learns whatever pattern is most common, including its mistakes.
+2. I deduplicate aggressively, because near-identical examples from the same source event just over-weight one pattern rather than adding real signal.
+3. I deliberately sample across the range of inputs the feature will actually see, not just the easy majority case, so a classification fine-tune sees rare categories too.
+4. I hold out a slice of examples before training even starts and never let it near the training pipeline, since that is the only set later results can be trusted against.
+5. On a support-assistant fine-tune, cutting the dataset from six thousand noisy tickets to about eight hundred carefully reviewed ones improved the eval score.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — Why would deduplicating near-identical examples improve a fine-tune, not just shrink it? · Whether over-represented duplicates are known to skew the model towards narrow patterns.
+2. <strong>FAILURE</strong> — You trained on 50,000 examples and it did worse than a colleague's run on 3,000. Why? · Whether quality and diversity are understood to beat raw volume.
+3. <strong>FAILURE</strong> — Some of your eval questions leaked into the training set. What happens to your eval numbers? · Whether train/eval contamination is recognised as invalidating the whole evaluation.
+4. <strong>MEASUREMENT</strong> — How do you know your dataset covers the range of inputs the feature will actually see? · Whether diversity across real input variation, not just count, is actively checked.</p>
+<p><strong>Tip:</strong> Talk about cleaning or curating a dataset for anything, like test fixtures, and why you removed rather than added examples. Don't claim to have built a fine-tuning dataset. Say you would prioritise diversity and dedup over volume, and hold out eval data before training starts.</p>
+<p><strong>Numbers worth quoting:</strong>
+- quality beats volume
+- dedup before training
+- eval held out, never trained on
+- 800 curated beat 6,000 raw</p>
+<h3 id="q410-how-do-you-make-sure-your-fine-tuning-data-hasnt-contaminated-your-evaluation-set">Q4.10 — How do you make sure your fine-tuning data hasn't contaminated your evaluation set?</h3>
+<p><strong>Weak answer:</strong> "We're careful to keep the training and eval data separate when we split the dataset, so contamination isn't really an issue."</p>
+<p><strong>Why it fails:</strong>
+- "Careful when we split" describes an intention, not a mechanism that would actually catch a leak.
+- No mention of near-duplicates, which leak just as badly as exact duplicates and are easy to miss.</p>
+<p><strong>Instant rejection:</strong>
+- Splits training and eval data after deduplication rather than before, letting duplicates land on both sides.
+- No process for checking near-duplicate leakage, only exact string matches, if even that.</p>
+<p><strong>Model answer:</strong>
+1. I fix the eval set first, before any training data is touched, and treat it as immovable for the life of that model version.
+2. I run deduplication across the full pool, training candidates and eval set together, before the split happens, since splitting first lets duplicates land on both sides.
+3. Exact-string dedup is not enough, so I also check near-duplicates, close paraphrases of the same underlying example, using embedding similarity above a threshold.
+4. If an eval score looks unusually strong relative to what I see in production, contamination is my first suspicion, not a reason to celebrate.
+5. On an extraction-pipeline fine-tune I found around three percent of training examples were near-duplicates of eval questions, and pulling them out dropped the score to match production.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>FAILURE</strong> — You dedup, then split into train and eval. What's wrong with that order? · Whether splitting before global dedup is known to let a duplicate land on both sides.
+2. <strong>TECHNICAL</strong> — Two examples aren't identical strings but are near-paraphrases. Does your check catch that? · Whether near-duplicate detection, not just exact match, is part of the process.
+3. <strong>FAILURE</strong> — Your eval score looks great and production quality doesn't match it. First suspicion? · Whether contamination is the first hypothesis for a suspiciously good eval score.
+4. <strong>MEASUREMENT</strong> — How would you actually verify, after the fact, that no leakage happened? · Whether a concrete audit step, like hashing or embedding similarity, is named.</p>
+<p><strong>Tip:</strong> Talk about keeping a test set honest anywhere, like refusing to look at test data while writing code, or separating staging from production. Don't claim to have caught contamination yourself. Say you would fix the eval set first and dedup the full pool before splitting.</p>
+<p><strong>Numbers worth quoting:</strong>
+- dedup before split, not after
+- check near-dupes, not just exact
+- ~3% overlap found in one pull
+- suspiciously good score: check</p>
+<h3 id="q411-supervised-fine-tuning-against-preference-optimisation-whats-the-actual-difference">Q4.11 — Supervised fine-tuning against preference optimisation: what's the actual difference?</h3>
+<p><strong>Weak answer:</strong> "SFT trains on labelled examples and preference optimisation is basically the same thing but with human feedback added in."</p>
+<p><strong>Why it fails:</strong>
+- "Basically the same thing with feedback added" collapses two genuinely different training signals into one.
+- No mention of what preference data actually looks like, or when you would reach for it over SFT.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot describe what a preference-optimisation training example actually contains.
+- Believes preference optimisation always requires a large separate reward model to run.</p>
+<p><strong>Model answer:</strong>
+1. SFT trains on pairs of input and a correct target output, so it teaches the model to reproduce a specific answer, which is why it fits when I have gold-standard examples.
+2. Preference optimisation trains on comparisons, two candidate outputs for the same input with one marked better, so it teaches a judgement rather than a single fixed answer.
+3. I reach for SFT first because gold examples are usually cheaper to get for a well-defined task, like a support-assistant reply format with a clear right shape.
+4. Preference data earns its place where correctness is not binary, like which of two summaries reads better, and where people can compare rather than author from scratch.
+5. In practice I have used them together: SFT to get behaviour roughly right, then a smaller preference pass to polish tone and judgement calls one correct answer cannot teach.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What does one training example look like for SFT, and for preference optimisation? · Whether the shift from single labelled outputs to compared pairs is understood.
+2. <strong>TRADEOFF</strong> — You have gold-standard correct outputs already. Why would you still use preference data? · Whether preference methods are known to shape style and judgement, not just correctness.
+3. <strong>FAILURE</strong> — SFT nails your target metric but the model got noticeably blander. Why might that be? · Whether over-fitting to narrow labelled examples is understood as a real risk of SFT alone.
+4. <strong>MEASUREMENT</strong> — Roughly how many preference comparisons against how many SFT examples to see an effect? · Whether the candidate has a rough intuition for the different data volumes each needs.</p>
+<p><strong>Tip:</strong> Talk about learning from a worked example against learning from feedback on two attempts, like a review that says which of two PRs is cleaner and why. Don't claim to have run either. Say SFT teaches from correct examples and preference methods teach from comparisons, and name which fits a given task.</p>
+<p><strong>Numbers worth quoting:</strong>
+- SFT: input to correct output
+- preference: pairs, one better
+- SFT first, preference to polish
+- correctness binary vs judged</p>
+<h3 id="q412-your-fine-tune-improved-the-target-task-but-broke-something-else-what-happened">Q4.12 — Your fine-tune improved the target task but broke something else. What happened?</h3>
+<p><strong>Weak answer:</strong> "That can happen sometimes with fine-tuning, it's a bit unpredictable. We'd probably just retrain with more data and see."</p>
+<p><strong>Why it fails:</strong>
+- "A bit unpredictable" treats a well-known failure mode as random luck rather than something explainable.
+- "Retrain with more data and see" has no diagnosis behind it and might repeat the exact mistake.</p>
+<p><strong>Instant rejection:</strong>
+- Cannot name catastrophic forgetting or narrow training distribution as a likely cause.
+- No mention of testing the fine-tune against the original, broader capability before shipping it.</p>
+<p><strong>Model answer:</strong>
+1. This is catastrophic forgetting: training pulls weights towards whatever the fine-tuning data emphasises, and capability not represented in that data can quietly weaken.
+2. It happens most on a narrow or repetitive dataset, because the model has little reason to preserve behaviour it never sees reinforced during training.
+3. On a code-assistant fine-tune aimed at one internal framework's conventions, general code explanation quality dropped, since nearly every example was framework-specific with no general commentary.
+4. My first move on a live regression like this is to roll back to the base model immediately, since diagnosing while a worse model serves traffic is the wrong order.
+5. The actual fix was broadening the dataset with some general examples alongside the framework-specific ones, and adding that capability to my eval suite so it cannot regress unnoticed again.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>TECHNICAL</strong> — What's actually happening to the model's weights that causes this kind of regression? · Whether catastrophic forgetting, weights shifting towards the fine-tuning distribution, is understood.
+2. <strong>MEASUREMENT</strong> — How would you have caught this before it reached production? · Whether a broader regression suite, not just the target-task eval, is run before shipping a fine-tune.
+3. <strong>TRADEOFF</strong> — Would training on a broader mix of data fix this, or just move the problem? · Whether the candidate knows breadth trades against how sharply the target behaviour improves.
+4. <strong>FAILURE</strong> — The fine-tune is live and the regression just got reported. What do you do first? · Whether an immediate rollback to the base model is the first move, not a diagnosis-first delay.</p>
+<p><strong>Tip:</strong> Talk about a targeted fix, like a caching layer or an index, that improved one path and quietly slowed or broke another you hadn't tested. Don't claim to have caused or fixed this yourself. Say you would eval broadly, not just on the target task, before trusting a fine-tune.</p>
+<p><strong>Numbers worth quoting:</strong>
+- rollback first, diagnose after
+- narrow data: forgetting risk
+- eval broad capability too
+- mix broad + narrow data</p>
+<h3 id="q413-drill-migrate-a-live-feature-to-a-different-model-with-no-visible-regression-practical-drill">Q4.13 — Drill: migrate a live feature to a different model with no visible regression. <em>(practical drill)</em></h3>
+<p><strong>Weak answer:</strong> "N/A. This is a preparation drill, not an interview question. A weak attempt swaps the model in config and watches error rates for a day."</p>
+<p><strong>Why it fails:</strong>
+- Treats "no errors" as "no regression", when the real risk is quiet quality drift, not exceptions.
+- Skips building or checking a private eval set before the swap, so there is nothing to compare against.</p>
+<p><strong>Instant rejection:</strong>
+- No rollback plan defined before the swap goes live.
+- No side-by-side comparison against the private eval set before committing to the new model.</p>
+<p><strong>Model answer:</strong>
+1. Drill output: I treat this exactly like a database or API migration, not a one-line config change, because the failure mode is silent and slow, not a crash.
+2. Before touching anything live, I run the new model against the private eval set and compare it directly against the current model's results on the same examples.
+3. I check the prompts and any output parsing too, since formatting and instruction-following differ across models even when the underlying task is identical.
+4. I roll out in stages behind a flag, a small percentage of real traffic first, watching the same quality signals the eval set measures, not just latency and error rate.
+5. I keep the old model reachable and the switch reversible for a defined window after full rollout, the same discipline as a reversible database migration, since drift can take days to surface.</p>
+<p><strong>Follow-ups:</strong>
+1. <strong>MEASUREMENT</strong> — What do you run before the swap to know the new model is actually good enough? · Whether the private eval set is run against the new model before any live traffic sees it.
+2. <strong>FAILURE</strong> — What breaks silently in a model swap that a deploy pipeline's health checks won't catch? · Whether quality drift, not uptime or error rate, is understood as the real risk here.
+3. <strong>TRADEOFF</strong> — How do you decide the swap is safe enough to go to 100 percent traffic? · Whether a staged rollout with a defined quality gate is used, not an all-at-once cutover.
+4. <strong>MEASUREMENT</strong> — Two weeks post-migration, how do you know it's still working as well as the old model? · Whether monitoring against the eval set continues after the migration, not just on day one.</p>
+<p><strong>Tip:</strong> This maps almost exactly onto a database or API migration you have run: staged rollout, comparison against the old system, and a real rollback path. Don't claim to have migrated a model in production. Say you would run it like that kind of migration: eval first, staged rollout, kept reversible.</p>
+<p><strong>Numbers worth quoting:</strong>
+- eval before, not after, cutover
+- staged rollout, not 100% at once
+- old model kept reachable
+- monitor quality weeks after</p>
+<div class="pager"><a class="prev" href="doc-practice-genai-questions-03-llm-fundamentals.html"><span class="dir">Previous</span><span class="ttl">LLM fundamentals</span></a><a class="next" href="doc-practice-genai-questions-05-prompt-and-context-engineering.html"><span class="dir">Next</span><span class="ttl">Prompt and context engineering</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

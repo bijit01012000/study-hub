@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lecture 04 — Dependency Injection &amp; IoC Explained — Spring Boot</title>
+<meta name="description" content="Lecture 04 — Dependency Injection &amp; IoC Explained">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230d1117'/%3E%3Ctext x='32' y='45' font-family='monospace' font-size='36' font-weight='bold' text-anchor='middle' fill='%2339c5cf'%3ES%3C/text%3E%3C/svg%3E">
+<script>(function(){try{var t=localStorage.getItem('sh:theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();</script>
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-doc="theory-lecture-04">
+<div class="scrim"></div>
+<header class="topbar">
+  <button class="iconbtn hamburger" id="hamburger" aria-label="Toggle menu">☰</button>
+  <a class="brand" href="index.html">Study <b>Hub</b></a>
+  <span class="spacer"></span>
+  <div class="actions">
+    <select class="iconbtn" id="theme-select" aria-label="Theme"><option value="light">Light</option><option value="dark">Dark</option><option value="nord">Nord</option><option value="dracula">Dracula</option><option value="solarized-light">Solarized Light</option><option value="solarized-dark">Solarized Dark</option><option value="paper">Paper</option></select>
+  </div>
+</header>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="side-search"><input id="q" type="search" placeholder="Search everything  ( / )" autocomplete="off" aria-label="Search all subjects"></div><div class="side-block search-results" id="search-results"></div><div class="side-block"><h4>Subjects</h4><ul class="side-list subjects"><li><a class="" href="subject-ai.html"><span class="badge">A</span>AI / GenAI<span class="count">32</span></a></li><li><a class="" href="subject-behavioral.html"><span class="badge">B</span>Behavioral<span class="count">72</span></a></li><li><a class="" href="subject-dsa.html"><span class="badge">D</span>DSA<span class="count">18</span></a></li><li><a class="" href="subject-hld.html"><span class="badge">H</span>HLD · System Design<span class="count">70</span></a></li><li><a class="" href="subject-java.html"><span class="badge">J</span>Java<span class="count">87</span></a></li><li><a class="" href="subject-lld.html"><span class="badge">L</span>LLD<span class="count">43</span></a></li><li><a class="" href="subject-projects.html"><span class="badge">P</span>Projects<span class="count">48</span></a></li><li><a class="active" href="subject-spring-boot.html"><span class="badge">S</span>Spring Boot<span class="count">59</span></a></li></ul></div><div class="side-block" id="bookmarks" style="display:none"><h4>Bookmarks</h4><ul class="side-list" id="bookmarks-list"></ul></div><div class="side-block"><h4>Spring Boot</h4><details class="part" open><summary>Theory &amp; Notes <span class="count">42</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-theory-lecture-01.html" title="Lecture 01 — Introduction to Spring &amp; Spring Boot">Lecture 01 — Introduction to Spring &amp; Spring Boot</a><button class="star" data-doc="theory-lecture-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-02.html" title="Lecture 02 — Build Your First Spring Boot Application">Lecture 02 — Build Your First Spring Boot Application</a><button class="star" data-doc="theory-lecture-02" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-03.html" title="Lecture 03 — Master Apache Maven in one video">Lecture 03 — Master Apache Maven in one video</a><button class="star" data-doc="theory-lecture-03" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="active" href="doc-theory-lecture-04.html" title="Lecture 04 — Dependency Injection &amp; IoC Explained">Lecture 04 — Dependency Injection &amp; IoC Explained</a><button class="star" data-doc="theory-lecture-04" title="Bookmark">☆</button></div><ul class="sections"><li><a href="doc-theory-lecture-04.html#lecture-04">Lecture 04</a></li><li><a href="doc-theory-lecture-04.html#1-why-do-we-need-spring-core">1. Why Do We Need Spring Core?</a></li><li><a href="doc-theory-lecture-04.html#2-understanding-a-dependency">2. Understanding a Dependency</a></li><li><a href="doc-theory-lecture-04.html#3-the-problem-tight-coupling">3. The Problem: Tight Coupling</a></li><li><a href="doc-theory-lecture-04.html#4-tight-coupling-in-code-and-what-it-exactly-is">4. Tight Coupling in Code, and What It Exactly Is</a></li><li><a href="doc-theory-lecture-04.html#5-first-improvement-an-interface">5. First Improvement: An Interface</a></li><li><a href="doc-theory-lecture-04.html#6-why-an-interface-alone-is-not-enough">6. Why an Interface Alone Is Not Enough</a></li><li><a href="doc-theory-lecture-04.html#7-the-solution-dependency-injection">7. The Solution: Dependency Injection</a></li><li><a href="doc-theory-lecture-04.html#8-what-is-dependency-injection">8. What Is Dependency Injection?</a></li><li><a href="doc-theory-lecture-04.html#9-benefits-of-dependency-injection">9. Benefits of Dependency Injection</a></li><li><a href="doc-theory-lecture-04.html#10-types-of-dependency-injection">10. Types of Dependency Injection</a></li><li><a href="doc-theory-lecture-04.html#11-what-is-ioc-and-how-it-relates-to-di">11. What Is IoC? (and How It Relates to DI)</a></li><li><a href="doc-theory-lecture-04.html#12-where-spring-fits-in-the-ioc-container-spring-core-and-beans">12. Where Spring Fits In: The IoC Container, Spring Core, and Beans</a></li><li><a href="doc-theory-lecture-04.html#13-manual-java-flow-vs-spring-flow">13. Manual Java Flow vs Spring Flow</a></li><li><a href="doc-theory-lecture-04.html#14-myth-vs-reality">14. Myth vs Reality</a></li><li><a href="doc-theory-lecture-04.html#15-common-trap-questions">15. Common Trap Questions</a></li><li><a href="doc-theory-lecture-04.html#16-points-to-remember">16. Points to Remember</a></li><li><a href="doc-theory-lecture-04.html#17-likely-interview-questions">17. Likely Interview Questions</a></li><li><a href="doc-theory-lecture-04.html#18-final-summary">18. Final Summary</a></li></ul></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-05.html" title="Lecture 05 — Spring IOC Container">Lecture 05 — Spring IOC Container</a><button class="star" data-doc="theory-lecture-05" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-06.html" title="Lecture 06 — Circular Dependency in Spring">Lecture 06 — Circular Dependency in Spring</a><button class="star" data-doc="theory-lecture-06" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-07.html" title="Lecture 07 — Bean Lifecycle Explained">Lecture 07 — Bean Lifecycle Explained</a><button class="star" data-doc="theory-lecture-07" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-08.html" title="Lecture 08 — Spring XML Configuration Explained">Lecture 08 — Spring XML Configuration Explained</a><button class="star" data-doc="theory-lecture-08" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-09.html" title="Lecture 09 — Spring Boot Core">Lecture 09 — Spring Boot Core</a><button class="star" data-doc="theory-lecture-09" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-10.html" title="Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface">Lecture 10 — Spring Boot application properties, @Value &amp; Runner Interface</a><button class="star" data-doc="theory-lecture-10" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-11.html" title="Lecture 11 — Spring Boot CRUD Project from Scratch">Lecture 11 — Spring Boot CRUD Project from Scratch</a><button class="star" data-doc="theory-lecture-11" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-12.html" title="Lecture 12 — Spring Boot CRUD Project with MySQL">Lecture 12 — Spring Boot CRUD Project with MySQL</a><button class="star" data-doc="theory-lecture-12" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-13.html" title="Lecture 13 — Spring Boot CRUD Project with Soft Delete">Lecture 13 — Spring Boot CRUD Project with Soft Delete</a><button class="star" data-doc="theory-lecture-13" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-14.html" title="Lecture 14 — How Java Web Apps Actually Work">Lecture 14 — How Java Web Apps Actually Work</a><button class="star" data-doc="theory-lecture-14" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-15.html" title="Lecture 15 — Spring MVC Architecture">Lecture 15 — Spring MVC Architecture</a><button class="star" data-doc="theory-lecture-15" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-16.html" title="Lecture 16 — DTOs &amp; Validations in Spring Boot">Lecture 16 — DTOs &amp; Validations in Spring Boot</a><button class="star" data-doc="theory-lecture-16" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-17.html" title="Lecture 17 - Spring Boot Exception Handling">Lecture 17 - Spring Boot Exception Handling</a><button class="star" data-doc="theory-lecture-17" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-18.html" title="Lecture 18 — Spring Boot Profiles &amp; YAML Explained">Lecture 18 — Spring Boot Profiles &amp; YAML Explained</a><button class="star" data-doc="theory-lecture-18" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-19.html" title="Lecture 19 — Spring Boot Filters">Lecture 19 — Spring Boot Filters</a><button class="star" data-doc="theory-lecture-19" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-20.html" title="Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)">Lecture 20 — Spring Boot Filters (Modify Requests, Response, Headers &amp; Bodies)</a><button class="star" data-doc="theory-lecture-20" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-21.html" title="Lecture 21 — Spring Boot Interceptors">Lecture 21 — Spring Boot Interceptors</a><button class="star" data-doc="theory-lecture-21" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-22.html" title="Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)">Lecture 22 — Spring AOP (Cross-Cutting Concerns &amp; Proxies)</a><button class="star" data-doc="theory-lecture-22" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-23.html" title="Lecture 23 — Spring AOP Advice Types">Lecture 23 — Spring AOP Advice Types</a><button class="star" data-doc="theory-lecture-23" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-24.html" title="Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies">Lecture 24 — Spring AOP Pointcuts &amp; Types of Proxies</a><button class="star" data-doc="theory-lecture-24" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-25.html" title="Lecture 25 — Custom Annotations in Spring AOP">Lecture 25 — Custom Annotations in Spring AOP</a><button class="star" data-doc="theory-lecture-25" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-26.html" title="Lecture 26 — JDBC in Java from Scratch">Lecture 26 — JDBC in Java from Scratch</a><button class="star" data-doc="theory-lecture-26" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-27.html" title="Lecture 27 — Spring JDBC Complete Tutorial">Lecture 27 — Spring JDBC Complete Tutorial</a><button class="star" data-doc="theory-lecture-27" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-28.html" title="Lecture 28 — Hibernate Fundamentals with Spring Boot">Lecture 28 — Hibernate Fundamentals with Spring Boot</a><button class="star" data-doc="theory-lecture-28" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-29.html" title="Lecture 29 — Hibernate Internals">Lecture 29 — Hibernate Internals</a><button class="star" data-doc="theory-lecture-29" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-30.html" title="Lecture 30 — JPA Relationships">Lecture 30 — JPA Relationships</a><button class="star" data-doc="theory-lecture-30" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-31.html" title="Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem">Lecture 31 — JPA Cascading, Lazy Loading &amp; N+1 Problem</a><button class="star" data-doc="theory-lecture-31" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-32.html" title="Lecture 32 — Master Spring Data JPA">Lecture 32 — Master Spring Data JPA</a><button class="star" data-doc="theory-lecture-32" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-33.html" title="Lecture 33 — Spring Transactions">Lecture 33 — Spring Transactions</a><button class="star" data-doc="theory-lecture-33" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-34.html" title="Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels">Lecture 34 — Spring @Transactional Propagation &amp; Isolation Levels</a><button class="star" data-doc="theory-lecture-34" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-35.html" title="Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)">Lecture 35 — Spring Security (Authentication, Authorization &amp; SecurityContext)</a><button class="star" data-doc="theory-lecture-35" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-36.html" title="Lecture 36 — Spring Security DB Authentication &amp; Password Security">Lecture 36 — Spring Security DB Authentication &amp; Password Security</a><button class="star" data-doc="theory-lecture-36" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-37.html" title="Lecture 37 — Spring Security Authentication Internals">Lecture 37 — Spring Security Authentication Internals</a><button class="star" data-doc="theory-lecture-37" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-38.html" title="Lecture 38 - Spring JWT Authentication">Lecture 38 - Spring JWT Authentication</a><button class="star" data-doc="theory-lecture-38" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-39.html" title="Lecture 39 — OAuth 2.0 Masterclass with Google Login">Lecture 39 — OAuth 2.0 Masterclass with Google Login</a><button class="star" data-doc="theory-lecture-39" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-lecture-40.html" title="Lecture 40 — Testing Spring Boot Applications">Lecture 40 — Testing Spring Boot Applications</a><button class="star" data-doc="theory-lecture-40" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-01.html" title="Project 01 — GateKeeper: Custom API Gateway with Spring Boot">Project 01 — GateKeeper: Custom API Gateway with Spring Boot</a><button class="star" data-doc="theory-project-01" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-theory-project-02.html" title="Project 02 — GateKeeper: API Management &amp; Control Plane">Project 02 — GateKeeper: API Management &amp; Control Plane</a><button class="star" data-doc="theory-project-02" title="Bookmark">☆</button></div></li></ul></details><details class="part"><summary>Practice &amp; Questions <span class="count">17</span></summary><ul class="side-list"><li><div class="side-link-row"><a class="" href="doc-practice-01-spring-framework-level-1.html" title="Spring Framework Interview Q&amp;A — Level I">Spring Framework Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-01-spring-framework-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-02-spring-framework-level-2.html" title="Spring Framework Interview Q&amp;A — Level II">Spring Framework Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-02-spring-framework-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-03-spring-boot-level-1.html" title="Spring Boot Interview Q&amp;A — Level I">Spring Boot Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-03-spring-boot-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-04-spring-boot-level-3-scenario.html" title="Spring Boot Interview Q&amp;A — Level III (Scenario-Based)">Spring Boot Interview Q&amp;A — Level III (Scenario-Based)</a><button class="star" data-doc="practice-04-spring-boot-level-3-scenario" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-05-spring-boot-level-4-advance.html" title="Spring Boot Interview Q&amp;A — Level IV (Advanced)">Spring Boot Interview Q&amp;A — Level IV (Advanced)</a><button class="star" data-doc="practice-05-spring-boot-level-4-advance" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-06-spring-security-level-1.html" title="Spring Security Interview Q&amp;A — Level I">Spring Security Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-06-spring-security-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-07-spring-security-level-2.html" title="Spring Security Interview Q&amp;A — Level II">Spring Security Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-07-spring-security-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-08-spring-mvc-level-1.html" title="Spring MVC Interview Q&amp;A — Level I">Spring MVC Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-08-spring-mvc-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-09-sql.html" title="SQL Interview Q&amp;A">SQL Interview Q&amp;A</a><button class="star" data-doc="practice-09-sql" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-10-spring-data-jpa-databases.html" title="Spring Data JPA &amp; Databases — Interview Q&amp;A">Spring Data JPA &amp; Databases — Interview Q&amp;A</a><button class="star" data-doc="practice-10-spring-data-jpa-databases" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-11-kafka.html" title="Apache Kafka — Interview Q&amp;A">Apache Kafka — Interview Q&amp;A</a><button class="star" data-doc="practice-11-kafka" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-12-microservices-level-1.html" title="Microservices Interview Q&amp;A — Level I">Microservices Interview Q&amp;A — Level I</a><button class="star" data-doc="practice-12-microservices-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-13-microservices-level-2.html" title="Microservices Interview Q&amp;A — Level II">Microservices Interview Q&amp;A — Level II</a><button class="star" data-doc="practice-13-microservices-level-2" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-14-microservices-design-patterns.html" title="Microservices Design Patterns">Microservices Design Patterns</a><button class="star" data-doc="practice-14-microservices-design-patterns" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-15-maven-git-level-1.html" title="Maven &amp; Git — Interview Q&amp;A (Level I)">Maven &amp; Git — Interview Q&amp;A (Level I)</a><button class="star" data-doc="practice-15-maven-git-level-1" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-16-maven-gradle-git-deployments.html" title="Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A">Maven, Gradle, Git &amp; Deployments — Interview Q&amp;A</a><button class="star" data-doc="practice-16-maven-gradle-git-deployments" title="Bookmark">☆</button></div></li><li><div class="side-link-row"><a class="" href="doc-practice-17-junit-mockito.html" title="JUnit &amp; Mockito — Interview Q&amp;A">JUnit &amp; Mockito — Interview Q&amp;A</a><button class="star" data-doc="practice-17-junit-mockito" title="Bookmark">☆</button></div></li></ul></details></div><div class="side-foot"><a href="index.html">Home · all subjects</a></div></aside>
+  <main class="content"><article class="article">
+<p class="kicker"><a href="subject-spring-boot.html">Spring Boot</a> › Theory &amp; Notes</p>
+<h1>Lecture 04 — Dependency Injection &amp; IoC Explained</h1>
+<p class="readmeta">19 sections · 3,658 words</p>
+<div class="doc-actions">
+  <button class="iconbtn star" data-doc="theory-lecture-04" data-label="Bookmark">☆ Bookmark</button>
+  <button class="iconbtn" onclick="window.print()">Print</button>
+  <button class="iconbtn" id="copy-link">Copy link</button>
+</div>
+<hr>
+<h2 id="lecture-04">Lecture 04</h2>
+<blockquote class="callout callout--note">
+<p>Scope evidence: "Dependency Injection &amp; IoC Explained | Loose Coupling in Spring" (playlist map, verified). Repo lecture folder is a CoreDemo Maven project (in.coderarmy packages) plus these notes.</p>
+</blockquote>
+<p>Java already gives us classes, objects, constructors, interfaces, inheritance, and packages, so it is fair to ask why Spring Core exists at all. This lecture answers that by following one small requirement change: an order service that starts by sending email and later must send SMS. Step by step, the design moves from a class that builds its own dependency, to an interface, to Dependency Injection, and finally to the Spring IoC Container that does the wiring for us. The point is not Spring syntax yet; it is the reasoning that makes Spring necessary.</p>
+<h2 id="1-why-do-we-need-spring-core">1. Why Do We Need Spring Core?</h2>
+<p>Java ships with powerful building blocks:</p>
+<ul>
+<li>Classes</li>
+<li>Objects</li>
+<li>Constructors</li>
+<li>Interfaces</li>
+<li>Inheritance</li>
+<li>Packages</li>
+</ul>
+<p>A natural question follows: if Java already gives us all these features, why do we need Spring Core?</p>
+<p>Spring Core is not mainly about building web applications. That part comes later with Spring MVC and Spring Boot. The core idea of Spring is simpler:</p>
+<blockquote class="callout callout--note">
+<p>Spring helps us create objects, manage dependencies, and connect objects together in a clean and scalable way.</p>
+</blockquote>
+<p>In small programs, object creation looks easy. But in real applications, one class depends on another class, which depends on another class, and this chain keeps growing. That is exactly where Spring Core becomes useful.</p>
+<div class="highlight"><pre><span></span><code>Small program:  few objects, easy wiring
+Real program:   object -&gt; object -&gt; object -&gt; ... (chain keeps growing)
+</code></pre></div>
+
+<blockquote class="callout callout--important">
+<p>Important: Spring Core is the foundation. Before Spring MVC, Spring Boot, Spring Data JPA, or Spring Security, you must understand this core idea of creating, managing, and connecting objects.</p>
+</blockquote>
+<h2 id="2-understanding-a-dependency">2. Understanding a Dependency</h2>
+<p>Suppose we have an <code>EmailService</code> class with a <code>sendEmail()</code> method:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Incorrect: OrderService builds its own concrete dependency</span>
+<span class="kd">class</span> <span class="nc">EmailService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendEmail</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Email sent&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EmailService</span><span class="w"> </span><span class="n">emailService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmailService</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Order placed&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">emailService</span><span class="p">.</span><span class="na">sendEmail</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now suppose <code>OrderService</code> needs to send an email after placing an order. Here, <code>OrderService</code> depends on <code>EmailService</code>. In simple words:</p>
+<blockquote class="callout callout--note">
+<p>A dependency is something a class needs in order to complete its work.</p>
+</blockquote>
+<p>So the line <code>private EmailService emailService = new EmailService();</code> means <code>OrderService</code> is creating its own dependency. It works, but it creates a design problem.</p>
+<h2 id="3-the-problem-tight-coupling">3. The Problem: Tight Coupling</h2>
+<p>There are two broad design styles:</p>
+<ul>
+<li>Tightly Coupled Design -&gt; Hard to change</li>
+<li>Loosely Coupled Design -&gt; Easier to change</li>
+</ul>
+<p>Real-life example: imagine a person wants to travel from Delhi to Chandigarh.</p>
+<ul>
+<li>Tightly coupled thinking: "I can travel only by this one specific car, with this one specific driver, from this one specific company." If that car is unavailable, the person is stuck.</li>
+<li>Loosely coupled thinking: "I need transportation. It can be a car, bus, train, or cab." Here the person is not dependent on one fixed option; the person only cares about the service: transportation.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Tightly Coupled Design</th>
+<th>Loosely Coupled Design</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dependency target</td>
+<td>One specific concrete class</td>
+<td>An abstract service / interface</td>
+</tr>
+<tr>
+<td>Effect of change</td>
+<td>Hard to change</td>
+<td>Easier to change</td>
+</tr>
+<tr>
+<td>Real-life analogy</td>
+<td>One specific car, driver, company</td>
+<td>Any transportation</td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Hard, needs the real thing</td>
+<td>Easy, can substitute a fake</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>Poor, bound to one implementation</td>
+<td>Good, works with many implementations</td>
+</tr>
+<tr>
+<td>Flexibility</td>
+<td>Low</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-tight-coupling-in-code-and-what-it-exactly-is">4. Tight Coupling in Code, and What It Exactly Is</h2>
+<p>In the previous example, <code>OrderService</code> directly creates <code>EmailService</code>:</p>
+<div class="highlight"><pre><span></span><code>OrderService
+     |
+     | directly creates
+     v
+EmailService
+</code></pre></div>
+
+<p>Now suppose the requirement changes. Instead of email, we now need to send SMS. We write a <code>SmsService</code> class with a <code>sendSms()</code> method, and then we must modify <code>OrderService</code> to hold <code>private SmsService smsService = new SmsService();</code> and call <code>smsService.sendSms()</code>.</p>
+<p>The problem is not that the notification requirement changed. The real problem is that a change in notification logic forced us to modify <code>OrderService</code>. That means <code>OrderService</code> is tightly coupled to a specific notification class.</p>
+<p>Tight coupling means:</p>
+<blockquote class="callout callout--note">
+<p>One class is directly dependent on a specific concrete class.</p>
+</blockquote>
+<p>In our case, <code>OrderService</code> is directly dependent on <code>EmailService</code>. This makes the code harder to change, test, and reuse.</p>
+<table>
+<thead>
+<tr>
+<th>Use</th>
+<th>Code shape</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incorrect</td>
+<td><code>private EmailService emailService = new EmailService();</code></td>
+<td>Concrete class chosen inside the business class</td>
+</tr>
+<tr>
+<td>Better</td>
+<td><code>private NotificationService notificationService = new EmailService();</code></td>
+<td>Interface type, still creating the object inside</td>
+</tr>
+<tr>
+<td>Correct</td>
+<td>Constructor receives <code>NotificationService</code> from outside</td>
+<td>No creation inside; loosely coupled</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-first-improvement-an-interface">5. First Improvement: An Interface</h2>
+<p>To make the design better, we can introduce a <code>NotificationService</code> interface with a <code>void sendNotification()</code> method. Then different notification services implement it: <code>EmailService</code> and <code>SmsService</code> both override <code>sendNotification()</code>. Now <code>OrderService</code> can depend on the interface instead of a concrete class:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Correct: depend on the interface and receive it through the constructor</span>
+<span class="kd">interface</span> <span class="nc">NotificationService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sendNotification</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">NotificationService</span><span class="w"> </span><span class="n">notificationService</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">OrderService</span><span class="p">(</span><span class="n">NotificationService</span><span class="w"> </span><span class="n">notificationService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">notificationService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">notificationService</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&quot;Order placed successfully&quot;</span><span class="p">);</span>
+<span class="w">        </span><span class="n">notificationService</span><span class="p">.</span><span class="na">sendNotification</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This is better than before because the variable type is now an interface: <code>NotificationService</code>. But there is still one issue when the field itself does the creation.</p>
+<h2 id="6-why-an-interface-alone-is-not-enough">6. Why an Interface Alone Is Not Enough</h2>
+<p>Even though we are using an interface, this declaration is still a problem: <code>private NotificationService notificationService = new EmailService();</code>. Because the object creation is still concrete - <code>new EmailService()</code> - <code>OrderService</code> is still deciding which implementation to use. The important point is:</p>
+<blockquote class="callout callout--note">
+<p>Creating objects is not the problem. Creating them in the wrong place is the problem.</p>
+</blockquote>
+<p><code>OrderService</code> is a business class. Its job should be order-related logic, not deciding which notification object to create. Currently, <code>OrderService</code> is doing two things:</p>
+<ol>
+<li>Handling order-related logic.</li>
+<li>Creating and deciding the notification service.</li>
+</ol>
+<p>This breaks two important design principles:</p>
+<ul>
+<li>S -&gt; Single Responsibility Principle</li>
+<li>O -&gt; Open-Close Principle</li>
+</ul>
+<p>The main idea is:</p>
+<blockquote class="callout callout--note">
+<p>Dependency is normal. Tight dependency is the problem.</p>
+<p>Interviewer's perspective: The decoupling journey has a trap. Using an interface already feels "done," but the <code>new</code> keyword still hard-codes the choice. The genuine fix is moving creation out of the class, and strong candidates can explain why the interface alone was only half the solution.</p>
+</blockquote>
+<h2 id="7-the-solution-dependency-injection">7. The Solution: Dependency Injection</h2>
+<p>Instead of creating the dependency inside <code>OrderService</code>, we provide the dependency from outside, as the <code>OrderService</code> constructor in Section 5 shows. Now <code>OrderService</code> does not create <code>EmailService</code> or <code>SmsService</code>. It simply says:</p>
+<blockquote class="callout callout--note">
+<p>"Give me something that can send a notification."</p>
+</blockquote>
+<p>That "something" is represented by the <code>NotificationService</code> interface. The class no longer knows or cares which implementation it is holding.</p>
+<div class="highlight"><pre><span></span><code>Main
+     |
+     | creates EmailService
+     v
+NotificationService
+     |
+     | injected into
+     v
+OrderService  -&gt;  calls notificationService.sendNotification()
+</code></pre></div>
+
+<p>Three things are now true at once:</p>
+<ul>
+<li><code>OrderService</code> depends only on <code>NotificationService</code>.</li>
+<li><code>OrderService</code> does not create <code>EmailService</code> or <code>SmsService</code>.</li>
+<li><code>OrderService</code> receives its dependency from outside.</li>
+</ul>
+<h2 id="8-what-is-dependency-injection">8. What Is Dependency Injection?</h2>
+<p>Dependency Injection means:</p>
+<blockquote class="callout callout--note">
+<p>A class receives the objects it depends on from outside, instead of creating those objects itself.</p>
+</blockquote>
+<p>Object creation now happens outside, in <code>Main</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">NotificationService</span><span class="w"> </span><span class="n">notificationService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmailService</span><span class="p">();</span>
+<span class="w">        </span><span class="n">OrderService</span><span class="w"> </span><span class="n">orderService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderService</span><span class="p">(</span><span class="n">notificationService</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">orderService</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Now the dependency is provided from outside. This means:</p>
+<ul>
+<li><code>OrderService</code> depends only on <code>NotificationService</code>.</li>
+<li><code>OrderService</code> does not create <code>EmailService</code>.</li>
+<li><code>OrderService</code> receives the dependency from outside.</li>
+</ul>
+<p>This is called Dependency Injection.</p>
+<p>A simpler way to remember it:</p>
+<blockquote class="callout callout--note">
+<p>Do not create your dependency. Receive your dependency.</p>
+</blockquote>
+<p>Or:</p>
+<blockquote class="callout callout--note">
+<p>A class should ask for what it needs, not build everything by itself.</p>
+</blockquote>
+<p>Mnemonic: <strong>DI = "Do not Instantiate; Inject."</strong></p>
+<p>Two important clarifications:</p>
+<ul>
+<li>Dependency Injection is not only a Spring concept. It is a design principle that we can use in plain Java also.</li>
+<li>Spring did not invent Dependency Injection. Spring automates it.</li>
+</ul>
+<blockquote class="callout callout--golden">
+<p>Golden rule: A dependency is never a problem by itself. The problem is a class deciding which concrete dependency to build. Receive it; do not build it.</p>
+</blockquote>
+<h2 id="9-benefits-of-dependency-injection">9. Benefits of Dependency Injection</h2>
+<p>Benefit 1: Easy to change implementation. If we want to switch from email to SMS, we do not need to change <code>OrderService</code>. We only change the object passed from outside: <code>NotificationService notificationService = new SmsService();</code> and then pass it into the constructor. <code>OrderService</code> remains unchanged.</p>
+<p>Benefit 2: Easier to test. For testing, we may not want to send a real email or SMS, so we can create a fake implementation, <code>FakeNotificationService</code>, that implements <code>NotificationService</code> and prints "Fake notification for testing" from its <code>sendNotification()</code> method. Now we can test <code>OrderService</code> without depending on real email or SMS logic. In the CoreDemo repo, implementations such as <code>EmailService</code>, <code>SmsService</code>, <code>PopUpNotificationService</code>, and <code>FakeEmailService</code> all sit behind the <code>NotificationService</code> interface for exactly this reason.</p>
+<p>Benefit 3: More reusable code. The same <code>OrderService</code> can work with multiple implementations: <code>EmailService</code>, <code>SmsService</code>, <code>WhatsAppService</code>, <code>FakeNotificationService</code>. This makes the design flexible and reusable.</p>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>Before DI</th>
+<th>After DI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Change implementation</td>
+<td>Edit <code>OrderService</code></td>
+<td>Change only the object passed from <code>Main</code></td>
+</tr>
+<tr>
+<td>Testing</td>
+<td>Must use the real email/SMS</td>
+<td>Swap in a fake implementation</td>
+</tr>
+<tr>
+<td>Reuse</td>
+<td>One hard-coded implementation</td>
+<td>Works with many implementations</td>
+</tr>
+<tr>
+<td>Coupling</td>
+<td>Tight</td>
+<td>Loose</td>
+</tr>
+</tbody>
+</table>
+<h2 id="10-types-of-dependency-injection">10. Types of Dependency Injection</h2>
+<p>There are mainly three common types of Dependency Injection.</p>
+<ol>
+<li>
+<p>Constructor Injection. The dependency is provided through the constructor, as shown in Section 5. Constructor injection is usually preferred because it makes required dependencies clear. If <code>OrderService</code> cannot work without <code>NotificationService</code>, constructor injection is a good choice.</p>
+</li>
+<li>
+<p>Setter Injection. The dependency is provided through a setter method:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">// Correct: setter injection suits optional or changeable dependencies</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setNotificationService</span><span class="p">(</span><span class="n">NotificationService</span><span class="w"> </span><span class="n">notificationService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">this</span><span class="p">.</span><span class="na">notificationService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">notificationService</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Setter injection is useful when the dependency is optional or can be changed later.</p>
+<ol start="3">
+<li>Field Injection. In Spring, we will also discuss field injection later.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Constructor Injection</th>
+<th>Setter Injection</th>
+<th>Field Injection</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How provided</td>
+<td>Through the constructor</td>
+<td>Through a setter method</td>
+<td>Directly into the field</td>
+</tr>
+<tr>
+<td>Best when</td>
+<td>Dependency is required</td>
+<td>Dependency is optional or changeable</td>
+<td>Covered later with Spring</td>
+</tr>
+<tr>
+<td>Clarity</td>
+<td>Highest: required deps visible</td>
+<td>Medium</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Object state</td>
+<td>Fully initialized after construction</td>
+<td>May be set after construction</td>
+<td>Set by the framework</td>
+</tr>
+<tr>
+<td>Recommendation</td>
+<td>Usually preferred</td>
+<td>For optional dependencies</td>
+<td>Discussed later in Spring</td>
+</tr>
+</tbody>
+</table>
+<h2 id="11-what-is-ioc-and-how-it-relates-to-di">11. What Is IoC? (and How It Relates to DI)</h2>
+<p>IoC stands for Inversion of Control. To understand IoC, first ask: in the earlier code, who was controlling the creation of <code>EmailService</code>? The answer is <code>OrderService</code> was controlling object creation. So the control was inside <code>OrderService</code>.</p>
+<p>After Dependency Injection, <code>OrderService</code> no longer creates <code>EmailService</code>. The object is created outside and passed to <code>OrderService</code>. This movement of control is called Inversion of Control.</p>
+<p>Simple definition:</p>
+<ul>
+<li>Earlier: the class created what it needed.</li>
+<li>Now: the class receives what it needs.</li>
+</ul>
+<p>That reversal is called Inversion of Control. It is called "inversion" because the normal control flow is reversed:</p>
+<div class="highlight"><pre><span></span><code>Earlier:
+OrderService
+     |
+     | creates
+     v
+EmailService
+
+After Dependency Injection:
+Main
+     |
+     | creates
+     v
+EmailService
+Main provides EmailService
+     |
+     | to
+     v
+OrderService
+</code></pre></div>
+
+<p>So the control moved from inside the class to outside the class.</p>
+<p>Now the relationship between IoC and DI. IoC and DI are closely related, but they are not exactly the same. IoC is the idea (the principle). DI is the technique to achieve that principle. Dependency Injection is one way to implement that idea. When we give dependencies from outside instead of creating them inside the class, we are using Dependency Injection to achieve Inversion of Control.</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Role</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IoC</td>
+<td>Principle</td>
+<td>Control of object creation moves out of the class</td>
+</tr>
+<tr>
+<td>DI</td>
+<td>Technique</td>
+<td>Provide dependencies from outside instead of creating them</td>
+</tr>
+<tr>
+<td>Relationship</td>
+<td>DI implements IoC</td>
+<td>DI is one way to achieve the IoC principle</td>
+</tr>
+</tbody>
+</table>
+<p>Two clarifications worth stating plainly:</p>
+<ul>
+<li>IoC is not a Spring invention. Any code where an outside party creates and hands over the dependency is already inverted.</li>
+<li>DI is not the only possible technique, but it is the one this course uses, and the one Spring automates.</li>
+</ul>
+<h2 id="12-where-spring-fits-in-the-ioc-container-spring-core-and-beans">12. Where Spring Fits In: The IoC Container, Spring Core, and Beans</h2>
+<p>In plain Java, we moved object creation outside <code>OrderService</code>. But now <code>Main</code> is doing all the object creation and wiring: <code>new EmailService()</code> and <code>new OrderService(notificationService)</code>. This is fine for small applications. But in large applications, there may be hundreds of classes and dependencies. If <code>Main</code> creates and connects everything manually, it becomes messy. So we need something that can:</p>
+<ul>
+<li>Create objects</li>
+<li>Manage objects</li>
+<li>Connect objects together</li>
+</ul>
+<p>That is where Spring comes in.</p>
+<p>The Spring IoC Container is responsible for:</p>
+<ul>
+<li>Creating objects</li>
+<li>Managing objects</li>
+<li>Injecting dependencies</li>
+<li>Connecting classes together</li>
+</ul>
+<p>In plain Java, <code>Main</code> was acting like a small container. In Spring, the Spring IoC Container does this work automatically.</p>
+<p>At a high level, Spring Core does three major things:</p>
+<ol>
+<li>Creates objects.</li>
+<li>Manages objects.</li>
+<li>Connects objects together.</li>
+</ol>
+<p>This is the foundation of Spring. Mnemonic for the three jobs: <strong>CMC = Create, Manage, Connect.</strong></p>
+<p>What is a Bean? In normal Java, we call them objects. In Spring, objects managed by Spring are called beans.</p>
+<blockquote class="callout callout--important">
+<p>Important: Every Spring bean is an object, but every object is not necessarily a Spring bean.</p>
+</blockquote>
+<p>Example: <code>EmailService emailService = new EmailService();</code> is a normal Java object. But if Spring creates and manages <code>EmailService</code>, then it becomes a Spring bean.</p>
+<h2 id="13-manual-java-flow-vs-spring-flow">13. Manual Java Flow vs Spring Flow</h2>
+<p>Plain Java flow:</p>
+<div class="highlight"><pre><span></span><code>Main
+     |
+     | creates
+     v
+EmailService
+Main
+     |
+     | creates
+     v
+OrderService
+Main injects EmailService into OrderService
+</code></pre></div>
+
+<p>In this flow, <code>Main</code> is responsible for creating and connecting objects.</p>
+<p>Spring flow:</p>
+<div class="highlight"><pre><span></span><code>Spring IoC Container
+     |
+     | creates
+     v
+EmailService Bean
+Spring IoC Container
+     |
+     | creates and injects dependency
+     v
+OrderService Bean
+</code></pre></div>
+
+<p>In this flow, Spring creates the objects and connects them automatically.</p>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Manual Java Flow</th>
+<th>Spring Flow</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Who creates objects</td>
+<td><code>Main</code></td>
+<td>Spring IoC Container</td>
+</tr>
+<tr>
+<td>Who injects dependencies</td>
+<td><code>Main</code></td>
+<td>Spring IoC Container</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>In our hands, inside <code>Main</code></td>
+<td>Inverted to the container</td>
+</tr>
+<tr>
+<td>Boilerplate</td>
+<td>Grows with every class</td>
+<td>Handled by Spring</td>
+</tr>
+<tr>
+<td>Large applications</td>
+<td>Becomes messy</td>
+<td>Clean and scalable</td>
+</tr>
+<tr>
+<td>Resulting objects</td>
+<td>Ordinary Java objects</td>
+<td>Spring beans</td>
+</tr>
+</tbody>
+</table>
+<p>The shift is easy to state and easy to miss: in manual flow, we are the container; in Spring flow, the container is Spring. Everything explained in this lecture is the reasoning behind moving that responsibility out of our hands.</p>
+<h2 id="14-myth-vs-reality">14. Myth vs Reality</h2>
+<table>
+<thead>
+<tr>
+<th>Myth</th>
+<th>Reality</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Dependency Injection is a Spring concept"</td>
+<td>DI is a plain design principle usable in core Java; Spring merely automates it</td>
+</tr>
+<tr>
+<td>"Using an interface makes the design loosely coupled"</td>
+<td>Only if the object creation also moves out; <code>new EmailService()</code> inside the class still couples it</td>
+</tr>
+<tr>
+<td>"Creating dependencies is the problem"</td>
+<td>Creating is fine; creating them in the wrong place is the problem</td>
+</tr>
+<tr>
+<td>"IoC and DI are the same thing"</td>
+<td>IoC is the principle; DI is one technique that implements it</td>
+</tr>
+<tr>
+<td>"Spring creates all Java objects"</td>
+<td>Only objects it manages are beans; a plain <code>new</code> object is not a bean</td>
+</tr>
+<tr>
+<td>"Field, setter, and constructor injection are equally clear"</td>
+<td>Constructor injection makes required dependencies explicit and is usually preferred</td>
+</tr>
+<tr>
+<td>"<code>OrderService</code> is wrong to depend on anything"</td>
+<td>A dependency is normal; a tight dependency is the problem</td>
+</tr>
+</tbody>
+</table>
+<h2 id="15-common-trap-questions">15. Common Trap Questions</h2>
+<blockquote class="callout callout--trap">
+<p><strong>Trap 1 — "Spring Core is for building web applications."</strong>
+Verdict: False. Spring Core is about creating, managing, and connecting objects. Web support arrives later with Spring MVC and Spring Boot.</p>
+<p><strong>Trap 2 — "If <code>OrderService</code> uses the <code>NotificationService</code> interface, it is loosely coupled."</strong>
+Verdict: Not yet. The declaration says <code>private NotificationService notificationService = new EmailService();</code>, so <code>OrderService</code> still chooses the implementation. Loose coupling needs the creation moved outside.</p>
+<p><strong>Trap 3 — "Dependency Injection means Spring injects dependencies."</strong>
+Verdict: Too narrow. DI is a plain Java design principle; <code>Main</code> can inject by hand. Spring only automates the injection.</p>
+<p><strong>Trap 4 — "IoC and DI are interchangeable words."</strong>
+Verdict: No. IoC is the principle (control of creation moves outside the class); DI is the technique that achieves it.</p>
+<p><strong>Trap 5 — "Two responsibilities in one class are fine as long as it works."</strong>
+Verdict: It works but violates the Single Responsibility Principle and the Open-Close Principle, which is exactly why <code>OrderService</code> had to be edited for an SMS change.</p>
+<p><strong>Trap 6 — "Every Java object is a Spring bean."</strong>
+Verdict: False. Every bean is an object, but an object created with plain <code>new</code> and not managed by Spring is not a bean.</p>
+<p><strong>Trap 7 — "Setter injection is always better because it is flexible."</strong>
+Verdict: Misleading. Setter injection suits optional or changeable dependencies; constructor injection is usually preferred because required dependencies become explicit.</p>
+</blockquote>
+<h2 id="16-points-to-remember">16. Points to Remember</h2>
+<ol>
+<li>Spring Core exists to create, manage, and connect objects cleanly and scalably, not mainly for the web.</li>
+<li>A dependency is something a class needs to complete its work; <code>OrderService</code> depends on <code>NotificationService</code>.</li>
+<li>Tight coupling means one class directly depends on a specific concrete class, making code hard to change, test, and reuse.</li>
+<li>Introducing an interface changes the variable type but <code>new EmailService()</code> inside the class still hard-codes the choice.</li>
+<li>Creating objects is not the problem; creating them in the wrong place is the problem.</li>
+<li>Dependency Injection means a class receives its dependencies from outside instead of creating them: "Do not create your dependency. Receive your dependency."</li>
+<li>Benefits of DI are easy to change, easier to test with fakes, and more reusable code across implementations.</li>
+<li>The three common DI types are constructor, setter, and field injection; constructor injection is usually preferred for required dependencies.</li>
+<li>IoC is the principle that control of object creation moves outside the class; DI is the technique that implements it.</li>
+<li>Spring Core creates, manages, and connects objects through the Spring IoC Container, and Spring-managed objects are called beans.</li>
+</ol>
+<h2 id="17-likely-interview-questions">17. Likely Interview Questions</h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Crisp Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Why do we need Spring Core when Java already has classes and interfaces?</td>
+<td>To create, manage, and connect objects in a clean and scalable way as dependency chains grow.</td>
+</tr>
+<tr>
+<td>What is a dependency?</td>
+<td>Something a class needs to complete its work; <code>OrderService</code> needs a notification service.</td>
+</tr>
+<tr>
+<td>What is tight coupling?</td>
+<td>One class is directly dependent on a specific concrete class, making change, testing, and reuse hard.</td>
+</tr>
+<tr>
+<td>Why is using an interface alone not enough?</td>
+<td>If <code>new EmailService()</code> still runs inside the class, the class still chooses the implementation.</td>
+</tr>
+<tr>
+<td>What is Dependency Injection?</td>
+<td>A class receives the objects it depends on from outside instead of creating them itself; it is a plain design principle, not Spring-specific.</td>
+</tr>
+<tr>
+<td>What are the benefits of DI?</td>
+<td>Easy to change implementation, easier to test with fakes, and more reusable code.</td>
+</tr>
+<tr>
+<td>What are the types of DI?</td>
+<td>Constructor injection, setter injection, and field injection.</td>
+</tr>
+<tr>
+<td>Why is constructor injection usually preferred?</td>
+<td>It makes required dependencies explicit and guarantees the object is initialized.</td>
+</tr>
+<tr>
+<td>What is IoC?</td>
+<td>Inversion of Control: control of object creation moves from the class itself to an external system.</td>
+</tr>
+<tr>
+<td>What is the relationship between IoC and DI?</td>
+<td>IoC is the principle; DI is one technique used to achieve it.</td>
+</tr>
+<tr>
+<td>What is a Spring bean?</td>
+<td>An object that Spring creates and manages; every bean is an object, but not every object is a bean.</td>
+</tr>
+<tr>
+<td>What does the Spring IoC Container do?</td>
+<td>It creates objects, manages them, injects dependencies, and connects classes together.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="18-final-summary">18. Final Summary</h2>
+<div class="highlight"><pre><span></span><code>Java building blocks: classes, objects, interfaces
+        |
+        v
+OrderService creates EmailService  -&gt;  tight coupling
+        |
+        v
+Introduce NotificationService interface
+        |
+        v
+Still does  new EmailService()  -&gt;  interface alone is not enough
+        |
+        v
+Dependency Injection: receive the dependency from outside
+        |
+        v
+Control of creation moves out  -&gt;  Inversion of Control (IoC)
+        |
+        v
+Main wires by hand (fine for small apps)
+        |
+        v
+Spring IoC Container: Create, Manage, Connect  -&gt;  beans
+</code></pre></div>
+
+<ul>
+<li>Tight coupling -&gt; one class depends on one concrete class; hard to change, test, reuse.</li>
+<li>Interface alone -&gt; better type, but <code>new EmailService()</code> inside still decides the implementation.</li>
+<li>Dependency Injection -&gt; do not create your dependency; receive it from outside.</li>
+<li>DI vs IoC -&gt; IoC is the principle; DI is the technique that achieves it.</li>
+<li>Spring Core -&gt; the Spring IoC Container creates, manages, and connects objects called beans.</li>
+</ul>
+<p><strong>One-line takeaway:</strong> A class should ask for what it needs, not build everything by itself; once object creation moves outside the class, you have Dependency Injection, and Spring Core simply automates that wiring through its IoC Container.</p>
+<div class="pager"><a class="prev" href="doc-theory-lecture-03.html"><span class="dir">Previous</span><span class="ttl">Lecture 03 — Master Apache Maven in one video</span></a><a class="next" href="doc-theory-lecture-05.html"><span class="dir">Next</span><span class="ttl">Lecture 05 — Spring IOC Container</span></a></div>
+</article></main>
+</div>
+<script src="assets/site-data.js"></script>
+<script src="assets/search-index.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
